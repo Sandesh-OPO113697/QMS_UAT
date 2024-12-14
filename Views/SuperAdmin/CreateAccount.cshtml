@@ -11,16 +11,16 @@
     <div class="card shadow">
         <div class="card-body">
             <h5 class="card-title">Welcome SuperAdmin</h5>
-
+            <input type="hidden" id="accountId" />
             <table id="SuperAdminTable" class="table table-bordered table-hover mb-0">
                 <thead>
                     <tr>
                         <th>AccountID</th>
-                        <th >AccountName</th>
-                        <th >Authantication_Type</th>
-                        <th >Isactive</th>
-                        <th >Create_date</th>
-                        <th >Activate</th>
+                        <th>AccountName</th>
+                        <th>Authantication_Type</th>
+                        <th>Isactive</th>
+                        <th>Create_date</th>
+                        <th>Activate</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,7 +60,6 @@
                 </button>
             </div>
             <div class="modal-body" id="userListContent">
-                <!-- User list will be populated here -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -74,29 +73,28 @@
 
 
 <script>
-    // Function to update account status
     function updateStatus(accountId, isChecked) {
         var status = isChecked ? 1 : 0;
-        
-        saveAccountStatus(accountId, status);
 
-        // Fetch users associated with the account
+        saveAccountStatus(accountId, status);
+        $('#accountId').val(accountId);
         $.ajax({
             type: "POST",
-            url: "/SuperAdmin/GetUsersByAccount", // Ensure this URL is correct in your controller
+            url: "/SuperAdmin/GetUsersByAccount", 
             data: JSON.stringify({ accountId: accountId.trim() }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                console.log(response); // Check the response object structure
+                console.log(response); 
                 var users = response.data;
                 var userListHtml = '<ul class="list-group">';
 
                 users.forEach(function (user) {
+                    var isActive = user.isactive === 1 ? "checked" : "";
                     userListHtml += `<li class="list-group-item">
-                                   <input type="checkbox" id="user_${user.userID}" value="${user.userID}">
-                                   ${user.userName} - <strong>${user.usertype}</strong>
-                                 </li>`;
+                                           <input type="checkbox" id="user_${user.userID}" value="${user.userID}" ${isActive}>
+                                       ${user.userName} - <strong>${user.usertype}</strong>
+                                     </li>`;
                 });
 
                 userListHtml += '</ul>';
@@ -109,53 +107,56 @@
         });
     }
 
-    // Function to save user deactivation changes
     function saveUserDeactivation() {
-        var checkedUsers = [];   // Array for checked users
-        var uncheckedUsers = []; // Array for unchecked users
+        var accountId = document.getElementById('accountId').value;
 
-        // Iterate over all checkboxes in the modal
+        if (!accountId) {
+            alert("Account ID is missing.");
+            return;
+        }
+        var updatedUsers = [];
         $('#userListContent input[type="checkbox"]').each(function () {
-            var userId = $(this).val();
-            if ($(this).prop('checked')) {
-                checkedUsers.push(userId); // Add to checked users array
-            } else {
-                uncheckedUsers.push(userId); // Add to unchecked users array
+            var userId = $(this).val(); 
+            if (userId) {
+                var isActive = $(this).is(':checked') ? 1 : 0;
+                updatedUsers.push({ userID: userId, isActive: isActive, accountId: accountId });
             }
         });
 
-        var data = { checkedUsers: checkedUsers, uncheckedUsers: uncheckedUsers };
-        console.log(data); // Log the data being sent to the server
+        if (updatedUsers.length === 0) {
+            alert("No users selected for status update.");
+            return;
+        }
+      
+        console.log(JSON.stringify({ users: updatedUsers }));
 
-        // Send both arrays to the server
         $.ajax({
-            type: "POST",
-            url: "/SuperAdmin/DeactivateUsers", // Ensure this URL is correct in your controller
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function () {
-                alert("Users' statuses updated successfully.");
+            url: '/SuperAdmin/SaveUserDeactivation', 
+            type: 'POST',
+            data: JSON.stringify({ users: updatedUsers }),
+            contentType: 'application/json',
+            success: function (response) {
+                alert("Users Active- deactive updated successfully.");
                 location.reload();
             },
-            error: function () {
-                alert("Error updating user statuses.");
+            error: function (xhr, status, error) {
+                alert("An error occurred: " + error);
             }
         });
     }
 
-    // Function to save account status (active/inactive)
+
     function saveAccountStatus(accountId, isChecked) {
         var status = isChecked ? 1 : 0;
-
+        
         $.ajax({
             type: "POST",
-            url: "/SuperAdmin/UpdateAccountStatus", // Ensure this URL is correct in your controller
+            url: "/SuperAdmin/UpdateAccountStatus",
             data: JSON.stringify({ accountId: accountId, isActive: status }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                // Optionally handle the success response
+
             },
             error: function (xhr, status, error) {
                 alert("Error updating account status.");

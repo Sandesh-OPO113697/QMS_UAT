@@ -37,35 +37,23 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
-        [HttpPost]
-        public async Task<JsonResult> DeactivateUsers(List<string> checkedUsers, List<string> uncheckedUsers)
+        public async Task<IActionResult> SaveUserDeactivation([FromBody] UserDeactivationRequest request)
         {
-            if (checkedUsers == null || uncheckedUsers == null)
+            if (request == null || request.Users == null || !request.Users.Any())
             {
-                return Json(new { success = false, message = "Binding failed!" });
+                return BadRequest("No users provided for deactivation.");
             }
-
-            // Log received data
-            System.Diagnostics.Debug.WriteLine($"Checked Users: {string.Join(", ", checkedUsers)}");
-            System.Diagnostics.Debug.WriteLine($"Unchecked Users: {string.Join(", ", uncheckedUsers)}");
-
-            await _super.DeactivateUserByAccountAsync(checkedUsers, uncheckedUsers);
-
-
-            return Json(new { success = false });
-
-        }   
-        public class DeactivationRequest
-        {
-            public List<string> ActiveUsers { get; set; }
-            public List<string> InactiveUsers { get; set; }
+            else
+            {
+               await _super.DeactivateUserByAccountAsync(request);
+                return Ok("Users deactivation updated successfully.");
+            } 
         }
-
-        public async Task<IActionResult> UpdateAccountStatus([FromBody] dynamic request )
+        public async Task<IActionResult> UpdateAccountStatus([FromBody] dynamic request)
         {
 
             string accountId = string.Empty;
-            int isActive = 0; 
+            int isActive = 0;
             try
             {
                 if (request.TryGetProperty("accountId", out JsonElement accountIdElement))
@@ -77,7 +65,7 @@ namespace QMS.Controllers
                 {
                     isActive = aisActiveElement.GetInt32();
                 }
-                await _super.UpdateAccountStatus(accountId, isActive);
+                await _super.UpdateAccountStatusAsy(accountId, isActive);
 
             }
             catch (Exception ex)
@@ -99,14 +87,13 @@ namespace QMS.Controllers
                     accountId = accountIdElement.GetString();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
             var data = await _super.GetUserByAccountIDAsync(accountId); // Await the async method
             return Json(new { success = true, data });
         }
-       
 
         public async Task<IActionResult> CreateAccount()
         {
@@ -114,8 +101,6 @@ namespace QMS.Controllers
 
             return View(accountData);
         }
-
-
         public async Task<IActionResult> CreateUser()
         {
             var accountData = await _super.GetAccountDetailsAsync();
@@ -154,10 +139,10 @@ namespace QMS.Controllers
             }
         }
 
+
         [HttpPost]
         public async Task<ActionResult> BindAccountPrifix(string accountId, string elementId)
         {
-
             string AccountPrifix = await _super.GetAccountPrifixAsync(accountId, elementId);
             if (AccountPrifix == null)
             {

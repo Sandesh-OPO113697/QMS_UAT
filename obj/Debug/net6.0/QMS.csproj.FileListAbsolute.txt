@@ -31,6 +31,7 @@ D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\QMS.csproj.CoreCompileInputs.cache
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\QMS.MvcApplicationPartsAssemblyInfo.cache
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\QMS.RazorAssemblyInfo.cache
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\QMS.RazorAssemblyInfo.cs
+D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\QMS.sourcelink.json
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\staticwebassets.build.json
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\staticwebassets.development.json
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\staticwebassets\msbuild.QMS.Microsoft.AspNetCore.StaticWebAssets.props
@@ -47,4 +48,3 @@ D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\refint\QMS.dll
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\QMS.pdb
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\QMS.genruntimeconfig.cache
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\ref\QMS.dll
-D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\QMS.sourcelink.json
