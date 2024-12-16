@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\Images\\mainLogo.png"
     },
     {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\Images\\user.png",
+      "PackagePath": "staticwebassets\\Images\\user.png"
+    },
+    {
       "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\avatars\\face-1.jpg",
       "PackagePath": "staticwebassets\\assets\\avatars\\face-1.jpg"
     },

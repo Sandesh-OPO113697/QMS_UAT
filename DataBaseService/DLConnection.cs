@@ -47,6 +47,7 @@ namespace QMS.DataBaseService
                                                    accountDbName,
                                                    accountUserId,
                                                    accountDbPassword);
+                        UserInfo.Dnycon = connString;
                     }
                 }
             }
@@ -92,6 +93,7 @@ namespace QMS.DataBaseService
                                 accountUserId,
                                 accountDbPassword
                             );
+                            UserInfo.Dnycon = connString;
                         }
                     }
                 }

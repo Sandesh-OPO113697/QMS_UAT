@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "LSYcCTL1Uj4TnnTBEI5Lw9MuMhXtNKC5EeQlrfhehbM=",
+  "Hash": "COLoFgYR+n0G5WEDqhZ+YrR6TiNBLZZjzuEcTNHWSEs=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -870,6 +870,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\mainLogo.png"
+    },
+    {
+      "Identity": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\Images\\user.png",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "Images/user.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\user.png"
     },
     {
       "Identity": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\js\\apexcharts.custom.js",

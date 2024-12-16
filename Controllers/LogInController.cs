@@ -29,7 +29,9 @@ namespace QMS.Controllers
             }
             else
             {
+                await _login.AssignRoleToUser(Username , HttpContext);
                 int IsValid = await _login.CheckAccountUserAsync(Username, Password);
+
 
                 if (IsValid == 1)
                 {
