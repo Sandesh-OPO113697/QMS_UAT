@@ -60,6 +60,40 @@ namespace QMS.DataBaseService
             }
         }
 
+        public async Task<int> CheckSuperAdminIsValid(string UserID, string Password)
+        {
+            try
+            {
+                string encryptedUserID = await _enc.EncryptAsync(UserID);
+                string encryptedPassword = await _enc.EncryptAsync(Password);
+                string Conn = await _enc.DecryptAsync(_con);
+                using (SqlConnection con = new SqlConnection(Conn))
+                {
+                    await con.OpenAsync();
+                    DataTable dt = new DataTable();
+                    SqlCommand cmd = new SqlCommand("Sp_Check_LogIn", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Empcode", encryptedPassword);
+                    cmd.Parameters.AddWithValue("@Password", encryptedPassword);
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    adpt.Fill(dt);
+                    await con.CloseAsync();
+                    if (dt.Rows.Count > 0)
+                    {
+                        UserInfo.UserType = await _enc.DecryptAsync(dt.Rows[0]["usertype"].ToString());
+                        return 1;
+                    }
+
+                }
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+            
+                return 0;
+        }
 
         public async Task<int> CheckUserLogInAsync(string UserID, string Password)
         {

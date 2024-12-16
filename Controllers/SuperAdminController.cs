@@ -19,6 +19,7 @@ namespace QMS.Controllers
         }
         public async Task<IActionResult> Dashboard()
         {
+
             var userType = HttpContext.Session.GetString("UserType");
             if (userType == "SuperAdmin")
             {
