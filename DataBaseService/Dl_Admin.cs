@@ -3,6 +3,7 @@ using QMS.Encription;
 using QMS.Models;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 
 namespace QMS.DataBaseService
 {
@@ -17,6 +18,235 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
             _dcl = dL;
         }
+        public async Task<List<SelectListItem>> GetUsersAsync()
+        {
+            string query = "SELECT ID, Name FROM [dbo].[User_Master] WHERE isactive = 1";
+            var users = new List<SelectListItem>();
+            DataTable dt = await DecryptDataTableAsyncNamwe(await GetDataAsync(query));
+            foreach (DataRow row in dt.Rows)
+            {
+                users.Add(new SelectListItem
+                {
+                    Text = row["Name"].ToString(),
+                    Value = row["ID"].ToString()
+                });
+            }
+            return users;
+        }
+
+        public async Task AssignProcess(string User, string UserName, List<string> SelectedProcesses)
+        {
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                await con.OpenAsync();  
+
+                foreach (string selectedProcess in SelectedProcesses)
+                {
+                    string[] ids = selectedProcess.Split('-');
+                    string processID = ids[0];
+                    string subProcessID = ids[1];
+
+                    string processNameQuery = "SELECT Process FROM [dbo].[Eval_Process] WHERE ID = @ProcessID";
+                    string processName = string.Empty;
+                    using (SqlCommand cmd = new SqlCommand(processNameQuery, con))
+                    {
+                        cmd.Parameters.AddWithValue("@ProcessID", processID);
+                        var result = await cmd.ExecuteScalarAsync(); 
+                        processName = result?.ToString(); 
+                    }
+
+                    if (!string.IsNullOrEmpty(processName))
+                    {
+                        string checkExistenceQuery = "SELECT COUNT(*) FROM User_Program_Mapping WHERE Userid = @UserID AND Proram_id = @ProcessID AND Sub_ProgramId = @SubProcessID";
+                        int existingCount = 0;
+                        using (SqlCommand cmd = new SqlCommand(checkExistenceQuery, con))
+                        {
+                            cmd.Parameters.AddWithValue("@UserID", User);
+                            cmd.Parameters.AddWithValue("@ProcessID", processID);
+                            cmd.Parameters.AddWithValue("@SubProcessID", subProcessID);
+                            var countResult = await cmd.ExecuteScalarAsync(); 
+                            existingCount = Convert.ToInt32(countResult);
+                        }
+
+                        if (existingCount == 0)
+                        {
+                            string insertQuery = "INSERT INTO User_Program_Mapping (Proram_id, ProgramName, Sub_ProgramId, Userid, UserName, CreateDate) VALUES (@ProcessID, @ProgramName, @SubProcessID, @UserID, @UserName, @CreateDate)";
+                            using (SqlCommand cmd = new SqlCommand(insertQuery, con))
+                            {
+                                cmd.Parameters.AddWithValue("@ProcessID", processID);
+                                cmd.Parameters.AddWithValue("@ProgramName", processName);
+                                cmd.Parameters.AddWithValue("@SubProcessID", subProcessID);
+                                cmd.Parameters.AddWithValue("@UserID", User);
+                                cmd.Parameters.AddWithValue("@UserName", UserName);
+                                cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
+
+                                await cmd.ExecuteNonQueryAsync();  
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        //public async Task<List<SelectListItem>> GetProcessesAndSubAsync()
+        //{
+        //    string query = @"
+        //    SELECT 
+        //        p.ID AS ProcessID, 
+        //        sp.id AS SubProcessID, 
+        //        p.Process AS ProcessName, 
+        //        sp.SubProcessName
+        //    FROM Eval_Process p
+        //    LEFT JOIN Eval_SubProcess sp 
+        //        ON p.ID = sp.processid
+        //    WHERE p.Active_Status = 1";
+        //    var processes = new List<SelectListItem>();
+        //    DataTable dt = await GetDataAsync(query);
+        //    foreach (DataRow row in dt.Rows)
+        //    {
+        //        string displayText = $"{row["ProcessName"]} -- {row["SubProcessName"]}";
+        //        string value = $"{row["ProcessID"]}-{row["SubProcessID"]}";
+        //        processes.Add(new SelectListItem
+        //        {
+        //            Text = displayText,
+        //            Value = value
+        //        });
+        //    }
+        //    return processes;
+        //}
+
+            public async Task<List<SelectListItem>> GetProcessesAndSubAsync(string username)
+            {
+                string query = @"
+        SELECT 
+        p.ID AS ProcessID, 
+        sp.id AS SubProcessID, 
+        p.Process AS ProcessName, 
+        sp.SubProcessName,
+        CASE 
+            WHEN p.ID = upm.ProcessID AND sp.id = upm.SubProcessID THEN 1
+            WHEN p.ID = upm.ProcessID THEN 1
+            ELSE 0
+        END AS isActive
+    FROM Eval_Process p
+    LEFT JOIN Eval_SubProcess sp 
+        ON p.ID = sp.processid
+    LEFT JOIN (
+        SELECT 
+            Proram_id AS ProcessID, 
+            Sub_ProgramId AS SubProcessID, 
+            UserName 
+        FROM User_Program_Mapping 
+        WHERE UserName = @Username
+    ) upm
+        ON p.ID = upm.ProcessID
+        AND (sp.id = upm.SubProcessID OR sp.id IS NULL)
+    WHERE p.Active_Status = 1;
+    ";
+
+                var processes = new List<SelectListItem>();
+                DataTable dt = await GetDataProcessSUBAsync(query, new SqlParameter("@Username", username));
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string displayText = $"{row["ProcessName"]} -- {row["SubProcessName"]}";
+                    string value = $"{row["ProcessID"]}-{row["SubProcessID"]}";
+                    bool isActive = Convert.ToInt32(row["isActive"]) == 1;
+
+                    processes.Add(new SelectListItem
+                    {
+                        Text = displayText,
+                        Value = value,
+                        Selected = isActive
+                    });
+                }
+                return processes;
+            }
+        
+
+        private async Task<DataTable> DecryptDataTableAsyncNamwe(DataTable dt)
+        {
+            DL_Encrpt encrypter = new DL_Encrpt();
+            foreach (DataRow row in dt.Rows)
+            {
+                if (row["Name"] != DBNull.Value)
+                {
+                    row["Name"] = await _enc.DecryptAsync(row["Name"].ToString());
+                }
+            }
+            return dt;
+        }
+        private async Task<DataTable> GetDataProcessSUBAsync(string query, SqlParameter usernameParam)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))  
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    // Add the username parameter
+                    cmd.Parameters.Add(usernameParam);
+
+                    // Open the connection asynchronously
+                    await con.OpenAsync();
+
+                    // Use SqlDataAdapter to fill the DataTable asynchronously
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        await Task.Run(() => da.Fill(dt));
+                    }
+                }
+            }
+            return dt;
+        }
+
+        private async Task<DataTable> GetDataAsync(string query)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    await con.OpenAsync();
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        await Task.Run(() => da.Fill(dt));  
+                    }
+                }
+            }
+            return dt;
+        }
+
+
+        public async Task InsertUserDetailsAsync(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber)
+        {
+            string UserNameENC = await _enc.EncryptAsync(UserID);
+            string NameENC = await _enc.EncryptAsync(UserName);
+                string PassENC = await _enc.EncryptAsync(Password);
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync(); 
+
+                using (SqlCommand cmd = new SqlCommand("CreateUser", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Location", Location_ID);
+                    cmd.Parameters.AddWithValue("@UserName", UserNameENC);
+                    cmd.Parameters.AddWithValue("@Program", ProgramID);
+                    cmd.Parameters.AddWithValue("@Password", PassENC);
+                    cmd.Parameters.AddWithValue("@SubProcesname", SUBProgramID);
+                    cmd.Parameters.AddWithValue("@Role", Role_ID);
+                    cmd.Parameters.AddWithValue("@AccountID", UserInfo.AccountID);
+                    cmd.Parameters.AddWithValue("@UserNamedrp", UserInfo.UserName);
+                    cmd.Parameters.AddWithValue("@Name", NameENC);
+                    cmd.Parameters.AddWithValue("@Phone", PhoneNumber);
+                    cmd.Parameters.AddWithValue("@Procesname", SUBProgramID);
+                    cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
         public async Task<List<SelectListItem>> GetProcessName(int LocationID)
         {
             var Process = new List<SelectListItem>();
@@ -39,6 +269,36 @@ namespace QMS.DataBaseService
                             {
                                 Value = reader["ID"].ToString(),
                                 Text = reader["Process"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            return Process;
+        }
+
+        public async Task<List<SelectListItem>> GetSUBProcessName(int LocationID)
+        {
+            var Process = new List<SelectListItem>();
+
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("USP_Fill_Dropdown", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "Select_SUB_Program_Master_locationWise");
+                    cmd.Parameters.AddWithValue("@p_username", LocationID);
+
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Process.Add(new SelectListItem
+                            {
+                                Value = reader["id"].ToString(),
+                                Text = reader["SubProcessName"].ToString()
                             });
                         }
                     }
@@ -180,23 +440,23 @@ namespace QMS.DataBaseService
             return dt;
         }
 
-        private async Task<DataTable> GetDataAsync(string query)
-        {
-            DataTable dt = new DataTable();
+        //private async Task<DataTable> GetDataAsync(string query)
+        //{
+        //    DataTable dt = new DataTable();
 
-            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
-            {
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    await con.OpenAsync();
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                    {
-                        await Task.Run(() => da.Fill(dt));
-                    }
-                }
-            }
-            return dt;
-        }
+        //    using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+        //    {
+        //        using (SqlCommand cmd = new SqlCommand(query, con))
+        //        {
+        //            await con.OpenAsync();
+        //            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+        //            {
+        //                await Task.Run(() => da.Fill(dt));
+        //            }
+        //        }
+        //    }
+        //    return dt;
+        //}
 
     }
 }

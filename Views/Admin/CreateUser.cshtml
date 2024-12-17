@@ -12,10 +12,20 @@
     <div class="card shadow">
         <div class="card-body">
             <h5 class="card-title">Welcome </h5>
-            <div class="alert alert-primary" id="NotificationDiv" runat="server" role="alert">
-                <span class="fe fe-alert-circle fe-16 mr-2" id="Notif   ication" runat="server"></span>
+            @if (TempData["ErrorMessages"] != null)
+            {
+                var errorMessages = ((string[])TempData["ErrorMessages"]).ToList();
+                @foreach (var message in errorMessages)
 
-            </div>
+                {
+                    <div class="alert alert-primary" id="NotificationDiv" runat="server" role="alert">
+                        <span class="fe fe-alert-circle fe-16 mr-2" id="Notif   ication" runat="server">
+                             @message
+                        </span>
+                    </div>
+                }
+
+            }
 
             <table id="SuperAdminTable" class="table table-bordered table-hover mb-0">
                 <thead>
@@ -53,83 +63,116 @@
                     }
                 </tbody>
             </table>
-            
+
         </div>
     </div>
 </div>
-
-
-<div class="col-md-12 my-4">
-    <div class="card shadow">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group mb-2">
+<form action="@Url.Action("InsertUsers", "Admin")" method="post">
+    <div class="col-md-12 my-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-md-6">
                         <label for="LocationDropDown">Location Name</label>
-                        @Html.DropDownList("Location_ID", (List<SelectListItem>)ViewBag.Locations, "Select Location", new { @class = "custom-select", id = "Location_ID", onchange = "onLocationChange()" })
+                        @Html.DropDownList(
+                                 "Location_ID",
+                                 (List<SelectListItem>)ViewBag.Locations,
+                                 "Select Location",
+                                 new { @class = "custom-select", id = "Location_ID", onchange = "onLocationChange()" }
+                                 )
                     </div>
+                    <div class="form-group col-md-6">
+                        <label for="ProgramID">Program Name</label>
+                        <select name="ProgramID" id="ProgramID" class="custom-select" onchange="onProgramChange()">
+                            <option value="">Select Process</option>
+                        </select>
                     </div>
-
-                    <div class="form-group mb-2">
-                        <label for="drpSubProgram"> Program Name</label>
-                    <select id="ProgramID" class="custom-select" onchange="onProgramChange()">
-                        <option value="">Select Process</option>
-                    </select>
-
+                    <div class="form-group col-md-6">
+                        <label for="SUBProgramID">Sub Program Name</label>
+                        <select name="SUBProgramID" id="SUBProgramID" class="custom-select" >
+                            <option value="">Select Process</option>
+                        </select>
                     </div>
-
-                    <div class="form-group mb-2">
-                        <label for="txtPassword">Password</label>
-                       
+                    <div class="form-group col-md-6">
+                        <label for="Role_ID">Role</label>
+                        @Html.DropDownList(
+                                 "Role_ID",
+                                 (List<SelectListItem>)ViewBag.Role,
+                                 "Select Role",
+                                 new { @class = "custom-select", id = "Role_ID" }
+                                 )
                     </div>
-
-                    <div class="form-group mb-2">
-                        <label for="UserName">User Name</label>
-                      
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group mb-2">
-                        <label for="ProgramDropDown"> Sub Program Name</label>
-
-                    <select id="SUBProgramID" class="custom-select" onchange="onProgramChange()">
-                        <option value="">Select Process</option>
-                    </select>
-
-                    </div>
-
-                    <div class="form-group mb-2">
+                    <div class="form-group col-md-6">
                         <label for="txtUsername">User ID</label>
-                        
+                        <input type="text"
+                               name="UserID"
+                               id="txtUsername"
+                               class="form-control"
+                               value="____"
+                               oninput="restrictBackspace(event)" />
                     </div>
-
-                    <div class="form-group mb-2">
-                        <label for="drpRole">Role Name</label>
-                   
+                    <div class="form-group col-md-6">
+                        <label for="txtPassword">Password</label>
+                        <input type="password" name="Password" id="txtPassword" class="form-control" />
                     </div>
-
-                    <div class="form-group mb-2">
-                        <label for="Phone">Phone Number</label>
-                       
+                    <div class="form-group col-md-6">
+                        <label for="txtUserName">User Name</label>
+                        <input type="text" name="UserName" id="txtUserName" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="txtPhone">Phone Number</label>
+                        <input type="number"
+                               name="PhoneNumber"
+                               id="txtPhone"
+                               oninput="validatePhone(this)"
+                               class="form-control" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="col-md-2 my-4">
-    <div class="card-body d-flex justify-content-center align-items-center">
-        <button type="submit" class="btn btn-primary">Create User*</button>
+    <div class="col-md-2 my-4">
+        <div class="card-body d-flex justify-content-center align-items-center">
+            <button type="submit" class="btn btn-primary">Create User</button>
+        </div>
     </div>
-</div>
+</form>
+
+
+
 
 <script>
+    function validatePhone(input) {
+        input.value = input.value.replace(/\D/g, '');
+        if (input.value.length > 10) {
+            input.value = input.value.substring(0, 10);
+            alert("Phone number can only be 10 digits.");
+        }
+    }
+    function restrictBackspace(event) {
+        var textbox = document.getElementById('txtUsername');
+        var length = textbox.value.length;
+        if (length < 4) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("HandleBackspace", "Admin")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    var newUsername = response.newUsername;
+                    document.getElementById('txtUsername').value = newUsername;
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error: ' + error);
+                }
+            });
+        }
+    }
     function onLocationChange() {
 
         var Location = $('#Location_ID').val();
-        
+
         $.ajax({
             type: "POST",
             data: JSON.stringify({ id: Location }),
@@ -140,7 +183,7 @@
             success: function (response) {
 
                 var dropdown = $('#ProgramID');
-                dropdown.empty(); 
+                dropdown.empty();
                 dropdown.append('<option value="">Select Process</option>');
                 response.proces.forEach(function (item) {
                     dropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
@@ -148,6 +191,20 @@
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred: " + error);
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("HandleBackspace", "Admin")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                var newUsername = response.newUsername;
+                document.getElementById('txtUsername').value = newUsername;
+            },
+            error: function (xhr, status, error) {
+                console.error('Error: ' + error);
             }
         });
     }
@@ -173,21 +230,21 @@
                 console.error("Error occurred: " + error);
             }
         });
-        
+
     }
 
     function updateStatus(id, isActive) {
-        
-       
+
+
         $.ajax({
             type: "POST",
             url: "/Admin/ActiveDeActiveUser",
             data: JSON.stringify({ id: id, isActive: isActive }),
-            contentType: "application/json; charset=utf-8", 
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
                 location.reload;
-                console.log("Update successful: " + response.d); 
+                console.log("Update successful: " + response.d);
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred: " + error);
