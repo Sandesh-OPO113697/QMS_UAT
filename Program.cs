@@ -19,7 +19,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<DLConnection>();
 builder.Services.AddScoped<D_Login>();
 builder.Services.AddScoped<Dl_Admin>();
-builder.Services.AddTransient<DL_SuperAdmin>();
+builder.Services.AddScoped<DL_SuperAdmin>();
 builder.Services.AddScoped<DL_Encrpt>();
 builder.Services.AddControllersWithViews();
 
