@@ -5,6 +5,7 @@ using QMS.Models;
 using System.Data.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
+using System.Drawing;
 
 namespace QMS.DataBaseService
 {
@@ -19,6 +20,80 @@ namespace QMS.DataBaseService
             _con = configuration.GetConnectionString("Master_Con");
             _enc = dL_Encrpt;
             _dcl = dL;
+        }
+        public async Task CreateAccountByScriptAsync(string accountName)
+        {
+            try
+            {
+                string connectionString = await _enc.DecryptAsync(_con);
+                string createDatabaseQuery =
+                    $"IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = '{accountName}') CREATE DATABASE {accountName}";
+                string sqlScript = await File.ReadAllTextAsync(@"D:\QMSSCRIPT.sql");
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    await conn.OpenAsync();
+                    await ExecuteQueryAsync(conn, createDatabaseQuery);
+                    string useDatabaseQuery = $"USE {accountName};";
+                    await ExecuteQueryAsync(conn, useDatabaseQuery);
+                    await ExecuteQueryAsync(conn, sqlScript);
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+
+        private async Task ExecuteQueryAsync(SqlConnection connection, string query)
+        {
+            using (SqlCommand cmd = new SqlCommand(query, connection))
+            {
+                await cmd.ExecuteNonQueryAsync(); 
+            }
+        }
+
+        public async Task InsertAccountAsync(string accountName, string signOn, string prefix)
+        {
+            string prefixEnc = await _enc.EncryptAsync(prefix);
+            string connectionString = await _enc.DecryptAsync(_con);
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand("Sp_CreateAccount", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@AccountName", await _enc.EncryptAsync(accountName));
+                cmd.Parameters.AddWithValue("@SignOn", await _enc.EncryptAsync(signOn));
+                cmd.Parameters.AddWithValue("@Prefix", prefixEnc);
+
+                await conn.OpenAsync(); 
+                await cmd.ExecuteNonQueryAsync(); 
+            }
+        }
+
+
+        public async Task<bool> ExecuteQueryToCheckPrefixAsync(string prefixEnc)
+        {
+            string PrixicENC = await _enc.EncryptAsync(prefixEnc);
+            string STR = await _enc.DecryptAsync(_con);
+            bool result = false;
+
+            using (SqlConnection conn = new SqlConnection(STR))
+            {
+                string query = "SELECT COUNT(*) FROM AccountDetails WHERE AccountPrefix = @Prefix";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Prefix", PrixicENC);
+
+                await conn.OpenAsync(); 
+                int count = (int)await cmd.ExecuteScalarAsync(); 
+
+                if (count > 0)
+                {
+                    result = true; 
+                }
+            }
+
+            return result;
         }
 
         public async Task UpdateUserStatusAsy(string UserID, int isActive)
@@ -142,7 +217,7 @@ namespace QMS.DataBaseService
 
         public async Task UpdateAccountStatusAsy(string accountId, int isActive)
         {
-            string connectionString = await _dcl.GetDynStrByAccountAsync(accountId);
+            string connectionString = await _enc.DecryptAsync(_con);
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {

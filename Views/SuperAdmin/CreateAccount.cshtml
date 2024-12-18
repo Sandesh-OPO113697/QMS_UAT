@@ -5,6 +5,16 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (TempData["Validation"] != null)
+{
+
+    <div class="alert alert-primary" id="NotificationDiv" runat="server" role="alert">
+        <span class="fe fe-alert-circle fe-16 mr-2" id="Notif   ication" runat="server">
+            @TempData["Validation"]
+        </span>
+    </div>
+}
+
 
 
 <div class="col-md-12 my-4">
@@ -68,6 +78,47 @@
         </div>
     </div>
 </div>
+
+ <form action="InsertAccount" method="post">
+    <div class="col-md-12 my-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="AccountName">Enter Account Name</label>
+                            <input type="text" id="AccountName" name="AccountName" class="form-control" placeholder="Account Name" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="AccountPrefix">Enter Account Prefix</label>
+                            <input type="text" id="AccountPrefix" name="AccountPrefix" class="form-control" placeholder="Enter 3 Character Prefix" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="AuthenticationType">Authentication Type</label>
+                            <select id="AuthenticationType" name="AuthenticationType" class="custom-select">
+                                <option value="">Select</option>
+                                <option value="Tea">Domain Authentication</option>
+                                <option value="Lunch">Normal</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 my-4">
+        <div class="card-body d-flex justify-content-center align-items-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+
+ </form>
+
 
 
 

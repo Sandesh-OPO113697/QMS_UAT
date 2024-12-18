@@ -18,6 +18,50 @@ namespace QMS.Controllers
             _super = dl;
         }
 
+        public async Task<ActionResult> InsertAccount(string AccountName ,string AccountPrefix , string AuthenticationType)
+        {
+            string prefix = AccountPrefix?.ToUpper();
+            if (string.IsNullOrEmpty(prefix))
+            {
+                TempData["Validation"] = "Account prefix cannot be empty.";
+                return RedirectToAction("CreateAccount");
+            }
+            if (prefix.Length != 3)
+            {
+                TempData["Validation"] = "Account prefix must be exactly 3 characters long.";
+                return RedirectToAction("CreateAccount");
+            }
+            if (!string.IsNullOrEmpty(prefix) && System.Text.RegularExpressions.Regex.IsMatch(prefix, @"^[A-Z]+$"))
+            {
+               
+            }
+            else
+            {
+                TempData["Validation"] = "Account prefix must contain only alphanumeric characters.";
+                return RedirectToAction("CreateAccount");
+            }
+            if (string.IsNullOrEmpty(AccountName) || AuthenticationType =="" || AuthenticationType == null)
+            {
+                TempData["Validation"] = "Account name and AuthenticationType cannot be empty.";
+                return RedirectToAction("CreateAccount");
+            }
+
+            bool Result = await _super.ExecuteQueryToCheckPrefixAsync(AccountPrefix);
+            if(Result==true)
+            {
+                TempData["Validation"] = "Prifix Is Already Available Please try anather prifix.";
+                return RedirectToAction("CreateAccount");
+            }
+            else
+            {
+                await _super.InsertAccountAsync(AccountName, AccountPrefix, AuthenticationType);
+                await _super.CreateAccountByScriptAsync(AccountName);
+                TempData["Validation"] = "Account Is Created Sucessfully !.";
+                return RedirectToAction("CreateAccount");
+
+            }
+            return RedirectToAction("CreateAccount");
+        }
         public async Task<IActionResult> UpdateUserStatus([FromBody] dynamic request)
         {
 
