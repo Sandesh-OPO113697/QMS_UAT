@@ -15,12 +15,74 @@ namespace QMS.Controllers
             _admin = adl;
         }
 
-        public async Task<ActionResult> ProcessAssign()
+
+        public async Task<ActionResult> FeatureMapping()
+        {
+            var User = await _admin.GetRoleAsync();
+            var Feature = await _admin.GetFeature();
+            ViewBag.UserList = User;
+            ViewBag.Feature = Feature;
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> FeatureInsert(ProcessAssignViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.User_ID) || model.User_ID == "Select User")
+            {
+                TempData["RoleCreate"] = "Select Feature";
+                return RedirectToAction("FeatureMapping");
+            }
+            else
+            {
+                await _admin.AssignFeature(model.User_ID, model.UserName, model.SelectedProcesses);
+                TempData["RoleCreate"] = "Feature Map SucessFully";
+            }
+
+            return RedirectToAction("FeatureMapping");
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RoleInsert(ProcessAssignViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.User_ID) || model.User_ID == "Select User")
+            {
+                TempData["RoleCreate"] = "Select Role";
+                return RedirectToAction("RoleMapping");
+            }
+            else
+            {
+                await _admin.AssignRole(model.User_ID, model.UserName, model.SelectedProcesses);
+                TempData["RoleCreate"] = "Role Map SucessFully";
+            }
+
+            return RedirectToAction("RoleMapping");
+
+        }
+        public async Task<ActionResult> RoleMapping()
         {
             var User = await _admin.GetUsersAsync();
-            var ProceccList = await _admin.GetProcessesAndSubAsync(UserInfo.UserName);
+            var RoleList = await _admin.GetRoleAndSubAsync(UserInfo.UserName);
             ViewBag.UserList = User;
-            ViewBag.ProcessList = ProceccList;
+            ViewBag.RoleList = RoleList;
+            return View();
+        }
+        public async Task<ActionResult> ProcessAssign()
+        {
+            try
+            {
+                var User = await _admin.GetUsersAsync();
+                var ProceccList = await _admin.GetProcessesAndSubAsync(UserInfo.UserName);
+                ViewBag.UserList = User;
+                ViewBag.ProcessList = ProceccList;
+
+            }
+            catch (Exception ex)
+            {
+                TempData["ProceeeCreate"] = ex.Message;
+
+            }
+
             return View();
         }
 
@@ -29,13 +91,13 @@ namespace QMS.Controllers
         {
             if (string.IsNullOrEmpty(model.User_ID) || model.User_ID == "Select User")
             {
-                TempData["ErrorMessages"] = "Select Users";
+                TempData["ProceeeCreate"] = "Select Users";
                 return RedirectToAction("ProcessAssign");
             }
             else
             {
                 await _admin.AssignProcess(model.User_ID, model.UserName, model.SelectedProcesses);
-                TempData["ErrorMessages"] = "Process Map SucessFully";
+                TempData["ProceeeCreate"] = "Process Map SucessFully";
             }
 
             return RedirectToAction("ProcessAssign");

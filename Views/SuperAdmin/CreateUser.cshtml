@@ -9,51 +9,118 @@
 }
 
 
-<form class="AdminCreateio" method="post" >
-        <div class="col-md-12 my-4">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label>User Name</label>
-                            <input type="text" id="txtAdmin" value="____" name="UserName" autocomplete="off" class="form-control" oninput="restrictBackspace(event)" onkeydown="preventDeleteBackspace(event)" />
-                            </div>
 
-                            <div class="form-group mb-3">
-                                <label>Account Name</label>
-                                <select id="accountDropdown" name="AccountID" class="form-control" onchange="callCSharpMethod(this)">
-                                    <option value="">Select an Account</option>
-                                    @foreach (var account in Model)
-                                    {
-                                        <option value="@account.Value">@account.Text</option>
-                                    }
-                                </select>
-
-                            </div>
+<form class="AdminCreateio" action="CreateUser" method="post">
+    <div class="col-md-12 my-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label>Account Name</label>
+                            <select id="accountDropdown" name="AccountID" class="form-control" onchange="callCSharpMethod(this)">
+                                <option value="">Select an Account</option>
+                                @foreach (var account in Model)
+                                {
+                                    <option value="@account.Value">@account.Text</option>
+                                }
+                            </select>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label>Password</label>
-                            <input type="password" id="txtPassword"  name="Password"   class="form-control" />
-                            </div>
+                      
+                    </div>
+                    <div class="col-md-6">
+                        <br />
+                       
+                        <div class="form-group mb-3">
+                            <label ></label>
+                            <button type="button" class="btn btn-primary" onclick="ShowUserCreation()">Add User</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="UserCardBody" style="visibility:hidden" class="col-md-12 my-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <table id="UserTable" style="visibility:hidden" class="table table-bordered table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>User Type</th>
+                            <th>Is Active</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 my-4" id="CrardUserDiv" style="visibility:hidden">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label style="visibility:hidden" id="lblUser">User Name</label>
+                            <input type="text" id="txtAdmin" style="visibility:hidden" value="____" name="UserName" autocomplete="off" class="form-control" oninput="restrictBackspace(event)" onkeydown="preventDeleteBackspace(event)" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label style="visibility:hidden" id="lblpass">Password</label>
+                            <input type="password" id="txtPassword" style="visibility:hidden" name="Password" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <button id="SubBTN" type="submit" style="visibility:hidden" class="btn btn-primary">Create Admin</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2 my-4">
-            <div class="card-body d-flex justify-content-center align-items-center">
-                <button type="submit" class="btn btn-primary">Create Admin*</button>
-            </div>
-        </div>
-    </form>
+
+    </div>
+
+  
+
+</form>
+
+
+
 
 
 <script type="text/javascript">
 
+    function ShowUserCreation() {
+
+        document.getElementById("txtAdmin").style.visibility = "visible";
+        document.getElementById("txtPassword").style.visibility = "visible";
+        document.getElementById("lblUser").style.visibility = "visible";
+        document.getElementById("lblpass").style.visibility = "visible";
+        document.getElementById("SubBTN").style.visibility = "visible";
+        document.getElementById("CrardUserDiv").style.visibility = "visible";
+        
+
+        return;
+    }
     function callCSharpMethod(selectElement) {
+
+        document.getElementById("txtAdmin").style.visibility = "hidden";
+        document.getElementById("txtPassword").style.visibility = "hidden";
+        document.getElementById("lblUser").style.visibility = "hidden";
+        document.getElementById("lblpass").style.visibility = "hidden";
+        document.getElementById("SubBTN").style.visibility = "hidden";
+        document.getElementById("CrardUserDiv").style.visibility = "hidden";
+        
+
         var selectedValue = selectElement.value;
         var selectedId = selectElement.id;
 
@@ -74,6 +141,77 @@
                 console.error("Error calling C# method");
             }
         });
+
+
+        $.ajax({
+            url: '@Url.Action("GetAdminUsers", "SuperAdmin")',
+            type: 'POST',
+            data: {
+                accountId: selectedValue
+            },
+            success: function (response) {
+                if (response && response.length > 0) {
+                    populateAdminTable(response);
+                    document.getElementById("UserCardBody").style.visibility = "visible";
+                    document.getElementById("UserTable").style.visibility = "visible";
+                } else {
+                    
+                    document.getElementById("UserCardBody").style.visibility = "hidden";
+                    document.getElementById("AdminCreateio").style.visibility = "hidden";
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching admin users:", error);
+            }
+        });
+    }
+    function populateAdminTable(data) {
+        var tableBody = document.querySelector("#UserTable tbody");
+        tableBody.innerHTML = "";
+
+        data.forEach(function (row) {
+            var tableRow = `
+                    <tr>
+                        <td>${row.id}</td>
+                        <td>${row.name}</td>
+                        <td>${row.usertype}</td>
+                        <td>${row.isactive ? "Yes" : "No"}</td>
+                        <td>
+                            <div class="custom-control custom-switch">
+                                   
+                                        <input type="checkbox" class="custom-control-input" id="chk_${row.id}" ${row.isactive ? "checked" : ""} onclick="updateStatus('${row.name}', this.checked)" />
+
+                                <label class="custom-control-label" for="chk_${row.id}"></label>
+                            </div>
+                        </td>
+                    </tr>`;
+            tableBody.insertAdjacentHTML("beforeend", tableRow);
+        });
+    }
+
+    function updateStatus(name, isChecked) {
+      
+        var status = isChecked ? 1 : 0;
+   
+        saveAccountStatus(name, status);
+        
+    }
+    function saveAccountStatus(name, isChecked) {
+        var status = isChecked ? 1 : 0;
+
+        $.ajax({
+            type: "POST",
+            url: "/SuperAdmin/UpdateUserStatus",
+            data: JSON.stringify({ accountId: name, isActive: status }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+            },
+            error: function (xhr, status, error) {
+                alert("Error updating account status.");
+            }
+        });
     }
     function restrictBackspace(event) {
         var textbox = document.getElementById('txtAdmin');
@@ -81,17 +219,16 @@
 
         if (length == 3) {
             if (textbox.value.endsWith('__')) {
-                // Reset dropdown and trigger postback
                 var dropdown = document.getElementById('accountDropdown');
                 dropdown.selectedIndex = 0;
                 __doPostBack('<%= AccountDropDown.UniqueID %>', '');
-                textbox.value = textbox.value + '____'; // Add extra underscores
+                textbox.value = textbox.value + '____'; 
             } else {
                 textbox.value = textbox.value + '_';
             }
         }
 
-        // Check if there are two underscores, and perform actions
+        
         if (textbox.value.endsWith('__')) {
             var underscoreCount = (textbox.value.match(/_/g) || []).length;
             if (underscoreCount == 2) {
@@ -102,7 +239,7 @@
             }
         }
 
-        // If the textbox is empty, set default value and reset dropdown
+        
         if (length == 0) {
             textbox.value = '____';
             var dropdown = document.getElementById('accountDropdown');

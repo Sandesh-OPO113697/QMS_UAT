@@ -1,22 +1,26 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
+
 @{
-    var checkBoxList = (List<SelectListItem>)ViewBag.ProcessList;
+    var checkBoxList = (List<SelectListItem>)ViewBag.Feature;
 }
-@if (TempData["ProceeeCreate"] != null)
+
+@if (TempData["RoleCreate"] != null)
 {
 
     <div class="alert alert-primary" id="NotificationDiv" runat="server" role="alert">
         <span class="fe fe-alert-circle fe-16 mr-2" id="Notif   ication" runat="server">
-            @TempData["ProceeeCreate"]
+            @TempData["RoleCreate"]
         </span>
     </div>
 }
 
 
 
-<form class="AdminCreateio" method="post">
+<form class="AdminCreateio" action="FeatureInsert" method="post">
 
 
     <div class="col-md-12 my-4">
@@ -26,14 +30,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="custom-select-1">Select Users</label>
-                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Role", new { @class = "custom-select", id = "ID" })
+                            <label for="custom-select-1">Select Feature</label>
+                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Feature", new { @class = "custom-select", id = "ID" })
                             <input type="hidden" id="UserName" name="UserName" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3 ">
-                            <label for="custom-select-1">Select Process</label>
+                            <label for="custom-select-1">Select Role</label>
                             @foreach (var item in checkBoxList)
                             {
 
@@ -44,8 +48,7 @@
                                            name="selectedProcesses"
                                            value="@item.Value"
                                            id="@item.Value"
-                                    @(item.Selected ? "checked" : "")
-                                            />
+                                   />
                                     <label for="@item.Value">@item.Text</label>
                                 </div>
                             }

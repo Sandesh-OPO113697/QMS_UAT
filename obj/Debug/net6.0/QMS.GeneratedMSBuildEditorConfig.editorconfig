@@ -22,8 +22,16 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlVXNlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/FeatureMapping.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRmVhdHVyZU1hcHBpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/ProcessAssign.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvY2Vzc0Fzc2lnbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/RoleMapping.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm9sZU1hcHBpbmcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/QMS Dash/WEB_QMS/QMS/QMS/Views/LogIn/UserLogIn.cshtml]

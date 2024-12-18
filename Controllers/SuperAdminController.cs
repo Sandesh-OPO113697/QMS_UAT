@@ -17,6 +17,37 @@ namespace QMS.Controllers
         {
             _super = dl;
         }
+
+        public async Task<IActionResult> UpdateUserStatus([FromBody] dynamic request)
+        {
+
+            string accountId = string.Empty;
+            int isActive = 0;
+            try
+            {
+                if (request.TryGetProperty("accountId", out JsonElement accountIdElement))
+                {
+                    accountId = accountIdElement.GetString();
+                }
+
+                if (request.TryGetProperty("isActive", out JsonElement aisActiveElement))
+                {
+                    isActive = aisActiveElement.GetInt32();
+                }
+                await _super.UpdateUserStatusAsy(accountId, isActive);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+            return Json(new { success = true });
+        }
+        public async Task<JsonResult> GetAdminUsers(string AccountID)
+        {
+            var data = await _super.GetUserByAccountAsync(AccountID);
+            return Json(data);
+        }
         public async Task<IActionResult> Dashboard()
         {
 

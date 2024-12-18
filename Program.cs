@@ -4,16 +4,16 @@ using QMS.Encription;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register services
+
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set the session timeout duration as needed
-    options.Cookie.HttpOnly = true; // Set cookie to HttpOnly
-    options.Cookie.IsEssential = true; // Make session cookie essential
+    options.IdleTimeout = TimeSpan.FromMinutes(60); 
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true; 
 });
 
-// Add IHttpContextAccessor to DI container
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<DLConnection>();
@@ -25,7 +25,7 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

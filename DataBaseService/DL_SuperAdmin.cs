@@ -21,6 +21,66 @@ namespace QMS.DataBaseService
             _dcl = dL;
         }
 
+        public async Task UpdateUserStatusAsy(string UserID, int isActive)
+        {
+            string connectionString = await _dcl.GetDynStrByUserIDAsync(UserID);
+            string UserIDENC = await _enc.EncryptAsync(UserID);
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE User_Master SET isactive = @isActive WHERE EMPID = @EmpID";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@EmpID", UserIDENC);
+                cmd.Parameters.AddWithValue("@isActive", isActive);
+
+                await con.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+            }
+        }
+
+        public async Task<List<object>> GetUserByAccountAsync(string AccountID)
+        {
+            var userList = new List<object>();
+            try
+            {
+                string ConnSTR = await _dcl.GetDynStrByAccountAsync(AccountID);
+                string query = @"SELECT id, Name, usertype, isactive 
+                     FROM User_Master 
+                     WHERE Account_id = @AccountID 
+                     
+                     AND usertype = 'Admin'";
+
+                
+
+                using (SqlConnection conn = new SqlConnection(ConnSTR))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@AccountID", AccountID);
+
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                userList.Add(new
+                                {
+                                    id = reader.GetInt32(reader.GetOrdinal("id")),
+                                    name = await _enc.DecryptAsync(reader.GetString(reader.GetOrdinal("Name"))),
+                                    usertype = reader.GetString(reader.GetOrdinal("usertype")),
+                                    isactive = reader.GetInt32(reader.GetOrdinal("isactive"))
+                                });
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex) { }
+            
+            return userList;
+        }
+
         public async Task DeactivateUserByAccountAsync(UserDeactivationRequest userList)
         {
             if (userList == null || userList.Users == null || userList.Users.Count == 0)

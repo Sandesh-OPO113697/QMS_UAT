@@ -1,22 +1,24 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @{
-    var checkBoxList = (List<SelectListItem>)ViewBag.ProcessList;
+    var checkBoxList = (List<SelectListItem>)ViewBag.RoleList;
 }
-@if (TempData["ProceeeCreate"] != null)
+
+@if (TempData["RoleCreate"] != null)
 {
 
     <div class="alert alert-primary" id="NotificationDiv" runat="server" role="alert">
         <span class="fe fe-alert-circle fe-16 mr-2" id="Notif   ication" runat="server">
-            @TempData["ProceeeCreate"]
+            @TempData["RoleCreate"]
         </span>
     </div>
 }
 
 
 
-<form class="AdminCreateio" method="post">
+<form class="AdminCreateio" action="RoleInsert" method="post">
 
 
     <div class="col-md-12 my-4">
@@ -33,7 +35,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3 ">
-                            <label for="custom-select-1">Select Process</label>
+                            <label for="custom-select-1">Select Role</label>
                             @foreach (var item in checkBoxList)
                             {
 
@@ -44,8 +46,7 @@
                                            name="selectedProcesses"
                                            value="@item.Value"
                                            id="@item.Value"
-                                    @(item.Selected ? "checked" : "")
-                                            />
+                                    @(item.Selected ? "checked" : "") />
                                     <label for="@item.Value">@item.Text</label>
                                 </div>
                             }
