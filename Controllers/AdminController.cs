@@ -17,6 +17,22 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
+        public async Task<List<SelectListItem>> GetRoleByRole([FromBody] DropDawnString request)
+        {
+            string RoleID = request.ID;
+            string UserName = await _admin.GetUserNameByID(RoleID);
+            var Feture = await _admin.GetRoleAndSubAsync(UserName);
+            return Feture;
+        }
+        [HttpPost]
+        public async Task<List<SelectListItem>> GetProgramByRole([FromBody] DropDawnString request)
+        {
+            string RoleID = request.ID;
+            string UserName = await _admin.GetUserNameByID(RoleID);
+            var Feture =  await _admin.GetProcessesAndSubAsync(UserName);
+            return Feture;
+        }
+        [HttpPost]
         public async Task<List<SelectListItem>> GetFeatureByRole([FromBody] DropDawnString request)
         {
             string RoleID = request.ID;

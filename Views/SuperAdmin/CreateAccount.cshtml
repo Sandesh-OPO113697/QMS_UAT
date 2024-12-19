@@ -59,6 +59,13 @@
     </div>
 </div>
 
+<div id="successModal" style="display: none; background: transparent;  position: fixed; top: 170px; left: 550px; width: 30%; height: 40%;  z-index: 1000; justify-content: center; align-items: center;">
+    <div style="position: relative; background: transparent; padding: 20px; border-radius: 10px; text-align: center;">
+        <img src="/images/tick.png" alt="Success" style="width: 250px; height: 250px;" />
+       
+    </div>
+</div>
+
 
 <div class="modal fade" id="userListModal" tabindex="-1" role="dialog" aria-labelledby="userListModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -116,14 +123,23 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
-
+   
  </form>
 
 
 
-
-
+<script src="~/js/jquery.min.js"></script>
 <script>
+    $(document).ready(function () {
+        
+        $(document).on('click', '#successModal', function () {
+            
+            $('#successModal').fadeOut();
+            location.reload();
+        });
+    });
+
+
     function updateStatus(accountId, isChecked) {
         var status = isChecked ? 1 : 0;
 
@@ -187,16 +203,15 @@
             data: JSON.stringify({ users: updatedUsers }),
             contentType: 'application/json',
             success: function (response) {
-                alert("Users Active- deactive updated successfully.");
-                location.reload();
+                $('#userListModal').modal('hide');
+                $('#successModal').fadeIn();
             },
             error: function (xhr, status, error) {
                 alert("An error occurred: " + error);
             }
         });
     }
-
-
+ 
     function saveAccountStatus(accountId, isChecked) {
         var status = isChecked ? 1 : 0;
         

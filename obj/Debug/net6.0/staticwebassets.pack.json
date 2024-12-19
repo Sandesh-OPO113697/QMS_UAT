@@ -9,6 +9,14 @@
       "PackagePath": "staticwebassets\\Images\\1point1-small-logo.png"
     },
     {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\Images\\QMSLOGO.webp",
+      "PackagePath": "staticwebassets\\Images\\QMSLOGO.webp"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\Images\\Tick.png",
+      "PackagePath": "staticwebassets\\Images\\Tick.png"
+    },
+    {
       "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\Images\\favicon.ico",
       "PackagePath": "staticwebassets\\Images\\favicon.ico"
     },

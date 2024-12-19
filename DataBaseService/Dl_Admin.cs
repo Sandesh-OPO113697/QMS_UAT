@@ -18,6 +18,27 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
             _dcl = dL;
         }
+
+        public async Task <string> GetUserNameByID(string id)
+        {
+            string query = "SELECT EMPID FROM User_Master WHERE id = @id";
+            string UserName = string.Empty;
+            using (var connection = new SqlConnection(UserInfo.Dnycon))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+                    var result = await command.ExecuteScalarAsync();
+
+                    UserName= result?.ToString() ?? string.Empty;
+                }
+            }
+            string Dnc = await _enc.DecryptAsync(UserName);
+            return Dnc;
+        }
+      
+
         public async Task<List<SelectListItem>> GetFeatureByRole(string RoleID)
         {
             var processes = new List<SelectListItem>();

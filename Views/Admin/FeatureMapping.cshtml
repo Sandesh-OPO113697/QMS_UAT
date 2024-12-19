@@ -74,13 +74,13 @@
         var Role = dropdawon.value;
        
         $.ajax({
-            url: '@Url.Action("GetFeatureByRole", "Admin")',
+            url: '@Url.Action("GetProgramByRole", "Admin")',
             type: 'POST',
             contentType: 'application/json', 
             data: JSON.stringify({ ID: Role }),
             
             success: function (response) {
-                console.log(JSON.stringify(response))
+                
                 var availableProcesses = response.map(function (item) { return item.value; });
                 $(".process-checkbox").prop("checked", false);
                 availableProcesses.forEach(function (value) {
