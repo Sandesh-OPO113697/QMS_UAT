@@ -107,17 +107,18 @@
                         <input type="text"
                                name="UserID"
                                id="txtUsername"
+                               autocomplete="off"
                                class="form-control"
                                value="____"
                                oninput="restrictBackspace(event)" />
                     </div>
                     <div class="form-group col-md-6">
                         <label for="txtPassword">Password</label>
-                        <input type="password" name="Password" id="txtPassword" class="form-control" />
+                        <input type="password" name="Password" id="txtPassword" autocomplete="off" class="form-control" />
                     </div>
                     <div class="form-group col-md-6">
                         <label for="txtUserName">User Name</label>
-                        <input type="text" name="UserName" id="txtUserName" class="form-control" />
+                        <input type="text" name="UserName" id="txtUserName" autocomplete="off" class="form-control" />
                     </div>
                     <div class="form-group col-md-6">
                         <label for="txtPhone">Phone Number</label>
@@ -143,6 +144,7 @@
 
 
 <script>
+    
     function validatePhone(input) {
         input.value = input.value.replace(/\D/g, '');
         if (input.value.length > 10) {

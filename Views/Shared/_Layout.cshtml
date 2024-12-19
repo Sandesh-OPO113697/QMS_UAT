@@ -1184,125 +1184,7 @@
 
                        
                     }
-                    @* @if (distinctFeatureNames != null)
-                    {
-                    <li class="nav-item dropdown" id="AcessMaster" runat="server">
-                    <a href="#pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                    <i class="fe fe-file fe-16"></i>
-                    <span class="ml-3 item-text">Features</span>
-                    </a>
-                    <ul class="collapse list-unstyled pl-4 w-100 w-100" id="pages">
-                    @if (distinctFeatureNames.Contains("Sampling"))
-                    {
-                    <li class="nav-item" runat="server" id="sampling">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">Sampling</span>
-                    </a>
-                    </li>
-                    }
-                    @if (distinctFeatureNames.Contains("ZTP Sign off triggers"))
-                    {
-                    <li class="nav-item" runat="server" id="ztp_signoff_triggers">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">ZTP Sign_off triggers</span>
-                    </a>
-                    </li>
-                    }
-                    @if (distinctFeatureNames.Contains("Agent Survey"))
-                    {
-                    <li class="nav-item" runat="server" id="agent_survey">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">Agent Survey</span>
-                    </a>
-                    </li>
-                    }
-                    @if (distinctFeatureNames.Contains("Outlier Management"))
-                    {
-                    <li class="nav-item" runat="server" id="outlier_management">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">Outlier Management</span>
-                    </a>
-                    </li>
-                    }
-                    @if (distinctFeatureNames.Contains("Work allocation"))
-                    {
-                    <li class="nav-item" runat="server" id="work_allocation">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">Work allocation</span>
-                    </a>
-                    </li>
-                    }
-                    @if (distinctFeatureNames.Contains("Monitoring workflow"))
-                    {
-                    <li class="nav-item" runat="server" id="monitoring_workflow">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">Monitoring workflow</span>
-                    </a>
-                    </li>
-                    }
-                    @if (distinctFeatureNames.Contains("Feedback Process"))
-                    {
-                    <li class="nav-item" runat="server" id="feedback_process">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">Feedback Process</span>
-                    </a>
-                    </li>
-                    }
-                    @if (distinctFeatureNames.Contains("Dispute Process"))
-                    {
-                    <li class="nav-item" runat="server" id="dispute_process">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">Dispute Process</span>
-                    </a>
-                    </li>
-                    }
-
-                    @if (distinctFeatureNames.Contains("Calibration"))
-                    {
-                    <li class="nav-item" runat="server" id="calibration">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">Calibration</span>
-                    </a>
-                    </li>
-                    }
-
-                    @if (distinctFeatureNames.Contains("Coaching"))
-                    {
-                    <li class="nav-item" runat="server" id="coaching">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">Coaching</span>
-                    </a>
-                    </li>
-                    }
-                    @if (distinctFeatureNames.Contains("Skill verification"))
-                    {
-                    <li class="nav-item" runat="server" id="skill_verification">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">Skill verification</span>
-                    </a>
-                    </li>
-                    }
-                    @if (distinctFeatureNames.Contains("Update Management"))
-                    {
-                    <li class="nav-item" runat="server" id="update_management">
-                    <a class="nav-link pl-3" href="./page-orders.html">
-                    <span class="ml-1 item-text">Update Management</span>
-                    </a>
-                    </li>
-                    }
-                    @if (distinctFeatureNames.Contains("ZT Work flow"))
-                    {
-                    <li class="nav-item" runat="server" id="zt_work_flow">
-                    <a class="nav-link pl-3" href="./page-timeline.html">
-                    <span class="ml-1 item-text">ZT Work flow</span>
-                    </a>
-                    </li>
-                    }
-                    </ul>
-
-                    </li>
-
-                    } *@
+                   
 
                 </ul>
 
@@ -1310,7 +1192,7 @@
             </nav>
         </aside>
         <main role="main" class="main-content">
-            @RenderBody();
+            @RenderBody()
         </main>
     </div>
 

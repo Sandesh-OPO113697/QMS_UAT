@@ -1,27 +1,26 @@
 ﻿@{
     Layout = null;
 }
+
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log IN</title>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
-
-    <link rel="stylesheet" href="./style.css">
+    <link href="~/assets/boot/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/assets/boot/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/boot/css/bootstrap.rtl.css" rel="stylesheet" />
+    <link href="~/assets/boot/css/bootstrap.rtl.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    
+    
     <style>
-
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Raleway, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(90deg, #C7C5F4, #5D54A4);
-       
+        .background-radial-gradient {
+            background-color: hsl(218, 41%, 15%);
+            background-image: radial-gradient(650px circle at 0% 0%, hsl(218, 41%, 35%) 15%, hsl(218, 41%, 30%) 35%, hsl(218, 41%, 20%) 75%, hsl(218, 41%, 19%) 80%, transparent 100%), radial-gradient(1250px circle at 100% 100%, hsl(218, 41%, 45%) 15%, hsl(218, 41%, 30%) 35%, hsl(218, 41%, 20%) 75%, hsl(218, 41%, 19%) 80%, transparent 100%);
         }
 
         .container {
@@ -98,7 +97,6 @@
         }
 
         .login {
-            width: 320px;
             padding: 30px;
             padding-top: 156px;
         }
@@ -111,6 +109,7 @@
         .login__icon {
             position: absolute;
             top: 30px;
+            left: 10px;
             color: #7875B5;
         }
 
@@ -166,7 +165,7 @@
         .social-login {
             position: absolute;
             height: 140px;
-            width: 160px;
+            width: 100%;
             text-align: center;
             bottom: 0px;
             right: 0px;
@@ -189,49 +188,137 @@
             .social-login__icon:hover {
                 transform: scale(1.5);
             }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Raleway, sans-serif;
+        }
+
+
+
+        #radius-shape-1 {
+            height: 220px;
+            width: 220px;
+            top: -60px;
+            left: -130px;
+            background: radial-gradient(#44006b, #ad1fff);
+            overflow: hidden;
+        }
+
+        #radius-shape-2 {
+            border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+            bottom: -60px;
+            right: -110px;
+            width: 200px;
+            height: 250px;
+            background: radial-gradient(#44006b, #ad1fff);
+            overflow: hidden;
+        }
+
+        .bg-glass {
+            background-color: #ffffff !important; /* Pure white background */
+            backdrop-filter: saturate(200%) blur(25px);
+        }
+
+        .button-2 {
+            font-weight: bold;
+            background-color: #635283;
+            border-radius: 8px;
+            border-width: 0;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            list-style: none;
+            margin: 0;
+            padding: 10px 12px;
+            text-align: center;
+            transition: all 200ms;
+            vertical-align: baseline;
+            white-space: nowrap;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+            .button-2:hover {
+                background-color: #fff;
+                color: #635283;
+            }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div style="border-radius: 20px;" class="screen">
-            <div class="screen__content">
-                @using (Html.BeginForm("LogIn", "Login", FormMethod.Post, new { @class = "login" }))
-                {
+    <section class="background-radial-gradient overflow-hidden">
+        <div class="container   text-center text-lg-start" style="min-width:inherit;max-width:815px;">
+            <div class="row gx-lg-5 align-items-center mb-5">
+                <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+                    <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+                        <br />
+                        <span style="color: hsl(218, 81%, 75%)">Quality Management System</span>
+                    </h1>
+                    <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
 
-                    <div class="login__field">
-                        <i class="login__icon fas fa-user"></i>
+                        The QMS Log Form project focuses on documenting and managing quality-related issues and actions, ensuring continuous improvement in processes and products. It promotes accountability and traceability in maintaining high standards of quality.
+                    </p>
+                </div>
 
-                        @Html.TextBox("Username", null, new { @class = "login__input", placeholder = "Enter Username" })
-                    </div>
-                    <div class="login__field">
-                        <i class="login__icon fas fa-lock"></i>
-                        @Html.Password("Password", null, new { @class = "login__input", placeholder = "Enter Password" })
+                <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+                    <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+                    <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+                    <br />
+                    <br />
+                    <br />
 
-                    </div>
+                    <div class="container" style="min-height:inherit;">
+                        <div style="border-radius: 20px;" class="screen">
+                            <div class="screen__content">
 
-                    <div class="form-group text-center mt-3">
-                        
-                        <button type="submit" class="button login__submit">  <span class="button__text">Log - In</span></button>
-                    </div>
-                }
-                
-                <div class="social-login">
-                    <h3>One Point One</h3>
-                    <div class="social-icons">
-                        <a href="#" class="social-login__icon fab fa-instagram"></a>
-                        <a href="#" class="social-login__icon fab fa-facebook"></a>
-                        <a href="#" class="social-login__icon fab fa-twitter"></a>
+                                @using (Html.BeginForm("LogIn", "Login", FormMethod.Post, new { @class = "login" }))
+                                {
+
+                                    <div class="login__field">
+                                        <i class="login__icon fas fa-user"></i>
+                                        @Html.TextBox("Username", null, new { @class = "form-control", placeholder = "Enter Username", style = "text-align:center" })
+                                      
+                                    </div>
+                                    <div class="login__field">
+                                        <i class="login__icon fas fa-lock"></i>
+                                      
+                                        @Html.Password("Password", null, new { @class = "form-control", placeholder = "Enter Password", style = "text-align:center" })
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <button type="submit" class="button-2  form-control" ID="lnkSubmit">LOGIN</button>
+
+                                }
+                                <div class="social-login">
+                                    <img src="Images/nagalogo.png" style="width: 50%;" />
+                                    <div class="social-icons">
+                                        <a href="#" class="social-login__icon fab fa-instagram"></a>
+                                        <a href="#" class="social-login__icon fab fa-facebook"></a>
+                                        <a href="#" class="social-login__icon fab fa-twitter"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="screen__background">
+                                <span class="screen__background__shape screen__background__shape4"></span>
+                                <span class="screen__background__shape screen__background__shape3"></span>
+                                <span class="screen__background__shape screen__background__shape2"></span>
+                                <span class="screen__background__shape screen__background__shape1"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="screen__background">
-                <span class="screen__background__shape screen__background__shape4"></span>
-                <span class="screen__background__shape screen__background__shape3"></span>
-                <span class="screen__background__shape screen__background__shape2"></span>
-                <span class="screen__background__shape screen__background__shape1"></span>
+
             </div>
         </div>
-    </div>
+    </section>
+
 </body>
 </html>

@@ -25,8 +25,140 @@
       "PackagePath": "staticwebassets\\Images\\mainLogo.png"
     },
     {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\Images\\nagalogo.png",
+      "PackagePath": "staticwebassets\\Images\\nagalogo.png"
+    },
+    {
       "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\Images\\user.png",
       "PackagePath": "staticwebassets\\Images\\user.png"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.rtl.min.css.map"
     },
     {
       "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\assets\\avatars\\face-1.jpg",
@@ -105,6 +237,26 @@
       "PackagePath": "staticwebassets\\css\\bootstrap-datepicker.css"
     },
     {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\css\\bootstrap.scss",
+      "PackagePath": "staticwebassets\\css\\bootstrap.scss"
+    },
+    {
       "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\css\\dataTables.bootstrap4.css",
       "PackagePath": "staticwebassets\\css\\dataTables.bootstrap4.css"
     },
@@ -155,6 +307,10 @@
     {
       "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\css\\simplebar.css",
       "PackagePath": "staticwebassets\\css\\simplebar.css"
+    },
+    {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
       "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\css\\uppy.min.css",
