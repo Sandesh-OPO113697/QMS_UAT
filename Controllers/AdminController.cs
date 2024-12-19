@@ -4,6 +4,7 @@ using QMS.DataBaseService;
 using QMS.Models;
 using System;
 using System.Data;
+using System.Text.Json;
 
 namespace QMS.Controllers
 {
@@ -15,7 +16,14 @@ namespace QMS.Controllers
             _admin = adl;
         }
 
-
+        [HttpPost]
+        public async Task<List<SelectListItem>> GetFeatureByRole([FromBody] DropDawnString request)
+        {
+            string RoleID = request.ID;
+            var Feture= await _admin.GetFeatureByRole(RoleID);
+            return Feture;
+        }
+      
         public async Task<ActionResult> FeatureMapping()
         {
             var User = await _admin.GetRoleAsync();
@@ -27,9 +35,9 @@ namespace QMS.Controllers
         [HttpPost]
         public async Task<ActionResult> FeatureInsert(ProcessAssignViewModel model)
         {
-            if (string.IsNullOrEmpty(model.User_ID) || model.User_ID == "Select User")
+            if (string.IsNullOrEmpty(model.User_ID) || model.User_ID == "Select Role")
             {
-                TempData["RoleCreate"] = "Select Feature";
+                TempData["RoleCreate"] = "Select Role";
                 return RedirectToAction("FeatureMapping");
             }
             else

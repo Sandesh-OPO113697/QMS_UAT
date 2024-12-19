@@ -30,25 +30,25 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="custom-select-1">Select Feature</label>
-                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Feature", new { @class = "custom-select", id = "ID" })
+                            <label for="custom-select-1">Select Role</label>
+                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Role", new { @class = "custom-select", id = "ID"  , onchange="OnRoleChange(this)"})
                             <input type="hidden" id="UserName" name="UserName" />
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group mb-3 ">
+                        <div class="form-group mb-3">
                             <label for="custom-select-1">Select Role</label>
                             @foreach (var item in checkBoxList)
                             {
 
 
 
-                                <div>
+                                <div >
                                     <input type="checkbox"
                                            name="selectedProcesses"
                                            value="@item.Value"
                                            id="@item.Value"
-                                   />
+                                           class="process-checkbox" />
                                     <label for="@item.Value">@item.Text</label>
                                 </div>
                             }
@@ -67,7 +67,38 @@
     </div>
 </form>
 
+<script>
+
+    function OnRoleChange(dropdawon) { 
+        
+        var Role = dropdawon.value;
+       
+        $.ajax({
+            url: '@Url.Action("GetFeatureByRole", "Admin")',
+            type: 'POST',
+            contentType: 'application/json', 
+            data: JSON.stringify({ ID: Role }),
+            
+            success: function (response) {
+                console.log(JSON.stringify(response))
+                var availableProcesses = response.map(function (item) { return item.value; });
+                $(".process-checkbox").prop("checked", false);
+                availableProcesses.forEach(function (value) {
+                    $("#" + value).prop("checked", true);
+                });
+                
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching admin users:", error);
+            }
+        });
+    }
+    
+</script>
+
 <script type="text/javascript">
+
+    
 
     document.getElementById("ID").addEventListener("change", function () {
         var userName = this.options[this.selectedIndex].text;

@@ -18,6 +18,28 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
             _dcl = dL;
         }
+        public async Task<List<SelectListItem>> GetFeatureByRole(string RoleID)
+        {
+            var processes = new List<SelectListItem>();
+            string query = "select Feature_id , FeatureName from User_Feature_Mapping where Role_id=" + RoleID;
+            DataTable dt = await GetDataAsync(query);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string displayText = $"{row["FeatureName"]}";
+                string value = $"{row["Feature_id"]}";
+
+
+                processes.Add(new SelectListItem
+                {
+                    Text = displayText,
+                    Value = value,
+
+                });
+            }
+            return processes;
+        }
+
 
 
         public async Task AssignFeature(string User, string UserName, List<string> Selectedroled)
@@ -92,7 +114,7 @@ namespace QMS.DataBaseService
                 });
             }
             return processes;
-            return processes;
+            
         }
 
         public async Task AssignRole(string User, string UserName, List<string> Selectedroled)
