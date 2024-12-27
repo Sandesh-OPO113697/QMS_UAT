@@ -1,0 +1,39 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+
+<div class="col-md-12 my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Welcome Admin</h5>
+            <table id="SuperAdminTable" class="table table-bordered table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>LocationName</th>
+                        <th>ProcessName</th>
+                        <th>Active_Status</th>
+                        <th>Created_Date</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow row in Model.Rows)
+                    {
+                        <tr>
+                            <td>@row["ID"]</td>
+                            <td>@row["LocationName"]</td>
+                            <td>@row["ProcessName"]</td>
+                            <td>@(row["Active_Status"].ToString() == "1" ? "Yes" : "No")</td>
+                            <td>@row["Created_Date"]</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

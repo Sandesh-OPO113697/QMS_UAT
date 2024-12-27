@@ -17,6 +17,106 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID)
+        {
+            List<string> errorMessages = new List<string>();
+
+            if (string.IsNullOrEmpty(Location_ID) || Location_ID == "Select Location")
+            {
+                errorMessages.Add("Please select a valid location.");
+                TempData["ErrorMessages"] = errorMessages;
+                return RedirectToAction("CreateProcess");
+            }
+            if (string.IsNullOrEmpty(ProgramID))
+            {
+                errorMessages.Add("Please Select Process Name.");
+                TempData["ErrorMessages"] = errorMessages;
+                return RedirectToAction("CreateProcess");
+            }
+
+            if (string.IsNullOrEmpty(SubProcess))
+            {
+                errorMessages.Add("Please Enter Data Sub Process .");
+                TempData["ErrorMessages"] = errorMessages;
+                return RedirectToAction("CreateProcess");
+            }
+
+
+            await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess);
+            errorMessages.Add("Sub-Process Created Sucessfully !");
+            TempData["ErrorMessages"] = errorMessages;
+            return RedirectToAction("CreateProcess");
+
+        }
+
+        public async Task<ActionResult> CreateSubProcess()
+        {
+            var Location = await _admin.GetLocationAsync();
+            ViewBag.Locations = Location;
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> InsertProcess(string Location_ID, string Program, string DataRetentions)
+        {
+            List<string> errorMessages = new List<string>();
+
+            if (string.IsNullOrEmpty(Location_ID) || Location_ID == "Select Location")
+            {
+                errorMessages.Add("Please select a valid location.");
+                TempData["ErrorMessages"] = errorMessages;
+                return RedirectToAction("CreateProcess");
+            }
+            if (string.IsNullOrEmpty(Program))
+            {
+                errorMessages.Add("Please Enter Process Name.");
+                TempData["ErrorMessages"] = errorMessages;
+                return RedirectToAction("CreateProcess");
+            }
+
+            if (string.IsNullOrEmpty(DataRetentions))
+            {
+                errorMessages.Add("Please Enter Data Retention Day .");
+                TempData["ErrorMessages"] = errorMessages;
+                return RedirectToAction("CreateProcess");
+            }
+
+
+            await _admin.InsertProcessDetailsAsync(Location_ID, Program, DataRetentions);
+            errorMessages.Add("Process Created Sucessfully !");
+            TempData["ErrorMessages"] = errorMessages;
+            return RedirectToAction("CreateProcess");
+
+        }
+        public async Task<JsonResult> GetProcessListByLocation(string locationid)
+        {
+            var data = await _admin.GetProcessListByLocation(locationid);
+            var processList = data.AsEnumerable().Select(row => new
+            {
+                id = row["ID"],
+                locationName = row["LocationName"],
+                processName = row["ProcessName"],
+                active_Status = row["Active_Status"]
+                
+            }).ToList();
+
+            return Json(processList);
+        }
+        public async Task<ActionResult> CreateProcess()
+        {
+            var Location = await _admin.GetLocationAsync();
+            ViewBag.Locations = Location;
+           
+            return View();
+        }
+        public async Task<ActionResult> DashBoard()
+        {
+            DataTable dt = await _admin.GetProcessListAsync();
+            return View(dt);
+        }
+
+        [HttpPost]
         public async Task<List<SelectListItem>> GetRoleByRole([FromBody] DropDawnString request)
         {
             string RoleID = request.ID;
@@ -29,17 +129,17 @@ namespace QMS.Controllers
         {
             string RoleID = request.ID;
             string UserName = await _admin.GetUserNameByID(RoleID);
-            var Feture =  await _admin.GetProcessesAndSubAsync(UserName);
+            var Feture = await _admin.GetProcessesAndSubAsync(UserName);
             return Feture;
         }
         [HttpPost]
         public async Task<List<SelectListItem>> GetFeatureByRole([FromBody] DropDawnString request)
         {
             string RoleID = request.ID;
-            var Feture= await _admin.GetFeatureByRole(RoleID);
+            var Feture = await _admin.GetFeatureByRole(RoleID);
             return Feture;
         }
-      
+
         public async Task<ActionResult> FeatureMapping()
         {
             var User = await _admin.GetRoleAsync();

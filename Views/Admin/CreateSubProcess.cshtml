@@ -1,0 +1,161 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@if (TempData["ErrorMessages"] != null)
+{
+    var errorMessages = ((string[])TempData["ErrorMessages"]).ToList();
+    @foreach (var message in errorMessages)
+
+    {
+        <div class="alert alert-primary" id="NotificationDiv" runat="server" role="alert">
+            <span class="fe fe-alert-circle fe-16 mr-2" id="Notif   ication" runat="server">
+                @message
+            </span>
+        </div>
+    }
+
+}
+<div id="UserCardBody" style="visibility:hidden" class="col-md-12 my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <table id="UserTable" style="visibility:hidden" class="table table-bordered table-hover mb-0">
+                <thead>
+                    <tr>
+
+                        <th>ID</th>
+                        <th>LocationName</th>
+
+                        <th>ProcessName</th>
+                        <th>SubProcess</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            @using (Html.BeginForm("InsertSubProcess", "Admin", FormMethod.Post))
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="LocationDropDown">Location Name</label>
+                            @Html.DropDownList("Location_ID", (List<SelectListItem>)ViewBag.Locations, "Select Location", new { @class = "custom-select", id = "Location_ID", onchange = "onLocationChange()" })
+
+                        </div>
+
+
+                        <div class="form-group mb-3">
+                            <label for="SubProcess">SubProcess</label>
+                            <input type="text" id="SubProcess" name="SubProcess" autocomplete="off" class="form-control" />
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="ProgramID">Program Name</label>
+                        <select name="ProgramID" id="ProgramID" class="custom-select" onchange="onProgramChange()">
+                            <option value="">Select Process</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-2 my-4">
+                    <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+<script>
+    function onLocationChange() {
+
+        var Location = $('#Location_ID').val();
+
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: Location }),
+
+            url: "/Admin/GetProcessList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                var dropdown = $('#ProgramID');
+                dropdown.empty();
+                dropdown.append('<option value="">Select Process</option>');
+                response.proces.forEach(function (item) {
+                    dropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+    }
+    function onProgramChange() {
+        var programId = document.getElementById("ProgramID").value;
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: programId }),
+
+            url: "/Admin/GetSUBProcessList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                var tableBody = $('#UserTable tbody');
+                tableBody.empty();
+                var loc = document.getElementById("Location_ID");
+                var locationName = loc.options[loc.selectedIndex].text;
+
+                var proc = document.getElementById("ProgramID");
+                var processName = proc.options[proc.selectedIndex].text;
+
+                
+                var userCardBody = document.getElementById("UserCardBody");
+                var userTable = document.getElementById("UserTable");
+
+                if (response && response.proces && response.proces.length > 0) {
+                    userCardBody.style.visibility = "visible";
+                    userTable.style.visibility = "visible";
+                    response.proces.forEach(function (item) {
+                        var row = `
+                            <tr>
+                                      <td>${item.value}</td>
+                                <td>${locationName}</td>
+                                <td>${processName}</td>
+                                <td>${item.text} </td>
+                            </tr>
+                        `;
+                        tableBody.append(row);
+                    });
+                } else {
+                    userCardBody.style.visibility = "visible";
+                    userTable.style.visibility = "visible";
+                    var row = `<tr><td colspan="3">No data available</td></tr>`;
+                    tableBody.append(row);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
+    }
+</script>
+
+                            

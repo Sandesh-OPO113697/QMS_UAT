@@ -43,7 +43,7 @@ namespace QMS.Controllers
                     {
                         HttpContext.Session.SetString("UserType", "QE");
                     }
-                    return RedirectToAction("Dashboard", "SuperAdmin");
+                    return RedirectToAction("DashBoard", "Admin");
                 }
                 else
                 {

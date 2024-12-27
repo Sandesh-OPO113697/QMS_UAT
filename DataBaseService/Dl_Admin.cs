@@ -19,6 +19,61 @@ namespace QMS.DataBaseService
             _dcl = dL;
         }
 
+        public async Task InsertSubProcessDetailsAsync(string Location_ID, string ProgramID, string SubProcess)
+        {
+
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("CreateSubProcess", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Location", Location_ID);
+                    cmd.Parameters.AddWithValue("@Procesname", ProgramID);
+                    cmd.Parameters.AddWithValue("@Subprogram", SubProcess);
+                    cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+        public async Task InsertProcessDetailsAsync(string Location_ID, string Process, string DataRetention)
+        {
+
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("CreateProcess", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Location", Location_ID);
+                    cmd.Parameters.AddWithValue("@Procesname", Process);
+                    cmd.Parameters.AddWithValue("@dataRetaintion", DataRetention);
+                    cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+        public async Task<DataTable> GetProcessListByLocation(string Location)
+        {
+            string query = "SELECT UM.ID,LM.Location as LocationName,UM.Process as ProcessName,UM.Active_Status, UM.Created_Date FROM Eval_Process UM LEFT JOIN LocationMaster LM ON UM.Location_ID = LM.ID where UM.CreateBy='" + UserInfo.UserName + "'and   UM.Location_ID="+ Location + " ;";
+
+            DataTable dt = await GetDataAsync(query);
+
+            return dt;
+        }
+        public async Task<DataTable> GetProcessListAsync()
+        {
+            string query = "SELECT UM.ID,LM.Location as LocationName,UM.Process as ProcessName,UM.Active_Status, UM.Created_Date FROM Eval_Process UM LEFT JOIN LocationMaster LM ON UM.Location_ID = LM.ID where UM.CreateBy='" + UserInfo.UserName + "' ;";
+
+            DataTable dt = await GetDataAsync(query);
+
+            return dt;
+        }
+
         public async Task <string> GetUserNameByID(string id)
         {
             string query = "SELECT EMPID FROM User_Master WHERE id = @id";
