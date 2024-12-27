@@ -18,25 +18,6 @@
     }
 
 }
-<div id="UserCardBody" style="visibility:hidden" class="col-md-12 my-4">
-    <div class="card shadow">
-        <div class="card-body">
-            <table id="UserTable" style="visibility:hidden" class="table table-bordered table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>LocationName</th>
-
-                        <th>ProcessName</th>
-                        <th>Active_Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 <form action="@Url.Action("InsertProcess", "Admin")" method="post">
     <div class="col-md-12 my-4">
@@ -73,6 +54,53 @@
         </div>
     </div>
 </form>
+
+<div id="UserCardBody" style="visibility:hidden" class="col-md-12 my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <table id="UserTable" style="visibility:hidden" class="table table-bordered table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>LocationName</th>
+
+                        <th>ProcessName</th>
+                        <th>Active_Status</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Process</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="form-group">
+                        <label for="editSubProcess">Process Name</label>
+                        <input type="text" class="form-control" id="editSubProcess" />
+                        <input type="hidden" id="editSubProcessId" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveChanges()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script>
@@ -118,11 +146,121 @@
                     <td>${row.id}</td>
                     <td>${row.locationName}</td>
                     <td>${row.processName}</td>
-                    <td>${row.active_Status ? "Yes" : "No"}</td>
+                         <td>
+                                    <div class="custom-control custom-switch">
+
+                                                        <input type="checkbox" class="custom-control-input" id="chk_${row.id}" ${row.active_Status ? "checked" : ""} onclick="updateStatus('${row.id}', this.checked)" />
+
+                                        <label class="custom-control-label" for="chk_${row.id}"></label>
+                                    </div>
+                                </td>
+                    <td><button class="btn btn-primary btn-sm" onclick="editProcess(${row.id}, '${row.processName}')">Edit</button></td>
+                           
                    
                 </tr>`;
             tableBody.append(tableRow);
         });
+    }
+    function updateStatus(name, isChecked) {
+
+        var status = isChecked ? 1 : 0;
+
+        SaveProcess(name, status);
+
+    }
+
+    function SaveProcess(id , status)
+    {
+        $.ajax({
+            url: '/Admin/ActiveDeActiveProcess',  // Replace with your controller and method name
+            type: 'POST',
+            data: {
+                id: id,
+                isActive: status
+            },
+            success: function (response) {
+                if (response.success) {
+                    alert('Process status updated successfully.');
+                } else {
+                    alert('Error: ' + (response.message || 'An error occurred while updating the status.'));
+                }
+            },
+            error: function () {
+                alert('Error: Failed to communicate with the server.');
+            }
+        });
+
+    }
+
+
+
+    function editProcess(id, currentProcessName) {
+        var newProcessName = prompt("Edit Process Name:", currentProcessName);
+
+        if (newProcessName && newProcessName !== currentProcessName) {
+            $(`#processName_${id}`).text(newProcessName);
+            alert(newProcessName);
+            $.ajax({
+                url: '@Url.Action("UpdateProcessName", "Admin")', 
+                type: 'POST',
+                data: {
+                    id: id,
+                    processName: newProcessName
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Process Name updated successfully.");
+                    } else {
+                        alert("Error updating Process Name.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error updating process name:", error);
+                    alert("Error updating Process Name.");
+                }
+            });
+        }
+    }
+    function editProcess(id, currentName) {
+       
+        $('#editSubProcess').val(currentName);
+        $('#editSubProcessId').val(id);
+        $('#editModal').modal('show');
+    }
+
+    function saveChanges() {
+        var id = $('#editSubProcessId').val();
+        var newProcessName = $('#editSubProcess').val();
+
+        if (newProcessName) {
+            $.ajax({
+                url: '@Url.Action("UpdateProcessName", "Admin")',
+                type: 'POST',
+                data: {
+                    id: id,
+                    processName: newProcessName
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Process Name updated successfully.");
+                        
+                        $('#editModal').modal('hide');
+                        
+                        var row = $(`#UserTable tbody tr`).filter(function () {
+                            return $(this).find('td').first().text() == id;
+                        });
+                        row.find('td').eq(2).text(newProcessName); 
+                        location.reload();
+                    } else {
+                        alert("Error updating Process Name.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error updating process name:", error);
+                    alert("Error updating Process Name.");
+                }
+            });
+        }
     }
 
 </script>

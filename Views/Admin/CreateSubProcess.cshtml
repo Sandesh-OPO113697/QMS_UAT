@@ -18,26 +18,7 @@
     }
 
 }
-<div id="UserCardBody" style="visibility:hidden" class="col-md-12 my-4">
-    <div class="card shadow">
-        <div class="card-body">
-            <table id="UserTable" style="visibility:hidden" class="table table-bordered table-hover mb-0">
-                <thead>
-                    <tr>
 
-                        <th>ID</th>
-                        <th>LocationName</th>
-
-                        <th>ProcessName</th>
-                        <th>SubProcess</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 <div class="col-md-12 my-4">
     <div class="card shadow">
@@ -80,6 +61,56 @@
         </div>
     </div>
 </div>
+
+<div id="UserCardBody" style="visibility:hidden" class="col-md-12 my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <table id="UserTable" style="visibility:hidden" class="table table-bordered table-hover mb-0">
+                <thead>
+                    <tr>
+
+                        <th>ID</th>
+                        <th>LocationName</th>
+
+                        <th>ProcessName</th>
+                        <th>SubProcess</th>
+                        <th>Action</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit SubProcess</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="form-group">
+                        <label for="editSubProcess">SubProcess Name</label>
+                        <input type="text" class="form-control" id="editSubProcess" />
+                        <input type="hidden" id="editSubProcessId" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveChanges()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     function onLocationChange() {
 
@@ -125,7 +156,7 @@
                 var proc = document.getElementById("ProgramID");
                 var processName = proc.options[proc.selectedIndex].text;
 
-                
+
                 var userCardBody = document.getElementById("UserCardBody");
                 var userTable = document.getElementById("UserTable");
 
@@ -133,14 +164,28 @@
                     userCardBody.style.visibility = "visible";
                     userTable.style.visibility = "visible";
                     response.proces.forEach(function (item) {
+                        var textValues = item.text.split(',');
+
+
+                        var firstText = textValues[0];
+                        var secondText = textValues[1];
                         var row = `
-                            <tr>
-                                      <td>${item.value}</td>
-                                <td>${locationName}</td>
-                                <td>${processName}</td>
-                                <td>${item.text} </td>
-                            </tr>
-                        `;
+                                <tr>
+                                          <td>${item.value}</td>
+                                    <td>${locationName}</td>
+                                    <td>${processName}</td>
+                                        <td>${firstText} </td>
+                                             <td>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="chk_${item.value}" ${secondText == "1" ? "checked" : ""} onclick="updateStatus('${item.value}', this.checked)" />
+                            <label class="custom-control-label" for="chk_${item.value}"></label>
+                        </div>
+                    </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="editSubProcess('${item.value}', '${firstText}')">Edit</button>
+                                    </td>
+                                </tr>
+                            `;
                         tableBody.append(row);
                     });
                 } else {
@@ -156,6 +201,60 @@
         });
 
     }
+    function updateStatus(name, isChecked) {
+
+        var status = isChecked ? 1 : 0;
+
+        SaveSUBProcess(name, status);
+
+    }
+    function SaveSUBProcess(id, status) {
+        $.ajax({
+            url: '/Admin/ActiveDeActiveSubProcess',  // Replace with your controller and method name
+            type: 'POST',
+            data: {
+                id: id,
+                isActive: status
+            },
+            success: function (response) {
+                if (response.success) {
+                    alert('Process status updated successfully.');
+                } else {
+                    alert('Error: ' + (response.message || 'An error occurred while updating the status.'));
+                }
+            },
+            error: function () {
+                alert('Error: Failed to communicate with the server.');
+            }
+        });
+
+    }
+    function editSubProcess(id, currentName) {
+        // Populate the modal with current data
+        $('#editSubProcess').val(currentName);
+        $('#editSubProcessId').val(id);
+        $('#editModal').modal('show');
+    }
+
+    function saveChanges() {
+        var updatedName = $('#editSubProcess').val();
+        var subProcessId = $('#editSubProcessId').val();
+
+
+        $.ajax({
+            type: "POST",
+            data: { id: subProcessId, newName: updatedName },
+            url: "/Admin/UpdateSubProcessName",
+
+            success: function () {
+                alert('SubProcess updated successfully!');
+                $('#editModal').modal('hide');
+                onProgramChange(); // Refresh the table
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+    }
 </script>
 
-                            

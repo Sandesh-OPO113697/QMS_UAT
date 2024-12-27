@@ -19,6 +19,74 @@ namespace QMS.DataBaseService
             _dcl = dL;
         }
 
+
+
+        public async Task DeactiveActiveSubProcess(int id, bool isActive)
+        {
+            string status = isActive ? "1" : "0";
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                string query = "UPDATE Eval_SubProcess SET Isactive = @status WHERE ID = @id";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@status", status);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    await con.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+        }
+        public async Task DeactiveActiveProcess(int id, bool isActive)
+        {
+            string status = isActive ? "1" : "0";
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                string query = "UPDATE Eval_Process SET Active_Status = @status WHERE ID = @id";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@status", status);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    await con.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+        }
+        public async Task UpdateProcess(int id, string ProcessName)
+        {
+
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                string query = "UPDATE Eval_Process SET Process = @ProcessName WHERE ID = @id";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@ProcessName", ProcessName);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    await con.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+        }
+        public async Task UpdateSubProcessByName(int id, string ProcessName)
+        {
+
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                string query = "UPDATE Eval_SubProcess SET SubProcessName = @ProcessName WHERE ID = @id";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@ProcessName", ProcessName);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    await con.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+        }
         public async Task InsertSubProcessDetailsAsync(string Location_ID, string ProgramID, string SubProcess)
         {
 
@@ -542,7 +610,7 @@ namespace QMS.DataBaseService
                             Process.Add(new SelectListItem
                             {
                                 Value = reader["id"].ToString(),
-                                Text = reader["SubProcessName"].ToString()
+                                Text = reader["SubProcessName"].ToString() + ","+ reader["IsActive"].ToString()
                             });
                         }
                     }

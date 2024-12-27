@@ -4,6 +4,8 @@ using QMS.DataBaseService;
 using QMS.Models;
 using System;
 using System.Data;
+using System.Data.SqlClient;
+using System.Reflection;
 using System.Text.Json;
 
 namespace QMS.Controllers
@@ -14,6 +16,53 @@ namespace QMS.Controllers
         public AdminController(Dl_Admin adl)
         {
             _admin = adl;
+        }
+        public async Task<JsonResult> ActiveDeActiveSubProcess(int id, int isActive)
+        {
+            try
+            {
+                await _admin.DeactiveActiveSubProcess(id, Convert.ToBoolean(isActive));
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred while updating the status." });
+            }
+        }
+        public async Task<JsonResult> ActiveDeActiveProcess(int id, int isActive)
+        {
+            try
+            {
+                await _admin.DeactiveActiveProcess(id,Convert.ToBoolean(isActive));
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred while updating the status." });
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> UpdateProcessName(int id, string processName)
+        {
+            try
+            {
+                await _admin.UpdateProcess(Convert.ToInt32(id), processName);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false });
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateSubProcessName(int id, string newName)
+        {
+            int subProcessId = Convert.ToInt32(id);
+            await _admin.UpdateSubProcessByName(subProcessId, newName);
+
+            return Json(new { success = true });
         }
 
         [HttpPost]
