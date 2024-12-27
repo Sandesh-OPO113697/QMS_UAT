@@ -39,9 +39,13 @@ namespace QMS.Controllers
                     {
                         HttpContext.Session.SetString("UserType", "Admin");
                     }
-                    if (UserInfo.UserType == "QE")
+                    else if (UserInfo.UserType == "QE")
                     {
                         HttpContext.Session.SetString("UserType", "QE");
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetString("UserType", "AccountUser");
                     }
                     return RedirectToAction("DashBoard", "Admin");
                 }
