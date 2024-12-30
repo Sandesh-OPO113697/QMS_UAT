@@ -19,6 +19,86 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
             _dlcon = conn;
         }
+
+        public async Task<int> CheckUserIsValidAsync(string UserID, string Password)
+        {
+            string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
+            string encUser = await _enc.EncryptAsync(UserID);
+            string encPassword = await _enc.EncryptAsync(Password);
+            int isValid = 0;
+            using (SqlConnection connection = new SqlConnection(Dycon))
+            {
+                using (SqlCommand command = new SqlCommand("CheckUserValid", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserName", encUser);
+                    command.Parameters.AddWithValue("@Operation", "CheckUserValiesOrNot");
+
+                    SqlParameter outputParam = new SqlParameter
+                    {
+                        ParameterName = "@IsValid",
+                        SqlDbType = SqlDbType.Int,
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputParam);
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                    isValid = (int)outputParam.Value;
+                }
+            }
+
+            if (isValid == 1) 
+            {
+                try
+                {
+                    using (SqlConnection connection = new SqlConnection(Dycon))
+                    {
+                        using (SqlCommand command = new SqlCommand("CheckUserValid", connection))
+                        {
+                            command.CommandType = CommandType.StoredProcedure;
+                            command.Parameters.AddWithValue("@UserName", encUser);
+                            command.Parameters.AddWithValue("@Password", encPassword);
+                            command.Parameters.AddWithValue("@Operation", "ResetPassword");
+
+                            SqlParameter outputParam2 = new SqlParameter
+                            {
+                                ParameterName = "@IsValid",
+                                SqlDbType = SqlDbType.Int,
+                                Direction = ParameterDirection.Output
+                            };
+                            command.Parameters.Add(outputParam2);
+
+                            await connection.OpenAsync();
+                            await command.ExecuteNonQueryAsync();
+
+                            
+                            int resetResult = (int)outputParam2.Value;
+
+                            if (resetResult == 1)
+                            {
+                                return 1; 
+                            }
+                            else
+                            {
+                                return 0; 
+                            }
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    return 0;
+                }
+             
+            }
+            else
+            {
+                return 0; 
+            }
+        }
+
+
         public async Task AssignRoleToUser(string UserID , HttpContext httpContext)
         {
             string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);

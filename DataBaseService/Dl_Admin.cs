@@ -127,7 +127,7 @@ namespace QMS.DataBaseService
 
         public async Task<DataTable> GetProcessListByLocation(string Location)
         {
-            string query = "SELECT UM.ID,LM.Location as LocationName,UM.Process as ProcessName,UM.Active_Status, UM.Created_Date FROM Eval_Process UM LEFT JOIN LocationMaster LM ON UM.Location_ID = LM.ID where UM.CreateBy='" + UserInfo.UserName + "'and   UM.Location_ID="+ Location + " ;";
+            string query = "SELECT UM.ID,LM.Location as LocationName,UM.Process as ProcessName,UM.Active_Status, UM.Created_Date FROM Eval_Process UM LEFT JOIN LocationMaster LM ON UM.Location_ID = LM.ID where UM.CreateBy='" + UserInfo.UserName + "'and   UM.Location_ID=" + Location + " ;";
 
             DataTable dt = await GetDataAsync(query);
 
@@ -142,7 +142,7 @@ namespace QMS.DataBaseService
             return dt;
         }
 
-        public async Task <string> GetUserNameByID(string id)
+        public async Task<string> GetUserNameByID(string id)
         {
             string query = "SELECT EMPID FROM User_Master WHERE id = @id";
             string UserName = string.Empty;
@@ -154,13 +154,13 @@ namespace QMS.DataBaseService
                     command.Parameters.AddWithValue("@id", id);
                     var result = await command.ExecuteScalarAsync();
 
-                    UserName= result?.ToString() ?? string.Empty;
+                    UserName = result?.ToString() ?? string.Empty;
                 }
             }
             string Dnc = await _enc.DecryptAsync(UserName);
             return Dnc;
         }
-      
+
 
         public async Task<List<SelectListItem>> GetFeatureByRole(string RoleID)
         {
@@ -248,17 +248,17 @@ namespace QMS.DataBaseService
             {
                 string displayText = $"{row["FeatureName"]}";
                 string value = $"{row["Id"]}";
-                
+
 
                 processes.Add(new SelectListItem
                 {
                     Text = displayText,
                     Value = value,
-                    
+
                 });
             }
             return processes;
-            
+
         }
 
         public async Task AssignRole(string User, string UserName, List<string> Selectedroled)
@@ -271,7 +271,7 @@ namespace QMS.DataBaseService
                 {
                     string[] ids = selectedProcess.Split('-');
                     string processID = ids[0];
-                    
+
 
                     string processNameQuery = "SELECT Role_name FROM [dbo].[Role_Master] WHERE Roleid = @ProcessID";
                     string processName = string.Empty;
@@ -290,7 +290,7 @@ namespace QMS.DataBaseService
                         {
                             cmd.Parameters.AddWithValue("@UserID", User);
                             cmd.Parameters.AddWithValue("@Role_id", processID);
-                            
+
                             var countResult = await cmd.ExecuteScalarAsync();
                             existingCount = Convert.ToInt32(countResult);
                         }
@@ -375,7 +375,7 @@ namespace QMS.DataBaseService
         {
             using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
             {
-                await con.OpenAsync();  
+                await con.OpenAsync();
 
                 foreach (string selectedProcess in SelectedProcesses)
                 {
@@ -388,8 +388,8 @@ namespace QMS.DataBaseService
                     using (SqlCommand cmd = new SqlCommand(processNameQuery, con))
                     {
                         cmd.Parameters.AddWithValue("@ProcessID", processID);
-                        var result = await cmd.ExecuteScalarAsync(); 
-                        processName = result?.ToString(); 
+                        var result = await cmd.ExecuteScalarAsync();
+                        processName = result?.ToString();
                     }
 
                     if (!string.IsNullOrEmpty(processName))
@@ -401,7 +401,7 @@ namespace QMS.DataBaseService
                             cmd.Parameters.AddWithValue("@UserID", User);
                             cmd.Parameters.AddWithValue("@ProcessID", processID);
                             cmd.Parameters.AddWithValue("@SubProcessID", subProcessID);
-                            var countResult = await cmd.ExecuteScalarAsync(); 
+                            var countResult = await cmd.ExecuteScalarAsync();
                             existingCount = Convert.ToInt32(countResult);
                         }
 
@@ -417,7 +417,7 @@ namespace QMS.DataBaseService
                                 cmd.Parameters.AddWithValue("@UserName", UserName);
                                 cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
 
-                                await cmd.ExecuteNonQueryAsync();  
+                                await cmd.ExecuteNonQueryAsync();
                             }
                         }
                     }
@@ -428,9 +428,9 @@ namespace QMS.DataBaseService
 
 
 
-            public async Task<List<SelectListItem>> GetProcessesAndSubAsync(string username)
-            {
-                string query = @"
+        public async Task<List<SelectListItem>> GetProcessesAndSubAsync(string username)
+        {
+            string query = @"
                                     SELECT 
                                     p.ID AS ProcessID, 
                                     sp.id AS SubProcessID, 
@@ -457,25 +457,25 @@ namespace QMS.DataBaseService
                                 WHERE p.Active_Status = 1;
                                 ";
 
-                var processes = new List<SelectListItem>();
-                DataTable dt = await GetDataProcessSUBAsync(query, new SqlParameter("@Username", username));
+            var processes = new List<SelectListItem>();
+            DataTable dt = await GetDataProcessSUBAsync(query, new SqlParameter("@Username", username));
 
-                foreach (DataRow row in dt.Rows)
+            foreach (DataRow row in dt.Rows)
+            {
+                string displayText = $"{row["ProcessName"]} -- {row["SubProcessName"]}";
+                string value = $"{row["ProcessID"]}-{row["SubProcessID"]}";
+                bool isActive = Convert.ToInt32(row["isActive"]) == 1;
+
+                processes.Add(new SelectListItem
                 {
-                    string displayText = $"{row["ProcessName"]} -- {row["SubProcessName"]}";
-                    string value = $"{row["ProcessID"]}-{row["SubProcessID"]}";
-                    bool isActive = Convert.ToInt32(row["isActive"]) == 1;
-
-                    processes.Add(new SelectListItem
-                    {
-                        Text = displayText,
-                        Value = value,
-                        Selected = isActive
-                    });
-                }
-                return processes;
+                    Text = displayText,
+                    Value = value,
+                    Selected = isActive
+                });
             }
-        
+            return processes;
+        }
+
 
         private async Task<DataTable> DecryptDataTableAsyncNamwe(DataTable dt)
         {
@@ -492,17 +492,17 @@ namespace QMS.DataBaseService
         private async Task<DataTable> GetDataProcessSUBAsync(string query, SqlParameter usernameParam)
         {
             DataTable dt = new DataTable();
-            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))  
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
             {
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    
+
                     cmd.Parameters.Add(usernameParam);
 
-                    
+
                     await con.OpenAsync();
 
-                    
+
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
                         await Task.Run(() => da.Fill(dt));
@@ -522,7 +522,7 @@ namespace QMS.DataBaseService
                     await con.OpenAsync();
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        await Task.Run(() => da.Fill(dt));  
+                        await Task.Run(() => da.Fill(dt));
                     }
                 }
             }
@@ -534,10 +534,10 @@ namespace QMS.DataBaseService
         {
             string UserNameENC = await _enc.EncryptAsync(UserID);
             string NameENC = await _enc.EncryptAsync(UserName);
-                string PassENC = await _enc.EncryptAsync(Password);
+            string PassENC = await _enc.EncryptAsync(Password);
             using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
             {
-                await conn.OpenAsync(); 
+                await conn.OpenAsync();
 
                 using (SqlCommand cmd = new SqlCommand("CreateUser", conn))
                 {
@@ -610,7 +610,7 @@ namespace QMS.DataBaseService
                             Process.Add(new SelectListItem
                             {
                                 Value = reader["id"].ToString(),
-                                Text = reader["SubProcessName"].ToString() + ","+ reader["IsActive"].ToString()
+                                Text = reader["SubProcessName"].ToString() + "," + reader["IsActive"].ToString()
                             });
                         }
                     }
@@ -652,7 +652,7 @@ namespace QMS.DataBaseService
         {
             string accountPrefix = string.Empty;
             string accountId = UserInfo.AccountID;
-            string StrCon = await _enc.DecryptAsync( _con);
+            string StrCon = await _enc.DecryptAsync(_con);
             using (SqlConnection conn = new SqlConnection(StrCon))
             {
                 await conn.OpenAsync();
@@ -666,7 +666,7 @@ namespace QMS.DataBaseService
                     {
                         if (await reader.ReadAsync())
                         {
-                            string encryptedPrefix =  reader["AccountPrefix"].ToString();
+                            string encryptedPrefix = reader["AccountPrefix"].ToString();
                             accountPrefix = await _enc.DecryptAsync(encryptedPrefix) + "_";
                         }
                     }

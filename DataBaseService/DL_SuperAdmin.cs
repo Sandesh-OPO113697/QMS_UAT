@@ -41,7 +41,7 @@ namespace QMS.DataBaseService
             }
             catch (Exception ex)
             {
-                
+
             }
         }
 
@@ -49,7 +49,7 @@ namespace QMS.DataBaseService
         {
             using (SqlCommand cmd = new SqlCommand(query, connection))
             {
-                await cmd.ExecuteNonQueryAsync(); 
+                await cmd.ExecuteNonQueryAsync();
             }
         }
 
@@ -66,8 +66,8 @@ namespace QMS.DataBaseService
                 cmd.Parameters.AddWithValue("@SignOn", await _enc.EncryptAsync(signOn));
                 cmd.Parameters.AddWithValue("@Prefix", prefixEnc);
 
-                await conn.OpenAsync(); 
-                await cmd.ExecuteNonQueryAsync(); 
+                await conn.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
             }
         }
 
@@ -84,12 +84,12 @@ namespace QMS.DataBaseService
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Prefix", PrixicENC);
 
-                await conn.OpenAsync(); 
-                int count = (int)await cmd.ExecuteScalarAsync(); 
+                await conn.OpenAsync();
+                int count = (int)await cmd.ExecuteScalarAsync();
 
                 if (count > 0)
                 {
-                    result = true; 
+                    result = true;
                 }
             }
 
@@ -125,7 +125,7 @@ namespace QMS.DataBaseService
                      
                      AND usertype = 'Admin'";
 
-                
+
 
                 using (SqlConnection conn = new SqlConnection(ConnSTR))
                 {
@@ -152,7 +152,7 @@ namespace QMS.DataBaseService
 
             }
             catch (Exception ex) { }
-            
+
             return userList;
         }
 
@@ -166,10 +166,10 @@ namespace QMS.DataBaseService
             string Connstr = await _dcl.GetDynStrByAccountAsync(accountId);
             using (var con = new SqlConnection(Connstr))
             {
-                await con.OpenAsync(); 
+                await con.OpenAsync();
                 foreach (var user in userList.Users)
                 {
-                    var UID = await _enc.EncryptAsync(user.UserID); 
+                    var UID = await _enc.EncryptAsync(user.UserID);
                     string query = "UPDATE User_Master SET isactive = @isactive WHERE Name = @Name";
 
                     using (var cmd = new SqlCommand(query, con))
@@ -194,7 +194,7 @@ namespace QMS.DataBaseService
                     await con.OpenAsync();
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        await Task.Run(() => da.Fill(dt)); // Running synchronous Fill in a Task
+                        await Task.Run(() => da.Fill(dt));
                     }
                 }
             }
@@ -203,10 +203,10 @@ namespace QMS.DataBaseService
         }
         private async Task<DataTable> DecryptDataTable(DataTable dt)
         {
-            // Iterate over each row in the DataTable
+           
             foreach (DataRow row in dt.Rows)
             {
-                // Await the decryption of each value asynchronously
+               
                 row["AccountName"] = await _enc.DecryptAsync(row["AccountName"].ToString());
                 row["Authantication_Type"] = await _enc.DecryptAsync(row["Authantication_Type"].ToString());
             }

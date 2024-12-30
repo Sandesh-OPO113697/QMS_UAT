@@ -14,9 +14,9 @@
     <link href="~/assets/boot/css/bootstrap.rtl.css" rel="stylesheet" />
     <link href="~/assets/boot/css/bootstrap.rtl.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    
-    
-    
+
+
+
     <style>
         .background-radial-gradient {
             background-color: hsl(218, 41%, 15%);
@@ -99,6 +99,21 @@
         .login {
             padding: 30px;
             padding-top: 156px;
+        }
+
+        .custom-alert {
+            
+            margin-top:-50px;
+            color: darkblue;
+            
+            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            margin: 15px 0;
+            margin-left: 82px;
+            margin-top: -45px;
+
         }
 
         .login__field {
@@ -255,6 +270,7 @@
 <body>
 
     <section class="background-radial-gradient overflow-hidden">
+       
         <div class="container   text-center text-lg-start" style="min-width:inherit;max-width:815px;">
             <div class="row gx-lg-5 align-items-center mb-5">
                 <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
@@ -271,32 +287,42 @@
                 <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
                     <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
                     <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+                  
                     <br />
                     <br />
                     <br />
-
+                  
                     <div class="container" style="min-height:inherit;">
                         <div style="border-radius: 20px;" class="screen">
                             <div class="screen__content">
-
+                              
                                 @using (Html.BeginForm("LogIn", "Login", FormMethod.Post, new { @class = "login" }))
                                 {
-
+                                    @if (TempData["LoginMessage"] != null)
+                                    {
+                                        <div class="custom-alert" style="width:100px;">
+                                            @TempData["LoginMessage"]
+                                        </div>
+                                    }
                                     <div class="login__field">
                                         <i class="login__icon fas fa-user"></i>
                                         @Html.TextBox("Username", null, new { @class = "form-control", placeholder = "Enter Username", style = "text-align:center" })
-                                      
+
                                     </div>
                                     <div class="login__field">
                                         <i class="login__icon fas fa-lock"></i>
-                                      
+
                                         @Html.Password("Password", null, new { @class = "form-control", placeholder = "Enter Password", style = "text-align:center" })
                                     </div>
                                     <br />
                                     <br />
                                     <button type="submit" class="button-2  form-control" ID="lnkSubmit">LOGIN</button>
+                                    <button type="submit" class="button-2  form-control" ID="ResetPass" onclick="ResetPassword()"  style="display:none">Reset Password</button>
 
                                 }
+                                <div class="text-center"style="margin-top:-20px; margin-left:100px;">
+                                    <a href="#" id="resetPasswordLink" class="text-light" onclick="openResetPasswordModal()"> Forgot Password?</a>
+                                </div>
                                 <div class="social-login">
                                     <img src="Images/nagalogo.png" style="width: 50%;" />
                                     <div class="social-icons">
@@ -312,13 +338,50 @@
                                 <span class="screen__background__shape screen__background__shape2"></span>
                                 <span class="screen__background__shape screen__background__shape1"></span>
                             </div>
+
                         </div>
                     </div>
+
                 </div>
 
             </div>
         </div>
+     
     </section>
+    <script src="~/js/jquery.min.js"></script>
+    <script>
+        function ResetPassword() {
+            let UserName = document.querySelector('[name="Username"]').value;
+            let password = document.querySelector('[name="Password"]').value;
 
+            
+
+            $.ajax({
+                url: 'LogIn/ResetPassword',
+                type: 'POST',
+                data: { Username: UserName, Password: password },
+                success: function (response) {
+                    if (response.success) {
+                        document.getElementById('lnkSubmit').style.display = 'block';
+                        document.getElementById('ResetPass').style.display = 'none';
+                        alert(response.message || 'Password reset successful!');
+                        location.reload();
+                    } else {
+                        alert(response.message || 'Failed to reset password. Please try again later.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Failed to reset password. Please try again later.');
+                }
+            });
+        }
+
+        function openResetPasswordModal() {
+            document.getElementById('lnkSubmit').style.display = 'none';
+            document.getElementById('ResetPass').style.display = 'block';
+
+        }
+       
+    </script>
 </body>
 </html>
