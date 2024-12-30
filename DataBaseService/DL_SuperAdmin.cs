@@ -80,9 +80,11 @@ namespace QMS.DataBaseService
 
             using (SqlConnection conn = new SqlConnection(STR))
             {
-                string query = "SELECT COUNT(*) FROM AccountDetails WHERE AccountPrefix = @Prefix";
+                string query = "sp_Superadmin";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Prefix", PrixicENC);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@parameter", PrixicENC);
+                cmd.Parameters.AddWithValue("@Mode", "CheckPrefix");
 
                 await conn.OpenAsync(); 
                 int count = (int)await cmd.ExecuteScalarAsync(); 
@@ -102,10 +104,14 @@ namespace QMS.DataBaseService
             string UserIDENC = await _enc.EncryptAsync(UserID);
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string query = "UPDATE User_Master SET isactive = @isActive WHERE EMPID = @EmpID";
+               
+
+                string query = "sp_Superadmin";
                 SqlCommand cmd = new SqlCommand(query, con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@parameter", isActive);
                 cmd.Parameters.AddWithValue("@EmpID", UserIDENC);
-                cmd.Parameters.AddWithValue("@isActive", isActive);
+                cmd.Parameters.AddWithValue("@Mode", "UpdateUserStatus");
 
                 await con.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
@@ -119,11 +125,7 @@ namespace QMS.DataBaseService
             try
             {
                 string ConnSTR = await _dcl.GetDynStrByAccountAsync(AccountID);
-                string query = @"SELECT id, Name, usertype, isactive 
-                     FROM User_Master 
-                     WHERE Account_id = @AccountID 
-                     
-                     AND usertype = 'Admin'";
+                string query = "sp_Superadmin";
 
                 
 
@@ -132,7 +134,9 @@ namespace QMS.DataBaseService
                     await conn.OpenAsync();
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@AccountID", AccountID);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@parameter", AccountID);
+                        cmd.Parameters.AddWithValue("@Mode", "GetUserByAccount");
 
                         using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                         {
@@ -170,12 +174,14 @@ namespace QMS.DataBaseService
                 foreach (var user in userList.Users)
                 {
                     var UID = await _enc.EncryptAsync(user.UserID); 
-                    string query = "UPDATE User_Master SET isactive = @isactive WHERE Name = @Name";
+                    string query = "sp_Superadmin";
 
                     using (var cmd = new SqlCommand(query, con))
                     {
-                        cmd.Parameters.AddWithValue("@isactive", user.IsActive);
-                        cmd.Parameters.AddWithValue("@Name", UID);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Mode", "DeactivateUserByAccoun");
+                        cmd.Parameters.AddWithValue("@parameter", user.IsActive);
+                        cmd.Parameters.AddWithValue("@EMPID", UID);
                         await cmd.ExecuteNonQueryAsync();
                     }
                 }
@@ -188,9 +194,11 @@ namespace QMS.DataBaseService
             DataTable dt = new DataTable();
             using (SqlConnection con = new SqlConnection(Conn))
             {
-                string query = "SELECT AccountID, AccountName, Authantication_Type, Isactive, Create_date FROM AccountDetails";
+                string query = "sp_Superadmin";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "GetAccountDetails");
                     await con.OpenAsync();
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
@@ -221,11 +229,12 @@ namespace QMS.DataBaseService
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string query = "UPDATE AccountDetails SET Isactive = @IsActive WHERE AccountID = @AccountID";
+                string query = "sp_Superadmin";
                 SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@AccountID", accountId);
-                cmd.Parameters.AddWithValue("@IsActive", isActive);
-
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EMPID", accountId);
+                cmd.Parameters.AddWithValue("@parameter", isActive);
+                cmd.Parameters.AddWithValue("@Mode", "UpdateAccountStatusAsy");
                 await con.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
 
@@ -241,9 +250,15 @@ namespace QMS.DataBaseService
             {
                 await conn.OpenAsync();
 
-                string query2 = "SELECT Name, Username, EMPID, Account_id, usertype, isactive FROM User_Master WHERE Account_id = @AccountId";
-                SqlCommand cmd = new SqlCommand(query2, conn);
-                cmd.Parameters.AddWithValue("@AccountId", accountId);
+             
+
+                string query = "sp_Superadmin";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EMPID", accountId);
+              
+                cmd.Parameters.AddWithValue("@Mode", "GetUserByAccountIDAsync");
+
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

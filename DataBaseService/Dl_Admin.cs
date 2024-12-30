@@ -3,6 +3,7 @@ using QMS.Encription;
 using QMS.Models;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace QMS.DataBaseService
@@ -26,9 +27,11 @@ namespace QMS.DataBaseService
             string status = isActive ? "1" : "0";
             using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
             {
-                string query = "UPDATE Eval_SubProcess SET Isactive = @status WHERE ID = @id";
+                string query = "sp_admin";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "Eval_SubProcess");
                     cmd.Parameters.AddWithValue("@status", status);
                     cmd.Parameters.AddWithValue("@id", id);
                     await con.OpenAsync();
@@ -41,12 +44,13 @@ namespace QMS.DataBaseService
             string status = isActive ? "1" : "0";
             using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
             {
-                string query = "UPDATE Eval_Process SET Active_Status = @status WHERE ID = @id";
+                string query = "sp_admin";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "Eval_Process");
                     cmd.Parameters.AddWithValue("@status", status);
                     cmd.Parameters.AddWithValue("@id", id);
-
                     await con.OpenAsync();
                     await cmd.ExecuteNonQueryAsync();
                 }
@@ -58,12 +62,13 @@ namespace QMS.DataBaseService
 
             using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
             {
-                string query = "UPDATE Eval_Process SET Process = @ProcessName WHERE ID = @id";
+                string query = "sp_admin";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@ProcessName", ProcessName);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "Update_ProcessName");
+                    cmd.Parameters.AddWithValue("@status", ProcessName);
                     cmd.Parameters.AddWithValue("@id", id);
-
                     await con.OpenAsync();
                     await cmd.ExecuteNonQueryAsync();
                 }
@@ -75,12 +80,13 @@ namespace QMS.DataBaseService
 
             using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
             {
-                string query = "UPDATE Eval_SubProcess SET SubProcessName = @ProcessName WHERE ID = @id";
+                string query = "sp_admin";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@ProcessName", ProcessName);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "Update_SubProcessName");
+                    cmd.Parameters.AddWithValue("@status", ProcessName);
                     cmd.Parameters.AddWithValue("@id", id);
-
                     await con.OpenAsync();
                     await cmd.ExecuteNonQueryAsync();
                 }
@@ -127,9 +133,21 @@ namespace QMS.DataBaseService
 
         public async Task<DataTable> GetProcessListByLocation(string Location)
         {
-            string query = "SELECT UM.ID,LM.Location as LocationName,UM.Process as ProcessName,UM.Active_Status, UM.Created_Date FROM Eval_Process UM LEFT JOIN LocationMaster LM ON UM.Location_ID = LM.ID where UM.CreateBy='" + UserInfo.UserName + "'and   UM.Location_ID="+ Location + " ;";
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
 
-            DataTable dt = await GetDataAsync(query);
+                using (SqlCommand cmd = new SqlCommand("sp_admin", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@status",UserInfo.UserName);
+                    cmd.Parameters.AddWithValue("@id", Location);
+                    cmd.Parameters.AddWithValue("@Mode", "Update_SubProcessName");
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    await Task.Run(() => adpt.Fill(dt));
+                }
+            }
 
             return dt;
         }
@@ -137,21 +155,40 @@ namespace QMS.DataBaseService
         {
             string query = "SELECT UM.ID,LM.Location as LocationName,UM.Process as ProcessName,UM.Active_Status, UM.Created_Date FROM Eval_Process UM LEFT JOIN LocationMaster LM ON UM.Location_ID = LM.ID where UM.CreateBy='" + UserInfo.UserName + "' ;";
 
-            DataTable dt = await GetDataAsync(query);
+            
+
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("sp_admin", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@status", UserInfo.UserName);
+                    cmd.Parameters.AddWithValue("@Mode", "Get_Process_list");
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    await Task.Run(() => adpt.Fill(dt));
+                }
+            }
 
             return dt;
+
+
         }
 
         public async Task <string> GetUserNameByID(string id)
         {
-            string query = "SELECT EMPID FROM User_Master WHERE id = @id";
+            string query = "sp_admin";
             string UserName = string.Empty;
             using (var connection = new SqlConnection(UserInfo.Dnycon))
             {
                 await connection.OpenAsync();
                 using (var command = new SqlCommand(query, connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@id", id);
+                    command.Parameters.AddWithValue("@Mode", "Get_Empid");
                     var result = await command.ExecuteScalarAsync();
 
                     UserName= result?.ToString() ?? string.Empty;
@@ -164,24 +201,49 @@ namespace QMS.DataBaseService
 
         public async Task<List<SelectListItem>> GetFeatureByRole(string RoleID)
         {
+           
+
+
+
             var processes = new List<SelectListItem>();
-            string query = "select Feature_id , FeatureName from User_Feature_Mapping where Role_id=" + RoleID;
-            DataTable dt = await GetDataAsync(query);
+            string storedProcedure = "sp_admin";
 
-            foreach (DataRow row in dt.Rows)
+            try
             {
-                string displayText = $"{row["FeatureName"]}";
-                string value = $"{row["Feature_id"]}";
-
-
-                processes.Add(new SelectListItem
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
                 {
-                    Text = displayText,
-                    Value = value,
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(storedProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@status", RoleID);
+                        command.Parameters.AddWithValue("@Mode", "GetFeatureByRole");
 
-                });
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                string displayText = reader["FeatureName"].ToString();
+                                string value = reader["Feature_id"].ToString();
+
+                                processes.Add(new SelectListItem
+                                {
+                                    Text = displayText,
+                                    Value = value
+                                });
+                            }
+                        }
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+
             return processes;
+
         }
 
 
@@ -198,23 +260,27 @@ namespace QMS.DataBaseService
                     string processID = ids[0];
 
 
-                    string processNameQuery = "SELECT FeatureName FROM [dbo].[Feature_Master] WHERE ID = @ProcessID";
+                    string processNameQuery = "sp_admin";
                     string processName = string.Empty;
                     using (SqlCommand cmd = new SqlCommand(processNameQuery, con))
                     {
-                        cmd.Parameters.AddWithValue("@ProcessID", processID);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Mode", "AssignFeature");
+                        cmd.Parameters.AddWithValue("@ID", processID);
                         var result = await cmd.ExecuteScalarAsync();
                         processName = result?.ToString();
                     }
 
                     if (!string.IsNullOrEmpty(processName))
                     {
-                        string checkExistenceQuery = "SELECT COUNT(*) FROM User_Feature_Mapping WHERE feature_id = @Role_id AND Role_id = @User_id";
+                        string checkExistenceQuery = "sp_admin";
                         int existingCount = 0;
                         using (SqlCommand cmd = new SqlCommand(checkExistenceQuery, con))
                         {
-                            cmd.Parameters.AddWithValue("@User_id", User);
-                            cmd.Parameters.AddWithValue("@Role_id", processID);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@status", User);
+                            cmd.Parameters.AddWithValue("@id", processID);
+                            cmd.Parameters.AddWithValue("@Mode", "Feature_count");
 
                             var countResult = await cmd.ExecuteScalarAsync();
                             existingCount = Convert.ToInt32(countResult);
@@ -222,9 +288,10 @@ namespace QMS.DataBaseService
 
                         if (existingCount == 0)
                         {
-                            string insertQuery = "INSERT INTO User_Feature_Mapping (Role_id, RoleName, feature_id, FeatureName, CreateDate)VALUES (@User_id, @UserName, @Role_id, @Role_Name, @CreateDate)";
+                            string insertQuery = "InsertUserFeatureMapping";
                             using (SqlCommand cmd = new SqlCommand(insertQuery, con))
                             {
+                                cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.AddWithValue("@Role_id", processID);
                                 cmd.Parameters.AddWithValue("@Role_Name", processName);
                                 cmd.Parameters.AddWithValue("@User_id", User);
@@ -241,8 +308,9 @@ namespace QMS.DataBaseService
         public async Task<List<SelectListItem>> GetFeature()
         {
             var processes = new List<SelectListItem>();
-            string query = "SELECT Id, FeatureName FROM [dbo].[Feature_Master] where Active = 1";
-            DataTable dt = await GetDataAsync(query);
+            string query = "sp_admin";
+            string mode = "GetFeature";
+            DataTable dt = await GetDataAsyncStoredProcedure(query,mode);
 
             foreach (DataRow row in dt.Rows)
             {
@@ -273,23 +341,27 @@ namespace QMS.DataBaseService
                     string processID = ids[0];
                     
 
-                    string processNameQuery = "SELECT Role_name FROM [dbo].[Role_Master] WHERE Roleid = @ProcessID";
+                    string processNameQuery = "sp_admin";
                     string processName = string.Empty;
                     using (SqlCommand cmd = new SqlCommand(processNameQuery, con))
                     {
-                        cmd.Parameters.AddWithValue("@ProcessID", processID);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@id", processID);
+                        cmd.Parameters.AddWithValue("@Mode", "AssignRole");
                         var result = await cmd.ExecuteScalarAsync();
                         processName = result?.ToString();
                     }
 
                     if (!string.IsNullOrEmpty(processName))
                     {
-                        string checkExistenceQuery = "SELECT COUNT(*) FROM User_Role_Mapping WHERE User_id = @UserID AND Role_id = @Role_id ";
+                        string checkExistenceQuery = "sp_admin";
                         int existingCount = 0;
                         using (SqlCommand cmd = new SqlCommand(checkExistenceQuery, con))
                         {
-                            cmd.Parameters.AddWithValue("@UserID", User);
-                            cmd.Parameters.AddWithValue("@Role_id", processID);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Mode", "User_Role_Mapping_Count");
+                            cmd.Parameters.AddWithValue("@id", User);
+                            cmd.Parameters.AddWithValue("@status", processID);
                             
                             var countResult = await cmd.ExecuteScalarAsync();
                             existingCount = Convert.ToInt32(countResult);
@@ -297,15 +369,15 @@ namespace QMS.DataBaseService
 
                         if (existingCount == 0)
                         {
-                            string insertQuery = "INSERT INTO User_Role_Mapping (Role_id, Role_Name, User_id, UserName, CreateDate) VALUES (@Role_id, @Role_Name, @User_id, @UserName, @CreateDate)";
+                            string insertQuery = "InsertUserRoleMapping";
                             using (SqlCommand cmd = new SqlCommand(insertQuery, con))
                             {
+                                cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.AddWithValue("@Role_id", processID);
                                 cmd.Parameters.AddWithValue("@Role_Name", processName);
                                 cmd.Parameters.AddWithValue("@User_id", User);
                                 cmd.Parameters.AddWithValue("@UserName", UserName);
                                 cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
-
                                 await cmd.ExecuteNonQueryAsync();
                             }
                         }
@@ -316,28 +388,10 @@ namespace QMS.DataBaseService
 
         public async Task<List<SelectListItem>> GetRoleAndSubAsync(string username)
         {
-            string query = @"
-                                SELECT 
-                                    RM.Roleid,
-                                    RM.Role_name,
-                                    CASE 
-                                        WHEN URM.Role_id IS NOT NULL THEN 1 
-                                        ELSE 0 
-                                    END AS isActive
-                                FROM 
-                                    [dbo].[Role_Master] RM
-                                LEFT JOIN 
-                                    [dbo].[User_Role_Mapping] URM 
-                                ON 
-                                    RM.Roleid = URM.Role_id 
-                                    AND URM.UserName = @Username
-                                WHERE 
-                                    RM.Active = 1;
-
-                                ";
-
+            string query = "sp_admin";
+            string mode = "GetRoleAndSub";
             var processes = new List<SelectListItem>();
-            DataTable dt = await GetDataProcessSUBAsync(query, new SqlParameter("@Username", username));
+            DataTable dt = await GetDataProcessSUBAsyncStoredProcedure(query, username,mode);
 
             foreach (DataRow row in dt.Rows)
             {
@@ -357,9 +411,10 @@ namespace QMS.DataBaseService
 
         public async Task<List<SelectListItem>> GetUsersAsync()
         {
-            string query = "SELECT ID, Name FROM [dbo].[User_Master] WHERE isactive = 1";
+            string query = "sp_admin";
+            string mode = "GET_User";
             var users = new List<SelectListItem>();
-            DataTable dt = await DecryptDataTableAsyncNamwe(await GetDataAsync(query));
+            DataTable dt = await DecryptDataTableAsyncNamwe(await GetDataAsyncStoredProcedure(query, mode));
             foreach (DataRow row in dt.Rows)
             {
                 users.Add(new SelectListItem
@@ -383,33 +438,37 @@ namespace QMS.DataBaseService
                     string processID = ids[0];
                     string subProcessID = ids[1];
 
-                    string processNameQuery = "SELECT Process FROM [dbo].[Eval_Process] WHERE ID = @ProcessID";
+                    string processNameQuery = "sp_admin";
                     string processName = string.Empty;
                     using (SqlCommand cmd = new SqlCommand(processNameQuery, con))
                     {
-                        cmd.Parameters.AddWithValue("@ProcessID", processID);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@status", processID);
+                        cmd.Parameters.AddWithValue("@Mode", "AssignProcess");
                         var result = await cmd.ExecuteScalarAsync(); 
                         processName = result?.ToString(); 
                     }
 
                     if (!string.IsNullOrEmpty(processName))
                     {
-                        string checkExistenceQuery = "SELECT COUNT(*) FROM User_Program_Mapping WHERE Userid = @UserID AND Proram_id = @ProcessID AND Sub_ProgramId = @SubProcessID";
+                        string checkExistenceQuery = "sp_admin";
                         int existingCount = 0;
                         using (SqlCommand cmd = new SqlCommand(checkExistenceQuery, con))
                         {
+                            cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@UserID", User);
-                            cmd.Parameters.AddWithValue("@ProcessID", processID);
-                            cmd.Parameters.AddWithValue("@SubProcessID", subProcessID);
+                            cmd.Parameters.AddWithValue("@status", processID);
+                            cmd.Parameters.AddWithValue("@Process", subProcessID);
                             var countResult = await cmd.ExecuteScalarAsync(); 
                             existingCount = Convert.ToInt32(countResult);
                         }
 
                         if (existingCount == 0)
                         {
-                            string insertQuery = "INSERT INTO User_Program_Mapping (Proram_id, ProgramName, Sub_ProgramId, Userid, UserName, CreateDate) VALUES (@ProcessID, @ProgramName, @SubProcessID, @UserID, @UserName, @CreateDate)";
+                            string insertQuery = "InsertUserProgramMapping";
                             using (SqlCommand cmd = new SqlCommand(insertQuery, con))
                             {
+                                cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.AddWithValue("@ProcessID", processID);
                                 cmd.Parameters.AddWithValue("@ProgramName", processName);
                                 cmd.Parameters.AddWithValue("@SubProcessID", subProcessID);
@@ -425,40 +484,13 @@ namespace QMS.DataBaseService
             }
         }
 
-
-
-
             public async Task<List<SelectListItem>> GetProcessesAndSubAsync(string username)
             {
-                string query = @"
-                                    SELECT 
-                                    p.ID AS ProcessID, 
-                                    sp.id AS SubProcessID, 
-                                    p.Process AS ProcessName, 
-                                    sp.SubProcessName,
-                                    CASE 
-                                        WHEN p.ID = upm.ProcessID AND sp.id = upm.SubProcessID THEN 1
-                                        WHEN p.ID = upm.ProcessID THEN 1
-                                        ELSE 0
-                                    END AS isActive
-                                FROM Eval_Process p
-                                LEFT JOIN Eval_SubProcess sp 
-                                    ON p.ID = sp.processid
-                                LEFT JOIN (
-                                    SELECT 
-                                        Proram_id AS ProcessID, 
-                                        Sub_ProgramId AS SubProcessID, 
-                                        UserName 
-                                    FROM User_Program_Mapping 
-                                    WHERE UserName = @Username
-                                ) upm
-                                    ON p.ID = upm.ProcessID
-                                    AND (sp.id = upm.SubProcessID OR sp.id IS NULL)
-                                WHERE p.Active_Status = 1;
-                                ";
+            string query = "sp_admin";
+            string mode = "Get_Processes";
 
-                var processes = new List<SelectListItem>();
-                DataTable dt = await GetDataProcessSUBAsync(query, new SqlParameter("@Username", username));
+            var processes = new List<SelectListItem>();
+                DataTable dt = await GetDataProcessSUBAsyncStoredProcedure(query, username, mode);
 
                 foreach (DataRow row in dt.Rows)
                 {
@@ -489,6 +521,7 @@ namespace QMS.DataBaseService
             }
             return dt;
         }
+
         private async Task<DataTable> GetDataProcessSUBAsync(string query, SqlParameter usernameParam)
         {
             DataTable dt = new DataTable();
@@ -512,6 +545,35 @@ namespace QMS.DataBaseService
             return dt;
         }
 
+
+        private async Task<DataTable> GetDataProcessSUBAsyncStoredProcedure(string query, string usernameParam,string mode)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+
+                   
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", mode);
+                    cmd.Parameters.AddWithValue("@status", usernameParam);
+
+                    await con.OpenAsync();
+
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        await Task.Run(() => da.Fill(dt));
+                    }
+                }
+            }
+            return dt;
+        }
+
+
+
+
         private async Task<DataTable> GetDataAsync(string query)
         {
             DataTable dt = new DataTable();
@@ -523,6 +585,26 @@ namespace QMS.DataBaseService
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
                         await Task.Run(() => da.Fill(dt));  
+                    }
+                }
+            }
+            return dt;
+        }
+
+
+        private async Task<DataTable> GetDataAsyncStoredProcedure(string query,string mode)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", mode);
+                    await con.OpenAsync();
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        await Task.Run(() => da.Fill(dt));
                     }
                 }
             }
@@ -710,9 +792,11 @@ namespace QMS.DataBaseService
             string status = isActive ? "1" : "0";
             using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
             {
-                string query = "UPDATE User_Master SET isactive = @status WHERE ID = @id";
+                string query = "sp_admin";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "DeactiveActiveUser");
                     cmd.Parameters.AddWithValue("@status", status);
                     cmd.Parameters.AddWithValue("@id", id);
 
@@ -725,9 +809,9 @@ namespace QMS.DataBaseService
 
         public async Task<DataTable> GetUserListAsync()
         {
-            string query = "SELECT UM.ID,UM.username,UM.usertype  as Role,(SELECT Process FROM Eval_Process WHERE ID = UM.Program_id) AS Process,LM.Location, UM.Created_Date, UM.isactive AS Active_Status FROM User_Master UM LEFT JOIN LocationMaster LM ON UM.Location = LM.ID where UM.CreateBy='" + UserInfo.UserName + "' ;";
-
-            DataTable dt = await GetDataAsync(query);
+            string query = "sp_admin";
+            string mode = "GetUserList";
+            DataTable dt = await GetDataProcessSUBAsyncStoredProcedure(query, UserInfo.UserName,mode);
             if (dt.Rows.Count > 0)
             {
                 DataTable decryptedData2 = await DecryptDataTableAsync(dt);

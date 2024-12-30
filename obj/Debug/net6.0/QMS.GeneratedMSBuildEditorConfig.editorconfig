@@ -9,75 +9,75 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = QMS
 build_property.RootNamespace = QMS
-build_property.ProjectDir = D:\QMS Dash\WEB_QMS\QMS\QMS\
+build_property.ProjectDir = D:\QMS DEVELOPMENT MVC UAT AND DEV CODE\QMS DEV\QMS_MVC_CORE\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\QMS Dash\WEB_QMS\QMS\QMS
+build_property.MSBuildProjectDirectory = D:\QMS DEVELOPMENT MVC UAT AND DEV CODE\QMS DEV\QMS_MVC_CORE
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/CreateProcess.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/Admin/CreateProcess.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlUHJvY2Vzcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/CreateSubProcess.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/Admin/CreateSubProcess.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlU3ViUHJvY2Vzcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/CreateUser.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/Admin/CreateUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlVXNlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/DashBoard.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/Admin/DashBoard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaEJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/FeatureMapping.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/Admin/FeatureMapping.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRmVhdHVyZU1hcHBpbmcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/ProcessAssign.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/Admin/ProcessAssign.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvY2Vzc0Fzc2lnbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/RoleMapping.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/Admin/RoleMapping.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm9sZU1hcHBpbmcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/LogIn/UserLogIn.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/LogIn/UserLogIn.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9nSW5cVXNlckxvZ0luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Shared/Error.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/SuperAdmin/CreateAccount.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/SuperAdmin/CreateAccount.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxDcmVhdGVBY2NvdW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/SuperAdmin/CreateUser.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/SuperAdmin/CreateUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxDcmVhdGVVc2VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/SuperAdmin/Dashboard.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/SuperAdmin/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/_ViewImports.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/_ViewStart.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Shared/_Layout.cshtml]
+[D:/QMS DEVELOPMENT MVC UAT AND DEV CODE/QMS DEV/QMS_MVC_CORE/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-sv6zym35ql

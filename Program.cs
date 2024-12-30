@@ -15,7 +15,6 @@ builder.Services.AddSession(options =>
 
 
 builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddScoped<DLConnection>();
 builder.Services.AddScoped<D_Login>();
 builder.Services.AddScoped<Dl_Admin>();
