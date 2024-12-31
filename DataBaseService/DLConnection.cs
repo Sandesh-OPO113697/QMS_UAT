@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualBasic;
 using QMS.Encription;
 using QMS.Models;
+using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace QMS.DataBaseService
@@ -19,10 +21,9 @@ namespace QMS.DataBaseService
 
         public async Task<string> GetDynStrByAccountAsync(string AccountID)
         {
-            string query = "SELECT Account_DB_IP, Account_db_Name, Account_User_ID, Account_Password FROM AccountDetails WHERE AccountID = @AccountID";
+            string query = "Get_Accountdetails";
             string connString = string.Empty;
 
-            // Await the decryption of the connection string asynchronously
             string Conn = await _enc.DecryptAsync(_con);
 
             using (SqlConnection conn = new SqlConnection(Conn))
@@ -30,6 +31,8 @@ namespace QMS.DataBaseService
                 await conn.OpenAsync();
 
                 SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Mode", "GetDynStrByAccountAsync");
                 cmd.Parameters.AddWithValue("@AccountID", AccountID);
 
                 using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
@@ -67,7 +70,7 @@ namespace QMS.DataBaseService
 
             string Conn = await _enc.DecryptAsync(_con);
 
-            string query = "SELECT Account_DB_IP, Account_db_Name, Account_User_ID, Account_Password FROM AccountDetails WHERE AccountPrefix = @Prifix";
+            string query = "Get_Accountdetails";
 
             using (SqlConnection conn = new SqlConnection(Conn))
             {
@@ -75,7 +78,11 @@ namespace QMS.DataBaseService
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Prifix", RncPrifix);
+                  
+                   
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "GetDynStrByUserIDAsync");
+                    cmd.Parameters.AddWithValue("@AccountID", RncPrifix);
 
                     using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) 
                     {

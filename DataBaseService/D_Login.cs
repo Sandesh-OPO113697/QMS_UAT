@@ -102,43 +102,20 @@ namespace QMS.DataBaseService
         public async Task AssignRoleToUser(string UserID , HttpContext httpContext)
         {
             string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
-            string query = @"
-                SELECT 
-                    upm.Proram_id as Program_id,
-                    upm.ProgramName as ProgramName,
-                    upm.Sub_ProgramId as Sub_ProgramId,
-                    (SELECT SubProcessName FROM [dbo].[Eval_SubProcess] WHERE id = upm.Sub_ProgramId) AS SubProcessName,
-                    upm.Userid as Userid,
-                    urm.Role_Name AS UserRoleName,
-                    ufm.FeatureName as FeatureName
-                FROM 
-                    [dbo].[User_Program_Mapping] upm
-                JOIN 
-                    [dbo].[User_Role_Mapping] urm 
-                    ON upm.Userid = urm.User_Id
-                LEFT JOIN 
-                    [dbo].[User_Feature_Mapping] ufm
-                    ON urm.Role_Name = ufm.RoleName 
-                WHERE 
-                    urm.UserName = @UserName
-                GROUP BY 
-                    upm.Proram_id, 
-                    upm.ProgramName, 
-                    upm.Userid, 
-                    urm.Role_Name, 
-                    upm.Sub_ProgramId, 
-                    ufm.FeatureName";
+            string query = "sp_Superadmin";
             DataTable dt = new DataTable();
 
             try
             {
                 using (SqlConnection connection = new SqlConnection(Dycon))
                 {
-
+                 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@UserName", UserID);
-                       await connection.OpenAsync();
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@mode", "AssignRoleToUserlogin");
+                        command.Parameters.AddWithValue("@EmpID", UserID);
+                        await connection.OpenAsync();
                         SqlDataAdapter adpt = new SqlDataAdapter(command);
                         await Task.Run(() => adpt.Fill(dt));
                     }
@@ -175,6 +152,7 @@ namespace QMS.DataBaseService
             {
 
             }
+
         }
         public async Task<int> CheckAccountUserAsync(string UserID, string Password)
         {
