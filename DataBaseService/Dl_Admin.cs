@@ -153,9 +153,7 @@ namespace QMS.DataBaseService
         }
         public async Task<DataTable> GetProcessListAsync()
         {
-            string query = "SELECT UM.ID,LM.Location as LocationName,UM.Process as ProcessName,UM.Active_Status, UM.Created_Date FROM Eval_Process UM LEFT JOIN LocationMaster LM ON UM.Location_ID = LM.ID where UM.CreateBy='" + UserInfo.UserName + "' ;";
 
-            
 
             DataTable dt = new DataTable();
             using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))

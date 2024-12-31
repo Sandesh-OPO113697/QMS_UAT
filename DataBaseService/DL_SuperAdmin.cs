@@ -202,7 +202,7 @@ namespace QMS.DataBaseService
                     await con.OpenAsync();
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        await Task.Run(() => da.Fill(dt)); // Running synchronous Fill in a Task
+                        await Task.Run(() => da.Fill(dt)); 
                     }
                 }
             }
@@ -211,10 +211,10 @@ namespace QMS.DataBaseService
         }
         private async Task<DataTable> DecryptDataTable(DataTable dt)
         {
-            // Iterate over each row in the DataTable
+            
             foreach (DataRow row in dt.Rows)
             {
-                // Await the decryption of each value asynchronously
+                
                 row["AccountName"] = await _enc.DecryptAsync(row["AccountName"].ToString());
                 row["Authantication_Type"] = await _enc.DecryptAsync(row["Authantication_Type"].ToString());
             }
