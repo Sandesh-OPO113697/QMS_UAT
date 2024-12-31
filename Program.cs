@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using QMS.DataBaseService;
 using QMS.Encription;
+using QMS.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,15 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true; 
     options.Cookie.IsEssential = true; 
 });
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/LogIn/Unauthorized"; // Redirect to unauthorized page if forbidden
+        options.AccessDeniedPath = "/LogIn/Unauthorized"; // Redirect to unauthorized page if forbidden
+    });
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<DLConnection>();
@@ -20,10 +30,34 @@ builder.Services.AddScoped<D_Login>();
 builder.Services.AddScoped<Dl_Admin>();
 builder.Services.AddScoped<DL_SuperAdmin>();
 builder.Services.AddScoped<DL_Encrpt>();
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+app.Use(async (context, next) =>
+{
+    ValidateJWTTocken(context);
+    await next.Invoke(); 
+});
 
+
+void ValidateJWTTocken(HttpContext context)
+{
+    string token = context.Request.Cookies["Token"];
+
+    if (string.IsNullOrEmpty(token))
+    {
+       
+    }
+    else
+    {
+        JWTHelper.AuthenticationRequest(token, context);
+    }
+    
+
+
+}
 
 if (!app.Environment.IsDevelopment())
 {

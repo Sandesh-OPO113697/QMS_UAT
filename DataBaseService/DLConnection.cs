@@ -108,5 +108,10 @@ namespace QMS.DataBaseService
 
             return connString;
         }
+
+        internal void AddTokenToResponse(object response, string token)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

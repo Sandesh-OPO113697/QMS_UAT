@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using QMS.Encription;
 using QMS.Models;
 using System.Data;
@@ -13,11 +14,14 @@ namespace QMS.DataBaseService
         private readonly string _con;
         private readonly DL_Encrpt _enc;
         private readonly DLConnection _dlcon;
-        public D_Login(IConfiguration configuration, DL_Encrpt dL_Encrpt, DLConnection conn)
+        private readonly HttpResponse response;
+        public D_Login(IConfiguration configuration, DL_Encrpt dL_Encrpt, DLConnection conn , IHttpContextAccessor httpContextAccessor)
         {
             _con = configuration.GetConnectionString("Master_Con");
             _enc = dL_Encrpt;
             _dlcon = conn;
+            this.response = httpContextAccessor.HttpContext?.Response;
+            ;
         }
 
         public async Task<int> CheckUserIsValidAsync(string UserID, string Password)
@@ -48,7 +52,7 @@ namespace QMS.DataBaseService
                 }
             }
 
-            if (isValid == 1) 
+            if (isValid == 1)
             {
                 try
                 {
@@ -72,34 +76,34 @@ namespace QMS.DataBaseService
                             await connection.OpenAsync();
                             await command.ExecuteNonQueryAsync();
 
-                            
+
                             int resetResult = (int)outputParam2.Value;
 
                             if (resetResult == 1)
                             {
-                                return 1; 
+                                return 1;
                             }
                             else
                             {
-                                return 0; 
+                                return 0;
                             }
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return 0;
                 }
-             
+
             }
             else
             {
-                return 0; 
+                return 0;
             }
         }
 
 
-        public async Task AssignRoleToUser(string UserID , HttpContext httpContext)
+        public async Task AssignRoleToUser(string UserID, HttpContext httpContext)
         {
             string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
             string query = "sp_Superadmin";
@@ -109,7 +113,7 @@ namespace QMS.DataBaseService
             {
                 using (SqlConnection connection = new SqlConnection(Dycon))
                 {
-                 
+
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
@@ -143,7 +147,7 @@ namespace QMS.DataBaseService
                 List<string> distinctFeatureNames = dt.AsEnumerable().Select(row => row["FeatureName"].ToString()).Distinct().ToList();
                 UserAcesslevel.DistinctFeatureNames = distinctFeatureNames;
                 httpContext.Session.SetString("FeatureList", JsonConvert.SerializeObject(distinctFeatureNames));
-                var groupedData = dt.AsEnumerable().GroupBy(row => new{RoleName = row["UserRoleName"].ToString(), }).ToDictionary(
+                var groupedData = dt.AsEnumerable().GroupBy(row => new { RoleName = row["UserRoleName"].ToString(), }).ToDictionary(
                             g => g.Key.RoleName,
                             g => g.Select(row => row["FeatureName"].ToString()).Distinct().ToList());
                 httpContext.Session.SetString("RoleFeatureMapping", JsonConvert.SerializeObject(groupedData));
@@ -181,7 +185,21 @@ namespace QMS.DataBaseService
                         UserInfo.LocationID = dt.Rows[0]["Location"].ToString();
                         UserInfo.AccountID = dt.Rows[0]["Account_id"].ToString();
 
+                        string token = JWTHelper.CreateJWTToken(UserID, UserInfo.UserType);
+                        if (token != null)
+                        {
 
+
+                            response.Cookies.Append("Token", token, new CookieOptions
+                            {
+                                HttpOnly = true, // Makes the cookie accessible only via HTTP requests
+                                Secure = true, // Ensures the cookie is sent over HTTPS
+                                SameSite = SameSiteMode.Strict, // Provides CSRF protection
+                                Expires = DateTimeOffset.UtcNow.AddHours(1) // Set expiry time as per your requirement
+                            });
+
+
+                        }
                         return 1;
                     }
                     else
@@ -222,8 +240,25 @@ namespace QMS.DataBaseService
                     if (dt.Rows.Count > 0)
                     {
                         UserInfo.UserType = await _enc.DecryptAsync(dt.Rows[0]["usertype"].ToString());
+                        string token = JWTHelper.CreateJWTToken(UserID, UserInfo.UserType);
+                        if (token != null)
+                        {
+
+
+                            response.Cookies.Append("Token", token, new CookieOptions
+                            {
+                                HttpOnly = true, // Makes the cookie accessible only via HTTP requests
+                                Secure = true, // Ensures the cookie is sent over HTTPS
+                                SameSite = SameSiteMode.Strict, // Provides CSRF protection
+                                Expires = DateTimeOffset.UtcNow.AddHours(1) // Set expiry time as per your requirement
+                            });
+
+
+                        }
+
                         return 1;
                     }
+
 
                 }
 

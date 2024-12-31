@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.ResponseCompression;
 using QMS.DataBaseService;
@@ -92,6 +93,8 @@ namespace QMS.Controllers
             var data = await _super.GetUserByAccountAsync(AccountID);
             return Json(data);
         }
+
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Dashboard()
         {
 

@@ -49,9 +49,17 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Http": {
+              "target": "Package",
+              "version": "[2.2.2, )"
+            },
             "Microsoft.AspNetCore.Session": {
               "target": "Package",
               "version": "[2.2.0, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[8.3.0, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
@@ -68,6 +76,10 @@
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.9.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.3.0, )"
             }
           },
           "imports": [

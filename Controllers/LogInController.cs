@@ -10,15 +10,19 @@ namespace QMS.Controllers
     {
         private readonly D_Login _login;
         private readonly DLConnection _dlcon;
-        public LogInController(D_Login dl, DLConnection dlcon)
+        private readonly HttpResponse response;
+        public LogInController(D_Login dl, DLConnection dlcon ,  IHttpContextAccessor httpContextAccessor)
         {
             _login = dl;
             _dlcon = dlcon;
+            this.response = httpContextAccessor.HttpContext?.Response;
         }
         public ActionResult UserLogIn()
         {
+            response.Cookies.Delete("Token");
             return View();
         }
+
         [HttpPost]
         public async Task<JsonResult> ResetPassword(string Username, string Password)
         {
@@ -29,7 +33,6 @@ namespace QMS.Controllers
             }
             else
             {
-
                 int Result = await _login.CheckUserIsValidAsync(Username , Password);
                 if (Result == 1)
                 {
@@ -39,16 +42,14 @@ namespace QMS.Controllers
                 {
                     return Json(new { success = false, message = "Failed to reset password. Please try again later." });
                 }
-            }
-           
-         
+            }         
         }
 
 
         [HttpPost]
         public async Task<ActionResult> Login(string Username, string Password)
         {
-            int IsSuperAdmun = await _login.CheckSuperAdminIsValid(Username, Password);
+            int IsSuperAdmun = await _login.CheckSuperAdminIsValid(Username, Password );
             if (IsSuperAdmun == 1)
             {
                 HttpContext.Session.SetString("UserType", "SuperAdmin");
@@ -58,8 +59,6 @@ namespace QMS.Controllers
             {
                 await _login.AssignRoleToUser(Username, HttpContext);
                 int IsValid = await _login.CheckAccountUserAsync(Username, Password);
-
-
                 if (IsValid == 1)
                 {
                     if (UserInfo.UserType == "Admin")
@@ -84,5 +83,12 @@ namespace QMS.Controllers
                 }
             }
         }
+
+        public async Task<ActionResult> Unauthorized()
+        {
+            return View();
+        }
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QMS.DataBaseService;
 using QMS.Models;
@@ -159,6 +160,8 @@ namespace QMS.Controllers
            
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DashBoard()
         {
             DataTable dt = await _admin.GetProcessListAsync();
