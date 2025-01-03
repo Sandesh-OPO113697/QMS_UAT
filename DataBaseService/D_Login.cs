@@ -105,7 +105,7 @@ namespace QMS.DataBaseService
 
         public async Task AssignRoleToUser(string UserID, HttpContext httpContext)
         {
-            string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
+                string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
             string query = "sp_Superadmin";
             DataTable dt = new DataTable();
 
@@ -185,21 +185,21 @@ namespace QMS.DataBaseService
                         UserInfo.LocationID = dt.Rows[0]["Location"].ToString();
                         UserInfo.AccountID = dt.Rows[0]["Account_id"].ToString();
 
-                        string token = JWTHelper.CreateJWTToken(UserID, UserInfo.UserType);
-                        if (token != null)
-                        {
+                        //string token = JWTHelper.CreateJWTToken(UserID, UserInfo.UserType);
+                        //if (token != null)
+                        //{
 
 
-                            response.Cookies.Append("Token", token, new CookieOptions
-                            {
-                                HttpOnly = true, // Makes the cookie accessible only via HTTP requests
-                                Secure = true, // Ensures the cookie is sent over HTTPS
-                                SameSite = SameSiteMode.Strict, // Provides CSRF protection
-                                Expires = DateTimeOffset.UtcNow.AddHours(1) // Set expiry time as per your requirement
-                            });
+                        //    response.Cookies.Append("Token", token, new CookieOptions
+                        //    {
+                        //        HttpOnly = true, 
+                        //        Secure = true,
+                        //        SameSite = SameSiteMode.Strict, 
+                        //        Expires = DateTimeOffset.UtcNow.AddHours(1) 
+                        //    });
 
 
-                        }
+                        //}
                         return 1;
                     }
                     else
@@ -240,21 +240,21 @@ namespace QMS.DataBaseService
                     if (dt.Rows.Count > 0)
                     {
                         UserInfo.UserType = await _enc.DecryptAsync(dt.Rows[0]["usertype"].ToString());
-                        string token = JWTHelper.CreateJWTToken(UserID, UserInfo.UserType);
-                        if (token != null)
-                        {
+                        //string token = JWTHelper.CreateJWTToken(UserID, UserInfo.UserType);
+                        //if (token != null)
+                        //{
 
 
-                            response.Cookies.Append("Token", token, new CookieOptions
-                            {
-                                HttpOnly = true, // Makes the cookie accessible only via HTTP requests
-                                Secure = true, // Ensures the cookie is sent over HTTPS
-                                SameSite = SameSiteMode.Strict, // Provides CSRF protection
-                                Expires = DateTimeOffset.UtcNow.AddHours(1) // Set expiry time as per your requirement
-                            });
+                        //    response.Cookies.Append("Token", token, new CookieOptions
+                        //    {
+                        //        HttpOnly = true, // Makes the cookie accessible only via HTTP requests
+                        //        Secure = true, // Ensures the cookie is sent over HTTPS
+                        //        SameSite = SameSiteMode.Strict, // Provides CSRF protection
+                        //        Expires = DateTimeOffset.UtcNow.AddHours(1) // Set expiry time as per your requirement
+                        //    });
 
 
-                        }
+                        //}
 
                         return 1;
                     }

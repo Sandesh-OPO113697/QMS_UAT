@@ -94,7 +94,7 @@ namespace QMS.Controllers
             return Json(data);
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        
         public async Task<IActionResult> Dashboard()
         {
 

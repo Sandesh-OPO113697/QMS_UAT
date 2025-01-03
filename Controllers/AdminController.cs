@@ -161,7 +161,7 @@ namespace QMS.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        
         public async Task<ActionResult> DashBoard()
         {
             DataTable dt = await _admin.GetProcessListAsync();

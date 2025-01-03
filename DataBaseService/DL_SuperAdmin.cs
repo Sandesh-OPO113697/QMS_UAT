@@ -28,7 +28,7 @@ namespace QMS.DataBaseService
                 string connectionString = await _enc.DecryptAsync(_con);
                 string createDatabaseQuery =
                     $"IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = '{accountName}') CREATE DATABASE {accountName}";
-                string sqlScript = await File.ReadAllTextAsync(@"D:\QMSSCRIPT.sql");
+                string sqlScript = await File.ReadAllTextAsync(@"D:\Script\Account_Script_QMS.sql");
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
@@ -52,8 +52,8 @@ namespace QMS.DataBaseService
                 await cmd.ExecuteNonQueryAsync();
             }
         }
-
-        public async Task InsertAccountAsync(string accountName, string signOn, string prefix)
+ 
+        public async Task InsertAccountAsync(string accountName, string prefix, string signOn)
         {
             string prefixEnc = await _enc.EncryptAsync(prefix);
             string connectionString = await _enc.DecryptAsync(_con);

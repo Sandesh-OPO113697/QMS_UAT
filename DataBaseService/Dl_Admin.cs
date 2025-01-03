@@ -460,7 +460,8 @@ namespace QMS.DataBaseService
                         using (SqlCommand cmd = new SqlCommand(checkExistenceQuery, con))
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.AddWithValue("@UserID", User);
+                            cmd.Parameters.AddWithValue("@id", User);
+                            cmd.Parameters.AddWithValue("@Mode", "AssignProcessCount");
 
                             cmd.Parameters.AddWithValue("@status", processID);
                             cmd.Parameters.AddWithValue("@Process", subProcessID);

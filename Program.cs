@@ -35,11 +35,11 @@ builder.Services.AddScoped<DL_Encrpt>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-app.Use(async (context, next) =>
-{
-    ValidateJWTTocken(context);
-    await next.Invoke(); 
-});
+//app.Use(async (context, next) =>
+//{
+//    ValidateJWTTocken(context);
+//    await next.Invoke(); 
+//});
 
 
 void ValidateJWTTocken(HttpContext context)
