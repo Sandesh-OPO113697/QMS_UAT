@@ -150,6 +150,13 @@ C:\Users\opo113697\Desktop\QMS_Dev\obj\Debug\net6.0\refint\QMS.dll
 C:\Users\opo113697\Desktop\QMS_Dev\obj\Debug\net6.0\QMS.pdb
 C:\Users\opo113697\Desktop\QMS_Dev\obj\Debug\net6.0\QMS.genruntimeconfig.cache
 C:\Users\opo113697\Desktop\QMS_Dev\obj\Debug\net6.0\ref\QMS.dll
+D:\QMS DEVELOPMENT MVC UAT AND DEV CODE\QMS DEV\QMS_MVC_CORE\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\QMS DEVELOPMENT MVC UAT AND DEV CODE\QMS DEV\QMS_MVC_CORE\bin\Debug\net6.0\Microsoft.Bcl.TimeProvider.dll
+D:\QMS DEVELOPMENT MVC UAT AND DEV CODE\QMS DEV\QMS_MVC_CORE\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\QMS DEVELOPMENT MVC UAT AND DEV CODE\QMS DEV\QMS_MVC_CORE\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\QMS DEVELOPMENT MVC UAT AND DEV CODE\QMS DEV\QMS_MVC_CORE\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\QMS DEVELOPMENT MVC UAT AND DEV CODE\QMS DEV\QMS_MVC_CORE\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\QMS DEVELOPMENT MVC UAT AND DEV CODE\QMS DEV\QMS_MVC_CORE\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
 D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Debug\net6.0\appsettings.Development.json
 D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Debug\net6.0\appsettings.json
 D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Debug\net6.0\QMS.staticwebassets.runtime.json

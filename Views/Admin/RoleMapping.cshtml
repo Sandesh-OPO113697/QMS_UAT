@@ -38,14 +38,12 @@
                             <label for="custom-select-1">Select Role</label>
                             @foreach (var item in checkBoxList)
                             {
-
-
-
                                 <div>
-                                    <input type="checkbox"
+                                    
+                                     <input type="checkbox"
                                            name="selectedProcesses"
                                            value="@item.Value"
-                                           id="@item.Value"
+                                           id="@item.Value" 
                                            class="process-checkbox" />
                                     <label for="@item.Value">@item.Text</label>
                                 </div>
@@ -77,14 +75,19 @@
             success: function (response) {
                 console.log(JSON.stringify(response))
                 $(".process-checkbox").prop("checked", false);
-               
+
+
                 response.forEach(function (item) {
+                    // Log the value of the checkbox and response to compare
+                    console.log("Comparing checkbox id: " + item.value + " with checkbox id: " + $("#" + item.value).attr('id'));
+
                     if (item.selected) {
                        
-                        $("#" + item.value).prop("checked", true);
+                        console.log("Checked checkbox with id: " + item.value);
+                    } else {
+                        $("#" + item.value).prop("checked", true); // Check the checkbox
                     }
                 });
-               
 
             },
             error: function (xhr, status, error) {

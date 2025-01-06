@@ -197,6 +197,28 @@ namespace QMS.DataBaseService
         }
 
 
+        public async Task<string> GetRoleNameByID(string id)
+        {
+            string query = "sp_admin";
+            string UserName = string.Empty;
+            using (var connection = new SqlConnection(UserInfo.Dnycon))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@id", id);
+                    command.Parameters.AddWithValue("@Mode", "Get_RoleNameByUser");
+                    var result = await command.ExecuteScalarAsync();
+
+                    UserName = result?.ToString() ?? string.Empty;
+                }
+            }
+            
+            return UserName;
+        }
+
+
         public async Task<List<SelectListItem>> GetFeatureByRole(string RoleID)
         {
            
@@ -215,7 +237,7 @@ namespace QMS.DataBaseService
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@status", RoleID);
-                        command.Parameters.AddWithValue("@Mode", "GetFeatureByRole");
+                        command.Parameters.AddWithValue("@Mode", "GetFeatureOnRole");
 
                         using (var reader = await command.ExecuteReaderAsync())
                         {
@@ -388,6 +410,29 @@ namespace QMS.DataBaseService
             }
         }
 
+
+        public async Task<List<SelectListItem>> GetFetureByRoleAsync(string username)
+        {
+            string query = "sp_admin";
+            string mode = "GetFeatureByRoleBasis";
+            var processes = new List<SelectListItem>();
+            DataTable dt = await GetFeatureNameByRole(query, username, mode);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string displayText = $"{row["RoleName"]}";
+                string value = $"{row["Role_id"]}";
+                
+
+                processes.Add(new SelectListItem
+                {
+                    Text = displayText,
+                    Value = value,
+                   
+                });
+            }
+            return processes;
+        }
         public async Task<List<SelectListItem>> GetRoleAndSubAsync(string username)
         {
             string query = "sp_admin";
@@ -406,6 +451,29 @@ namespace QMS.DataBaseService
                     Text = displayText,
                     Value = value,
                     Selected = isActive
+                });
+            }
+            return processes;
+        }
+
+        public async Task<List<SelectListItem>> GetRoleOnBasicName(string username)
+        {
+            string query = "sp_admin";
+            string mode = "Get_RolesByUserName";
+            var processes = new List<SelectListItem>();
+            DataTable dt = await GetDataProcessSUBAsyncStoredProcedure(query, username, mode);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string displayText = $"{row["Role_Name"]}";
+                string value = $"{row["Role_id"]}";
+                
+
+                processes.Add(new SelectListItem
+                {
+                    Text = displayText,
+                    Value = value,
+                    
                 });
             }
             return processes;
@@ -551,6 +619,33 @@ namespace QMS.DataBaseService
         }
 
 
+        private async Task<DataTable> GetFeatureNameByRole(string query, string usernameParam, string mode)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", mode);
+                    cmd.Parameters.AddWithValue("@status", usernameParam);
+
+                    await con.OpenAsync();
+
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        await Task.Run(() => da.Fill(dt));
+                    }
+                }
+            }
+            return dt;
+        }
+
+
+
         private async Task<DataTable> GetDataProcessSUBAsyncStoredProcedure(string query, string usernameParam,string mode)
         {
             DataTable dt = new DataTable();
@@ -636,7 +731,7 @@ namespace QMS.DataBaseService
                     cmd.Parameters.AddWithValue("@SubProcesname", SUBProgramID);
                     cmd.Parameters.AddWithValue("@Role", Role_ID);
                     cmd.Parameters.AddWithValue("@AccountID", UserInfo.AccountID);
-                    cmd.Parameters.AddWithValue("@UserNamedrp", UserInfo.UserName);
+                    cmd.Parameters.AddWithValue("@UserNamedrp", UserID);
                     cmd.Parameters.AddWithValue("@Name", NameENC);
                     cmd.Parameters.AddWithValue("@Phone", PhoneNumber);
                     cmd.Parameters.AddWithValue("@Procesname", SUBProgramID);

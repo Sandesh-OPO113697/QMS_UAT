@@ -173,8 +173,8 @@ namespace QMS.Controllers
         {
             string RoleID = request.ID;
             string UserName = await _admin.GetUserNameByID(RoleID);
-            var Feture = await _admin.GetRoleAndSubAsync(UserName);
-            return Feture;
+            var UserRoles = await _admin.GetRoleOnBasicName(UserName);
+            return UserRoles;
         }
         [HttpPost]
         public async Task<List<SelectListItem>> GetProgramByRole([FromBody] DropDawnString request)
@@ -312,12 +312,12 @@ namespace QMS.Controllers
                 return RedirectToAction("CreateUser");
             }
 
-            if (string.IsNullOrEmpty(Password))
-            {
-                errorMessages.Add("Password must be at least 6 characters long.");
-                TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateUser");
-            }
+            //if (string.IsNullOrEmpty(Password))
+            //{
+            //    errorMessages.Add("Password must be at least 6 characters long.");
+            //    TempData["ErrorMessages"] = errorMessages;
+            //    return RedirectToAction("CreateUser");
+            //}
 
             if (string.IsNullOrEmpty(UserName))
             {

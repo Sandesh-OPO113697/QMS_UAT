@@ -72,9 +72,10 @@
     function OnRoleChange(dropdawon) { 
         
         var Role = dropdawon.value;
+   
        
         $.ajax({
-            url: '@Url.Action("GetProgramByRole", "Admin")',
+            url: '@Url.Action("GetFeatureByRole", "Admin")',
             type: 'POST',
             contentType: 'application/json', 
             data: JSON.stringify({ ID: Role }),

@@ -30,13 +30,23 @@ namespace QMS.DataBaseService
                     $"IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = '{accountName}') CREATE DATABASE {accountName}";
                 string sqlScript = await File.ReadAllTextAsync(@"D:\Script\Account_Script_QMS.sql");
 
+                string[] batches = sqlScript.Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     await conn.OpenAsync();
                     await ExecuteQueryAsync(conn, createDatabaseQuery);
                     string useDatabaseQuery = $"USE {accountName};";
                     await ExecuteQueryAsync(conn, useDatabaseQuery);
-                    await ExecuteQueryAsync(conn, sqlScript);
+
+                    foreach (var batch in batches)
+                    {
+                        string trimmedBatch = batch.Trim();
+                        if (!string.IsNullOrWhiteSpace(trimmedBatch))
+                        {
+                            await ExecuteQueryAsync(conn, trimmedBatch);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -45,10 +55,19 @@ namespace QMS.DataBaseService
             }
         }
 
+
+
+
         private async Task ExecuteQueryAsync(SqlConnection connection, string query)
         {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                throw new ArgumentException("Query cannot be null or empty.", nameof(query));
+            }
+
             using (SqlCommand cmd = new SqlCommand(query, connection))
             {
+                cmd.CommandText = query; // Ensure CommandText is set properly
                 await cmd.ExecuteNonQueryAsync();
             }
         }
