@@ -137,6 +137,9 @@
         <div class="card-body d-flex justify-content-center align-items-center">
             <button type="submit" class="btn btn-primary">Create User</button>
         </div>
+
+        <div id="errorMessages" style="color: red;"></div>
+
     </div>
 </form>
 
@@ -253,4 +256,76 @@
             }
         });
     }
+
+
+
+    document.querySelector("form").addEventListener("submit", function (event) {
+        const errors = [];
+        const location = document.getElementById("Location_ID").value;
+        const program = document.getElementById("ProgramID").value;
+        const subProgram = document.getElementById("SUBProgramID").value;
+        const role = document.getElementById("Role_ID").value;
+        const userId = document.getElementById("txtUsername").value;
+        const password = document.getElementById("txtPassword").value;
+        const userName = document.getElementById("txtUserName").value;
+        const phoneNumber = document.getElementById("txtPhone").value;
+
+      
+        if (!location || location === "Select Location") {
+            errors.push("Please select a valid location.");
+        }
+
+      
+        if (!program || program === "") {
+            errors.push("Please select a valid program.");
+        }
+
+        
+        if (!role || role === "Select Role") {
+            errors.push("Please select a valid role.");
+        }
+
+       
+        if (!userId || userId === "____") {
+            errors.push("User ID cannot be empty or default value.");
+        }
+
+       
+        if (!password || password.length < 6) {
+            errors.push("Password must be at least 6 characters long.");
+        }
+
+       
+        if (!userName) {
+            errors.push("User Name cannot be empty.");
+        }
+
+       
+        if (!phoneNumber || phoneNumber.length !== 10 || !/^\d+$/.test(phoneNumber)) {
+            errors.push("Phone Number must be exactly 10 digits.");
+        }
+
+       
+        if (errors.length > 0) {
+            event.preventDefault(); 
+            alert(errors.join("\n"));
+        }
+    });
+
+   
+    function restrictBackspace(event) {
+        if (event.target.value === "____" && event.inputType === "deleteContentBackward") {
+            event.target.value = "____"; 
+        }
+    }
+
+   
+    function validatePhone(input) {
+        input.value = input.value.replace(/[^0-9]/g, ""); 
+        if (input.value.length > 10) {
+            input.value = input.value.slice(0, 10); 
+        }
+    }
+
+
 </script>

@@ -312,12 +312,12 @@ namespace QMS.Controllers
                 return RedirectToAction("CreateUser");
             }
 
-            if (string.IsNullOrEmpty(Password))
-            {
-                errorMessages.Add("Password must be at least 6 characters long.");
-                TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateUser");
-            }
+            //if (string.IsNullOrEmpty(Password))
+            //{
+            //    errorMessages.Add("Password must be at least 6 characters long.");
+            //    TempData["ErrorMessages"] = errorMessages;
+            //    return RedirectToAction("CreateUser");
+            //}
 
             if (string.IsNullOrEmpty(UserName))
             {
