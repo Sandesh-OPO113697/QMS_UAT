@@ -191,6 +191,11 @@ namespace QMS.Controllers
             var Feture = await _admin.GetFeatureByRole(RoleID);
             return Feture;
         }
+        public async Task<JsonResult> GetSubFeatures(int featureId)
+        {
+            var subFeatures = await _admin.GetSubFeatureByDeture(featureId);
+            return Json(subFeatures);
+        }
 
         public async Task<ActionResult> FeatureMapping()
         {
@@ -200,23 +205,39 @@ namespace QMS.Controllers
             ViewBag.Feature = Feature;
             return View();
         }
+       
+
         [HttpPost]
-        public async Task<ActionResult> FeatureInsert(ProcessAssignViewModel model)
+        public async Task<JsonResult> SubmitFeatureSelection([FromBody] FeatureMappingModel data)
         {
-            if (string.IsNullOrEmpty(model.User_ID) || model.User_ID == "Select Role")
+            try
             {
-                TempData["RoleCreate"] = "Select Role";
-                return RedirectToAction("FeatureMapping");
+                string userId = data.UserId;
+                string userName = data.UserName;
+                List<string> features = data.FeatureList;
+                List<string> subFeatures = data.SubFeatureList;
+                await _admin.AssignFeature(userId, userName, features , subFeatures);
+                return Json(new { success = true, message = "Features submitted successfully!" });
             }
-            else
+            catch (Exception ex)
             {
-                await _admin.AssignFeature(model.User_ID, model.UserName, model.SelectedProcesses);
-                TempData["RoleCreate"] = "Feature Map SucessFully";
+                return Json(new { success = false, message = ex.Message });
             }
-
-            return RedirectToAction("FeatureMapping");
-
         }
+
+
+
+        [HttpPost]
+        public async Task<ActionResult> FeatureInsert(List<int> selectedFeatures, List<int> selectedSubFeatures)
+        {
+            if (selectedFeatures != null && selectedSubFeatures != null)
+            {
+                
+            }
+            
+            return RedirectToAction("FeatureMapping");
+        }
+
 
         [HttpPost]
         public async Task<ActionResult> RoleInsert(ProcessAssignViewModel model)

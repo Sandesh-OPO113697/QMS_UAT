@@ -20,7 +20,7 @@
 
 
 
-<form class="AdminCreateio" action="FeatureInsert" method="post">
+<form class="AdminCreateio">
 
 
     <div class="col-md-12 my-4">
@@ -31,7 +31,7 @@
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label for="custom-select-1">Select Role</label>
-                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Role", new { @class = "custom-select", id = "ID"  , onchange="OnRoleChange(this)"})
+                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Role", new { @class = "custom-select", id = "ID", onchange = "OnRoleChange(this)" })
                             <input type="hidden" id="UserName" name="UserName" />
                         </div>
                     </div>
@@ -43,13 +43,16 @@
 
 
 
-                                <div >
+                                <div>
                                     <input type="checkbox"
                                            name="selectedProcesses"
                                            value="@item.Value"
                                            id="@item.Value"
-                                           class="process-checkbox" />
+                                           class="process-checkbox"
+                                           onchange="onFeatureCheckboxChange(this)" />
                                     <label for="@item.Value">@item.Text</label>
+                                </div>
+                                <div class="sub-features-container" id="subFeatures-@item.Value" style="margin-left: 20px; display: none;">
                                 </div>
                             }
 
@@ -68,38 +71,126 @@
 </form>
 
 <script>
-
-    function OnRoleChange(dropdawon) { 
-        
-        var Role = dropdawon.value;
    
-       
+
+    function onFeatureCheckboxChange(featureCheckbox) {
+        const featureId = featureCheckbox.value;
+        const subFeaturesContainer = document.getElementById(`subFeatures-${featureId}`); 
+
+        if (featureCheckbox.checked) {
+        
+            fetch(`/Admin/GetSubFeatures?featureId=${featureId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); 
+                })
+                .then(data => {
+                    console.log(data);
+                    subFeaturesContainer.innerHTML = '';
+                    data.forEach(subFeature => {
+                        const subFeatureHtml = `
+                            <div>
+                                <input type="checkbox" name="selectedSubFeatures"
+                                       value="${subFeature.value}"
+                                       id="subFeature-${subFeature.value}" />
+                                <label for="subFeature-${subFeature.value}">
+                                    ${subFeature.text}
+                                </label>
+                            </div>`;
+                        subFeaturesContainer.innerHTML += subFeatureHtml;
+                    });
+                    subFeaturesContainer.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error fetching sub-features:', error);
+                    alert('Failed to fetch sub-features. Please try again.');
+                });
+        } else {
+            subFeaturesContainer.style.display = 'none';
+            subFeaturesContainer.innerHTML = '';
+        }
+    }
+
+
+
+    function OnRoleChange(dropdawon) {
+
+        var Role = dropdawon.value;
+
+
         $.ajax({
             url: '@Url.Action("GetFeatureByRole", "Admin")',
             type: 'POST',
-            contentType: 'application/json', 
+            contentType: 'application/json',
             data: JSON.stringify({ ID: Role }),
-            
+
             success: function (response) {
-                
+
                 var availableProcesses = response.map(function (item) { return item.value; });
                 $(".process-checkbox").prop("checked", false);
                 availableProcesses.forEach(function (value) {
                     $("#" + value).prop("checked", true);
                 });
-                
+
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching admin users:", error);
             }
         });
     }
-    
-</script>
 
+</script>
+<script src="~/js/jquery.min.js"></script>
 <script type="text/javascript">
 
-    
+     $(document).ready(function () {
+        $(".AdminCreateio").submit(function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Gather data
+            const userId = $("#ID").val();
+            const userName = $("#UserName").val();
+
+            const selectedFeatures = [];
+            $(".process-checkbox:checked").each(function () {
+                selectedFeatures.push($(this).val());
+            });
+
+            const selectedSubFeatures = [];
+            $("input[name='selectedSubFeatures']:checked").each(function () {
+                selectedSubFeatures.push($(this).val());
+            });
+
+            // Prepare data for submission
+            const data = {
+                UserId: userId,
+                UserName: userName,
+                FeatureList: selectedFeatures,
+                SubFeatureList: selectedSubFeatures
+            };
+
+            console.log(JSON.stringify(data),);
+            // Make AJAX call
+            $.ajax({
+                url: '/Admin/SubmitFeatureSelection', // Update with your controller action
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    // Handle success
+                    alert('Features submitted successfully!');
+                    console.log('Response:', response);
+                },
+                error: function (xhr, status, error) {
+                    // Handle error
+                    console.error('Error:', error);
+                    alert('Failed to submit features. Please try again.');
+                }
+            });
+        });
+    });
 
     document.getElementById("ID").addEventListener("change", function () {
         var userName = this.options[this.selectedIndex].text;
