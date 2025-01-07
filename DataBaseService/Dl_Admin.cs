@@ -348,9 +348,28 @@ namespace QMS.DataBaseService
             return processes;
 
         }
+        public async Task RemoveRoleAccess(string User, string UserName)
+        {
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                string processNameQuery = "sp_admin";
+                using (SqlCommand cmd = new SqlCommand(processNameQuery, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", User);
+                    cmd.Parameters.AddWithValue("@UserName", UserName);
+                    cmd.Parameters.AddWithValue("@Mode", "RemoveRoleAcess");
+
+                    await con.OpenAsync();
+                    var result = await cmd.ExecuteScalarAsync();
+
+                }
+            }
+        }
 
         public async Task AssignRole(string User, string UserName, List<string> Selectedroled)
         {
+            await RemoveRoleAccess(User , UserName);
             using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
             {
                 await con.OpenAsync();
@@ -496,8 +515,27 @@ namespace QMS.DataBaseService
             return users;
         }
 
+        public async Task RemoveProcessAccess(string User, string UserName)
+        {
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                string processNameQuery = "sp_admin";
+                using (SqlCommand cmd = new SqlCommand(processNameQuery, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", User);
+                    cmd.Parameters.AddWithValue("@UserName", UserName);
+                    cmd.Parameters.AddWithValue("@Mode", "RemoveProcessAcess");
+
+                    await con.OpenAsync(); 
+                    var result = await cmd.ExecuteScalarAsync(); 
+                                                                 
+                }
+            }
+        }
         public async Task AssignProcess(string User, string UserName, List<string> SelectedProcesses)
         {
+              await RemoveProcessAccess(User , UserName);
             using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
             {
                 await con.OpenAsync();
