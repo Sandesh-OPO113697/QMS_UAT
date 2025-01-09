@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "eb1IT3Xu6HGvUasYMnM2sMyQCKgyvsmI9Hnppi7dwZM=",
+  "Hash": "z2/H4uhkiMA56O7HXOz1TiKm2MgL+aQJdE9R6A1rZMo=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -1934,6 +1934,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\dropzone.min.js"
+    },
+    {
+      "Identity": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\js\\FetureMap.js",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "js/FetureMap.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\FetureMap.js"
     },
     {
       "Identity": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\js\\fullcalendar.custom.js",

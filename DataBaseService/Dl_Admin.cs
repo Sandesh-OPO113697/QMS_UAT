@@ -339,29 +339,47 @@ namespace QMS.DataBaseService
                 }
             }
         }
-        public async Task<List<SelectListItem>> GetFeature()
+        public async Task<List<FeatureWithSubFeatures>> GetFeature()
         {
-            var processes = new List<SelectListItem>();
-            string query = "sp_admin";
-            string mode = "GetFeature";
-            DataTable dt = await GetDataAsyncStoredProcedure(query, mode);
+            var processes = new List<FeatureWithSubFeatures>();
+            string query = "sp_admin";  
+            string mode = "GetFeatureAndSubFeture";
+            DataTable dt = await GetDataAsyncStoredProcedure(query, mode); 
+
+            FeatureWithSubFeatures currentFeature = null;
 
             foreach (DataRow row in dt.Rows)
             {
-                string displayText = $"{row["FeatureName"]}";
-                string value = $"{row["Id"]}";
+                var FetureValue = row["fetureID"].ToString();   
+                var FetureName = row["FeatureName"].ToString(); 
+                var SubFetureValue = row["SubFeatureId"].ToString(); 
+                var SubFetureName = row["SubFeaturename"].ToString();
 
-
-                processes.Add(new SelectListItem
+                if (currentFeature == null || currentFeature.FeatureValue != FetureValue)
                 {
-                    Text = displayText,
-                    Value = value,
+                    if (currentFeature != null)
+                        processes.Add(currentFeature); 
 
+                    currentFeature = new FeatureWithSubFeatures
+                    {
+                        FeatureValue = FetureValue,
+                        FeatureName = FetureName,
+                        SubFeatures = new List<SubFeature>()
+                    };
+                }
+                currentFeature.SubFeatures.Add(new SubFeature
+                {
+                    SubFeatureValue = SubFetureValue,
+                    SubFeatureName = SubFetureName
                 });
             }
-            return processes;
 
+            if (currentFeature != null)
+                processes.Add(currentFeature);  
+
+            return processes;
         }
+
 
         private async Task<DataTable> GetSUBFeatureNameByFeture(string query, int usernameParam, string mode)
         {

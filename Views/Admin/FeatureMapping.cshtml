@@ -2,29 +2,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-@{
-    var checkBoxList = (List<SelectListItem>)ViewBag.Feature;
-}
-
 @if (TempData["RoleCreate"] != null)
 {
-
-    <div class="alert alert-primary" id="NotificationDiv" runat="server" role="alert">
-        <span class="fe fe-alert-circle fe-16 mr-2" id="Notif   ication" runat="server">
+    <div class="alert alert-primary" role="alert">
+        <span class="fe fe-alert-circle fe-16 mr-2">
             @TempData["RoleCreate"]
         </span>
     </div>
 }
 
-
-
 <form class="AdminCreateio">
-
-
     <div class="col-md-12 my-4">
-
         <div class="card shadow">
             <div class="card-body">
                 <div class="row">
@@ -38,24 +26,34 @@
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label for="custom-select-1">Select Feature</label>
-                            @foreach (var item in checkBoxList)
+                            @foreach (var item in ViewBag.Feature as List<FeatureWithSubFeatures>)
                             {
-
-
-
                                 <div>
+                                
                                     <input type="checkbox"
                                            name="selectedProcesses"
-                                           value="@item.Value"
-                                           id="@item.Value"
+                                           value="@item.FeatureValue"
+                                           id="feature-@item.FeatureValue"
                                            class="process-checkbox"
                                            onchange="onFeatureCheckboxChange(this)" />
-                                    <label for="@item.Value">@item.Text</label>
-                                </div>
-                                <div class="sub-features-container" id="subFeatures-@item.Value" style="margin-left: 20px; display: none;">
+                                    <label for="feature-@item.FeatureValue">@item.FeatureName</label>
+
+                                   
+                                    <div class="sub-features-container" id="subFeatures-@item.FeatureValue" style="margin-left: 20px; display: none;">
+                                        @foreach (var subFeature in item.SubFeatures)
+                                        {
+                                            <div>
+                                                <input type="checkbox"
+                                                       name="subFeature-@item.FeatureValue"
+                                                       value="@subFeature.SubFeatureValue"
+                                                       id="subFeature-@subFeature.SubFeatureValue"
+                                                       class="sub-feature-checkbox" />
+                                                <label for="subFeature-@subFeature.SubFeatureValue">@subFeature.SubFeatureName</label>
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
                             }
-
                         </div>
                     </div>
                 </div>
@@ -70,100 +68,95 @@
     </div>
 </form>
 
+<script src="~/js/jquery.min.js"></script>
+
 <script>
    
+    function onFeatureCheckboxChange(checkbox) {
+        var featureId = checkbox.id.split('-')[1];
+        var isChecked = checkbox.checked;
 
-    function onFeatureCheckboxChange(featureCheckbox) {
-        const featureId = featureCheckbox.value;
-        const subFeaturesContainer = document.getElementById(`subFeatures-${featureId}`); 
-
-        if (featureCheckbox.checked) {
-        
-            fetch(`/Admin/GetSubFeatures?featureId=${featureId}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json(); 
-                })
-                .then(data => {
-                    console.log(data);
-                    subFeaturesContainer.innerHTML = '';
-                    data.forEach(subFeature => {
-                        const subFeatureHtml = `
-                            <div>
-                                <input type="checkbox" name="selectedSubFeatures"
-                                       value="${subFeature.value}"
-                                       id="subFeature-${subFeature.value}" />
-                                <label for="subFeature-${subFeature.value}">
-                                    ${subFeature.text}
-                                </label>
-                            </div>`;
-                        subFeaturesContainer.innerHTML += subFeatureHtml;
-                    });
-                    subFeaturesContainer.style.display = 'block';
-                })
-                .catch(error => {
-                    console.error('Error fetching sub-features:', error);
-                    alert('Failed to fetch sub-features. Please try again.');
-                });
+       
+        if (isChecked) {
+            // Show sub-features
+            $("#subFeatures-" + featureId).show();
         } else {
-            subFeaturesContainer.style.display = 'none';
-            subFeaturesContainer.innerHTML = '';
+            $("#subFeatures-" + featureId).hide();
         }
     }
 
-
-
-    function OnRoleChange(dropdawon) {
-
-        var Role = dropdawon.value;
-
-
+    window.OnRoleChange = function (dropdown) {
+        var role = dropdown.value;
+        $(".sub-features-container").hide();
+        $(".process-checkbox").prop('checked', false);
+        $(".sub-feature-checkbox").prop('checked', false);
         $.ajax({
             url: '@Url.Action("GetFeatureByRole", "Admin")',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ ID: Role }),
-
+            data: JSON.stringify({ ID: role }),
             success: function (response) {
+                const filteredData = response.map(item => ({
+                    text: item.text,
+                    value: item.value
+                }));
 
-                var availableProcesses = response.map(function (item) { return item.value; });
-                $(".process-checkbox").prop("checked", false);
-                availableProcesses.forEach(function (value) {
-                    $("#" + value).prop("checked", true);
+              
+                filteredData.forEach(function (item) {
+                 
+                    $('#subFeature-' + item.value).prop('checked', true);
+                    let SubFetureId = item.value
+                   
+                    var featureData = @Html.Raw(Json.Serialize(ViewBag.Feature));
+                    console.log(featureData);
+                    featureData.forEach(function (feature) {
+                  
+                        feature.subFeatures.forEach(function (subFeature) {
+                            if (subFeature.subFeatureValue == SubFetureId) {
+                                $('#subFeatures-' + feature.featureValue).show();
+                                $('#feature-' + feature.featureValue).prop('checked', true);
+                            }
+                           
+                        });
+                    });
                 });
 
+               
             },
             error: function (xhr, status, error) {
-                console.error("Error fetching admin users:", error);
+                console.error("Error fetching sub-features for the role:", error);
+                alert('Failed to fetch sub-features. Please try again.');
             }
         });
-    }
+    };
 
+
+   
 </script>
-<script src="~/js/jquery.min.js"></script>
+
+
+
+
 <script type="text/javascript">
-
-     $(document).ready(function () {
+    $(document).ready(function () {
         $(".AdminCreateio").submit(function (e) {
-            e.preventDefault(); // Prevent default form submission
-
-            // Gather data
+            e.preventDefault();
             const userId = $("#ID").val();
             const userName = $("#UserName").val();
+
 
             const selectedFeatures = [];
             $(".process-checkbox:checked").each(function () {
                 selectedFeatures.push($(this).val());
             });
 
+     
             const selectedSubFeatures = [];
-            $("input[name='selectedSubFeatures']:checked").each(function () {
+            $(".sub-feature-checkbox:checked").each(function () {
                 selectedSubFeatures.push($(this).val());
             });
 
-            // Prepare data for submission
+            
             const data = {
                 UserId: userId,
                 UserName: userName,
@@ -171,29 +164,33 @@
                 SubFeatureList: selectedSubFeatures
             };
 
-            console.log(JSON.stringify(data),);
-            // Make AJAX call
+            
             $.ajax({
-                url: '/Admin/SubmitFeatureSelection', // Update with your controller action
+                url: '/Admin/SubmitFeatureSelection',  
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function (response) {
-                    // Handle success
-                    alert('Features submitted successfully!');
-                    console.log('Response:', response);
+                    if (response.success) {
+                        alert('Features submitted successfully!');
+                        console.log('Response:', response);
+                        location.reload();
+                    } else {
+                        alert('Failed to submit features. ' + response.message); 
+                    }
                 },
                 error: function (xhr, status, error) {
-                    // Handle error
                     console.error('Error:', error);
                     alert('Failed to submit features. Please try again.');
                 }
             });
         });
+
+        
+        document.getElementById("ID").addEventListener("change", function () {
+            var userName = this.options[this.selectedIndex].text;
+            document.getElementById("UserName").value = userName;
+        });
     });
 
-    document.getElementById("ID").addEventListener("change", function () {
-        var userName = this.options[this.selectedIndex].text;
-        document.getElementById("UserName").value = userName;
-    });
 </script>

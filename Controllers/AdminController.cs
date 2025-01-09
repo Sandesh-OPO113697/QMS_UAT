@@ -214,10 +214,20 @@ namespace QMS.Controllers
             {
                 string userId = data.UserId;
                 string userName = data.UserName;
-                List<string> features = data.FeatureList;
-                List<string> subFeatures = data.SubFeatureList;
-                await _admin.AssignFeature(userId, userName, features , subFeatures);
-                return Json(new { success = true, message = "Features submitted successfully!" });
+                if(userName =="Select Role" || userName=="")
+                {
+                   
+                    return Json(new { success = false, message = "Please Select Role" });
+
+                }
+                else
+                {
+                    List<string> features = data.FeatureList;
+                    List<string> subFeatures = data.SubFeatureList;
+                    await _admin.AssignFeature(userId, userName, features, subFeatures);
+                    return Json(new { success = true, message = "Features submitted successfully!" });
+                }
+
             }
             catch (Exception ex)
             {
