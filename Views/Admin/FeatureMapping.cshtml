@@ -6,7 +6,7 @@
 {
     <div class="alert alert-primary" role="alert">
         <span class="fe fe-alert-circle fe-16 mr-2">
-            @TempData["RoleCreate"]
+
         </span>
     </div>
 }
@@ -29,7 +29,7 @@
                             @foreach (var item in ViewBag.Feature as List<FeatureWithSubFeatures>)
                             {
                                 <div>
-                                
+
                                     <input type="checkbox"
                                            name="selectedProcesses"
                                            value="@item.FeatureValue"
@@ -38,7 +38,7 @@
                                            onchange="onFeatureCheckboxChange(this)" />
                                     <label for="feature-@item.FeatureValue">@item.FeatureName</label>
 
-                                   
+
                                     <div class="sub-features-container" id="subFeatures-@item.FeatureValue" style="margin-left: 20px; display: none;">
                                         @foreach (var subFeature in item.SubFeatures)
                                         {
@@ -71,15 +71,25 @@
 <script src="~/js/jquery.min.js"></script>
 
 <script>
-   
+
     function onFeatureCheckboxChange(checkbox) {
         var featureId = checkbox.id.split('-')[1];
         var isChecked = checkbox.checked;
-
-       
+        const subFeatureCheckboxes = document.querySelectorAll(`input[name="subFeature-${featureId}"]`);
+        if (subFeatureCheckboxes.length > 0) {
+            subFeatureCheckboxes.forEach((subFeatureCheckbox) => {
+                subFeatureCheckbox.checked = isChecked;
+            });
+            console.log(
+                `All checkboxes with name 'subFeature-${featureId}' are now ${isChecked ? "checked" : "unchecked"}.`
+            );
+        } else {
+            console.log(`No checkboxes found with name 'subFeature-${featureId}'.`);
+        }
         if (isChecked) {
-            // Show sub-features
+
             $("#subFeatures-" + featureId).show();
+
         } else {
             $("#subFeatures-" + featureId).hide();
         }
@@ -101,27 +111,27 @@
                     value: item.value
                 }));
 
-              
+
                 filteredData.forEach(function (item) {
-                 
+
                     $('#subFeature-' + item.value).prop('checked', true);
                     let SubFetureId = item.value
-                   
+
                     var featureData = @Html.Raw(Json.Serialize(ViewBag.Feature));
                     console.log(featureData);
                     featureData.forEach(function (feature) {
-                  
+
                         feature.subFeatures.forEach(function (subFeature) {
                             if (subFeature.subFeatureValue == SubFetureId) {
                                 $('#subFeatures-' + feature.featureValue).show();
                                 $('#feature-' + feature.featureValue).prop('checked', true);
                             }
-                           
+
                         });
                     });
                 });
 
-               
+
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching sub-features for the role:", error);
@@ -131,7 +141,7 @@
     };
 
 
-   
+
 </script>
 
 
@@ -150,13 +160,13 @@
                 selectedFeatures.push($(this).val());
             });
 
-     
+
             const selectedSubFeatures = [];
             $(".sub-feature-checkbox:checked").each(function () {
                 selectedSubFeatures.push($(this).val());
             });
 
-            
+
             const data = {
                 UserId: userId,
                 UserName: userName,
@@ -164,9 +174,9 @@
                 SubFeatureList: selectedSubFeatures
             };
 
-            
+
             $.ajax({
-                url: '/Admin/SubmitFeatureSelection',  
+                url: '/Admin/SubmitFeatureSelection',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
@@ -176,7 +186,7 @@
                         console.log('Response:', response);
                         location.reload();
                     } else {
-                        alert('Failed to submit features. ' + response.message); 
+                        alert('Failed to submit features. ' + response.message);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -186,7 +196,7 @@
             });
         });
 
-        
+
         document.getElementById("ID").addEventListener("change", function () {
             var userName = this.options[this.selectedIndex].text;
             document.getElementById("UserName").value = userName;
