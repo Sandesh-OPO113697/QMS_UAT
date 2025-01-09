@@ -239,6 +239,7 @@ namespace QMS.DataBaseService
                     await con.CloseAsync();
                     if (dt.Rows.Count > 0)
                     {
+                        UserInfo.UserName = await _enc.DecryptAsync(dt.Rows[0]["Name"].ToString());
                         UserInfo.UserType = await _enc.DecryptAsync(dt.Rows[0]["usertype"].ToString());
                         //string token = JWTHelper.CreateJWTToken(UserID, UserInfo.UserType);
                         //if (token != null)

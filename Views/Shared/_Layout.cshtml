@@ -47,7 +47,7 @@
             <button type="button" class="navbar-toggler text-muted mt-2 p-0 mr-3 collapseSidebar" onclick="toggleImage()">
                 <i class="fe fe-menu navbar-toggler-icon"></i>
             </button>
-        
+
             <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link text-muted my-2" href="#" id="modeSwitcher" data-mode="light">
@@ -66,16 +66,18 @@
                     </a>
                 </li>
 
-                
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="avatar avatar-sm mt-2">
                             <img src="~/images/user.png" alt="..." class="avatar-img rounded-circle">
                         </span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="@Url.Action("UserLogIn", "LogIn")">Log Out</a>
-                        
+                    <div class="dropdown-menu dropdown-menu-right" style="background-color: #24294a; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 10px; min-width: 200px;" aria-labelledby="navbarDropdownMenuLink">
+                        <span style="display: block; color: #ffffff; font-size: 14px; font-weight: 500; margin-bottom: 5px; margin-left: 40px;">  @UserInfo.UserName</span>
+                        <span style="display: block; color: #ffffff; font-size: 12px; margin-top: 5px; margin-left: 40px;">  @UserInfo.UserType</span>
+                        <a class="dropdown-item" style="color: black; font-size: 14px; text-align: center; margin-top: 10px; background-color: #f4f5f7; border-radius: 4px; padding: 8px; text-decoration: none; display: block; transition: all 0.3s ease;" href="@Url.Action("UserLogIn", "LogIn")">Log Out</a>
+
                     </div>
                 </li>
             </ul>
@@ -144,9 +146,9 @@
                                 <i class="fe fe-pie-chart fe-16"></i>
                                 <span class="ml-3 item-text">Program</span>
                             </a>
-                            <ul class="collapse list-unstyled pl-4 w-100"  id="charts">
+                            <ul class="collapse list-unstyled pl-4 w-100" id="charts">
 
-                               
+
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="@Url.Action("CreateProcess", "Admin")"><span class="ml-1 item-text">Process Create</span></a>
                                 </li>
@@ -172,9 +174,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Admin")"><span class="ml-1 item-text">Manage Role</span></a>
                                 </li>
-                               @*  <li class="nav-item">
-                                    <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Admin")"><span class="ml-1 item-text">Assign Feature </span></a>
-                                </li> *@
+                                @*  <li class="nav-item">
+                            <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Admin")"><span class="ml-1 item-text">Assign Feature </span></a>
+                            </li> *@
                             </ul>
                         </li>
 
@@ -219,7 +221,7 @@
 
                             </ul>
                         </li>
-                     
+
                     }
                     @if (roleFeatureMapping != null)
                     {
@@ -337,7 +339,7 @@
                                             </a>
                                         </li>
                                     }
-                                    
+
                                 </ul>
                             </li>
                         }
@@ -455,12 +457,12 @@
                                             </a>
                                         </li>
                                     }
-                                    
+
                                 </ul>
                             </li>
                         }
 
-                         if (roleFeatureMapping.ContainsKey("Account Level Admin"))
+                        if (roleFeatureMapping.ContainsKey("Account Level Admin"))
                         {
                             var hrFeatures = roleFeatureMapping["Account Level Admin"];
                             <li class="nav-item dropdown" id="AccessMaster" runat="server">
@@ -574,12 +576,12 @@
                                             </a>
                                         </li>
                                     }
-                                    
+
                                 </ul>
                             </li>
                         }
 
-                         if (roleFeatureMapping.ContainsKey("QA Manager"))
+                        if (roleFeatureMapping.ContainsKey("QA Manager"))
                         {
                             var hrFeatures = roleFeatureMapping["QA Manager"];
                             <li class="nav-item dropdown" id="" runat="server">
@@ -693,12 +695,12 @@
                                             </a>
                                         </li>
                                     }
-                                    
+
                                 </ul>
                             </li>
                         }
 
-                         if (roleFeatureMapping.ContainsKey("Monitor Supervsior"))
+                        if (roleFeatureMapping.ContainsKey("Monitor Supervsior"))
                         {
                             var hrFeatures = roleFeatureMapping["Monitor Supervsior"];
                             <li class="nav-item dropdown" id="AccessMaster" runat="server">
@@ -812,7 +814,7 @@
                                             </a>
                                         </li>
                                     }
-                                    
+
                                 </ul>
                             </li>
                         }
@@ -936,7 +938,7 @@
                             </li>
                         }
 
-                         if (roleFeatureMapping.ContainsKey("Account Head"))
+                        if (roleFeatureMapping.ContainsKey("Account Head"))
                         {
                             var hrFeatures = roleFeatureMapping["Account Head"];
                             <li class="nav-item dropdown" id="AccessMaster" runat="server">
@@ -1050,7 +1052,7 @@
                                             </a>
                                         </li>
                                     }
-                                    
+
                                 </ul>
                             </li>
                         }
@@ -1174,9 +1176,9 @@
                             </li>
                         }
 
-                       
+
                     }
-                   
+
 
                 </ul>
 
