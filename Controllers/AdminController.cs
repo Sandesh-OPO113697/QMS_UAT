@@ -196,16 +196,44 @@ namespace QMS.Controllers
             var subFeatures = await _admin.GetSubFeatureByDeture(featureId);
             return Json(subFeatures);
         }
+        [HttpPost]
+        public async Task<ActionResult> UpdateFeatureModule([FromBody] FeatureModule request)
+        {
+            try
+            {
+                string checkboxValue1 = request.checkboxValue;
+                bool isChecked = request.IsChecked;
+                string message = (isChecked == false) ? "0" : "1";
+                await _admin.UpdateFeatureModule(checkboxValue1, message);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false });
+            }
+        }
 
         public async Task<ActionResult> FeatureMapping()
         {
             var User = await _admin.GetRoleAsync();
             var Feature = await _admin.GetFeature();
+            
             ViewBag.UserList = User;
             ViewBag.Feature = Feature;
+          
             return View();
         }
-       
+
+        [HttpPost]
+        public async Task<List<SelectListItem>> GetFeatureModule([FromBody] DropDawnString request)
+        {
+            string RoleID = request.ID;
+            var FeatureModule = await _admin.GetFeatureModule(RoleID);
+
+
+            return FeatureModule;
+        }
 
         [HttpPost]
         public async Task<JsonResult> SubmitFeatureSelection([FromBody] FeatureMappingModel data)

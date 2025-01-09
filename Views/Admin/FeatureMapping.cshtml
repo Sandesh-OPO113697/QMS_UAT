@@ -1,6 +1,10 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+
+    var FetureModuleList = (List<SelectListItem>)ViewBag.FeatureModule;
+}
 
 @if (TempData["RoleCreate"] != null)
 {
@@ -10,7 +14,7 @@
         </span>
     </div>
 }
-
+@* 
 <form class="AdminCreateio">
     <div class="col-md-12 my-4">
         <div class="card shadow">
@@ -55,6 +59,20 @@
                                 </div>
                             }
                         </div>
+
+                       
+                           
+                            
+                       
+                     
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3 ">
+                            <label for="custom-select-1">Feture Module</label>
+                            <div id="checkbox-container">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -66,7 +84,77 @@
             <button class="btn btn-primary" type="submit">Submit</button>
         </div>
     </div>
+</form> *@
+
+<form class="AdminCreateio">
+    <div class="col-md-12 my-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="custom-select-1">Select Role</label>
+                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Role", new { @class = "custom-select", id = "ID", onchange = "OnRoleChange(this)" })
+                            <input type="hidden" id="UserName" name="UserName" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="module-list">Select Feature Modules</label>
+                            <div id="module-list" class="border p-2" style="max-height: 300px; overflow-y: auto;">
+                                <!-- Feature Modules will be populated dynamically -->
+                                <div id="checkbox-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="feature-list">Select Features</label>
+                            <div id="feature-list" class="border p-2" style="max-height: 600px; overflow-y: auto;">
+                                @foreach (var item in ViewBag.Feature as List<FeatureWithSubFeatures>)
+                                {
+                                    <div>
+                                        <input type="checkbox"
+                                               name="selectedProcesses"
+                                               value="@item.FeatureValue"
+                                               id="feature-@item.FeatureValue"
+                                               class="process-checkbox"
+                                               onchange="onFeatureCheckboxChange(this)" />
+                                        <label for="feature-@item.FeatureValue">@item.FeatureName</label>
+
+                                        <div class="sub-features-container" id="subFeatures-@item.FeatureValue" style="margin-left: 20px; display: none;">
+                                            @foreach (var subFeature in item.SubFeatures)
+                                            {
+                                                <div>
+                                                    <input type="checkbox"
+                                                           name="subFeature-@item.FeatureValue"
+                                                           value="@subFeature.SubFeatureValue"
+                                                           id="subFeature-@subFeature.SubFeatureValue"
+                                                           class="sub-feature-checkbox" />
+                                                    <label for="subFeature-@subFeature.SubFeatureValue">@subFeature.SubFeatureName</label>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 my-4">
+        <div class="card-body d-flex justify-content-center align-items-center">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </div>
 </form>
+
 
 <script src="~/js/jquery.min.js"></script>
 
@@ -111,35 +199,81 @@
                     value: item.value
                 }));
 
-
                 filteredData.forEach(function (item) {
-
                     $('#subFeature-' + item.value).prop('checked', true);
-                    let SubFetureId = item.value
+                    let SubFeatureId = item.value;
 
                     var featureData = @Html.Raw(Json.Serialize(ViewBag.Feature));
-                    console.log(featureData);
-                    featureData.forEach(function (feature) {
 
+                    featureData.forEach(function (feature) {
                         feature.subFeatures.forEach(function (subFeature) {
-                            if (subFeature.subFeatureValue == SubFetureId) {
+                            if (subFeature.subFeatureValue === SubFeatureId) {
                                 $('#subFeatures-' + feature.featureValue).show();
                                 $('#feature-' + feature.featureValue).prop('checked', true);
                             }
-
                         });
                     });
                 });
-
-
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching sub-features for the role:", error);
                 alert('Failed to fetch sub-features. Please try again.');
             }
         });
-    };
 
+
+        $.ajax({
+            url: '/Admin/GetFeatureModule',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ ID: role }), 
+            success: function (response) {
+                console.log(JSON.stringify(response));
+                $('#checkbox-container').html('');
+
+                response.forEach(function (item) {
+                    var checkboxHtml = `
+                            <div>
+                                <input type="checkbox"
+                                       name="selectedFeatureModule"
+                                       value="${item.value}"
+                                       id="${item.value}"
+                                       class="process-checkbox1"
+                                       ${item.selected ? 'checked' : ''} />
+                                <label for="${item.value}">${item.text}</label>
+                            </div>
+                        `;
+                    $('#checkbox-container').append(checkboxHtml);
+                    $('#checkbox-container').show();
+                });
+
+                $('.process-checkbox1').on('click', function () {
+                    var checkbox = $(this);
+                    var isChecked = checkbox.is(':checked');
+                    var checkboxValue = checkbox.val();
+
+                    $.ajax({
+                        url: '/Admin/UpdateFeatureModule',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            checkboxValue: checkboxValue,
+                            isChecked: isChecked
+                        }),
+                        success: function () {
+                            alert('Feature successfully assigned.');
+                        },
+                        error: function () {
+                            alert('Error updating feature module: ' + checkboxValue);
+                        }
+                    });
+                });
+            },
+            error: function () {
+                alert('Error loading features.');
+            }
+        });
+    };
 
 
 </script>

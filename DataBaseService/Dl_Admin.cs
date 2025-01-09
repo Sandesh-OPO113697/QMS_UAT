@@ -221,10 +221,6 @@ namespace QMS.DataBaseService
 
         public async Task<List<SelectListItem>> GetFeatureByRole(string RoleID)
         {
-
-
-
-
             var processes = new List<SelectListItem>();
             string storedProcedure = "sp_admin";
 
@@ -339,6 +335,70 @@ namespace QMS.DataBaseService
                 }
             }
         }
+        public async Task UpdateFeatureModule(string checkboxValue, string message)
+        {
+
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                string query = "sp_admin";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "UpdateFeatureModule");
+                    cmd.Parameters.AddWithValue("@id", checkboxValue);
+                    cmd.Parameters.AddWithValue("@status", message);
+
+                    await con.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+        }
+        public async Task<List<SelectListItem>> GetFeatureModule(string RoleID)
+        {
+
+            var processes = new List<SelectListItem>();
+            string storedProcedure = "sp_admin";
+
+            try
+            {
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(storedProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@id", RoleID);
+                        command.Parameters.AddWithValue("@Mode", "GetFeatureModule");
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                string displayText = reader["Module_Name"].ToString();
+                                string value = reader["Module_id"].ToString();
+                                bool isActive = Convert.ToInt32(reader["Active"]) == 1;
+
+                                processes.Add(new SelectListItem
+                                {
+                                    Text = displayText,
+                                    Value = value,
+                                    Selected = isActive
+                                }); ;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+
+            return processes;
+        }
+
         public async Task<List<FeatureWithSubFeatures>> GetFeature()
         {
             var processes = new List<FeatureWithSubFeatures>();
