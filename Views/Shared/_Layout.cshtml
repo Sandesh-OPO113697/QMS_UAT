@@ -10,6 +10,11 @@
                             ? JsonConvert.DeserializeObject<List<dynamic>>(serializedData)
                             : new List<dynamic>();
 
+    var serialiModule = HttpContextAccessor.HttpContext.Session.GetString("ModuleFeatures");
+    var ModuleData = !string.IsNullOrEmpty(serialiModule)
+                            ? JsonConvert.DeserializeObject<List<dynamic>>(serialiModule)
+                            : new List<dynamic>();
+
 
 }
 <!doctype html>
@@ -149,7 +154,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Admin")"><span class="ml-1 item-text">Manage Role</span></a>
                                 </li>
-                              
+
                             </ul>
                         </li>
 
@@ -219,7 +224,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Admin")"><span class="ml-1 item-text">Manage Role</span></a>
                                 </li>
-                               
+
                             </ul>
                         </li>
 
@@ -239,8 +244,6 @@
 
 
                     }
-            
-                    
 
                     <ul class="navbar-nav">
                         @foreach (var role in roleFeatureList)
@@ -251,6 +254,21 @@
                                     <span class="ml-3 item-text">@role.RoleName</span>
                                 </a>
                                 <ul class="collapse list-unstyled pl-4 w-100" id="role-@role.RoleId">
+
+                                    @foreach (var module in ModuleData)
+                                    {
+                                        @if (module.RoleId == @role.RoleId)
+                                        {
+                                            <li>
+
+                                                <a class="nav-link pl-3" href="/Module/Modules">
+                                                    <span class="ml-1">@module.ModuleName</span>
+                                                </a>
+                                            </li>
+                                        }
+
+                                    }
+
                                     @foreach (var feature in role.Features)
                                     {
                                         <li class="nav-item dropdown">
@@ -265,7 +283,6 @@
                                                         <a class="nav-link pl-3" href="/Admin/FetaureSubFeature?RoleName=@role.RoleName&Featureid=@feature.FeatureId&SubFeatureid=@subFeature.SubFeatureId">
                                                             <span class="ml-1">@subFeature.SubFeatureName</span>
                                                         </a>
-
                                                     </li>
                                                 }
                                             </ul>
@@ -275,6 +292,7 @@
                             </li>
                         }
                     </ul>
+
 
                 </ul>
 
@@ -319,14 +337,14 @@
         function toggleImage() {
             const img = document.querySelector('#logoImage');
             if (img.src.includes('mainLogo.png')) {
-                img.src = '@Url.Content("~/Images/favicon.ico")'; 
+                img.src = '@Url.Content("~/Images/favicon.ico")';
             } else {
-                img.src = '@Url.Content("~/Images/mainLogo.png")'; 
+                img.src = '@Url.Content("~/Images/mainLogo.png")';
             }
         }
     </script>
     <script>
-        
+
         Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
         Chart.defaults.global.defaultFontColor = colors.mutedColor;
     </script>

@@ -102,13 +102,13 @@ namespace QMS.DataBaseService
             }
         }
 
-
         public async Task AssignRoleToUser(string UserID, HttpContext httpContext)
         {
             string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
             string query = "sp_Superadmin";
             DataTable dt = new DataTable();
             var roleFeatureDictionary = new Dictionary<int, Dictionary<int, Dictionary<int, string>>>();
+            var roleModules = new Dictionary<int, List<object>>();
 
             try
             {
@@ -124,9 +124,9 @@ namespace QMS.DataBaseService
                         await Task.Run(() => adpt.Fill(dt));
                     }
                 }
+
                 var roleNames = new Dictionary<int, string>();
                 var featureNames = new Dictionary<int, string>();
-                var subFeatureNames = new Dictionary<int, string>();
 
                 foreach (DataRow row in dt.Rows)
                 {
@@ -134,11 +134,13 @@ namespace QMS.DataBaseService
                     int featureId = Convert.ToInt32(row["Feature_id"]);
                     int subFeatureId = Convert.ToInt32(row["SubFeature_ID"]);
                     string subFeatureName = row["SubFeatureName"].ToString();
+
                     if (!roleNames.ContainsKey(roleId))
-                        roleNames[roleId] = row["RoleName"].ToString(); 
+                        roleNames[roleId] = row["RoleName"].ToString();
 
                     if (!featureNames.ContainsKey(featureId))
-                        featureNames[featureId] = row["FeatureName"].ToString();  
+                        featureNames[featureId] = row["FeatureName"].ToString();
+
                     if (!roleFeatureDictionary.ContainsKey(roleId))
                         roleFeatureDictionary[roleId] = new Dictionary<int, Dictionary<int, string>>();
 
@@ -146,7 +148,16 @@ namespace QMS.DataBaseService
                         roleFeatureDictionary[roleId][featureId] = new Dictionary<int, string>();
 
                     roleFeatureDictionary[roleId][featureId][subFeatureId] = subFeatureName;
+
+                    // Add modules to the roleModules dictionary
+                    int moduleId = Convert.ToInt32(row["Module_id"]);
+                    string moduleName = row["Module_Name"].ToString();
+                    if (!roleModules.ContainsKey(roleId))
+                        roleModules[roleId] = new List<object>();
+
+                    roleModules[roleId].Add(new { ModuleId = moduleId, ModuleName = moduleName });
                 }
+
                 var finalStructure = new List<object>();
 
                 foreach (var role in roleFeatureDictionary)
@@ -155,6 +166,7 @@ namespace QMS.DataBaseService
                     {
                         RoleId = role.Key,
                         RoleName = roleNames.ContainsKey(role.Key) ? roleNames[role.Key] : "Unknown Role",
+                        Modules = roleModules.ContainsKey(role.Key) ? roleModules[role.Key] : new List<object>(),
                         Features = new List<object>()
                     };
 
@@ -176,7 +188,22 @@ namespace QMS.DataBaseService
 
                     finalStructure.Add(roleInfo);
                 }
+
                 string serializedData = JsonConvert.SerializeObject(finalStructure);
+                var roles = JsonConvert.DeserializeObject<List<Role>>(serializedData);
+                var distinctModules = roles
+                    .SelectMany(r => r.Modules.Select(m => new
+                    {
+                        ModuleId = m.ContainsKey("ModuleId") ? m["ModuleId"] : null,
+                        ModuleName = m.ContainsKey("ModuleName") ? m["ModuleName"] : null,
+                        RoleId = r.RoleId,
+                        RoleName = r.RoleName
+                    }))
+                    .Distinct()
+                    .ToList();
+                string serialiModule = JsonConvert.SerializeObject(distinctModules);
+                httpContext.Session.SetString("ModuleFeatures", serialiModule);
+
                 httpContext.Session.SetString("RoleFeatures", serializedData);
             }
             catch (Exception ex)
@@ -184,6 +211,7 @@ namespace QMS.DataBaseService
                 Console.WriteLine(ex.Message);
             }
         }
+
 
         public async Task<int> CheckAccountUserAsync(string UserID, string Password)
         {
