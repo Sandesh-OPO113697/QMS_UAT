@@ -228,7 +228,7 @@
                 dropdown.empty();
                 dropdown.append('<option value="">Select Process</option>');
                 response.proces.forEach(function (item) {
-                    dropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
                 });
             },
             error: function (xhr, status, error) {
