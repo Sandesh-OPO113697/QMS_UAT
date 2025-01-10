@@ -105,59 +105,86 @@ namespace QMS.DataBaseService
 
         public async Task AssignRoleToUser(string UserID, HttpContext httpContext)
         {
-                string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
+            string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
             string query = "sp_Superadmin";
             DataTable dt = new DataTable();
+            var roleFeatureDictionary = new Dictionary<int, Dictionary<int, Dictionary<int, string>>>();
 
             try
             {
                 using (SqlConnection connection = new SqlConnection(Dycon))
                 {
-
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@mode", "AssignRoleToUserlogin");
+                        command.Parameters.AddWithValue("@mode", "GetFetureAndSubFeature");
                         command.Parameters.AddWithValue("@EmpID", UserID);
                         await connection.OpenAsync();
                         SqlDataAdapter adpt = new SqlDataAdapter(command);
                         await Task.Run(() => adpt.Fill(dt));
                     }
-
                 }
-                var distinctProcesses = dt.AsEnumerable()
-                                                   .GroupBy(row => new
-                                                   {
-                                                       ProcessId = row["Program_id"],
-                                                       ProcessName = row["ProgramName"],
-                                                       SubProcessId = row["Sub_ProgramId"],
-                                                       SubProcessName = row["SubProcessName"],
-                                                       UserId = row["Userid"],
-                                                       UserRoleName = row["UserRoleName"]
-                                                   })
-                                                   .Select(g => new
-                                                   {
-                                                       ProcessId = g.Key.ProcessId,
-                                                       ProcessName = g.Key.ProcessName,
-                                                       SubProcessId = g.Key.SubProcessId,
-                                                       SubProcessName = g.Key.SubProcessName,
-                                                       UserId = g.Key.UserId,
-                                                       UserRoleName = g.Key.UserRoleName
-                                                   }).ToList();
-                List<string> distinctFeatureNames = dt.AsEnumerable().Select(row => row["FeatureName"].ToString()).Distinct().ToList();
-                UserAcesslevel.DistinctFeatureNames = distinctFeatureNames;
-                httpContext.Session.SetString("FeatureList", JsonConvert.SerializeObject(distinctFeatureNames));
-                var groupedData = dt.AsEnumerable().GroupBy(row => new { RoleName = row["UserRoleName"].ToString(), }).ToDictionary(
-                            g => g.Key.RoleName,
-                            g => g.Select(row => row["FeatureName"].ToString()).Distinct().ToList());
-                httpContext.Session.SetString("RoleFeatureMapping", JsonConvert.SerializeObject(groupedData));
+                var roleNames = new Dictionary<int, string>();
+                var featureNames = new Dictionary<int, string>();
+                var subFeatureNames = new Dictionary<int, string>();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    int roleId = Convert.ToInt32(row["Role_id"]);
+                    int featureId = Convert.ToInt32(row["Feature_id"]);
+                    int subFeatureId = Convert.ToInt32(row["SubFeature_ID"]);
+                    string subFeatureName = row["SubFeatureName"].ToString();
+                    if (!roleNames.ContainsKey(roleId))
+                        roleNames[roleId] = row["RoleName"].ToString(); 
+
+                    if (!featureNames.ContainsKey(featureId))
+                        featureNames[featureId] = row["FeatureName"].ToString();  
+                    if (!roleFeatureDictionary.ContainsKey(roleId))
+                        roleFeatureDictionary[roleId] = new Dictionary<int, Dictionary<int, string>>();
+
+                    if (!roleFeatureDictionary[roleId].ContainsKey(featureId))
+                        roleFeatureDictionary[roleId][featureId] = new Dictionary<int, string>();
+
+                    roleFeatureDictionary[roleId][featureId][subFeatureId] = subFeatureName;
+                }
+                var finalStructure = new List<object>();
+
+                foreach (var role in roleFeatureDictionary)
+                {
+                    var roleInfo = new
+                    {
+                        RoleId = role.Key,
+                        RoleName = roleNames.ContainsKey(role.Key) ? roleNames[role.Key] : "Unknown Role",
+                        Features = new List<object>()
+                    };
+
+                    foreach (var feature in role.Value)
+                    {
+                        var featureInfo = new
+                        {
+                            FeatureId = feature.Key,
+                            FeatureName = featureNames.ContainsKey(feature.Key) ? featureNames[feature.Key] : "Unknown Feature",
+                            SubFeatures = feature.Value.Select(subFeature => new
+                            {
+                                SubFeatureId = subFeature.Key,
+                                SubFeatureName = subFeature.Value
+                            }).ToList()
+                        };
+
+                        ((List<object>)roleInfo.Features).Add(featureInfo);
+                    }
+
+                    finalStructure.Add(roleInfo);
+                }
+                string serializedData = JsonConvert.SerializeObject(finalStructure);
+                httpContext.Session.SetString("RoleFeatures", serializedData);
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
-
         }
+
         public async Task<int> CheckAccountUserAsync(string UserID, string Password)
         {
             string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
@@ -241,21 +268,7 @@ namespace QMS.DataBaseService
                     {
                         UserInfo.UserName = await _enc.DecryptAsync(dt.Rows[0]["Name"].ToString());
                         UserInfo.UserType = await _enc.DecryptAsync(dt.Rows[0]["usertype"].ToString());
-                        //string token = JWTHelper.CreateJWTToken(UserID, UserInfo.UserType);
-                        //if (token != null)
-                        //{
-
-
-                        //    response.Cookies.Append("Token", token, new CookieOptions
-                        //    {
-                        //        HttpOnly = true, // Makes the cookie accessible only via HTTP requests
-                        //        Secure = true, // Ensures the cookie is sent over HTTPS
-                        //        SameSite = SameSiteMode.Strict, // Provides CSRF protection
-                        //        Expires = DateTimeOffset.UtcNow.AddHours(1) // Set expiry time as per your requirement
-                        //    });
-
-
-                        //}
+                      
 
                         return 1;
                     }

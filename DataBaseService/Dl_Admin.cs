@@ -262,8 +262,6 @@ namespace QMS.DataBaseService
 
         }
 
-
-
         public async Task AssignFeature(string User, string UserName, List<string> Feature, List<string> SubFeature)
         {
             using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))

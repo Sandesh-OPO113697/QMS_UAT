@@ -4,18 +4,12 @@
 
 @{
     var mySessionValue = HttpContextAccessor.HttpContext.Session.GetString("UserType");
-    var Features = HttpContextAccessor.HttpContext.Session.GetString("FeatureList");
 
-    var featureListJson = HttpContextAccessor.HttpContext.Session.GetString("FeatureList");
-    var distinctFeatureNames = string.IsNullOrEmpty(featureListJson)
-        ? new List<string>()
-        : JsonConvert.DeserializeObject<List<string>>(featureListJson);
+    var serializedData = HttpContextAccessor.HttpContext.Session.GetString("RoleFeatures");
+    var roleFeatureList = !string.IsNullOrEmpty(serializedData)
+                            ? JsonConvert.DeserializeObject<List<dynamic>>(serializedData)
+                            : new List<dynamic>();
 
-
-    var roleFeatureMappingJson = HttpContextAccessor.HttpContext.Session.GetString("RoleFeatureMapping");
-    var roleFeatureMapping = string.IsNullOrEmpty(roleFeatureMappingJson)
-        ? new Dictionary<string, List<string>>()
-        : JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(roleFeatureMappingJson);
 
 }
 <!doctype html>
@@ -122,6 +116,57 @@
                             </ul>
                         </li>
 
+                        <li class="nav-item dropdown" id="Upload" runat="server">
+                            <a href="#charts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-pie-chart fe-16"></i>
+                                <span class="ml-3 item-text">Program</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="charts">
+
+
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="@Url.Action("CreateProcess", "Admin")"><span class="ml-1 item-text">Process Create</span></a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="@Url.Action("CreateSubProcess", "Admin")"><span class="ml-1 item-text">Sub-Process</span></a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li id="table" class="nav-item dropdown" runat="server">
+                            <a href="#tables" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-grid fe-16"></i>
+                                <span class="ml-3 item-text">User</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="tables">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="@Url.Action("CreateUser", "Admin")"><span class="ml-1 item-text">Create</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="@Url.Action("ProcessAssign", "Admin")"><span class="ml-1 item-text">Assign Process</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Admin")"><span class="ml-1 item-text">Manage Role</span></a>
+                                </li>
+                              
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown" id="ViewUser" runat="server">
+                            <a href="#pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-file fe-16"></i>
+                                <span class="ml-3 item-text"> Feature</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100 w-100" id="pages">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Admin")"><span class="ml-1 item-text">Assign Feature </span></a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
                         <li id="Reports" runat="server" class="nav-item dropdown">
                             <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                 <i class="fe fe-credit-card fe-16"></i>
@@ -174,9 +219,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Admin")"><span class="ml-1 item-text">Manage Role</span></a>
                                 </li>
-                                @*  <li class="nav-item">
-                            <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Admin")"><span class="ml-1 item-text">Assign Feature </span></a>
-                            </li> *@
+                               
                             </ul>
                         </li>
 
@@ -196,989 +239,42 @@
 
 
                     }
-                    @if (mySessionValue == "QE")
-                    {
-                        <li id="UserReport" class="nav-item dropdown" runat="server">
-                            <a href="#contact" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                <i class="fe fe-book fe-16"></i>
-                                <span class="ml-3 item-text">user Report</span>
-                            </a>
-                            <ul class="collapse list-unstyled pl-4 w-100" id="contact">
-                                <a class="nav-link pl-3" href="./contacts-list.html"><span class="ml-1">Report 1</span></a>
-                                <a class="nav-link pl-3" href="./contacts-grid.html"><span class="ml-1">Report 2</span></a>
-                                <a class="nav-link pl-3" href="./contacts-new.html"><span class="ml-1">Report 3</span></a>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown" id="QAForm" runat="server">
-                            <a href="#layouts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                <i class="fe fe-layout fe-16"></i>
-                                <span class="ml-3 item-text">Quality</span>
-                            </a>
-                            <ul class="collapse list-unstyled pl-4 w-100" id="layouts">
-                                <li class="nav-item">
-                                    <a class="nav-link pl-3" href="./index.html"><span class="ml-1 item-text">QA Form</span></a>
-                                </li>
+            
+                    
 
-                            </ul>
-                        </li>
-
-                    }
-                    @if (roleFeatureMapping != null)
-                    {
-                        if (roleFeatureMapping.ContainsKey("HR"))
+                    <ul class="navbar-nav">
+                        @foreach (var role in roleFeatureList)
                         {
-                            var hrFeatures = roleFeatureMapping["HR"];
-                            <li class="nav-item dropdown" id="AccessMaster" runat="server">
-                                <a href="#HR" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-file fe-16"></i>
-                                    <span class="ml-3 item-text">HR</span>
+                            <li class="nav-item dropdown">
+                                <a href="#role-@role.RoleId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                    <i class="fe fe-users fe-16"></i>
+                                    <span class="ml-3 item-text">@role.RoleName</span>
                                 </a>
-                                <ul class="collapse list-unstyled pl-4 w-100 w-100" id="HR">
-                                    @if (hrFeatures.Contains("Sampling"))
+                                <ul class="collapse list-unstyled pl-4 w-100" id="role-@role.RoleId">
+                                    @foreach (var feature in role.Features)
                                     {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Sampling</span>
+                                        <li class="nav-item dropdown">
+                                            <a href="#feature-@feature.FeatureId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                                <i class="fe fe-cogs fe-16"></i>
+                                                <span class="ml-3 item-text">@feature.FeatureName</span>
                                             </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZTP Sign off triggers"))
-                                    {
-                                        <li class="nav-item" runat="server" id="ztp_sign_off_triggers">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZTP Sign off triggers</span>
-                                            </a>
-                                        </li>
-                                    }
+                                            <ul class="collapse list-unstyled pl-4 w-100" id="feature-@feature.FeatureId">
+                                                @foreach (var subFeature in feature.SubFeatures)
+                                                {
+                                                    <li>
+                                                        <a class="nav-link pl-3" href="/Admin/FetaureSubFeature?RoleName=@role.RoleName&Featureid=@feature.FeatureId&SubFeatureid=@subFeature.SubFeatureId">
+                                                            <span class="ml-1">@subFeature.SubFeatureName</span>
+                                                        </a>
 
-                                    @if (hrFeatures.Contains("Work allocation"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Work allocation</span>
-                                            </a>
+                                                    </li>
+                                                }
+                                            </ul>
                                         </li>
                                     }
-                                    @if (hrFeatures.Contains("Monitoring workflow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Monitoring workflow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Feedback Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Feedback Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Dispute Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Dispute Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Calibration"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Calibration</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Coaching"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Coaching</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Skill verification"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Skill verification</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Update Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Update Management</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZT Work flow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZT Work flow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Agent Survey"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Agent Survey</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Outlier Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Outlier Management</span>
-                                            </a>
-                                        </li>
-                                    }
-
                                 </ul>
                             </li>
                         }
-                        if (roleFeatureMapping.ContainsKey("SiteAdmin"))
-                        {
-                            var hrFeatures = roleFeatureMapping["SiteAdmin"];
-                            <li class="nav-item dropdown" id="AccessMaster" runat="server">
-                                <a href="#SiteAdmin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-file fe-16"></i>
-                                    <span class="ml-3 item-text">SiteAdmin</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100 w-100" id="SiteAdmin">
-                                    @if (hrFeatures.Contains("Sampling"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Sampling</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZTP Sign off triggers"))
-                                    {
-                                        <li class="nav-item" runat="server" id="ztp_sign_off_triggers">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZTP Sign off triggers</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                    @if (hrFeatures.Contains("Work allocation"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Work allocation</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Monitoring workflow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Monitoring workflow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Feedback Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Feedback Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Dispute Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Dispute Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Calibration"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Calibration</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Coaching"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Coaching</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Skill verification"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Skill verification</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Update Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Update Management</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZT Work flow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZT Work flow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Agent Survey"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Agent Survey</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Outlier Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Outlier Management</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                </ul>
-                            </li>
-                        }
-
-                        if (roleFeatureMapping.ContainsKey("Account Level Admin"))
-                        {
-                            var hrFeatures = roleFeatureMapping["Account Level Admin"];
-                            <li class="nav-item dropdown" id="AccessMaster" runat="server">
-                                <a href="#Account_Level_Admin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-file fe-16"></i>
-                                    <span class="ml-3 item-text">Account Level Admin</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100 w-100" id="Account_Level_Admin">
-                                    @if (hrFeatures.Contains("Sampling"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Sampling</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZTP Sign off triggers"))
-                                    {
-                                        <li class="nav-item" runat="server" id="ztp_sign_off_triggers">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZTP Sign off triggers</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                    @if (hrFeatures.Contains("Work allocation"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Work allocation</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Monitoring workflow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Monitoring workflow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Feedback Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Feedback Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Dispute Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Dispute Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Calibration"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Calibration</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Coaching"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Coaching</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Skill verification"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Skill verification</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Update Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Update Management</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZT Work flow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZT Work flow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Agent Survey"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Agent Survey</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Outlier Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Outlier Management</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                </ul>
-                            </li>
-                        }
-
-                        if (roleFeatureMapping.ContainsKey("QA Manager"))
-                        {
-                            var hrFeatures = roleFeatureMapping["QA Manager"];
-                            <li class="nav-item dropdown" id="" runat="server">
-                                <a href="#QA_Manager" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-file fe-16"></i>
-                                    <span class="ml-3 item-text">QA Manager</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100 w-100" id="QA_Manager">
-                                    @if (hrFeatures.Contains("Sampling"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-ordAccessMasterers.html">
-                                                <span class="ml-1 item-text">Sampling</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZTP Sign off triggers"))
-                                    {
-                                        <li class="nav-item" runat="server" id="ztp_sign_off_triggers">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZTP Sign off triggers</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                    @if (hrFeatures.Contains("Work allocation"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Work allocation</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Monitoring workflow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Monitoring workflow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Feedback Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Feedback Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Dispute Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Dispute Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Calibration"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Calibration</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Coaching"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Coaching</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Skill verification"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Skill verification</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Update Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Update Management</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZT Work flow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZT Work flow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Agent Survey"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Agent Survey</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Outlier Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Outlier Management</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                </ul>
-                            </li>
-                        }
-
-                        if (roleFeatureMapping.ContainsKey("Monitor Supervsior"))
-                        {
-                            var hrFeatures = roleFeatureMapping["Monitor Supervsior"];
-                            <li class="nav-item dropdown" id="AccessMaster" runat="server">
-                                <a href="#Monitor" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-file fe-16"></i>
-                                    <span class="ml-3 item-text">Monitor Supervsior</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100 w-100" id="Monitor">
-                                    @if (hrFeatures.Contains("Sampling"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Sampling</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZTP Sign off triggers"))
-                                    {
-                                        <li class="nav-item" runat="server" id="ztp_sign_off_triggers">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZTP Sign off triggers</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                    @if (hrFeatures.Contains("Work allocation"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Work allocation</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Monitoring workflow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Monitoring workflow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Feedback Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Feedback Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Dispute Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Dispute Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Calibration"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Calibration</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Coaching"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Coaching</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Skill verification"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Skill verification</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Update Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Update Management</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZT Work flow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZT Work flow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Agent Survey"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Agent Survey</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Outlier Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Outlier Management</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                </ul>
-                            </li>
-                        }
-
-                        if (roleFeatureMapping.ContainsKey("Monitor"))
-                        {
-                            var hrFeatures = roleFeatureMapping["Monitor"];
-                            <li class="nav-item dropdown" id="AccessMaster" runat="server">
-                                <a href="#Monitor_2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-file fe-16"></i>
-                                    <span class="ml-3 item-text">Monitor</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100 w-100" id="Monitor_2">
-                                    @if (hrFeatures.Contains("Sampling"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Sampling</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZTP Sign off triggers"))
-                                    {
-                                        <li class="nav-item" runat="server" id="ztp_sign_off_triggers">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZTP Sign off triggers</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                    @if (hrFeatures.Contains("Work allocation"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Work allocation</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Monitoring workflow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Monitoring workflow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Feedback Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Feedback Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Dispute Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Dispute Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Calibration"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Calibration</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Coaching"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Coaching</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Skill verification"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Skill verification</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Update Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Update Management</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZT Work flow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZT Work flow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Agent Survey"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Agent Survey</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Outlier Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Outlier Management</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                </ul>
-                            </li>
-                        }
-
-                        if (roleFeatureMapping.ContainsKey("Account Head"))
-                        {
-                            var hrFeatures = roleFeatureMapping["Account Head"];
-                            <li class="nav-item dropdown" id="AccessMaster" runat="server">
-                                <a href="#Account_Head" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-file fe-16"></i>
-                                    <span class="ml-3 item-text">Account Head</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100 w-100" id="Account_Head">
-                                    @if (hrFeatures.Contains("Sampling"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Sampling</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZTP Sign off triggers"))
-                                    {
-                                        <li class="nav-item" runat="server" id="ztp_sign_off_triggers">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZTP Sign off triggers</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                    @if (hrFeatures.Contains("Work allocation"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Work allocation</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Monitoring workflow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Monitoring workflow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Feedback Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Feedback Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Dispute Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Dispute Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Calibration"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Calibration</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Coaching"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Coaching</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Skill verification"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Skill verification</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Update Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Update Management</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZT Work flow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZT Work flow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Agent Survey"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Agent Survey</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Outlier Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Outlier Management</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                </ul>
-                            </li>
-                        }
-
-                        if (roleFeatureMapping.ContainsKey("MIS"))
-                        {
-                            var hrFeatures = roleFeatureMapping["MIS"];
-                            <li class="nav-item dropdown" id="AccessMaster" runat="server">
-                                <a href="#MIS" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-file fe-16"></i>
-                                    <span class="ml-3 item-text">MIS</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100 w-100" id="MIS">
-                                    @if (hrFeatures.Contains("Sampling"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Sampling</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZTP Sign off triggers"))
-                                    {
-                                        <li class="nav-item" runat="server" id="ztp_sign_off_triggers">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZTP Sign off triggers</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                    @if (hrFeatures.Contains("Work allocation"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Work allocation</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Monitoring workflow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Monitoring workflow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Feedback Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Feedback Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Dispute Process"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Dispute Process</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Calibration"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Calibration</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Coaching"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Coaching</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Skill verification"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Skill verification</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Update Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Update Management</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("ZT Work flow"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">ZT Work flow</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Agent Survey"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Agent Survey</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (hrFeatures.Contains("Outlier Management"))
-                                    {
-                                        <li class="nav-item" runat="server" id="sampling">
-                                            <a class="nav-link pl-3" href="./page-orders.html">
-                                                <span class="ml-1 item-text">Outlier Management</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                </ul>
-                            </li>
-                        }
-
-
-                    }
-
+                    </ul>
 
                 </ul>
 
@@ -1222,17 +318,15 @@
     <script>
         function toggleImage() {
             const img = document.querySelector('#logoImage');
-
-            // Check if the current src includes "mainLogo.png"
             if (img.src.includes('mainLogo.png')) {
-                img.src = '@Url.Content("~/Images/favicon.ico")'; // Set to favicon
+                img.src = '@Url.Content("~/Images/favicon.ico")'; 
             } else {
-                img.src = '@Url.Content("~/Images/mainLogo.png")'; // Set to main logo
+                img.src = '@Url.Content("~/Images/mainLogo.png")'; 
             }
         }
     </script>
     <script>
-        /* defind global options */
+        
         Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
         Chart.defaults.global.defaultFontColor = colors.mutedColor;
     </script>

@@ -38,6 +38,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRmVhdHVyZU1hcHBpbmcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/FetaureSubFeature.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRmV0YXVyZVN1YkZlYXR1cmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Admin/ProcessAssign.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvY2Vzc0Fzc2lnbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -52,6 +56,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/QMS Dash/WEB_QMS/QMS/QMS/Views/LogIn/UserLogIn.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9nSW5cVXNlckxvZ0luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Sampling/DashBoard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcRGFzaEJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Shared/Error.cshtml]

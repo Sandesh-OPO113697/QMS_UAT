@@ -439,5 +439,44 @@ namespace QMS.Controllers
                 return Json(new { success = false, message = "An error occurred while updating the status." });
             }
         }
+        public async Task<IActionResult> FetaureSubFeature(string RoleName, int Featureid, int SubFeatureid)
+        {
+            switch (Featureid)
+            {
+                case 1:
+
+                    return RedirectToAction("DashBoard", "Sampling", new { SubFeatureid, RoleName, Featureid });
+
+                case 2:
+                    return RedirectToAction("DashBoard", "Sampling", new { SubFeatureid, RoleName, Featureid });
+
+                case 3:
+                    return RedirectToAction("DashBoard", "Sampling", new { SubFeatureid, RoleName, Featureid });
+
+                case 4:
+                    return RedirectToAction("SamplDashBoarding", "Sampling", new { SubFeatureid, RoleName, Featureid });
+
+                case 5:
+                    return RedirectToAction("DashBoard", "Sampling", new { SubFeatureid, RoleName, Featureid });
+
+                case 6:
+                    return RedirectToAction("DashBoard", "Sampling", new { SubFeatureid, RoleName, Featureid });
+
+                case 7:
+                    return RedirectToAction("DashBoard", "Sampling", new { SubFeatureid, RoleName, Featureid });
+
+                case 8:
+                    return RedirectToAction("DashBoard", "Sampling", new { SubFeatureid, RoleName, Featureid });
+
+                case 9:
+                    return RedirectToAction("DashBoard", "Sampling", new { SubFeatureid, RoleName, Featureid });
+
+                case 10:
+                    return RedirectToAction("DashBoard", "Sampling", new { SubFeatureid, RoleName, Featureid });
+
+                default:
+                    return View();
+            }
+        }
     }
 }

@@ -54,6 +54,7 @@ namespace QMS.Controllers
             {
                 HttpContext.Session.SetString("UserType", "SuperAdmin");
                 return RedirectToAction("Dashboard", "SuperAdmin");
+                await _login.AssignRoleToUser(Username, HttpContext);
             }
             else
             {
