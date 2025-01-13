@@ -155,6 +155,7 @@ namespace QMS.Controllers
         }
         public async Task<ActionResult> CreateProcess()
         {
+
             var Location = await _admin.GetLocationAsync();
             ViewBag.Locations = Location;
            

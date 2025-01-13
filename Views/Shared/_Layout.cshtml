@@ -86,7 +86,7 @@
                 <i class="fe fe-x"><span class="sr-only"></span></i>
             </a>
             <nav class="vertnav navbar navbar-light">
-                
+
                 <div class="w-100 mb-4 d-flex">
 
                     <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="@Url.Action("Dashboard", "SuperAdmin")">
@@ -121,7 +121,7 @@
                             </ul>
                         </li>
 
-                       
+
 
                         <li id="Reports" runat="server" class="nav-item dropdown">
                             <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -194,11 +194,14 @@
 
 
 
-                    }
 
+                    }
+                   
                     <ul class="navbar-nav">
                         @foreach (var role in roleFeatureList)
                         {
+
+                            
                             <li class="nav-item dropdown">
                                 <a href="#role-@role.RoleId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                     <i class="fe fe-users fe-16"></i>
@@ -212,7 +215,7 @@
                                         {
                                             <li>
 
-                                                <a class="nav-link pl-3" href="/Module/Modules">
+                                                <a class="nav-link pl-3" href="/Module/Modules?roleid=@role.RoleId&ModuleName=@module.ModuleName">
                                                     <span class="ml-1">@module.ModuleName</span>
                                                 </a>
                                             </li>

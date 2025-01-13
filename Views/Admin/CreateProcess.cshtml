@@ -63,7 +63,6 @@
                     <tr>
                         <th>ID</th>
                         <th>LocationName</th>
-
                         <th>ProcessName</th>
                         <th>Active_Status</th>
                         <th>Edit</th>
@@ -136,16 +135,18 @@
     }
 
     function populateAdminTable(data) {
+        console.log(data);
         var tableBody = $("#UserTable tbody");
         tableBody.empty();
 
         data.forEach(function (row) {
+
             var isChecked = row.isactive ? "checked" : "";
             var tableRow = `
                 <tr>
-                    <td>${row.id}</td>
-                    <td>${row.locationName}</td>
-                    <td>${row.processName}</td>
+                        <td>${row.id}</td>
+                                <td>${row.locationName}</td>
+                        <td>${row.processName}</td>
                          <td>
                                     <div class="custom-control custom-switch">
 

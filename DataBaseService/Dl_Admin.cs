@@ -131,10 +131,12 @@ namespace QMS.DataBaseService
             }
         }
 
+     
         public async Task<DataTable> GetProcessListByLocation(string Location)
         {
-
-            DataTable dt = new DataTable();
+            string userIdsName = string.Empty;
+            
+            List<string> users = new List<string>();
             using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
             {
                 await conn.OpenAsync();
@@ -142,12 +144,45 @@ namespace QMS.DataBaseService
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@status", UserInfo.UserName);
-                    cmd.Parameters.AddWithValue("@id", Location);
-                    cmd.Parameters.AddWithValue("@Mode", "Get_locationWise_list");
-                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
-                    await Task.Run(() => adpt.Fill(dt));
+                    cmd.Parameters.AddWithValue("@Mode", "GetUserIdList");
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            users.Add(await _enc.DecryptAsync( reader.GetString(0))); 
+                        }
+                    }
                 }
             }
+            users.Add(UserInfo.UserName);
+            if (users.Count > 0)
+            {
+                userIdsName = string.Join(",", users.Select(user => $"{user}"));
+            }
+           
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("sp_admin", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@status", userIdsName);
+                        cmd.Parameters.AddWithValue("@Mode", "Get_locationWise_list");
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        
 
             return dt;
         }
@@ -1086,9 +1121,34 @@ namespace QMS.DataBaseService
 
         public async Task<DataTable> GetUserListAsync()
         {
+            string userIdsName = string.Empty;
+
+            List<string> users = new List<string>();
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("sp_admin", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@status", UserInfo.UserName);
+                    cmd.Parameters.AddWithValue("@Mode", "GetUserIdList");
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            users.Add(await _enc.DecryptAsync(reader.GetString(0)));
+                        }
+                    }
+                }
+            }
+            users.Add(UserInfo.UserName);
+            if (users.Count > 0)
+            {
+                userIdsName = string.Join(",", users.Select(user => $"{user}"));
+            }
             string query = "sp_admin";
             string mode = "GetUserList";
-            DataTable dt = await GetDataProcessSUBAsyncStoredProcedure(query, UserInfo.UserName, mode);
+                DataTable dt = await GetDataProcessSUBAsyncStoredProcedure(query, userIdsName, mode);
             if (dt.Rows.Count > 0)
             {
                 DataTable decryptedData2 = await DecryptDataTableAsync(dt);

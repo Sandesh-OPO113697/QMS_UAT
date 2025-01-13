@@ -30,6 +30,7 @@ builder.Services.AddScoped<D_Login>();
 builder.Services.AddScoped<Dl_Admin>();
 builder.Services.AddScoped<DL_SuperAdmin>();
 builder.Services.AddScoped<DL_Encrpt>();
+builder.Services.AddScoped<DL_Module>();
 
 
 builder.Services.AddControllersWithViews();
