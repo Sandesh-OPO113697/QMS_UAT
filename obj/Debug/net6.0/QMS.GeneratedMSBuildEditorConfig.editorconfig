@@ -74,8 +74,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kdWxlXEZlYXR1cmVNYXBwaW5nLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Module/ManageUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kdWxlXE1hbmFnZVVzZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Module/Modules.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kdWxlXE1vZHVsZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Module/ProcessAssign.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kdWxlXFByb2Nlc3NBc3NpZ24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Module/RoleMapping.cshtml]

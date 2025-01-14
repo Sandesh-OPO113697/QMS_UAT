@@ -20,35 +20,88 @@ namespace QMS.Controllers
 
         public IActionResult Modules(string roleid, string ModuleName)
         {
-            switch (ModuleName)
+            switch (roleid)
             {
-                case "Create  Program":
-                    return RedirectToAction("CreateProcessBySiteAdmin");
-                case "Manage Feature":
-                    return RedirectToAction("FeatureMapping");
-                case "Manage Role":
-                    return RedirectToAction("RoleMapping");
-                case "Create User":
-                    return RedirectToAction("CreateUser");
-                case "Create SubProgram":
-                    return RedirectToAction("CreateSubProcess");
+                case "1":
+                    switch (ModuleName)
+                    {
+                        case "Create Program":
+                            return RedirectToAction("CreateProcess" ,"Admin");
+                        case "Manage Feature":
+                            return RedirectToAction("FeatureMapping" , "Admin");
+                        case "Manage Role":
+                            return RedirectToAction("RoleMapping", "Admin");
+                        case "Create User":
+                            return RedirectToAction("CreateUser" , "Admin");
+                        case "Create SubProgram":
+                            return RedirectToAction("CreateSubProcess" , "Admin");
+                        case "Assign Program":
+                            return RedirectToAction("ProcessAssign" , "Admin");
+                        default:
+                            return View();
+                    }
+                case "3": 
+                    switch (ModuleName)
+                    {
+                        case "Create User":
+                            return RedirectToAction("ManageUsers");
+                        default:
+                            return View();
+                    }
+                case "2":
+                    switch (ModuleName)
+                    {
+                        case "Create Program":
+                            return RedirectToAction("CreateProcessBySiteAdmin");
+                        case "Manage Feature":
+                            return RedirectToAction("FeatureMapping");
+                        case "Manage Role":
+                            return RedirectToAction("RoleMapping");
+                        case "Create User":
+                            return RedirectToAction("CreateUser");
+                        case "Create SubProgram":
+                            return RedirectToAction("CreateSubProcess");
+                        case "Assign Program":
+                            return RedirectToAction("ProcessAssign");
+                        default:
+                            return View();
+                    }
                 default:
                     return View();
             }
-
         }
         [HttpPost]
         public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber)
         {
             List<string> errorMessages = new List<string>();
-
             string locationid = UserInfo.LocationID;
-
             await _admin.InsertUserDetailsAsync(locationid, ProgramID, SUBProgramID, Role_ID, UserID, Password, UserName, PhoneNumber);
             errorMessages.Add("User Is Created Sucessfully !");
             TempData["ErrorMessages"] = errorMessages;
             return RedirectToAction("CreateUser");
 
+        }
+
+        
+        public async Task<IActionResult> ManageUsers()
+        {
+            string locationid = UserInfo.LocationID;
+            var Location = await _admin.GetLocationAsync();
+            var filteredLocation = Location.Where(loc => loc.Value == locationid).ToList();
+            var Role = await _admin.GetRoleAsync();
+            var filteredRoles = Role.Where(r => r.Text != "SuperAdmin" && r.Text != "SiteAdmin").ToList();
+            var prifix = await _admin.GetPrefixAsync();
+            var data = await _admin.GetProcessListByLocationAccountAdmin(locationid);
+            var processList = data.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ProcessName"]}",
+            }).ToList();
+            ViewBag.ProcessList = processList;
+            DataTable dt = await _admin.GetUserListAsync();
+            ViewBag.Locations = filteredLocation;
+            ViewBag.Role = filteredRoles;
+            return View(dt);
         }
         public async Task<IActionResult> CreateUser()
         {
@@ -135,7 +188,6 @@ namespace QMS.Controllers
                 await _admin.AssignRole(model.User_ID, model.UserName, model.SelectedProcesses);
                 TempData["RoleCreate"] = "Role Map SucessFully";
             }
-
             return RedirectToAction("RoleMapping");
 
         }
@@ -179,8 +231,6 @@ namespace QMS.Controllers
                 TempData["ErrorMessages"] = errorMessages;
                 return RedirectToAction("CreateSubProcess");
             }
-
-
             await _admin.InsertSubProcessDetailsAsync(locationid, ProgramID, SubProcess);
             errorMessages.Add("Sub-Process Created Sucessfully !");
             TempData["ErrorMessages"] = errorMessages;
@@ -188,6 +238,42 @@ namespace QMS.Controllers
 
         }
 
+
+        public async Task<ActionResult> ProcessAssign()
+        {
+            try
+            {
+                var User = await _admin.GetUsersAsync();
+                var ProceccList = await _admin.GetProcessesAndSubAsync(UserInfo.UserName);
+                ViewBag.UserList = User;
+                ViewBag.ProcessList = ProceccList;
+
+            }
+            catch (Exception ex)
+            {
+                TempData["ProceeeCreate"] = ex.Message;
+
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ProcessAssign(ProcessAssignViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.User_ID) || model.User_ID == "Select User")
+            {
+                TempData["ProceeeCreate"] = "Select Users";
+                return RedirectToAction("ProcessAssign");
+            }
+            else
+            {
+                await _admin.AssignProcess(model.User_ID, model.UserName, model.SelectedProcesses);
+                TempData["ProceeeCreate"] = "Process Map SucessFully";
+            }
+
+            return RedirectToAction("ProcessAssign");
+        }
 
     }
 }

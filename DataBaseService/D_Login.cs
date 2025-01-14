@@ -128,34 +128,81 @@ namespace QMS.DataBaseService
                 var roleNames = new Dictionary<int, string>();
                 var featureNames = new Dictionary<int, string>();
 
-                foreach (DataRow row in dt.Rows)
+             
+                if (dt.Rows.Count > 0)
                 {
-                    int roleId = Convert.ToInt32(row["Role_id"]);
-                    int featureId = Convert.ToInt32(row["Feature_id"]);
-                    int subFeatureId = Convert.ToInt32(row["SubFeature_ID"]);
-                    string subFeatureName = row["SubFeatureName"].ToString();
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        int roleId = Convert.ToInt32(row["Role_id"]);
+                        int featureId = Convert.ToInt32(row["Feature_id"]);
+                        int subFeatureId = Convert.ToInt32(row["SubFeature_ID"]);
+                        string subFeatureName = row["SubFeatureName"].ToString();
 
-                    if (!roleNames.ContainsKey(roleId))
-                        roleNames[roleId] = row["RoleName"].ToString();
+                        if (!roleNames.ContainsKey(roleId))
+                            roleNames[roleId] = row["RoleName"].ToString();
 
-                    if (!featureNames.ContainsKey(featureId))
-                        featureNames[featureId] = row["FeatureName"].ToString();
+                        if (!featureNames.ContainsKey(featureId))
+                            featureNames[featureId] = row["FeatureName"].ToString();
 
-                    if (!roleFeatureDictionary.ContainsKey(roleId))
-                        roleFeatureDictionary[roleId] = new Dictionary<int, Dictionary<int, string>>();
+                        if (!roleFeatureDictionary.ContainsKey(roleId))
+                            roleFeatureDictionary[roleId] = new Dictionary<int, Dictionary<int, string>>();
 
-                    if (!roleFeatureDictionary[roleId].ContainsKey(featureId))
-                        roleFeatureDictionary[roleId][featureId] = new Dictionary<int, string>();
+                        if (!roleFeatureDictionary[roleId].ContainsKey(featureId))
+                            roleFeatureDictionary[roleId][featureId] = new Dictionary<int, string>();
 
-                    roleFeatureDictionary[roleId][featureId][subFeatureId] = subFeatureName;
+                        roleFeatureDictionary[roleId][featureId][subFeatureId] = subFeatureName;
+                        int moduleId = Convert.ToInt32(row["Module_id"]);
+                        string moduleName = row["Module_Name"].ToString();
+                        if (!roleModules.ContainsKey(roleId))
+                            roleModules[roleId] = new List<object>();
 
-                    // Add modules to the roleModules dictionary
-                    int moduleId = Convert.ToInt32(row["Module_id"]);
-                    string moduleName = row["Module_Name"].ToString();
-                    if (!roleModules.ContainsKey(roleId))
-                        roleModules[roleId] = new List<object>();
+                        roleModules[roleId].Add(new { ModuleId = moduleId, ModuleName = moduleName });
+                    }
 
-                    roleModules[roleId].Add(new { ModuleId = moduleId, ModuleName = moduleName });
+                }
+                else
+                {
+                    using (SqlConnection connection = new SqlConnection(Dycon))
+                    {
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.CommandType = CommandType.StoredProcedure;
+                            command.Parameters.AddWithValue("@mode", "GetMauduleDefault");
+                            command.Parameters.AddWithValue("@EmpID", UserID);
+                            await connection.OpenAsync();
+                            SqlDataAdapter adpt = new SqlDataAdapter(command);
+                            await Task.Run(() => adpt.Fill(dt));
+                        }
+                    }
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        int roleId = Convert.ToInt32(row["Role_id"]);
+                        int featureId = row["Feature_id"] == DBNull.Value ? 0 : Convert.ToInt32(row["Feature_id"]);
+                        int subFeatureId = row["SubFeature_ID"] == DBNull.Value ? 0 : Convert.ToInt32(row["SubFeature_ID"]);
+                        string subFeatureName = row["SubFeatureName"] == DBNull.Value ? string.Empty : row["SubFeatureName"].ToString();
+
+
+                        if (!roleNames.ContainsKey(roleId))
+                            roleNames[roleId] = row["RoleName"].ToString();
+
+                        if (!featureNames.ContainsKey(featureId))
+                            featureNames[featureId] = row["FeatureName"] == DBNull.Value ? string.Empty : row["FeatureName"].ToString();
+
+                        if (!roleFeatureDictionary.ContainsKey(roleId))
+                            roleFeatureDictionary[roleId] = new Dictionary<int, Dictionary<int, string>>();
+
+                        if (!roleFeatureDictionary[roleId].ContainsKey(featureId))
+                            roleFeatureDictionary[roleId][featureId] = new Dictionary<int, string>();
+
+                        roleFeatureDictionary[roleId][featureId][subFeatureId] = subFeatureName;
+                        int moduleId = Convert.ToInt32(row["Module_id"]);
+                        string moduleName = row["Module_Name"].ToString();
+                        if (!roleModules.ContainsKey(roleId))
+                            roleModules[roleId] = new List<object>();
+
+                        roleModules[roleId].Add(new { ModuleId = moduleId, ModuleName = moduleName });
+                    }
+
                 }
 
                 var finalStructure = new List<object>();

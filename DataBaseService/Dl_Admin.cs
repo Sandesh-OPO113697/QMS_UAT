@@ -131,11 +131,39 @@ namespace QMS.DataBaseService
             }
         }
 
-     
+
+        public async Task<DataTable> GetProcessListByLocationAccountAdmin(string Location)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("sp_admin", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+                        cmd.Parameters.AddWithValue("@Mode", "GetProcessByAccountAdmin");
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+            return dt;
+        }
         public async Task<DataTable> GetProcessListByLocation(string Location)
         {
             string userIdsName = string.Empty;
-            
+
             List<string> users = new List<string>();
             using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
             {
@@ -149,7 +177,7 @@ namespace QMS.DataBaseService
                     {
                         while (await reader.ReadAsync())
                         {
-                            users.Add(await _enc.DecryptAsync( reader.GetString(0))); 
+                            users.Add(await _enc.DecryptAsync(reader.GetString(0)));
                         }
                     }
                 }
@@ -159,7 +187,7 @@ namespace QMS.DataBaseService
             {
                 userIdsName = string.Join(",", users.Select(user => $"{user}"));
             }
-           
+
             DataTable dt = new DataTable();
             try
             {
@@ -182,7 +210,7 @@ namespace QMS.DataBaseService
             {
 
             }
-        
+
 
             return dt;
         }
@@ -315,7 +343,7 @@ namespace QMS.DataBaseService
                 {
                     string[] iddd = selectedSubFeature.Split('-');
                     string SubFeatureID = iddd[0];
-                    
+
                     string FeatureID = string.Empty;
                     string FeatureName = string.Empty;
                     using (SqlCommand cmd = new SqlCommand(FeatureNameQuery, con))
@@ -334,7 +362,7 @@ namespace QMS.DataBaseService
                         var result = await cmd.ExecuteScalarAsync();
                         FeatureName = result?.ToString();
                     }
-                  
+
                     string checkExistenceQuery = "sp_admin";
                     int existingCount = 0;
                     using (SqlCommand cmd = new SqlCommand(checkExistenceQuery, con))
@@ -435,23 +463,23 @@ namespace QMS.DataBaseService
         public async Task<List<FeatureWithSubFeatures>> GetFeature()
         {
             var processes = new List<FeatureWithSubFeatures>();
-            string query = "sp_admin";  
+            string query = "sp_admin";
             string mode = "GetFeatureAndSubFeture";
-            DataTable dt = await GetDataAsyncStoredProcedure(query, mode); 
+            DataTable dt = await GetDataAsyncStoredProcedure(query, mode);
 
             FeatureWithSubFeatures currentFeature = null;
 
             foreach (DataRow row in dt.Rows)
             {
-                var FetureValue = row["fetureID"].ToString();   
-                var FetureName = row["FeatureName"].ToString(); 
-                var SubFetureValue = row["SubFeatureId"].ToString(); 
+                var FetureValue = row["fetureID"].ToString();
+                var FetureName = row["FeatureName"].ToString();
+                var SubFetureValue = row["SubFeatureId"].ToString();
                 var SubFetureName = row["SubFeaturename"].ToString();
 
                 if (currentFeature == null || currentFeature.FeatureValue != FetureValue)
                 {
                     if (currentFeature != null)
-                        processes.Add(currentFeature); 
+                        processes.Add(currentFeature);
 
                     currentFeature = new FeatureWithSubFeatures
                     {
@@ -468,7 +496,7 @@ namespace QMS.DataBaseService
             }
 
             if (currentFeature != null)
-                processes.Add(currentFeature);  
+                processes.Add(currentFeature);
 
             return processes;
         }
@@ -1148,7 +1176,7 @@ namespace QMS.DataBaseService
             }
             string query = "sp_admin";
             string mode = "GetUserList";
-                DataTable dt = await GetDataProcessSUBAsyncStoredProcedure(query, userIdsName, mode);
+            DataTable dt = await GetDataProcessSUBAsyncStoredProcedure(query, userIdsName, mode);
             if (dt.Rows.Count > 0)
             {
                 DataTable decryptedData2 = await DecryptDataTableAsync(dt);
