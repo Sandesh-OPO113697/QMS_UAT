@@ -47,10 +47,10 @@ namespace QMS.Controllers
                 return RedirectToAction("CreateAccount");
             }
 
-            bool Result = await _super.ExecuteQueryToCheckPrefixAsync(AccountPrefix);
+            bool Result = await _super.ExecuteQueryToCheckPrefixAsync(AccountPrefix , AccountName);
             if(Result==true)
             {
-                TempData["Validation"] = "Prifix Is Already Available Please try anather prifix.";
+                TempData["Validation"] = "Prrfix Or Account Name Is Already Available Please try anather ";
                 return RedirectToAction("CreateAccount");
             }
             else

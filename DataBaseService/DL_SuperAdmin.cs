@@ -74,14 +74,14 @@ namespace QMS.DataBaseService
  
         public async Task InsertAccountAsync(string accountName, string prefix, string signOn)
         {
-            string prefixEnc = await _enc.EncryptAsync(prefix);
+            string prefixEnc = await _enc.EncryptAsync(prefix.ToUpper());
             string connectionString = await _enc.DecryptAsync(_con);
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand("Sp_CreateAccount", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@AccountName", await _enc.EncryptAsync(accountName));
+                cmd.Parameters.AddWithValue("@AccountName", await _enc.EncryptAsync(accountName.ToUpper()));
                 cmd.Parameters.AddWithValue("@SignOn", await _enc.EncryptAsync(signOn));
                 cmd.Parameters.AddWithValue("@Prefix", prefixEnc);
 
@@ -91,9 +91,10 @@ namespace QMS.DataBaseService
         }
 
 
-        public async Task<bool> ExecuteQueryToCheckPrefixAsync(string prefixEnc)
+        public async Task<bool> ExecuteQueryToCheckPrefixAsync(string prefixEnc , string accountName)
         {
-            string PrixicENC = await _enc.EncryptAsync(prefixEnc);
+            string PrixicENC = await _enc.EncryptAsync(prefixEnc.ToUpper());
+            string AccountNameENC = await _enc.EncryptAsync(accountName.ToUpper());
             string STR = await _enc.DecryptAsync(_con);
             bool result = false;
 
@@ -103,6 +104,7 @@ namespace QMS.DataBaseService
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@parameter", PrixicENC);
+                cmd.Parameters.AddWithValue("@AccountName", AccountNameENC);
                 cmd.Parameters.AddWithValue("@Mode", "CheckPrefix");
 
                 await conn.OpenAsync();
