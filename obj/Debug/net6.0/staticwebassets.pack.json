@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\QMS.bundle.scp.css"
     },
     {
+      "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\Calculator.css",
+      "PackagePath": "staticwebassets\\Calculator.css"
+    },
+    {
       "Id": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\Images\\1point1-small-logo.png",
       "PackagePath": "staticwebassets\\Images\\1point1-small-logo.png"
     },

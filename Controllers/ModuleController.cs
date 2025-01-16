@@ -17,7 +17,175 @@ namespace QMS.Controllers
             _admin = adam;
         }
 
+        public IActionResult FetureSubFeture(string RoleName, string Featureid, string SubFeatureid)
+        {
+            switch (Featureid)
+            {
+                case "1":
+                    switch (SubFeatureid)
+                    {
+                        case "2":
+                            return RedirectToAction("ManageUsers");
+                        case "3":
+                            return RedirectToAction("ManageUsers");
+                        case "4":
+                            return RedirectToAction("Sample_calculator" , "Sampling" , new { RoleName= RoleName  , Featureid= Featureid , SubFeatureid= SubFeatureid });
+                        case "5":
+                            return RedirectToAction("ManageUsers");
+                        default:
+                            return View();
+                    }
+                case "2":
+                    switch (SubFeatureid)
+                    {
+                        case "6":
+                            return RedirectToAction("ManageUsers");
+                        case "7":
+                            return RedirectToAction("ManageUsers");
+                        case "8":
+                            return RedirectToAction("ManageUsers");
+                        default:
+                            return View();
+                    }
+                case "3":
+                    switch (SubFeatureid)
+                    {
+                        case "9":
+                            return RedirectToAction("ManageUsers");
+                        case "10":
+                            return RedirectToAction("ManageUsers");
+                        case "11":
+                            return RedirectToAction("ManageUsers");
+                        case "12":
+                            return RedirectToAction("ManageUsers");
+                        case "13":
+                            return RedirectToAction("ManageUsers");
+                        default:
+                            return View();
+                    }
+                case "4":
+                    switch (SubFeatureid)
+                    {
+                        case "15":
+                            return RedirectToAction("ManageUsers");
 
+                        default:
+                            return View();
+                    }
+                case "5":
+                    switch (SubFeatureid)
+                    {
+                        case "16":
+                            return RedirectToAction("ManageUsers");
+                        case "17":
+                            return RedirectToAction("ManageUsers");
+
+                        default:
+                            return View();
+                    }
+                case "6":
+                    switch (SubFeatureid)
+                    {
+                        case "18":
+                            return RedirectToAction("ManageUsers");
+                        case "19":
+                            return RedirectToAction("ManageUsers");
+                        case "20":
+                            return RedirectToAction("ManageUsers");
+                        case "21":
+                            return RedirectToAction("ManageUsers");
+                        default:
+                            return View();
+                    }
+                case "7":
+                    switch (SubFeatureid)
+                    {
+                        case "22":
+                            return RedirectToAction("ManageUsers");
+                        case "23":
+                            return RedirectToAction("ManageUsers");
+                        case "24":
+                            return RedirectToAction("ManageUsers");
+                        default:
+                            return View();
+                    }
+                case "8":
+                    switch (SubFeatureid)
+                    {
+                        case "25":
+                            return RedirectToAction("ManageUsers");
+                        case "26":
+                            return RedirectToAction("ManageUsers");
+                        case "27":
+                            return RedirectToAction("ManageUsers");
+                        default:
+                            return View();
+                    }
+                case "9":
+                    switch (SubFeatureid)
+                    {
+                        case "28":
+                            return RedirectToAction("ManageUsers");
+                        case "29":
+                            return RedirectToAction("ManageUsers");
+                        case "30":
+                            return RedirectToAction("ManageUsers");
+                        default:
+                            return View();
+                    }
+                case "10":
+                    switch (SubFeatureid)
+                    {
+                        case "31":
+                            return RedirectToAction("ManageUsers");
+                        case "32":
+                            return RedirectToAction("ManageUsers");
+                        default:
+                            return View();
+                    }
+                case "11":
+                    switch (SubFeatureid)
+                    {
+                        case "33":
+                            return RedirectToAction("ManageUsers");
+                        case "34":
+                            return RedirectToAction("ManageUsers");
+                        case "35":
+                            return RedirectToAction("ManageUsers");
+                        case "36":
+                            return RedirectToAction("ManageUsers");
+                        case "37":
+                            return RedirectToAction("ManageUsers");
+                        default:
+                            return View();
+                    }
+                case "12":
+                    switch (SubFeatureid)
+                    {
+                        case "38":
+                            return RedirectToAction("ManageUsers");
+                        case "39":
+                            return RedirectToAction("ManageUsers");
+
+                        default:
+                            return View();
+                    }
+                case "13":
+                    switch (SubFeatureid)
+                    {
+                        case "40":
+                            return RedirectToAction("ManageUsers");
+                        default:
+                            return View();
+                    }
+
+                default:
+                    return View();
+
+
+            }
+
+        }
         public IActionResult Modules(string roleid, string ModuleName)
         {
             switch (roleid)
@@ -26,21 +194,21 @@ namespace QMS.Controllers
                     switch (ModuleName)
                     {
                         case "Create Program":
-                            return RedirectToAction("CreateProcess" ,"Admin");
+                            return RedirectToAction("CreateProcess", "Admin");
                         case "Manage Feature":
-                            return RedirectToAction("FeatureMapping" , "Admin");
+                            return RedirectToAction("FeatureMapping", "Admin");
                         case "Manage Role":
                             return RedirectToAction("RoleMapping", "Admin");
                         case "Create User":
-                            return RedirectToAction("CreateUser" , "Admin");
+                            return RedirectToAction("CreateUser", "Admin");
                         case "Create SubProgram":
-                            return RedirectToAction("CreateSubProcess" , "Admin");
+                            return RedirectToAction("CreateSubProcess", "Admin");
                         case "Assign Program":
-                            return RedirectToAction("ProcessAssign" , "Admin");
+                            return RedirectToAction("ProcessAssign", "Admin");
                         default:
                             return View();
                     }
-                case "3": 
+                case "3":
                     switch (ModuleName)
                     {
                         case "Create User":
@@ -82,7 +250,7 @@ namespace QMS.Controllers
 
         }
 
-        
+
         public async Task<IActionResult> ManageUsers()
         {
             string locationid = UserInfo.LocationID;
@@ -207,7 +375,7 @@ namespace QMS.Controllers
             string locationid = UserInfo.LocationID;
             var Location = await _admin.GetLocationAsync();
             var filteredLocation = Location.Where(loc => loc.Value == locationid).ToList();
-            
+
             ViewBag.Locations = filteredLocation;
             return View();
         }

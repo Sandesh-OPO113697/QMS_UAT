@@ -1,0 +1,149 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12 my-4">
+    <div class="card shadow">
+        <div class="card-body">
+                
+
+            <h5 class="card-title">Sample calculator </h5>
+            <div class="row">
+                
+
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Program Name</label>
+                    @Html.DropDownList(
+                             "ProgramID",
+                             (List<SelectListItem>)ViewBag.ProcessList,
+                             "Select Program",
+                             new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" }
+                             )
+                </div>
+
+
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select">
+                        <option value="">Select Process</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+
+                    <label for="confidenceLevel">Confidence Level</label>
+                    <select id="confidenceLevel" class="custom-select">
+                        <option value="1.28">80%</option>
+                        <option value="1.65">90%</option>
+                        <option value="1.75">92%</option>
+                        <option value="1.85">94%</option>
+                        <option value="1.96" selected>95%</option>
+                        <option value="2.33">98%</option>
+                        <option value="2.58">99%</option>
+                    </select>
+
+                </div>
+                <div class="form-group col-md-6">
+
+                    <label for="marginOfError">Margin of Error (%)</label>
+                    <input type="number" id="marginOfError" placeholder="e.g., 5" value="5" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="stdDev">Population Proportion (%)</label>
+                    <input type="number" id="stdDev" placeholder="e.g., 0.5" value="50" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="populationSize">Population Size (Optional)</label>
+                    <input type="number" id="populationSize" placeholder="e.g., 1000" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-md-2 my-4">
+    <div class="card-body d-flex justify-content-center align-items-center">
+        <button type="submit" class="btn btn-primary" onclick="calculateSampleSize()">Calculate</button>
+    </div>
+
+    <div id="errorMessages" style="color: red;"></div>
+
+</div>
+<div class="card shadow col-md-12 my-4">
+    <div class ="card-body">
+        <label id="result">Sampling Count  : </label>
+    </div>
+
+</div>
+
+<script>
+    function onProgramChange() {
+        var programId = document.getElementById("ProgramID").value;
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: programId }),
+
+            url: "/Admin/GetSUBProcessList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                var dropdown = $('#SUBProgramID');
+                dropdown.empty();
+                dropdown.append('<option value="">Select Process</option>');
+                response.proces.forEach(function (item) {
+                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
+    }
+
+    function calculateSampleSize() {
+
+        const Z = parseFloat(document.getElementById("confidenceLevel").value);
+        const e = parseFloat(document.getElementById("marginOfError").value) / 100;
+        const p = parseFloat(document.getElementById("stdDev").value) / 100;
+        const N = parseFloat(document.getElementById("populationSize").value) || Infinity;
+
+        if (isNaN(Z) || isNaN(e) || isNaN(p) || e <= 0 || p < 0 || p > 100) {
+            alert("Please enter valid values for all required fields.");
+            return;
+        }
+        var programId = document.getElementById("ProgramID").value;
+        var SubProgram = document.getElementById("SUBProgramID").value;
+        if (programId == "") {
+            alert("Please select the process");
+        }
+        const n = (Z * Z * p * (1 - p)) / (e * e);
+        const adjustedN = N === Infinity ? n : n / (1 + ((n - 1) / N));
+
+        document.getElementById("result").textContent = `Sample Size: ${Math.ceil(adjustedN)}`;
+        var SampleSizeCount = Math.ceil(adjustedN);
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({
+                Id: SampleSizeCount, Featureid: '@ViewBag.Featureid',
+                SubFeatureid: '@ViewBag.SubFeatureid',
+                rolename: '@ViewBag.rolename',
+                Processs: programId,
+                SubProcess: SubProgram
+            }),
+
+            url: "/Sampling/AssignSapleSize",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                alert(response.message);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
+    }
+</script>

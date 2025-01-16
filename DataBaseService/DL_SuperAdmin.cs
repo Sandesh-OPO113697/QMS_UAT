@@ -27,7 +27,7 @@ namespace QMS.DataBaseService
             {
                 string connectionString = await _enc.DecryptAsync(_con);
                 string createDatabaseQuery =
-                    $"IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = '{accountName}') CREATE DATABASE {accountName}";
+                    $"IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = '{accountName.ToUpper()}') CREATE DATABASE {accountName.ToUpper()}";
                 string sqlScript = await File.ReadAllTextAsync(@"D:\Script\Account_Script_QMS.sql");
 
                 string[] batches = sqlScript.Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
@@ -36,7 +36,7 @@ namespace QMS.DataBaseService
                 {
                     await conn.OpenAsync();
                     await ExecuteQueryAsync(conn, createDatabaseQuery);
-                    string useDatabaseQuery = $"USE {accountName};";
+                    string useDatabaseQuery = $"USE {accountName.ToUpper()};";
                     await ExecuteQueryAsync(conn, useDatabaseQuery);
 
                     foreach (var batch in batches)

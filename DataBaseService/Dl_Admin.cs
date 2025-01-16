@@ -105,7 +105,7 @@ namespace QMS.DataBaseService
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Location", Location_ID);
                     cmd.Parameters.AddWithValue("@Procesname", ProgramID);
-                    cmd.Parameters.AddWithValue("@Subprogram", SubProcess);
+                    cmd.Parameters.AddWithValue("@Subprogram", SubProcess.ToUpper());
                     cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
                     await cmd.ExecuteNonQueryAsync();
                 }
@@ -123,7 +123,7 @@ namespace QMS.DataBaseService
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Location", Location_ID);
-                    cmd.Parameters.AddWithValue("@Procesname", Process);
+                    cmd.Parameters.AddWithValue("@Procesname", Process.ToUpper());
                     cmd.Parameters.AddWithValue("@dataRetaintion", DataRetention);
                     cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
                     await cmd.ExecuteNonQueryAsync();
@@ -172,6 +172,7 @@ namespace QMS.DataBaseService
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@status", UserInfo.UserName);
+                    
                     cmd.Parameters.AddWithValue("@Mode", "GetUserIdList");
                     using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                     {
@@ -199,6 +200,7 @@ namespace QMS.DataBaseService
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@status", userIdsName);
+                        cmd.Parameters.AddWithValue("@Location_ID", Location);
                         cmd.Parameters.AddWithValue("@Mode", "Get_locationWise_list");
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
                         await Task.Run(() => adpt.Fill(dt));
