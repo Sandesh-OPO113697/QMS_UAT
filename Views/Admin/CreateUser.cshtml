@@ -26,6 +26,7 @@
                 }
 
             }
+            
 
             <table id="SuperAdminTable" class="table table-bordered table-hover mb-0">
                 <thead>
@@ -44,7 +45,7 @@
                     @foreach (System.Data.DataRow row in Model.Rows)
                     {
                         <tr>
-                            <td>@row["ID"]</td>
+                            <td>@row["ID"] </td>
                             <td>@row["username"]</td>
                             <td>@row["Role"]</td>
                             <td>@row["Process"]</td>

@@ -218,8 +218,6 @@ namespace QMS.DataBaseService
         }
         public async Task<DataTable> GetProcessListAsync()
         {
-
-
             DataTable dt = new DataTable();
             using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
             {
@@ -229,15 +227,21 @@ namespace QMS.DataBaseService
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@status", UserInfo.UserName);
-                    cmd.Parameters.AddWithValue("@Mode", "Get_Process_list");
+                    if(UserInfo.UserType=="Admin")
+                    {
+                        cmd.Parameters.AddWithValue("@Mode", "Get_Process_list");
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@Location_ID", UserInfo.LocationID);
+                        cmd.Parameters.AddWithValue("@Mode", "Get_locationWise_list");
+                    }
+                    
                     SqlDataAdapter adpt = new SqlDataAdapter(cmd);
                     await Task.Run(() => adpt.Fill(dt));
                 }
             }
-
             return dt;
-
-
         }
 
         public async Task<string> GetUserNameByID(string id)
