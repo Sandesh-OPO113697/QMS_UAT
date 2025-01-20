@@ -1,0 +1,173 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="col-md-12 my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Work allocation  </h5>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Audit Type</label>
+                    @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", })
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Location</label>
+                    @Html.DropDownList("LocationID", (List<SelectListItem>)ViewBag.LocationName, "Select Location", new { @class = "custom-select", id = "LocationID", })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Role</label>
+                    @Html.DropDownList("RoleID", (List<SelectListItem>)ViewBag.RoleList, "Select Role", new { @class = "custom-select", id = "RoleID", })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Program</label>
+                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()">
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Sample Size</label>
+                    <input type="text" id="SamplingSize" class="custom-select" readonly />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-md-12 my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Agent HC</label>
+                    <input type="text" id="Agent" class="custom-select" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">QA HC</label>
+                    <input type="text" id="qa" class="custom-select"  />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Ops TL HC</label>
+                    <input type="text" id="tl" class="custom-select"  />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Define Target/Agent/Week</label>
+                    <select name="target" id="target" class="custom-select" >
+                        <option value="">Select Target</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function onSubProgramChange() {
+
+        var selectedValue = document.getElementById("SUBProgramID").value;
+
+        if (selectedValue === '') {
+            alert('Please select a valid Sub Program Name.');
+            document.getElementById("SamplingSize").value = 0;
+        } else {
+            console.log("Selected Sub Program ID:", selectedValue);
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Sampling/GetSamplingCountwithSubProcess",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
+                success: function (response) {
+                    console.log(response);
+                    $('#SamplingSize').val(response.sampleSize);
+                    $('#qa').val(response.qacount);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
+        }
+    }
+    function onProgramChange() {
+        var programId = document.getElementById("ProgramID").value;
+        $('#SamplingSize').val(0);
+
+        if (programId == "") {
+            alert("Please Select Program first");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: programId }),
+
+            url: "/Admin/GetSUBProcessList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                var dropdown = $('#SUBProgramID');
+                dropdown.empty();
+                dropdown.append('<option value="">Select Sub Process</option>');
+                response.proces.forEach(function (item) {
+                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: programId }),
+
+            url: "/Sampling/GetSamplingCount",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                var data = JSON.stringify(response);
+                console.log(data);
+
+                $('#SamplingSize').val(response.sampleSize);
+                $('#qa').val(response.qacount);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
+
+    }
+
+
+</script>
+
+

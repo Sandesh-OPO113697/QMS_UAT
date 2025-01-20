@@ -25,13 +25,13 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "2":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "3":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "4":
                             return RedirectToAction("Sample_calculator" , "Sampling" , new { RoleName= RoleName  , Featureid= Featureid , SubFeatureid= SubFeatureid });
                         case "5":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("WorkAllowcation", "Sampling", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
                         default:
                             return View();
                     }
@@ -39,11 +39,11 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "6":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "7":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "8":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         default:
                             return View();
                     }
@@ -51,15 +51,15 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "9":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "10":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "11":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "12":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "13":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         default:
                             return View();
                     }
@@ -67,7 +67,7 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "15":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
 
                         default:
                             return View();
@@ -76,9 +76,9 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "16":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "17":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
 
                         default:
                             return View();
@@ -87,13 +87,13 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "18":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "19":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "20":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "21":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         default:
                             return View();
                     }
@@ -101,11 +101,11 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "22":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "23":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "24":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         default:
                             return View();
                     }
@@ -113,11 +113,11 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "25":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "26":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "27":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         default:
                             return View();
                     }
@@ -125,11 +125,11 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "28":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "29":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "30":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         default:
                             return View();
                     }
@@ -137,9 +137,9 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "31":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "32":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         default:
                             return View();
                     }
@@ -147,15 +147,15 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "33":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "34":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "35":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "36":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "37":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         default:
                             return View();
                     }
@@ -163,9 +163,9 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "38":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         case "39":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
 
                         default:
                             return View();
@@ -174,7 +174,7 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "40":
-                            return RedirectToAction("ManageUsers");
+                            return RedirectToAction("ManageModule");
                         default:
                             return View();
                     }
@@ -442,6 +442,9 @@ namespace QMS.Controllers
 
             return RedirectToAction("ProcessAssign");
         }
-
+        public async Task<ActionResult> ManageModule()
+        {
+            return View();
+        }
     }
 }
