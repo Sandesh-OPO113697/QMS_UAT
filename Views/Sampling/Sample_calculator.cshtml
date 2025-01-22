@@ -5,11 +5,11 @@
 <div class="col-md-12 my-4">
     <div class="card shadow">
         <div class="card-body">
-                
+
 
             <h5 class="card-title">Sample calculator </h5>
             <div class="row">
-                
+
 
                 <div class="form-group col-md-6">
                     <label for="ProgramID">Program Name</label>
@@ -64,30 +64,65 @@
 
 <div class="col-md-2 my-4">
     <div class="card-body d-flex justify-content-center align-items-center">
-        <button type="submit" class="btn btn-primary"  style="margin-left:50px"  onclick="calculateSampleSize()">Calculate</button>
-        <button type="submit" class="btn btn-primary"style="margin-left:50px"  onclick="Submite()">Submite</button>
+        <button type="submit" class="btn btn-primary" style="margin-left:50px" onclick="calculateSampleSize()">Calculate</button>
+        <button type="submit" class="btn btn-primary" style="margin-left:50px" onclick="Submite()">Submite</button>
     </div>
-   
+
 
     <div id="errorMessages" style="color: red;"></div>
 
 </div>
 <div class="card shadow col-md-12 my-4">
-    <div class ="card-body">
-        
+    <div class="card-body">
+
         <label id="resultOld">Old Sampling Count  : </label>
         <br />
-           <label id="result">new Sampling Count  : </label>
+        <label id="result">new Sampling Count  : </label>
     </div>
 
 </div>
 
 <script>
-    function Submite()
-    {
+    function Submite() {
+        let oldCount = document.getElementById("resultOld").textContent.replace("Old Sampling Count  :", "").trim();
+        let newCount = document.getElementById("result").textContent.replace("New Sampling Count  :", "").trim();
+
+
+        var programId = document.getElementById("ProgramID").value;
+        var SubProgram = document.getElementById("SUBProgramID").value;
+        let userResponse = confirm(`Do you want to update?
+        Old Count: ${oldCount}
+        New Count: ${newCount}`);
+
+        if (userResponse) {
+            $.ajax({
+                type: "POST",
+                data: JSON.stringify({
+                    Id: newCount, Featureid: '@ViewBag.Featureid',
+                    SubFeatureid: '@ViewBag.SubFeatureid',
+                    rolename: '@ViewBag.rolename',
+                    Processs: programId,
+                    SubProcess: SubProgram
+                }),
+
+                url: "/Sampling/AssignSapleSize",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert(response.message);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
+        } else {
+            alert("Update aborted!");
+        }
+
+
     }
     function GetOldSanpmlingCount() {
-        
+
         var programId = document.getElementById("ProgramID").value;
         var selectedValue = $('#SUBProgramID').val();
         $.ajax({
@@ -98,8 +133,8 @@
             data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId }),
             success: function (response) {
                 console.log(response);
-                document.getElementById("resultOld").textContent = "Old Sampling Count  :"+ response.sampleSize;
-                
+                document.getElementById("resultOld").textContent = "Old Sampling Count  :" + response.sampleSize;
+
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred: " + error);
@@ -140,9 +175,9 @@
             success: function (response) {
                 var data = JSON.stringify(response);
                 console.log(data);
-                document.getElementById("resultOld").textContent = "Old Sampling Count  :" +  response.sampleSize;
-                
-                
+                document.getElementById("resultOld").textContent = "Old Sampling Count  :" + response.sampleSize;
+
+
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred: " + error);
@@ -170,28 +205,9 @@
         const n = (Z * Z * p * (1 - p)) / (e * e);
         const adjustedN = N === Infinity ? n : n / (1 + ((n - 1) / N));
 
-        document.getElementById("result").textContent = `Sample Size: ${Math.ceil(adjustedN)}`;
+        document.getElementById("result").textContent = `New Sampling Count  : ${Math.ceil(adjustedN)}`;
         var SampleSizeCount = Math.ceil(adjustedN);
-        $.ajax({
-            type: "POST",
-            data: JSON.stringify({
-                Id: SampleSizeCount, Featureid: '@ViewBag.Featureid',
-                SubFeatureid: '@ViewBag.SubFeatureid',
-                rolename: '@ViewBag.rolename',
-                Processs: programId,
-                SubProcess: SubProgram
-            }),
 
-            url: "/Sampling/AssignSapleSize",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                alert(response.message);
-            },
-            error: function (xhr, status, error) {
-                console.error("Error occurred: " + error);
-            }
-        });
 
     }
 </script>
