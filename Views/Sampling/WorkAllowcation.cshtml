@@ -198,7 +198,17 @@
 
 <script>
     function AuditType() {
+        document.getElementById("LocationID").selectedIndex = 0;
+        document.getElementById("RoleID").selectedIndex = 0;
+        document.getElementById("ProgramID").selectedIndex = 0;
+        document.getElementById("SUBProgramID").innerHTML = ""; 
+        document.getElementById("target").selectedIndex = 0;
 
+        
+        let inputFields = document.querySelectorAll("input");
+        inputFields.forEach(field => {
+            field.value = "";
+        });
         var Audit = document.getElementById("AuditID").value;
         document.getElementById("T_Adit").style.display = "none";
         document.getElementById("H_R_Adit").style.display = "none";
