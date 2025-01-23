@@ -15,20 +15,35 @@ namespace QMS.Controllers
             dlSampling = dl;
             _dlamin = dlamin;
         }
+        [HttpPost]
+        public async  Task<JsonResult> SubmitData([FromBody]  Dictionary<string, string> formData)
+        {
+            if (formData == null || formData.Count == 0)
+            {
+                return Json(new { success = false, message = "Invalid data received" });
+            }
+            else
+            {
+                await dlSampling.InsertAllocationDetails(formData);
+            }
+            return Json(new { success = true, message = "Data saved successfully!" });
+        }
 
-       
+
         public async Task<JsonResult> GetSamplingCount([FromBody] DropDawon id)
         {
             string SampleSixe = await dlSampling.GetSamplingCountByProcessandsub(id.Id.ToString(), "0");
             string QACount = await dlSampling.GetQACountByProcessandsub(id.Id.ToString(), "0");
+            string TLCount = await dlSampling.GetTLCountByProcessandsub(id.Id.ToString(), "0");
 
-            return Json(new { sucess = true, SampleSize = SampleSixe, qacount = QACount });
+            return Json(new { sucess = true, SampleSize = SampleSixe, qacount = QACount, tlcount = TLCount });
         }
         public async Task<JsonResult> GetSamplingCountwithSubProcess([FromBody] Process_SUbProcess id)
         {
             string SampleSixe = await dlSampling.GetSamplingCountByProcessandsub(id.ProcessID.ToString(), id.SUBProcessID.ToString());
             string QACount = await dlSampling.GetQACountByProcessandsub(id.ProcessID.ToString(), id.SUBProcessID.ToString());
-            return Json(new { sucess = true, SampleSize = SampleSixe, qacount = QACount });
+            string TLCount = await dlSampling.GetTLCountByProcessandsub(id.ProcessID.ToString(), id.SUBProcessID.ToString());
+            return Json(new { sucess = true, SampleSize = SampleSixe, qacount = QACount , tlcount= TLCount });
         }
 
         public async Task<IActionResult> WorkAllowcation(int SubFeatureid, string RoleName, int Featureid)

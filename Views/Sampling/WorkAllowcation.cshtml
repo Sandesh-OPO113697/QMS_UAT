@@ -3,8 +3,6 @@
 }
 
 
-
-
 <div class="col-md-12 my-4">
     <div class="card shadow">
         <div class="card-body">
@@ -12,7 +10,7 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="ProgramID">Audit Type</label>
-                    @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", })
+                    @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", onchange="AuditType()" })
                 </div>
 
                 <div class="form-group col-md-6">
@@ -86,7 +84,257 @@
 </div>
 
 
+
+
+
+<div class="col-md-12 my-4" id="R_Adit" style="display:none">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Regular Audit </h5>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Active Head count</label>
+                    <input type="text" id="R_G_Active_Head_count" class="custom-select" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Audit sampling/Month</label>
+                    <input type="text" id="R_G_Audit_sampling_Month" class="custom-select" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Of QA</label>
+                    <input type="text" id="R_G_of-qa" class="custom-select" />
+                </div>
+                 <div class="form-group col-md-6">
+                    <label for="SamplingSize">Per QA Monthly  target</label>
+                    <input type="text" id="R_G_Per_QA_Monthly_target" class="custom-select" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Per QA Daily Traget</label>
+                    <input type="text" id="R_G_Per_QA_Daily_Traget" class="custom-select" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 my-4" id="T_Adit" style="display:none">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Transformation Audit </h5>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Active Head count</label>
+                    <input type="text" id="t_Audit_Active_Head_count" class="custom-select" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Audit sampling/Month</label>
+                    <input type="text" id="t_Audit_Audit_sampling_Month" class="custom-select" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Of QA</label>
+                    <input type="text" id="t_Audit_of-qa" class="custom-select" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Target (Manual)</label>
+                    <input type="text" id="t_Audit_Target_Manual" class="custom-select" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Per QA Monthly  target</label>
+                    <input type="text" id="t_Audit_Per_QA_Monthly_target" class="custom-select" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Per QA Daily Traget</label>
+                    <input type="text" id="t_Audit_Per_QA_Daily_Traget" class="custom-select" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 my-4" id="H_R_Adit" style="display:none">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Hygiene & Risk Audit </h5>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Active Head count</label>
+                    <input type="text" id="H_R_Audit_Active_Head_count" class="custom-select" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Audit sampling/Month</label>
+                    <input type="text" id="H_R_Audit_Audit_sampling_Month" class="custom-select" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Of QA</label>
+                    <input type="text" id="H_R_Audit_of-qa" class="custom-select" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Target (Manual)</label>
+                    <input type="text" id="H_R_Audit_Target_Manual" class="custom-select" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Per QA Monthly  target</label>
+                    <input type="text" id="H_R_Audit_Per_QA_Monthly_target" class="custom-select" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SamplingSize">Per QA Daily Traget</label>
+                    <input type="text" id="H_R_Audit_Per_QA_Daily_Traget" class="custom-select" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12 my-4 text-center">
+    <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+</div>
+
 <script>
+    function AuditType() {
+
+        var Audit = document.getElementById("AuditID").value;
+        document.getElementById("T_Adit").style.display = "none";
+        document.getElementById("H_R_Adit").style.display = "none";
+        document.getElementById("R_Adit").style.display = "none";
+
+        if (Audit == 1) {
+            document.getElementById("R_Adit").style.display = "block";
+        }
+        if (Audit == 2) {
+            document.getElementById("T_Adit").style.display = "block";
+        }
+        if (Audit == 3) {
+            document.getElementById("H_R_Adit").style.display = "block";
+
+        }
+    }
+    function submitForm() {
+        var isValid = true;
+        var formData = {};
+
+        var auditType = document.getElementById("AuditID");
+        var location = document.getElementById("LocationID");
+        var role = document.getElementById("RoleID");
+        var program = document.getElementById("ProgramID");
+        var subProgram = document.getElementById("SUBProgramID");
+        var samplingSize = document.getElementById("SamplingSize");
+        var agentHC = document.getElementById("Agent");
+        var qaHC = document.getElementById("qa");
+        var opsTLHC = document.getElementById("tl");
+        var target = document.getElementById("target");
+
+        validateField(auditType);
+        validateField(location);
+        validateField(role);
+        validateField(program);
+        validateField(subProgram);
+        validateField(samplingSize);
+        validateField(agentHC);
+        validateField(qaHC);
+        validateField(opsTLHC);
+        validateField(target);
+
+        function validateField(field) {
+            if (field && field.closest("div.card").style.display !== "none") {
+                if (field.value.trim() === "") {
+                    isValid = false;
+                    field.style.border = "1px solid red";
+                } else {
+                    field.style.border = "";
+                    formData[field.id] = field.value;
+                }
+            }
+        }
+
+        function validateFieldDynamic(field) {
+            if (field && field.closest("div.card").style.display !== "none") {
+                if (field.value.trim() === "") {
+                    isValid = false;
+                    field.style.border = "1px solid red";
+                } else {
+                    field.style.border = "";
+                }
+            }
+        }
+
+        if (document.getElementById("T_Adit").style.display !== "none") {
+            validateFieldDynamic(document.getElementById("t_Audit_Active_Head_count"));
+            validateFieldDynamic(document.getElementById("t_Audit_Audit_sampling_Month"));
+            validateFieldDynamic(document.getElementById("t_Audit_of-qa"));
+            validateFieldDynamic(document.getElementById("t_Audit_Target_Manual"));
+            validateFieldDynamic(document.getElementById("t_Audit_Per_QA_Monthly_target"));
+            validateFieldDynamic(document.getElementById("t_Audit_Per_QA_Daily_Traget"));
+
+            formData["Audit_Active_Head_count_ALL"] = document.getElementById("t_Audit_Active_Head_count").value;
+            formData["Audit_Audit_sampling_Month_ALL"] = document.getElementById("t_Audit_Audit_sampling_Month").value;
+            formData["Audit_of-qa_ALL"] = document.getElementById("t_Audit_of-qa").value;
+            formData["Audit_Target_Manual_ALL"] = document.getElementById("t_Audit_Target_Manual").value;
+            formData["Audit_Per_QA_Monthly_target_ALL"] = document.getElementById("t_Audit_Per_QA_Monthly_target").value;
+            formData["Audit_Per_QA_Daily_Traget_ALL"] = document.getElementById("t_Audit_Per_QA_Daily_Traget").value;
+        }
+
+        if (document.getElementById("H_R_Adit").style.display !== "none") {
+            validateFieldDynamic(document.getElementById("H_R_Audit_Active_Head_count"));
+            validateFieldDynamic(document.getElementById("H_R_Audit_Audit_sampling_Month"));
+            validateFieldDynamic(document.getElementById("H_R_Audit_of-qa"));
+            validateFieldDynamic(document.getElementById("H_R_Audit_Target_Manual"));
+            validateFieldDynamic(document.getElementById("H_R_Audit_Per_QA_Monthly_target"));
+            validateFieldDynamic(document.getElementById("H_R_Audit_Per_QA_Daily_Traget"));
+
+            formData["Audit_Active_Head_count_ALL"] = document.getElementById("H_R_Audit_Active_Head_count").value;
+            formData["Audit_Audit_sampling_Month_ALL"] = document.getElementById("H_R_Audit_Audit_sampling_Month").value;
+            formData["Audit_of-qa_ALL"] = document.getElementById("H_R_Audit_of-qa").value;
+            formData["Audit_Target_Manual_ALL"] = document.getElementById("H_R_Audit_Target_Manual").value;
+            formData["Audit_Per_QA_Monthly_target_ALL"] = document.getElementById("H_R_Audit_Per_QA_Monthly_target").value;
+            formData["Audit_Per_QA_Daily_Traget_ALL"] = document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value;
+        }
+
+        if (document.getElementById("R_Adit").style.display !== "none") {
+            validateFieldDynamic(document.getElementById("R_G_Active_Head_count"));
+            validateFieldDynamic(document.getElementById("R_G_Audit_sampling_Month"));
+            validateFieldDynamic(document.getElementById("R_G_of-qa"));
+            
+            validateFieldDynamic(document.getElementById("R_G_Per_QA_Monthly_target"));
+            validateFieldDynamic(document.getElementById("R_G_Per_QA_Daily_Traget"));
+            alert(document.getElementById("R_G_Active_Head_count").value);
+            formData["Audit_Active_Head_count_ALL"] = document.getElementById("R_G_Active_Head_count").value;
+            
+            formData["Audit_Audit_sampling_Month_ALL"] = document.getElementById("R_G_Audit_sampling_Month").value;
+            formData["Audit_of-qa_ALL"] = document.getElementById("R_G_of-qa").value;
+            formData["Audit_Per_QA_Monthly_target_ALL"] = document.getElementById("R_G_Per_QA_Monthly_target").value;
+            formData["Audit_Per_QA_Daily_Traget_ALL"] = document.getElementById("R_G_Per_QA_Daily_Traget").value;
+        }
+
+        if (!isValid) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        $.ajax({
+            url: "/Sampling/SubmitData",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(formData),
+            success: function (response) {
+                alert(response.message);
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                alert("Error submitting data: " + error);
+            }
+        });
+
+        console.log(formData);
+        console.log(JSON.stringify(formData));
+    }
+
 
     function onSubProgramChange() {
 
@@ -109,6 +357,7 @@
                     console.log(response);
                     $('#SamplingSize').val(response.sampleSize);
                     $('#qa').val(response.qacount);
+                    $('#tl').val(response.tlcount);
                 },
                 error: function (xhr, status, error) {
                     console.error("Error occurred: " + error);
@@ -158,6 +407,7 @@
 
                 $('#SamplingSize').val(response.sampleSize);
                 $('#qa').val(response.qacount);
+                $('#tl').val(response.tlcount);
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred: " + error);
