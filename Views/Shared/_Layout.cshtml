@@ -90,7 +90,14 @@
                 <div class="w-100 mb-4 d-flex">
 
                     <a class="navbar-brand mx-auto mt-2 flex-fill text-center" >
-                        <img id="logoImage" src="@Url.Content("~/Images/mainLogo.png")" style="margin-left:-10px" />
+                       @*  <img id="logoImage" src="@Url.Content("~/Images/mainLogo.png")" style="margin-left:-10px" /> *@
+                        <svg version="1.1" id="logo" class="navbar-brand-img brand-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
+                        <g>
+                        <polygon class="st0" points="78,105 15,105 24,87 87,87 	" />
+                        <polygon class="st0" points="96,69 33,69 42,51 105,51 	" />
+                        <polygon class="st0" points="78,33 15,33 24,15 87,15 	" />
+                </g>
+              </svg>
 
                     </a>
                 </div>
@@ -235,8 +242,10 @@
                                                 {
                                                     <li>
                                                         <a class="nav-link pl-3" href="/Module/FetureSubFeture?RoleName=@role.RoleName&Featureid=@feature.FeatureId&SubFeatureid=@subFeature.SubFeatureId">
+                                                            <span style="content: '• '; display: inline-block; margin-right: 5px;">•</span>
                                                             <span class="ml-1">@subFeature.SubFeatureName</span>
                                                         </a>
+
                                                     </li>
                                                 }
                                             </ul>

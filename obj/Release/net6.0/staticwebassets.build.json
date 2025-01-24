@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "novKZ7M407FDUvR1nPT6wiAiRKemoLUbxg+79tMDek4=",
+  "Hash": "JcDXR4PzXdeeN0W8UXnfElNOGQIip5MB9mRmTeOY2jc=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -927,6 +927,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\products\\p4.jpg"
+    },
+    {
+      "Identity": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\Calculator.css",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "Calculator.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Calculator.css"
     },
     {
       "Identity": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\wwwroot\\css\\apexcharts.css",
