@@ -27,7 +27,7 @@ namespace QMS.Controllers
                         case "2":
                             return RedirectToAction("ManageModule");
                         case "3":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("SamplingFilers" , "Sampling", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
                         case "4":
                             return RedirectToAction("Sample_calculator" , "Sampling" , new { RoleName= RoleName  , Featureid= Featureid , SubFeatureid= SubFeatureid });
                         case "5":

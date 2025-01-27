@@ -5,33 +5,31 @@ using QMS.Encription;
 using QMS.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(60); 
-    options.Cookie.HttpOnly = true; 
-    options.Cookie.IsEssential = true; 
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/LogIn/Unauthorized"; // Redirect to unauthorized page if forbidden
-        options.AccessDeniedPath = "/LogIn/Unauthorized"; // Redirect to unauthorized page if forbidden
+        options.LoginPath = "/LogIn/Unauthorized";
+        options.AccessDeniedPath = "/LogIn/Unauthorized";
     });
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<DLConnection>();
-builder.Services.AddScoped<D_Login>();
-builder.Services.AddScoped<Dl_Admin>();
-builder.Services.AddScoped<DL_SuperAdmin>();
-builder.Services.AddScoped<DL_Encrpt>();
-builder.Services.AddScoped<DL_Module>();
-builder.Services.AddScoped<DlSampling>();
+builder.Services.AddTransient<DLConnection>();
+builder.Services.AddTransient<D_Login>();
+builder.Services.AddTransient<Dl_Admin>();
+builder.Services.AddTransient<DL_SuperAdmin>();
+builder.Services.AddTransient<DL_Encrpt>();
+builder.Services.AddTransient<DL_Module>();
+builder.Services.AddTransient<DlSampling>();
 
 
 builder.Services.AddControllersWithViews();
@@ -47,18 +45,13 @@ var app = builder.Build();
 void ValidateJWTTocken(HttpContext context)
 {
     string token = context.Request.Cookies["Token"];
-
     if (string.IsNullOrEmpty(token))
     {
-       
     }
     else
     {
         JWTHelper.AuthenticationRequest(token, context);
     }
-    
-
-
 }
 
 if (!app.Environment.IsDevelopment())

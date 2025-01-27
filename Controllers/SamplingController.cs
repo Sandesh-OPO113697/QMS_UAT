@@ -108,5 +108,9 @@ namespace QMS.Controllers
 
             return Json(new { success = true, message = "Sample size assigned successfully." });
         }
+        public ActionResult SamplingFilers(string RoleName, string Featureid, string SubFeatureid)
+        {
+            return View();
+        }
     }
 }

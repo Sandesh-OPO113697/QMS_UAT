@@ -1,0 +1,144 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-end mb-1">
+    <div class="dropdown" style="position: relative;">
+        <button class="btn btn-primary" type="button" id="filterButton" style="background-color: #007bff; color: white; border-radius: 5px; padding: 10px 20px;">
+            Filters  <span style="margin-left:10px;" class="fe fe-sliders"></span>
+        </button>
+        <div id="filterOptions" style="display: none; position: absolute; top: 68px; right: 17px; z-index: 12; background-color: white; border: 1px solid black; padding: 10px;    border-radius: 21px;width: 338px;">
+            <h5 class="card-title" style="margin-left: 136px;">Filters </h5>
+            <ul >
+                <li style="display: flex; flex-direction: column; align-items: center;">
+                    <label > AHT (Min - Max)</label>
+                    <div class="row" style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 5px;">
+                        <input type="range" class="form-range range-slider" id="ahtRange" min="10" max="50" step="1"
+                               oninput="updateRangeValue(this.value)"
+                               style="width: 100%; max-width: 300px;">
+                    </div>
+                    <div class="row" style="display: flex; justify-content: center; align-items: center;">
+                        <span id="rangeValue" style="font-weight: bold; padding: 0 5px;">0</span> to
+                        <span id="maxValue" style="font-weight: bold; padding: 0 5px;">207</span>
+                    </div>
+                </li>
+                <li style="display: flex; flex-direction: column; align-items: center; margin-left: -36px;">
+                    <label style="margin-top: 21px;">Dispositions</label>
+                    <select class="custom-select">
+                        <option selected>Select Dispositions</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </li>
+                <li style="display: flex; flex-direction: column; align-items: center;margin-left: -36px;">
+                    <label style="margin-top: 21px;">CSAT/NPS</label>
+                    <select class="custom-select">
+                        <option selected>Select CSAT/NPS</option>
+                        <option value="1">Team 1</option>
+                        <option value="2">Team 2</option>
+                        <option value="3">Team 3</option>
+                    </select>
+                </li>
+                <li style="display: flex; flex-direction: column; align-items: center;margin-left: -36px;">
+                    <label style="margin-top: 21px;">Sales</label>
+                    <select class="custom-select">
+                        <option selected>Select Sales Teams</option>
+                        <option value="1">Team 1</option>
+                        <option value="2">Team 2</option>
+                        <option value="3">Team 3</option>
+                    </select>
+                </li>
+                <li style="display: flex; flex-direction: column; align-items: center;margin-left: -36px; ">
+                    <label style="margin-top: 21px;">Collections</label>
+                    <select class="custom-select">
+                        <option selected>Select  Collections</option>
+                        <option value="1">Team 1</option>
+                        <option value="2">Team 2</option>
+                        <option value="3">Team 3</option>
+                    </select>
+                </li>
+                <li style="display: flex; flex-direction: column; align-items: center;margin-left: -36px;">
+                    <label style="margin-top: 21px;">Repeat</label>
+                    <select class="custom-select">
+                        <option selected>Select  Repeat</option>
+                        <option value="1">Team 1</option>
+                        <option value="2">Team 2</option>
+                        <option value="3">Team 3</option>
+                    </select>
+                </li>
+                <br />
+                <button id="AppyFiler" style="margin-left:70px;" class="btn btn-primary">Apply Filter</button>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title"> </h5>
+            <table class="table table-bordered table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Account Name</th>
+                        <th>Owner</th>
+                        <th>Created Date</th>
+                        <th>Last Contacted</th>
+                        <th>Deal Size</th>
+                        <th>Status/Stage</th>
+                        <th>Acc Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fas fa-user-circle me-2"></i> 9339746887</td>
+                        <td>Rahul K</td>
+                        <td>Jun 23, 2023</td>
+                        <td>Jun 23, 2023</td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td><span class="score green">81%</span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-user-circle me-2"></i> 9634607092</td>
+                        <td>Deepak Deepak</td>
+                        <td>Jun 23, 2023</td>
+                        <td>Jun 23, 2023</td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td><span class="score green">91%</span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-user-circle me-2"></i> 9347655778</td>
+                        <td>Hem Chander S</td>
+                        <td>Jun 23, 2023</td>
+                        <td>Jun 23, 2023</td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td><span>42%</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery.min.js"></script>
+<script>
+    document.getElementById('filterButton').addEventListener('click', function () {
+        const filterOptions = document.getElementById('filterOptions');
+
+        if (filterOptions.style.display === 'none') {
+            filterOptions.style.display = 'block'; 
+         
+        }
+    });
+
+    document.getElementById('AppyFiler').addEventListener('click', function () {
+        const filterOptions = document.getElementById('filterOptions');
+            filterOptions.style.display = 'none'; 
+
+        
+    });
+</script>
