@@ -181,8 +181,6 @@ namespace QMS.Controllers
 
                 default:
                     return View();
-
-
             }
 
         }
@@ -211,8 +209,8 @@ namespace QMS.Controllers
                 case "3":
                     switch (ModuleName)
                     {
-                        case "Create User":
-                            return RedirectToAction("ManageUsers");
+                        case "Assign account user role":
+                            return RedirectToAction("RoleMapping");
                         default:
                             return View();
                     }
@@ -229,7 +227,7 @@ namespace QMS.Controllers
                             return RedirectToAction("CreateUser");
                         case "Create SubProgram":
                             return RedirectToAction("CreateSubProcess");
-                        case "Assign Program":
+                        case "Assign program user role":
                             return RedirectToAction("ProcessAssign");
                         default:
                             return View();

@@ -662,10 +662,21 @@ namespace QMS.DataBaseService
         public async Task<List<SelectListItem>> GetRoleAndSubAsync(string username)
         {
             string query = "sp_admin";
-            string mode = "GetRoleAndSub";
+          
             var processes = new List<SelectListItem>();
-            DataTable dt = await GetDataProcessSUBAsyncStoredProcedure(query, username, mode);
+            DataTable dt = new DataTable();
+            if (UserInfo.UserType=="Admin")
+            {
+                string mode = "GetRoleAndSub";
+                dt = await GetDataProcessSUBAsyncStoredProcedure(query, username, mode);
 
+            }
+            else 
+            {
+                string mode = "GetRoleHiraricy";
+                dt = await GetDataProcessSUBAsyncStoredProcedure(query, username, mode);
+
+            }
             foreach (DataRow row in dt.Rows)
             {
                 string displayText = $"{row["Role_name"]}";

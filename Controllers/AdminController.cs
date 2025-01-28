@@ -173,7 +173,14 @@ namespace QMS.Controllers
         [HttpPost]
         public async Task<List<SelectListItem>> GetRoleByRole([FromBody] DropDawnString request)
         {
-            string RoleID = request.ID;
+            string 
+                
+                
+                
+                
+                
+                
+                RoleID = request.ID;
             string UserName = await _admin.GetUserNameByID(RoleID);
             var UserRoles = await _admin.GetRoleOnBasicName(UserName);
             return UserRoles;
