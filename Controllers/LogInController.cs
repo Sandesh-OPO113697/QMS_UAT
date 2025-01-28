@@ -66,10 +66,15 @@ namespace QMS.Controllers
                     {
                         HttpContext.Session.SetString("UserType", "Admin");
                     }
+                    else if (UserInfo.UserType == "SiteAdmin")
+                    {
+                        HttpContext.Session.SetString("UserType", "SiteAdmin");
+                    }
                     else if (UserInfo.UserType == "QE")
                     {
                         HttpContext.Session.SetString("UserType", "QE");
                     }
+
                     else
                     {
                         HttpContext.Session.SetString("UserType", "AccountUser");

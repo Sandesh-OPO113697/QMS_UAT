@@ -172,7 +172,7 @@ namespace QMS.DataBaseService
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@status", UserInfo.UserName);
-                    
+
                     cmd.Parameters.AddWithValue("@Mode", "GetUserIdList");
                     using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                     {
@@ -227,7 +227,7 @@ namespace QMS.DataBaseService
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@status", UserInfo.UserName);
-                    if(UserInfo.UserType=="Admin")
+                    if (UserInfo.UserType == "Admin")
                     {
                         cmd.Parameters.AddWithValue("@Mode", "Get_Process_list");
                     }
@@ -236,7 +236,7 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@Location_ID", UserInfo.LocationID);
                         cmd.Parameters.AddWithValue("@Mode", "Get_locationWise_list");
                     }
-                    
+
                     SqlDataAdapter adpt = new SqlDataAdapter(cmd);
                     await Task.Run(() => adpt.Fill(dt));
                 }
@@ -708,9 +708,20 @@ namespace QMS.DataBaseService
         public async Task<List<SelectListItem>> GetUsersAsync()
         {
             string query = "sp_admin";
-            string mode = "GET_User";
+           
             var users = new List<SelectListItem>();
-            DataTable dt = await DecryptDataTableAsyncNamwe(await GetDataAsyncStoredProcedure(query, mode));
+            DataTable dt = new DataTable();
+            if (UserInfo.UserType == "Admin")
+            {
+                string mode = "GET_User";
+                dt = await DecryptDataTableAsyncNamwe(await GetDataAsyncStoredProcedure(query, mode));
+            }
+            else if (UserInfo.UserType == "SiteAdmin")
+            {
+                string mode = "GET_UserByLocation";
+                dt = await DecryptDataTableAsyncNamwe(await GetDataAsyncWithLocation(query, mode, UserInfo.LocationID));
+            }
+
             foreach (DataRow row in dt.Rows)
             {
                 users.Add(new SelectListItem
@@ -807,10 +818,23 @@ namespace QMS.DataBaseService
         public async Task<List<SelectListItem>> GetProcessesAndSubAsync(string username)
         {
             string query = "sp_admin";
-            string mode = "Get_Processes";
+
 
             var processes = new List<SelectListItem>();
-            DataTable dt = await GetDataProcessSUBAsyncStoredProcedure(query, username, mode);
+            DataTable dt = new DataTable();
+            if (UserInfo.UserType == "Admin")
+            {
+                string mode = "Get_Processes";
+                dt = await GetDataProcessSUBAsyncStoredProcedure(query, username, mode);
+            }
+            else if (UserInfo.UserType == "SiteAdmin")
+            {
+                string mode = "Get_ProcessesbyLocation";
+                dt = await GetDataProcessSUBAsyncBySiteadmin(query, username, mode, UserInfo.LocationID);
+
+
+            }
+
             foreach (DataRow row in dt.Rows)
             {
                 string displayText = $"{row["ProcessName"]} -- {row["SubProcessName"]}";
@@ -889,6 +913,34 @@ namespace QMS.DataBaseService
             return dt;
         }
 
+        private async Task<DataTable> GetDataProcessSUBAsyncBySiteadmin(string query, string usernameParam, string mode, string Location)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", mode);
+                    cmd.Parameters.AddWithValue("@status", usernameParam);
+                    cmd.Parameters.AddWithValue("@Location_ID", Location);
+
+
+                    await con.OpenAsync();
+
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        await Task.Run(() => da.Fill(dt));
+                    }
+                }
+            }
+            return dt;
+        }
+
+
 
 
 
@@ -904,6 +956,7 @@ namespace QMS.DataBaseService
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Mode", mode);
                     cmd.Parameters.AddWithValue("@status", usernameParam);
+
 
                     await con.OpenAsync();
 
@@ -936,7 +989,25 @@ namespace QMS.DataBaseService
             }
             return dt;
         }
-
+        private async Task<DataTable> GetDataAsyncWithLocation(string query, string mode, string Location)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", mode);
+                    cmd.Parameters.AddWithValue("@Location_ID", Location);
+                    await con.OpenAsync();
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        await Task.Run(() => da.Fill(dt));
+                    }
+                }
+            }
+            return dt;
+        }
 
         private async Task<DataTable> GetDataAsyncStoredProcedure(string query, string mode)
         {

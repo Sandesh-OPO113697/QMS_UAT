@@ -1,74 +1,54 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="d-flex justify-content-end mb-1">
     <div class="dropdown" style="position: relative;">
         <button class="btn btn-primary" type="button" id="filterButton" style="background-color: #007bff; color: white; border-radius: 5px; padding: 10px 20px;">
             Filters  <span style="margin-left:10px;" class="fe fe-sliders"></span>
         </button>
-        <div id="filterOptions" style="display: none; position: absolute; top: 68px; right: 17px; z-index: 12; background-color: white; border: 1px solid black; padding: 10px;    border-radius: 21px;width: 338px;">
-            <h5 class="card-title" style="margin-left: 136px;">Filters </h5>
-            <ul >
+        <div id="filterOptions" style="display: none; position: absolute; top: 68px; right: 17px; z-index: 12; background-color: white; border: 1px solid black; padding: 10px; border-radius: 21px;width: 338px;">
+            <h5 class="card-title" style="text-align: center;">Filters </h5>
+            <ul>
                 <li style="display: flex; flex-direction: column; align-items: center;">
-                    <label > AHT (Min - Max)</label>
+                    <label> AHT Min </label>
                     <div class="row" style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 5px;">
-                        <input type="range" class="form-range range-slider" id="ahtRange" min="10" max="50" step="1"
-                               oninput="updateRangeValue(this.value)"
+                        <input type="range" class="form-range range-slider" id="ahtMin" min="0" max="300" step="1"
+                               oninput="updateRangeValue('ahtMin')"
                                style="width: 100%; max-width: 300px;">
                     </div>
                     <div class="row" style="display: flex; justify-content: center; align-items: center;">
-                        <span id="rangeValue" style="font-weight: bold; padding: 0 5px;">0</span> to
-                        <span id="maxValue" style="font-weight: bold; padding: 0 5px;">207</span>
+                        <span id="ahtMinValue" style="font-weight: bold; padding: 0 5px;">10</span>
                     </div>
                 </li>
-                <li style="display: flex; flex-direction: column; align-items: center; margin-left: -36px;">
-                    <label style="margin-top: 21px;">Dispositions</label>
-                    <select class="custom-select">
+
+                <li style="display: flex; flex-direction: column; align-items: center;">
+                    <label> AHT Max </label>
+                    <div class="row" style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 5px;">
+                        <input type="range" class="form-range range-slider" id="ahtMax" min="0" max="300" step="1"
+                               oninput="updateRangeValue('ahtMax')"
+                               style="width: 100%; max-width: 300px;">
+                    </div>
+                    <div class="row" style="display: flex; justify-content: center; align-items: center;">
+                        <span id="ahtMaxValue" style="font-weight: bold; padding: 0 5px;">300</span>
+                    </div>
+                </li>
+
+                <li style="display: flex; flex-direction: column; align-items: center;">
+                    <label  style="margin-top: 21px;">Dispositions</label>
+                    <select id="dispositionSelect" multiple class="custom-select">
                         <option selected>Select Dispositions</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
                     </select>
                 </li>
-                <li style="display: flex; flex-direction: column; align-items: center;margin-left: -36px;">
-                    <label style="margin-top: 21px;">CSAT/NPS</label>
-                    <select class="custom-select">
-                        <option selected>Select CSAT/NPS</option>
-                        <option value="1">Team 1</option>
-                        <option value="2">Team 2</option>
-                        <option value="3">Team 3</option>
-                    </select>
-                </li>
-                <li style="display: flex; flex-direction: column; align-items: center;margin-left: -36px;">
-                    <label style="margin-top: 21px;">Sales</label>
-                    <select class="custom-select">
-                        <option selected>Select Sales Teams</option>
-                        <option value="1">Team 1</option>
-                        <option value="2">Team 2</option>
-                        <option value="3">Team 3</option>
-                    </select>
-                </li>
-                <li style="display: flex; flex-direction: column; align-items: center;margin-left: -36px; ">
-                    <label style="margin-top: 21px;">Collections</label>
-                    <select class="custom-select">
-                        <option selected>Select  Collections</option>
-                        <option value="1">Team 1</option>
-                        <option value="2">Team 2</option>
-                        <option value="3">Team 3</option>
-                    </select>
-                </li>
-                <li style="display: flex; flex-direction: column; align-items: center;margin-left: -36px;">
-                    <label style="margin-top: 21px;">Repeat</label>
-                    <select class="custom-select">
-                        <option selected>Select  Repeat</option>
-                        <option value="1">Team 1</option>
-                        <option value="2">Team 2</option>
-                        <option value="3">Team 3</option>
-                    </select>
-                </li>
+
                 <br />
-                <button id="AppyFiler" style="margin-left:70px;" class="btn btn-primary">Apply Filter</button>
+                <button id="applyFilter" style="margin-left:70px;" class="btn btn-primary">Apply Filter</button>
             </ul>
         </div>
     </div>
@@ -77,55 +57,136 @@
 <div class="col-md-12 my-4">
     <div class="card shadow">
         <div class="card-body">
-            <h5 class="card-title"> </h5>
-            <table class="table table-bordered table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th>Account Name</th>
-                        <th>Owner</th>
-                        <th>Created Date</th>
-                        <th>Last Contacted</th>
-                        <th>Deal Size</th>
-                        <th>Status/Stage</th>
-                        <th>Acc Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><i class="fas fa-user-circle me-2"></i> 9339746887</td>
-                        <td>Rahul K</td>
-                        <td>Jun 23, 2023</td>
-                        <td>Jun 23, 2023</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td><span class="score green">81%</span></td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-user-circle me-2"></i> 9634607092</td>
-                        <td>Deepak Deepak</td>
-                        <td>Jun 23, 2023</td>
-                        <td>Jun 23, 2023</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td><span class="score green">91%</span></td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-user-circle me-2"></i> 9347655778</td>
-                        <td>Hem Chander S</td>
-                        <td>Jun 23, 2023</td>
-                        <td>Jun 23, 2023</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td><span>42%</span></td>
-                    </tr>
-                </tbody>
-            </table>
+
+
+            <h5 class="card-title">Add Filters </h5>
+            <div class="row">
+
+
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Program Name</label>
+                    @Html.DropDownList(
+                             "ProgramID",
+                             (List<SelectListItem>)ViewBag.ProcessList,
+                             "Select Program",
+                             new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" }
+                             )
+                </div>
+
+
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select">
+                        <option value="">Select Sub Process</option>
+                    </select>
+                </div>
+                
+            </div>
         </div>
     </div>
 </div>
 
 <script src="~/js/jquery.min.js"></script>
 <script>
+    function updateRangeValue(id) {
+        document.getElementById(id + "Value").textContent = document.getElementById(id).value;
+    }
+
+    document.getElementById("applyFilter").addEventListener("click", function () {
+        let ahtMin = document.getElementById("ahtMin").value;
+        let ahtMax = document.getElementById("ahtMax").value;
+        let disposition = document.getElementById("dispositionSelect");
+        let Process = document.getElementById("ProgramID").value;
+        let SubProcess = document.getElementById("SUBProgramID").value;
+        let selectedDispositions = Array.from(disposition.selectedOptions).map(option => option.value);
+        console.log("AHT Min:", ahtMin);
+        console.log("AHT Max:", ahtMax);
+        console.log("Selected Disposition:", selectedDispositions);
+        if (ahtMin==="0") {
+            alert("Please Select AHT MIN");
+            return;
+        }
+        if (ahtMax === "0") {
+            alert("Please Select AHT MAX");
+            return;
+        }
+        if (selectedDispositions === "Select Dispositions") {
+            alert("Please Select Disposition");
+            return;
+        }
+        if (Process === "Select Program") {
+            alert("Please Select AHT MIN");
+            return;
+        }
+        if (SubProcess === "Select Sub Process") {
+            alert("Please Select AHT MIN");
+            return;
+        }
+        applyFilter(ahtMin, ahtMax, selectedDispositions, Process, SubProcess);
+
+
+        filterOptions.style.display = 'none';
+    });
+
+
+    function applyFilter(ahtMin, ahtMax, selectedDispositions, Process, SubProcess) {
+        let ahtMinStr = String(ahtMin);
+        let ahtMaxStr = String(ahtMax);
+        let dispositionStr = selectedDispositions.join(","); // Convert array to comma-separated string
+        let processStr = String(Process);
+        let subProcessStr = String(SubProcess);
+        if (dispositionStr.includes("Select Dispositions")) {
+            alert("Please select a valid disposition before applying filters.");
+            return; // Stop execution
+        }
+        
+        $.ajax({
+            type: "POST",
+            url: "/Sampling/AssignFiltersAginProcess",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+                ahtMin: ahtMinStr,
+                ahtMax: ahtMaxStr,
+                disposition: dispositionStr,
+                Process: processStr,
+                SubProcess: subProcessStr
+            }),
+            success: function (response) {
+                alert(response.message);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+       
+   
+    }
+    function onProgramChange() {
+        var programId = document.getElementById("ProgramID").value;
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: programId }),
+
+            url: "/Admin/GetSUBProcessList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                var dropdown = $('#SUBProgramID');
+                dropdown.empty();
+                dropdown.append('<option value="">Select Process</option>');
+                response.proces.forEach(function (item) {
+                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
+    }
+
     document.getElementById('filterButton').addEventListener('click', function () {
         const filterOptions = document.getElementById('filterOptions');
 

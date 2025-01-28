@@ -29,7 +29,11 @@ namespace QMS.Controllers
             return Json(new { success = true, message = "Data saved successfully!" });
         }
 
-
+        public async Task<JsonResult> AssignFiltersAginProcess([FromBody] AssignFilter ID)
+        {
+            await dlSampling.AssignFiltersAgainProcess(ID.AhtMin, ID.AhtMax, ID.Disposition, ID.Process, ID.SubProcess);
+            return Json(new { success = true, message = "filters assigned successfully." });
+        }
         public async Task<JsonResult> GetSamplingCount([FromBody] DropDawon id)
         {
             string SampleSixe = await dlSampling.GetSamplingCountByProcessandsub(id.Id.ToString(), "0");
@@ -108,8 +112,15 @@ namespace QMS.Controllers
 
             return Json(new { success = true, message = "Sample size assigned successfully." });
         }
-        public ActionResult SamplingFilers(string RoleName, string Featureid, string SubFeatureid)
+        public async Task< ActionResult> SamplingFilers(string RoleName, string Featureid, string SubFeatureid)
         {
+            DataTable dt = await _dlamin.GetProcessListAsync();
+            var processList = dt.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ProcessName"]}",
+            }).ToList();
+            ViewBag.ProcessList = processList;
             return View();
         }
     }

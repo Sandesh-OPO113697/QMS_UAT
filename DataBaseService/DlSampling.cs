@@ -19,6 +19,28 @@ namespace QMS.DataBaseService
             _dcl = dL;
         }
 
+       
+
+
+        public async Task AssignFiltersAgainProcess(string ahtMin, string ahtMax, string disposition, string Process, string SubProcess)
+        {
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("sp_AssignFilyters", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ahtMin", ahtMin);
+                    cmd.Parameters.AddWithValue("@ahtMax", ahtMax);
+                    cmd.Parameters.AddWithValue("@disposition", disposition);
+                    cmd.Parameters.AddWithValue("@Process", Process);
+                    cmd.Parameters.AddWithValue("@SubProcess", SubProcess);
+                    cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+        }
         public async Task<JsonResult> InsertAllocationDetails(Dictionary<string, string> formData)
         {
             try
