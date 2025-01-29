@@ -75,27 +75,27 @@ namespace QMS.Controllers
             {
                 errorMessages.Add("Please select a valid location.");
                 TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateProcess");
+                return RedirectToAction("CreateSubProcess");
             }
             if (string.IsNullOrEmpty(ProgramID))
             {
                 errorMessages.Add("Please Select Process Name.");
                 TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateProcess");
+                return RedirectToAction("CreateSubProcess");
             }
 
             if (string.IsNullOrEmpty(SubProcess))
             {
                 errorMessages.Add("Please Enter Data Sub Process .");
                 TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateProcess");
+                return RedirectToAction("CreateSubProcess");
             }
 
 
             await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess);
             errorMessages.Add("Sub-Process Created Sucessfully !");
             TempData["ErrorMessages"] = errorMessages;
-            return RedirectToAction("CreateProcess");
+            return RedirectToAction("CreateSubProcess");
 
         }
 
@@ -173,14 +173,7 @@ namespace QMS.Controllers
         [HttpPost]
         public async Task<List<SelectListItem>> GetRoleByRole([FromBody] DropDawnString request)
         {
-            string 
-                
-                
-                
-                
-                
-                
-                RoleID = request.ID;
+            string  RoleID = request.ID;
             string UserName = await _admin.GetUserNameByID(RoleID);
             var UserRoles = await _admin.GetRoleOnBasicName(UserName);
             return UserRoles;

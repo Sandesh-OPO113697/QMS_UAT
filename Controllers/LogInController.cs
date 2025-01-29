@@ -74,7 +74,6 @@ namespace QMS.Controllers
                     {
                         HttpContext.Session.SetString("UserType", "QE");
                     }
-
                     else
                     {
                         HttpContext.Session.SetString("UserType", "AccountUser");
@@ -84,20 +83,13 @@ namespace QMS.Controllers
                 else
                 {
                     TempData["LoginMessage"] = "User Invalid";
-                    return RedirectToAction("UserLogIn", "LogIn");
-                    
+                    return RedirectToAction("UserLogIn", "LogIn");                
                 }
             }
         }
-
         public async Task<ActionResult> Unauthorized()
         {
-
             return View();
         }
-
-
-
-
     }
 }

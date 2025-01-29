@@ -133,16 +133,16 @@ namespace QMS.DataBaseService
                 {
                     foreach (DataRow row in dt.Rows)
                     {
-                        int roleId = Convert.ToInt32(row["Role_id"]);
-                        int featureId = Convert.ToInt32(row["Feature_id"]);
-                        int subFeatureId = Convert.ToInt32(row["SubFeature_ID"]);
-                        string subFeatureName = row["SubFeatureName"].ToString();
+                        int roleId = row["Role_id"] == DBNull.Value ? 0 : Convert.ToInt32(row["Role_id"]);
+                        int featureId = row["Feature_id"] == DBNull.Value ? 0 : Convert.ToInt32(row["Feature_id"]);
+                        int subFeatureId = row["SubFeature_ID"] == DBNull.Value ? 0 : Convert.ToInt32(row["SubFeature_ID"]);
+                        string subFeatureName = row["SubFeatureName"] == DBNull.Value ? string.Empty : row["SubFeatureName"].ToString();
 
                         if (!roleNames.ContainsKey(roleId))
-                            roleNames[roleId] = row["RoleName"].ToString();
+                            roleNames[roleId] = row["RoleName"] == DBNull.Value ? string.Empty : row["RoleName"].ToString();
 
                         if (!featureNames.ContainsKey(featureId))
-                            featureNames[featureId] = row["FeatureName"].ToString();
+                            featureNames[featureId] = row["FeatureName"] == DBNull.Value ? string.Empty : row["FeatureName"].ToString();
 
                         if (!roleFeatureDictionary.ContainsKey(roleId))
                             roleFeatureDictionary[roleId] = new Dictionary<int, Dictionary<int, string>>();
@@ -151,8 +151,10 @@ namespace QMS.DataBaseService
                             roleFeatureDictionary[roleId][featureId] = new Dictionary<int, string>();
 
                         roleFeatureDictionary[roleId][featureId][subFeatureId] = subFeatureName;
-                        int moduleId = Convert.ToInt32(row["Module_id"]);
-                        string moduleName = row["Module_Name"].ToString();
+
+                        int moduleId = row["Module_id"] == DBNull.Value ? 0 : Convert.ToInt32(row["Module_id"]);
+                        string moduleName = row["Module_Name"] == DBNull.Value ? string.Empty : row["Module_Name"].ToString();
+
                         if (!roleModules.ContainsKey(roleId))
                             roleModules[roleId] = new List<object>();
 
@@ -176,14 +178,13 @@ namespace QMS.DataBaseService
                     }
                     foreach (DataRow row in dt.Rows)
                     {
-                        int roleId = Convert.ToInt32(row["Role_id"]);
+                        int roleId = row["Role_id"] == DBNull.Value ? 0 : Convert.ToInt32(row["Role_id"]);
                         int featureId = row["Feature_id"] == DBNull.Value ? 0 : Convert.ToInt32(row["Feature_id"]);
                         int subFeatureId = row["SubFeature_ID"] == DBNull.Value ? 0 : Convert.ToInt32(row["SubFeature_ID"]);
                         string subFeatureName = row["SubFeatureName"] == DBNull.Value ? string.Empty : row["SubFeatureName"].ToString();
 
-
                         if (!roleNames.ContainsKey(roleId))
-                            roleNames[roleId] = row["RoleName"].ToString();
+                            roleNames[roleId] = row["RoleName"] == DBNull.Value ? string.Empty : row["RoleName"].ToString();
 
                         if (!featureNames.ContainsKey(featureId))
                             featureNames[featureId] = row["FeatureName"] == DBNull.Value ? string.Empty : row["FeatureName"].ToString();
@@ -195,13 +196,16 @@ namespace QMS.DataBaseService
                             roleFeatureDictionary[roleId][featureId] = new Dictionary<int, string>();
 
                         roleFeatureDictionary[roleId][featureId][subFeatureId] = subFeatureName;
-                        int moduleId = Convert.ToInt32(row["Module_id"]);
-                        string moduleName = row["Module_Name"].ToString();
+
+                        int moduleId = row["Module_id"] == DBNull.Value ? 0 : Convert.ToInt32(row["Module_id"]);
+                        string moduleName = row["Module_Name"] == DBNull.Value ? string.Empty : row["Module_Name"].ToString();
+
                         if (!roleModules.ContainsKey(roleId))
                             roleModules[roleId] = new List<object>();
 
                         roleModules[roleId].Add(new { ModuleId = moduleId, ModuleName = moduleName });
                     }
+
 
                 }
 

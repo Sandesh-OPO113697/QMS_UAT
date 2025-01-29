@@ -31,6 +31,7 @@ namespace QMS.DataBaseService
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
                     cmd.Parameters.AddWithValue("@Mode", "Eval_SubProcess");
                     cmd.Parameters.AddWithValue("@status", status);
                     cmd.Parameters.AddWithValue("@id", id);
@@ -48,6 +49,7 @@ namespace QMS.DataBaseService
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
                     cmd.Parameters.AddWithValue("@Mode", "Eval_Process");
                     cmd.Parameters.AddWithValue("@status", status);
                     cmd.Parameters.AddWithValue("@id", id);
@@ -66,6 +68,7 @@ namespace QMS.DataBaseService
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
                     cmd.Parameters.AddWithValue("@Mode", "Update_ProcessName");
                     cmd.Parameters.AddWithValue("@status", ProcessName);
                     cmd.Parameters.AddWithValue("@id", id);
@@ -84,6 +87,7 @@ namespace QMS.DataBaseService
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
                     cmd.Parameters.AddWithValue("@Mode", "Update_SubProcessName");
                     cmd.Parameters.AddWithValue("@status", ProcessName);
                     cmd.Parameters.AddWithValue("@id", id);
@@ -103,6 +107,7 @@ namespace QMS.DataBaseService
                 using (SqlCommand cmd = new SqlCommand("CreateSubProcess", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
                     cmd.Parameters.AddWithValue("@Location", Location_ID);
                     cmd.Parameters.AddWithValue("@Procesname", ProgramID);
                     cmd.Parameters.AddWithValue("@Subprogram", SubProcess.ToUpper());
@@ -122,6 +127,7 @@ namespace QMS.DataBaseService
                 using (SqlCommand cmd = new SqlCommand("CreateProcess", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
                     cmd.Parameters.AddWithValue("@Location", Location_ID);
                     cmd.Parameters.AddWithValue("@Procesname", Process.ToUpper());
                     cmd.Parameters.AddWithValue("@dataRetaintion", DataRetention);
@@ -144,6 +150,7 @@ namespace QMS.DataBaseService
                     using (SqlCommand cmd = new SqlCommand("sp_admin", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
                         cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
                         cmd.Parameters.AddWithValue("@Mode", "GetProcessByAccountAdmin");
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
@@ -171,6 +178,7 @@ namespace QMS.DataBaseService
                 using (SqlCommand cmd = new SqlCommand("sp_admin", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
                     cmd.Parameters.AddWithValue("@status", UserInfo.UserName);
 
                     cmd.Parameters.AddWithValue("@Mode", "GetUserIdList");
@@ -199,6 +207,7 @@ namespace QMS.DataBaseService
                     using (SqlCommand cmd = new SqlCommand("sp_admin", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
                         cmd.Parameters.AddWithValue("@status", userIdsName);
                         cmd.Parameters.AddWithValue("@Location_ID", Location);
                         cmd.Parameters.AddWithValue("@Mode", "Get_locationWise_list");
@@ -226,6 +235,7 @@ namespace QMS.DataBaseService
                 using (SqlCommand cmd = new SqlCommand("sp_admin", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
                     cmd.Parameters.AddWithValue("@status", UserInfo.UserName);
                     if (UserInfo.UserType == "Admin")
                     {
@@ -301,6 +311,7 @@ namespace QMS.DataBaseService
                     using (var command = new SqlCommand(storedProcedure, connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
                         command.Parameters.AddWithValue("@status", RoleID);
                         command.Parameters.AddWithValue("@Mode", "GetFeatureOnRole");
 
@@ -340,6 +351,7 @@ namespace QMS.DataBaseService
                 using (SqlCommand cmd = new SqlCommand(FeatureNameQuery, con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
                     cmd.Parameters.AddWithValue("@Mode", "RemoveFeaturesByRole");
                     cmd.Parameters.AddWithValue("@ID", User);
                     await cmd.ExecuteNonQueryAsync();
