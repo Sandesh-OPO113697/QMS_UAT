@@ -195,7 +195,7 @@ namespace QMS.Controllers
                             return RedirectToAction("CreateProcess", "Admin");
                         case "Manage Feature":
                             return RedirectToAction("FeatureMapping", "Admin");
-                        case "Manage Role":
+                        case "Manage assign roles":
                             return RedirectToAction("RoleMapping", "Admin");
                         case "Create User":
                             return RedirectToAction("CreateUser", "Admin");

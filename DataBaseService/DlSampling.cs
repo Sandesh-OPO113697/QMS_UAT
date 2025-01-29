@@ -51,6 +51,7 @@ namespace QMS.DataBaseService
 
                     using (var command = new SqlCommand("CreateAllowcation", connection))
                     {
+                        
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@AuditID", formData.ContainsKey("AuditID") ? formData["AuditID"] : (object)DBNull.Value);
                         command.Parameters.AddWithValue("@LocationID", formData.ContainsKey("LocationID") ? formData["LocationID"] : (object)DBNull.Value);
@@ -62,6 +63,7 @@ namespace QMS.DataBaseService
                         command.Parameters.AddWithValue("@qa", formData.ContainsKey("qa") ? formData["qa"] : (object)DBNull.Value);
                         command.Parameters.AddWithValue("@tl", formData.ContainsKey("tl") ? formData["tl"] : (object)DBNull.Value);
                         command.Parameters.AddWithValue("@target", formData.ContainsKey("target") ? formData["target"] : (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@NoOfWorking", formData.ContainsKey("NoOfWorking") ? formData["NoOfWorking"] : (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Active_Head_count", formData.ContainsKey("Audit_Active_Head_count_ALL") ? formData["Audit_Active_Head_count_ALL"] : (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Audit_sampling_Month", formData.ContainsKey("Audit_Audit_sampling_Month_ALL") ? formData["Audit_Audit_sampling_Month_ALL"] : (object)DBNull.Value);
                         command.Parameters.AddWithValue("@of_qa", formData.ContainsKey("Audit_of-qa_ALL") ? formData["Audit_of-qa_ALL"] : (object)DBNull.Value);

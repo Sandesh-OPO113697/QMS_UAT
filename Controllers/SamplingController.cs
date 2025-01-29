@@ -67,8 +67,10 @@ namespace QMS.Controllers
                 ViewBag.LocationName = filteredLocation;
             }
 
-            var RoleList = await dlSampling.GetRoleList(RoleName);
-            ViewBag.RoleList = RoleList;
+                var RoleList = await dlSampling.GetRoleList(RoleName);
+            var roleList2 = RoleList.Where(r => r.Text == "QA Manager" || r.Text == "Monitor Supervsior").ToList();
+
+            ViewBag.RoleList = roleList2;
             DataTable dt = await _dlamin.GetProcessListAsync();
             var processList = dt.AsEnumerable().Select(row => new SelectListItem
             {
