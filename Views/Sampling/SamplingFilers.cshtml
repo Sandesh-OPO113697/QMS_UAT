@@ -1,92 +1,88 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="d-flex justify-content-end mb-1">
-    <div class="dropdown" style="position: relative;">
-        <button class="btn btn-primary" type="button" id="filterButton" style="background-color: #007bff; color: white; border-radius: 5px; padding: 10px 20px;">
-            Filters  <span style="margin-left:10px;" class="fe fe-sliders"></span>
-        </button>
-        <div id="filterOptions" style="display: none; position: absolute; top: 68px; right: 17px; z-index: 12; background-color: white; border: 1px solid black; padding: 10px; border-radius: 21px;width: 338px;">
-            <h5 class="card-title" style="text-align: center;">Filters </h5>
-            <ul>
-                <li style="display: flex; flex-direction: column; align-items: center;">
-                    <label> AHT Min </label>
-                    <div class="row" style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 5px;">
-                        <input type="range" class="form-range range-slider" id="ahtMin" min="0" max="300" step="1"
-                               oninput="updateRangeValue('ahtMin')"
-                               style="width: 100%; max-width: 300px;">
-                    </div>
-                    <div class="row" style="display: flex; justify-content: center; align-items: center;">
-                        <span id="ahtMinValue" style="font-weight: bold; padding: 0 5px;">10</span>
-                    </div>
-                </li>
 
-                <li style="display: flex; flex-direction: column; align-items: center;">
-                    <label> AHT Max </label>
-                    <div class="row" style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 5px;">
-                        <input type="range" class="form-range range-slider" id="ahtMax" min="0" max="300" step="1"
-                               oninput="updateRangeValue('ahtMax')"
-                               style="width: 100%; max-width: 300px;">
-                    </div>
-                    <div class="row" style="display: flex; justify-content: center; align-items: center;">
-                        <span id="ahtMaxValue" style="font-weight: bold; padding: 0 5px;">300</span>
-                    </div>
-                </li>
-
-                <li style="display: flex; flex-direction: column; align-items: center;">
-                    <label  style="margin-top: 21px;">Dispositions</label>
-                    <select id="dispositionSelect" multiple class="custom-select">
-                        <option selected>Select Dispositions</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                    </select>
-                </li>
-
-                <br />
-                <button id="applyFilter" style="margin-left:70px;" class="btn btn-primary">Apply Filter</button>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-12 my-4">
-    <div class="card shadow">
-        <div class="card-body">
-
-
-            <h5 class="card-title">Add Filters </h5>
-            <div class="row">
-
-
-                <div class="form-group col-md-6">
-                    <label for="ProgramID">Program Name</label>
-                    @Html.DropDownList(
-                             "ProgramID",
-                             (List<SelectListItem>)ViewBag.ProcessList,
-                             "Select Program",
-                             new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" }
-                             )
-                </div>
-
-
-                <div class="form-group col-md-6">
-                    <label for="SUBProgramID">Sub Program Name</label>
-                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select">
-                        <option value="">Select Sub Process</option>
-                    </select>
-                </div>
-                
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); height: 60px; overflow: visible; position: relative;    height: 105px;">
+    <div class="navbar-nav ml-auto" style="display: flex; gap: 10px; align-items: center;">
+        <div style="width:150px; justify-items:center">
+            <label> AHT Min </label>
+            <div class="row" style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 5px;">
+                <input type="range" class="form-range range-slider" id="ahtMin" min="0" max="300" step="1"
+                       oninput="updateRangeValue('ahtMin')"
+                       style="width: 100%; max-width: 300px;">
+            </div>
+            <div class="row" style="display: flex; justify-content: center; align-items: center;">
+                <span id="ahtMinValue" style="font-weight: bold; padding: 0 5px;">10</span>
             </div>
         </div>
+        <div style="width:150px; justify-items:center">
+            <label> AHT Max </label>
+            <div class="row" style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 5px;">
+                <input type="range" class="form-range range-slider" id="ahtMax" min="0" max="300" step="1"
+                       oninput="updateRangeValue('ahtMax')"
+                       style="width: 100%; max-width: 300px;">
+            </div>
+            <div class="row" style="display: flex; justify-content: center; align-items: center;">
+                <span id="ahtMaxValue" style="font-weight: bold; padding: 0 5px;">300</span>
+            </div>
+        </div>
+      
+
+        <div style="width:230px;">
+            <label>Program Name</label>
+            @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.ProcessList, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" })
+        </div>
+
+        <div style="width:230px;">
+            <label>Sub Program Name</label>
+            <select name="SUBProgramID" id="SUBProgramID" class="custom-select">
+                <option value="">Select Sub Process</option>
+            </select>
+        </div>
+        <div style="width:230px;">
+            <label > Dispositions</label>
+            <select id="dispositionSelect" class="custom-select " multiple size="1" style="height: 37px; overflow: hidden; transition: height 0.3s ease;">
+                <option value="*"  style="background-color: white;">Select Dispositions</option>
+                <option value="*" style="background-color: white;"></option>
+                <option value="3" style="background-color: white;">3</option>
+                <option value="4" style="background-color: white;">4</option>
+                <option value="5" style="background-color: white;">5</option>
+                <option value="3" style="background-color: white;">3</option>
+                <option value="4" style="background-color: white;">4</option>
+                <option value="5" style="background-color: white;">5</option>
+                <option value="3" style="background-color: white;">3</option>
+                <option value="4" style="background-color: white;">4</option>
+                <option value="5" style="background-color: white;">5</option>
+                <option value="3" style="background-color: white;">3</option>
+                <option value="4" style="background-color: white;">4</option>
+                <option value="5" style="background-color: white;">5</option>
+                <option value="3" style="background-color: white;">3</option>
+                <option value="4" style="background-color: white;">4</option>
+                <option value="5" style="background-color: white;">5</option>
+            </select>
+        </div>
+        <div id="san">
+            <button id="applyFilter" class="btn btn-primary" style="margin-top: 28px">Apply Filter</button>
+        </div>
     </div>
-</div>
+</nav>
+
+
 
 <script src="~/js/jquery.min.js"></script>
+
+
+
+<script>
+    document.getElementById('dispositionSelect').addEventListener('mouseover', function () {
+        this.style.overflow = 'visible';
+        this.style.height = 'auto';
+    });
+    document.getElementById('dispositionSelect').addEventListener('mouseout', function () {
+        this.style.overflow = 'hidden';
+        this.style.height = '37px';
+    });
+</script>
 <script>
     function updateRangeValue(id) {
         document.getElementById(id + "Value").textContent = document.getElementById(id).value;
@@ -99,9 +95,7 @@
         let Process = document.getElementById("ProgramID").value;
         let SubProcess = document.getElementById("SUBProgramID").value;
         let selectedDispositions = Array.from(disposition.selectedOptions).map(option => option.value);
-        console.log("AHT Min:", ahtMin);
-        console.log("AHT Max:", ahtMax);
-        console.log("Selected Disposition:", selectedDispositions);
+    
         if (ahtMin==="0") {
             alert("Please Select AHT MIN");
             return;
@@ -110,36 +104,45 @@
             alert("Please Select AHT MAX");
             return;
         }
+        
         if (selectedDispositions === "Select Dispositions") {
             alert("Please Select Disposition");
             return;
         }
-        if (Process === "Select Program") {
-            alert("Please Select AHT MIN");
+
+        if (Process === null || Process === "") {
+            alert("Please Select Program");
             return;
         }
-        if (SubProcess === "Select Sub Process") {
-            alert("Please Select AHT MIN");
+     
+        if (SubProcess === null || SubProcess === "") {
+            alert("Please Select SubProcess");
             return;
         }
         applyFilter(ahtMin, ahtMax, selectedDispositions, Process, SubProcess);
 
 
-        filterOptions.style.display = 'none';
+      
     });
 
 
     function applyFilter(ahtMin, ahtMax, selectedDispositions, Process, SubProcess) {
         let ahtMinStr = String(ahtMin);
         let ahtMaxStr = String(ahtMax);
-        let dispositionStr = selectedDispositions.join(","); // Convert array to comma-separated string
+        let dispositionStr = selectedDispositions.join(",");
         let processStr = String(Process);
         let subProcessStr = String(SubProcess);
         if (dispositionStr.includes("Select Dispositions")) {
             alert("Please select a valid disposition before applying filters.");
-            return; // Stop execution
+            return; 
+        }
+
+        if (dispositionStr.includes("*")) {
+            alert("Please select a valid disposition before applying filters.");
+            return; 
         }
         
+       
         $.ajax({
             type: "POST",
             url: "/Sampling/AssignFiltersAginProcess",
@@ -196,10 +199,5 @@
         }
     });
 
-    document.getElementById('AppyFiler').addEventListener('click', function () {
-        const filterOptions = document.getElementById('filterOptions');
-            filterOptions.style.display = 'none'; 
-
-        
-    });
+  
 </script>

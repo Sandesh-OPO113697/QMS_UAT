@@ -5,6 +5,7 @@
 }
 @using Microsoft.AspNetCore.Http
 
+
 <div class="col-md-12 my-4">
     <div class="card shadow">
         <div class="card-body">
@@ -15,9 +16,8 @@
                         <th>ID</th>
                         <th>Location Name</th>
                         <th>Process Name</th>
-                        <th>Active  Status</th>
+                        <th>Active Status</th>
                         <th>Created Date</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -29,7 +29,6 @@
                             <td>@row["ProcessName"]</td>
                             <td>@(row["Active_Status"].ToString() == "1" ? "Yes" : "No")</td>
                             <td>@row["Created_Date"]</td>
-
                         </tr>
                     }
                 </tbody>

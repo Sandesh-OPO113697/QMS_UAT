@@ -35,6 +35,7 @@ namespace QMS.DataBaseService
                 using (SqlCommand command = new SqlCommand("CheckUserValid", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
                     command.Parameters.AddWithValue("@UserName", encUser);
                     command.Parameters.AddWithValue("@Operation", "CheckUserValiesOrNot");
 
