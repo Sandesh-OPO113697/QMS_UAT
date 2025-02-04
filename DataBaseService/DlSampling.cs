@@ -18,10 +18,6 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
             _dcl = dL;
         }
-
-       
-
-
         public async Task AssignFiltersAgainProcess(string ahtMin, string ahtMax, string disposition, string Process, string SubProcess)
         {
             using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))

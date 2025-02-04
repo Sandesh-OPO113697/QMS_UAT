@@ -20,6 +20,7 @@ D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\PubTmp\Out\System.IdentityModel.T
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\PubTmp\Out\System.Security.Cryptography.ProtectedData.dll
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\PubTmp\Out\System.Security.Permissions.dll
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\PubTmp\Out\System.Windows.Extensions.dll
+D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\PubTmp\Out\Webpack.dll
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\PubTmp\Out\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\PubTmp\Out\runtimes\win-arm64\native\sni.dll
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\PubTmp\Out\runtimes\win-x64\native\sni.dll

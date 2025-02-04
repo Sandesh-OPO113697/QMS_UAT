@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Define Target/Agent/Week</label>
+                    <label for="SamplingSize">Define Target/Agent/Month</label>
                     <select name="target" id="target" class="custom-select" onchange="OnChnageMonth(this);">
                         <option value="">Select Target</option>
                         <option value="1">1</option>
@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Of QA</label>
+                    <label for="SamplingSize">#Of QA</label>
                     <input type="text" id="R_G_of-qa" class="custom-select" onkeyup="handleQAInputChange(this)" />
                 </div>
                 <div class="form-group col-md-6">
@@ -138,7 +138,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Of QA</label>
+                    <label for="SamplingSize">#Of QA</label>
                     <input type="text" id="t_Audit_of-qa" class="custom-select" onkeyup="handleQAInputChange(this)" />
                 </div>
                 <div class="form-group col-md-6">
@@ -174,7 +174,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Of QA</label>
+                    <label for="SamplingSize">#Of QA</label>
                     <input type="text" id="H_R_Audit_of-qa" class="custom-select" onkeyup="handleQAInputChange(this)" />
                 </div>
                 <div class="form-group col-md-6">
@@ -200,17 +200,33 @@
 </div>
 
 <script>
-    
+    document.getElementById("qa").addEventListener("input", function () {
+        if (document.getElementById("T_Adit").style.display !== "none") {
+
+            document.getElementById("t_Audit_of-qa").value = this.value;
+        }
+        if (document.getElementById("H_R_Adit").style.display !== "none") {
+
+            document.getElementById("H_R_Audit_of-qa").value = this.value;
+        }
+        if (document.getElementById("R_Adit").style.display !== "none") {
+            document.getElementById("R_G_of-qa").value = this.value;
+            }
+        handleQAInputChange(this);  
+    });
+</script>
+<script>
+
 
     function handleWCChange(input) {
 
         if (document.getElementById("T_Adit").style.display !== "none") {
 
-            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = document.getElementById("t_Audit_Per_QA_Monthly_target-qa").value / input.value
+            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = document.getElementById("t_Audit_Per_QA_Monthly_target").value / input.value
         }
         if (document.getElementById("H_R_Adit").style.display !== "none") {
        
-            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value = document.getElementById("H_R_Audit_Per_QA_Monthly_target-qa").value / input.value
+            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value = document.getElementById("H_R_Audit_Per_QA_Monthly_target").value / input.value
         }
         if (document.getElementById("R_Adit").style.display !== "none") {
             document.getElementById("R_G_Per_QA_Daily_Traget").value = document.getElementById("R_G_Per_QA_Monthly_target").value / input.value
@@ -218,48 +234,55 @@
         }
     }
     function handleQAInputChange(input) {
+       
      
         if (document.getElementById("T_Adit").style.display !== "none") {
-            document.getElementById("t_Audit_Per_QA_Monthly_target").value = input.value * document.getElementById("t_Audit_Active_Head_count").value;
-            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = (input.value * document.getElementById("t_Audit_Active_Head_count").value) / document.getElementById("NoOfWorking").value
+           
+            document.getElementById("t_Audit_Per_QA_Monthly_target").value = (document.getElementById("t_Audit_Active_Head_count").value * document.getElementById("t_Audit_Audit_sampling_Month").value / input.value);
+            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = ( document.getElementById("t_Audit_Per_QA_Monthly_target").value) / document.getElementById("NoOfWorking").value
         }
         if (document.getElementById("H_R_Adit").style.display !== "none") {
-            document.getElementById("H_R_Audit_Per_QA_Monthly_target").value = input.value * document.getElementById("H_R_Audit_Active_Head_count").value;
-            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value = (input.value * document.getElementById("H_R_Audit_Active_Head_count").value) / document.getElementById("NoOfWorking").value
+            document.getElementById("H_R_Audit_Per_QA_Monthly_target").value = (document.getElementById("H_R_Audit_Active_Head_count").value * document.getElementById("H_R_Audit_Audit_sampling_Month").value) / input.value;
+            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value = ( document.getElementById("H_R_Audit_Per_QA_Monthly_target").value) / document.getElementById("NoOfWorking").value
         }
         if (document.getElementById("R_Adit").style.display !== "none") {
-            document.getElementById("R_G_Per_QA_Monthly_target").value = input.value * document.getElementById("R_G_Active_Head_count").value;
-            document.getElementById("R_G_Per_QA_Daily_Traget").value = (input.value * document.getElementById("R_G_Active_Head_count").value) / document.getElementById("NoOfWorking").value
+            document.getElementById("R_G_Per_QA_Monthly_target").value = (document.getElementById("R_G_Active_Head_count").value * document.getElementById("R_G_Audit_sampling_Month").value) / input.value;
+            document.getElementById("R_G_Per_QA_Daily_Traget").value = ( document.getElementById("R_G_Per_QA_Monthly_target").value) / document.getElementById("NoOfWorking").value
         }
     }
     function handleHCChange(input) {
 
         if (document.getElementById("T_Adit").style.display !== "none") {
-            document.getElementById("t_Audit_Per_QA_Monthly_target").value = input.value * document.getElementById("t_Audit_of-qa").value;
-            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = (input.value * document.getElementById("t_Audit_of-qa").value) / document.getElementById("NoOfWorking").value
+            document.getElementById("t_Audit_Per_QA_Monthly_target").value = (input.value * document.getElementById("t_Audit_Audit_sampling_Month").value )/ document.getElementById("t_Audit_of-qa").value;
+            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = document.getElementById("t_Audit_Per_QA_Monthly_target").value / document.getElementById("NoOfWorking").value
         }
         if (document.getElementById("H_R_Adit").style.display !== "none") {
-            document.getElementById("H_R_Audit_Per_QA_Monthly_target").value = input.value * document.getElementById("H_R_Audit_of-qa").value;
-            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value = (input.value * document.getElementById("H_R_Audit_of-qa").value) / document.getElementById("NoOfWorking").value
+            document.getElementById("H_R_Audit_Per_QA_Monthly_target").value = (input.value * document.getElementById("H_R_Audit_Audit_sampling_Month").value) /document.getElementById("H_R_Audit_of-qa").value;
+            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value = document.getElementById("H_R_Audit_Per_QA_Monthly_target").value / document.getElementById("NoOfWorking").value
         }
         if (document.getElementById("R_Adit").style.display !== "none") {
-            document.getElementById("R_G_Per_QA_Monthly_target").value = input.value * document.getElementById("R_G_of-qa").value;
-            document.getElementById("R_G_Per_QA_Daily_Traget").value = (input.value * document.getElementById("R_G_of-qa").value) / document.getElementById("NoOfWorking").value
+            document.getElementById("R_G_Per_QA_Monthly_target").value = (input.value * document.getElementById("R_G_Audit_sampling_Month").value)/ document.getElementById("R_G_of-qa").value;
+            document.getElementById("R_G_Per_QA_Daily_Traget").value = document.getElementById("R_G_Per_QA_Monthly_target").value / document.getElementById("NoOfWorking").value
 
         }
     }
     function OnChnageMonth(months) {
-
-        var SamplingMonth = months.value * 4;
+        
+        var SamplingMonth = months.value ;
         if (document.getElementById("T_Adit").style.display !== "none") {
+           
             document.getElementById("t_Audit_Audit_sampling_Month").value = SamplingMonth;
+            document.getElementById("t_Audit_Active_Head_count").value = 0;
         }
         if (document.getElementById("H_R_Adit").style.display !== "none") {
+          
             document.getElementById("H_R_Audit_Audit_sampling_Month").value = SamplingMonth;
+            document.getElementById("H_R_Audit_Active_Head_count").value = 0;
         }
         if (document.getElementById("R_Adit").style.display !== "none") {
+           
             document.getElementById("R_G_Audit_sampling_Month").value = SamplingMonth;
-
+            document.getElementById("R_G_Active_Head_count").value = 0;
         }
     }
     function AuditType() {

@@ -56,3 +56,4 @@ D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\refint\QMS.dll
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\QMS.pdb
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\QMS.genruntimeconfig.cache
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\ref\QMS.dll
+D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Release\net6.0\Webpack.dll
