@@ -17,8 +17,10 @@ namespace QMS.Controllers
             _dlcon = dlcon;
             this.response = httpContextAccessor.HttpContext?.Response;
         }
-        public ActionResult UserLogIn()
+        public async Task< ActionResult> UserLogIn()
         {
+            //_login.SendEmail("sandesh.bhosale@1point1.com", "1256");
+            //string re=  await _login.SendOTPAsync("1123","7058053821");
             response.Cookies.Delete("Token");
             return View();
         }

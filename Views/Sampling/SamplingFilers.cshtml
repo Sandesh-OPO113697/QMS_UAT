@@ -7,23 +7,23 @@
         <div style="width:150px; justify-items:center">
             <label> AHT Min </label>
             <div class="row" style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 5px;">
-                <input type="range" class="form-range range-slider" id="ahtMin" min="0" max="300" step="1"
+                <input type="range" class="form-range range-slider" id="ahtMin" value="0" min="0" max="300" step="1"
                        oninput="updateRangeValue('ahtMin')"
                        style="width: 100%; max-width: 300px;">
             </div>
             <div class="row" style="display: flex; justify-content: center; align-items: center;">
-                <span id="ahtMinValue" style="font-weight: bold; padding: 0 5px;">10</span>
+                <span id="ahtMinValue" style="font-weight: bold; padding: 0 5px;">0</span>
             </div>
         </div>
         <div style="width:150px; justify-items:center">
             <label> AHT Max </label>
             <div class="row" style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 5px;">
-                <input type="range" class="form-range range-slider" id="ahtMax" min="0" max="300" step="1"
+                <input type="range" class="form-range range-slider" id="ahtMax" value="0" min="0" max="300" step="1"
                        oninput="updateRangeValue('ahtMax')"
                        style="width: 100%; max-width: 300px;">
             </div>
             <div class="row" style="display: flex; justify-content: center; align-items: center;">
-                <span id="ahtMaxValue" style="font-weight: bold; padding: 0 5px;">300</span>
+                <span id="ahtMaxValue" style="font-weight: bold; padding: 0 5px;">0</span>
             </div>
         </div>
       
@@ -132,15 +132,15 @@
         let dispositionStr = selectedDispositions.join(",");
         let processStr = String(Process);
         let subProcessStr = String(SubProcess);
-        if (dispositionStr.includes("Select Dispositions")) {
-            alert("Please select a valid disposition before applying filters.");
-            return; 
-        }
+        // if (dispositionStr.includes("Select Dispositions")) {
+        //     alert("Please select a valid disposition before applying filters.");
+        //     return; 
+        // }
 
-        if (dispositionStr.includes("*")) {
-            alert("Please select a valid disposition before applying filters.");
-            return; 
-        }
+        // if (dispositionStr.includes("*")) {
+        //     alert("Please select a valid disposition before applying filters.");
+        //     return; 
+        // }
         
        
         $.ajax({

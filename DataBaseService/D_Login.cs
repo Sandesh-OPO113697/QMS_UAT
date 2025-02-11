@@ -6,6 +6,16 @@ using QMS.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Net.Mail;
+using System.Net;
+using System.Text;
+using MimeKit;
+using MailKit.Security;
+using System.Security.Authentication;
+using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using AuthenticationException = MailKit.Security.AuthenticationException;
+
 
 namespace QMS.DataBaseService
 {
@@ -21,9 +31,90 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
             _dlcon = conn;
             this.response = httpContextAccessor.HttpContext?.Response;
-            ;
-        }
 
+        }
+        public void SendEmail(string recipientEmail, string OTP)
+        {
+            string mailHost = "192.168.0.122"; 
+            int mailPort = 587; 
+            string mailUserId = "reports@1point1.in"; 
+            string mailPassword = "Pass@1234"; 
+            string mailFrom = "reports@1point1.in"; 
+
+            try
+            {
+                var emailMessage = new MimeMessage();
+                emailMessage.From.Add(new MailboxAddress("Sender", mailFrom));
+                emailMessage.To.Add(new MailboxAddress("", recipientEmail));
+                emailMessage.Subject = $"OTP: {OTP}";
+                var bodyBuilder = new BodyBuilder
+                {
+                    TextBody = $"Dear User,\n\nYour OTP is: {OTP}\n\nRegards,\nApplication Team"
+                };
+                emailMessage.Body = bodyBuilder.ToMessageBody();
+
+                using var client = new MailKit.Net.Smtp.SmtpClient();
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+                client.Connect(mailHost, mailPort, SecureSocketOptions.StartTls); 
+                client.Authenticate(mailUserId, mailPassword);
+                client.Send(emailMessage);
+                client.Disconnect(true);
+
+                Console.WriteLine("OTP email sent successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to send OTP email: {ex.Message}");
+            }
+        }
+        public async Task<string> SendOTPAsync(string OTP, string Mobile)
+        {
+            string Message = $"Yours OTP is {OTP}. Thank you for contacting OPO";
+
+            string sourceAddress = "OPOSMS";
+            string messageType = "SERVICE_IMPLICIT";
+            string dltTemplateId = "1607100000000131768";
+            string entityId = "1601100000000007805";
+            string isEnabled = "true";
+
+            string json = $"{{\"customerId\": \"{"ONE_POINT__Hsxp4Bd95x41AyX0iYU6"}\"," +
+                          $"\"destinationAddress\":[\"{Mobile}\"]," +
+                          $"\"message\": \"{Message}\"," +
+                          $"\"sourceAddress\": \"{sourceAddress}\"," +
+                          $"\"messageType\": \"{messageType}\"," +
+                          $"\"dltTemplateId\": \"{dltTemplateId}\"," +
+                          $"\"urlShortenerParams\":{{\"isEnabled\":\"{isEnabled}\"}}," +
+                          $"\"entityId\":\"{entityId}\"" +
+                          "}}";
+
+            string APIurl = "https://openapi.airtel.in/gateway/airtel-iq-sms-utility/sendSms";
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "Basic T05FX1BPSU5UX19Ic3hwNEJkOTV4NDFBeVgwaVlVNjpGbUE4RkhWM0BCd0R1JjZr");
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                try
+                {
+                    HttpResponseMessage response = await client.PostAsync(APIurl, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Message = "Success";
+                    }
+                    else
+                    {
+                        Message = $"Failed...! {response.StatusCode}";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Message = $"Failed...! {ex.Message}";
+                }
+            }
+
+            return Message;
+        }
         public async Task<int> CheckUserIsValidAsync(string UserID, string Password)
         {
             string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
