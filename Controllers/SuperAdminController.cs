@@ -212,7 +212,7 @@ namespace QMS.Controllers
             }
             else
             {
-                await _super.CreateAdminAsync(model.UserName, model.Password, model.AccountID);
+                await _super.CreateAdminAsync(model.UserName, model.Password, model.AccountID , model.Phone , model.Email);
                 ViewBag.ErrorLog = "User Created Successfully  !!!";
                 return View(accountList);
             }

@@ -340,7 +340,7 @@ namespace QMS.Controllers
             return RedirectToAction("ProcessAssign");
         }
         [HttpPost]
-        public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber)
+        public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber, string email )
         {
             List<string> errorMessages = new List<string>();
 
@@ -394,7 +394,7 @@ namespace QMS.Controllers
                 return RedirectToAction("CreateUser");
             }
 
-            await _admin.InsertUserDetailsAsync(Location_ID, ProgramID, SUBProgramID, Role_ID, UserID, Password, UserName, PhoneNumber);
+            await _admin.InsertUserDetailsAsync(Location_ID, ProgramID, SUBProgramID, Role_ID, UserID, Password, UserName, PhoneNumber , email);
             errorMessages.Add("User Is Created Sucessfully !");
             TempData["ErrorMessages"] = errorMessages;
             return RedirectToAction("CreateUser");

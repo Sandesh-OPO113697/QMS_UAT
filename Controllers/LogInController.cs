@@ -19,32 +19,59 @@ namespace QMS.Controllers
         }
         public async Task< ActionResult> UserLogIn()
         {
-            //_login.SendEmail("sandesh.bhosale@1point1.com", "1256");
-            //string re=  await _login.SendOTPAsync("1123","7058053821");
+            
             response.Cookies.Delete("Token");
             return View();
         }
-
-        [HttpPost]
-        public async Task<JsonResult> ResetPassword(string Username, string Password)
+        public async Task<ActionResult> SendOTP(string email, string phone , string username)
         {
-
-            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+            try
             {
-                return Json(new { success = false, message = "Username and Password are required." });
-            }
-            else
-            {
-                int Result = await _login.CheckUserIsValidAsync(Username , Password);
-                if (Result == 1)
+                Random generator = new Random();
+                string OTPPhone = generator.Next(0, 9999).ToString("D4");
+                string OTPEmail = generator.Next(0, 9999).ToString("D4");
+               int rsult= await _login.SaveEmailPhoneOTP(OTPEmail, OTPPhone, email, phone, username);
+                if (rsult==1)
                 {
-                    return Json(new { success = true, message = "Password reset successful!" });
+
+                    await _login.SendEmail(OTPEmail, email);
+                    string result = await _login.SendOTPAsync(OTPPhone, phone);
+                    return Json(new { success = true, message = "OTP sent successfully." });
                 }
                 else
                 {
-                    return Json(new { success = false, message = "Failed to reset password. Please try again later." });
+                    return Json(new { success = false, message = "Incorrect Email Or Phone" });
                 }
-            }         
+              
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> ResetPassword(string emailOTP, string phoneOTP, string newPassword, string username)
+        {
+            int rsult = await _login.varifyEmailPhoneOTP(emailOTP, phoneOTP, username);
+            if (rsult==1)
+            {
+                int Result = await _login.CheckUserIsValidAsync(username, newPassword);
+                if (Result==1)
+                {
+                    return Json(new { success = true });
+                }else
+                {
+                    return Json(new { success = false });
+                }
+               
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
+       
         }
 
 

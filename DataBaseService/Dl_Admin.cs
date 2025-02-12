@@ -1052,7 +1052,7 @@ namespace QMS.DataBaseService
         }
 
 
-        public async Task InsertUserDetailsAsync(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber)
+        public async Task InsertUserDetailsAsync(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber , string email)
         {
             string UserNameENC = await _enc.EncryptAsync(UserID);
             string NameENC = await _enc.EncryptAsync(UserName);
@@ -1076,6 +1076,7 @@ namespace QMS.DataBaseService
                     cmd.Parameters.AddWithValue("@Phone", PhoneNumber);
                     cmd.Parameters.AddWithValue("@Procesname", SUBProgramID);
                     cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+                    cmd.Parameters.AddWithValue("@email", email);
                     await cmd.ExecuteNonQueryAsync();
                 }
             }

@@ -372,7 +372,7 @@ namespace QMS.DataBaseService
             return accountPrefix;
         }
 
-        public async Task CreateAdminAsync(string userID, string Password, string AccountID)
+        public async Task CreateAdminAsync(string userID, string Password, string AccountID , string phone , string email)
         {
             string ConnID = await _dcl.GetDynStrByUserIDAsync(userID);
 
@@ -396,6 +396,8 @@ namespace QMS.DataBaseService
                         }
                         cmd.Parameters.AddWithValue("@Password", await _enc.EncryptAsync(Password));
                         cmd.Parameters.AddWithValue("@AccountID", AccountID);
+                        cmd.Parameters.AddWithValue("@phone", phone);
+                        cmd.Parameters.AddWithValue("@email", email);
                         int result = await cmd.ExecuteNonQueryAsync();
 
                     }

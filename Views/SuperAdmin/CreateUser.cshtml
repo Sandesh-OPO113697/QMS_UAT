@@ -5,6 +5,7 @@
 {
     <div class="alert alert-success">
         @ViewBag.ErrorLog
+       
     </div>
 }
 
@@ -34,7 +35,7 @@
                        
                         <div class="form-group mb-3">
                             <label ></label>
-                            <button type="button" class="btn btn-primary" onclick="ShowUserCreation()">Add User</button>
+                            <button type="button" id="AddUser" class="btn btn-primary" style="visibility:hidden" onclick="ShowUserCreation()">Add User</button>
                         </div>
                         
                     </div>
@@ -72,12 +73,25 @@
                             <input type="text" id="txtAdmin" style="visibility:hidden" value="____" name="UserName" autocomplete="off" class="form-control" oninput="restrictBackspace(event)" onkeydown="preventDeleteBackspace(event)" />
                         </div>
                     </div>
-                    <div class="col-md-6">
+                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label style="visibility:hidden" id="lblpass">Password</label>
                             <input type="password" id="txtPassword" style="visibility:hidden" name="Password" class="form-control" />
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label style="visibility:hidden" id="lblphone">Phone</label>
+                            <input type="text" id="txtphone" style="visibility:hidden" oninput="validatePhone(this)" name="Phone" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label style="visibility:hidden" id="lblemail">Email</label>
+                            <input type="email" style="visibility:hidden" id="txtemail" name="Email" class="form-control" />
+                        </div>
+                    </div>
+
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <button id="SubBTN" type="submit" style="visibility:hidden" class="btn btn-primary">Create Admin</button>
@@ -97,9 +111,14 @@
 
 
 
-
 <script type="text/javascript">
-
+    function validatePhone(input) {
+        input.value = input.value.replace(/\D/g, '');
+        if (input.value.length > 10) {
+            input.value = input.value.substring(0, 10);
+            alert("Phone number can only be 10 digits.");
+        }
+    }
     function ShowUserCreation() {
 
         document.getElementById("txtAdmin").style.visibility = "visible";
@@ -108,18 +127,30 @@
         document.getElementById("lblpass").style.visibility = "visible";
         document.getElementById("SubBTN").style.visibility = "visible";
         document.getElementById("CrardUserDiv").style.visibility = "visible";
+
+        document.getElementById("lblphone").style.visibility = "visible";
+        document.getElementById("txtphone").style.visibility = "visible";
+        document.getElementById("lblemail").style.visibility = "visible";
+        document.getElementById("txtemail").style.visibility = "visible";
         
 
         return;
     }
     function callCSharpMethod(selectElement) {
-
+        document.getElementById("AddUser").style.visibility = "visible";
         document.getElementById("txtAdmin").style.visibility = "hidden";
         document.getElementById("txtPassword").style.visibility = "hidden";
         document.getElementById("lblUser").style.visibility = "hidden";
         document.getElementById("lblpass").style.visibility = "hidden";
         document.getElementById("SubBTN").style.visibility = "hidden";
         document.getElementById("CrardUserDiv").style.visibility = "hidden";
+
+
+
+        document.getElementById("lblphone").style.visibility = "hidden";
+        document.getElementById("txtphone").style.visibility = "hidden";
+        document.getElementById("lblemail").style.visibility = "hidden";
+        document.getElementById("txtemail").style.visibility = "hidden";
         
 
         var selectedValue = selectElement.value;

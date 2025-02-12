@@ -121,6 +121,12 @@
                         <label for="txtUserName">User Name</label>
                         <input type="text" name="UserName" id="txtUserName" autocomplete="off" class="form-control" />
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label id="lblemail">Email</label>
+                            <input type="email"  id="txtemail" name="Email" class="form-control" />
+                        </div>
+                    </div>
                     <div class="form-group col-md-6">
                         <label for="txtPhone">Phone Number</label>
                         <input type="number"
@@ -270,12 +276,14 @@
         const password = document.getElementById("txtPassword").value;
         const userName = document.getElementById("txtUserName").value;
         const phoneNumber = document.getElementById("txtPhone").value;
-
+        const Email = document.getElementById("txtemail").value;
       
         if (!location || location === "Select Location") {
             errors.push("Please select a valid location.");
         }
-
+        if (!Email || Email === "") {
+            errors.push("Please select a valid Email.");
+        }
       
         if (!program || program === "") {
             errors.push("Please select a valid program.");

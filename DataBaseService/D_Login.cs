@@ -15,6 +15,7 @@ using System.Security.Authentication;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using AuthenticationException = MailKit.Security.AuthenticationException;
+using System.Drawing.Imaging;
 
 
 namespace QMS.DataBaseService
@@ -33,7 +34,63 @@ namespace QMS.DataBaseService
             this.response = httpContextAccessor.HttpContext?.Response;
 
         }
-        public void SendEmail(string recipientEmail, string OTP)
+        public async Task<int> SaveEmailPhoneOTP(string emailOTP, string phoneOTP, string email, string phone, string username)
+        {
+            string Dycon = await _dlcon.GetDynStrByUserIDAsync(username);
+            int isValid = 0;
+            using (SqlConnection connection = new SqlConnection(Dycon))
+            {
+                await connection.OpenAsync(); 
+
+                using (SqlCommand command = new SqlCommand("SaveOTPAndValidate", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
+                    command.Parameters.AddWithValue("@Operation", "CheckEmailValid");
+
+                    command.Parameters.AddWithValue("@EmailOTP", emailOTP);
+                    command.Parameters.AddWithValue("@PhoneOTP", phoneOTP);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.Parameters.AddWithValue("@Phone", phone);
+                    command.Parameters.AddWithValue("@Username", await _enc.EncryptAsync(username));
+                    object result = await command.ExecuteScalarAsync();
+
+                    isValid = result != null ? Convert.ToInt32(result) : 0;
+                }
+            }
+
+            return isValid ;
+        }
+
+
+        public async Task<int> varifyEmailPhoneOTP(string emailOTP, string phoneOTP, string username)
+        {
+            string Dycon = await _dlcon.GetDynStrByUserIDAsync(username);
+            int isValid = 0;
+            using (SqlConnection connection = new SqlConnection(Dycon))
+            {
+                await connection.OpenAsync();
+
+                using (SqlCommand command = new SqlCommand("SaveOTPAndValidate", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
+                    command.Parameters.AddWithValue("@Operation", "VarifyOTP");
+
+                    command.Parameters.AddWithValue("@EmailOTP", emailOTP);
+                    command.Parameters.AddWithValue("@PhoneOTP", phoneOTP);
+           
+                    command.Parameters.AddWithValue("@Username", await _enc.EncryptAsync(username));
+                    object result = await command.ExecuteScalarAsync();
+
+                    isValid = result != null ? Convert.ToInt32(result) : 0;
+                }
+            }
+
+            return isValid;
+        }
+
+        public async Task SendEmail(string recipientEmail, string OTP)
         {
             string mailHost = "192.168.0.122"; 
             int mailPort = 587; 
@@ -44,6 +101,7 @@ namespace QMS.DataBaseService
             try
             {
                 var emailMessage = new MimeMessage();
+
                 emailMessage.From.Add(new MailboxAddress("Sender", mailFrom));
                 emailMessage.To.Add(new MailboxAddress("", recipientEmail));
                 emailMessage.Subject = $"OTP: {OTP}";
