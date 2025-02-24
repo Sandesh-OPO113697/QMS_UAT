@@ -217,8 +217,8 @@ namespace QMS.Controllers
                 case "2":
                     switch (ModuleName)
                     {
-                        case "Create Program":
-                            return RedirectToAction("CreateProcessBySiteAdmin");
+                        case "Form enabling deactivating and editing":
+                            return RedirectToAction("FormBuilder", "ManageForm");
                         case "Manage Feature":
                             return RedirectToAction("FeatureMapping");
                         case "Manage Role":
