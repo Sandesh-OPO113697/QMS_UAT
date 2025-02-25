@@ -62,8 +62,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlRm9ybVxDcmVhdGVGb3JtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/ManageForm/EditForm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlRm9ybVxFZGl0Rm9ybS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/QMS Dash/WEB_QMS/QMS/QMS/Views/ManageForm/FormBuilder.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlRm9ybVxGb3JtQnVpbGRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/QMS Dash/WEB_QMS/QMS/QMS/Views/ManageForm/ViewForm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlRm9ybVxWaWV3Rm9ybS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/QMS Dash/WEB_QMS/QMS/QMS/Views/Module/CreateProcessBySiteAdmin.cshtml]

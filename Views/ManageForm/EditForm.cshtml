@@ -1,0 +1,182 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title"> Select process</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="ProgramID">Program Name</label>
+                    @Html.DropDownList(
+                             "ProgramID",
+                             (List<SelectListItem>)ViewBag.ProcessList,
+                             "Select Program",
+                             new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" }
+                             )
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="SUBProgramID">Sub Program Name</label>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()">
+                        <option value="">Select Process</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@model List<QMS.Models.SectionMaster>
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Section Master</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Section</th>
+                    <th>Rating</th>
+                    <th>Scorable</th>
+                    <th>Fatal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.SectionId</td>
+                        <td>@item.Ratingid</td>
+                        <td>@item.Scorable</td>
+                        <td>@item.Fatal</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="editSection(@item.Id)">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteSection(@item.Id)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Section Form -->
+        <form id="sectionForm">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="Section_ID">Section</label>
+                        @Html.DropDownList("Section_ID", (List<SelectListItem>)ViewBag.Section_Category, "Select Section", new { @class = "custom-select", id = "Section_ID" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="Rating_ID">Rating</label>
+                        @Html.DropDownList("Rating_ID", (List<SelectListItem>)ViewBag.RatingMaste, "Select Rating", new { @class = "custom-select", id = "Rating_ID" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="scorableDropdown">Scorable</label>
+                        <select id="scorableDropdown" class="custom-select">
+                            <option value="">Select</option>
+                            <option value="Yes">YES</option>
+                            <option value="No">NO</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="FatalDropdown">Fatal</label>
+                        <select id="FatalDropdown" class="custom-select">
+                            <option value="">Select</option>
+                            <option value="Yes">YES</option>
+                            <option value="No">NO</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <button class="btn btn-primary" style="margin-top: 32px;" onclick="addToGrid()">
+                            Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    function onProgramChange() {
+        var programId = document.getElementById("ProgramID").value;
+        if (programId === "") {
+            alert("Select Valid  Program");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: programId }),
+
+            url: "/Admin/GetSUBProcessList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                console.log(response.d);
+                var dropdown = $('#SUBProgramID');
+                dropdown.empty();
+                dropdown.append('<option value="">Select Process</option>');
+                response.proces.forEach(function (item) {
+                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                });
+
+                if (response.proces && response.proces.length > 0) {
+                    // $("#DynamicFeilds").hide();
+                    // $("#Staticfeild").hide();
+                    // $("#Sectionfeild").hide();
+                } else {
+                    // $("#DynamicFeilds").show();
+                    // $("#Sectionfeild").show();
+                    // $("#Staticfeild").show();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
+    }
+    function onSubProgramChange() {
+        var subProgramId = document.getElementById("SUBProgramID").value;
+
+        if (subProgramId === "") {
+            // $("#Sectionfeild").hide();
+            // $("#Staticfeild").hide();
+            // $("#DynamicFeilds").hide();
+            alert("Select Valid Sub Program");
+
+        } else {
+            // $("#DynamicFeilds").show();
+            // $("#Sectionfeild").show();
+            // $("#Staticfeild").show();
+
+        }
+    }
+
+</script>

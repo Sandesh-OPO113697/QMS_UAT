@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@{
+    var fields = ViewBag.Fields as List<dynamic>;
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Dynamic Fields</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            @if (fields != null)
+            {
+                @foreach (var field in fields)
+                {
+                    <div class="col-md-3">
+                        <div class="form-group mb-3">
+                            <label>@field.Static_Field_Name</label>
+                            @if (field.DataType.ToLower() == "int")
+                            {
+                                <input type="number" class="form-control" name="@field.Static_Field_Name" />
+                            }
+                            else if (field.DataType.ToLower() == "datetime")
+                            {
+                                <input type="datetime-local" class="form-control" name="@field.Static_Field_Name" />
+                            }
+                            else
+                            {
+                                <input type="text" class="form-control" name="@field.Static_Field_Name" />
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No data found.</p>
+            }
+        </div>
+    </div>
+</div>
