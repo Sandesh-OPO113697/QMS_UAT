@@ -357,10 +357,11 @@
         let programID = $("#ProgramID").val();
         let subProgramID = $("#SUBProgramID").val();
 
-        if (!programID || !subProgramID) {
-            alert("Please select both Program and Sub Program.");
+        if (!programID ) {
+            alert("Please select  Program");
             return;
         }
+     
         let formData = [];
 
         rows.each(function () {

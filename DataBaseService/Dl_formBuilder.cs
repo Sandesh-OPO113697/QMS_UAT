@@ -9,8 +9,164 @@ namespace QMS.DataBaseService
 {
     public class Dl_formBuilder
     {
+        public async Task<bool> DeleteSectionAsync(int sectionId)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "deleteSection");
+                        cmd.Parameters.AddWithValue("@Id", sectionId);
+                        var result = await cmd.ExecuteScalarAsync();
+                        int rowsAffected = result != null ? Convert.ToInt32(result) : 0;
 
-        
+                        if (rowsAffected > 0)
+                            return (true);
+                        else
+                            return (false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task EditSectionRow(SectionGridModel section)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "UpdateSecrtion");
+                        cmd.Parameters.AddWithValue("@Id", section.Id);
+                        cmd.Parameters.AddWithValue("@Category", section.Category);
+                        cmd.Parameters.AddWithValue("@SectionId", section.SectionId);
+                        cmd.Parameters.AddWithValue("@RatingId", section.RatingId);
+                        cmd.Parameters.AddWithValue("@Scorable", section.Scorable);
+                        cmd.Parameters.AddWithValue("@Score", section.Score);
+                        cmd.Parameters.AddWithValue("@Level", section.Level);
+                        cmd.Parameters.AddWithValue("@Fatal", section.Fatal);
+                        cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+           
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+        public async Task<DataSet> GetSectionDropdownDataAsync()
+        {
+            DataSet ds = new DataSet();
+
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Operation", "GetSection");
+
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    {
+                        DataTable sectionTable = new DataTable();
+                        adapter.Fill(sectionTable);
+                        sectionTable.TableName = "Sections"; // Naming the table
+                        ds.Tables.Add(sectionTable);
+                    }
+                }
+
+                using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Operation", "GetRatings");
+
+                    using (SqlDataAdapter ratingAdpt = new SqlDataAdapter(cmd))
+                    {
+                        DataTable ratingTable = new DataTable();
+                        ratingAdpt.Fill(ratingTable);
+                        ratingTable.TableName = "Ratings"; // Naming the table
+                        ds.Tables.Add(ratingTable);
+                    }
+                }
+            }
+
+            return ds;
+        }
+        public async Task<DataTable> GetdynamicFeildsGriedAsync(int processID, int SubprocessID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GetdynamicFeilds");
+                        cmd.Parameters.AddWithValue("@processID", processID);
+                        cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
+        public async Task<DataTable> GetSectionGriedAsync(int processID , int SubprocessID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation" , "GetSectionGried");
+                        cmd.Parameters.AddWithValue("@processID", processID);
+                        cmd.Parameters.AddWithValue("@SubprocessID" , SubprocessID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
         public async Task<List<dynamic>> GetStaticfiedls()
         {
             List<dynamic> fields = new List<dynamic>();

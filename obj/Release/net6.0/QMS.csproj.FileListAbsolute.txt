@@ -57,3 +57,11 @@ D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\QMS.pdb
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\QMS.genruntimeconfig.cache
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Release\net6.0\ref\QMS.dll
 D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Release\net6.0\Webpack.dll
+D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Release\net6.0\BouncyCastle.Cryptography.dll
+D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Release\net6.0\MailKit.dll
+D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Release\net6.0\MimeKit.dll
+D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Release\net6.0\System.Formats.Asn1.dll
+D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Release\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Release\net6.0\System.Text.Encoding.CodePages.dll
+D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Release\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\QMS Dash\WEB_QMS\QMS\QMS\bin\Release\net6.0\runtimes\win\lib\net6.0\System.Text.Encoding.CodePages.dll
