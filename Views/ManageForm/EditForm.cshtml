@@ -345,55 +345,13 @@
             });
         }
     }
-    function editSection(item) {
-        $("#editId").val(item.id);
-        $("#editCategory").val(item.category);
-        $("#editScore").val(item.score);
-        $("#editLevel").val(item.level);
-        $("#editScorable").val(item.scorable);
-        $("#editFatal").val(item.fatal);
-        console.log(item);
-        console.log(JSON.stringify(item));
-        let categoryid = item.categoryid; // Ensure category ID is correctly set
-        let ratingid = item.ratingId; // Rating ID
-
-        console.log("Category ID: " + categoryid);
-        console.log("Rating ID: " + ratingid);
-
-        $.ajax({
-            url: "/ManageForm/GetDropdownData",
-            type: "GET",
-            success: function (response) {
-                var sectionDropdown = $("#editSection");
-                sectionDropdown.empty();
-                response.sections.forEach(function (section) {
-                    let isSelected = section.id == categoryid; // Match category ID
-                    sectionDropdown.append(new Option(section.name, section.id, false, isSelected));
-                });
-
-                var ratingDropdown = $("#editRating");
-                ratingDropdown.empty();
-                response.ratings.forEach(function (rating) {
-                    let isSelected = rating.id == ratingid; // Match rating ID
-                    ratingDropdown.append(new Option(rating.name, rating.id, false, isSelected));
-                });
-
-                $("#editModal").modal("show"); // Show the modal
-            },
-            error: function (xhr, status, error) {
-                console.error("Error fetching dropdown data: " + error);
-            }
-        });
-    }
-
-
     function editDynamicSection(item) {
+        // Set the values in the form fields
         $("#DynId").val(item.id);
         $("#Dnyfields_Value").val(item.fields_Value);
         $("#DnyvalueType").val(item.valueType);
-        $("#DynValue").val(item.value);
 
-        let categoryid = item.dynamic_field_ID;
+        // Handle the dropdown case
         if (item.valueType === "dropdown") {
             // Show dropdown container
             $("#dropdownValuesContainer").show();
@@ -403,11 +361,12 @@
             let dropdown = $("#DynValue");
             dropdown.empty(); // Clear the current options
 
+            // Create a temporary array to keep track of selected values
             values.forEach(function (val) {
                 dropdown.append(new Option(val, val));
             });
 
-            // Set the current value to the selected one
+            // Set the current value to the selected one (you can set multiple options if required)
             dropdown.val(values);
         } else {
             // Hide dropdown container if it's not a dropdown
@@ -417,58 +376,50 @@
 
         // Show the modal
         $("#editModalDynamifeils").modal("show");
-       
-
-       
     }
-    function updateSection() {
-        var sectionData = {
-            Id: $("#editId").val(),
-            Category: $("#editCategory").val(),
-            SectionId: $("#editSection").val(),
-            RatingId: $("#editRating").val(),
-            Scorable: $("#editScorable").val(),
-            Score: $("#editScore").val(),
-            Level: $("#editLevel").val(),
-            Fatal: $("#editFatal").val()
-        };
 
-        $.ajax({
-            type: "POST",
-            url: "/ManageForm/UpdateSection",
-            contentType: "application/json",
-            data: JSON.stringify(sectionData),
-            success: function () {
-                $("#editModalDynamifeils").modal("hide");
-                onSubProgramChange(); 
-            },
-            error: function (xhr, status, error) {
-                console.error("Error updating section: " + error);
-            }
-        });
-    }
-    function deleteSection(id) {
-        if (confirm("Are you sure you want to delete this section?")) {
-            $.ajax({
-                url: "/ManageForm/DeleteSection",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ Id: id }),
-                success: function (response) {
-                    if (response.success) {
-                        alert("Section deleted successfully!");
-                        location.reload(); 
-                    } else {
-                        alert("Error deleting section: " + response.message);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error occurred: " + error);
-                    alert("An error occurred while deleting the section.");
-                }
-            });
+    function toggleDropdown() {
+        let valueType = $("#DnyvalueType").val();
+        if (valueType === "dropdown") {
+            $("#dropdownValuesContainer").show();
+        } else {
+            $("#dropdownValuesContainer").hide();
         }
     }
+
+    function saveDynamicSection() {
+        // Get the values from the modal form
+        let id = $("#DynId").val();
+        let fieldsValue = $("#Dnyfields_Value").val();
+        let valueType = $("#DnyvalueType").val();
+
+        let value;
+        if (valueType === "dropdown") {
+            // For dropdown, join selected options as a string
+            value = $("#DynValue").val().join(","); // Join array to store values as comma-separated
+        } else {
+            // For other types, just get the single value
+            value = $("#DynValue").val();
+        }
+
+        // Create the updated object
+        let updatedItem = {
+            id: id,
+            fields_Value: fieldsValue,
+            valueType: valueType,
+            value: value
+        };
+
+        // Perform your save operation (for example, sending it to the server)
+        console.log("Updated Item:", updatedItem);
+
+        // Close the modal
+        $("#editModalDynamifeils").modal("hide");
+
+        // Optionally, you could trigger a function to update the table after saving.
+    }
+
+
 
 
 </script>
