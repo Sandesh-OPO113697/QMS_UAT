@@ -64,7 +64,7 @@
 </div>
 
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-4"  id="DynamicTable" style="display:none">
     <div class="card-header">
         <strong class="card-title"> Dynamic </strong>
     </div>
@@ -147,52 +147,115 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="editModalDynamifeils" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div id="editModalDynmic" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Dynamic Field</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title">Edit Dynamic Field</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <form id="editForm">
-                    <div class="mb-3">
-                        <label for="DynId" class="form-label">ID</label>
-                        <input type="text" class="form-control" id="DynId" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="Dnyfields_Value" class="form-label">Field Name</label>
-                        <input type="text" class="form-control" id="Dnyfields_Value">
-                    </div>
-                    <div class="mb-3">
-                        <label for="DnyvalueType" class="form-label">Value Type</label>
-                        <select class="form-select" id="DnyvalueType" onchange="toggleDropdown()">
-                            <option value="text">Text</option>
-                            <option value="dropdown">Dropdown</option>
-                        </select>
-                    </div>
-                    <div class="mb-3" id="dropdownValuesContainer" style="display: none;">
-                        <label for="DynValue" class="form-label">Dropdown Values</label>
-                        <select class="form-select" id="DynValue" multiple></select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="DynValue" class="form-label">Value</label>
-                        <input type="text" class="form-control" id="DynValue">
-                    </div>
-                </form>
+                <input type="hidden" id="editItemId">
+                <div class="form-group">
+                    <label for="editFieldName">Field Name</label>
+                    <input type="text" id="editFieldName" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editDropdown">Select Value</label>
+                    <select id="editDropdown" class="form-control">
+                      
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="newValue">Edit Value (Seprated by ,)</label>
+                    <input type="text" id="newValue" class="form-control" placeholder="Enter new value">
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="saveDynamicSection()">Save</button>
+                <button type="button" class="btn btn-primary" onclick="saveEditedValue()">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-
-
-
-
+<script src="~/js/jquery.min.js"></script>
 <script>
+    function editDynamicSection(item) {
+        console.log("Editing item:", item);
+
+        $("#editItemId").val(item.id);
+        $("#editFieldName").val(item.fields_Value);
+
+        var dropdown = $("#editDropdown");
+        dropdown.empty();
+        var options = item.value.split(',');
+        options.forEach(function (option) {
+            dropdown.append(new Option(option, option));
+        });
+
+ 
+        $("#editModalDynmic").modal("show");
+    }
+
+    function saveEditedValue() {
+        var id = $("#editItemId").val();
+        var newValue = $("#newValue").val().trim();
+
+        if (!newValue.includes(",")) {
+            alert("Please enter a value separated by a comma (,)");
+            return;
+        }
+
+        if (!id) {
+            alert("Invalid item ID.");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/ManageForm/UpdateDynamicFieldsValue",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({ Id: id, NewValue: newValue }),
+            success: function (response) {
+                if (response.success) {
+                    var programId = $("#ProgramID").val();
+                    var subProgramId = $("#SUBProgramID").val();
+
+                    if (!programId || !subProgramId) {
+                        console.error("Missing required program/sub-program ID.");
+                        return;
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/ManageForm/GetdynamicfeildsGried",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+                        success: function (response) {
+                            populatedyanamicfeildsGrid(response);
+                            $("#editModalDynmic").modal("hide"); // Hide modal after updating the grid
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error loading dynamic fields: " + error);
+                        }
+                    });
+
+                } else {
+                    alert("Update failed: " + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error updating value: " + error);
+            }
+        });
+    }
+
+
     function onProgramChange() {
         var programId = document.getElementById("ProgramID").value;
         if (programId === "") {
@@ -200,7 +263,9 @@
             return;
 
         }
+    
         $("#SectionGried").hide();
+        $("#DynamicTable").hide();
         $.ajax({
             type: "POST",
             data: JSON.stringify({ id: programId }),
@@ -219,28 +284,9 @@
                 });
 
                 if (response.proces && response.proces.length > 0) {
-                    // $("#DynamicFeilds").hide();
-                    // $("#Staticfeild").hide();
-                    // $("#Sectionfeild").hide();
+                 
                 } else {
-                    // $("#DynamicFeilds").show();
-                    // $("#Sectionfeild").show();
-                    // $("#Staticfeild").show();
-
-                    // $.ajax({
-                    //     type: "POST",
-                    //     data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
-                    //     url: "/ManageForm/GetSectionGried",
-                    //     contentType: "application/json; charset=utf-8",
-                    //     dataType: "json",
-                    //     success: function (response) {
-                    //         populateGrid(response);
-                    //     },
-                    //     error: function (xhr, status, error) {
-                    //         console.error("Error occurred: " + error);
-                    //     }
-                    // });
-
+                  
 
                 }
             },
@@ -267,20 +313,19 @@
                 "<td>" + item.fields_Value + "</td>" +
                 "<td>" + item.valueType + "</td>" +
                 "<td>" + item.value + "</td>" +
-           
                 "<td>" +
-                "<button class='btn btn-primary' onclick='editDynamicSection(" + JSON.stringify(item) + ")'>Edit</button> " +
-                "<button class='btn btn-danger' onclick='deleteSection(" + item.id + ")'>Delete</button>" +
+                "<button class='btn btn-primary' onclick='editDynamicSection(" + JSON.stringify(item) + ")'>Edit</button> " +        
                 "</td>" +
                 "</tr>";
 
             tableBody.append(row);
         });
     }
+ 
+
     function populateGrid(data) {
         var tableBody = $("#sectionGrid tbody");
-        tableBody.empty(); // Clear previous data
-
+        tableBody.empty(); 
         if (data.length === 0) {
             tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
             return;
@@ -336,7 +381,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    $("#SectionGried").show();
+                    $("#DynamicTable").show();
                     populatedyanamicfeildsGrid(response);
                 },
                 error: function (xhr, status, error) {
@@ -345,39 +390,7 @@
             });
         }
     }
-    function editDynamicSection(item) {
-        // Set the values in the form fields
-        $("#DynId").val(item.id);
-        $("#Dnyfields_Value").val(item.fields_Value);
-        $("#DnyvalueType").val(item.valueType);
-
-        // Handle the dropdown case
-        if (item.valueType === "dropdown") {
-            // Show dropdown container
-            $("#dropdownValuesContainer").show();
-
-            // Split the values by comma and add them to the dropdown
-            let values = item.value.split(',');
-            let dropdown = $("#DynValue");
-            dropdown.empty(); // Clear the current options
-
-            // Create a temporary array to keep track of selected values
-            values.forEach(function (val) {
-                dropdown.append(new Option(val, val));
-            });
-
-            // Set the current value to the selected one (you can set multiple options if required)
-            dropdown.val(values);
-        } else {
-            // Hide dropdown container if it's not a dropdown
-            $("#dropdownValuesContainer").hide();
-            $("#DynValue").val(item.value);
-        }
-
-        // Show the modal
-        $("#editModalDynamifeils").modal("show");
-    }
-
+    
     function toggleDropdown() {
         let valueType = $("#DnyvalueType").val();
         if (valueType === "dropdown") {
@@ -386,40 +399,5 @@
             $("#dropdownValuesContainer").hide();
         }
     }
-
-    function saveDynamicSection() {
-        // Get the values from the modal form
-        let id = $("#DynId").val();
-        let fieldsValue = $("#Dnyfields_Value").val();
-        let valueType = $("#DnyvalueType").val();
-
-        let value;
-        if (valueType === "dropdown") {
-            // For dropdown, join selected options as a string
-            value = $("#DynValue").val().join(","); // Join array to store values as comma-separated
-        } else {
-            // For other types, just get the single value
-            value = $("#DynValue").val();
-        }
-
-        // Create the updated object
-        let updatedItem = {
-            id: id,
-            fields_Value: fieldsValue,
-            valueType: valueType,
-            value: value
-        };
-
-        // Perform your save operation (for example, sending it to the server)
-        console.log("Updated Item:", updatedItem);
-
-        // Close the modal
-        $("#editModalDynamifeils").modal("hide");
-
-        // Optionally, you could trigger a function to update the table after saving.
-    }
-
-
-
 
 </script>

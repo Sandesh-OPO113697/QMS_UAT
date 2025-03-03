@@ -17,6 +17,31 @@ namespace QMS.Controllers
             _admin = adam;
             dl_FormBuilder = adl;
         }
+        [HttpPost]
+        public async Task<JsonResult> UpdateDynamicFieldsValue([FromBody] DynamicFieldUpdateRequest request)
+        {
+            try
+            {
+           
+                int result = await dl_FormBuilder.UpdatedynamicFeilds(request);
+
+                if (result == 0)
+                {
+                    return Json(new { success = true, message = "Field updated successfully." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Failed to update the field." });
+                }
+            }
+            catch (Exception ex)
+            {
+    
+                Console.Error.WriteLine($"Error updating dynamic fields: {ex.Message}");
+
+                return Json(new { success = false, message = "An error occurred while updating the field." });
+            }
+        }
 
         [HttpPost]
         public async Task<IActionResult> DeleteSection([FromBody] SectionGridModel model)

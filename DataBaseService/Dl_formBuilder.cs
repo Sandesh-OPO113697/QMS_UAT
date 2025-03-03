@@ -4,11 +4,30 @@ using System.Data;
 using Microsoft.VisualBasic.FileIO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using static System.Collections.Specialized.BitVector32;
 
 namespace QMS.DataBaseService
 {
     public class Dl_formBuilder
     {
+        public async Task<int> UpdatedynamicFeilds(DynamicFieldUpdateRequest dt)
+        {
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Operation", "UpdatedynamicDrop");
+                    cmd.Parameters.AddWithValue("@Id", dt.Id);
+                    cmd.Parameters.AddWithValue("@NewdropValue", dt.NewValue);
+                    var result = await cmd.ExecuteScalarAsync();
+                    int rowsAffected = result != null ? Convert.ToInt32(result) : 0;
+                    return rowsAffected;
+
+                }
+            }
+        }
         public async Task<bool> DeleteSectionAsync(int sectionId)
         {
             try
