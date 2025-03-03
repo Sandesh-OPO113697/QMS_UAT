@@ -22,10 +22,8 @@ namespace QMS.Controllers
         {
             try
             {
-           
                 int result = await dl_FormBuilder.UpdatedynamicFeilds(request);
-
-                if (result == 0)
+                if (result == 1)
                 {
                     return Json(new { success = true, message = "Field updated successfully." });
                 }

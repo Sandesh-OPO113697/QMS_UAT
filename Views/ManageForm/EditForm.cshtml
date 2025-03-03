@@ -56,7 +56,6 @@
                 </tr>
             </thead>
             <tbody>
-                
             </tbody>
         </table>
 
@@ -64,7 +63,7 @@
 </div>
 
 
-<div class="card shadow mb-4"  id="DynamicTable" style="display:none">
+<div class="card shadow mb-4" id="DynamicTable" style="display:none">
     <div class="card-header">
         <strong class="card-title"> Dynamic </strong>
     </div>
@@ -165,7 +164,6 @@
                 <div class="form-group">
                     <label for="editDropdown">Select Value</label>
                     <select id="editDropdown" class="form-control">
-                      
                     </select>
                 </div>
 
@@ -196,7 +194,7 @@
             dropdown.append(new Option(option, option));
         });
 
- 
+
         $("#editModalDynmic").modal("show");
     }
 
@@ -263,7 +261,7 @@
             return;
 
         }
-    
+
         $("#SectionGried").hide();
         $("#DynamicTable").hide();
         $.ajax({
@@ -284,9 +282,9 @@
                 });
 
                 if (response.proces && response.proces.length > 0) {
-                 
+
                 } else {
-                  
+
 
                 }
             },
@@ -296,11 +294,11 @@
         });
 
     }
-    
+
     function populatedyanamicfeildsGrid(data) {
         console.log(JSON.stringify(data));
         var tableBody = $("#dynamicGrid tbody");
-        tableBody.empty(); 
+        tableBody.empty();
 
         if (data.length === 0) {
             tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
@@ -309,23 +307,23 @@
 
         $.each(data, function (index, item) {
             var row = "<tr>" +
-                "<td>" + item.id + "</td>" +          
+                "<td>" + item.id + "</td>" +
                 "<td>" + item.fields_Value + "</td>" +
                 "<td>" + item.valueType + "</td>" +
                 "<td>" + item.value + "</td>" +
                 "<td>" +
-                "<button class='btn btn-primary' onclick='editDynamicSection(" + JSON.stringify(item) + ")'>Edit</button> " +        
+                "<button class='btn btn-primary' onclick='editDynamicSection(" + JSON.stringify(item) + ")'>Edit</button> " +
                 "</td>" +
                 "</tr>";
 
             tableBody.append(row);
         });
     }
- 
+
 
     function populateGrid(data) {
         var tableBody = $("#sectionGrid tbody");
-        tableBody.empty(); 
+        tableBody.empty();
         if (data.length === 0) {
             tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
             return;
@@ -355,7 +353,7 @@
         var subProgramId = document.getElementById("SUBProgramID").value;
 
         if (subProgramId === "") {
-        
+
             alert("Select Valid Sub Program");
 
         } else {
@@ -390,7 +388,74 @@
             });
         }
     }
-    
+    function editSection(item) {
+        $("#editId").val(item.id);
+        $("#editCategory").val(item.category);
+        $("#editScore").val(item.score);
+        $("#editLevel").val(item.level);
+        $("#editScorable").val(item.scorable);
+        $("#editFatal").val(item.fatal);
+        console.log(item);
+        console.log(JSON.stringify(item));
+        let categoryid = item.categoryid; // Ensure category ID is correctly set
+        let ratingid = item.ratingId; // Rating ID
+
+        console.log("Category ID: " + categoryid);
+        console.log("Rating ID: " + ratingid);
+
+        $.ajax({
+            url: "/ManageForm/GetDropdownData",
+            type: "GET",
+            success: function (response) {
+                var sectionDropdown = $("#editSection");
+                sectionDropdown.empty();
+                response.sections.forEach(function (section) {
+                    let isSelected = section.id == categoryid; // Match category ID
+                    sectionDropdown.append(new Option(section.name, section.id, false, isSelected));
+                });
+
+                var ratingDropdown = $("#editRating");
+                ratingDropdown.empty();
+                response.ratings.forEach(function (rating) {
+                    let isSelected = rating.id == ratingid; // Match rating ID
+                    ratingDropdown.append(new Option(rating.name, rating.id, false, isSelected));
+                });
+
+                $("#editModal").modal("show"); // Show the modal
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching dropdown data: " + error);
+            }
+        });
+    }
+
+    function updateSection() {
+        var sectionData = {
+            Id: $("#editId").val(),
+            Category: $("#editCategory").val(),
+            SectionId: $("#editSection").val(),
+            RatingId: $("#editRating").val(),
+            Scorable: $("#editScorable").val(),
+            Score: $("#editScore").val(),
+            Level: $("#editLevel").val(),
+            Fatal: $("#editFatal").val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/ManageForm/UpdateSection",
+            contentType: "application/json",
+            data: JSON.stringify(sectionData),
+            success: function () {
+                $("#editModalDynamifeils").modal("hide");
+                onSubProgramChange();
+            },
+            error: function (xhr, status, error) {
+                console.error("Error updating section: " + error);
+            }
+        });
+    }
+
     function toggleDropdown() {
         let valueType = $("#DnyvalueType").val();
         if (valueType === "dropdown") {
