@@ -5,11 +5,160 @@ using Microsoft.VisualBasic.FileIO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static System.Collections.Specialized.BitVector32;
+using Org.BouncyCastle.Asn1.Cms;
 
 namespace QMS.DataBaseService
 {
     public class Dl_formBuilder
     {
+        public async Task<DataTable> GetDynamicGriedAsync(int processID, int SubprocessID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GetDyanamicFeildForedit");
+                        cmd.Parameters.AddWithValue("@processID", processID);
+                        cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
+        public async Task<int> InsertValueInDynamicmaster(DynamicModelNew model)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("FormCreation", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "InserDynamicFeilds");
+                        cmd.Parameters.AddWithValue("@Root_Cause_Analysis", model.Root_Cause_Analysis ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Predictive_Analysis", model.Predictive_Analysis ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@ZT_Classification", model.ZT_Classification ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Zero_Tolerance", model.Zero_Tolerance ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Process", model.ProgramID > 0 ? model.ProgramID : (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@SubProcess", model.SubProgramID > 0 ? model.SubProgramID : (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName ?? (object)DBNull.Value);
+
+                        int result = await cmd.ExecuteNonQueryAsync();
+                        return result > 0 ? result : 0;  
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+               
+                Console.WriteLine($"Error: {ex.Message}");
+                return -1; 
+            }
+        }
+
+
+        public async Task<DataTable> getZT_Classification()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "getZT_Classification");
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+        public async Task<DataTable> GetgetPredictive_Analysis()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "getPredictive_Analysis");
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+        public async Task<DataTable> GetRoot_Cause_AnalysisAsync()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation" , "getRouteCause");
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
         public async Task<int> UpdatedynamicFeilds(DynamicFieldUpdateRequest dt)
         {
             using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
@@ -70,11 +219,11 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@Id", section.Id);
                         cmd.Parameters.AddWithValue("@Category", section.Category);
                         cmd.Parameters.AddWithValue("@SectionId", section.SectionId);
-                        cmd.Parameters.AddWithValue("@RatingId", section.RatingId);
+                     
                         cmd.Parameters.AddWithValue("@Scorable", section.Scorable);
                         cmd.Parameters.AddWithValue("@Score", section.Score);
                         cmd.Parameters.AddWithValue("@Level", section.Level);
-                        cmd.Parameters.AddWithValue("@Fatal", section.Fatal);
+                       
                         cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
 
                         await cmd.ExecuteNonQueryAsync();
@@ -252,43 +401,7 @@ namespace QMS.DataBaseService
         }
 
 
-        public async Task<int> addDynamicFeilds(List<Dynamicfeilds> fields)
-        {
-            int rowsAffected = 0;
-
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
-                {
-                    await conn.OpenAsync();
-
-                    foreach (var field in fields)
-                    {
-                        using (SqlCommand cmd = new SqlCommand("FormCreation", conn))
-                        {
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.AddWithValue("@Operation", "InserDynamicFeilds");
-                            cmd.Parameters.AddWithValue("@DNYFieldName", field.FieldName);
-                            cmd.Parameters.AddWithValue("@dnyFieldType", field.FieldType);
-                            cmd.Parameters.AddWithValue("@dnyFieldValue", field.FieldValues);
-                            cmd.Parameters.AddWithValue("@Process", field.ProgramID);
-                            cmd.Parameters.AddWithValue("@SubProcess", field.SubProgramID);
-                            cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
-                            cmd.CommandTimeout = 0;
-
-                            object result = await cmd.ExecuteScalarAsync();
-                            rowsAffected += Convert.ToInt32(result);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error inserting dynamic fields: " + ex.Message);
-            }
-
-            return rowsAffected;
-        }
+        
 
         public async Task<int> AddSectionfeilds(List<SectionModel> fields)
         {
@@ -308,11 +421,11 @@ namespace QMS.DataBaseService
                             cmd.Parameters.AddWithValue("@Operation", "InserSectionFeilds");
                             cmd.Parameters.AddWithValue("@secCategory", field.Category);
                             cmd.Parameters.AddWithValue("@secSection", field.Section);
-                            cmd.Parameters.AddWithValue("@secRating", field.Rating);
+                          
                             cmd.Parameters.AddWithValue("@secScorable", field.Scorable);
                             cmd.Parameters.AddWithValue("@secScore", field.Score);
                             cmd.Parameters.AddWithValue("@secLevel", field.Level);
-                            cmd.Parameters.AddWithValue("@secFatal", field.Fatal);
+                        
                             cmd.Parameters.AddWithValue("@Process", field.ProgramID);
                             cmd.Parameters.AddWithValue("@SubProcess", field.SubProgramID);
                             cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);

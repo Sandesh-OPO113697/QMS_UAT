@@ -4,6 +4,7 @@ using QMS.DataBaseService;
 using QMS.Models;
 using System.Data;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace QMS.Controllers
 {
@@ -17,7 +18,23 @@ namespace QMS.Controllers
             _admin = adam;
             dl_FormBuilder = adl;
         }
+
+
         [HttpPost]
+        public async Task<IActionResult> InsertDynamicFields([FromBody] DynamicModelNew model)
+         {
+            int Result = await dl_FormBuilder.InsertValueInDynamicmaster(model);
+          
+            if (Result == 1)
+            {
+                return Json(new { success = true, message = "Form inserted successfully\"" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Failed to Insert the field." });
+            }
+        }
+            [HttpPost]
         public async Task<JsonResult> UpdateDynamicFieldsValue([FromBody] DynamicFieldUpdateRequest request)
         {
             try
@@ -116,36 +133,117 @@ namespace QMS.Controllers
             }
 
         }
+
+
         public async Task<IActionResult> GetSectionGried([FromBody] Process_SUbProcess id)
         {
-            var dataTable = await dl_FormBuilder.GetSectionGriedAsync(id.ProcessID, id.SUBProcessID);
             try
             {
-               
+                var dataTable = await dl_FormBuilder.GetSectionGriedAsync(id.ProcessID, id.SUBProcessID);
+                DataTable DynamicFeild = await dl_FormBuilder.GetDynamicGriedAsync(id.ProcessID, id.SUBProcessID);
+
+
                 var sectionList = dataTable.AsEnumerable().Select(row => new SectionGridModel
                 {
                     Id = row.Field<int>("id"),
                     Category = row.Field<string>("Category"),
                     SectionName = row.Field<string>("SectionName"),
                     SectionId = row.Field<int>("SectionId"),
-                    RatingName = row.Field<string>("RatingName"),
-                    RatingId = row.Field<int>("Ratingid"),
+
                     Scorable = row.Field<string>("Scorable"),
                     Score = row.Field<int>("Score"),
                     Level = row.Field<string>("Level"),
-                    Fatal = row.Field<string>("Fatal"),
+
                     Active = row.Field<string>("Active")
                 }).ToList();
 
-                return Json(sectionList);
 
+                List<SelectListItem> filteredRoutwCauseList = new List<SelectListItem>();
+                List<SelectListItem> filteredPredictiveList = new List<SelectListItem>();
+                List<SelectListItem> filteredZTClassificationList = new List<SelectListItem>();
+                string Zero_Tolerance = "No";
+
+                if (DynamicFeild.Rows.Count > 0)
+                {
+                    Zero_Tolerance = DynamicFeild.Rows[0]["Zero_Tolerance"].ToString();
+
+                    var Root_Cause_Analysis = DynamicFeild.Rows[0]["Root_Cause_Analysis"].ToString().Split(',').Select(s => s.Trim()).ToList();
+                    var Predictive_Analysis = DynamicFeild.Rows[0]["Predictive_Analysis"].ToString().Split(',').Select(s => s.Trim()).ToList();
+                    var ZT_Classification = DynamicFeild.Rows[0]["ZT_Classification"].ToString().Split(',').Select(s => s.Trim()).ToList();
+
+                    var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+                    var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["ID"].ToString(),
+                        Text = $"{row["Metric_RCA"]}"
+                    }).ToList();
+                    filteredRoutwCauseList = Routw_causeList.Where(item => Root_Cause_Analysis.Contains(item.Value)).ToList();
+
+                    var getPredictive = await dl_FormBuilder.GetgetPredictive_Analysis();
+                    var getPredictiveList = getPredictive.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["ID"].ToString(),
+                        Text = $"{row["Predictive_CSAT"]}"
+                    }).ToList();
+                    filteredPredictiveList = getPredictiveList.Where(item => Predictive_Analysis.Contains(item.Value)).ToList();
+
+                    var getZT_Classification = await dl_FormBuilder.getZT_Classification();
+                    var getZT_ClassificationList = getZT_Classification.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["ID"].ToString(),
+                        Text = $"{row["ZT_Classification"]}"
+                    }).ToList();
+                    filteredZTClassificationList = getZT_ClassificationList.Where(item => ZT_Classification.Contains(item.Value)).ToList();
+                }
+
+                return Json(new
+                {
+                    SectionGrid = sectionList,
+                    FilteredRoutwCauseList = filteredRoutwCauseList,
+                    FilteredPredictiveList = filteredPredictiveList,
+                    FilteredZTClassificationList = filteredZTClassificationList,
+                    ZeroTolerance = Zero_Tolerance
+                });
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
-        
         }
+
+        //public async Task<IActionResult> GetSectionGried([FromBody] Process_SUbProcess id)
+        //{
+        //    var dataTable = await dl_FormBuilder.GetSectionGriedAsync(id.ProcessID, id.SUBProcessID);
+
+        //    try
+        //    {
+
+        //        var sectionList = dataTable.AsEnumerable().Select(row => new SectionGridModel
+        //        {
+        //            Id = row.Field<int>("id"),
+        //            Category = row.Field<string>("Category"),
+        //            SectionName = row.Field<string>("SectionName"),
+        //            SectionId = row.Field<int>("SectionId"),
+
+        //            Scorable = row.Field<string>("Scorable"),
+        //            Score = row.Field<int>("Score"),
+        //            Level = row.Field<string>("Level"),
+
+        //            Active = row.Field<string>("Active")
+        //        }).ToList();
+
+
+
+
+        //        return Json(sectionList);
+
+        //    }
+        //    catch (Exception ex )
+        //    {
+        //        return Json(null);
+        //    }
+
+        //}
         public async Task<IActionResult> EditForm()
         {
             string locationid = UserInfo.LocationID;
@@ -156,10 +254,32 @@ namespace QMS.Controllers
                 Text = $"{row["ProcessName"]}",
             }).ToList();
             ViewBag.ProcessList = processList;
+            var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+            var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["Metric_RCA"]}",
+            }).ToList();
+            ViewBag.Routw_causeList = Routw_causeList;
+            var getPredictive = await dl_FormBuilder.GetgetPredictive_Analysis();
+            var getPredictiveList = getPredictive.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["Predictive_CSAT"]}",
+            }).ToList();
+            ViewBag.getPredictiveList = getPredictiveList;
+
+
+            var getZT_Classification = await dl_FormBuilder.getZT_Classification();
+            var getZT_ClassificationList = getZT_Classification.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ZT_Classification"]}",
+            }).ToList();
+            ViewBag.getZT_ClassificationList = getZT_ClassificationList;
 
             return View();
         }
-
 
         public async Task<IActionResult> ViewForm()
         {
@@ -167,23 +287,7 @@ namespace QMS.Controllers
             ViewBag.Fields = fields;
             return View();
         }
-
-
-
-        [HttpPost]
-        public async Task<JsonResult> InsertdynamicFeilds([FromBody] FormDataModel request)
-        {
-            if (request == null || request.fields == null || request.fields.Count == 0)
-            {
-                return Json(new { success = false, message = "No data received" });
-            }
-
-            int result = await dl_FormBuilder.addDynamicFeilds(request.fields);
-
-            return result > 0
-                ? Json(new { success = true, message = "Data Insert successfully!" })
-                : Json(new { success = false, message = "Failed to insert data." });
-        }
+       
         [HttpPost]
         public async Task<JsonResult> InsertSectionFeilds([FromBody] SectionFormData request)
         {
@@ -198,9 +302,6 @@ namespace QMS.Controllers
                 ? Json(new { success = true, message = "Form Created  successfully!" })
                 : Json(new { success = false, message = "Failed to insert data." });
         }
-
-
-
 
         public IActionResult FormBuilder()
         {
@@ -235,12 +336,35 @@ namespace QMS.Controllers
             }).ToList();
             ViewBag.RatingMaste = RatingMaste;
 
-            var DynamicFields = data3.AsEnumerable().Select(row => new SelectListItem
+            //var DynamicFields = data3.AsEnumerable().Select(row => new SelectListItem
+            //{
+            //    Value = row["id"].ToString(),
+            //    Text = $"{row["fields_Value"]}",
+            //}).ToList();
+            //ViewBag.DynamicFields = DynamicFields;
+            var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+            var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
             {
-                Value = row["id"].ToString(),
-                Text = $"{row["fields_Value"]}",
+                Value = row["ID"].ToString(),
+                Text = $"{row["Metric_RCA"]}",
             }).ToList();
-            ViewBag.DynamicFields = DynamicFields;
+            ViewBag.Routw_causeList = Routw_causeList;
+            var getPredictive = await dl_FormBuilder.GetgetPredictive_Analysis();
+            var getPredictiveList = getPredictive.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["Predictive_CSAT"]}",
+            }).ToList();
+            ViewBag.getPredictiveList = getPredictiveList;
+
+
+            var getZT_Classification = await dl_FormBuilder.getZT_Classification();
+            var getZT_ClassificationList = getZT_Classification.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ZT_Classification"]}",
+            }).ToList();
+            ViewBag.getZT_ClassificationList = getZT_ClassificationList;
             return View();
         }
     }

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\QMS.csproj": {}
+    "D:\\QMS\\QMS_MVC_CORE\\QMS.csproj": {}
   },
   "projects": {
-    "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\QMS.csproj": {
+    "D:\\QMS\\QMS_MVC_CORE\\QMS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\QMS.csproj",
+        "projectUniqueName": "D:\\QMS\\QMS_MVC_CORE\\QMS.csproj",
         "projectName": "QMS",
-        "projectPath": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\QMS.csproj",
-        "packagesPath": "C:\\Users\\opo113697\\.nuget\\packages\\",
-        "outputPath": "D:\\QMS Dash\\WEB_QMS\\QMS\\QMS\\obj\\",
+        "projectPath": "D:\\QMS\\QMS_MVC_CORE\\QMS.csproj",
+        "packagesPath": "C:\\Users\\OPO113697\\.nuget\\packages\\",
+        "outputPath": "D:\\QMS\\QMS_MVC_CORE\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\opo113697\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\OPO113697\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,7 +44,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net6.0": {
@@ -113,7 +115,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

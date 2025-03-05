@@ -184,12 +184,12 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            @* <div class="col-md-3">
                 <div class="form-group mb-3">
                     <label for="Rating_ID">Rating</label>
                     @Html.DropDownList("Rating_ID", (List<SelectListItem>)ViewBag.RatingMaste, "Select Rating", new { @class = "custom-select", id = "Rating_ID" })
                 </div>
-            </div>
+            </div> *@
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
@@ -204,7 +204,7 @@
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                    <label for="Section_Score">Score</label>
+                    <label for="Section_Score">Weightage</label>
                     <input type="number" id="Section_Score" class="form-control">
                 </div>
             </div>
@@ -212,12 +212,18 @@
             <div class="col-md-3">
                 <div class="form-group mb-3">
                     <label for="LevelDropdown">Level</label>
-                    <input type="text" id="LevelDropdown" class="form-control">
-                  
+
+                    <select id="LevelDropdown" class="custom-select">
+                        <option value="">Select</option>
+                        <option value="1">Level 1</option>
+                        <option value="2">Level 2</option>
+                        <option value="3">Level 3</option>
+                    </select>
+
                 </div>
             </div>
 
-            <div class="col-md-3">
+       @*      <div class="col-md-3">
                 <div class="form-group mb-3">
                     <label for="FatalDropdown">Fatal</label>
                     <select id="FatalDropdown" class="custom-select">
@@ -226,7 +232,7 @@
                         <option value="No">NO</option>
                     </select>
                 </div>
-            </div>
+            </div> *@
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
@@ -249,11 +255,11 @@
                 <tr>
                     <th>Category</th>
                     <th>Section</th>
-                    <th>Rating</th>
+                    
                     <th>Scorable</th>
-                    <th>Score</th>
+                    <th>Weightage</th>
                     <th>Level</th>
-                    <th>Fatal</th>
+                  
                     <th>Action</th>
                 </tr>
             </thead>
@@ -261,99 +267,388 @@
         </table>
     </div>
 </div>
-<div class="card shadow mb-4" id="DynamicFeilds" style="display: none;">
+
+<div class="card shadow mb-4" id="DynamicFeilds" style="display: none;margin-top:15px;">
     <div class="card-header">
-        <strong class="card-title">Dynamic Form</strong>
+        <strong class="card-title">Root Cause Analysis</strong>
     </div>
     <div class="card-body">
         <div class="row">
-   
+
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                    <label for="Field_Name">Field Name</label>
-                    @Html.DropDownList("Field_Name", (List<SelectListItem>)ViewBag.DynamicFields, "Select Field Name", new { @class = "custom-select", id = "Field_Name" })
+                    <label for="Field_Name">Metric RCA</label>
+                    @Html.DropDownList("Field_Name", (List<SelectListItem>)ViewBag.Routw_causeList, "Select Metric RCA", new { @class = "custom-select", id = "Field_Name" })
 
                     <small class="text-danger d-none" id="nameError">Field Name is required.</small>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group mb-3">
-                    <label for="Field_Type">Field Type</label>
-                    <select id="Field_Type" class="form-control" disabled >
-                        <option selected value="dropdown">Dropdown </option>
-                        <option value="text">Text</option>
-                        <option value="number">Number</option>
-                        <option value="password">Password</option>
-                        <option value="date">Date</option>
-                        <option value="datetime-local">Date-Time</option>
-                        <option value="month">Month</option>
-                        <option value="week">Week</option>
-                        <option value="range">Range (Slider)</option>
-                        <option value="checkbox">Checkbox</option>
-                        <option value="radio">Radio Button</option>
-                       
-                        
-                    </select>
-                    <small class="text-danger d-none" id="typeError">Field Type is required.</small>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group mb-3">
-                    <label for="Field_Value">Field Value</label>
-                    <input type="text" id="Field_Value" class="form-control" placeholder="Enter values">
-                    <small class="text-muted" id="valueHelp">For dropdown, checkbox & radio, enter comma-separated values.</small>
-                    <small class="text-danger d-none" id="valueError">Invalid value.</small>
                 </div>
             </div>
 
             <div class="col-md-2">
                 <div class="form-group mb-3">
-                    <button id="addField" class="btn btn-primary mt-4">Add</button>
+                    <button id="Root_Cause" class="btn btn-primary mt-4">Add</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card shadow" style="display:none" id="Dynamicgried">
+
+<div class="card shadow" id="Root_Cause_Analysis_List" style="display:none">
     <div class="card-header">
-        <strong class="card-title">Added Fields</strong>
+        <strong class="card-title">Root Cause Analysis List</strong>
     </div>
     <div class="card-body">
-        <table class="table table-bordered">
+        <table class="table table-bordered mt-3" id="rcaTable">
             <thead>
                 <tr>
-                    <th>Field Name</th>
-                    <th>Field Type</th>
-                    <th>Field Values</th>
+                    <th>ID</th>
+                    <th>Metric RCA</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="fieldTable">       
+            <tbody>
             </tbody>
         </table>
+
     </div>
 </div>
 
 
- <button id="createform" class="btn btn-primary mt-4">create Form</button>
+
+
+<div class="card shadow mb-4" id="Predictive_CSAT" style="display:none;margin-top:15px">
+    <div class="card-header">
+        <strong class="card-title">Predictive Analysis</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="form-group mb-3">
+                    <label for="Field_Name">Predictive - CSAT</label>
+                    @Html.DropDownList("getPredictive", (List<SelectListItem>)ViewBag.getPredictiveList, "Select Predictive - CSAT", new { @class = "custom-select", id = "getPredictive" })
+
+                    <small class="text-danger d-none" id="nameError">Field Name is required.</small>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group mb-3">
+                    <button id="Predictive-CSAT" class="btn btn-primary mt-4">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow" id="Predictive_CSAT_List" style="display:none">
+    <div class="card-header">
+        <strong class="card-title">Predictive - CSAT List</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered mt-3" id="Predictive_CSAT">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Predictive - CSAT</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+
+
+
+<div class="card shadow mb-4" id="ZT_Classification" style="display:none;margin-top:15px">
+    <div class="card-header">
+        <strong class="card-title">ZT_Classification</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="form-group mb-3">
+                    <label for="Field_Name">ZT Classification</label>
+                    @Html.DropDownList("ZT_ClassificationID", (List<SelectListItem>)ViewBag.getZT_ClassificationList, "Select ZT_Classification", new { @class = "custom-select", id = "ZT_ClassificationID" })
+
+                    <small class="text-danger d-none" id="nameError">Field Name is required.</small>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group mb-3">
+                    <button id="btn_ZT_Classification" class="btn btn-primary mt-4">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow" id="ZT_Classification_List" style="display:none">
+    <div class="card-header">
+        <strong class="card-title">ZT_Classification List</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered mt-3" id="ZT_Classificationtbl">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ZT_Classification</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<div class="card shadow mb-4" id="Zero_tolerance_behaviour" style="display:none;margin-top:15px">
+    <div class="card-header">
+        <strong class="card-title">Zero Tolerance Behaviour</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <label><strong>Was there any Zero Tolerance Behaviour identified?</strong></label>
+            <div class="form-check form-check-inline" style="margin-left: 75px;">
+                <input class="form-check-input" type="checkbox" id="yesCheckbox" name="zeroTolerance" value="Yes">
+                <label class="form-check-label" for="yesCheckbox">Yes</label>
+            </div>
+            <div class="form-check form-check-inline" style="margin-left: 75px;">
+                <input class="form-check-input" type="checkbox" id="noCheckbox" name="zeroTolerance" value="No">
+                <label class="form-check-label" for="noCheckbox">No</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="createform" class="btn btn-primary mt-4">create Form</button>
 
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/apps.js"></script>
+
 <script>
     $(document).ready(function () {
+        $("input[name='zeroTolerance']").change(function () {
+            $("input[name='zeroTolerance']").not(this).prop('checked', false);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#btn_ZT_Classification").click(function (e) {
+            e.preventDefault();
+
+            var selectedValue = $("#ZT_ClassificationID").val();
+            var selectedText = $("#ZT_ClassificationID option:selected").text();
+
+            if (selectedValue === "" || selectedValue === "Select ZT_Classification") {
+                $("#nameError").removeClass("d-none");
+                return;
+            } else {
+                $("#nameError").addClass("d-none");
+            }
+            $("#ZT_Classification_List").show();
+
+            var exists = false;
+            $("#ZT_Classificationtbl tbody tr").each(function () {
+                if ($(this).find("td:first").text().trim() === selectedValue) {
+                    exists = true;
+                    return false;
+                }
+            });
+             if (exists) {
+              
+                return;
+            } else {
+                
+            }
+            if (!exists) {
+                var row = `<tr>
+                   <td>${selectedValue}</td>
+                            <td>${selectedText}</td>
+                            <td><button class="btn btn-danger btn-sm remove-row">Remove</button></td>
+                           </tr>`;
+
+                $("#ZT_Classificationtbl tbody").append(row);
+            }
+        });
+
+
+        $(document).on("click", ".remove-row", function () {
+            $(this).closest("tr").remove();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#Predictive-CSAT").click(function (e) {
+            e.preventDefault();
+
+            var selectedValue = $("#getPredictive").val();
+            var selectedText = $("#getPredictive option:selected").text();
+
+            if (selectedValue === "" || selectedValue === "Select Get Predictive") {
+                $("#nameError").removeClass("d-none");
+                return;
+            } else {
+                $("#nameError").addClass("d-none");
+            }
+                $("#Predictive_CSAT_List").show();
+
+            var exists = false;
+            $("#Predictive_CSAT tbody tr").each(function () {
+                if ($(this).find("td:first").text().trim() === selectedValue) {
+                    exists = true;
+                    return false;
+                }
+            });
+             if (exists) {
+               
+                return;
+            } else {
+              
+            }
+            if (!exists) {
+                var row = `<tr>
+                  <td>${selectedValue}</td>
+                            <td>${selectedText}</td>
+                            <td><button class="btn btn-danger btn-sm remove-row">Remove</button></td>
+                           </tr>`;
+
+                $("#Predictive_CSAT tbody").append(row);
+            }
+        });
+
+
+        $(document).on("click", ".remove-row", function () {
+            $(this).closest("tr").remove();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#Root_Cause").click(function (e) {
+            e.preventDefault();
+
+            var selectedValue = $("#Field_Name").val();
+            var selectedText = $("#Field_Name option:selected").text();
+
+            if (selectedValue === "" || selectedValue === "Select Metric RCA") {
+                $("#nameError").removeClass("d-none");
+                return;
+            } else {
+                $("#nameError").addClass("d-none");
+            }
+
+            $("#Root_Cause_Analysis_List").show();
+            // Check if the item is already in the table
+            var exists = false;
+            $("#rcaTable tbody tr").each(function () {
+                if ($(this).find("td:first").text().trim() === selectedValue) {
+                    exists = true;
+                    return false; // Break loop
+                }
+            });
+             if (exists) {
+                $("#duplicateError").removeClass("d-none");
+                return;
+            } else {
+                $("#duplicateError").addClass("d-none");
+            }
+            if (!exists) {
+                var row = `<tr>
+                 <td>${selectedValue}</td>
+                            <td>${selectedText}</td>
+                            <td><button class="btn btn-danger btn-sm remove-row">Remove</button></td>
+                           </tr>`;
+
+                $("#rcaTable tbody").append(row);
+            }
+        });
+
+
+        $(document).on("click", ".remove-row", function () {
+            $(this).closest("tr").remove();
+        });
+    });
+</script>
+
+<script>
+
+
+        function insertData() {
+        let rootCauseValues = [];
+        let predictiveValues = [];
+        let ztClassificationValues = [];
+        let zeroTolerance = $("input[name='zeroTolerance']:checked").val(); // Get checked value
+
+        // Get values from RCA table
+        $("#rcaTable tbody tr").each(function () {
+            rootCauseValues.push($(this).find("td:first").text().trim());
+        });
+
+        // Get values from Predictive CSAT table
+        $("#Predictive_CSAT tbody tr").each(function () {
+            predictiveValues.push($(this).find("td:first").text().trim());
+        });
+
+        // Get values from ZT Classification table
+        $("#ZT_Classificationtbl tbody tr").each(function () {
+            ztClassificationValues.push($(this).find("td:first").text().trim());
+        });
+
+          let programID = $("#ProgramID").val();
+        let subProgramID = $("#SUBProgramID").val();
+        let requestData = {
+            Root_Cause_Analysis: rootCauseValues.join(","),
+            Predictive_Analysis: predictiveValues.join(","),
+            ZT_Classification: ztClassificationValues.join(","),
+            Zero_Tolerance: zeroTolerance,
+            ProgramID: programID, // Example static value, replace as needed
+            SubProgramID: subProgramID, // Example static value, replace as needed
+            IsActive: 1,
+            CreatedBy: "Admin", // Replace with actual user
+            UpdatedBy: "Admin",
+            CreatedDate: new Date().toISOString()
+        };
+
+        console.log("Data to insert:", requestData);
+
+        
+        $.ajax({
+            type: "POST",
+            url: "/ManageForm/InsertDynamicFields",
+            data: JSON.stringify(requestData),
+            contentType: "application/json",
+            success: function (response) {
+               
+            },
+            error: function (xhr) {
+                alert("Error inserting data.");
+            }
+        });
+    }
+
+    $(document).ready(function () {
         $("#createform").click(function () {
-            submitFormData(); // Call the function when the button is clicked
+            submitFormData();
         });
     });
 
     function submitFormData() {
-        let rows = $("#fieldTable tr"); // Get all rows from tbody
-
-        if (rows.length === 0) {
-            alert("No fields added. Please add fields before submitting.");
-            return;
-        }
+         let totalScore = 0;
         let programID = $("#ProgramID").val();
         let subProgramID = $("#SUBProgramID").val();
 
@@ -361,49 +656,17 @@
             alert("Please select  Program");
             return;
         }
-     
-        let formData = [];
 
-        rows.each(function () {
-            let fieldName = $(this).find("td:eq(0)").text(); // Get Field Name
-            let fieldType = $(this).find("td:eq(1)").text(); // Get Field Type
-            let fieldValues = $(this).find("td:eq(2)").text(); // Get Field Values
-
-            formData.push({
-                FieldName: fieldName,
-                FieldType: fieldType,
-                FieldValues: fieldValues,
-                ProgramID: programID,
-                SubProgramID: subProgramID
-            });
-        });
-
-    
-        $.ajax({
-            url: '/ManageForm/InsertdynamicFeilds', 
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ fields: formData }),
-            success: function (response) {
-               
-                $("#fieldTable").empty();
-                $("#Dynamicgried").hide();
-            },
-            error: function (error) {
-                console.log("Error:", error);
-                alert("Error submitting the form.");
-            }
-        });
         let formData2 = [];
         $("#dataGrid tbody tr").each(function () {
             var rowData = {
                 Category: $(this).find("td:eq(0)").text().trim(),
                 Section: $(this).find("td:eq(1)").text().trim(),
-                Rating: $(this).find("td:eq(2)").text().trim(),
-                Scorable: $(this).find("td:eq(3)").text().trim(),
-                Score: $(this).find("td:eq(4)").text().trim(),
-                Level: $(this).find("td:eq(5)").text().trim(),
-                Fatal: $(this).find("td:eq(6)").text().trim(),
+                
+             Scorable: $(this).find("td:eq(2)").text().trim(),
+                Score: $(this).find("td:eq(3)").text().trim(),
+                Level: $(this).find("td:eq(4)").text().trim(),
+               
                 ProgramID: programID,
                 SubProgramID: subProgramID
             };
@@ -416,7 +679,51 @@
             alert("No sections added. Please add sections before submitting.");
             return;
         }
-        console.log(JSON.stringify({ formData2 }));
+
+
+         $("#dataGrid tbody tr").each(function () {
+        var scorable = $(this).find("td:eq(2)").text().trim().toLowerCase(); // Check "Scorable" column
+        var score = parseFloat($(this).find("td:eq(3)").text().trim()); // "Score" column
+
+        if (scorable === "yes") { 
+            if (!isNaN(score)) {
+                totalScore += score;
+            }
+        }
+    });
+
+    if (totalScore !== 100) {
+        alert("The total Weightage of  sections must be exactly 100. Current total: " + totalScore);
+        isValid = false;
+        return;
+    }
+
+       let isValid = true;
+
+      
+        if ($("#rcaTable tbody tr").length === 0) {
+            alert("Please add at least one Metric RCA.");
+            isValid = false;
+        }
+        if ($("#Predictive_CSAT tbody tr").length === 0) {
+            alert("Please add at least one Predictive - CSAT.");
+            isValid = false;
+        }
+        if ($("#ZT_Classificationtbl tbody tr").length === 0) {
+            alert("Please add at least one ZT Classification.");
+            isValid = false;
+        }
+
+       
+        if (!$("#yesCheckbox").is(":checked") && !$("#noCheckbox").is(":checked")) {
+            alert("Please select Zero Tolerance Behaviour.");
+            isValid = false;
+        }
+
+       
+        if (isValid) {
+            insertData();
+        }
         $.ajax({
             url: '/ManageForm/InsertSectionFeilds',
             type: 'POST',
@@ -426,113 +733,27 @@
                 alert("Form Created  successfully!");
                 $("#dataGrid tbody").empty();
                 $("#sectiongried").hide();
+                $("#ZT_Classificationtbl tbody").empty();
+                $("#ZT_Classification_List").hide();
+                 $("#rcaTable tbody").empty();
+                    $("#Root_Cause_Analysis_List").hide();
+                 $("#Predictive_CSAT tbody").empty();
+                $("#Predictive_CSAT_List").hide();
+
+
             },
             error: function (error) {
                 console.log("Error:", error);
                 alert("Error submitting section data.");
             }
         });
+
+
+
     }
 
-    </script>
-
-<script>
-    $(document).ready(function () {
-        $("#Field_Type").change(function () {
-            var fieldType = $(this).val();
-            var valueInput = $("#Field_Value");
-            var valueHelp = $("#valueHelp");
-
-            valueInput.val(""); // Reset value input
-
-            if (["date", "datetime-local", "month", "week"].includes(fieldType)) {
-                valueInput.attr("type", fieldType);
-                valueHelp.text("Pick a valid " + fieldType + ".");
-            } else if (fieldType === "color") {
-                valueInput.attr("type", "color");
-                valueHelp.text("Pick a color.");
-            } else if (fieldType === "range") {
-                valueInput.attr("type", "range");
-                valueHelp.text("Select a range.");
-            } else if (["dropdown", "checkbox", "radio"].includes(fieldType)) {
-                valueInput.attr("type", "text");
-                valueInput.attr("placeholder", "Enter values separated by commas");
-                valueHelp.text("For dropdown, checkbox & radio, enter comma-separated values.");
-            } else {
-                valueInput.attr("type", "text");
-                valueInput.attr("placeholder", "Enter a single value");
-                valueHelp.text("For textbox, number, email, etc., enter a single value.");
-            }
-        });
-
-        function validateFieldValue(fieldType, value) {
-            if (fieldType === "number") {
-                return /^\d+(\.\d+)?$/.test(value); // Validate number
-            }
-            if (["date", "datetime-local", "month", "week"].includes(fieldType)) {
-                return !isNaN(new Date(value).getTime()); // Validate date types
-            }
-            if (fieldType === "url") {
-                return /^(https?:\/\/)?([\w\d-]+\.)+\w{2,}(\/.*)?$/.test(value); // Validate URL
-            }
-            if (["dropdown", "checkbox", "radio"].includes(fieldType)) {
-                return value.includes(",") && value.split(",").length > 1; // Ensure comma-separated values
-            }
-            return value.trim() !== ""; // Default non-empty validation
-        }
-
-        $("#addField").click(function () {
-            var fieldName = $("#Field_Name").val().trim();
-            var fieldType = $("#Field_Type").val();
-            var fieldValue = $("#Field_Value").val().trim();
-            var isValid = true;
-
-            $(".text-danger").addClass("d-none"); // Hide all previous errors
-
-            if (fieldName === "") {
-                $("#nameError").removeClass("d-none");
-                isValid = false;
-            }
-
-            if (fieldType === "") {
-                $("#typeError").removeClass("d-none");
-                isValid = false;
-            }
-
-            if (!validateFieldValue(fieldType, fieldValue)) {
-                if (["dropdown", "checkbox", "radio"].includes(fieldType)) {
-                    $("#valueError").text("For " + fieldType + ", enter comma-separated values (e.g., Option1, Option2).").removeClass("d-none");
-                } else {
-                    $("#valueError").text("Invalid value.").removeClass("d-none");
-                }
-                isValid = false;
-            }
-
-            if (!isValid) return;
-
-            $("#Dynamicgried").show(); // Show table section
-
-            $("#fieldTable").append(`
-                <tr>
-                    <td>${fieldName}</td>
-                    <td>${fieldType}</td>
-                    <td>${fieldValue}</td>
-                    <td><button class="btn btn-danger btn-sm removeField">Delete</button></td>
-                </tr>
-            `);
-
-     
-            $("#Field_Name").val("");
-          
-            $("#Field_Value").val("");
-        });
-
-        $(document).on("click", ".removeField", function () {
-            $(this).closest("tr").remove();
-        });
-    });
-
 </script>
+
 
 <script>
     function onProgramChange() {
@@ -581,27 +802,38 @@
             $("#Sectionfeild").hide();
             $("#Staticfeild").hide();
             $("#DynamicFeilds").hide();
+            $("#Predictive_CSAT").hide();
+             $("#ZT_Classification").hide();
+              $("#Zero_tolerance_behaviour").hide();
             alert("Select Valid Sub Program");
 
         } else {
             $("#DynamicFeilds").show();
             $("#Sectionfeild").show();
             $("#Staticfeild").show();
+            $("#ZT_Classification").show();
+
+            $("#Zero_tolerance_behaviour").show();
+            $("#Predictive_CSAT").show();
 
         }
     }
 
     function addToGrid() {
-        
+
         var category = document.getElementById("Section_Category").value.trim();
         var section = document.getElementById("Section_ID").value;
-        var rating = document.getElementById("Rating_ID").value;
+  
         var scorable = document.getElementById("scorableDropdown").value;
         var score = document.getElementById("Section_Score").value.trim();
         var level = document.getElementById("LevelDropdown").value;
-        var fatal = document.getElementById("FatalDropdown").value;
 
-        if (category === "" || section === "" || rating === "" || scorable === "" || score === "" || level === "" || fatal === "") {
+           if (score >= 100) {
+             alert("You cannot insert a Weightage of 100.");
+                return;
+            }
+
+        if (category === "" || section === "" || scorable === "" || score === "" || level === "") {
             alert("Please fill all fields before adding.");
             return;
         }
@@ -610,29 +842,29 @@
             $("#sectiongried").show();
         }
 
- 
+
         var table = document.getElementById("dataGrid").getElementsByTagName("tbody")[0];
         var newRow = table.insertRow();
 
         newRow.innerHTML = `
                 <td>${category}</td>
                 <td>${section}</td>
-                <td>${rating}</td>
+            
                 <td>${scorable}</td>
                 <td>${score}</td>
                 <td>${level}</td>
-                <td>${fatal}</td>
+             
                 <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
             `;
 
-        
+
         document.getElementById("Section_Category").value = "";
         document.getElementById("Section_ID").value = "";
-        document.getElementById("Rating_ID").value = "";
+        
         document.getElementById("scorableDropdown").value = "";
         document.getElementById("Section_Score").value = "";
         document.getElementById("LevelDropdown").value = "";
-        document.getElementById("FatalDropdown").value = "";
+      ;
     }
 
     function removeRow(button) {
