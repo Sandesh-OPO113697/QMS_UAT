@@ -11,6 +11,32 @@ namespace QMS.DataBaseService
 {
     public class Dl_formBuilder
     {
+
+        public async Task<int> DisableFormTable(Process_SUbProcess model)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("FormCreation", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "DisableForm");
+                        cmd.Parameters.AddWithValue("@Process", model.ProcessID);
+                        cmd.Parameters.AddWithValue("@SubProcess", model.SUBProcessID);
+
+                        object result = await cmd.ExecuteScalarAsync();
+                        return (result != null && int.TryParse(result.ToString(), out int value)) ? value : 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return -1; // Indicate error
+            }
+        }
         public async Task<int> CheckIsFormCreatedInData(Process_SUbProcess model)
         {
             try

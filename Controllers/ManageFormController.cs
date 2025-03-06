@@ -18,6 +18,12 @@ namespace QMS.Controllers
             _admin = adam;
             dl_FormBuilder = adl;
         }
+
+        public async Task<IActionResult> Formdisable([FromBody] Process_SUbProcess id)
+        {
+            int Result = await dl_FormBuilder.DisableFormTable(id);
+            return Json(new { success = true, message = "Form disabled successfully", data = Result });
+        }
         public async Task<IActionResult> CheckIsFormCreated([FromBody] Process_SUbProcess id)
         {
             int Result = await dl_FormBuilder.CheckIsFormCreatedInData(id);
@@ -309,8 +315,10 @@ namespace QMS.Controllers
         //    }
 
         //}
-        public async Task<IActionResult> EditForm()
+        public async Task<IActionResult> EditForm(string programId, string subProgramId)
         {
+            ViewBag.ProgramId = programId;
+            ViewBag.SubProgramId = subProgramId;
             string locationid = UserInfo.LocationID;
             var data = await _admin.GetProcessListByLocation(locationid);
             var processList = data.AsEnumerable().Select(row => new SelectListItem

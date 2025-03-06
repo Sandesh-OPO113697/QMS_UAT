@@ -4,7 +4,7 @@
 
 
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-4" style="display:none">
     <div class="card-header">
         <strong class="card-title"> Select process</strong>
     </div>
@@ -62,7 +62,7 @@
     </div>
 </div>
 
-
+@* 
 <div class="card shadow mb-4" id="DynamicTable" >
     <div class="card-header">
         <strong class="card-title"> Dynamic </strong>
@@ -86,7 +86,7 @@
 
     </div>
 </div>
-
+ *@
 
 <div id="editModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -254,11 +254,15 @@
                     <button id="UpdateDynamicAllFeilds" class="btn btn-primary mt-4">Update</button>
                 </div>
             </div>
+            <div class="col-md-2">
+                <div class="form-group mb-3">
+                    <button id="Disableform" class="btn btn-primary mt-4" onclick="DisabeForm()">Disable</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap Modal -->
 <div class="modal fade" id="dropdownModal" tabindex="-1" aria-labelledby="dropdownModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -294,6 +298,23 @@
 
 
 <script src="~/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+         var programId = "@ViewBag.ProgramId";
+        var subProgramId = "@ViewBag.SubProgramId";
+
+        $("#ProgramID").val(programId).trigger("change");
+
+        setTimeout(function () {
+            if (subProgramId) {
+                $("#SUBProgramID").val(subProgramId).trigger("change");
+
+               
+                onSubProgramChange();
+            }
+        }, 500);
+    });
+</script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -355,7 +376,41 @@
         });
     });
 
-   
+    function DisabeForm()
+    {
+         var programId = document.getElementById("ProgramID").value;
+        var subProgramId = document.getElementById("SUBProgramID").value;
+
+        if (subProgramId === "") {
+
+            alert("Select Valid Sub Program");
+
+        } else {
+
+
+                $.ajax({
+        type: "POST",
+        data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+        url: "/ManageForm/Formdisable",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+             if (response.success && response.data === 1) {
+            alert("Success! Form has been disabled.");
+             window.location.href = "/ManageForm/FormBuilder";
+        } else {
+            alert("Failed to disable the form. Please try again.");
+        }
+
+        },
+        error: function (xhr, status, error) {
+            console.error("Error occurred: " + error);
+        }
+    });
+
+
+        }
+    }
     function collectTableValues(tableId) {
         var values = [];
         $(tableId + " tbody tr").each(function () {
