@@ -18,6 +18,71 @@ namespace QMS.Controllers
             _admin = adam;
             dl_FormBuilder = adl;
         }
+        public async Task<IActionResult> CheckIsFormCreated([FromBody] Process_SUbProcess id)
+        {
+            int Result = await dl_FormBuilder.CheckIsFormCreatedInData(id);
+            return Json(new { success = false, message = "Failed to Insert the field."  , data= Result });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateDynamicFields([FromBody] DynamicModelNew model)
+        {
+            int Result = await dl_FormBuilder.UpdateValueInDynamicmaster(model);
+            if (Result == 1)
+            {
+                return Json(new { success = true, message = "Form inserted successfully\"" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Failed to Insert the field." });
+            }
+        }
+        public async Task<IActionResult> GetDynamicDropDawon(int id, string type)
+        {
+            object result;
+
+            switch (type.ToLower())
+            {
+                case "rootcause":
+                    var rootCauseData = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+                    var rootCauseList = rootCauseData.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["ID"].ToString(),
+                        Text = row["Metric_RCA"].ToString()
+                    }).ToList();
+
+                    result = new { success = true, data = rootCauseList, message = "Categories fetched successfully!" };
+                    break;
+                case "predictive":
+                    var getPredictive = await dl_FormBuilder.GetgetPredictive_Analysis();
+                    var getPredictiveList = getPredictive.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["ID"].ToString(),
+                        Text = $"{row["Predictive_CSAT"]}"
+                    }).ToList();
+
+                    result = new { success = true, data = getPredictiveList, message = "Categories fetched successfully!" };
+                    break;
+                case "ztclassification":
+                    var getZT_Classification = await dl_FormBuilder.getZT_Classification();
+                    var getZT_ClassificationList = getZT_Classification.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["ID"].ToString(),
+                        Text = $"{row["ZT_Classification"]}"
+                    }).ToList();
+
+                    result = new { success = true, data = getZT_ClassificationList, message = "Categories fetched successfully!" };
+                    break;
+
+
+                default:
+                    return Json(new { success = false, message = "Invalid type provided!" });
+            }
+
+            return Json(result);
+        }
+
+
 
 
         [HttpPost]

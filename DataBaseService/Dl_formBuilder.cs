@@ -11,6 +11,67 @@ namespace QMS.DataBaseService
 {
     public class Dl_formBuilder
     {
+        public async Task<int> CheckIsFormCreatedInData(Process_SUbProcess model)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("FormCreation", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "CheckIsformcreatd");
+                        cmd.Parameters.AddWithValue("@Process", model.ProcessID);
+                        cmd.Parameters.AddWithValue("@SubProcess", model.SUBProcessID);
+
+                        object result = await cmd.ExecuteScalarAsync();
+                        return result != null ? Convert.ToInt32(result) : 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return -1; // Indicate error
+            }
+        }
+
+
+        public async Task<int> UpdateValueInDynamicmaster(DynamicModelNew model)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("FormCreation", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "UpdateDynamicFeilds");
+                        cmd.Parameters.AddWithValue("@Root_Cause_Analysis", model.Root_Cause_Analysis ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Predictive_Analysis", model.Predictive_Analysis ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@ZT_Classification", model.ZT_Classification ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Zero_Tolerance", model.Zero_Tolerance ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Process", model.ProgramID > 0 ? model.ProgramID : (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@SubProcess", model.SubProgramID > 0 ? model.SubProgramID : (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName ?? (object)DBNull.Value);
+
+                        int result = await cmd.ExecuteNonQueryAsync();
+                        return result > 0 ? result : 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error: {ex.Message}");
+                return -1;
+            }
+        }
+
+
+
         public async Task<DataTable> GetDynamicGriedAsync(int processID, int SubprocessID)
         {
             DataTable dt = new DataTable();

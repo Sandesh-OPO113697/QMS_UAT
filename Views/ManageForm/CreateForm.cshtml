@@ -796,27 +796,54 @@
 
     }
     function onSubProgramChange() {
-        var subProgramId = document.getElementById("SUBProgramID").value;
+           var subProgramId = document.getElementById("SUBProgramID").value;
+              var programId = document.getElementById("ProgramID").value;
 
-        if (subProgramId === "") {
-            $("#Sectionfeild").hide();
-            $("#Staticfeild").hide();
-            $("#DynamicFeilds").hide();
-            $("#Predictive_CSAT").hide();
-             $("#ZT_Classification").hide();
-              $("#Zero_tolerance_behaviour").hide();
-            alert("Select Valid Sub Program");
 
-        } else {
-            $("#DynamicFeilds").show();
-            $("#Sectionfeild").show();
-            $("#Staticfeild").show();
-            $("#ZT_Classification").show();
+                if (subProgramId === "") {
+                    $("#Sectionfeild").hide();
+                    $("#Staticfeild").hide();
+                    $("#DynamicFeilds").hide();
+                    $("#Predictive_CSAT").hide();
+                     $("#ZT_Classification").hide();
+                      $("#Zero_tolerance_behaviour").hide();
+                    alert("Select Valid Sub Program");
+                     return ;
 
-            $("#Zero_tolerance_behaviour").show();
-            $("#Predictive_CSAT").show();
+                } else {
 
-        }
+
+                }
+                       $.ajax({
+                type: "POST",
+                data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+                url: "/ManageForm/CheckIsFormCreated",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+           
+                     if (response.data === 1) {
+            
+                            window.location.href = `/ManageForm/Edit?programId=${programId}&subProgramId=${subProgramId}`;
+                        } else {
+                             $("#DynamicFeilds").show();
+                                $("#Sectionfeild").show();
+                                $("#Staticfeild").show();
+                                $("#ZT_Classification").show();
+
+                                $("#Zero_tolerance_behaviour").show();
+                                $("#Predictive_CSAT").show();
+                           
+                        }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
+
+
+
+
     }
 
     function addToGrid() {

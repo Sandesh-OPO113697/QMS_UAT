@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<div class="card shadow mb-4" id="SectionGried" style="display:none">
+<div class="card shadow mb-4" id="SectionGried" >
     <div class="card-header">
         <strong class="card-title"> Section</strong>
     </div>
@@ -63,7 +63,7 @@
 </div>
 
 
-<div class="card shadow mb-4" id="DynamicTable" style="display:none">
+<div class="card shadow mb-4" id="DynamicTable" >
     <div class="card-header">
         <strong class="card-title"> Dynamic </strong>
     </div>
@@ -151,6 +151,8 @@
 <div class="card shadow mb-4">
     <div class="card-header">
         <strong class="card-title">Root Cause Analysis</strong>
+        <button id="RoouAdd" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px" onclick="AddDropDawon('rootcause')">ADD</button>
+
     </div>
     <div class="card-body">
         <div class="row">
@@ -175,6 +177,8 @@
 <div class="card shadow mb-4">
     <div class="card-header">
         <strong class="card-title">Predictive Analysis</strong>
+        <button id="PredictiveAdd" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px" onclick="AddDropDawon('predictive')">ADD</button>
+
     </div>
     <div class="card-body">
         <div class="row">
@@ -198,6 +202,8 @@
 <div class="card shadow mb-4">
     <div class="card-header">
         <strong class="card-title">ZT Classification</strong>
+        <button id="ZTAdd" class="btn btn-primary mt-4"  style="margin-bottom:20px;margin-left:50px" onclick="AddDropDawon('ztclassification')">ADD</button>
+       
     </div>
     <div class="card-body">
         <div class="row">
@@ -230,17 +236,235 @@
                 <input class="form-check-input" type="checkbox" id="noCheckbox" name="zeroTolerance" value="No">
                 <label class="form-check-label" for="noCheckbox">No</label>
             </div>
+           
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+    
+    </div>
+    <div class="card-body">
+        <div class="row">
+           
             <div class="col-md-2">
                 <div class="form-group mb-3">
-                    <button id="Root_Cause" class="btn btn-primary mt-4">Update</button>
+                    <button id="UpdateDynamicAllFeilds" class="btn btn-primary mt-4">Update</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="dropdownModal" tabindex="-1" aria-labelledby="dropdownModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dropdownModalLabel">Select an Option</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="dynamicDropdown">Select Item:</label>
+                <select id="dynamicDropdown" class="form-control">
+                    <option value="">Loading...</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dropdownModalADD" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select an Option</h5>
+                <button type="button" class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label for="dropdownSelect">Select:</label>
+                <select id="dropdownSelect" class="form-control"></select>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="~/js/jquery.min.js"></script>
+
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const yesCheckbox = document.getElementById("yesCheckbox");
+        const noCheckbox = document.getElementById("noCheckbox");
+
+        yesCheckbox.addEventListener("change", function () {
+            if (this.checked) {
+                noCheckbox.checked = false;
+            }
+        });
+
+        noCheckbox.addEventListener("change", function () {
+            if (this.checked) {
+                yesCheckbox.checked = false;
+            }
+        });
+    });
+</script>
+
+<script>
+
+
+        $(document).ready(function () {
+        $("#UpdateDynamicAllFeilds").click(function () {
+            var rootCauseValues = collectTableValues("#rootCauseTable");
+            var predictiveValues = collectTableValues("#predictiveAnalysisTable");
+            var ztClassificationValues = collectTableValues("#ztClassificationTable");
+            var zeroTolerance = $("input[name='zeroTolerance']:checked").val() || "No";
+           var programId = document.getElementById("ProgramID").value;
+        var subProgramId = document.getElementById("SUBProgramID").value;
+            var data = {
+                Root_Cause_Analysis: rootCauseValues,
+                Predictive_Analysis: predictiveValues,
+                ZT_Classification: ztClassificationValues,
+                Zero_Tolerance: zeroTolerance,
+                programId:programId,
+                subProgramId:subProgramId,
+                 IsActive: 1,
+                CreatedBy: "Admin", 
+                UpdatedBy: "Admin",
+                CreatedDate: new Date().toISOString()
+            };
+
+            console.log("Final Data:", data);
+
+            $.ajax({
+                url: "/ManageForm/UpdateDynamicFields",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (response) {
+                    alert("Form Edited  successfully!");
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error inserting data:", error);
+                }
+            });
+        });
+    });
+
+   
+    function collectTableValues(tableId) {
+        var values = [];
+        $(tableId + " tbody tr").each(function () {
+            var value = $(this).find("td:nth-child(1)").text().trim(); 
+            if (value) {
+                values.push(value);
+            }
+        });
+        return values.join(","); 
+    }
+
+
+
+         function AddDropDawon(type) {
+        $.ajax({
+            url: '/ManageForm/GetDynamicDropDawon',
+            type: 'GET',
+            data: { id: 1, type: type },
+            success: function (response) {
+                if (response.success) {
+                    ADDDropdown(response.data, type);
+                    $('#dropdownModalADD').modal('show'); // Show modal
+                } else {
+                    alert('Failed to fetch data!');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    function ADDDropdown(data, type) {
+        console.log("Dropdown Data:", data);
+
+        var $dropdown = $('#dropdownSelect');
+        $dropdown.empty(); // Clear old options
+
+        $.each(data, function (index, item) {
+            $dropdown.append(`<option value="${item.value}">${item.text}</option>`);
+        });
+
+        $(".modal-footer").remove();
+         var $modalContent = $('#dropdownModalADD .modal-content, #dropdownModal .modal-content');
+
+        $modalContent.append(`
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal2()">Close</button>
+            <button type="button" class="btn btn-success" onclick="ADDSelection('${type}')">ADD</button>
+        </div>
+    `);
+    }
+
+    function ADDSelection(type) {
+        var selectedValue = $('#dropdownSelect').val();
+        var selectedText = $('#dropdownSelect option:selected').text();
+
+        if (!selectedValue) {
+            alert('Please select a value!');
+            return;
+        }
+
+        var tableId = "";
+        switch (type) {
+            case "ztclassification":
+                tableId = "#ztClassificationTable";
+                break;
+            case "predictive":
+                tableId = "#predictiveAnalysisTable";
+                break;
+            case "rootcause":
+                tableId = "#rootCauseTable";
+                break;
+            default:
+                alert("Invalid type");
+                return;
+        }
+
+        var isDuplicate = false;
+    $(tableId + " tbody tr").each(function () {
+        var existingValue = $(this).find("td:first").text().trim();
+        if (existingValue === selectedValue) {
+            isDuplicate = true;
+            return false; // Exit loop early
+        }
+    });
+
+    if (isDuplicate) {
+        alert("This item is already added to the list.");
+        return;
+    }
+
+        $(tableId + " tbody").append(`
+            <tr>
+                <td>${selectedValue}</td>
+                <td>${selectedText}</td>
+                    <td>
+          
+            <button class='btn btn-danger btn-sm' onclick='deleteSection(${selectedValue})'>Delete</button>
+        </td>
+            </tr>
+        `);
+
+        $('#dropdownModalADD').modal('hide'); // Close modal
+    }
+
+    function closeModal2() {
+        $('#dropdownModalADD').modal('hide');
+    }
 
 
 
@@ -324,20 +548,7 @@
             alert("Select Valid Sub Program");
 
         } else {
-            // $.ajax({
-            //     type: "POST",
-            //     data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
-            //     url: "/ManageForm/GetSectionGried",
-            //     contentType: "application/json; charset=utf-8",
-            //     dataType: "json",
-            //     success: function (response) {
-            //         $("#SectionGried").show();
-            //         populateGrid(response);
-            //     },
-            //     error: function (xhr, status, error) {
-            //         console.error("Error occurred: " + error);
-            //     }
-            // });
+          
 
                 $.ajax({
         type: "POST",
@@ -348,7 +559,7 @@
         success: function (response) {
             $("#SectionGried").show();
 
-            console.log("Full Response:", response); // Debugging step
+            console.log("Full Response:", response); 
 
             populateGrid(response.sectionGrid);
              if (response?.filteredPredictiveList?.length > 0) {
@@ -357,7 +568,7 @@
             console.error("filteredPredictiveList is empty.");
         }
 
-        // Populate ZT Classification Table
+       
         if (response?.filteredZTClassificationList?.length > 0) {
             populateTable("#ztClassificationTable", response.filteredZTClassificationList, "ZTClassification");
         } else {
@@ -375,7 +586,7 @@
                 } else {
                     $("#noCheckbox").prop("checked", true);
                 }
-           
+
         },
         error: function (xhr, status, error) {
             console.error("Error occurred: " + error);
@@ -387,21 +598,28 @@
     }
            function populateTable(tableId, data, type) {
         let tableBody = $(tableId + " tbody");
-        tableBody.empty(); // Clear previous data
+        tableBody.empty();
 
         data.forEach((item, index) => {
             let row = `<tr>
                 <td>${item.value}</td>
                 <td>${item.text}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm edit-btn" data-id="${item.value}" data-type="${type}">Edit</button>
+                   
+
                     <button class="btn btn-danger btn-sm delete-btn" data-id="${item.value}" data-type="${type}">Delete</button>
                 </td>
             </tr>`;
             tableBody.append(row);
         });
 
-        // Attach event listeners for Edit and Delete buttons
+
+          $(".delete-btn").on("click", function () {
+        let id = $(this).data("id");
+        let type = $(this).data("type");
+        console.log(`Delete Clicked for ${type} ID:`, id);
+        DeleteItem(id, type, $(this));
+    });
         $(".edit-btn").on("click", function () {
             let id = $(this).data("id");
             let type = $(this).data("type");
@@ -409,25 +627,116 @@
             editItem(id, type);
         });
 
-        $(".delete-btn").on("click", function () {
-            let id = $(this).data("id");
-            let type = $(this).data("type");
-            console.log(`Delete Clicked for ${type} ID:`, id);
-            deleteItem(id, type);
-        });
     }
+       function DeleteItem(id, type, button) {
+        let tableId = "";
 
-       function editItem(id, type) {
-        alert(`Edit function triggered for ${type} ID: ` + id);
-        // TODO: Implement actual edit functionality
-    }
+        if (type === "ZTClassification") {
+            tableId = "#ztClassificationTable";
+        } else if (type === "Predictive") {
+            tableId = "#predictiveAnalysisTable";
+        } else if (type === "RootCause") {
+            tableId = "#rootCauseTable";
+        }
 
-    function deleteItem(id, type) {
-        if (confirm(`Are you sure you want to delete this ${type} item?`)) {
-            alert(`Delete function triggered for ${type} ID: ` + id);
-            // TODO: Implement actual delete logic (e.g., send an AJAX request to remove it from DB)
+        if (tableId) {
+            $(button).closest("tr").remove(); 
         }
     }
+       function editItem(id, type) {
+
+                 $.ajax({
+                    url: '/ManageForm/GetDynamicDropDawon',
+                    type: 'GET',
+                    data: { id: id, type: type },
+                    success: function (response) {
+                        populateDropdown(response.data, id, type);
+                          $('#dropdownModal').modal('show');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+    }
+            function populateDropdown(data, selectedId, type) {
+        console.log("Dropdown Data:", data);
+
+        var $dropdown = $('#dynamicDropdown');
+        $dropdown.empty();
+        $.each(data, function (index, item) {
+            var isSelected = item.value == selectedId ? 'selected' : '';
+            $dropdown.append(`<option value="${item.value}" ${isSelected}>${item.text}</option>`);
+        });
+
+        $(".modal-footer").remove();
+
+        $(".modal-content").append(`
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+
+               <button type="button" class="btn btn-success" onclick="saveSelection('${selectedId}', '${type}')">Save</button>
+            </div>
+        `);
+    }
+
+
+        function closeModal() {
+
+        $('#dropdownModal').modal('hide');
+    }
+
+
+        function saveSelection(id , type) {
+       
+        var selectedValue = $('#dynamicDropdown').val();
+        var selectedText = $('#dynamicDropdown option:selected').text();
+
+        if (!id) {
+            alert('Error: No row is selected for editing.');
+            return;
+        }
+
+         if (type === "ZTClassification") {
+        
+            
+       $("#ztClassificationTable tbody tr").each(function () {
+            var row = $(this);
+            var rowId = row.find(".edit-btn").data("id");
+
+            if (rowId == id) {
+                row.find("td:nth-child(2)").text(selectedText); 
+            }
+        });
+
+        } else if (type === "Predictive") {
+        
+            
+       $("#predictiveAnalysisTable tbody tr").each(function () {
+            var row = $(this);
+            var rowId = row.find(".edit-btn").data("id");
+
+            if (rowId == id) {
+                row.find("td:nth-child(2)").text(selectedText); 
+            }
+        });
+
+        } else if (type === "RootCause") {
+
+       $("#rootCauseTable tbody tr").each(function () {
+            var row = $(this);
+            var rowId = row.find(".edit-btn").data("id");
+
+            if (rowId == id) {
+                row.find("td:nth-child(2)").text(selectedText);
+            }
+        });
+        }
+
+
+
+        $('#dropdownModal').modal('hide');
+    }
+
 
     function editSection(item) {
         $("#editId").val(item.id);
