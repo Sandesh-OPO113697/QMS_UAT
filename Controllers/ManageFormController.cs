@@ -18,7 +18,11 @@ namespace QMS.Controllers
             _admin = adam;
             dl_FormBuilder = adl;
         }
-
+        public async Task<IActionResult> CheckIsFormvaialableOrNot([FromBody] Process_SUbProcess id)
+        {
+            int Result = await dl_FormBuilder.CheckIsFormCreatedInData(id);
+            return Json(new { success = false, message = "Failed to Insert the field.", data = Result });
+        }
         public async Task<IActionResult> Formdisable([FromBody] Process_SUbProcess id)
         {
             int Result = await dl_FormBuilder.DisableFormTable(id);

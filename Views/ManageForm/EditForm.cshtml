@@ -22,6 +22,7 @@
                 </div>
 
             </div>
+          
             <div class="col-md-6">
                 <div class="form-group mb-3">
                     <label for="SUBProgramID">Sub Program Name</label>
@@ -30,6 +31,53 @@
                     </select>
                 </div>
 
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ReplicateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Select Process For Form Replicate</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="ProgramID">Program Name</label>
+                            @Html.DropDownList(
+                                     "ProgramID_ForReplic",
+                                     (List<SelectListItem>)ViewBag.ProcessList,
+                                     "Select Program",
+                                     new { @class = "custom-select", id = "ProgramID_ForReplic", onchange = "onProgramChange_ForReplic()" }
+                                     )
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="SUBProgramID">Sub Program Name</label>
+                            <select name="SUBProgramID" id="SUBProgramID_ForReplic" class="custom-select" onchange="onSubProgramChange_ForReplic()">
+                                <option value="">Select Process</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <button id="Disableformreplcation" class="btn btn-primary mt-4" style="display:none" onclick="DisabeFormReplicate()">Disable</button>
+                        </div>
+                        <div class="form-group mb-3">
+                            <button id="Replicateformreplcation" class="btn btn-primary mt-4" style="display:none" onclick="ReplicateFormReplicate()">Replicate</button>
+                        </div>
+
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -62,31 +110,7 @@
     </div>
 </div>
 
-@* 
-<div class="card shadow mb-4" id="DynamicTable" >
-    <div class="card-header">
-        <strong class="card-title"> Dynamic </strong>
-    </div>
-    <div class="card-body">
 
-        <table id="dynamicGrid" class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Fields Name</th>
-                    <th>ValueType</th>
-                    <th>value</th>
-
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-
-    </div>
-</div>
- *@
 
 <div id="editModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -259,6 +283,12 @@
                     <button id="Disableform" class="btn btn-primary mt-4" onclick="DisabeForm()">Disable</button>
                 </div>
             </div>
+
+            <div class="col-md-2">
+                <div class="form-group mb-3">
+                    <button id="Disableform" class="btn btn-primary mt-4" onclick="ReplicateForm()">Replicate-Form</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -299,6 +329,131 @@
 
 <script src="~/js/jquery.min.js"></script>
 <script>
+
+    function DisabeFormReplicate()
+    {
+         var programId = document.getElementById("ProgramID_ForReplic").value;
+        var subProgramId = document.getElementById("SUBProgramID_ForReplic").value;
+
+        if (subProgramId === "") {
+
+            alert("Select Valid Sub Program");
+
+        } else {
+
+
+                $.ajax({
+        type: "POST",
+        data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+        url: "/ManageForm/Formdisable",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+             if (response.success && response.data === 1) {
+            alert("Success! Form has been disabled.");
+            $("#Disableformreplcation").hide();
+               $("#Replicateformreplcation").show();
+        } else {
+            alert("Failed to disable the form. Please try again.");
+        }
+
+        },
+        error: function (xhr, status, error) {
+            console.error("Error occurred: " + error);
+        }
+    });
+
+
+        }
+
+    }
+    function onSubProgramChange_ForReplic()
+    {
+       
+    var programId = document.getElementById("ProgramID_ForReplic").value;
+           var subProgramId = document.getElementById("SUBProgramID_ForReplic").value;
+
+           if (subProgramId === "") {
+
+               alert("Select Valid Sub Program");
+
+           } else {
+
+
+       $.ajax({
+           type: "POST",
+           data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+           url: "/ManageForm/CheckIsFormvaialableOrNot",
+           contentType: "application/json; charset=utf-8",
+           dataType: "json",
+           success: function (response) {
+
+                     if (response.data === 1) {
+
+                           alert("For this Program And Sub Program Form Is Already created,...!");
+                           $("#Disableformreplcation").show();
+                            $("#Replicateformreplcation").hide();
+                     } 
+                     else 
+                     {
+                            $("#Replicateformreplcation").show();
+                              $("#Disableformreplcation").hide();
+                            
+                     }
+
+           },
+           error: function (xhr, status, error) {
+               console.error("Error occurred: " + error);
+           }
+       });
+
+
+           }
+    }
+
+    function ReplicateForm()
+    {
+         $('#ReplicateModal').modal('show');
+    }
+
+
+
+    function onProgramChange_ForReplic() {
+        var programId = document.getElementById("ProgramID_ForReplic").value;
+        if (programId === "") {
+            alert("Select Valid  Program");
+            return;
+
+        }
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: programId }),
+
+            url: "/Admin/GetSUBProcessList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                console.log(response.d);
+                var dropdown = $('#SUBProgramID_ForReplic');
+                dropdown.empty();
+                dropdown.append('<option value="">Select Process</option>');
+                response.proces.forEach(function (item) {
+                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                });
+
+                
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
+    }
+
+
+
+
     $(document).ready(function () {
          var programId = "@ViewBag.ProgramId";
         var subProgramId = "@ViewBag.SubProgramId";
