@@ -731,6 +731,7 @@
             data: JSON.stringify({ sections: formData2 }), // Use formData2 for section data
             success: function (response) {
                 alert("Form Created  successfully!");
+                 window.location.href = "/ManageForm/FormBuilder";
                 $("#dataGrid tbody").empty();
                 $("#sectiongried").hide();
                 $("#ZT_Classificationtbl tbody").empty();

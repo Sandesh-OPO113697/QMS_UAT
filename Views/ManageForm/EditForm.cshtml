@@ -354,6 +354,7 @@
                         success: function (response) {
                              if (response.success && response.data === 1) {
                                  alert("Form Is Replicated Successfully...!");
+                                  window.location.href = "/ManageForm/FormBuilder";
                                  $('#ReplicateModal').modal('hide');
                         } else {
                             alert("Failed to Replicated the form. Please try again.");
@@ -410,7 +411,7 @@
                         success: function (response) {
                              if (response.success && response.data === 1) {
                                  alert("Form Is Replicated Successfully...!");
-                        
+                         window.location.href = "/ManageForm/FormBuilder";
                                  $('#ReplicateModal').modal('hide');
                         } else {
                             alert("Failed to Replicated the form. Please try again.");
@@ -582,6 +583,7 @@
                 data: JSON.stringify(data),
                 success: function (response) {
                     alert("Form Edited  successfully!");
+                     window.location.href = "/ManageForm/FormBuilder";
                 },
                 error: function (xhr, status, error) {
                     console.error("Error inserting data:", error);
@@ -788,7 +790,7 @@
             tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
             return;
         }
-
+        console.log(JSON.stringify(data));
         $.each(data, function (index, item) {
             var row = "<tr>" +
                 "<td>" + item.id + "</td>" +
