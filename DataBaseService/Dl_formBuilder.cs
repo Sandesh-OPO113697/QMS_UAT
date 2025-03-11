@@ -11,6 +11,82 @@ namespace QMS.DataBaseService
 {
     public class Dl_formBuilder
     {
+        public async Task<bool> ActivateFormByID(int processId, int subProcessId)
+        {
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                await con.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("EditFormvalue", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Operation", "ActiveReplicatedForm");
+                    cmd.Parameters.AddWithValue("@ProcessID", processId);
+                    cmd.Parameters.AddWithValue("@SubProcessID", subProcessId);
+                    int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                    return rowsAffected > 0;
+                }
+            }
+        }
+
+        public async Task<DataTable> GetGriedOfReplicatedForm()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GetToActivereplicatdForm");
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
+
+        public async Task<int> FormReplicationfromOld(FormReplicationModel model)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("FormCreation", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "ReplicateForm");
+                        cmd.Parameters.AddWithValue("@Process", model.ProcessID);
+                        cmd.Parameters.AddWithValue("@SubProcess", model.SUBProcessID);
+                        cmd.Parameters.AddWithValue("@ProcessIDOLD", model.ProcessIDOLD);
+                        cmd.Parameters.AddWithValue("@SUBProcessIDOLD", model.SUBProcessIDOLD);
+                        cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+                        object result = await cmd.ExecuteScalarAsync();
+                        return (result != null && int.TryParse(result.ToString(), out int value)) ? value : 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return -1; // Indicate error
+            }
+        }
+
 
         public async Task<int> DisableFormTable(Process_SUbProcess model)
         {

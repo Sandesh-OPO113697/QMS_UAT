@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model System.Data.DataTable
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Active Replicated Form</strong>
+
+
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Process</th>
+                        <th>Process ID</th>
+                        <th>Sub Process Name</th>
+                        <th>Sub Process ID</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (System.Data.DataRow row in Model.Rows)
+                    {
+                        <tr>
+                            <td>@row["Process"]</td>
+                            <td>@row["Processid"]</td>
+                            <td>@row["SubProcessName"]</td>
+                            <td>@row["SubprocessID"]</td>
+                            <td>
+                                <form method="post" asp-action="ActivateForm">
+                                    <input type="hidden" name="processId" value="@row["Processid"]" />
+                                    <input type="hidden" name="subProcessId" value="@row["SubprocessID"]" />
+                                    <button type="submit" class="btn btn-primary">Activate</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -69,7 +69,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <button id="Disableformreplcation" class="btn btn-primary mt-4" style="display:none" onclick="DisabeFormReplicate()">Disable</button>
+                            <button id="Disableformreplcation" class="btn btn-primary mt-4" style="display:none" onclick="DisabeFormReplicate()">Disable And Replicate</button>
                         </div>
                         <div class="form-group mb-3">
                             <button id="Replicateformreplcation" class="btn btn-primary mt-4" style="display:none" onclick="ReplicateFormReplicate()">Replicate</button>
@@ -330,10 +330,13 @@
 <script src="~/js/jquery.min.js"></script>
 <script>
 
-    function DisabeFormReplicate()
+    function ReplicateFormReplicate()
     {
          var programId = document.getElementById("ProgramID_ForReplic").value;
         var subProgramId = document.getElementById("SUBProgramID_ForReplic").value;
+
+           var ProcessIDOLD = document.getElementById("ProgramID").value;
+        var SUBProcessIDOLD = document.getElementById("SUBProgramID").value;
 
         if (subProgramId === "") {
 
@@ -341,27 +344,83 @@
 
         } else {
 
+              
+                  $.ajax({
+                        type: "POST",
+                        data: JSON.stringify({ ProcessIDOLD: ProcessIDOLD, SUBProcessIDOLD: SUBProcessIDOLD , ProcessID: programId , SUBProcessID: subProgramId  }),
+                        url: "/ManageForm/FormReplication",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                             if (response.success && response.data === 1) {
+                                 alert("Form Is Replicated Successfully...!");
+                                 $('#ReplicateModal').modal('hide');
+                        } else {
+                            alert("Failed to Replicated the form. Please try again.");
+                        }
+
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error occurred: " + error);
+                        }
+                });
+
+
+        }
+    }
+    function DisabeFormReplicate()
+    {
+         var programId = document.getElementById("ProgramID_ForReplic").value;
+        var subProgramId = document.getElementById("SUBProgramID_ForReplic").value;
+
+           var ProcessIDOLD = document.getElementById("ProgramID").value;
+        var SUBProcessIDOLD = document.getElementById("SUBProgramID").value;
+
+        if (subProgramId === "") {
+
+            alert("Select Valid Sub Program");
+
+        } else {
 
                 $.ajax({
-        type: "POST",
-        data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
-        url: "/ManageForm/Formdisable",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (response) {
-             if (response.success && response.data === 1) {
-            alert("Success! Form has been disabled.");
-            $("#Disableformreplcation").hide();
-               $("#Replicateformreplcation").show();
-        } else {
-            alert("Failed to disable the form. Please try again.");
-        }
+                        type: "POST",
+                        data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+                        url: "/ManageForm/Formdisable",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                             if (response.success && response.data === 1) {
+                          
+                        } else {
+                            alert("Failed to disable the form. Please try again.");
+                        }
 
-        },
-        error: function (xhr, status, error) {
-            console.error("Error occurred: " + error);
-        }
-    });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error occurred: " + error);
+                        }
+                });
+
+                  $.ajax({
+                        type: "POST",
+                        data: JSON.stringify({ ProcessIDOLD: ProcessIDOLD, SUBProcessIDOLD: SUBProcessIDOLD , ProcessID: programId , SUBProcessID: subProgramId  }),
+                        url: "/ManageForm/FormReplication",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                             if (response.success && response.data === 1) {
+                                 alert("Form Is Replicated Successfully...!");
+                        
+                                 $('#ReplicateModal').modal('hide');
+                        } else {
+                            alert("Failed to Replicated the form. Please try again.");
+                        }
+
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error occurred: " + error);
+                        }
+                });
 
 
         }

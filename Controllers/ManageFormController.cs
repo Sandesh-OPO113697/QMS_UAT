@@ -18,6 +18,38 @@ namespace QMS.Controllers
             _admin = adam;
             dl_FormBuilder = adl;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ActivateForm(int processId, int subProcessId)
+        {
+           
+            bool success = await dl_FormBuilder.ActivateFormByID(processId, subProcessId);
+
+            return RedirectToAction("ActiveReplicatedForm");
+        }
+
+
+        public async Task<IActionResult> ActiveReplicatedForm()
+        {
+            DataTable dt = await dl_FormBuilder.GetGriedOfReplicatedForm();
+
+
+            return View(dt);
+        }
+        public async Task<IActionResult> FormReplication([FromBody] FormReplicationModel id)
+        {
+            int Result = await dl_FormBuilder.FormReplicationfromOld(id);
+
+            if (Result == 1)
+            {
+                return Json(new { success = true, message = "Form Is Replicated Successfully...!", data = Result });
+            }
+            else
+            {
+                return Json(new { success = false, message = " Faileld to FormReplicated ...!", data = Result });
+            }
+          
+        }
         public async Task<IActionResult> CheckIsFormvaialableOrNot([FromBody] Process_SUbProcess id)
         {
             int Result = await dl_FormBuilder.CheckIsFormCreatedInData(id);
@@ -286,39 +318,7 @@ namespace QMS.Controllers
             }
         }
 
-        //public async Task<IActionResult> GetSectionGried([FromBody] Process_SUbProcess id)
-        //{
-        //    var dataTable = await dl_FormBuilder.GetSectionGriedAsync(id.ProcessID, id.SUBProcessID);
-
-        //    try
-        //    {
-
-        //        var sectionList = dataTable.AsEnumerable().Select(row => new SectionGridModel
-        //        {
-        //            Id = row.Field<int>("id"),
-        //            Category = row.Field<string>("Category"),
-        //            SectionName = row.Field<string>("SectionName"),
-        //            SectionId = row.Field<int>("SectionId"),
-
-        //            Scorable = row.Field<string>("Scorable"),
-        //            Score = row.Field<int>("Score"),
-        //            Level = row.Field<string>("Level"),
-
-        //            Active = row.Field<string>("Active")
-        //        }).ToList();
-
-
-
-
-        //        return Json(sectionList);
-
-        //    }
-        //    catch (Exception ex )
-        //    {
-        //        return Json(null);
-        //    }
-
-        //}
+       
         public async Task<IActionResult> EditForm(string programId, string subProgramId)
         {
             ViewBag.ProgramId = programId;
