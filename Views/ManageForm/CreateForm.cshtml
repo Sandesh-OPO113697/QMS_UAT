@@ -223,7 +223,7 @@
                 </div>
             </div>
 
-       @*      <div class="col-md-3">
+            @*      <div class="col-md-3">
                 <div class="form-group mb-3">
                     <label for="FatalDropdown">Fatal</label>
                     <select id="FatalDropdown" class="custom-select">
@@ -255,11 +255,11 @@
                 <tr>
                     <th>Category</th>
                     <th>Section</th>
-                    
+
                     <th>Scorable</th>
                     <th>Weightage</th>
                     <th>Level</th>
-                  
+
                     <th>Action</th>
                 </tr>
             </thead>
@@ -302,8 +302,15 @@
         <table class="table table-bordered mt-3" id="rcaTable">
             <thead>
                 <tr>
+                 
                     <th>ID</th>
                     <th>Metric RCA</th>
+                    <th>Controllable</th>
+                    <th>RCA 1</th>
+                    <th>RCA 2</th>
+                    <th>RCA 3</th>
+                    <th>Comments Section</th>
+                   
                     <th>Action</th>
                 </tr>
             </thead>
@@ -353,6 +360,12 @@
                 <tr>
                     <th>ID</th>
                     <th>Predictive - CSAT</th>
+                    <th>Predictive - NPS</th>
+                    <th>Predictive - FCR</th>
+                    <th>Predictive - Repeat</th>
+                    <th>Predictive - Sales effort</th>
+                    <th>Predictive - Collection effort</th>
+                    <th>Predictive - Probable escalation</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -430,10 +443,14 @@
                 <label class="form-check-label" for="noCheckbox">No</label>
             </div>
         </div>
+        <div class="row">
+            <button id="createform" style="margin-left:20px;" class="btn btn-primary mt-4">create Form</button>
+        </div>
+
     </div>
 </div>
 
-<button id="createform" class="btn btn-primary mt-4">create Form</button>
+
 
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/apps.js"></script>
@@ -469,10 +486,10 @@
                 }
             });
              if (exists) {
-              
+
                 return;
             } else {
-                
+
             }
             if (!exists) {
                 var row = `<tr>
@@ -515,15 +532,22 @@
                 }
             });
              if (exists) {
-               
+
                 return;
             } else {
-              
+
             }
             if (!exists) {
                 var row = `<tr>
                   <td>${selectedValue}</td>
                             <td>${selectedText}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                           
                             <td><button class="btn btn-danger btn-sm remove-row">Remove</button></td>
                            </tr>`;
 
@@ -571,6 +595,13 @@
                 var row = `<tr>
                  <td>${selectedValue}</td>
                             <td>${selectedText}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            
+
                             <td><button class="btn btn-danger btn-sm remove-row">Remove</button></td>
                            </tr>`;
 
@@ -626,14 +657,14 @@
 
         console.log("Data to insert:", requestData);
 
-        
+
         $.ajax({
             type: "POST",
             url: "/ManageForm/InsertDynamicFields",
             data: JSON.stringify(requestData),
             contentType: "application/json",
             success: function (response) {
-               
+
             },
             error: function (xhr) {
                 alert("Error inserting data.");
@@ -662,11 +693,11 @@
             var rowData = {
                 Category: $(this).find("td:eq(0)").text().trim(),
                 Section: $(this).find("td:eq(1)").text().trim(),
-                
+
              Scorable: $(this).find("td:eq(2)").text().trim(),
                 Score: $(this).find("td:eq(3)").text().trim(),
                 Level: $(this).find("td:eq(4)").text().trim(),
-               
+
                 ProgramID: programID,
                 SubProgramID: subProgramID
             };
@@ -685,7 +716,7 @@
         var scorable = $(this).find("td:eq(2)").text().trim().toLowerCase(); // Check "Scorable" column
         var score = parseFloat($(this).find("td:eq(3)").text().trim()); // "Score" column
 
-        if (scorable === "yes") { 
+        if (scorable === "yes") {
             if (!isNaN(score)) {
                 totalScore += score;
             }
@@ -700,27 +731,31 @@
 
        let isValid = true;
 
-      
+
         if ($("#rcaTable tbody tr").length === 0) {
             alert("Please add at least one Metric RCA.");
+            return;
             isValid = false;
         }
         if ($("#Predictive_CSAT tbody tr").length === 0) {
             alert("Please add at least one Predictive - CSAT.");
+             return;
             isValid = false;
         }
         if ($("#ZT_Classificationtbl tbody tr").length === 0) {
             alert("Please add at least one ZT Classification.");
+            return;
             isValid = false;
         }
 
-       
+
         if (!$("#yesCheckbox").is(":checked") && !$("#noCheckbox").is(":checked")) {
             alert("Please select Zero Tolerance Behaviour.");
+             return;
             isValid = false;
         }
 
-       
+
         if (isValid) {
             insertData();
         }
@@ -823,19 +858,41 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-           
+
                      if (response.data === 1) {
-            
+
                             window.location.href = `/ManageForm/EditForm?programId=${programId}&subProgramId=${subProgramId}`;
                         } else {
-                             $("#DynamicFeilds").show();
-                                $("#Sectionfeild").show();
-                                $("#Staticfeild").show();
-                                $("#ZT_Classification").show();
 
-                                $("#Zero_tolerance_behaviour").show();
-                                $("#Predictive_CSAT").show();
-                           
+
+                                $.ajax({
+                                    type: "POST",
+                                    data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+                                    url: "/ManageForm/CheckIsFormReplicated",
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (response) {
+
+                                            if (response.data === 1) {
+                                                 alert("This Form Is Already Replicated. Kindly Activate This Form.");
+                                                 window.location.href = "/ManageForm/FormBuilder";
+                                                                                   
+                                            } else {
+                                                    $("#DynamicFeilds").show();
+                                                    $("#Sectionfeild").show();
+                                                    $("#Staticfeild").show();
+                                                    $("#ZT_Classification").show();
+
+                                                    $("#Zero_tolerance_behaviour").show();
+                                                    $("#Predictive_CSAT").show();
+
+                                            }
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error("Error occurred: " + error);
+                                    }
+                                });
+
                         }
                 },
                 error: function (xhr, status, error) {
@@ -852,7 +909,7 @@
 
         var category = document.getElementById("Section_Category").value.trim();
         var section = document.getElementById("Section_ID").value;
-  
+
         var scorable = document.getElementById("scorableDropdown").value;
         var score = document.getElementById("Section_Score").value.trim();
         var level = document.getElementById("LevelDropdown").value;
@@ -878,18 +935,18 @@
         newRow.innerHTML = `
                 <td>${category}</td>
                 <td>${section}</td>
-            
+
                 <td>${scorable}</td>
                 <td>${score}</td>
                 <td>${level}</td>
-             
+
                 <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
             `;
 
 
         document.getElementById("Section_Category").value = "";
         document.getElementById("Section_ID").value = "";
-        
+
         document.getElementById("scorableDropdown").value = "";
         document.getElementById("Section_Score").value = "";
         document.getElementById("LevelDropdown").value = "";

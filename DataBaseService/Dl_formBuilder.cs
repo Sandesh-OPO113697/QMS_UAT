@@ -11,6 +11,28 @@ namespace QMS.DataBaseService
 {
     public class Dl_formBuilder
     {
+
+        public async Task<DataTable> GetProcessListAsync()
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+                  
+                        cmd.Parameters.AddWithValue("@Operation", "GetProcessByadmin");
+                
+
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    await Task.Run(() => adpt.Fill(dt));
+                }
+            }
+            return dt;
+        }
         public async Task<bool> ActivateFormByID(int processId, int subProcessId)
         {
             using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
@@ -124,6 +146,31 @@ namespace QMS.DataBaseService
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@Operation", "CheckIsformcreatd");
+                        cmd.Parameters.AddWithValue("@Process", model.ProcessID);
+                        cmd.Parameters.AddWithValue("@SubProcess", model.SUBProcessID);
+
+                        object result = await cmd.ExecuteScalarAsync();
+                        return result != null ? Convert.ToInt32(result) : 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return -1; // Indicate error
+            }
+        }
+        public async Task<int> CheckIsFormreplicatedInData(Process_SUbProcess model)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("FormCreation", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "CheckIsformReplicated");
                         cmd.Parameters.AddWithValue("@Process", model.ProcessID);
                         cmd.Parameters.AddWithValue("@SubProcess", model.SUBProcessID);
 
@@ -607,5 +654,72 @@ namespace QMS.DataBaseService
 
             return rowsAffected;
         }
+
+
+
+        public async Task<int> UpdateSectionfeilds(List<SectionUpdateModel> fields)
+        {
+            int rowsAffected = 0;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("FormCreation", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "DeleteDectionData");
+                        cmd.Parameters.AddWithValue("@Process", fields[0].ProgramID);
+                        cmd.Parameters.AddWithValue("@SubProcess", fields[0].SubProgramID);
+
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    foreach (var field in fields)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("FormCreation", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Operation", "updateDectionFeild");
+                            cmd.Parameters.AddWithValue("@secCategory", field.Category);
+                            cmd.Parameters.AddWithValue("@secSectionname", field.Section);
+
+                            cmd.Parameters.AddWithValue("@secScorable", field.Scorable);
+                            cmd.Parameters.AddWithValue("@secScore", field.Score);
+                            cmd.Parameters.AddWithValue("@secLevel", field.Level);
+
+                            cmd.Parameters.AddWithValue("@Process", field.ProgramID);
+                            cmd.Parameters.AddWithValue("@SubProcess", field.SubProgramID);
+                            cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+                            cmd.CommandTimeout = 0;
+
+                            object result = await cmd.ExecuteScalarAsync();
+                            rowsAffected += Convert.ToInt32(result);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error inserting dynamic fields: " + ex.Message);
+            }
+
+            return rowsAffected;
+        }
+
     }
 }

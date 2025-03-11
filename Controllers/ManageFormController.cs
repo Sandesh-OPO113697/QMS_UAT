@@ -19,6 +19,51 @@ namespace QMS.Controllers
             dl_FormBuilder = adl;
         }
 
+        [HttpPost("ManageForm/GetProcessListAsync")]
+        public async Task< JsonResult> GetProcessListAsync([FromBody] DropDawon model)
+        {
+           
+
+            if(UserInfo.UserType=="Admin")
+            {
+                DataTable dt = await dl_FormBuilder.GetProcessListAsync();
+                var processList = dt.AsEnumerable().Select(row => new SelectListItem
+                {
+                    Value = row["ID"].ToString(),
+                    Text = $"{row["ProcessName"]}",
+                }).ToList();
+            }
+            else
+            {
+                var data = await _admin.GetProcessListByLocation(UserInfo.LocationID);
+                var processList = data.AsEnumerable().Select(row => new SelectListItem
+                {
+                    Value = row["ID"].ToString(),
+                    Text = $"{row["ProcessName"]}",
+                }).ToList();
+                
+            }
+            
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdatesecionGried([FromBody] SectionFormDataUpdateModel request)
+        {
+            if (request == null || request.sections == null || request.sections.Count == 0)
+            {
+                return Json(new { success = false, message = "No data received" });
+            }
+
+            int result = await dl_FormBuilder.UpdateSectionfeilds(request.sections);
+
+            return result > 0
+                ? Json(new { success = true, message = "Form Created  successfully!" })
+                : Json(new { success = false, message = "Failed to insert data." });
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> ActivateForm(int processId, int subProcessId)
         {
@@ -60,10 +105,15 @@ namespace QMS.Controllers
             int Result = await dl_FormBuilder.DisableFormTable(id);
             return Json(new { success = true, message = "Form disabled successfully", data = Result });
         }
+        public async Task<IActionResult> CheckIsFormReplicated([FromBody] Process_SUbProcess id)
+        {
+            int Result = await dl_FormBuilder.CheckIsFormreplicatedInData(id);
+            return Json(new { success = false, message = "Failed to Insert the field."  , data= Result });
+        }
         public async Task<IActionResult> CheckIsFormCreated([FromBody] Process_SUbProcess id)
         {
             int Result = await dl_FormBuilder.CheckIsFormCreatedInData(id);
-            return Json(new { success = false, message = "Failed to Insert the field."  , data= Result });
+            return Json(new { success = false, message = "Failed to Insert the field.", data = Result });
         }
 
         [HttpPost]
@@ -321,6 +371,19 @@ namespace QMS.Controllers
        
         public async Task<IActionResult> EditForm(string programId, string subProgramId)
         {
+
+            var Location = await _admin.GetLocationAsync();
+            ViewBag.Locations = Location;
+            DataSet dt = await dl_FormBuilder.GetSectionFeildAsync();
+            var data1 = dt.Tables[0];
+         
+            var Section_Category = data1.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["id"].ToString(),
+                Text = $"{row["SectionName"]}",
+            }).ToList();
+            ViewBag.Section_Category = Section_Category;
+
             ViewBag.ProgramId = programId;
             ViewBag.SubProgramId = subProgramId;
             string locationid = UserInfo.LocationID;

@@ -50,6 +50,21 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
+                            <label for="ProgramID">Select Location Name</label>
+                            @Html.DropDownList(
+                                     "Location_ForReplic", // Name should match ID
+                                     (List<SelectListItem>)ViewBag.Locations,
+                                     "Select Location",
+                                     new { @class = "custom-select", id = "Location_ForReplic", onchange = "onLocationChange_ForReplic()" }
+                                     )
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
                             <label for="ProgramID">Program Name</label>
                             @Html.DropDownList(
                                      "ProgramID_ForReplic",
@@ -78,6 +93,12 @@
 
                     </div>
                 </div>
+
+
+
+
+              
+
             </div>
         </div>
     </div>
@@ -86,6 +107,7 @@
 <div class="card shadow mb-4" id="SectionGried" >
     <div class="card-header">
         <strong class="card-title"> Section</strong>
+        <button id="AddSection" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px">ADD</button>
     </div>
     <div class="card-body">
 
@@ -185,6 +207,12 @@
                     <tr>
                         <th>#</th>
                         <th>Value</th>
+                        <th>Controllable</th>
+                        <th>RCA 1</th>
+                        <th>RCA 2</th>
+                        <th>RCA 3</th>
+                        <th>Comments Section</th>
+
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -211,6 +239,12 @@
                     <tr>
                         <th>ID</th>
                         <th>Value</th>
+                        <th>Predictive - NPS</th>
+                        <th>Predictive - FCR</th>
+                        <th>Predictive - Repeat</th>
+                        <th>Predictive - Sales effort</th>
+                        <th>Predictive - Collection effort</th>
+                        <th>Predictive - Probable escalation</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -326,9 +360,195 @@
     </div>
 </div>
 
+<div class="modal fade" id="addSectionModal" tabindex="-1" role="dialog" aria-labelledby="addSectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSectionModalLabel">Add Section</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="sectionForm">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <input type="text" class="form-control" id="category" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Section Name</label>
+                        @Html.DropDownList("Section_ID", (List<SelectListItem>)ViewBag.Section_Category, "Select Section", new { @class = "custom-select", id = "Section_ID" })
+                    </div>
+                    <div class="form-group">
+                        <label>Scorable</label>
+                        <select class="form-control" id="scorable">
+                            <option value="">Select</option>
+                            <option value="Yes">YES</option>
+                            <option value="No">NO</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Weightage</label>
+                        <input type="number" class="form-control" id="score" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Level</label>
+                        <select id="LevelDropdown" class="custom-select">
+                            <option value="">Select</option>
+                            <option value="1">Level 1</option>
+                            <option value="2">Level 2</option>
+                            <option value="3">Level 3</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveSection">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="~/js/jquery.min.js"></script>
 <script>
+
+        function onLocationChange_ForReplic() {
+        var programId = document.getElementById("Location_ForReplic").value;
+        if (programId === "") {
+            alert("Select a Valid Program");
+            return;
+        }
+        console.log("Test "+programId);
+               $.ajax({
+        type: "POST",
+        url: "/ManageForm/GetProcessListAsync",
+        data: JSON.stringify({ id: programId }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(response) {
+            console.log("Success:", response);
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", xhr.status, xhr.statusText, error);
+        }
+    });
+
+    }
+
+    </script>
+
+<script>
+
+
+
+
+        $(document).ready(function () {
+        var sectionData = [];
+
+        $("#AddSection").click(function () {
+            $("#addSectionModal").modal("show");
+        });
+
+        $("#saveSection").click(function () {
+            var category = $("#category").val();
+            var sectionName = $("#Section_ID").val();
+            var scorable = $("#scorable").val();
+            var score = parseInt($("#score").val()) || 0;
+            var level = $("#LevelDropdown").val();
+            if (category === "") {
+            alert("Please enter a category.");
+            return;
+        }
+        if (sectionName === "" || sectionName === "Select Section") {
+            alert("Please select a section.");
+            return;
+        }
+        if (scorable === "") {
+            alert("Please select Scorable (Yes/No).");
+            return;
+        }
+
+        if (score === "" || isNaN(score) || parseInt(score) <= 0) {
+            alert("Please enter a valid weightage greater than 0.");
+            return;
+        }
+
+            if (scorable === "Yes" && score >= 100) {
+                alert("Weightage must be less than 100 if Scorable is YES.");
+                return;
+            }
+ 
+
+            if (scorable === "Yes" && (score > 100)) {
+                alert("Total Weightage of all Scorable YES Weightage cannot exceed 100.");
+                return;
+            }
+           var sectionText = $("#Section_ID option:selected").text();
+
+       
+            var newSection = {
+                id: sectionData.length + 1,
+                category: category,
+                sectionName: sectionText,
+                scorable: scorable,
+                score: score,
+                level: level
+            };
+
+            sectionData.push(newSection);
+            console.log(JSON.stringify(sectionData));
+      var totalWeightage = 0;
+              $("#sectionGrid tbody tr").each(function () {
+        var rowScorable = $(this).find("td:eq(3)").text().trim().toLowerCase(); // "Scorable" column (4th column, index 3)
+        var rowScore = parseFloat($(this).find("td:eq(4)").text().trim()); // "Weightage" column (5th column, index 4)
+
+        if (rowScorable === "yes" && !isNaN(rowScore)) {
+            totalWeightage += rowScore;
+        }
+    });
+
+    var score = parseInt($("#score").val()) || 0; // Get the entered score
+
+
+    if (scorable === "Yes" && (totalWeightage + score > 100)) {
+        alert("The total weightage of all 'Scorable: YES' sections cannot exceed 100. Current total after addition: " + (totalWeightage + score));
+        return;
+    }
+
+         
+            var tableBody = $("#sectionGrid tbody");
+            var row = "<tr>" +
+                "<td>" + newSection.id + "</td>" +
+                "<td>" + newSection.category + "</td>" +
+                "<td>" + newSection.sectionName + "</td>" +
+                "<td>" + newSection.scorable + "</td>" +
+                "<td>" + newSection.score + "</td>" +
+                "<td>" + newSection.level + "</td>" +
+                "<td>" +
+                "<button class='btn btn-primary' onclick='editSection(" + JSON.stringify(newSection) + ")'>Edit</button> " +
+                "<button class='btn btn-danger' onclick='deleteSection(" + newSection.id + ")'>Delete</button>" +
+                "</td>" +
+                "</tr>";
+
+            tableBody.append(row);
+
+           
+            $("#addSectionModal").modal("hide");
+            $("#sectionForm")[0].reset();
+        });
+    });
+
+
+    </script>
+
+
+<script>
+
+
+
+     
 
     function ReplicateFormReplicate()
     {
@@ -555,6 +775,60 @@
 
         $(document).ready(function () {
         $("#UpdateDynamicAllFeilds").click(function () {
+
+
+                var sectionDataSection = [];
+    var totalWeightageSection = 0;
+
+    $("#sectionGrid tbody tr").each(function () {
+        var rowScorable = $(this).find("td:eq(3)").text().trim().toLowerCase();
+        var rowScore = parseFloat($(this).find("td:eq(4)").text().trim());
+
+        if (rowScorable === "yes" && !isNaN(rowScore)) {
+            totalWeightageSection += rowScore;
+        }
+
+         let programID = $("#ProgramID").val();
+        let subProgramID = $("#SUBProgramID").val();
+        var section2 = {
+      
+            Category: $(this).find("td:eq(1)").text().trim(),
+            Section: $(this).find("td:eq(2)").text().trim(),
+            Scorable: $(this).find("td:eq(3)").text().trim(),
+            Score: isNaN(rowScore) ? 0 : rowScore,
+            Level: $(this).find("td:eq(5)").text().trim(),
+            ProgramID:programID,
+            SubProgramID:subProgramID
+        };
+
+        sectionDataSection.push(section2);
+    });
+
+  
+            if (totalWeightageSection != 100) {
+                alert("The total weightage of all 'Scorable: YES' weightage cannot exceed 100. Current total after addition: " + totalWeightageSection);
+                return;
+            }
+
+    console.log(JSON.stringify(sectionDataSection));
+    var requestData = { sections: sectionDataSection }; // Wrap the array inside an object
+
+                $.ajax({
+                url: "/ManageForm/UpdatesecionGried",
+                type: "POST",
+                contentType: "application/json",
+                 data: JSON.stringify(requestData),
+                success: function (response) {
+                   
+                },
+                error: function (xhr, status, error) {
+                    alert("Error: " + xhr.responseText);
+                    return;
+                    console.log(xhr);
+                }
+            });
+
+
             var rootCauseValues = collectTableValues("#rootCauseTable");
             var predictiveValues = collectTableValues("#predictiveAnalysisTable");
             var ztClassificationValues = collectTableValues("#ztClassificationTable");
@@ -872,9 +1146,17 @@
         tableBody.empty();
 
         data.forEach((item, index) => {
+              let extraColumns = "";
+
+        if (type === "RootCause") {
+            extraColumns = "<td></td><td></td><td></td><td></td><td></td>";
+        } else if (type === "Predictive") {
+            extraColumns = "<td></td><td></td><td></td><td></td><td></td><td></td>";
+        }
             let row = `<tr>
                 <td>${item.value}</td>
                 <td>${item.text}</td>
+                ${extraColumns}
                 <td>
                    
 
@@ -987,7 +1269,8 @@
             var rowId = row.find(".edit-btn").data("id");
 
             if (rowId == id) {
-                row.find("td:nth-child(2)").text(selectedText); 
+                row.find("td:nth-child(2)").text(selectedText);
+           
             }
         });
 
@@ -999,6 +1282,7 @@
 
             if (rowId == id) {
                 row.find("td:nth-child(2)").text(selectedText);
+                
             }
         });
         }
@@ -1062,25 +1346,25 @@
         var newScore = sectionData.Score;
         var isScorableYes = sectionData.Scorable.toLowerCase() === "yes";
 
-        var totalScore = 0;
-        $("#sectionGrid tbody tr").each(function () {
-            var rowScorable = $(this).find("td:eq(3)").text().trim().toLowerCase();
-            var rowScore = parseFloat($(this).find("td:eq(4)").text().trim()) || 0;
-            var currentRowId = $(this).find("td:eq(0)").text().trim();
+        // var totalScore = 0;
+        // $("#sectionGrid tbody tr").each(function () {
+        //     var rowScorable = $(this).find("td:eq(3)").text().trim().toLowerCase();
+        //     var rowScore = parseFloat($(this).find("td:eq(4)").text().trim()) || 0;
+        //     var currentRowId = $(this).find("td:eq(0)").text().trim();
 
-            if (rowScorable === "yes") {
-                if (currentRowId !== rowId) {
-                    totalScore += rowScore;
-                }
-            }
-        });
-        if (isScorableYes) {
-            totalScore += newScore;
-        }
-        if (totalScore !== 100) {
-            alert("Total weightege for Scorable = 'Yes' must be exactly 100! Current Total: " + totalScore);
-            return;
-        }
+        //     if (rowScorable === "yes") {
+        //         if (currentRowId !== rowId) {
+        //             totalScore += rowScore;
+        //         }
+        //     }
+        // });
+        // if (isScorableYes) {
+        //     totalScore += newScore;
+        // }
+        // if (totalScore !== 100) {
+        //     alert("Total weightege for Scorable = 'Yes' must be exactly 100! Current Total: " + totalScore);
+        //     return;
+        // }
         $.ajax({
             type: "POST",
             url: "/ManageForm/UpdateSection",
