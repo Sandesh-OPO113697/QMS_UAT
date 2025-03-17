@@ -65,7 +65,18 @@ namespace QMS.DataBaseService
 
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandTimeout = 0;
-                        cmd.Parameters.AddWithValue("@Operation", "GetToActivereplicatdForm");
+                        if(UserInfo.UserType=="Admin")
+                        {
+                            cmd.Parameters.AddWithValue("@Operation", "GetToActivereplicatdForm");
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@Operation", "GetToActivereplicatdFormByLocation");
+                            cmd.Parameters.AddWithValue("@LocationID", UserInfo.LocationID);
+
+                        }
+                          
+                        
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
                         await Task.Run(() => adpt.Fill(dt));
                     }
@@ -221,6 +232,41 @@ namespace QMS.DataBaseService
 
 
 
+
+        public async Task<int> UpdateValueInDynamicmasterReplicatedForm(DynamicModelNew model)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("FormCreation", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "UpdateDynamicFeildsReplicated");
+                        cmd.Parameters.AddWithValue("@Root_Cause_Analysis", model.Root_Cause_Analysis ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Predictive_Analysis", model.Predictive_Analysis ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@ZT_Classification", model.ZT_Classification ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Zero_Tolerance", model.Zero_Tolerance ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Process", model.ProgramID > 0 ? model.ProgramID : (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@SubProcess", model.SubProgramID > 0 ? model.SubProgramID : (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName ?? (object)DBNull.Value);
+
+                        int result = await cmd.ExecuteNonQueryAsync();
+                        return result > 0 ? result : 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error: {ex.Message}");
+                return -1;
+            }
+        }
+
+
+
         public async Task<DataTable> GetDynamicGriedAsync(int processID, int SubprocessID)
         {
             DataTable dt = new DataTable();
@@ -236,6 +282,39 @@ namespace QMS.DataBaseService
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandTimeout = 0;
                         cmd.Parameters.AddWithValue("@Operation", "GetDyanamicFeildForedit");
+                        cmd.Parameters.AddWithValue("@processID", processID);
+                        cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
+
+
+        public async Task<DataTable> GetDynamicGriedReplicatedAsync(int processID, int SubprocessID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GetDyanamicFeilReplicatedit");
                         cmd.Parameters.AddWithValue("@processID", processID);
                         cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
@@ -498,7 +577,7 @@ namespace QMS.DataBaseService
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandTimeout = 0;
-                        cmd.Parameters.AddWithValue("@Operation", "GetdynamicFeilds");
+                        cmd.Parameters.AddWithValue("@Operation", "GetDyanamicFeilReplicatedit");
                         cmd.Parameters.AddWithValue("@processID", processID);
                         cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
@@ -531,6 +610,36 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@Operation" , "GetSectionGried");
                         cmd.Parameters.AddWithValue("@processID", processID);
                         cmd.Parameters.AddWithValue("@SubprocessID" , SubprocessID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
+        public async Task<DataTable> GetSectionGriedReplicatedAsync(int processID, int SubprocessID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GetSectionGriedReplicated");
+                        cmd.Parameters.AddWithValue("@processID", processID);
+                        cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
                         await Task.Run(() => adpt.Fill(dt));
                     }
@@ -720,6 +829,75 @@ namespace QMS.DataBaseService
 
             return rowsAffected;
         }
+
+
+
+
+
+        public async Task<int> UpdateSectionfeildsReplicatedForm(List<SectionUpdateModel> fields)
+        {
+            int rowsAffected = 0;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("FormCreation", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "DeleteDectionDataReplicatedForm");
+                        cmd.Parameters.AddWithValue("@Process", fields[0].ProgramID);
+                        cmd.Parameters.AddWithValue("@SubProcess", fields[0].SubProgramID);
+
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    foreach (var field in fields)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("FormCreation", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Operation", "updateDectionFeildReplicated");
+                            cmd.Parameters.AddWithValue("@secCategory", field.Category);
+                            cmd.Parameters.AddWithValue("@secSectionname", field.Section);
+
+                            cmd.Parameters.AddWithValue("@secScorable", field.Scorable);
+                            cmd.Parameters.AddWithValue("@secScore", field.Score);
+                            cmd.Parameters.AddWithValue("@secLevel", field.Level);
+
+                            cmd.Parameters.AddWithValue("@Process", field.ProgramID);
+                            cmd.Parameters.AddWithValue("@SubProcess", field.SubProgramID);
+                            cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+                            cmd.CommandTimeout = 0;
+
+                            object result = await cmd.ExecuteScalarAsync();
+                            rowsAffected += Convert.ToInt32(result);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error inserting dynamic fields: " + ex.Message);
+            }
+
+            return rowsAffected;
+        }
+
 
     }
 }

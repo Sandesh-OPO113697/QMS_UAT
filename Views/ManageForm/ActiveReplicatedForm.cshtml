@@ -34,11 +34,10 @@
                             <td>@row["SubProcessName"]</td>
                             <td>@row["SubprocessID"]</td>
                             <td>
-                                <form method="post" asp-action="ActivateForm">
-                                    <input type="hidden" name="processId" value="@row["Processid"]" />
-                                    <input type="hidden" name="subProcessId" value="@row["SubprocessID"]" />
-                                    <button type="submit" class="btn btn-primary">Activate</button>
-                                </form>
+                                <a asp-action="EditReplicatedForm" asp-route-processId="@row["Processid"]" asp-route-subProcessId="@row["SubprocessID"]" class="btn btn-primary">
+                                    Edit And Active
+                                </a>
+
                             </td>
                         </tr>
                     }

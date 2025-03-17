@@ -22,7 +22,7 @@
                 </div>
 
             </div>
-          
+
             <div class="col-md-6">
                 <div class="form-group mb-3">
                     <label for="SUBProgramID">Sub Program Name</label>
@@ -32,7 +32,7 @@
                 </div>
 
             </div>
-           
+
         </div>
     </div>
 </div>
@@ -66,7 +66,7 @@
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label for="ProgramID">Program Name</label>
-                          @*   @Html.DropDownList(
+                            @*   @Html.DropDownList(
                                      "ProgramID_ForReplic",
                                      (List<SelectListItem>)ViewBag.ProcessList,
                                      "Select Program",
@@ -102,14 +102,14 @@
 
 
 
-              
+
 
             </div>
         </div>
     </div>
 </div>
 
-<div class="card shadow mb-4" id="SectionGried" >
+<div class="card shadow mb-4" id="SectionGried">
     <div class="card-header">
         <strong class="card-title"> Section</strong>
         <button id="AddSection" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px">ADD</button>
@@ -265,8 +265,8 @@
 <div class="card shadow mb-4">
     <div class="card-header">
         <strong class="card-title">ZT Classification</strong>
-        <button id="ZTAdd" class="btn btn-primary mt-4"  style="margin-bottom:20px;margin-left:50px" onclick="AddDropDawon('ztclassification')">ADD</button>
-       
+        <button id="ZTAdd" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px" onclick="AddDropDawon('ztclassification')">ADD</button>
+
     </div>
     <div class="card-body">
         <div class="row">
@@ -299,7 +299,7 @@
                 <input class="form-check-input" type="checkbox" id="noCheckbox" name="zeroTolerance" value="No">
                 <label class="form-check-label" for="noCheckbox">No</label>
             </div>
-           
+
         </div>
     </div>
 </div>
@@ -307,27 +307,26 @@
 
 <div class="card shadow mb-4">
     <div class="card-header">
-    
     </div>
     <div class="card-body">
         <div class="row">
-           
+
             <div class="col-md-2">
                 <div class="form-group mb-3">
                     <button id="UpdateDynamicAllFeilds" class="btn btn-primary mt-4">Update</button>
                 </div>
             </div>
-            <div class="col-md-2">
+           <div class="col-md-2">
                 <div class="form-group mb-3">
-                    <button id="Disableform" class="btn btn-primary mt-4" onclick="DisabeForm()">Disable</button>
+                    <button id="Disableform" class="btn btn-primary mt-4" onclick="ActiveForm()">Active</button>
                 </div>
             </div>
-
+            @*
             <div class="col-md-2">
                 <div class="form-group mb-3">
                     <button id="Disableform" class="btn btn-primary mt-4" onclick="ReplicateForm()">Replicate-Form</button>
                 </div>
-            </div>
+            </div> *@
         </div>
     </div>
 </div>
@@ -406,7 +405,7 @@
                         </select>
                     </div>
                 </form>
-               
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -457,7 +456,7 @@
         });
     }
 
-    </script>
+</script>
 
 <script>
 
@@ -499,7 +498,7 @@
                 alert("Weightage must be less than 100 if Scorable is YES.");
                 return;
             }
- 
+
 
             if (scorable === "Yes" && (score > 100)) {
                 alert("Total Weightage of all Scorable YES Weightage cannot exceed 100.");
@@ -507,7 +506,7 @@
             }
            var sectionText = $("#Section_ID option:selected").text();
 
-       
+
             var newSection = {
                 id: sectionData.length + 1,
                 category: category,
@@ -537,7 +536,7 @@
         return;
     }
 
-         
+
             var tableBody = $("#sectionGrid tbody");
             var row = "<tr>" +
                 "<td>" + newSection.id + "</td>" +
@@ -554,21 +553,21 @@
 
             tableBody.append(row);
 
-           
+
             $("#addSectionModal").modal("hide");
             $("#sectionForm")[0].reset();
         });
     });
 
 
-    </script>
+</script>
 
 
 <script>
 
 
 
-     
+
 
     function ReplicateFormReplicate()
     {
@@ -584,7 +583,7 @@
 
         } else {
 
-              
+
                   $.ajax({
                         type: "POST",
                         data: JSON.stringify({ ProcessIDOLD: ProcessIDOLD, SUBProcessIDOLD: SUBProcessIDOLD , ProcessID: programId , SUBProcessID: subProgramId  }),
@@ -631,7 +630,7 @@
                         dataType: "json",
                         success: function (response) {
                              if (response.success && response.data === 1) {
-                          
+
                         } else {
                             alert("Failed to disable the form. Please try again.");
                         }
@@ -669,7 +668,7 @@
     }
     function onSubProgramChange_ForReplic()
     {
-       
+
     var programId = document.getElementById("ProgramID_ForReplic").value;
            var subProgramId = document.getElementById("SUBProgramID_ForReplic").value;
 
@@ -693,12 +692,12 @@
                            alert("For this Program And Sub Program Form Is Already created,...!");
                            $("#Disableformreplcation").show();
                             $("#Replicateformreplcation").hide();
-                     } 
-                     else 
+                     }
+                     else
                      {
                             $("#Replicateformreplcation").show();
                               $("#Disableformreplcation").hide();
-                            
+
                      }
 
            },
@@ -742,7 +741,7 @@
                     dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
                 });
 
-                
+
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred: " + error);
@@ -764,7 +763,7 @@
             if (subProgramId) {
                 $("#SUBProgramID").val(subProgramId).trigger("change");
 
-               
+
                 onSubProgramChange();
             }
         }, 500);
@@ -793,709 +792,689 @@
 <script>
 
 
-        $(document).ready(function () {
-        $("#UpdateDynamicAllFeilds").click(function () {
+            $(document).ready(function () {
+            $("#UpdateDynamicAllFeilds").click(function () {
 
 
-                var sectionDataSection = [];
-    var totalWeightageSection = 0;
+                    var sectionDataSection = [];
+        var totalWeightageSection = 0;
 
-    $("#sectionGrid tbody tr").each(function () {
-        var rowScorable = $(this).find("td:eq(3)").text().trim().toLowerCase();
-        var rowScore = parseFloat($(this).find("td:eq(4)").text().trim());
+        $("#sectionGrid tbody tr").each(function () {
+            var rowScorable = $(this).find("td:eq(3)").text().trim().toLowerCase();
+            var rowScore = parseFloat($(this).find("td:eq(4)").text().trim());
 
-        if (rowScorable === "yes" && !isNaN(rowScore)) {
-            totalWeightageSection += rowScore;
-        }
-
-         let programID = $("#ProgramID").val();
-        let subProgramID = $("#SUBProgramID").val();
-        var section2 = {
-      
-            Category: $(this).find("td:eq(1)").text().trim(),
-            Section: $(this).find("td:eq(2)").text().trim(),
-            Scorable: $(this).find("td:eq(3)").text().trim(),
-            Score: isNaN(rowScore) ? 0 : rowScore,
-            Level: $(this).find("td:eq(5)").text().trim(),
-            ProgramID:programID,
-            SubProgramID:subProgramID
-        };
-
-        sectionDataSection.push(section2);
-    });
-
-  
-            if (totalWeightageSection != 100) {
-                alert("The total weightage of all 'Scorable: YES' weightage cannot exceed 100. Current total after addition: " + totalWeightageSection);
-                return;
+            if (rowScorable === "yes" && !isNaN(rowScore)) {
+                totalWeightageSection += rowScore;
             }
 
-    console.log(JSON.stringify(sectionDataSection));
-    var requestData = { sections: sectionDataSection }; // Wrap the array inside an object
+             let programID = $("#ProgramID").val();
+            let subProgramID = $("#SUBProgramID").val();
+            var section2 = {
 
-                $.ajax({
-                url: "/ManageForm/UpdatesecionGried",
-                type: "POST",
-                contentType: "application/json",
-                 data: JSON.stringify(requestData),
-                success: function (response) {
-                   
-                },
-                error: function (xhr, status, error) {
-                    alert("Error: " + xhr.responseText);
-                    return;
-                    console.log(xhr);
-                }
-            });
-
-
-            var rootCauseValues = collectTableValues("#rootCauseTable");
-            var predictiveValues = collectTableValues("#predictiveAnalysisTable");
-            var ztClassificationValues = collectTableValues("#ztClassificationTable");
-            var zeroTolerance = $("input[name='zeroTolerance']:checked").val() || "No";
-           var programId = document.getElementById("ProgramID").value;
-        var subProgramId = document.getElementById("SUBProgramID").value;
-            var data = {
-                Root_Cause_Analysis: rootCauseValues,
-                Predictive_Analysis: predictiveValues,
-                ZT_Classification: ztClassificationValues,
-                Zero_Tolerance: zeroTolerance,
-                programId:programId,
-                subProgramId:subProgramId,
-                 IsActive: 1,
-                CreatedBy: "Admin", 
-                UpdatedBy: "Admin",
-                CreatedDate: new Date().toISOString()
+                Category: $(this).find("td:eq(1)").text().trim(),
+                Section: $(this).find("td:eq(2)").text().trim(),
+                Scorable: $(this).find("td:eq(3)").text().trim(),
+                Score: isNaN(rowScore) ? 0 : rowScore,
+                Level: $(this).find("td:eq(5)").text().trim(),
+                ProgramID:programID,
+                SubProgramID:subProgramID
             };
 
-            console.log("Final Data:", data);
-
-            $.ajax({
-                url: "/ManageForm/UpdateDynamicFields",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function (response) {
-                    alert("Form Edited  successfully!");
-                     window.location.href = "/ManageForm/FormBuilder";
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error inserting data:", error);
-                }
-            });
+            sectionDataSection.push(section2);
         });
-    });
 
-    function DisabeForm()
-    {
-         var programId = document.getElementById("ProgramID").value;
-        var subProgramId = document.getElementById("SUBProgramID").value;
 
-        if (subProgramId === "") {
+                if (totalWeightageSection != 100) {
+                    alert("The total weightage of all 'Scorable: YES' weightage cannot exceed 100. Current total after addition: " + totalWeightageSection);
+                    return;
+                }
 
-            alert("Select Valid Sub Program");
+        console.log(JSON.stringify(sectionDataSection));
+        var requestData = { sections: sectionDataSection }; // Wrap the array inside an object
 
-        } else {
+                    $.ajax({
+                    url: "/ManageForm/UpdatesecionGriedReplicatedForm",
+                    type: "POST",
+                    contentType: "application/json",
+                     data: JSON.stringify(requestData),
+                    success: function (response) {
 
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error: " + xhr.responseText);
+                        return;
+                        console.log(xhr);
+                    }
+                });
+
+
+                var rootCauseValues = collectTableValues("#rootCauseTable");
+                var predictiveValues = collectTableValues("#predictiveAnalysisTable");
+                var ztClassificationValues = collectTableValues("#ztClassificationTable");
+                var zeroTolerance = $("input[name='zeroTolerance']:checked").val() || "No";
+               var programId = document.getElementById("ProgramID").value;
+            var subProgramId = document.getElementById("SUBProgramID").value;
+                var data = {
+                    Root_Cause_Analysis: rootCauseValues,
+                    Predictive_Analysis: predictiveValues,
+                    ZT_Classification: ztClassificationValues,
+                    Zero_Tolerance: zeroTolerance,
+                    programId:programId,
+                    subProgramId:subProgramId,
+                     IsActive: 1,
+                    CreatedBy: "Admin",
+                    UpdatedBy: "Admin",
+                    CreatedDate: new Date().toISOString()
+                };
+
+                console.log("Final Data:", data);
 
                 $.ajax({
-        type: "POST",
-        data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
-        url: "/ManageForm/Formdisable",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (response) {
-             if (response.success && response.data === 1) {
-            alert("Success! Form has been disabled.");
-             window.location.href = "/ManageForm/FormBuilder";
-        } else {
-            alert("Failed to disable the form. Please try again.");
-        }
-
-        },
-        error: function (xhr, status, error) {
-            console.error("Error occurred: " + error);
-        }
-    });
-
-
-        }
-    }
-    function collectTableValues(tableId) {
-        var values = [];
-        $(tableId + " tbody tr").each(function () {
-            var value = $(this).find("td:nth-child(1)").text().trim(); 
-            if (value) {
-                values.push(value);
-            }
-        });
-        return values.join(","); 
-    }
-
-
-
-         function AddDropDawon(type) {
-        $.ajax({
-            url: '/ManageForm/GetDynamicDropDawon',
-            type: 'GET',
-            data: { id: 1, type: type },
-            success: function (response) {
-                if (response.success) {
-                    ADDDropdown(response.data, type);
-                    $('#dropdownModalADD').modal('show'); // Show modal
-                } else {
-                    alert('Failed to fetch data!');
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
-    }
-
-    function ADDDropdown(data, type) {
-        console.log("Dropdown Data:", data);
-
-        var $dropdown = $('#dropdownSelect');
-        $dropdown.empty(); // Clear old options
-
-        $.each(data, function (index, item) {
-            $dropdown.append(`<option value="${item.value}">${item.text}</option>`);
+                    url: "/ManageForm/UpdateDynamicFieldsReplicatedForm",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        alert("Form Edited  successfully!");
+                         window.location.href = "/ManageForm/FormBuilder";
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error inserting data:", error);
+                    }
+                });
+            });
         });
 
-        $(".modal-footer").remove();
-         var $modalContent = $('#dropdownModalADD .modal-content, #dropdownModal .modal-content');
+        function ActiveForm()
+        {
+             var programId = document.getElementById("ProgramID").value;
+            var subProgramId = document.getElementById("SUBProgramID").value;
 
-        $modalContent.append(`
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="closeModal2()">Close</button>
-            <button type="button" class="btn btn-success" onclick="ADDSelection('${type}')">ADD</button>
-        </div>
-    `);
-    }
+            if (subProgramId === "") {
 
-    function ADDSelection(type) {
-        var selectedValue = $('#dropdownSelect').val();
-        var selectedText = $('#dropdownSelect option:selected').text();
+                alert("Select Valid Sub Program");
 
-        if (!selectedValue) {
-            alert('Please select a value!');
-            return;
-        }
-
-        var tableId = "";
-        switch (type) {
-            case "ztclassification":
-                tableId = "#ztClassificationTable";
-                break;
-            case "predictive":
-                tableId = "#predictiveAnalysisTable";
-                break;
-            case "rootcause":
-                tableId = "#rootCauseTable";
-                break;
-            default:
-                alert("Invalid type");
-                return;
-        }
-
-        var isDuplicate = false;
-    $(tableId + " tbody tr").each(function () {
-        var existingValue = $(this).find("td:first").text().trim();
-        if (existingValue === selectedValue) {
-            isDuplicate = true;
-            return false; // Exit loop early
-        }
-    });
-
-    if (isDuplicate) {
-        alert("This item is already added to the list.");
-        return;
-    }
-     let extraColumns = "";
-    if (type.toLowerCase() === "rootcause") {
-        extraColumns = "<td></td><td></td><td></td><td></td><td></td>";
-    } else if (type.toLowerCase() === "predictive") {
-        extraColumns = "<td></td><td></td><td></td><td></td><td></td><td></td>";
-    }
-        $(tableId + " tbody").append(`
-
-            <tr>
-                <td>${selectedValue}</td>
-                <td>${selectedText}</td>
-                ${extraColumns}
-                    <td>
-          
-            <button class='btn btn-danger btn-sm' onclick='deleteSection(${selectedValue})'>Delete</button>
-        </td>
-            </tr>
-        `);
-
-        $('#dropdownModalADD').modal('hide'); // Close modal
-    }
-
-    function closeModal2() {
-        $('#dropdownModalADD').modal('hide');
-    }
+            } else {
 
 
-
-    function onProgramChange() {
-        var programId = document.getElementById("ProgramID").value;
-        if (programId === "") {
-            alert("Select Valid  Program");
-            return;
-
-        }
-
-        $("#SectionGried").hide();
-        // $("#DynamicTable").hide();
-        $.ajax({
+                    $.ajax({
             type: "POST",
-            data: JSON.stringify({ id: programId }),
-
-            url: "/Admin/GetSUBProcessList",
+            data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+            url: "/ManageForm/ActivateReplicatedFormByID",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-
-                console.log(response.d);
-                var dropdown = $('#SUBProgramID');
-                dropdown.empty();
-                dropdown.append('<option value="">Select Process</option>');
-                response.proces.forEach(function (item) {
-                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
-                });
-
-                if (response.proces && response.proces.length > 0) {
-
-                } else {
-
-
-                }
+                
+                alert("Success! Form has been Activated.");
+                 window.location.href = "/ManageForm/FormBuilder";
+          
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred: " + error);
             }
         });
 
-    }
 
-
-
-
-    function populateGrid(data) {
-        var tableBody = $("#sectionGrid tbody");
-        tableBody.empty();
-        if (data.length === 0) {
-            tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
-            return;
+            }
         }
-        console.log(JSON.stringify(data));
-        $.each(data, function (index, item) {
-            var row = "<tr>" +
-                "<td>" + item.id + "</td>" +
-                "<td>" + item.category + "</td>" +
-                "<td>" + item.sectionName + "</td>" +
-
-                "<td>" + item.scorable + "</td>" +
-                "<td>" + item.score + "</td>" +
-                "<td>" + item.level + "</td>" +
-
-                "<td>" +
-                "<button class='btn btn-primary' onclick='editSection(" + JSON.stringify(item) + ")'>Edit</button> " +
-                "<button class='btn btn-danger' onclick='deleteSection(" + item.id + ")'>Delete</button>" +
-                "</td>" +
-                "</tr>";
-
-            tableBody.append(row);
-        });
-    }
-    function onSubProgramChange() {
-        var programId = document.getElementById("ProgramID").value;
-        var subProgramId = document.getElementById("SUBProgramID").value;
-
-        if (subProgramId === "") {
-
-            alert("Select Valid Sub Program");
-
-        } else {
-          
-
-                $.ajax({
-        type: "POST",
-        data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
-        url: "/ManageForm/GetSectionGried",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (response) {
-            $("#SectionGried").show();
-
-            console.log("Full Response:", response); 
-
-            populateGrid(response.sectionGrid);
-             if (response?.filteredPredictiveList?.length > 0) {
-            populateTable("#predictiveAnalysisTable", response.filteredPredictiveList, "Predictive");
-        } else {
-            console.error("filteredPredictiveList is empty.");
-        }
-
-       
-        if (response?.filteredZTClassificationList?.length > 0) {
-            populateTable("#ztClassificationTable", response.filteredZTClassificationList, "ZTClassification");
-        } else {
-            console.error("filteredZTClassificationList is empty.");
-        }
-
-          if (response?.filteredRoutwCauseList?.length > 0) {
-            populateTable("#rootCauseTable", response.filteredRoutwCauseList, "RootCause");
-        } else {
-            console.error("filteredRoutwCauseList is empty.");
-        }
-
-            if (response?.zeroTolerance === "Yes") {
-            $("#yesCheckbox").prop("checked", true);
-                } else {
-                    $("#noCheckbox").prop("checked", true);
+        function collectTableValues(tableId) {
+            var values = [];
+            $(tableId + " tbody tr").each(function () {
+                var value = $(this).find("td:nth-child(1)").text().trim();
+                if (value) {
+                    values.push(value);
                 }
-
-        },
-        error: function (xhr, status, error) {
-            console.error("Error occurred: " + error);
-        }
-    });
-
-
-        }
-    }
-           function populateTable(tableId, data, type) {
-        let tableBody = $(tableId + " tbody");
-        tableBody.empty();
-
-        data.forEach((item, index) => {
-              let extraColumns = "";
-
-        if (type === "RootCause") {
-            extraColumns = "<td></td><td></td><td></td><td></td><td></td>";
-        } else if (type === "Predictive") {
-            extraColumns = "<td></td><td></td><td></td><td></td><td></td><td></td>";
-        }
-            let row = `<tr>
-                <td>${item.value}</td>
-                <td>${item.text}</td>
-                ${extraColumns}
-                <td>
-                   
-
-                    <button class="btn btn-danger btn-sm delete-btn" data-id="${item.value}" data-type="${type}">Delete</button>
-                </td>
-            </tr>`;
-            tableBody.append(row);
-        });
-
-
-          $(".delete-btn").on("click", function () {
-        let id = $(this).data("id");
-        let type = $(this).data("type");
-        console.log(`Delete Clicked for ${type} ID:`, id);
-        DeleteItem(id, type, $(this));
-    });
-        $(".edit-btn").on("click", function () {
-            let id = $(this).data("id");
-            let type = $(this).data("type");
-            console.log(`Edit Clicked for ${type} ID:`, id);
-            editItem(id, type);
-        });
-
-    }
-       function DeleteItem(id, type, button) {
-        let tableId = "";
-
-        if (type === "ZTClassification") {
-            tableId = "#ztClassificationTable";
-        } else if (type === "Predictive") {
-            tableId = "#predictiveAnalysisTable";
-        } else if (type === "RootCause") {
-            tableId = "#rootCauseTable";
+            });
+            return values.join(",");
         }
 
-        if (tableId) {
-            $(button).closest("tr").remove(); 
-        }
-    }
-       function editItem(id, type) {
 
-                 $.ajax({
-                    url: '/ManageForm/GetDynamicDropDawon',
-                    type: 'GET',
-                    data: { id: id, type: type },
-                    success: function (response) {
-                        populateDropdown(response.data, id, type);
-                          $('#dropdownModal').modal('show');
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
+
+             function AddDropDawon(type) {
+            $.ajax({
+                url: '/ManageForm/GetDynamicDropDawon',
+                type: 'GET',
+                data: { id: 1, type: type },
+                success: function (response) {
+                    if (response.success) {
+                        ADDDropdown(response.data, type);
+                        $('#dropdownModalADD').modal('show'); // Show modal
+                    } else {
+                        alert('Failed to fetch data!');
                     }
-                });
-    }
-            function populateDropdown(data, selectedId, type) {
-        console.log("Dropdown Data:", data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
 
-        var $dropdown = $('#dynamicDropdown');
-        $dropdown.empty();
-        $.each(data, function (index, item) {
-            var isSelected = item.value == selectedId ? 'selected' : '';
-            $dropdown.append(`<option value="${item.value}" ${isSelected}>${item.text}</option>`);
-        });
+        function ADDDropdown(data, type) {
+            console.log("Dropdown Data:", data);
 
-        $(".modal-footer").remove();
+            var $dropdown = $('#dropdownSelect');
+            $dropdown.empty(); // Clear old options
 
-        $(".modal-content").append(`
+            $.each(data, function (index, item) {
+                $dropdown.append(`<option value="${item.value}">${item.text}</option>`);
+            });
+
+            $(".modal-footer").remove();
+             var $modalContent = $('#dropdownModalADD .modal-content, #dropdownModal .modal-content');
+
+            $modalContent.append(`
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
-
-               <button type="button" class="btn btn-success" onclick="saveSelection('${selectedId}', '${type}')">Save</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal2()">Close</button>
+                <button type="button" class="btn btn-success" onclick="ADDSelection('${type}')">ADD</button>
             </div>
         `);
-    }
+        }
 
+        function ADDSelection(type) {
+            var selectedValue = $('#dropdownSelect').val();
+            var selectedText = $('#dropdownSelect option:selected').text();
 
-        function closeModal() {
+            if (!selectedValue) {
+                alert('Please select a value!');
+                return;
+            }
 
-        $('#dropdownModal').modal('hide');
-    }
+            var tableId = "";
+            switch (type) {
+                case "ztclassification":
+                    tableId = "#ztClassificationTable";
+                    break;
+                case "predictive":
+                    tableId = "#predictiveAnalysisTable";
+                    break;
+                case "rootcause":
+                    tableId = "#rootCauseTable";
+                    break;
+                default:
+                    alert("Invalid type");
+                    return;
+            }
 
+            var isDuplicate = false;
+        $(tableId + " tbody tr").each(function () {
+            var existingValue = $(this).find("td:first").text().trim();
+            if (existingValue === selectedValue) {
+                isDuplicate = true;
+                return false; // Exit loop early
+            }
+        });
 
-        function saveSelection(id , type) {
-       
-        var selectedValue = $('#dynamicDropdown').val();
-        var selectedText = $('#dynamicDropdown option:selected').text();
-
-        if (!id) {
-            alert('Error: No row is selected for editing.');
+        if (isDuplicate) {
+            alert("This item is already added to the list.");
             return;
         }
+         let extraColumns = "";
+        if (type.toLowerCase() === "rootcause") {
+            extraColumns = "<td></td><td></td><td></td><td></td><td></td>";
+        } else if (type.toLowerCase() === "predictive") {
+            extraColumns = "<td></td><td></td><td></td><td></td><td></td><td></td>";
+        }
+            $(tableId + " tbody").append(`
 
-         if (type === "ZTClassification") {
-        
-            
-       $("#ztClassificationTable tbody tr").each(function () {
-            var row = $(this);
-            var rowId = row.find(".edit-btn").data("id");
+                <tr>
+                    <td>${selectedValue}</td>
+                    <td>${selectedText}</td>
+                    ${extraColumns}
+                        <td>
 
-            if (rowId == id) {
-                row.find("td:nth-child(2)").text(selectedText); 
-            }
-        });
+                <button class='btn btn-danger btn-sm' onclick='deleteSection(${selectedValue})'>Delete</button>
+            </td>
+                </tr>
+            `);
 
-        } else if (type === "Predictive") {
-        
-            
-       $("#predictiveAnalysisTable tbody tr").each(function () {
-            var row = $(this);
-            var rowId = row.find(".edit-btn").data("id");
+            $('#dropdownModalADD').modal('hide'); // Close modal
+        }
 
-            if (rowId == id) {
-                row.find("td:nth-child(2)").text(selectedText);
-           
-            }
-        });
-
-        } else if (type === "RootCause") {
-
-       $("#rootCauseTable tbody tr").each(function () {
-            var row = $(this);
-            var rowId = row.find(".edit-btn").data("id");
-
-            if (rowId == id) {
-                row.find("td:nth-child(2)").text(selectedText);
-                
-            }
-        });
+        function closeModal2() {
+            $('#dropdownModalADD').modal('hide');
         }
 
 
 
-        $('#dropdownModal').modal('hide');
-    }
+        function onProgramChange() {
+            var programId = document.getElementById("ProgramID").value;
+            if (programId === "") {
+                alert("Select Valid  Program");
+                return;
+
+            }
+
+            $("#SectionGried").hide();
+            // $("#DynamicTable").hide();
+            $.ajax({
+                type: "POST",
+                data: JSON.stringify({ id: programId }),
+
+                url: "/Admin/GetSUBProcessList",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    console.log(response.d);
+                    var dropdown = $('#SUBProgramID');
+                    dropdown.empty();
+                    dropdown.append('<option value="">Select Process</option>');
+                    response.proces.forEach(function (item) {
+                        dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                    });
+
+                    if (response.proces && response.proces.length > 0) {
+
+                    } else {
 
 
-    function editSection(item) {
-        $("#editId").val(item.id);
-        $("#editCategory").val(item.category);
-        $("#editScore").val(item.score);
-        $("#editLevel").val(item.level);
-        $("#editScorable").val(item.scorable);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
+
+        }
 
 
-        let categoryid = item.categoryid;
-
-        console.log("Category ID: " + categoryid);
 
 
-        $.ajax({
-            url: "/ManageForm/GetDropdownData",
-            type: "GET",
+        function populateGrid(data) {
+            var tableBody = $("#sectionGrid tbody");
+            tableBody.empty();
+            if (data.length === 0) {
+                tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
+                return;
+            }
+            console.log(JSON.stringify(data));
+            $.each(data, function (index, item) {
+                var row = "<tr>" +
+                    "<td>" + item.id + "</td>" +
+                    "<td>" + item.category + "</td>" +
+                    "<td>" + item.sectionName + "</td>" +
+
+                    "<td>" + item.scorable + "</td>" +
+                    "<td>" + item.score + "</td>" +
+                    "<td>" + item.level + "</td>" +
+
+                    "<td>" +
+                    "<button class='btn btn-primary' onclick='editSection(" + JSON.stringify(item) + ")'>Edit</button> " +
+                    "<button class='btn btn-danger' onclick='deleteSection(" + item.id + ")'>Delete</button>" +
+                    "</td>" +
+                    "</tr>";
+
+                tableBody.append(row);
+            });
+        }
+        function onSubProgramChange() {
+            var programId = document.getElementById("ProgramID").value;
+            var subProgramId = document.getElementById("SUBProgramID").value;
+
+            if (subProgramId === "") {
+
+                alert("Select Valid Sub Program");
+
+            } else {
+
+
+                    $.ajax({
+            type: "POST",
+            data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+            url: "/ManageForm/GetSectionGriedForReplicateForm",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             success: function (response) {
-                var sectionDropdown = $("#editSection");
-                sectionDropdown.empty();
-                response.sections.forEach(function (section) {
-                    let isSelected = section.id == categoryid;
-                    sectionDropdown.append(new Option(section.name, section.id, false, isSelected));
-                });
+                $("#SectionGried").show();
 
-                 var LevelDropdown = $("#editLevel");
+                console.log("Full Response:", response);
 
-                    if (LevelDropdown.length) {
-                        LevelDropdown.val(LevelDropdown.val());
+                populateGrid(response.sectionGrid);
+                 if (response?.filteredPredictiveList?.length > 0) {
+                populateTable("#predictiveAnalysisTable", response.filteredPredictiveList, "Predictive");
+            } else {
+                console.error("filteredPredictiveList is empty.");
+            }
+
+
+            if (response?.filteredZTClassificationList?.length > 0) {
+                populateTable("#ztClassificationTable", response.filteredZTClassificationList, "ZTClassification");
+            } else {
+                console.error("filteredZTClassificationList is empty.");
+            }
+
+              if (response?.filteredRoutwCauseList?.length > 0) {
+                populateTable("#rootCauseTable", response.filteredRoutwCauseList, "RootCause");
+            } else {
+                console.error("filteredRoutwCauseList is empty.");
+            }
+
+                if (response?.zeroTolerance === "Yes") {
+                $("#yesCheckbox").prop("checked", true);
+                    } else {
+                        $("#noCheckbox").prop("checked", true);
                     }
 
-
-                $("#editModal").modal("show");
             },
             error: function (xhr, status, error) {
-                console.error("Error fetching dropdown data: " + error);
+                console.error("Error occurred: " + error);
             }
         });
+
+
+            }
+        }
+               function populateTable(tableId, data, type) {
+            let tableBody = $(tableId + " tbody");
+            tableBody.empty();
+
+            data.forEach((item, index) => {
+                  let extraColumns = "";
+
+            if (type === "RootCause") {
+                extraColumns = "<td></td><td></td><td></td><td></td><td></td>";
+            } else if (type === "Predictive") {
+                extraColumns = "<td></td><td></td><td></td><td></td><td></td><td></td>";
+            }
+                let row = `<tr>
+                    <td>${item.value}</td>
+                    <td>${item.text}</td>
+                    ${extraColumns}
+                    <td>
+
+
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="${item.value}" data-type="${type}">Delete</button>
+                    </td>
+                </tr>`;
+                tableBody.append(row);
+            });
+
+
+              $(".delete-btn").on("click", function () {
+            let id = $(this).data("id");
+            let type = $(this).data("type");
+            console.log(`Delete Clicked for ${type} ID:`, id);
+            DeleteItem(id, type, $(this));
+        });
+            $(".edit-btn").on("click", function () {
+                let id = $(this).data("id");
+                let type = $(this).data("type");
+                console.log(`Edit Clicked for ${type} ID:`, id);
+                editItem(id, type);
+            });
+
+        }
+           function DeleteItem(id, type, button) {
+            let tableId = "";
+
+            if (type === "ZTClassification") {
+                tableId = "#ztClassificationTable";
+            } else if (type === "Predictive") {
+                tableId = "#predictiveAnalysisTable";
+            } else if (type === "RootCause") {
+                tableId = "#rootCauseTable";
+            }
+
+            if (tableId) {
+                $(button).closest("tr").remove();
+            }
+        }
+           function editItem(id, type) {
+
+                     $.ajax({
+                        url: '/ManageForm/GetDynamicDropDawon',
+                        type: 'GET',
+                        data: { id: id, type: type },
+                        success: function (response) {
+                            populateDropdown(response.data, id, type);
+                              $('#dropdownModal').modal('show');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+        }
+                function populateDropdown(data, selectedId, type) {
+            console.log("Dropdown Data:", data);
+
+            var $dropdown = $('#dynamicDropdown');
+            $dropdown.empty();
+            $.each(data, function (index, item) {
+                var isSelected = item.value == selectedId ? 'selected' : '';
+                $dropdown.append(`<option value="${item.value}" ${isSelected}>${item.text}</option>`);
+            });
+
+            $(".modal-footer").remove();
+
+            $(".modal-content").append(`
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+
+                   <button type="button" class="btn btn-success" onclick="saveSelection('${selectedId}', '${type}')">Save</button>
+                </div>
+            `);
+        }
+
+
+            function closeModal() {
+
+            $('#dropdownModal').modal('hide');
+        }
+
+
+            function saveSelection(id , type) {
+
+            var selectedValue = $('#dynamicDropdown').val();
+            var selectedText = $('#dynamicDropdown option:selected').text();
+
+            if (!id) {
+                alert('Error: No row is selected for editing.');
+                return;
+            }
+
+             if (type === "ZTClassification") {
+
+
+           $("#ztClassificationTable tbody tr").each(function () {
+                var row = $(this);
+                var rowId = row.find(".edit-btn").data("id");
+
+                if (rowId == id) {
+                    row.find("td:nth-child(2)").text(selectedText);
+                }
+            });
+
+            } else if (type === "Predictive") {
+
+
+           $("#predictiveAnalysisTable tbody tr").each(function () {
+                var row = $(this);
+                var rowId = row.find(".edit-btn").data("id");
+
+                if (rowId == id) {
+                    row.find("td:nth-child(2)").text(selectedText);
+
+                }
+            });
+
+            } else if (type === "RootCause") {
+
+           $("#rootCauseTable tbody tr").each(function () {
+                var row = $(this);
+                var rowId = row.find(".edit-btn").data("id");
+
+                if (rowId == id) {
+                    row.find("td:nth-child(2)").text(selectedText);
+
+                }
+            });
+            }
+
+
+
+            $('#dropdownModal').modal('hide');
+        }
+
+
+        function editSection(item) {
+            $("#editId").val(item.id);
+            $("#editCategory").val(item.category);
+            $("#editScore").val(item.score);
+            $("#editLevel").val(item.level);
+            $("#editScorable").val(item.scorable);
+
+
+            let categoryid = item.categoryid;
+
+            console.log("Category ID: " + categoryid);
+
+
+            $.ajax({
+                url: "/ManageForm/GetDropdownData",
+                type: "GET",
+                success: function (response) {
+                    var sectionDropdown = $("#editSection");
+                    sectionDropdown.empty();
+                    response.sections.forEach(function (section) {
+                        let isSelected = section.id == categoryid;
+                        sectionDropdown.append(new Option(section.name, section.id, false, isSelected));
+                    });
+
+                     var LevelDropdown = $("#editLevel");
+
+                        if (LevelDropdown.length) {
+                            LevelDropdown.val(LevelDropdown.val());
+                        }
+
+
+                    $("#editModal").modal("show");
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching dropdown data: " + error);
+                }
+            });
+        }
+
+        function updateSection() {
+                var selectedText = $("#editSection option:selected").text();
+        console.log(selectedText);
+
+        var sectionData = {
+            id: $("#editId").val(),
+            category: $("#editCategory").val(),
+                sectionName: selectedText, // Corrected key
+            scorable: $("#editScorable").val(),
+            score: parseFloat($("#editScore").val()) || 0,
+            level: $("#editLevel").val(),
+        };
+
+        // Find and update the correct row
+        $("#sectionGrid tbody tr").each(function () {
+            var row = $(this);
+            var rowId = row.find("td:first").text(); // Get the ID from the first column
+
+            if (rowId == sectionData.id) {
+                // Update the row values
+                row.find("td:eq(1)").text(sectionData.category);
+                row.find("td:eq(2)").text(sectionData.sectionName);
+                row.find("td:eq(3)").text(sectionData.scorable);
+                row.find("td:eq(4)").text(sectionData.score);
+                row.find("td:eq(5)").text(sectionData.level);
+
+                return false; // Stop looping after finding and updating the row
+            }
+        });
+
+        // Close the modal after updating
+        $("#editModal").modal("hide");
     }
 
-    function updateSection() {
-            var selectedText = $("#editSection option:selected").text();
-    console.log(selectedText);
 
-    var sectionData = {
-        id: $("#editId").val(),
-        category: $("#editCategory").val(),
-            sectionName: selectedText, // Corrected key
-        scorable: $("#editScorable").val(),
-        score: parseFloat($("#editScore").val()) || 0,
-        level: $("#editLevel").val(),
-    };
+        //    function updateSection() {
+        //     var sectionData = {
+        //         Id: $("#editId").val(),
+        //         Category: $("#editCategory").val(),
+        //         SectionId: $("#editSection").val(),
+        //         Scorable: $("#editScorable").val(),
+        //         Score: parseFloat($("#editScore").val()) || 0,
+        //         Level: $("#editLevel").val(),
+        //     };
 
-    // Find and update the correct row
-    $("#sectionGrid tbody tr").each(function () {
-        var row = $(this);
-        var rowId = row.find("td:first").text(); // Get the ID from the first column
 
-        if (rowId == sectionData.id) {
-            // Update the row values
-            row.find("td:eq(1)").text(sectionData.category);
-            row.find("td:eq(2)").text(sectionData.sectionName);
-            row.find("td:eq(3)").text(sectionData.scorable);
-            row.find("td:eq(4)").text(sectionData.score);
-            row.find("td:eq(5)").text(sectionData.level);
+        //      $("#sectionGrid tbody tr").each(function () {
+        //     var row = $(this);
+        //     var rowId = row.find("td:first").text(); // Get the ID from the first column
 
-            return false; // Stop looping after finding and updating the row
+        //     if (rowId == updatedSection.id) {
+        //         // Update the row values
+        //         row.find("td:eq(1)").text(updatedSection.category);
+        //         row.find("td:eq(2)").text(updatedSection.sectionName);
+        //         row.find("td:eq(3)").text(updatedSection.scorable);
+        //         row.find("td:eq(4)").text(updatedSection.score);
+        //         row.find("td:eq(5)").text(updatedSection.level);
+
+        //         return false; // Stop looping once the correct row is found and updated
+        //     }
+        // });
+
+        // // Close the modal after updating
+        // $("#editModal").modal("hide");
+        //     // var rowId = $("#editId").val();
+        //     // var newScore = sectionData.Score;
+        //     // var isScorableYes = sectionData.Scorable.toLowerCase() === "yes";
+
+        //     // var totalScore = 0;
+        //     // $("#sectionGrid tbody tr").each(function () {
+        //     //     var rowScorable = $(this).find("td:eq(3)").text().trim().toLowerCase();
+        //     //     var rowScore = parseFloat($(this).find("td:eq(4)").text().trim()) || 0;
+        //     //     var currentRowId = $(this).find("td:eq(0)").text().trim();
+
+        //     //     if (rowScorable === "yes") {
+        //     //         if (currentRowId !== rowId) {
+        //     //             totalScore += rowScore;
+        //     //         }
+        //     //     }
+        //     // });
+        //     // if (isScorableYes) {
+        //     //     totalScore += newScore;
+        //     // }
+        //     // if (totalScore !== 100) {
+        //     //     alert("Total weightege for Scorable = 'Yes' must be exactly 100! Current Total: " + totalScore);
+        //     //     return;
+        //     // }
+        //     // $.ajax({
+        //     //     type: "POST",
+        //     //     url: "/ManageForm/UpdateSection",
+        //     //     contentType: "application/json",
+        //     //     data: JSON.stringify(sectionData),
+        //     //     success: function () {
+        //     //         $("#editModal").modal("hide");
+        //     //         onSubProgramChange();
+        //     //     },
+        //     //     error: function (xhr, status, error) {
+        //     //         console.error("Error updating section: " + error);
+        //     //     }
+        //     // });
+        // }
+
+        function toggleDropdown() {
+            let valueType = $("#DnyvalueType").val();
+            if (valueType === "dropdown") {
+                $("#dropdownValuesContainer").show();
+            } else {
+                $("#dropdownValuesContainer").hide();
+            }
         }
-    });
-
-    // Close the modal after updating
-    $("#editModal").modal("hide");
-}
-
-
-    //    function updateSection() {
-    //     var sectionData = {
-    //         Id: $("#editId").val(),
-    //         Category: $("#editCategory").val(),
-    //         SectionId: $("#editSection").val(),
-    //         Scorable: $("#editScorable").val(),
-    //         Score: parseFloat($("#editScore").val()) || 0,
-    //         Level: $("#editLevel").val(),
-    //     };
-
-
-    //      $("#sectionGrid tbody tr").each(function () {
-    //     var row = $(this);
-    //     var rowId = row.find("td:first").text(); // Get the ID from the first column
-
-    //     if (rowId == updatedSection.id) {
-    //         // Update the row values
-    //         row.find("td:eq(1)").text(updatedSection.category);
-    //         row.find("td:eq(2)").text(updatedSection.sectionName);
-    //         row.find("td:eq(3)").text(updatedSection.scorable);
-    //         row.find("td:eq(4)").text(updatedSection.score);
-    //         row.find("td:eq(5)").text(updatedSection.level);
-
-    //         return false; // Stop looping once the correct row is found and updated
-    //     }
-    // });
-
-    // // Close the modal after updating
-    // $("#editModal").modal("hide");
-    //     // var rowId = $("#editId").val();
-    //     // var newScore = sectionData.Score;
-    //     // var isScorableYes = sectionData.Scorable.toLowerCase() === "yes";
-
-    //     // var totalScore = 0;
-    //     // $("#sectionGrid tbody tr").each(function () {
-    //     //     var rowScorable = $(this).find("td:eq(3)").text().trim().toLowerCase();
-    //     //     var rowScore = parseFloat($(this).find("td:eq(4)").text().trim()) || 0;
-    //     //     var currentRowId = $(this).find("td:eq(0)").text().trim();
-
-    //     //     if (rowScorable === "yes") {
-    //     //         if (currentRowId !== rowId) {
-    //     //             totalScore += rowScore;
-    //     //         }
-    //     //     }
-    //     // });
-    //     // if (isScorableYes) {
-    //     //     totalScore += newScore;
-    //     // }
-    //     // if (totalScore !== 100) {
-    //     //     alert("Total weightege for Scorable = 'Yes' must be exactly 100! Current Total: " + totalScore);
-    //     //     return;
-    //     // }
-    //     // $.ajax({
-    //     //     type: "POST",
-    //     //     url: "/ManageForm/UpdateSection",
-    //     //     contentType: "application/json",
-    //     //     data: JSON.stringify(sectionData),
-    //     //     success: function () {
-    //     //         $("#editModal").modal("hide");
-    //     //         onSubProgramChange();
-    //     //     },
-    //     //     error: function (xhr, status, error) {
-    //     //         console.error("Error updating section: " + error);
-    //     //     }
-    //     // });
-    // }
-
-    function toggleDropdown() {
-        let valueType = $("#DnyvalueType").val();
-        if (valueType === "dropdown") {
-            $("#dropdownValuesContainer").show();
-        } else {
-            $("#dropdownValuesContainer").hide();
-        }
-    }
 
 
 
 
-    function deleteSection(id) {
-           if (confirm("Are you sure you want to delete this section?")) {
-                    $("#sectionGrid tbody tr").filter(function () {
-                return $(this).find("td:first").text() == id;
-            }).remove();
-               // $.ajax({
-               //     url: "/ManageForm/DeleteSection",
-               //     type: "POST",
-               //     contentType: "application/json",
-               //     data: JSON.stringify({ Id: id }),
-               //     success: function (response) {
-               //         if (response.success) {
-               //             alert("Section deleted successfully!");
-               //             location.reload();
-               //         } else {
-               //             alert("Error deleting section: " + response.message);
-               //         }
-               //     },
-               //     error: function (xhr, status, error) {
-               //         console.error("Error occurred: " + error);
-               //         alert("An error occurred while deleting the section.");
-               //     }
-               // });
-               }
-               }
+        function deleteSection(id) {
+               if (confirm("Are you sure you want to delete this section?")) {
+                        $("#sectionGrid tbody tr").filter(function () {
+                    return $(this).find("td:first").text() == id;
+                }).remove();
+                  
+                   }
+                   }
 </script>

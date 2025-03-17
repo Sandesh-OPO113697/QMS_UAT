@@ -22,30 +22,49 @@ namespace QMS.Controllers
         [HttpPost("ManageForm/GetProcessListAsync")]
         public async Task< JsonResult> GetProcessListAsync([FromBody] DropDawon model)
         {
-           
 
-            if(UserInfo.UserType=="Admin")
-            {
-                DataTable dt = await dl_FormBuilder.GetProcessListAsync();
-                var processList = dt.AsEnumerable().Select(row => new SelectListItem
-                {
-                    Value = row["ID"].ToString(),
-                    Text = $"{row["ProcessName"]}",
-                }).ToList();
-            }
-            else
-            {
-                var data = await _admin.GetProcessListByLocation(UserInfo.LocationID);
-                var processList = data.AsEnumerable().Select(row => new SelectListItem
-                {
-                    Value = row["ID"].ToString(),
-                    Text = $"{row["ProcessName"]}",
-                }).ToList();
-                
-            }
+            var locations = await _admin.GetLocationAsync();
+
+            var location = locations.FirstOrDefault(l => l.Value == model.Id.ToString())?.Text;
+
+            List<SelectListItem> processList = new List<SelectListItem>();
+
             
 
-            return Json(new { success = true });
+            try
+            {
+                if (UserInfo.UserType == "Admin")
+                {
+                    DataTable dt = await dl_FormBuilder.GetProcessListAsync();
+                    processList = dt.AsEnumerable()
+                        .Where(row => row["LocationName"].ToString() == location)
+                        .Select(row => new SelectListItem
+                        {
+                            Value = row["ID"].ToString(),
+                            Text = row["ProcessName"].ToString(),
+                        }).ToList();
+                }
+                else
+                {
+                    var data = await _admin.GetProcessListByLocation(UserInfo.LocationID);
+
+                    processList = data.AsEnumerable()
+                        .Where(row => row["LocationName"].ToString() == location) 
+                        .Select(row => new SelectListItem
+                        {
+                            Value = row["ID"].ToString(),
+                            Text = row["ProcessName"].ToString(),
+                        }).ToList();
+                }
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+          
+
+            return Json(new { success = true, processList });
         }
 
         [HttpPost]
@@ -63,6 +82,29 @@ namespace QMS.Controllers
                 : Json(new { success = false, message = "Failed to insert data." });
         }
 
+        [HttpPost]
+        public async Task<JsonResult> UpdatesecionGriedReplicatedForm([FromBody] SectionFormDataUpdateModel request)
+        {
+            if (request == null || request.sections == null || request.sections.Count == 0)
+            {
+                return Json(new { success = false, message = "No data received" });
+            }
+
+            int result = await dl_FormBuilder.UpdateSectionfeildsReplicatedForm(request.sections);
+
+            return result > 0
+                ? Json(new { success = true, message = "Form Created  successfully!" })
+                : Json(new { success = false, message = "Failed to insert data." });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActivateReplicatedFormByID([FromBody] Process_SUbProcess id)
+        {
+
+            bool success = await dl_FormBuilder.ActivateFormByID(id.ProcessID, id.SUBProcessID);
+
+            return Json(new { success = true, message = "Form Is Activated Successfully...!" });
+        }
 
         [HttpPost]
         public async Task<IActionResult> ActivateForm(int processId, int subProcessId)
@@ -72,7 +114,58 @@ namespace QMS.Controllers
 
             return RedirectToAction("ActiveReplicatedForm");
         }
+        public async Task<IActionResult> EditReplicatedForm(int processId, int subProcessId)
+        {
 
+            var Location = await _admin.GetLocationAsync();
+            ViewBag.Locations = Location;
+            DataSet dt = await dl_FormBuilder.GetSectionFeildAsync();
+            var data1 = dt.Tables[0];
+
+            var Section_Category = data1.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["id"].ToString(),
+                Text = $"{row["SectionName"]}",
+            }).ToList();
+            ViewBag.Section_Category = Section_Category;
+
+            ViewBag.ProgramId = processId;
+            ViewBag.SubProgramId = subProcessId;
+            string locationid = UserInfo.LocationID;
+            var data = await _admin.GetProcessListByLocation(locationid);
+            var processList = data.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ProcessName"]}",
+            }).ToList();
+            ViewBag.ProcessList = processList;
+            var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+            var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["Metric_RCA"]}",
+            }).ToList();
+            ViewBag.Routw_causeList = Routw_causeList;
+            var getPredictive = await dl_FormBuilder.GetgetPredictive_Analysis();
+            var getPredictiveList = getPredictive.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["Predictive_CSAT"]}",
+            }).ToList();
+            ViewBag.getPredictiveList = getPredictiveList;
+
+
+            var getZT_Classification = await dl_FormBuilder.getZT_Classification();
+            var getZT_ClassificationList = getZT_Classification.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ZT_Classification"]}",
+            }).ToList();
+            ViewBag.getZT_ClassificationList = getZT_ClassificationList;
+
+
+            return View();
+        }
 
         public async Task<IActionResult> ActiveReplicatedForm()
         {
@@ -120,6 +213,21 @@ namespace QMS.Controllers
         public async Task<IActionResult> UpdateDynamicFields([FromBody] DynamicModelNew model)
         {
             int Result = await dl_FormBuilder.UpdateValueInDynamicmaster(model);
+            if (Result == 1)
+            {
+                return Json(new { success = true, message = "Form inserted successfully\"" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Failed to Insert the field." });
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateDynamicFieldsReplicatedForm([FromBody] DynamicModelNew model)
+        {
+            int Result = await dl_FormBuilder.UpdateValueInDynamicmasterReplicatedForm(model);
             if (Result == 1)
             {
                 return Json(new { success = true, message = "Form inserted successfully\"" });
@@ -368,7 +476,85 @@ namespace QMS.Controllers
             }
         }
 
-       
+
+
+        public async Task<IActionResult> GetSectionGriedForReplicateForm([FromBody] Process_SUbProcess id)
+        {
+            try
+            {
+                var dataTable = await dl_FormBuilder.GetSectionGriedReplicatedAsync(id.ProcessID, id.SUBProcessID);
+                DataTable DynamicFeild = await dl_FormBuilder.GetdynamicFeildsGriedAsync(id.ProcessID, id.SUBProcessID);
+
+
+                var sectionList = dataTable.AsEnumerable().Select(row => new SectionGridModel
+                {
+                    Id = row.Field<int>("id"),
+                    Category = row.Field<string>("Category"),
+                    SectionName = row.Field<string>("SectionName"),
+                    SectionId = row.Field<int>("SectionId"),
+
+                    Scorable = row.Field<string>("Scorable"),
+                    Score = row.Field<int>("Score"),
+                    Level = row.Field<string>("Level"),
+
+                    Active = row.Field<string>("Active")
+                }).ToList();
+
+
+                List<SelectListItem> filteredRoutwCauseList = new List<SelectListItem>();
+                List<SelectListItem> filteredPredictiveList = new List<SelectListItem>();
+                List<SelectListItem> filteredZTClassificationList = new List<SelectListItem>();
+                string Zero_Tolerance = "No";
+
+                if (DynamicFeild.Rows.Count > 0)
+                {
+                    Zero_Tolerance = DynamicFeild.Rows[0]["Zero_Tolerance"].ToString();
+
+                    var Root_Cause_Analysis = DynamicFeild.Rows[0]["Root_Cause_Analysis"].ToString().Split(',').Select(s => s.Trim()).ToList();
+                    var Predictive_Analysis = DynamicFeild.Rows[0]["Predictive_Analysis"].ToString().Split(',').Select(s => s.Trim()).ToList();
+                    var ZT_Classification = DynamicFeild.Rows[0]["ZT_Classification"].ToString().Split(',').Select(s => s.Trim()).ToList();
+
+                    var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+                    var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["ID"].ToString(),
+                        Text = $"{row["Metric_RCA"]}"
+                    }).ToList();
+                    filteredRoutwCauseList = Routw_causeList.Where(item => Root_Cause_Analysis.Contains(item.Value)).ToList();
+
+                    var getPredictive = await dl_FormBuilder.GetgetPredictive_Analysis();
+                    var getPredictiveList = getPredictive.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["ID"].ToString(),
+                        Text = $"{row["Predictive_CSAT"]}"
+                    }).ToList();
+                    filteredPredictiveList = getPredictiveList.Where(item => Predictive_Analysis.Contains(item.Value)).ToList();
+
+                    var getZT_Classification = await dl_FormBuilder.getZT_Classification();
+                    var getZT_ClassificationList = getZT_Classification.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["ID"].ToString(),
+                        Text = $"{row["ZT_Classification"]}"
+                    }).ToList();
+                    filteredZTClassificationList = getZT_ClassificationList.Where(item => ZT_Classification.Contains(item.Value)).ToList();
+                }
+
+                return Json(new
+                {
+                    SectionGrid = sectionList,
+                    FilteredRoutwCauseList = filteredRoutwCauseList,
+                    FilteredPredictiveList = filteredPredictiveList,
+                    FilteredZTClassificationList = filteredZTClassificationList,
+                    ZeroTolerance = Zero_Tolerance
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
+        }
+
+
         public async Task<IActionResult> EditForm(string programId, string subProgramId)
         {
 
