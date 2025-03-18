@@ -34,7 +34,7 @@ namespace QMS.Controllers
                 if (rsult==1)
                 {
 
-                    await _login.SendEmail(OTPEmail, email);
+                    await _login.SendEmail(email, OTPEmail);
                     string result = await _login.SendOTPAsync(OTPPhone, phone);
                     return Json(new { success = true, message = "OTP sent successfully." });
                 }

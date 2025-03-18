@@ -31,6 +31,7 @@ builder.Services.AddTransient<DL_Encrpt>();
 builder.Services.AddTransient<DL_Module>();
 builder.Services.AddTransient<DlSampling>();
 builder.Services.AddTransient<Dl_formBuilder>();
+builder.Services.AddTransient<dl_Monitoring>();
 
 
 builder.Services.AddControllersWithViews();

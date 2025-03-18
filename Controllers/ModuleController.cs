@@ -57,7 +57,7 @@ namespace QMS.Controllers
                         case "11":
                             return RedirectToAction("ManageModule");
                         case "12":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("CallMonitor", "Monitor", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
                         case "13":
                             return RedirectToAction("ManageModule");
                         default:
