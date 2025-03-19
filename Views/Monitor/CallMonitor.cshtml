@@ -2,7 +2,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="col-md-12 my-4">
     <div class="card shadow">
         <div class="card-body">
@@ -10,7 +9,7 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="ProgramID">Audit Type</label>
-                    @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID" })
+                    @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", onchange ="OnAuditChange()"})
                 </div>
 
                 <div class="form-group col-md-6">
@@ -23,12 +22,12 @@
                     </select>
                 </div>
 
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-6" id="DispoID"style="display:none">
                     <label for="dispositionId">Disposition</label>
                     <select name="dispositionId" id="dispositionId" class="custom-select" onchange="onDispositionChange()">
                     </select>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-6" id="SUBDispoID" style="display:none">
                     <label for="SubDispositionID">Sub Disposition</label>
                     <select name="SubDispositionID" id="SubDispositionID" class="custom-select">
                     </select>
@@ -82,6 +81,24 @@
                     <input type="text" placeholder="TL Name" class="custom-select" id="TL_id" />
                 </div>
 
+                 <div class="form-group col-md-6">
+                    <label for="ConnID">Conn ID</label>
+                    <input type="text" class="form-control" id="txtConnID" aria-describedby="button-addon2">
+
+                </div>
+
+                 <div class="form-group col-md-6">
+                    <label for="Monitored_date">Monitored date</label>
+                    <input type="text" class="form-control" id="Monitored_date" aria-describedby="button-addon2">
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="Transaction_Date">Transaction Date</label>
+                    <input type="text" class="form-control" id="Transaction_Date" aria-describedby="button-addon2">
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -112,6 +129,140 @@
         </div>
     </div>
 </div>
+@* 
+<div class="card shadow mb-4"  id="Staticfeild">
+    <div class="card-header">
+        <strong class="card-title"> Static Feild</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+
+            <div class="col-md-4">
+                <div class="form-group mb-3">
+
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Program Name</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Sub Program name</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Employee Supervisor</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Monitor Name</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Year</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Disposition</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Week</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Category 2</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Employee ID</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Employee name</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Agent Tenure (<90 or>90 days)</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Monitoring ID</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Month</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Category 1</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
+                        <label class="custom-control-label" for="customCheck1">Transaction duration (AHT)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group mb-3">
+                    <label for="date-input1">Call ID</label>
+                    <div class="input-group">
+                        
+                    </div>
+
+                </div>
+                <div class="form-group mb-3">
+                    <label for="date-input1">Monitored_date</label>
+                    <div class="input-group">
+                        
+                    </div>
+
+                </div>
+               
+                <div class="form-group mb-3">
+                    <label for="date-input1">Transaction_Date</label>
+                    <div class="input-group">
+                        
+                    </div>
+
+                </div>
+                
+            </div>
+
+
+        </div>
+    </div>
+</div> *@
 
 
 <div class="card shadow mb-4" id="SectionGried">
@@ -144,6 +295,139 @@
 
     </div>
 </div>
+
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Root Cause Analysis</strong>
+       
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <table id="rootCauseTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                      
+                        <th>Metric RCA</th>
+                        <th>Controllable</th>
+                        <th>RCA 1</th>
+                        <th>RCA 2</th>
+                        <th>RCA 3</th>
+                        <th>Comments Section</th>
+
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Predictive Analysis</strong>
+       
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <table id="predictiveAnalysisTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                       
+                        <th>Predictive - CSAT</th>
+                        <th>Predictive - NPS</th>
+                        <th>Predictive - FCR</th>
+                        <th>Predictive - Repeat</th>
+                        <th>Predictive - Sales effort</th>
+                        <th>Predictive - Collection effort</th>
+                        <th>Predictive - Probable escalation</th>
+                       
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">ZT Classification</strong>
+      
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <table id="ztClassificationTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                      
+                        <th>ZT Classification</th>
+                       
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Zero Tolerance Behaviour</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <label><strong>Was there any Zero Tolerance Behaviour identified?</strong></label>
+            <div class="form-check form-check-inline" style="margin-left: 75px;">
+                <input class="form-check-input" type="checkbox" id="yesCheckbox" name="zeroTolerance" value="Yes">
+                <label class="form-check-label" for="yesCheckbox">Yes</label>
+            </div>
+            <div class="form-check form-check-inline" style="margin-left: 75px;">
+                <input class="form-check-input" type="checkbox" id="noCheckbox" name="zeroTolerance" value="No">
+                <label class="form-check-label" for="noCheckbox">No</label>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let today = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+      document.getElementById("Monitored_date").value = today;
+       document.getElementById("Transaction_Date").value = today;
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const yesCheckbox = document.getElementById("yesCheckbox");
+        const noCheckbox = document.getElementById("noCheckbox");
+
+        yesCheckbox.addEventListener("change", function () {
+            if (this.checked) {
+                noCheckbox.checked = false;
+            }
+        });
+
+        noCheckbox.addEventListener("change", function () {
+            if (this.checked) {
+                yesCheckbox.checked = false;
+            }
+        });
+    });
+</script>
 <script>
 
 
@@ -155,7 +439,7 @@
             target.style.setProperty("color", "#03FD03", "important");
 
             var audioPath = target.getAttribute("data-path");
-
+            $("#txtConnID").val(audioPath);
             $.ajax({
                 type: "POST",
                 data: JSON.stringify({ id: audioPath }),
@@ -196,6 +480,23 @@
 
 </script>
 <script>
+
+    function OnAuditChange()
+    {
+        var audit = $("#AuditID").val();
+        if(audit==2)
+        {
+           $("#DispoID").show();
+              $("#SUBDispoID").show();
+           
+        }
+        else{
+            $("#DispoID").hide();
+            $("#SUBDispoID").hide();
+        }
+   
+
+    }
         function clearFields() {
         $("#SUBProgramID").empty().append('<option value="">Select Sub Program</option>');
         $("#dispositionId").empty().append('<option value="">Select Disposition</option>');
@@ -405,6 +706,25 @@
                 success: function (response) {
                   console.log(JSON.stringify(response));
                     populateGrid(response.sectionGrid);
+
+                            if (response?.filteredPredictiveList?.length > 0) {
+                                 populateTable("#predictiveAnalysisTable", response.filteredPredictiveList, "Predictive");
+                            } else {
+                                console.error("filteredPredictiveList is empty.");
+                            }
+
+
+                            if (response?.filteredZTClassificationList?.length > 0) {
+                                populateTable("#ztClassificationTable", response.filteredZTClassificationList, "ZTClassification");
+                            } else {
+                                console.error("filteredZTClassificationList is empty.");
+                            }
+
+                              if (response?.filteredRoutwCauseList?.length > 0) {
+                                populateTable("#rootCauseTable", response.filteredRoutwCauseList, "RootCause");
+                            } else {
+                                console.error("filteredRoutwCauseList is empty.");
+                            }
                 },
                 error: function (xhr, status, error) {
                     console.error("Error occurred: " + error);
@@ -502,4 +822,134 @@
             });
         }
     }
+
+
+
+        function populateTable(tableId, data, type) {
+        let tableBody = $(tableId + " tbody");
+        tableBody.empty();
+
+        // Fetch RCA values once and then populate table
+        $.ajax({
+            type: "GET",
+            url: "/Monitor/GetRCAValues",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (!response.success) {
+                    console.error("Failed to fetch RCA values.");
+                    return;
+                }
+
+                console.log("Rec List");
+
+                console.log(JSON.stringify(response));
+                let rca1Options = generateDropdownOptions(response.rca1);
+                let rca2Options = generateDropdownOptions(response.rca2);
+                let rca3Options = generateDropdownOptions(response.rca3);
+
+                data.forEach((item, index) => {
+                    let extraColumns = "";
+
+                    if (type === "RootCause") {
+                        extraColumns = `
+                            <td>
+                                <select class="qa-rating form-control" data-index="${index}">
+                                    <option value="">Select Controllable</option>
+                                    <option value="Yes" ${item.controllable === "Yes" ? "selected" : ""}>Yes</option>
+                                    <option value="No" ${item.controllable === "No" ? "selected" : ""}>No</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="qa-rating form-control rca1" data-index="${index}">
+                                    <option value="">Select RCA 1</option>
+                                    ${generateDropdownOptions(response.rca1, item.rca1)}
+                                </select>
+                            </td>
+                            <td>
+                                <select class="qa-rating form-control rca2" data-index="${index}">
+                                    <option value="">Select RCA 2</option>
+                                    ${generateDropdownOptions(response.rca2, item.rca2)}
+                                </select>
+                            </td>
+                            <td>
+                                <select class="qa-rating form-control rca3" data-index="${index}">
+                                    <option value="">Select RCA 3</option>
+                                    ${generateDropdownOptions(response.rca3, item.rca3)}
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" placeholder="Enter value" value="${item.textValue || ''}" />
+                            </td>`;
+                    }
+                        else if (type === "Predictive") {
+                                        extraColumns = `
+                                        <td>
+                                            <select class="qa-rating form-control" data-index="${index}">
+                                                <option value="">Select NPS</option>
+                                                <option value="Positive">Positive</option>
+                                                <option value="Neutral">Neutral</option> <!-- Fixed spelling -->
+                                                <option value="Negative">Negative</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="qa-rating form-control" data-index="${index}">
+                                                <option value="">Select FCR</option>
+                                                <option value="YES">YES</option>
+                                                <option value="NO">NO</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="qa-rating form-control" data-index="${index}">
+                                                <option value="">Select Repeat</option>
+                                                <option value="YES">YES</option>
+                                                <option value="NO">NO</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="qa-rating form-control" data-index="${index}">
+                                                <option value="">Select Sales effort</option>
+                                                <option value="YES">YES</option>
+                                                <option value="NO">NO</option>
+                                            </select>
+                                        </td>
+                                         <td>
+                                            <select class="qa-rating form-control" data-index="${index}">
+                                                <option value="">Select Collection effort</option>
+                                                <option value="YES">YES</option>
+                                                <option value="NO">NO</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="qa-rating form-control" data-index="${index}">
+                                                <option value="">Select Escalation</option>
+                                                <option value="YES">YES</option>
+                                                <option value="NO">NO</option>
+                                            </select>
+                                        </td>`;
+                                    }
+
+                    let row = `<tr>
+                       
+                        <td>${item.text}</td>
+                        ${extraColumns}
+                    </tr>`;
+                    tableBody.append(row);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+    }
+
+    function generateDropdownOptions(data, selectedValue = "") {
+        return data.map(item => `
+            <option value="${item.id}" ${item.id == selectedValue ? "selected" : ""}>
+                ${item.rcA_Value}
+            </option>`).join("");
+    }
+
+
+
 </script>

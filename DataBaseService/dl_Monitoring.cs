@@ -29,6 +29,38 @@ namespace QMS.DataBaseService
             _dcl = dL;
         }
 
+
+        public async Task<DataSet> GetRCAVAluesDroppdawn()
+        {
+            DataSet dt = new DataSet();
+
+
+          
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("MonitoringDetails", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operations","GetRCAValues");
+                     
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return dt;
+        }
         public async Task<string> GetRecListByAPi(string fromdate, string todate, string AgentID)
         {
             string responseBody = string.Empty;

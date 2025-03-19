@@ -20,7 +20,26 @@ namespace QMS.Controllers
             dl_monitor = dmmonoi;
         }
 
-       
+        [HttpGet]
+        public async Task<JsonResult> GetRCAValues()
+        {
+            DataSet ds = await dl_monitor.GetRCAVAluesDroppdawn();
+            if (ds.Tables.Count == 3) 
+            {
+                DataTable rca1 = ds.Tables[0]; 
+                DataTable rca2 = ds.Tables[1]; 
+                DataTable rca3 = ds.Tables[2];
+                var rca1List = rca1.AsEnumerable().Select(row => new { ID = row["ID"], RCA_Value = row["RCA_Value"] }).ToList();
+                var rca2List = rca2.AsEnumerable().Select(row => new { ID = row["ID"], RCA_Value = row["RCA_Value"] }).ToList();
+                var rca3List = rca3.AsEnumerable().Select(row => new { ID = row["ID"], RCA_Value = row["RCA_Value"] }).ToList();
+
+                return Json(new { success = true, rca1 = rca1List, rca2 = rca2List, rca3 = rca3List });
+            }
+            else
+                return Json(new { success = false, message = "fails." });
+
+        }
+               
         public async Task<IActionResult> GetRecording([FromBody] DropDawnString id)
         {
             if (id == null || string.IsNullOrEmpty(id.ID))
