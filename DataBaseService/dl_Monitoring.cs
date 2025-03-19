@@ -29,7 +29,7 @@ namespace QMS.DataBaseService
             _dcl = dL;
         }
 
-        public async Task<string> GetRecListByAPi( string fromdate  , string todate , string AgentID)
+        public async Task<string> GetRecListByAPi(string fromdate, string todate, string AgentID)
         {
             string responseBody = string.Empty;
             string Account = UserInfo.AccountID;
@@ -63,16 +63,16 @@ namespace QMS.DataBaseService
 
                 if (!string.IsNullOrEmpty(RecAPiList))
                 {
-                
-                        string formattedFromDate = DateTime.ParseExact(fromdate, "MM/dd/yyyy", CultureInfo.InvariantCulture).ToString("yyyyMMdd");
-                        string formattedToDate = DateTime.ParseExact(todate, "MM/dd/yyyy", CultureInfo.InvariantCulture).ToString("yyyyMMdd");
 
-                        var requestBody = new
-                        {
-                            agentID = AgentID,
-                            fromDate = formattedFromDate,
-                            todate = formattedToDate
-                        };
+                    string formattedFromDate = DateTime.ParseExact(fromdate, "MM/dd/yyyy", CultureInfo.InvariantCulture).ToString("yyyyMMdd");
+                    string formattedToDate = DateTime.ParseExact(todate, "MM/dd/yyyy", CultureInfo.InvariantCulture).ToString("yyyyMMdd");
+
+                    var requestBody = new
+                    {
+                        agentID = AgentID,
+                        fromDate = formattedFromDate,
+                        todate = formattedToDate
+                    };
 
                     string jsonPayload = JsonConvert.SerializeObject(requestBody);
                     var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
@@ -80,7 +80,7 @@ namespace QMS.DataBaseService
                     using (HttpClient httpClient = new HttpClient())
                     {
                         HttpResponseMessage response = await httpClient.PostAsync(RecAPiList, content);
-                         responseBody = await response.Content.ReadAsStringAsync();
+                        responseBody = await response.Content.ReadAsStringAsync();
 
                         if (response.IsSuccessStatusCode)
                         {
@@ -147,7 +147,7 @@ namespace QMS.DataBaseService
 
         }
 
-        public async Task<List<SelectListItem>> GetSubDisposition(string Process, string? SubProcess , string Disposition)
+        public async Task<List<SelectListItem>> GetSubDisposition(string Process, string? SubProcess, string Disposition)
         {
             var Adudit = new List<SelectListItem>();
             string StoreProcedure = "MonitoringDetails";
@@ -207,7 +207,7 @@ namespace QMS.DataBaseService
                         using (var reder = await command.ExecuteReaderAsync())
                         {
                             while (await reder.ReadAsync())
-                             {
+                            {
                                 string TText = reder["EmpName"].ToString();
                                 string TValue = reder["EmpCode"].ToString();
                                 Adudit.Add(new SelectListItem
@@ -242,13 +242,13 @@ namespace QMS.DataBaseService
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@Operations", "GetTLName");
                         command.Parameters.AddWithValue("@EmpCode", EmpCode);
-                      
+
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
                         {
                             if (await reader.ReadAsync())
                             {
-                                 TL_Name = reader["TL_Name"].ToString();
-                              
+                                TL_Name = reader["TL_Name"].ToString();
+
                             }
                         }
                     }
@@ -260,6 +260,78 @@ namespace QMS.DataBaseService
 
             }
             return TL_Name;
+        }
+
+
+        public async Task<string> GetRecordingByConnID(string connid)
+        {
+            try
+            {
+                string responseBody = string.Empty;
+                string Account = UserInfo.AccountID;
+                string con = await _enc.DecryptAsync(_con);
+
+
+                string RecAPiConnID = string.Empty;
+                string StoreProcedure = "GetRecordingApi";
+
+                using (var connection = new SqlConnection(con))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(StoreProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Operations", "GetRecConnIDAPi");
+                        command.Parameters.AddWithValue("@Account", Account);
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                RecAPiConnID = reader["RecApiConnID"].ToString();
+
+                            }
+                        }
+                    }
+                }
+
+
+                if (!string.IsNullOrEmpty(RecAPiConnID))
+                {
+                    using (HttpClient client = new HttpClient())
+                    {
+
+                        var requestBody = new
+                        {
+                            transactionId = connid
+                        };
+
+                        string jsonContent = JsonConvert.SerializeObject(requestBody);
+                        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                        // Make POST request
+                        HttpResponseMessage response = await client.PostAsync(RecAPiConnID, content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            responseBody = await response.Content.ReadAsStringAsync();
+
+                        }
+                        else
+                        {
+                            return $"Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}";
+                        }
+                    }
+                }
+                return responseBody;
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+
         }
     }
 }

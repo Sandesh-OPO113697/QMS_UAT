@@ -12,7 +12,7 @@ namespace QMS.Controllers
         private readonly Dl_Admin _admin;
         private readonly Dl_formBuilder dl_FormBuilder;
         private readonly dl_Monitoring dl_monitor;
-        public MonitorController(Dl_formBuilder adl, DlSampling dl, Dl_Admin adam , dl_Monitoring dmmonoi)
+        public MonitorController(Dl_formBuilder adl, DlSampling dl, Dl_Admin adam, dl_Monitoring dmmonoi)
         {
             dlSampling = dl;
             _admin = adam;
@@ -20,11 +20,35 @@ namespace QMS.Controllers
             dl_monitor = dmmonoi;
         }
 
+       
+        public async Task<IActionResult> GetRecording([FromBody] DropDawnString id)
+        {
+            if (id == null || string.IsNullOrEmpty(id.ID))
+            {
+                return Json(new { success = false, message = "Invalid ID" });
+            }
+
+            try
+            {
+                string base64Audio = await dl_monitor.GetRecordingByConnID(id.ID.ToString());
+                
+
+                return Json(new { success = true, audioData = base64Audio });
+            }
+            catch (FileNotFoundException)
+            {
+                return Json(new { success = false, message = "File not found." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error: " + ex.Message });
+            }
+        }
         public async Task<JsonResult> GetTLName([FromBody] DropDawon id)
         {
 
             string tl_name = await dl_monitor.GetTeamLeaderName(id.Id.ToString());
-           
+
             return Json(new { success = true, tl_name });
         }
         [HttpPost]
@@ -39,7 +63,7 @@ namespace QMS.Controllers
                 string reclist = await dl_monitor.GetRecListByAPi(request.FromDate, request.ToDate, request.AgentId);
 
 
-                return Json(new { success = true, message = "sucesss." , reclist= reclist });
+                return Json(new { success = true, message = "sucesss.", reclist = reclist });
             }
 
         }
@@ -48,20 +72,20 @@ namespace QMS.Controllers
         {
             List<SelectListItem> sampleSize = await dl_monitor.GetDisposition(id.ProcessID.ToString(), id.SUBProcessID.ToString());
             List<SelectListItem> agentlist = await dl_monitor.GetAgentName(id.ProcessID.ToString(), id.SUBProcessID.ToString());
-           
-           return Json(new { success = true, samplesize = sampleSize , agentlist= agentlist });
+
+            return Json(new { success = true, samplesize = sampleSize, agentlist = agentlist });
 
         }
 
         public async Task<JsonResult> GetSubDispositoin([FromBody] DispositionModel id)
         {
-            List<SelectListItem> sampleSize = await dl_monitor.GetSubDisposition(id.ProcessID.ToString(), id.SUBProcessID.ToString() , id.Disposition.ToString());
-          
+            List<SelectListItem> sampleSize = await dl_monitor.GetSubDisposition(id.ProcessID.ToString(), id.SUBProcessID.ToString(), id.Disposition.ToString());
+
             return Json(new { success = true, samplesize = sampleSize });
 
         }
 
-        public async Task < IActionResult> CallMonitor(int SubFeatureid, string RoleName, int Featureid)
+        public async Task<IActionResult> CallMonitor(int SubFeatureid, string RoleName, int Featureid)
         {
             var AuditType = await dlSampling.GetAuditType();
             ViewBag.AuditTypeList = AuditType;

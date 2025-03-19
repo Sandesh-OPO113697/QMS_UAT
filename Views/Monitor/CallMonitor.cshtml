@@ -33,6 +33,22 @@
                     <select name="SubDispositionID" id="SubDispositionID" class="custom-select">
                     </select>
                 </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="col-md-12 my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title"> Search Recording </h5>
+            <div class="row">
+
                 <div class="form-group col-md-6">
 
                     <label for="date-input1">From Date</label>
@@ -62,7 +78,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="TL_id">Agent Name</label>
+                    <label for="TL_id">TL Name</label>
                     <input type="text" placeholder="TL Name" class="custom-select" id="TL_id" />
                 </div>
 
@@ -73,6 +89,7 @@
 
 
 
+<div id="recordingContainer"></div>
 
 <div class="col-md-12 my-4" id="RelListDiv" style="display:none">
     <div class="card shadow">
@@ -83,14 +100,12 @@
                         <tr>
                             <th></th>
                             <th class="w-50">Agent ID</th>
-                       @*      <th class="w-50">Start Time</th>
-                            <th class="w-50">End Time</th> *@
+
                             <th class="w-50">Conn ID</th>
                             <th>C-Path</th>
                         </tr>
                     </thead>
                     <tbody id="recTableBody">
-                        <!-- Dynamic data will be inserted here -->
                     </tbody>
                 </table>
             </div>
@@ -99,15 +114,85 @@
 </div>
 
 
+<div class="card shadow mb-4" id="SectionGried">
+    <div class="card-header">
+        <strong class="card-title"> Section</strong>
+
+    </div>
+    <div class="card-body">
+
+        <table id="sectionGrid" class="table table-bordered">
+            <thead>
+                <tr>
+
+                    <th>Category</th>
+                    <th>Level</th>
+                    <th>Section Name</th>
+                    <th>QA Rating</th>
+                    <th>Scorable</th>
+
+                    <th>Weightage</th>
+                    <th>Comments Section</th>
+
+                    
+
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+</div>
 <script>
 
 
-      document.addEventListener("click", function (event) {
-        if (event.target.classList.contains("play-audio")) {
-            var audioPath = event.target.getAttribute("data-path");
-            alert(audioPath);
+    document.addEventListener("click", function (event) {
+        let target = event.target;
+        if (target.classList.contains("play-audio")) {
+            document.querySelectorAll(".play-audio").forEach(el => el.style.color = "gray");
+            target.style.color = "#03FD03";
+            target.style.setProperty("color", "#03FD03", "important");
+
+            var audioPath = target.getAttribute("data-path");
+
+            $.ajax({
+                type: "POST",
+                data: JSON.stringify({ id: audioPath }),
+                url: "/Monitor/GetRecording",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        let container = document.getElementById("recordingContainer");
+                        container.innerHTML = "";
+                        let byteCharacters = atob(response.audioData);
+                        let byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        let byteArray = new Uint8Array(byteNumbers);
+                        let blob = new Blob([byteArray], { type: "audio/mpeg" });
+                        let audioUrl = URL.createObjectURL(blob);
+
+                        let audioPlayer = document.createElement("audio");
+                        audioPlayer.controls = true;
+                        audioPlayer.src = audioUrl;
+                        audioPlayer.autoplay = true;
+                        audioPlayer.style.width = "100%";
+                        container.appendChild(audioPlayer);
+                    } else {
+                        console.error("Error: " + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
         }
     });
+
+
 
 </script>
 <script>
@@ -116,7 +201,7 @@
         $("#dispositionId").empty().append('<option value="">Select Disposition</option>');
         $("#SubDispositionID").empty().append('<option value="">Select Sub Disposition</option>');
         $("#AgentID").empty().append('<option value="">Select Agent</option>');
-        $("#TL_id").val(""); // Clearing TL Name field
+        $("#TL_id").val("");
         $("#RelListDiv").hide();
     }
 
@@ -125,7 +210,7 @@
         $("#dispositionId").empty().append('<option value="">Select Disposition</option>');
         $("#SubDispositionID").empty().append('<option value="">Select Sub Disposition</option>');
         $("#AgentID").empty().append('<option value="">Select Agent</option>');
-        $("#TL_id").val(""); // Clearing TL Name field
+        $("#TL_id").val("");
         $("#RelListDiv").hide();
     }
     function onProgramChange() {
@@ -217,7 +302,6 @@
                     dataType: "json",
                     success: function (response) {
                         if (response.success) {
-                             console.log(JSON.stringify(response));
 
                              let recList = JSON.parse(response.reclist);
 
@@ -228,13 +312,14 @@
                                     var row = `<tr>
                                         <td class="text-center">
                                             <div >
-                                              <span class="fe fe-24 fe-headphones text-muted play-audio" data-path="${rec.CPath}"></span>
+                                             <span class="fe fe-24 fe-headphones play-audio" style="color: gray;" data-path="${rec.CONNID}"></span>
+
                                             </div>
-                                          
+
                                         </td>
                                         <td class="text-muted">${rec.AgentId}</td>
                                          <td class="text-muted">${rec.CONNID}</td>
-                                    
+
                                         <td class="text-muted">${rec.CPath}</td>
                                     </tr>`;
 
@@ -248,11 +333,84 @@
                         console.error("Error occurred: " + error);
                     }
                 });
-
+                GetSectionGried();
 
        }
+        function populateGrid(data) {
+        var tableBody = $("#sectionGrid tbody");
+        tableBody.empty();
+        if (data.length === 0) {
+            tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
+            return;
+        }
 
+                    $.each(data, function (index, item) {
+                        var row = `<tr>
+                        <td>${item.category}</td>
+                        <td>${item.level}</td>
+                        <td>${item.sectionName}</td>
+                        <td>
+                            <select class="qa-rating form-control" data-index="${index}">
+                             <option value="">Select Rating</option>
+                                <option value="Met">Met</option>
+                                <option value="Not Met">Not Met</option>
+                            </select>
+                        </td>
+                        <td>${item.scorable}</td>
+                        <td class="score-col">${item.score}</td>
+                          <td><input type="text" class="form-control" id="Comments_Section" placeholder="Enter Comments Section"></td>
+                    </tr>`;
 
+                        tableBody.append(row);
+                    });
+                       var footerRow = `<tr>
+        <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
+        <td id="totalScore" class="font-weight-bold">0</td>
+    </tr>`;
+
+    tableBody.append(footerRow);
+
+         $(".qa-rating").on("change", function () {
+        var selectedValue = $(this).val();
+        var rowIndex = $(this).data("index");
+        var scoreCell = $(this).closest("tr").find(".score-col");
+
+        if (selectedValue === "Met") {
+            scoreCell.text(data[rowIndex].score);
+        } else {
+            scoreCell.text(0);
+        }
+        calculateTotalScore();
+    });
+    calculateTotalScore();
+    }
+
+     function calculateTotalScore() {
+        let total = 0;
+        $(".score-col").each(function () {
+            total += parseInt($(this).text()) || 0;
+        });
+        $("#totalScore").text(total);
+    }
+
+       function GetSectionGried()
+       {
+           var selectedValue = document.getElementById("SUBProgramID").value;
+            $.ajax({
+                type: "POST",
+                url: "/ManageForm/GetSectionGried",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
+                success: function (response) {
+                  console.log(JSON.stringify(response));
+                    populateGrid(response.sectionGrid);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
+       }
     function onSubProgramChange() {
 
         var selectedValue = document.getElementById("SUBProgramID").value;
