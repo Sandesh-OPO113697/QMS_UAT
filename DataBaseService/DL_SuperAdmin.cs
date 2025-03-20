@@ -72,7 +72,7 @@ namespace QMS.DataBaseService
             }
         }
  
-        public async Task InsertAccountAsync(string accountName, string prefix, string signOn)
+        public async Task InsertAccountAsync(string accountName, string prefix, string signOn, string RecApiList, string RecApiConnID)
         {
             string prefixEnc = await _enc.EncryptAsync(prefix.ToUpper());
             string connectionString = await _enc.DecryptAsync(_con);
@@ -84,7 +84,8 @@ namespace QMS.DataBaseService
                 cmd.Parameters.AddWithValue("@AccountName", await _enc.EncryptAsync(accountName.ToUpper()));
                 cmd.Parameters.AddWithValue("@SignOn", await _enc.EncryptAsync(signOn));
                 cmd.Parameters.AddWithValue("@Prefix", prefixEnc);
-
+                cmd.Parameters.AddWithValue("@RecApiList", RecApiList);
+                cmd.Parameters.AddWithValue("@RecApiConnID", RecApiConnID);
                 await conn.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
             }

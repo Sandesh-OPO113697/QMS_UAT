@@ -49,27 +49,15 @@
             <div class="row">
 
                 <div class="form-group col-md-6">
-
-                    <label for="date-input1">From Date</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control drgpicker" id="FromDate" value="09/09/1999" aria-describedby="button-addon2">
-                        <div class="input-group-append">
-                            <div class="input-group-text" id="button-addon-date"><span class="fe fe-calendar fe-16"></span></div>
-                        </div>
-                    </div>
-
+                    <label for="FromDate">From Date</label>
+                    <input type="date" id="FromDate" class="custom-select">
                 </div>
+
                 <div class="form-group col-md-6">
-                    <label for="date-input1">To Date </label>
-                    <div class="input-group">
-                        <input type="text" class="form-control drgpicker" id="Todate" value="09/09/1999" aria-describedby="button-addon2">
-                        <div class="input-group-append">
-                            <div class="input-group-text" id="button-addon-date"><span class="fe fe-calendar fe-16"></span></div>
-                        </div>
-                    </div>
-
+                    <label for="ToDate">To Date</label>
+                    <input type="date" id="Todate" class="custom-select">
                 </div>
-
+             
                 <div class="form-group col-md-6">
                     <label for="AgentID">Agent Name</label>
                     <select name="AgentID" id="AgentID" class="custom-select" onchange="onAgentIDChange()">
@@ -78,24 +66,39 @@
 
                 <div class="form-group col-md-6">
                     <label for="TL_id">TL Name</label>
-                    <input type="text" placeholder="TL Name" class="custom-select" id="TL_id" />
+                    <input type="text" placeholder="TL Name" class="custom-select" id="TL_id" readonly />
                 </div>
 
                  <div class="form-group col-md-6">
-                    <label for="ConnID">Conn ID</label>
-                    <input type="text" class="form-control" id="txtConnID" aria-describedby="button-addon2">
+                    <label for="ConnID">Transaction_ID</label>
+                    <input type="text" class="form-control" id="Transaction_ID" aria-describedby="button-addon2" readonly>
 
                 </div>
 
                  <div class="form-group col-md-6">
                     <label for="Monitored_date">Monitored date</label>
-                    <input type="text" class="form-control" id="Monitored_date" aria-describedby="button-addon2">
+                    <input type="text" class="form-control" id="Monitored_date" aria-describedby="button-addon2" readonly>
 
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="Transaction_Date">Transaction Date</label>
-                    <input type="text" class="form-control" id="Transaction_Date" aria-describedby="button-addon2">
+                    <input type="text" class="form-control" id="Transaction_Date" aria-describedby="button-addon2" readonly>
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="Year">Year</label>
+                    <input type="text" class="form-control" id="Year" aria-describedby="button-addon2" readonly>
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="Month">Month</label>
+                    <input type="text" class="form-control" id="Month" aria-describedby="button-addon2" readonly>
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="Week">Week</label>
+                    <input type="text" class="form-control" id="Week" aria-describedby="button-addon2" readonly>
 
                 </div>
 
@@ -129,140 +132,6 @@
         </div>
     </div>
 </div>
-@* 
-<div class="card shadow mb-4"  id="Staticfeild">
-    <div class="card-header">
-        <strong class="card-title"> Static Feild</strong>
-    </div>
-    <div class="card-body">
-        <div class="row">
-
-
-            <div class="col-md-4">
-                <div class="form-group mb-3">
-
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Program Name</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Sub Program name</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Employee Supervisor</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Monitor Name</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Year</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Disposition</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Week</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Category 2</label>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Employee ID</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Employee name</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Agent Tenure (<90 or>90 days)</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Monitoring ID</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Month</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Category 1</label>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>
-                        <label class="custom-control-label" for="customCheck1">Transaction duration (AHT)</label>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group mb-3">
-                    <label for="date-input1">Call ID</label>
-                    <div class="input-group">
-                        
-                    </div>
-
-                </div>
-                <div class="form-group mb-3">
-                    <label for="date-input1">Monitored_date</label>
-                    <div class="input-group">
-                        
-                    </div>
-
-                </div>
-               
-                <div class="form-group mb-3">
-                    <label for="date-input1">Transaction_Date</label>
-                    <div class="input-group">
-                        
-                    </div>
-
-                </div>
-                
-            </div>
-
-
-        </div>
-    </div>
-</div> *@
 
 
 <div class="card shadow mb-4" id="SectionGried">
@@ -365,17 +234,11 @@
       
     </div>
     <div class="card-body">
-        <div class="row">
-            <table id="ztClassificationTable" class="table table-bordered">
-                <thead>
-                    <tr>
-                      
-                        <th>ZT Classification</th>
-                       
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+        <div class="row col-md-4">
+            <label for="ZTClassification">Select  ZT Classification</label>
+            <select id="ZTClassification" class="custom-select">
+              
+            </select>
 
         </div>
     </div>
@@ -402,13 +265,551 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-      let today = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
-      document.getElementById("Monitored_date").value = today;
-       document.getElementById("Transaction_Date").value = today;
-    });
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-md-2">
+                <div class="form-group mb-3">
+                    <button id="btnSubmite" class="btn btn-primary mt-4" onclick="SubMitedata()">Submit</button>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group mb-3">
+                    <button id="btnSave" class="btn btn-primary mt-4" >Save</button>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group mb-3">
+                    <button id="btnLogZT" class="btn btn-primary mt-4" >Log ZT</button>
+                </div>
+
+            </div>
+            <div class="col-md-2">
+                <div class="form-group mb-3">
+                    <button id="btnClearForm" class="btn btn-primary mt-4">Clear Form</button>
+                </div>
+
+            </div>
+            <div class="col-md-2">
+                <div class="form-group mb-3">
+                    <button id="btnVoicefeed" class="btn btn-primary mt-4">Record voice Feedback</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@* <script>
+
+    function InsertCallAudit()
+    {
+        console.log("Button Clicked!");
+             var selectedZTClassification = $("#ZTClassification").val();
+                var zeroToleranceValue = $("input[name='zeroTolerance']:checked").val();
+
+                if (!selectedZTClassification) {
+                alert("Please select a ZT Classification.");
+                return;
+            }
+            if (!zeroToleranceValue) {
+                alert("Please select Zero Tolerance Behaviour.");
+                return;
+            }
+            var CcID= $("#Transaction_ID").val();
+            if (!CcID) {
+                alert("Please select Transaction_ID.");
+                return;
+            }
+       var totalScoreValue = $("#totalScore").text().trim();
+       alert(totalScoreValue);
+        var FormMonitorDatadata = {
+            AuditID: $("#AuditID").val(),
+            ProgramID: $("#ProgramID").val(),
+            SUBProgramID: $("#SUBProgramID").val(),
+            dispositionId: $("#dispositionId").val(),
+            SubDispositionID: $("#SubDispositionID").val(),
+            FromDate: $("#FromDate").val(),
+            ToDate: $("#Todate").val(),
+            AgentID: $("#AgentID").val(),
+            TL_id: $("#TL_id").val(),
+            Transaction_ID: $("#Transaction_ID").val(),
+            Monitored_date: $("#Monitored_date").val(),
+            Transaction_Date: $("#Transaction_Date").val(),
+            Year: $("#Year").val(),
+            Month: $("#Month").val(),
+            Week: $("#Week").val(),
+             ZTClassification: selectedZTClassification,
+             ZeroTolerance: zeroToleranceValue,
+            CQ_Scrore:totalScoreValue
+        };
+
+      
+
+      
+        $.ajax({
+            url: "/Monitor/FormMinitoringAuditr",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(FormMonitorDatadata),
+            success: function (response) {
+               
+                alert("Data submitted successfully!");
+            },
+            error: function (xhr, status, error) {
+                console.log("AJAX Error:", error);
+                alert("Error submitting data.");
+            }
+        });
+    }
+    function InsertSectionAudit()
+    {
+           var isValid = true;
+            var gridData = [];
+
+
+                $("#sectionGrid tbody tr:not(:last-child)").each(function () { 
+                    var $row = $(this);
+                    var category = $row.find("td:eq(0)").text()?.trim() || ""; 
+                    var level = $row.find("td:eq(1)").text()?.trim() || "";
+                    var sectionName = $row.find("td:eq(2)").text()?.trim() || "";
+                    var qaRating = $row.find(".qa-rating").val(); 
+                    var scorable = $row.find("td:eq(4)").text()?.trim() || "";
+                    var score = $row.find("td:eq(5)").text()?.trim() || "";
+                   var comments = $row.find("input[type='text']").val()?.trim() || "";
+
+                    if (category === "" && level === "" && sectionName === "") {
+                        return;
+                    }
+                    if (qaRating === "" || comments === "") {
+                        isValid = false;
+                        $row.find(".qa-rating, input.comments-section").addClass("border border-danger");
+                    } else {
+                        $row.find(".qa-rating, input.comments-section").removeClass("border border-danger");
+                    }
+
+                    gridData.push({
+                        category: category,
+                        level: level,
+                        sectionName: sectionName,
+                        qaRating: qaRating,
+                        scorable: scorable,
+                        score: score,
+                        comments: comments,
+                        Transaction_ID: $("#Transaction_ID").val(),
+                        ProgramID: $("#ProgramID").val(),
+                        SUBProgramID: $("#SUBProgramID").val()
+                    });
+                });
+
+           
+            if (!isValid) {
+                alert("Please select QA Rating and enter Comments for all rows.");
+                return;
+            }
+
+            
+            $.ajax({
+                url: "/Monitor/InsertSectionAudit",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(gridData),
+                success: function (response) {
+                    alert("Data submitted successfully!");
+                    
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                    alert("An error occurred while submitting data.");
+                }
+            });
+
+    }
+function RootCauseevalution()
+{
+          let tableData = [];
+        let isValid = true;
+
+        $("#rootCauseTable tbody tr").each(function () {
+            let row = $(this);
+            let metricRCA = row.find("td:eq(0)").text().trim();
+            let controllable = row.find(".qa-rating[data-index]").val();
+            let rca1 = row.find(".rca1").val();
+            let rca2 = row.find(".rca2").val();
+            let rca3 = row.find(".rca3").val();
+            let comments = row.find("input[type='text']").val().trim();
+
+
+             let fields = [
+                { element: row.find(".qa-rating[data-index]"), value: controllable },
+                { element: row.find(".rca1"), value: rca1 },
+                { element: row.find(".rca2"), value: rca2 },
+                { element: row.find(".rca3"), value: rca3 },
+                { element: row.find("input[type='text']"), value: comments }
+            ];
+
+            fields.forEach(field => {
+                if (!field.value) {
+                    isValid = false;
+                    field.element.addClass("border border-danger");
+                } else {
+                    field.element.removeClass("border border-danger");
+                }
+            });
+
+            tableData.push({
+                metricRCA: metricRCA,
+                controllable: controllable,
+                rca1: rca1,
+                rca2: rca2,
+                rca3: rca3,
+                comments: comments,
+                Transaction_ID: $("#Transaction_ID").val(),
+                ProgramID: $("#ProgramID").val(),
+                SUBProgramID: $("#SUBProgramID").val()
+            });
+        });
+
+        if (!isValid) {
+            alert("Please fill all fields before submitting.");
+            return;
+        }
+                 console.log("Form reoot Cause Data:", tableData);
+                    console.log("JSON String:", JSON.stringify(tableData)); 
+
+    
+        $.ajax({
+                    url: "/Monitor/InsertRouutCoauseAudit",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(tableData),
+            success: function (response) {
+                alert("Data submitted successfully!");
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+                alert("Error submitting data.");
+            }
+        });
+}
+    function InsertPredictiveEvaluation() {
+        let tableId = "#predictiveAnalysisTable";
+        let tableBody = $(tableId + " tbody");
+        let dataToSend = [];
+        let isValid = true;
+        let transactionId = $("#Transaction_ID").val();
+        let programId = $("#ProgramID").val();
+        let subProgramId = $("#SUBProgramID").val();
+
+        tableBody.find("tr").each(function () {
+            let row = $(this);
+            let rowData = {
+                Transaction_ID: transactionId, 
+                ProgramID: programId,          
+                SUBProgramID: subProgramId     
+            };
+
+            rowData["PredictiveCSAT"] = row.find("td:eq(0)").text().trim();
+            row.find("select").each(function (index) {
+                let dropdown = $(this);
+                let selectedValue = dropdown.val();
+
+                if (!selectedValue) {
+                    isValid = false;
+                    dropdown.addClass("is-invalid");
+                } else {
+                    dropdown.removeClass("is-invalid"); 
+                }
+
+                let columnNames = [
+                    "PredictiveNPS",
+                    "PredictiveFCR",
+                    "PredictiveRepeat",
+                    "PredictiveSalesEffort",
+                    "PredictiveCollectionEffort",
+                    "PredictiveEscalation"
+                ];
+                rowData[columnNames[index]] = selectedValue;
+            });
+
+            dataToSend.push(rowData);
+        });
+
+     
+        if (!isValid) {
+            alert("Please select all dropdown values before submitting.");
+            return;
+        }
+
+ 
+        $.ajax({
+            type: "POST",
+                url: "/Monitor/InsertPridictiveCoauseAudit",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(dataToSend),
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    alert("Data submitted successfully!");
+                 
+                    tableBody.find("select").removeClass("is-invalid");
+                } else {
+                    alert("Failed to submit data.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+                alert("An error occurred while submitting data.");
+            }
+        });
+    }
+
+
+    function SubMitedata() {
+            InsertCallAudit();
+                InsertSectionAudit();
+                    RootCauseevalution();
+               InsertPredictiveEvaluation();
+    }
 </script>
+ *@
+<script>
+
+    function InsertCallAudit() {
+        console.log("Button Clicked!");
+        var selectedZTClassification = $("#ZTClassification").val();
+        var zeroToleranceValue = $("input[name='zeroTolerance']:checked").val();
+        var CcID = $("#Transaction_ID").val();
+        var totalScoreValue = $("#totalScore").text().trim();
+
+        if (!selectedZTClassification || !zeroToleranceValue || !CcID) {
+            alert("Please fill all required fields in Call Audit  .");
+            return false;
+        }
+
+        return {
+            AuditID: $("#AuditID").val(),
+            ProgramID: $("#ProgramID").val(),
+            SUBProgramID: $("#SUBProgramID").val(),
+            dispositionId: $("#dispositionId").val(),
+            SubDispositionID: $("#SubDispositionID").val(),
+            FromDate: $("#FromDate").val(),
+            ToDate: $("#Todate").val(),
+            AgentID: $("#AgentID").val(),
+            TL_id: $("#TL_id").val(),
+            Transaction_ID: CcID,
+            Monitored_date: $("#Monitored_date").val(),
+            Transaction_Date: $("#Transaction_Date").val(),
+            Year: $("#Year").val(),
+            Month: $("#Month").val(),
+            Week: $("#Week").val(),
+            ZTClassification: selectedZTClassification,
+            ZeroTolerance: zeroToleranceValue,
+            CQ_Scrore: totalScoreValue
+        };
+    }
+
+    function InsertSectionAudit() {
+        var isValid = true;
+        var gridData = [];
+
+        $("#sectionGrid tbody tr:not(:last-child)").each(function () {
+            var $row = $(this);
+            var category = $row.find("td:eq(0)").text()?.trim() || "";
+            var qaRating = $row.find(".qa-rating").val();
+            var comments = $row.find("input[type='text']").val()?.trim() || "";
+
+            if (!qaRating || !comments) {
+                isValid = false;
+                $row.find(".qa-rating, input.comments-section").addClass("border border-danger");
+            }
+
+            gridData.push({
+                category: category,
+                qaRating: qaRating,
+                comments: comments,
+                Transaction_ID: $("#Transaction_ID").val(),
+                ProgramID: $("#ProgramID").val(),
+                SUBProgramID: $("#SUBProgramID").val()
+            });
+        });
+
+        return isValid ? gridData : false;
+    }
+
+    function RootCauseEvaluation() {
+        let tableData = [];
+        let isValid = true;
+
+        $("#rootCauseTable tbody tr").each(function () {
+            let row = $(this);
+            let controllable = row.find(".qa-rating[data-index]").val();
+            let comments = row.find("input[type='text']").val()?.trim() || "";
+
+            if (!controllable || !comments) {
+                isValid = false;
+                row.find(".qa-rating[data-index], input[type='text']").addClass("border border-danger");
+            }
+
+            tableData.push({
+                controllable: controllable,
+                comments: comments,
+                Transaction_ID: $("#Transaction_ID").val(),
+                ProgramID: $("#ProgramID").val(),
+                SUBProgramID: $("#SUBProgramID").val()
+            });
+        });
+
+        return isValid ? tableData : false;
+    }
+
+    function InsertPredictiveEvaluation() {
+        let tableId = "#predictiveAnalysisTable";
+        let tableBody = $(tableId + " tbody");
+        let dataToSend = [];
+        let isValid = true;
+
+        tableBody.find("tr").each(function () {
+            let row = $(this);
+            let rowData = {
+                Transaction_ID: $("#Transaction_ID").val(),
+                ProgramID: $("#ProgramID").val(),
+                SUBProgramID: $("#SUBProgramID").val()
+            };
+
+            row.find("select").each(function (index) {
+                let dropdown = $(this);
+                let selectedValue = dropdown.val();
+
+                if (!selectedValue) {
+                    isValid = false;
+                    dropdown.addClass("is-invalid");
+                } else {
+                    dropdown.removeClass("is-invalid");
+                }
+
+                let columnNames = [
+                    "PredictiveNPS",
+                    "PredictiveFCR",
+                    "PredictiveRepeat",
+                    "PredictiveSalesEffort",
+                    "PredictiveCollectionEffort",
+                    "PredictiveEscalation"
+                ];
+                rowData[columnNames[index]] = selectedValue;
+            });
+
+            dataToSend.push(rowData);
+        });
+
+        return isValid ? dataToSend : false;
+    }
+
+    function SubMitedata() {
+        let callAuditData = InsertCallAudit();
+        let sectionAuditData = InsertSectionAudit();
+        let rootCauseData = RootCauseEvaluation();
+        let predictiveData = InsertPredictiveEvaluation();
+
+        if (!callAuditData || !sectionAuditData || !rootCauseData || !predictiveData) {
+            alert("Please fill all required fields before submitting.");
+            return;
+        }
+
+        $.ajax({
+            url: "/Monitor/FormMinitoringAuditr",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(callAuditData),
+            success: function () { alert("Call Audit submitted successfully!"); }
+        });
+
+        $.ajax({
+            url: "/Monitor/InsertSectionAudit",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(sectionAuditData),
+            success: function () { alert("Section Audit submitted successfully!"); }
+        });
+
+        $.ajax({
+            url: "/Monitor/InsertRouutCoauseAudit",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(rootCauseData),
+            success: function () { alert("Root Cause Evaluation submitted successfully!"); }
+        });
+
+        $.ajax({
+            url: "/Monitor/InsertPridictiveCoauseAudit",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(predictiveData),
+            success: function () { alert("Predictive Evaluation submitted successfully!"); }
+        });
+    }
+</script>
+
+
+<script>
+      function getWeekNumber(date) {
+        var firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+        var dayOfMonth = date.getDate();
+        var weekNumber = Math.ceil((dayOfMonth + firstDayOfMonth.getDay()) / 7);
+        return weekNumber;
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+         var today = new Date();
+
+   
+        var formattedDate = today.toISOString().split('T')[0];
+
+       
+        document.getElementById("Monitored_date").value = formattedDate;
+        document.getElementById("Transaction_Date").value = formattedDate;
+        
+
+         var year = today.getFullYear();
+        var month = today.toLocaleString('default', { month: 'long' }); 
+        var weekNumber = getWeekNumber(today);
+             document.getElementById("Year").value = year;
+          document.getElementById("Month").value = month;
+          document.getElementById("Week").value = weekNumber;
+
+
+            function configureDatePicker(id) {
+                const dateInput = document.getElementById(id);
+
+                dateInput.max = new Date().toISOString().split("T")[0]; // Prevent future dates
+
+                dateInput.addEventListener("change", function () {
+                    validateDate(id);
+                });
+            }
+
+            function validateDate(id) {
+                let selectedDate = new Date(document.getElementById(id).value);
+                let currentDate = new Date();
+                let minAllowedDate = new Date(currentDate.getTime() - (48 * 60 * 60 * 1000)); // 48 hours ago
+
+                if (selectedDate > currentDate) {
+                    alert("Selected date cannot be in the future.");
+                    document.getElementById(id).value = "";
+                } else if (selectedDate < minAllowedDate) {
+                    alert("Selected date must be within the last 48 hours.");
+                    document.getElementById(id).value = "";
+                }
+            }
+
+            configureDatePicker("FromDate");
+            configureDatePicker("ToDate");
+        });
+</script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -439,7 +840,7 @@
             target.style.setProperty("color", "#03FD03", "important");
 
             var audioPath = target.getAttribute("data-path");
-            $("#txtConnID").val(audioPath);
+            $("#Transaction_ID").val(audioPath);
             $.ajax({
                 type: "POST",
                 data: JSON.stringify({ id: audioPath }),
@@ -555,14 +956,12 @@
                 var toDate = $("#Todate").val();
                 var agentId = $("#AgentID").val();
 
-                if (!fromDate || fromDate === "09/09/1999") {
-                    alert("Please select From Date. And To Date");
-                    return;
-                }
-                if (!toDate || toDate === "09/09/1999") {
-                    alert("Please select From Date And To Date.");
-                    return;
-                }
+
+                      if (!fromDate || !toDate ) {
+                                $("#FromDate").val(""); // Clear the value
+                                $("#Todate").val("");   // Clear the value
+                                alert("Invalid date selection. Dates have been cleared.");
+                            }
                 if (!agentId) {
                     alert("Please select an Agent.");
                     return;
@@ -687,9 +1086,15 @@
     }
 
      function calculateTotalScore() {
+     
         let total = 0;
-        $(".score-col").each(function () {
-            total += parseInt($(this).text()) || 0;
+        $("#sectionGrid tbody tr").each(function () {
+            var scorable = $(this).find("td:nth-child(5)").text().trim(); // 5th column (scorable)
+            var score = parseInt($(this).find(".score-col").text()) || 0;
+
+            if (scorable === "Yes") {
+                total += score;
+            }
         });
         $("#totalScore").text(total);
     }
@@ -715,7 +1120,18 @@
 
 
                             if (response?.filteredZTClassificationList?.length > 0) {
-                                populateTable("#ztClassificationTable", response.filteredZTClassificationList, "ZTClassification");
+                                // populateTable("#ztClassificationTable", response.filteredZTClassificationList, "ZTClassification");
+                                  const dropdown = document.getElementById("ZTClassification");
+
+                                    dropdown.innerHTML = '<option value="">Select  ZT Classification</option>';
+
+                                     response.filteredZTClassificationList.forEach(item => {
+                                        let option = document.createElement("option");
+                                        option.value = item.value;
+                                        option.textContent = item.text;
+                                        dropdown.appendChild(option);
+                                    });
+
                             } else {
                                 console.error("filteredZTClassificationList is empty.");
                             }

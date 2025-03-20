@@ -380,7 +380,7 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID)
+        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause)
         {
             List<string> errorMessages = new List<string>();
 
@@ -398,7 +398,13 @@ namespace QMS.Controllers
                 TempData["ErrorMessages"] = errorMessages;
                 return RedirectToAction("CreateSubProcess");
             }
-            await _admin.InsertSubProcessDetailsAsync(locationid, ProgramID, SubProcess);
+
+            if (Number_Of_Pause <= 0)  // Direct check since it's a non-nullable int
+            {
+                ModelState.AddModelError("Number_Of_Pause", "Please enter a valid number of pauses (greater than 0).");
+            }
+
+            await _admin.InsertSubProcessDetailsAsync(locationid, ProgramID, SubProcess , Number_Of_Pause);
             errorMessages.Add("Sub-Process Created Sucessfully !");
             TempData["ErrorMessages"] = errorMessages;
             return RedirectToAction("CreateSubProcess");

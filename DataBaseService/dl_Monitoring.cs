@@ -29,7 +29,170 @@ namespace QMS.DataBaseService
             _dcl = dL;
         }
 
+        public async Task<int> SubmitePridictiveEvaluation(List<PredictiveEvaluationModel> model)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
 
+                    foreach (var section in model)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("InsertPridiciveEvaluation", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Transaction_Id", section.Transaction_ID);
+                            cmd.Parameters.AddWithValue("@ProgramID", Convert.ToInt32(section.ProgramID));
+                            cmd.Parameters.AddWithValue("@SubProgramID", Convert.ToInt32(section.SUBProgramID));
+
+                            cmd.Parameters.AddWithValue("@Predictive_CSAT", section.PredictiveCSAT);
+                            cmd.Parameters.AddWithValue("@Predictive_NPS", section.PredictiveNPS);
+                            cmd.Parameters.AddWithValue("@Predictive_FCR", section.PredictiveFCR);
+                            cmd.Parameters.AddWithValue("@Predictive_Repeat", section.PredictiveRepeat ?? (object)DBNull.Value);
+                            cmd.Parameters.AddWithValue("@Predictive_Sales_effort", section.PredictiveSalesEffort);
+                            cmd.Parameters.AddWithValue("@Predictive_Collectioneffort", section.PredictiveCollectionEffort);
+                            cmd.Parameters.AddWithValue("@PredictiveProbableescalation", section.PredictiveEscalation);
+                            cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+
+
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return 0; // Return 0 on failure
+            }
+        }
+
+
+        public async Task<int> SubmiteRouteCauseEvaluation(List<RootCauseAnalysisModel> model)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    foreach (var section in model)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("InsertrouteEvaluation", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Transaction_Id", section.Transaction_ID);
+                            cmd.Parameters.AddWithValue("@ProgramID", Convert.ToInt32(section.ProgramID));
+                            cmd.Parameters.AddWithValue("@SubProgramID", Convert.ToInt32(section.SUBProgramID));
+                         
+                            cmd.Parameters.AddWithValue("@MetricRCA", section.metricRCA);
+                            cmd.Parameters.AddWithValue("@Controllable", section.controllable);
+                            cmd.Parameters.AddWithValue("@RCA1", section.rca1);
+                            cmd.Parameters.AddWithValue("@RCA2", section.rca2 ?? (object)DBNull.Value);
+                            cmd.Parameters.AddWithValue("@RCA3", section.rca3);
+                            cmd.Parameters.AddWithValue("@CommentsSection", section.comments);
+                            cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+                    
+
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return 0; // Return 0 on failure
+            }
+        }
+        public async Task<int> SubmiteSectionEvaluation(List<SectionAuditModel> model)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    foreach (var section in model)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("InsertSectionEvaluation", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Category", section.category);
+                            cmd.Parameters.AddWithValue("@Level", section.level);
+                            cmd.Parameters.AddWithValue("@SectionName", section.sectionName);
+                            cmd.Parameters.AddWithValue("@QA_rating", section.qaRating);
+                            cmd.Parameters.AddWithValue("@Scorable", section.scorable);
+                            cmd.Parameters.AddWithValue("@Weightage", section.score);
+                            cmd.Parameters.AddWithValue("@Commentssection", section.comments ?? (object)DBNull.Value);
+                            cmd.Parameters.AddWithValue("@TransactionID", section.Transaction_ID);
+                            cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+                            cmd.Parameters.AddWithValue("@ProgramID", Convert.ToInt32(section.ProgramID));
+                            cmd.Parameters.AddWithValue("@SubProgramID", Convert.ToInt32(section.SUBProgramID));
+
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+                return 1; // Return 1 only after all records are inserted successfully
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return 0; // Return 0 on failure
+            }
+        }
+
+        public async Task<int> SubmiteFormEvaluation(MonitorFormModel model)
+        {
+           
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("SubmiteMonitoring", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operations", "CallAudit_Master");
+                        cmd.Parameters.AddWithValue("@Audit_Type", model.AuditID);
+                        cmd.Parameters.AddWithValue("@Program_id", Convert.ToInt32( model.ProgramID));
+                        cmd.Parameters.AddWithValue("@SubProgram_id", Convert.ToInt32( model.SUBProgramID));
+                        cmd.Parameters.AddWithValue("@TransactionID", model.Transaction_ID);
+                        cmd.Parameters.AddWithValue("@Category", model.dispositionId);
+                        cmd.Parameters.AddWithValue("@Subcategory", model.SubDispositionID);
+                        cmd.Parameters.AddWithValue("@MonitorID",0);
+                        cmd.Parameters.AddWithValue("@CQ_Score", model.CQ_Scrore);
+                        cmd.Parameters.AddWithValue("@Agent_Name", model.AgentID);
+                        cmd.Parameters.AddWithValue("@AgentID", Convert.ToInt32(model.AgentID));
+                        cmd.Parameters.AddWithValue("@TLName", model.TL_id);
+                        cmd.Parameters.AddWithValue("@TL_ID", model.TL_id);
+                        cmd.Parameters.AddWithValue("@MonitorDate", Convert.ToDateTime( model.Monitored_date));
+                        cmd.Parameters.AddWithValue("@TransactionDate", Convert.ToDateTime(model.Transaction_Date));
+                        cmd.Parameters.AddWithValue("@Year", model.Year);
+                        cmd.Parameters.AddWithValue("@month", model.Month);
+                        cmd.Parameters.AddWithValue("@ZTClassification", model.ZTClassification);
+                        cmd.Parameters.AddWithValue("@ZeroToleranceBehaviour", model.ZeroTolerance);
+                        cmd.Parameters.AddWithValue("@week", model.Week);
+                        cmd.Parameters.AddWithValue("@InsertDate", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+                        await    cmd.ExecuteNonQueryAsync();
+                        return 1;
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
         public async Task<DataSet> GetRCAVAluesDroppdawn()
         {
             DataSet dt = new DataSet();
@@ -96,9 +259,11 @@ namespace QMS.DataBaseService
                 if (!string.IsNullOrEmpty(RecAPiList))
                 {
 
-                    string formattedFromDate = DateTime.ParseExact(fromdate, "MM/dd/yyyy", CultureInfo.InvariantCulture).ToString("yyyyMMdd");
-                    string formattedToDate = DateTime.ParseExact(todate, "MM/dd/yyyy", CultureInfo.InvariantCulture).ToString("yyyyMMdd");
+                    string formattedFromDate = DateTime.ParseExact(fromdate, "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                                  .ToString("yyyyMMdd");
 
+                    string formattedToDate = DateTime.ParseExact(todate, "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                                                    .ToString("yyyyMMdd");
                     var requestBody = new
                     {
                         agentID = AgentID,

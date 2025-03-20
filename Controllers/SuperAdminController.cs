@@ -19,7 +19,7 @@ namespace QMS.Controllers
             _super = dl;
         }
 
-        public async Task<ActionResult> InsertAccount(string AccountName ,string AccountPrefix , string AuthenticationType)
+        public async Task<ActionResult> InsertAccount(string AccountName ,string AccountPrefix , string AuthenticationType, string RecApiList, string RecApiConnID)
         {
             string prefix = AccountPrefix?.ToUpper();
             if (string.IsNullOrEmpty(prefix))
@@ -46,6 +46,16 @@ namespace QMS.Controllers
                 TempData["Validation"] = "Account name and AuthenticationType cannot be empty.";
                 return RedirectToAction("CreateAccount");
             }
+            if (string.IsNullOrEmpty(RecApiList) || RecApiList == "" || RecApiList == null)
+            {
+                TempData["Validation"] = "RecApiList cannot be empty.";
+                return RedirectToAction("CreateAccount");
+            }
+            if (string.IsNullOrEmpty(RecApiConnID) || RecApiConnID == "" || RecApiConnID == null)
+            {
+                TempData["Validation"] = "RecApiConnID cannot be empty.";
+                return RedirectToAction("CreateAccount");
+            }
 
             bool Result = await _super.ExecuteQueryToCheckPrefixAsync(AccountPrefix , AccountName);
             if(Result==true)
@@ -55,7 +65,7 @@ namespace QMS.Controllers
             }
             else
             {
-                await _super.InsertAccountAsync(AccountName, AccountPrefix, AuthenticationType);
+                await _super.InsertAccountAsync(AccountName, AccountPrefix, AuthenticationType ,  RecApiList, RecApiConnID);
                 await _super.CreateAccountByScriptAsync(AccountName);
                 TempData["Validation"] = "Account Is Created Sucessfully !.";
                 return RedirectToAction("CreateAccount");

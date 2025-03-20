@@ -19,8 +19,82 @@ namespace QMS.Controllers
             dl_FormBuilder = adl;
             dl_monitor = dmmonoi;
         }
+        [HttpPost]
+        public async Task<JsonResult> InsertPridictiveCoauseAudit([FromBody] List<PredictiveEvaluationModel> sectionData)
+        {
 
-        [HttpGet]
+
+            if (sectionData == null || sectionData.Count == 0)
+            {
+                return Json(new { success = false, message = "No data received" });
+            }
+            var result = await dl_monitor.SubmitePridictiveEvaluation(sectionData);
+            if (result == 1)
+            {
+                return Json(new { success = true, message = "Ok" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "No data Insert" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> InsertRouutCoauseAudit([FromBody] List<RootCauseAnalysisModel> sectionData)
+        {
+
+
+            if (sectionData == null || sectionData.Count == 0)
+            {
+                return Json(new { success = false, message = "No data received" });
+            }
+            var result = await dl_monitor.SubmiteRouteCauseEvaluation(sectionData);
+            if (result == 1)
+            {
+                return Json(new { success = true, message = "Ok" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "No data Insert" });
+            }
+        }
+        [HttpPost]
+        public  async Task< JsonResult> InsertSectionAudit([FromBody]  List<SectionAuditModel> sectionData)
+        {
+            
+          
+            if (sectionData == null || sectionData.Count == 0)
+            {
+                return Json(new { success = false, message = "No data received" });
+            }
+            var result = await dl_monitor.SubmiteSectionEvaluation(sectionData);
+            if (result == 1)
+            {
+                return Json(new { success = true, message = "Ok" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "No data Insert" });
+            }
+        }
+
+
+        [HttpPost]
+        public  async Task  < IActionResult> FormMinitoringAuditr([FromBody] MonitorFormModel model)
+        {
+            var result= await dl_monitor.SubmiteFormEvaluation(model);
+            if(result==1)
+            {
+                return Ok(new { sucesss =true, message = "Data received successfully" });
+            }
+            else
+            {
+                return Ok(new { sucesss = false,  message = "Data received successfully" });
+            }
+                
+        }
+
+            [HttpGet]
         public async Task<JsonResult> GetRCAValues()
         {
             DataSet ds = await dl_monitor.GetRCAVAluesDroppdawn();

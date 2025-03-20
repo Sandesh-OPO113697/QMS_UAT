@@ -97,7 +97,7 @@ namespace QMS.DataBaseService
             }
 
         }
-        public async Task InsertSubProcessDetailsAsync(string Location_ID, string ProgramID, string SubProcess)
+        public async Task InsertSubProcessDetailsAsync(string Location_ID, string ProgramID, string SubProcess ,int Number_Of_Pause)
         {
 
             using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
@@ -111,6 +111,7 @@ namespace QMS.DataBaseService
                     cmd.Parameters.AddWithValue("@Location", Location_ID);
                     cmd.Parameters.AddWithValue("@Procesname", ProgramID);
                     cmd.Parameters.AddWithValue("@Subprogram", SubProcess.ToUpper());
+                    cmd.Parameters.AddWithValue("@Number_Of_Pause", Number_Of_Pause);
                     cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
                     await cmd.ExecuteNonQueryAsync();
                 }
