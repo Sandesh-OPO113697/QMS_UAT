@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Drawing;
+using Org.BouncyCastle.Utilities;
 
 namespace QMS.DataBaseService
 {
@@ -28,6 +30,76 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
             _dcl = dL;
         }
+        private List<AuditRecord> ProcessLogs(List<AuditEntry> logs)
+        {
+            List<AuditRecord> records = new List<AuditRecord>();
+
+            for (int i = 0; i < logs.Count; i++)
+            {
+                if (logs[i].Type == "Start" || logs[i].Type == "Resume")
+                {
+                    var startTime = logs[i].Time;
+                    var pauseEntry = logs.FirstOrDefault(l => l.Type == "Pause" && l.Time > startTime);
+                    var endEntry = logs.FirstOrDefault(l => (l.Type == "Pause" || l.Type == "End") && l.Time > startTime);
+
+                    records.Add(new AuditRecord
+                    {
+                        StartTime = startTime,
+                        PauseTime = pauseEntry?.Time ?? startTime,
+                        EndTime = endEntry?.Time ?? startTime,
+                        IsPaused = endEntry?.Type == "End" ? 0 : 1 
+                    });
+                }
+            }
+            return records;
+        }
+        public async Task<int> InsertAuditPauseLog(AuditPauseLog audit)
+        {
+            var Transaction_ID = audit.Transaction_ID;
+            var ProgramID = audit.ProgramID;
+            var SUBProgramID = audit.SUBProgramID;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync(); // Ensure the connection is opened asynchronously
+
+                   
+                    foreach (var entry in ProcessLogs(audit.Logs))
+                    {
+                       
+                            using (SqlCommand cmd = new SqlCommand("InsertPauseLog", conn))
+                            {
+                                cmd.CommandType = CommandType.StoredProcedure; // Specify stored procedure
+
+                                cmd.Parameters.AddWithValue("@TransactionID", Transaction_ID);
+                                cmd.Parameters.AddWithValue("@ProgramID", Convert.ToInt32(ProgramID));
+                                cmd.Parameters.AddWithValue("@SubProgramID", Convert.ToInt32(SUBProgramID));
+                                cmd.Parameters.AddWithValue("@Starttime", entry.StartTime) ;
+                                cmd.Parameters.AddWithValue("@Endtime", entry.EndTime);
+                                cmd.Parameters.AddWithValue("@ActualPauseTime", entry.PauseTime);
+
+                                cmd.Parameters.AddWithValue("@IsPause", Convert.ToInt32(entry.IsPaused));
+                                cmd.Parameters.AddWithValue("@createdBy", UserInfo.UserName);
+
+                                await cmd.ExecuteNonQueryAsync();
+                            }
+                        
+                    }
+
+                   
+                }
+
+                return 1; // Success
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error inserting audit log: {ex.Message}");
+                return 0; // Failure
+            }
+        }
+
 
         public async Task<int> SubmitePridictiveEvaluation(List<PredictiveEvaluationModel> model)
         {
@@ -459,6 +531,32 @@ namespace QMS.DataBaseService
             return TL_Name;
         }
 
+        public async Task<string> CheckAuditByTransactionDone(string connid)
+        {
+            string TreancationID = string.Empty;
+            string StoreProcedure = "MonitoringDetails";
+
+            using (var connection = new SqlConnection(UserInfo.Dnycon))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand(StoreProcedure, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@Operations", "CheckAuditIsDone");
+                    command.Parameters.AddWithValue("@TranactionID", connid);
+
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            TreancationID = reader["TransactionID"].ToString();
+
+                        }
+                    }
+                }
+            }
+            return TreancationID;
+        }
 
         public async Task<string> GetRecordingByConnID(string connid)
         {

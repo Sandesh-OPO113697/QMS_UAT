@@ -20,6 +20,41 @@ namespace QMS.Controllers
             dl_monitor = dmmonoi;
         }
         [HttpPost]
+        [Route("save-audit")]
+        public async Task< IActionResult > SaveAudit([FromBody] AuditPauseLog audit)
+        {
+            if (audit == null)
+                return BadRequest("Invalid audit data");
+            var data = await dl_monitor.InsertAuditPauseLog(audit);
+
+            return Ok(new { message = "Audit saved successfully!" });
+        }
+
+
+        public async Task<IActionResult> CheckTheAuditIsDone([FromBody] DropDawnString id)
+        {
+            if (id == null || string.IsNullOrEmpty(id.ID))
+            {
+                return Json(new { success = false, message = "Invalid ID" });
+            }
+
+            try
+            {
+                string TransactionID = await dl_monitor.CheckAuditByTransactionDone(id.ID.ToString());
+
+
+                return Json(new { success = true, connid = TransactionID });
+            }
+            catch (FileNotFoundException)
+            {
+                return Json(new { success = false, message = "File not found." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error: " + ex.Message });
+            }
+        }
+        [HttpPost]
         public async Task<JsonResult> InsertPridictiveCoauseAudit([FromBody] List<PredictiveEvaluationModel> sectionData)
         {
 
@@ -184,6 +219,9 @@ namespace QMS.Controllers
             ViewBag.AuditTypeList = AuditType;
 
             DataTable dt = await _admin.GetProcessListAsync();
+            DataTable LastTransaction = await _admin.GetLastTransactionListAsync();
+            ViewBag.LastTransaction = LastTransaction;
+
             var processList = dt.AsEnumerable().Select(row => new SelectListItem
             {
                 Value = row["ID"].ToString(),

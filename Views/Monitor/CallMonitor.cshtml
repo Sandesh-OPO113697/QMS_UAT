@@ -110,31 +110,102 @@
 
 
 <div id="recordingContainer"></div>
+<div class="row">
+    <div class="col-md-6 my-4" id="RelListDiv" style="display:none">
+        <div class="card shadow">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="w-40">Agent ID</th>
+                                <th class="w-40">Transaction ID</th>
+                                <th class="w-40">Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="col-md-12 my-4" id="RelListDiv" style="display:none">
-    <div class="card shadow">
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <table class="table table-bordered ">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th class="w-50">Agent ID</th>
+    <div class="col-md-6 my-4" id="LastReansaction" style="display:none">
+        <div class="card shadow">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                              
+                                <th class="w-40">ID</th>
+                                <th class="w-40">Transaction ID</th>
+                                <th class="w-40">CQ_Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lastRecTableBody">
+                            @if (ViewBag.LastTransaction != null)
+                            {
+                                foreach (System.Data.DataRow row in ViewBag.LastTransaction.Rows)
+                                {
+                                    <tr>
+                                        <td>@row["ID"]</td>
+                                        <td>@row["TransactionID"]</td>
+                                        <td>@row["CQ_Score"]</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center">No data available</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div> 
+                <div>
 
-                            <th class="w-50">Conn ID</th>
-                            <th>C-Path</th>
-                        </tr>
-                    </thead>
-                    <tbody id="recTableBody">
-                    </tbody>
-                </table>
+                    <div class="col-md-12">
+                        <div class="form-group mb-3 d-flex align-items-center justify-content-start gap-4"
+                             style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa;">
+
+                            <button id="StartAudit" class="btn btn-primary" onclick="startAudit()"
+                                    style="padding: 10px 20px; font-size: 16px;">
+                                Start Audit
+                            </button>
+
+                            <button id="pauseButton" onclick="togglePause()"
+                                    style="display: flex; align-items: center; justify-content: center;margin-left:20px; width: 50px; height: 50px; border: none; border-radius: 50%; background: linear-gradient(135deg, #007bff, #0056b3); color: white; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;"
+                                    disabled>
+                                <i id="pauseIcon" class="fe fe-24 fe-play"></i>
+                            </button>
+
+                            <span id="timer" style="font-size: 20px; font-weight: bold; min-width: 70px; text-align: center;">
+                                00:00
+                            </span>
+
+                            <span id="pauseCount" style="font-size: 16px; font-weight: bold; min-width: 90px;">
+                                Pauses: 0
+                            </span>
+                            <span id="pauseLimit" style="font-size: 16px; font-weight: bold; min-width: 100px;">
+                                Limit Of Pauses:
+                            </span>
+
+                          
+                        </div>
+                    </div>
+                   
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 
-<div class="card shadow mb-4" id="SectionGried">
+<div class="card shadow mb-4" id="SectionGried" style="display:none">
     <div class="card-header">
         <strong class="card-title"> Section</strong>
 
@@ -168,7 +239,7 @@
 
 
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-4" id="rooutcause" style="display:none">
     <div class="card-header">
         <strong class="card-title">Root Cause Analysis</strong>
        
@@ -198,7 +269,7 @@
 
 
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-4" id="Predictivediv" style="display:none">
     <div class="card-header">
         <strong class="card-title">Predictive Analysis</strong>
        
@@ -228,7 +299,7 @@
 
 
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-4" id="ZtClassfictions" style="display:none">
     <div class="card-header">
         <strong class="card-title">ZT Classification</strong>
       
@@ -245,7 +316,7 @@
 </div>
 
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-4" id="Zerotollernce" style="display:none">
     <div class="card-header">
         <strong class="card-title">Zero Tolerance Behaviour</strong>
     </div>
@@ -277,11 +348,7 @@
                     <button id="btnSubmite" class="btn btn-primary mt-4" onclick="SubMitedata()">Submit</button>
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="form-group mb-3">
-                    <button id="btnSave" class="btn btn-primary mt-4" >Save</button>
-                </div>
-            </div>
+         
 
             <div class="col-md-2">
                 <div class="form-group mb-3">
@@ -304,30 +371,29 @@
         </div>
     </div>
 </div>
-@* <script>
+<script>
 
-    function InsertCallAudit()
-    {
+    function InsertCallAudit() {
         console.log("Button Clicked!");
-             var selectedZTClassification = $("#ZTClassification").val();
-                var zeroToleranceValue = $("input[name='zeroTolerance']:checked").val();
+        var selectedZTClassification = $("#ZTClassification").val();
+        var zeroToleranceValue = $("input[name='zeroTolerance']:checked").val();
+        var CcID = $("#Transaction_ID").val();
+        var totalScoreValue = $("#totalScore").text().trim();
 
-                if (!selectedZTClassification) {
-                alert("Please select a ZT Classification.");
-                return;
-            }
-            if (!zeroToleranceValue) {
-                alert("Please select Zero Tolerance Behaviour.");
-                return;
-            }
-            var CcID= $("#Transaction_ID").val();
-            if (!CcID) {
-                alert("Please select Transaction_ID.");
-                return;
-            }
-       var totalScoreValue = $("#totalScore").text().trim();
-       alert(totalScoreValue);
-        var FormMonitorDatadata = {
+        if (!selectedZTClassification ) {
+            alert("Please  selected ZTC lassification  .");
+            return false;
+        }
+        if (!zeroToleranceValue ) {
+            alert("Please  selected  zero ToleranceValue .");
+            return false;
+        }
+        if (!CcID) {
+            alert("Please Select Call For  Audit  .");
+            return false;
+        }
+
+        return {
             AuditID: $("#AuditID").val(),
             ProgramID: $("#ProgramID").val(),
             SUBProgramID: $("#SUBProgramID").val(),
@@ -337,47 +403,30 @@
             ToDate: $("#Todate").val(),
             AgentID: $("#AgentID").val(),
             TL_id: $("#TL_id").val(),
-            Transaction_ID: $("#Transaction_ID").val(),
+            Transaction_ID: CcID,
             Monitored_date: $("#Monitored_date").val(),
             Transaction_Date: $("#Transaction_Date").val(),
             Year: $("#Year").val(),
             Month: $("#Month").val(),
             Week: $("#Week").val(),
-             ZTClassification: selectedZTClassification,
-             ZeroTolerance: zeroToleranceValue,
-            CQ_Scrore:totalScoreValue
+            ZTClassification: selectedZTClassification,
+            ZeroTolerance: zeroToleranceValue,
+            CQ_Scrore: totalScoreValue
         };
-
-      
-
-      
-        $.ajax({
-            url: "/Monitor/FormMinitoringAuditr",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(FormMonitorDatadata),
-            success: function (response) {
-               
-                alert("Data submitted successfully!");
-            },
-            error: function (xhr, status, error) {
-                console.log("AJAX Error:", error);
-                alert("Error submitting data.");
-            }
-        });
     }
-    function InsertSectionAudit()
-    {
-           var isValid = true;
+
+    function InsertSectionAudit() {
+        
+         var isValid = true;
             var gridData = [];
 
 
-                $("#sectionGrid tbody tr:not(:last-child)").each(function () { 
+                $("#sectionGrid tbody tr:not(:last-child)").each(function () {
                     var $row = $(this);
-                    var category = $row.find("td:eq(0)").text()?.trim() || ""; 
+                    var category = $row.find("td:eq(0)").text()?.trim() || "";
                     var level = $row.find("td:eq(1)").text()?.trim() || "";
                     var sectionName = $row.find("td:eq(2)").text()?.trim() || "";
-                    var qaRating = $row.find(".qa-rating").val(); 
+                    var qaRating = $row.find(".qa-rating").val();
                     var scorable = $row.find("td:eq(4)").text()?.trim() || "";
                     var score = $row.find("td:eq(5)").text()?.trim() || "";
                    var comments = $row.find("input[type='text']").val()?.trim() || "";
@@ -385,11 +434,22 @@
                     if (category === "" && level === "" && sectionName === "") {
                         return;
                     }
-                    if (qaRating === "" || comments === "") {
+                    if (qaRating === "") {
                         isValid = false;
-                        $row.find(".qa-rating, input.comments-section").addClass("border border-danger");
+                        $row.find(".qa-rating").addClass("border border-danger");
+                      
                     } else {
-                        $row.find(".qa-rating, input.comments-section").removeClass("border border-danger");
+                        $row.find(".qa-rating").removeClass("border border-danger");
+                       
+                    }
+
+                     if ( comments === "") {
+                        isValid = false;
+                       
+                         $row.find("input[type='text']").addClass("border border-danger");
+                    } else {
+                        
+                         $row.find("input[type='text']").removeClass("border border-danger");
                     }
 
                     gridData.push({
@@ -406,31 +466,17 @@
                     });
                 });
 
-           
+
             if (!isValid) {
-                alert("Please select QA Rating and enter Comments for all rows.");
+                alert("Please select QA Rating and enter Comments In Section ");
                 return;
             }
 
-            
-            $.ajax({
-                url: "/Monitor/InsertSectionAudit",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(gridData),
-                success: function (response) {
-                    alert("Data submitted successfully!");
-                    
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error:", error);
-                    alert("An error occurred while submitting data.");
-                }
-            });
 
+        return isValid ? gridData : false;
     }
-function RootCauseevalution()
-{
+
+    function RootCauseEvaluation() {
           let tableData = [];
         let isValid = true;
 
@@ -475,29 +521,14 @@ function RootCauseevalution()
         });
 
         if (!isValid) {
-            alert("Please fill all fields before submitting.");
+            alert("Please fill all fields  in Root Cause Evaluation before submitting.");
             return;
         }
-                 console.log("Form reoot Cause Data:", tableData);
-                    console.log("JSON String:", JSON.stringify(tableData)); 
+        return isValid ? tableData : false;
+    }
 
-    
-        $.ajax({
-                    url: "/Monitor/InsertRouutCoauseAudit",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(tableData),
-            success: function (response) {
-                alert("Data submitted successfully!");
-            },
-            error: function (xhr, status, error) {
-                console.error("Error:", error);
-                alert("Error submitting data.");
-            }
-        });
-}
     function InsertPredictiveEvaluation() {
-        let tableId = "#predictiveAnalysisTable";
+          let tableId = "#predictiveAnalysisTable";
         let tableBody = $(tableId + " tbody");
         let dataToSend = [];
         let isValid = true;
@@ -508,179 +539,12 @@ function RootCauseevalution()
         tableBody.find("tr").each(function () {
             let row = $(this);
             let rowData = {
-                Transaction_ID: transactionId, 
-                ProgramID: programId,          
-                SUBProgramID: subProgramId     
+                Transaction_ID: transactionId,
+                ProgramID: programId,
+                SUBProgramID: subProgramId
             };
 
             rowData["PredictiveCSAT"] = row.find("td:eq(0)").text().trim();
-            row.find("select").each(function (index) {
-                let dropdown = $(this);
-                let selectedValue = dropdown.val();
-
-                if (!selectedValue) {
-                    isValid = false;
-                    dropdown.addClass("is-invalid");
-                } else {
-                    dropdown.removeClass("is-invalid"); 
-                }
-
-                let columnNames = [
-                    "PredictiveNPS",
-                    "PredictiveFCR",
-                    "PredictiveRepeat",
-                    "PredictiveSalesEffort",
-                    "PredictiveCollectionEffort",
-                    "PredictiveEscalation"
-                ];
-                rowData[columnNames[index]] = selectedValue;
-            });
-
-            dataToSend.push(rowData);
-        });
-
-     
-        if (!isValid) {
-            alert("Please select all dropdown values before submitting.");
-            return;
-        }
-
- 
-        $.ajax({
-            type: "POST",
-                url: "/Monitor/InsertPridictiveCoauseAudit",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(dataToSend),
-            dataType: "json",
-            success: function (response) {
-                if (response.success) {
-                    alert("Data submitted successfully!");
-                 
-                    tableBody.find("select").removeClass("is-invalid");
-                } else {
-                    alert("Failed to submit data.");
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error occurred: " + error);
-                alert("An error occurred while submitting data.");
-            }
-        });
-    }
-
-
-    function SubMitedata() {
-            InsertCallAudit();
-                InsertSectionAudit();
-                    RootCauseevalution();
-               InsertPredictiveEvaluation();
-    }
-</script>
- *@
-<script>
-
-    function InsertCallAudit() {
-        console.log("Button Clicked!");
-        var selectedZTClassification = $("#ZTClassification").val();
-        var zeroToleranceValue = $("input[name='zeroTolerance']:checked").val();
-        var CcID = $("#Transaction_ID").val();
-        var totalScoreValue = $("#totalScore").text().trim();
-
-        if (!selectedZTClassification || !zeroToleranceValue || !CcID) {
-            alert("Please fill all required fields in Call Audit  .");
-            return false;
-        }
-
-        return {
-            AuditID: $("#AuditID").val(),
-            ProgramID: $("#ProgramID").val(),
-            SUBProgramID: $("#SUBProgramID").val(),
-            dispositionId: $("#dispositionId").val(),
-            SubDispositionID: $("#SubDispositionID").val(),
-            FromDate: $("#FromDate").val(),
-            ToDate: $("#Todate").val(),
-            AgentID: $("#AgentID").val(),
-            TL_id: $("#TL_id").val(),
-            Transaction_ID: CcID,
-            Monitored_date: $("#Monitored_date").val(),
-            Transaction_Date: $("#Transaction_Date").val(),
-            Year: $("#Year").val(),
-            Month: $("#Month").val(),
-            Week: $("#Week").val(),
-            ZTClassification: selectedZTClassification,
-            ZeroTolerance: zeroToleranceValue,
-            CQ_Scrore: totalScoreValue
-        };
-    }
-
-    function InsertSectionAudit() {
-        var isValid = true;
-        var gridData = [];
-
-        $("#sectionGrid tbody tr:not(:last-child)").each(function () {
-            var $row = $(this);
-            var category = $row.find("td:eq(0)").text()?.trim() || "";
-            var qaRating = $row.find(".qa-rating").val();
-            var comments = $row.find("input[type='text']").val()?.trim() || "";
-
-            if (!qaRating || !comments) {
-                isValid = false;
-                $row.find(".qa-rating, input.comments-section").addClass("border border-danger");
-            }
-
-            gridData.push({
-                category: category,
-                qaRating: qaRating,
-                comments: comments,
-                Transaction_ID: $("#Transaction_ID").val(),
-                ProgramID: $("#ProgramID").val(),
-                SUBProgramID: $("#SUBProgramID").val()
-            });
-        });
-
-        return isValid ? gridData : false;
-    }
-
-    function RootCauseEvaluation() {
-        let tableData = [];
-        let isValid = true;
-
-        $("#rootCauseTable tbody tr").each(function () {
-            let row = $(this);
-            let controllable = row.find(".qa-rating[data-index]").val();
-            let comments = row.find("input[type='text']").val()?.trim() || "";
-
-            if (!controllable || !comments) {
-                isValid = false;
-                row.find(".qa-rating[data-index], input[type='text']").addClass("border border-danger");
-            }
-
-            tableData.push({
-                controllable: controllable,
-                comments: comments,
-                Transaction_ID: $("#Transaction_ID").val(),
-                ProgramID: $("#ProgramID").val(),
-                SUBProgramID: $("#SUBProgramID").val()
-            });
-        });
-
-        return isValid ? tableData : false;
-    }
-
-    function InsertPredictiveEvaluation() {
-        let tableId = "#predictiveAnalysisTable";
-        let tableBody = $(tableId + " tbody");
-        let dataToSend = [];
-        let isValid = true;
-
-        tableBody.find("tr").each(function () {
-            let row = $(this);
-            let rowData = {
-                Transaction_ID: $("#Transaction_ID").val(),
-                ProgramID: $("#ProgramID").val(),
-                SUBProgramID: $("#SUBProgramID").val()
-            };
-
             row.find("select").each(function (index) {
                 let dropdown = $(this);
                 let selectedValue = dropdown.val();
@@ -706,26 +570,92 @@ function RootCauseevalution()
             dataToSend.push(rowData);
         });
 
+
+        if (!isValid) {
+            alert("Please select all dropdown values in Predictive Evaluation before submitting.");
+            return;
+        }
         return isValid ? dataToSend : false;
     }
 
+        function clearValues() {
+        $("#sectionGrid tbody").find("tr").each(function () {
+            $(this).find(".qa-rating").val(""); 
+            
+            $(this).find("#Comments_Section").val("");
+        });
+             $("#rootCauseTable tbody, #predictiveAnalysisTable tbody").find("tr").each(function () {
+            $(this).find("select").val(""); 
+            $(this).find("input[type='text']").val("");
+        });
+
+          $("#ZTClassification").val("");
+        $("#yesCheckbox, #noCheckbox").prop("checked", false);
+
+           let container = document.getElementById("recordingContainer");
+            container.innerHTML = ""; 
+            container.style.display = "none";
+
+             $("#SectionGried").hide();
+           $("#rooutcause").hide();
+             $("#Predictivediv").hide();
+             $("#ZtClassfictions").hide();
+             $("#Zerotollernce").hide();
+       
+    }
+
     function SubMitedata() {
+         let pauseIcon = document.getElementById("pauseIcon");
+
+                if (pauseIcon.classList.contains("fe-pause")) {
+                    alert("Please resume before  Submite the audit.");
+                    return;
+                }
+       
+         var CcID = $("#Transaction_ID").val();
+         if (!CcID) {
+            alert("Please Select Call For  Audit First .");
+            return false;
+        }
+        var AuditType=$("#AuditID").val();
+        if(AuditType==2)
+        {
+            var dispositionId=  $("#dispositionId").val();
+           var  SubDispositionID = $("#SubDispositionID").val();
+            if (!dispositionId || !SubDispositionID ) {
+            alert("Please select Disposition And SubDisposition before submitting.");
+            return;
+        }
+        }
         let callAuditData = InsertCallAudit();
         let sectionAuditData = InsertSectionAudit();
         let rootCauseData = RootCauseEvaluation();
         let predictiveData = InsertPredictiveEvaluation();
 
+        console.log("Call Audiut");
+
+        console.log(JSON.stringify(callAuditData));
+          console.log("Section");
+        console.log(JSON.stringify(sectionAuditData));
+          console.log("Roout Cause");
+        console.log(JSON.stringify(rootCauseData));
+          console.log("Pridictive");
+        console.log(JSON.stringify(predictiveData));
+
+
+
+
         if (!callAuditData || !sectionAuditData || !rootCauseData || !predictiveData) {
             alert("Please fill all required fields before submitting.");
             return;
         }
-
+         endAudit();
         $.ajax({
             url: "/Monitor/FormMinitoringAuditr",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(callAuditData),
-            success: function () { alert("Call Audit submitted successfully!"); }
+            success: function () { }
         });
 
         $.ajax({
@@ -733,23 +663,42 @@ function RootCauseevalution()
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(sectionAuditData),
-            success: function () { alert("Section Audit submitted successfully!"); }
+            success: function () {  }
         });
 
-        $.ajax({
-            url: "/Monitor/InsertRouutCoauseAudit",
+       $.ajax({
+         url: "/Monitor/InsertRouutCoauseAudit",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(rootCauseData),
-            success: function () { alert("Root Cause Evaluation submitted successfully!"); }
+            success: function (response) {
+                
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+               
+            }
         });
 
-        $.ajax({
-            url: "/Monitor/InsertPridictiveCoauseAudit",
+          $.ajax({
             type: "POST",
-            contentType: "application/json",
+                url: "/Monitor/InsertPridictiveCoauseAudit",
+            contentType: "application/json; charset=utf-8",
             data: JSON.stringify(predictiveData),
-            success: function () { alert("Predictive Evaluation submitted successfully!"); }
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    alert("Call Evaluation  submitted successfully!");
+                    clearValues();
+                  
+                } else {
+                    alert("Failed to submit  Evaluation data.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+                alert("An error occurred while submitting data.");
+            }
         });
     }
 </script>
@@ -840,48 +789,193 @@ function RootCauseevalution()
             target.style.setProperty("color", "#03FD03", "important");
 
             var audioPath = target.getAttribute("data-path");
-            $("#Transaction_ID").val(audioPath);
-            $.ajax({
-                type: "POST",
-                data: JSON.stringify({ id: audioPath }),
-                url: "/Monitor/GetRecording",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    if (response.success) {
-                        let container = document.getElementById("recordingContainer");
-                        container.innerHTML = "";
-                        let byteCharacters = atob(response.audioData);
-                        let byteNumbers = new Array(byteCharacters.length);
-                        for (let i = 0; i < byteCharacters.length; i++) {
-                            byteNumbers[i] = byteCharacters.charCodeAt(i);
-                        }
-                        let byteArray = new Uint8Array(byteNumbers);
-                        let blob = new Blob([byteArray], { type: "audio/mpeg" });
-                        let audioUrl = URL.createObjectURL(blob);
 
-                        let audioPlayer = document.createElement("audio");
-                        audioPlayer.controls = true;
-                        audioPlayer.src = audioUrl;
-                        audioPlayer.autoplay = true;
-                        audioPlayer.style.width = "100%";
-                        container.appendChild(audioPlayer);
-                    } else {
-                        console.error("Error: " + response.message);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error occurred: " + error);
-                }
-            });
+                              $.ajax({
+                        type: "POST",
+                        url: "/Monitor/CheckTheAuditIsDone",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify({ id: audioPath }),
+                        success: function (response) {
+                            if (response.success) {
+                                if (response.connid && response.connid.trim() !== "") {
+                                    alert("For This Transaction ID, Audit Has Been Done");
+                                    return;
+                                }
+                                else{
+                                      $("#Transaction_ID").val(audioPath);
+                                        $.ajax({
+                                            type: "POST",
+                                            data: JSON.stringify({ id: audioPath }),
+                                            url: "/Monitor/GetRecording",
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (response) {
+                                                if (response.success) {
+                                                    let container = document.getElementById("recordingContainer");
+                                                    container.innerHTML = "";
+                                                    let byteCharacters = atob(response.audioData);
+                                                    let byteNumbers = new Array(byteCharacters.length);
+                                                    for (let i = 0; i < byteCharacters.length; i++) {
+                                                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                                                    }
+                                                    let byteArray = new Uint8Array(byteNumbers);
+                                                    let blob = new Blob([byteArray], { type: "audio/mpeg" });
+                                                    let audioUrl = URL.createObjectURL(blob);
+
+                                                    let audioPlayer = document.createElement("audio");
+                                                    audioPlayer.controls = true;
+                                                    audioPlayer.src = audioUrl;
+                                                    audioPlayer.autoplay = true;
+                                                    audioPlayer.style.width = "100%";
+                                                    container.appendChild(audioPlayer);
+                                                    container.style.display = "block";
+                                                } else {
+                                                    console.error("Error: " + response.message);
+                                                }
+                                            },
+                                            error: function (xhr, status, error) {
+                                                console.error("Error occurred: " + error);
+                                            }
+                                        });
+                                }
+                            } else {
+                                console.error("Error: " + response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error occurred: " + error);
+                        }
+                    });
+
+
+
+
+          
         }
     });
 
 
 
 </script>
+
+<script>
+    let timerInterval, startTime, pauseTime, resumeTime, endTime;
+    let elapsedSeconds = 0, pauseCount = 0, totalPauseDuration = 0;
+    let auditLogs = [];
+
+    function updateTimerDisplay() {
+        let minutes = Math.floor(elapsedSeconds / 60);
+        let seconds = elapsedSeconds % 60;
+        document.getElementById("timer").innerText =
+            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function startAudit() {
+        DisplayDiv();
+        startTime = new Date();
+        document.getElementById("pauseButton").disabled = false;
+     
+        document.getElementById("StartAudit").disabled = true;
+
+        auditLogs.push({ type: "Start", time: startTime });
+
+        timerInterval = setInterval(() => {
+            elapsedSeconds++;
+            updateTimerDisplay();
+        }, 1000);
+    }
+
+    function togglePause() {
+        let pauseButton = document.getElementById("pauseButton");
+        let pauseIcon = document.getElementById("pauseIcon");
+
+        if (timerInterval) {
+            // Pausing
+            clearInterval(timerInterval);
+            timerInterval = null;
+            pauseTime = new Date();
+            pauseCount++;
+            pauseIcon.classList.replace("fe-play", "fe-pause");
+
+            auditLogs.push({ type: "Pause", time: pauseTime });
+
+            document.getElementById("pauseCount").innerText = `Pauses: ${pauseCount}`;
+        } else {
+            // Resuming
+            resumeTime = new Date();
+            let pauseDuration = (resumeTime - pauseTime) / 1000;
+            totalPauseDuration += pauseDuration;
+
+            auditLogs.push({ type: "Resume", time: resumeTime, pauseDuration });
+
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+
+            pauseIcon.classList.replace("fe-pause", "fe-play");
+        }
+    }
+
+    function endAudit() {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        endTime = new Date();
+
+        auditLogs.push({ type: "End", time: endTime });
+
+        // Prepare Data for AJAX
+        let auditData = {
+            startTime: startTime,
+            endTime: endTime,
+            totalDuration: elapsedSeconds,
+            totalPauseCount: pauseCount,
+            totalPauseDuration: totalPauseDuration,
+            logs: auditLogs,
+             Transaction_ID: $("#Transaction_ID").val(),
+                ProgramID: $("#ProgramID").val(),
+                SUBProgramID: $("#SUBProgramID").val()
+
+        };
+
+        console.log("Audit Data Sent:", auditData); // Debugging
+    fetch('/save-audit', {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify(auditData)
+       })
+       .then(response => response.json())
+       .then(data => {
+           console.log("Server Response:", data);
+           alert("Audit Saved Successfully!");
+       })
+       .catch(error => console.error("Error:", error))
+        // Reset UI
+        document.getElementById("StartAudit").disabled = false;
+        document.getElementById("pauseButton").disabled = true;
+   
+        document.getElementById("pauseCount").innerText = "Pauses: 0";
+        elapsedSeconds = 0;
+        pauseCount = 0;
+        totalPauseDuration = 0;
+        auditLogs = [];
+        updateTimerDisplay();
+    }
+</script>
 <script>
 
+     
+
+     function DisplayDiv()
+     {
+       
+         $("#SectionGried").show();
+           $("#rooutcause").show();
+             $("#Predictivediv").show();
+             $("#ZtClassfictions").show();
+             $("#Zerotollernce").show();
+     }
     function OnAuditChange()
     {
         var audit = $("#AuditID").val();
@@ -905,6 +999,7 @@ function RootCauseevalution()
         $("#AgentID").empty().append('<option value="">Select Agent</option>');
         $("#TL_id").val("");
         $("#RelListDiv").hide();
+            $("#LastReansaction").hide();
     }
 
         function clearFieldsSubProcesssChange() {
@@ -914,6 +1009,7 @@ function RootCauseevalution()
         $("#AgentID").empty().append('<option value="">Select Agent</option>');
         $("#TL_id").val("");
         $("#RelListDiv").hide();
+            $("#LastReansaction").hide();
     }
     function onProgramChange() {
            var programId = document.getElementById("ProgramID").value;
@@ -992,8 +1088,9 @@ function RootCauseevalution()
                    console.error("Error occurred: " + error);
                }
            });
-
+           
            $("#RelListDiv").show();
+             $("#LastReansaction").show();
            $.ajax({
                     type: "POST",
                     data: JSON.stringify({ fromDate: fromDate, toDate: toDate, agentId: agentId }),
@@ -1020,7 +1117,7 @@ function RootCauseevalution()
                                         <td class="text-muted">${rec.AgentId}</td>
                                          <td class="text-muted">${rec.CONNID}</td>
 
-                                        <td class="text-muted">${rec.CPath}</td>
+                                        <td class="text-muted">${rec.CallDuration}</td>
                                     </tr>`;
 
                                     tableBody.innerHTML += row;

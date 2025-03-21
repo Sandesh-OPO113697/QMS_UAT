@@ -226,6 +226,28 @@ namespace QMS.DataBaseService
 
             return dt;
         }
+
+        public async Task<DataTable> GetLastTransactionListAsync()
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("MonitoringDetails", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+                    cmd.Parameters.AddWithValue("@Operations", "GetLastTranaction");
+                   
+
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    await Task.Run(() => adpt.Fill(dt));
+                }
+            }
+            return dt;
+        }
+
         public async Task<DataTable> GetProcessListAsync()
         {
             DataTable dt = new DataTable();
