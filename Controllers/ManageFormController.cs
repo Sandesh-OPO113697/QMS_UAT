@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Org.BouncyCastle.Asn1.Ocsp;
 using QMS.DataBaseService;
 using QMS.Models;
 using System.Data;
@@ -18,7 +19,25 @@ namespace QMS.Controllers
             _admin = adam;
             dl_FormBuilder = adl;
         }
-        [HttpPost]
+        [HttpPost("SaveDispositions")]
+        public async Task< IActionResult> SaveDispositions([FromBody] EditDispoRequestModel dispositions)
+        {
+            await dl_FormBuilder.UpdateDispositionfeilds(dispositions.dispositions);
+            return Ok();
+        }
+        [HttpPost("SaveSubDispositions")]
+        public async Task<IActionResult> SaveSubDispositions([FromBody] EditSUBDispoRequestModel subDispositions)
+        {
+            await dl_FormBuilder.UpdateSubDispositionfeilds(subDispositions.subDispositions);
+            return Ok();
+        }
+            [HttpPost]
+        public async Task<IActionResult> BulkInsertDispostitionList(IFormFile file, string processID, string SubProcesID)
+        {
+            await dl_FormBuilder.BuilkDispoUpload(file , processID , SubProcesID);
+            return Ok();
+        }
+            [HttpPost]
         public async Task< JsonResult> SaveAgents([FromBody] AgentRequestModel agents)
         {
             await dl_FormBuilder.UpdateAgentfeilds(agents.Agents);
@@ -411,6 +430,8 @@ namespace QMS.Controllers
             {
                 var dataTable = await dl_FormBuilder.GetSectionGriedAsync(id.ProcessID, id.SUBProcessID);
                 var dataTable2 = await dl_FormBuilder.GetAgentGriedAsync(id.ProcessID, id.SUBProcessID);
+                var dataTable3 = await dl_FormBuilder.GetDispostionGriedAsync(id.ProcessID, id.SUBProcessID);
+                var dataTable4 = await dl_FormBuilder.GetSubDispositionriedAsync(id.ProcessID, id.SUBProcessID);
                 DataTable DynamicFeild = await dl_FormBuilder.GetDynamicGriedAsync(id.ProcessID, id.SUBProcessID);
 
 
@@ -439,6 +460,23 @@ namespace QMS.Controllers
                     QA_Name = row.Field<string>("QA_Name")
 
 
+
+
+                }).ToList();
+                var dispositiongried = dataTable3.AsEnumerable().Select(row => new EditDispoModel
+                {
+                    
+                    Dispostition_ID = row.Field<int>("Dispostition_ID"),
+                    Disposition_name = row.Field<string>("Disposition_name")
+                   
+
+                }).ToList();
+
+                var subdispositiongried = dataTable4.AsEnumerable().Select(row => new EditSubDispoModel
+                {
+
+                    Disposition = row.Field<string>("Disposition"),
+                    SubDisposition = row.Field<string>("SubDisposition")
 
 
                 }).ToList();
@@ -490,7 +528,9 @@ namespace QMS.Controllers
                     FilteredPredictiveList = filteredPredictiveList,
                     FilteredZTClassificationList = filteredZTClassificationList,
                     ZeroTolerance = Zero_Tolerance,
-                    agentgried= agentgried
+                    agentgried= agentgried,
+                    dispositiongried= dispositiongried,
+                    subdispositiongried=subdispositiongried
                 });
             }
             catch (Exception ex)

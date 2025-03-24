@@ -7,12 +7,250 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using static System.Collections.Specialized.BitVector32;
 using Org.BouncyCastle.Asn1.Cms;
 using System.Diagnostics;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using OfficeOpenXml;
 
 namespace QMS.DataBaseService
 {
     public class Dl_formBuilder
     {
+        public async Task UpdateDispositionfeilds(List<EditDispoModelString> fields)
+        {
+            var ProgramID = fields.First().ProgramID.ToString();
+            var subProgramId = fields.First().SubProgramID.ToString();
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                await con.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("EditFormvalue", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
 
+                    cmd.Parameters.AddWithValue("@Operation", "Deletedispostion");
+                    cmd.Parameters.AddWithValue("@ProcessID", ProgramID);
+                    cmd.Parameters.AddWithValue("@SubProcessID", subProgramId);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    foreach (var field in fields)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("sp_InsertDisposition", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.CommandTimeout = 0;
+                            cmd.Parameters.AddWithValue("@DispositionName", field.Disposition_name);
+                            cmd.Parameters.AddWithValue("@ProcessID", ProgramID);
+                            cmd.Parameters.AddWithValue("@SUBProcessID", subProgramId);
+                            cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+
+                            SqlParameter outputIdParam = new SqlParameter("@Dispostition_ID", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            };
+                            cmd.Parameters.Add(outputIdParam);
+
+                            await cmd.ExecuteNonQueryAsync();
+
+                          
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error inserting dynamic fields: " + ex.Message);
+            }
+
+
+        }
+        public async Task UpdateSubDispositionfeilds(List<EditSubDispoModel> fields)
+        {
+            var ProgramID = fields.First().ProgramID.ToString();
+            var subProgramId = fields.First().SubProgramID.ToString();
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                await con.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("EditFormvalue", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Operation", "DeleteSubdispostion");
+                    cmd.Parameters.AddWithValue("@ProcessID", ProgramID);
+                    cmd.Parameters.AddWithValue("@SubProcessID", subProgramId);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+
+
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    foreach (var field in fields)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("sp_UpdateeSubDisposition", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.CommandTimeout = 0;
+                            cmd.Parameters.AddWithValue("@SubDispositionName", field.SubDisposition);
+                            cmd.Parameters.AddWithValue("@Dispostition_ID", field.Disposition);
+                            cmd.Parameters.AddWithValue("@ProcessID", ProgramID);
+                            cmd.Parameters.AddWithValue("@SubProcessID", subProgramId);
+                            cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error inserting dynamic fields: " + ex.Message);
+            }
+
+
+        }
+
+        public async Task<int> InsertdispotList(string Disposition_name, string processID, string SubProcessID)
+        {
+            int insertedID = 0;
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("sp_InsertDisposition", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+                    cmd.Parameters.AddWithValue("@DispositionName", Disposition_name);
+                    cmd.Parameters.AddWithValue("@ProcessID", processID);
+                    cmd.Parameters.AddWithValue("@SUBProcessID", SubProcessID);
+                    cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+
+                    SqlParameter outputIdParam = new SqlParameter("@Dispostition_ID", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(outputIdParam);
+
+                    await cmd.ExecuteNonQueryAsync();
+
+                    insertedID = (int)outputIdParam.Value;
+                }
+            }
+
+            return insertedID;
+        }
+
+
+        public async Task InsertSubDisposition(string SubDisposition_name, int DispositionID, string processID, string SubProcessID)
+        {
+            int insertedID = 0;
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("sp_InsertSubDisposition", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+                    cmd.Parameters.AddWithValue("@SubDispositionName", SubDisposition_name);
+                    cmd.Parameters.AddWithValue("@Dispostition_ID", DispositionID);
+                    cmd.Parameters.AddWithValue("@ProcessID", processID);
+                    cmd.Parameters.AddWithValue("@SubProcessID", SubProcessID);
+                    cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+
+        }
+
+        public async Task BuilkDispoUpload(IFormFile file, string processID, string SubProcesID)
+        {
+            int successCount = 0, duplicateCount = 0, invalidCount = 0;
+            string extension = Path.GetExtension(file.FileName);
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                stream.Position = 0;
+                if (extension == ".xlsx") 
+                {
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        int rowCount = worksheet.Dimension.Rows;
+
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+
+                            string Disposition_name = worksheet.Cells[row, 1].Value?.ToString()?.Trim();
+                            string SubDisposition_name = worksheet.Cells[row, 2].Value?.ToString()?.Trim()?.ToUpper();
+
+                            int DispositionID = await InsertdispotList(Disposition_name, processID, SubProcesID);
+
+                            if (DispositionID > 0)
+                            {
+                                await  InsertSubDisposition(SubDisposition_name, DispositionID, processID, SubProcesID);
+                                successCount++;
+                            }
+                        }
+                    }
+
+                }
+                else if (extension == ".xls")
+                {
+                    HSSFWorkbook hssfwb = new HSSFWorkbook(stream);
+                    ISheet sheet = hssfwb.GetSheetAt(0);
+                    int rowCount = sheet.PhysicalNumberOfRows;
+
+                    for (int row = 1; row < rowCount; row++)
+                    {
+                        IRow currentRow = sheet.GetRow(row);
+
+                        string Disposition_name = currentRow.GetCell(0)?.ToString()?.Trim();
+                        string SubDisposition_name = currentRow.GetCell(1)?.ToString()?.Trim()?.ToUpper();
+
+
+
+                        int DispositionID = await InsertdispotList(Disposition_name, processID, SubProcesID);
+
+                        if (DispositionID > 0)
+                        {
+                            await InsertSubDisposition(SubDisposition_name, DispositionID, processID, SubProcesID);
+                            successCount++;
+                        }
+                    }
+                }
+                else
+                {
+                 
+                }
+
+               
+
+
+            }
+
+        }
         public async Task UpdateAgentfeilds(List<UpdateAgentList> fields)
         {
             var ProgramID = fields.First().programId.ToString();
@@ -669,6 +907,64 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@Operation" , "GetSectionGried");
                         cmd.Parameters.AddWithValue("@processID", processID);
                         cmd.Parameters.AddWithValue("@SubprocessID" , SubprocessID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+        public async Task<DataTable> GetDispostionGriedAsync(int processID, int SubprocessID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GetDispositionGried");
+                        cmd.Parameters.AddWithValue("@processID", processID);
+                        cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+        public async Task<DataTable> GetSubDispositionriedAsync(int processID, int SubprocessID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GetSubDispositionGried");
+                        cmd.Parameters.AddWithValue("@processID", processID);
+                        cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
                         await Task.Run(() => adpt.Fill(dt));
                     }

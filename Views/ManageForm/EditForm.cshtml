@@ -315,6 +315,93 @@
 </div>
 
 
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Disposition List</strong>
+        <button id="AddDisposition" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px">ADD</button>
+
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+            <table id="dispositionTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="display:none">Disposition ID</th>
+                        <th>Disposition Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Sub Disposition List</strong>
+        <button id="AddSubDisposition" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px">ADD</button>
+
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+            <table id="subdispositionTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                   
+                        <th>SubDisposition Name</th>
+                        <th>Disposition Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="subDispositionModal" tabindex="-1" aria-labelledby="subDispositionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <label for="dispositionDropdown" class="form-label">Select Disposition:</label>
+                <select id="dispositionDropdown" class="form-control">
+                    <option value="">-- Select Disposition --</option>
+                </select>
+
+                <label for="subDispositionName" class="form-label mt-3">Sub Disposition Name:</label>
+                <input type="text" id="subDispositionName" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="CancleSubDisposition" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="saveSubDisposition">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="dispositionModal" tabindex="-1" aria-labelledby="dispositionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+           
+            <div class="modal-body">
+                <label for="dispositionName" class="form-label">Disposition Name:</label>
+                <input type="text" id="dispositionName" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="saveDisposition">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <!-- Bootstrap Modal -->
 <div class="modal fade" id="agentModal" tabindex="-1" aria-labelledby="agentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -492,7 +579,152 @@
 
 
 <script src="~/js/jquery.min.js"></script>
+<script>
+       $(document).ready(function () {
+        // Open the modal on ADD button click
+        $("#AddDisposition").click(function () {
+            $("#dispositionModal").modal("show");
+        });
+          // Close modal on "Close" button click
+            $(".btn-secondary").click(function () {
+                $("#dispositionModal").modal("hide");
+            });
+        // Handle the Save button click
+        $("#saveDisposition").click(function () {
+            var dispositionName = $("#dispositionName").val().trim();
 
+            if (dispositionName === "") {
+                alert("Please enter a disposition name.");
+                return;
+            }
+
+            // Create a unique ID (for demo purposes, you may replace this with a real ID from the backend)
+            var uniqueID = new Date().getTime();
+
+            // Append the new row to the table
+            var newRow = `<tr>
+                <td style="display:none">${uniqueID}</td>
+                <td>${dispositionName}</td>
+                <td><button class="btn btn-danger removeDisposition">Remove</button></td>
+            </tr>`;
+
+            $("#dispositionTable tbody").append(newRow);
+
+            // Close the modal and clear the input
+            $("#dispositionModal").modal("hide");
+            $("#dispositionName").val("");
+        });
+
+        // Remove row when clicking the remove button
+        $(document).on("click", ".removeDisposition", function () {
+            $(this).closest("tr").remove();
+        });
+    });
+
+     function bindDispositionGrid(data) {
+        var table = $("#dispositionTable");
+        var tbody = table.find("tbody");
+        tbody.empty(); // Clear previous data
+
+        if (data.length === 0) {
+            alert("No data available.");
+            return;
+        }
+      
+        data.forEach(function (item) {
+            var row = `<tr>
+                <td  style="display:none">${item.dispostition_ID}</td>
+                <td>${item.disposition_name}</td>
+                   <td><button class="btn btn-danger removeDisposition">Remove</button></td>
+            </tr>`;
+            tbody.append(row);
+        });
+
+        table.show(); // Show table after binding data
+    }
+    </script>
+<script>
+        $(document).ready(function () {
+        var dispositionList = []; // Store disposition data for dropdown
+
+
+        $("#AddSubDisposition").click(function () {
+            $("#subDispositionModal").modal("show");
+        });
+
+
+        $("#CancleSubDisposition").click(function () {
+            $("#subDispositionModal").modal("hide");
+        });
+
+
+       
+
+        // Handle Save button click
+        $("#saveSubDisposition").click(function () {
+            var subDispositionName = $("#subDispositionName").val().trim();
+            var selectedDispositionID = $("#dispositionDropdown").val();
+            var selectedDispositionText = $("#dispositionDropdown option:selected").text();
+
+            if (selectedDispositionID === "" || subDispositionName === "") {
+                alert("Please select a disposition and enter a sub disposition name.");
+                return;
+            }
+
+            // Append new row to the table
+            var newRow = `<tr>
+                <td>${subDispositionName}</td>
+                <td>${selectedDispositionText}</td>
+                <td><button class="btn btn-danger removeDisposition">Remove</button></td>
+            </tr>`;
+
+            $("#subdispositionTable tbody").append(newRow);
+
+            // Close modal and clear input
+            $("#subDispositionModal").modal("hide");
+            $("#subDispositionName").val("");
+        });
+
+        // Remove row on click
+        $(document).on("click", ".removeDisposition", function () {
+            $(this).closest("tr").remove();
+        });
+
+    });
+
+      function populateDispositionDropdown(data) {
+            dispositionList = data; // Store for later use
+            var dropdown = $("#dispositionDropdown");
+            dropdown.empty();
+            dropdown.append('<option value="">-- Select Disposition --</option>');
+
+            data.forEach(function (item) {
+                dropdown.append(`<option value="${item.dispostition_ID}">${item.disposition_name}</option>`);
+            });
+        }
+
+     function bindSubDispositionGrid(data) {
+        var table = $("#subdispositionTable");
+        var tbody = table.find("tbody");
+        tbody.empty(); // Clear previous data
+
+        if (data.length === 0) {
+            alert("No data available.");
+            return;
+        }
+
+        data.forEach(function (item) {
+            var row = `<tr>
+                <td >${item.subDisposition}</td>
+                <td>${item.disposition}</td>
+                   <td><button class="btn btn-danger removeDisposition">Remove</button></td>
+            </tr>`;
+            tbody.append(row);
+        });
+
+        table.show(); // Show table after binding data
+    }
+</script>
 <script>
         $(document).ready(function () {
        
@@ -1048,9 +1280,118 @@
                 }
             });
 
+              var dataToDispSend = getDispositionTableData();
+               var dataToSubDispSend = getSubDispositionTableData();
+              console.log("Dispo");
+              console.log(JSON.stringify(dataToDispSend));
+               console.log(JSON.stringify(dataToSubDispSend));
+
+
+
+                   $.ajax({
+                        url: "/SaveDispositions",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ dispositions: dataToDispSend }),
+                        success: function (response) {
+                           
+                        },
+                        error: function (error) {
+                            console.log("Error:", error);
+                        }
+                    });
+
+                    $.ajax({
+                        url: "/SaveSubDispositions",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ subDispositions: dataToSubDispSend }),
+                        success: function (response) {
+                          
+                        },
+                        error: function (error) {
+                            console.log("Error:", error);
+                        }
+                    });
+
+
 
             });
         });
+
+
+            function getSubDispositionTableData() {
+        var subDispositionData = [];
+
+        $("#subdispositionTable tbody tr").each(function () {
+            var row = $(this);
+            var subDispositionName = row.find("td:eq(0)").text().trim(); // Get SubDisposition Name
+            var dispositionName = row.find("td:eq(1)").text().trim(); // Get Disposition Name
+             var ProgramID = document.getElementById("ProgramID").value;
+            var SubProgramID = document.getElementById("SUBProgramID").value;
+            if (subDispositionName && dispositionName) {
+                subDispositionData.push({
+                    subDisposition: subDispositionName,
+                    disposition: dispositionName,
+                      ProgramID:ProgramID,
+                    SubProgramID:SubProgramID
+                });
+            }
+        });
+
+        return subDispositionData;
+    }
+
+            function getDispositionTableData() {
+        var dispositionData = [];
+
+        $("#dispositionTable tbody tr").each(function () {
+            var row = $(this);
+            var dispositionID = row.find("td:eq(0)").text().trim(); // Get Disposition ID (hidden)
+            var dispositionName = row.find("td:eq(1)").text().trim(); // Get Disposition Name
+              var ProgramID = document.getElementById("ProgramID").value;
+            var SubProgramID = document.getElementById("SUBProgramID").value;
+
+            if (dispositionID && dispositionName) {
+                dispositionData.push({
+                    dispostition_ID: dispositionID,
+                    disposition_name: dispositionName,
+                    ProgramID:ProgramID,
+                    SubProgramID:SubProgramID
+                });
+            }
+        });
+
+        return dispositionData;
+    }
+
+    // Send Data via AJAX
+    function sendDispositionData() {
+        var dataToSend = getDispositionTableData();
+
+        if (dataToSend.length === 0) {
+            alert("No data to send.");
+            return;
+        }
+
+        $.ajax({
+            url: "/your-api-endpoint", // Replace with your API endpoint
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ dispositions: dataToSend }),
+            success: function (response) {
+                console.log("Data sent successfully:", response);
+            },
+            error: function (error) {
+                console.log("Error sending data:", error);
+            }
+        });
+    }
+
+    // Example: Call sendDispositionData() on button click
+    $("#submitDispositions").click(function () {
+        sendDispositionData();
+    });
 
         function DisabeForm()
         {
@@ -1298,7 +1639,9 @@
                 $("#SectionGried").show();
 
                 console.log("Full Response:", response);
-
+                 bindDispositionGrid(response.dispositiongried);
+                  bindSubDispositionGrid(response.subdispositiongried);
+                   populateDispositionDropdown(response.dispositiongried);
                             if (response.agentgried && response.agentgried.length > 0) {
                     var tbody = $("#agentTable tbody");
                     tbody.empty(); // Clear existing rows

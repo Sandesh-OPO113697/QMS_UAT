@@ -375,9 +375,20 @@
 
     </div>
 </div>
-
-
-
+<div class="card shadow mb-4" id="Upload_Dispostition_List" >
+    <div class="card-header">
+        <strong class="card-title">Upload Disposition List</strong>
+    </div>
+    <div class="card-body">
+        <form id="uploadForm" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="file" id="fileUpload" name="file" class="form-control" required />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 
 <div class="card shadow mb-4" id="ZT_Classification" style="display:none;margin-top:15px">
@@ -454,6 +465,41 @@
 
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/apps.js"></script>
+<script>
+    function UpLoadDispo()
+    {
+         var fileInput = document.getElementById("fileUpload");
+        if (fileInput.files.length === 0) {
+            alert("Please select a file to upload.");
+            return;
+        }
+
+          let programID = $("#ProgramID").val();
+        let subProgramID = $("#SUBProgramID").val();
+        var formData = new FormData();
+        formData.append("file", fileInput.files[0]);
+        formData.append("processID", programID);
+        formData.append("SubProcesID", subProgramID);
+
+        fetch("/ManageForm/BulkInsertDispostitionList", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("File uploaded successfully: " + data.fileName);
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(error => {
+            alert("Error uploading file.");
+            console.error("Error:", error);
+        });
+    }
+   
+</script>
 
 <script>
     $(document).ready(function () {
@@ -674,11 +720,24 @@
 
     $(document).ready(function () {
         $("#createform").click(function () {
+          var fileInput = $("#fileUpload")[0];
+
+        if (!fileInput.files.length) {
+            alert("Please select a Disposition file to upload.");
+            return;
+        }
+
             submitFormData();
+
+               UpLoadDispo();
         });
     });
 
     function submitFormData() {
+
+
+
+
          let totalScore = 0;
         let programID = $("#ProgramID").val();
         let subProgramID = $("#SUBProgramID").val();
