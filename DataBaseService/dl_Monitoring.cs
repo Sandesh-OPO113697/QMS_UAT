@@ -376,6 +376,47 @@ namespace QMS.DataBaseService
             }
         }
 
+
+        public async Task<string> GetPauseLimitByProgram(string ProgramID, string SubProgramID)
+        {
+            string PauseLimit = string.Empty;
+           
+            string StoreProcedure = "MonitoringDetails";
+            try
+            {
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(StoreProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Operations", "GetPauseLimit");
+                        command.Parameters.AddWithValue("@ProgramID", ProgramID);
+                        command.Parameters.AddWithValue("@SUBProgramID", SubProgramID);
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                PauseLimit = reader["Number_Of_Pause"].ToString();
+
+                            }
+                        }
+                    }
+                }
+
+
+               
+
+                return PauseLimit;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+
+            }
+        }
+
         public async Task<List<SelectListItem>> GetDisposition(string Process, string? SubProcess)
         {
             var Adudit = new List<SelectListItem>();

@@ -380,7 +380,7 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause)
+        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause, IFormFile file)
         {
             List<string> errorMessages = new List<string>();
 
@@ -404,7 +404,14 @@ namespace QMS.Controllers
                 ModelState.AddModelError("Number_Of_Pause", "Please enter a valid number of pauses (greater than 0).");
             }
 
-            await _admin.InsertSubProcessDetailsAsync(locationid, ProgramID, SubProcess , Number_Of_Pause);
+            if (file == null || file.Length == 0)
+            {
+                TempData["ErrorMessages"] = "Please select a valid Excel file!";
+                return RedirectToAction("CreateSubProcess");
+            }
+
+
+            await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file);
             errorMessages.Add("Sub-Process Created Sucessfully !");
             TempData["ErrorMessages"] = errorMessages;
             return RedirectToAction("CreateSubProcess");

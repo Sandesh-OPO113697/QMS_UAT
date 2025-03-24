@@ -23,7 +23,8 @@
 <div class="col-md-12 my-4">
     <div class="card shadow">
         <div class="card-body">
-            @using (Html.BeginForm("InsertSubProcess", "Admin", FormMethod.Post))
+            @using (Html.BeginForm("InsertSubProcess", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
             {
                 <div class="row">
                     <div class="col-md-6">
@@ -54,6 +55,16 @@
                             <label for="Number_Of_Pause">Number Of Pause</label>
                             <input type="number" id="Number_Of_Pause" name="Number_Of_Pause" autocomplete="off" class="form-control" />
                         </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="ProgramID">Upload Agent List</label>
+                            <input type="file" id="fileUpload" name="file" class="form-control" required />
+
+                        </div>
+                        <div class="form-group mb-3">
+                              </div>
                     </div>
                 </div>
 
@@ -262,6 +273,8 @@
                 console.error("Error occurred: " + error);
             }
         });
+
+
     }
 </script>
 

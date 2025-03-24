@@ -861,8 +861,9 @@
 
 <script>
     let timerInterval, startTime, pauseTime, resumeTime, endTime;
-    let elapsedSeconds = 0, pauseCount = 0, totalPauseDuration = 0;
+    let elapsedSeconds = 0, pauseCount = 0, pauseLimit=0, totalPauseDuration = 0;
     let auditLogs = [];
+
 
     function updateTimerDisplay() {
         let minutes = Math.floor(elapsedSeconds / 60);
@@ -873,6 +874,29 @@
 
     function startAudit() {
         DisplayDiv();
+           
+
+
+
+         var selectedValue = document.getElementById("SUBProgramID").value;
+         $.ajax({
+             type: "POST",
+             url: "/Monitor/GetPauseLimit",
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+             data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
+             success: function (response) {
+                 
+                      pauseLimit = response.pauselimit;
+                       document.getElementById("pauseLimit").innerText = `Limit Of Pauses: ${pauseLimit}`;
+
+             },
+             error: function (xhr, status, error) {
+                 console.error("Error occurred: " + error);
+             }
+         });
+         
+      
         startTime = new Date();
         document.getElementById("pauseButton").disabled = false;
      
@@ -891,7 +915,11 @@
         let pauseIcon = document.getElementById("pauseIcon");
 
         if (timerInterval) {
-            // Pausing
+               if (pauseCount >= pauseLimit)
+               {
+                   alert("Now You Can Not Take a pause Because You Have Reached the Pause Limit: " + pauseLimit);
+                   return;
+               }
             clearInterval(timerInterval);
             timerInterval = null;
             pauseTime = new Date();
@@ -903,6 +931,8 @@
             document.getElementById("pauseCount").innerText = `Pauses: ${pauseCount}`;
         } else {
             // Resuming
+
+             
             resumeTime = new Date();
             let pauseDuration = (resumeTime - pauseTime) / 1000;
             totalPauseDuration += pauseDuration;

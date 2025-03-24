@@ -284,6 +284,83 @@
         </div>
     </div>
 </div>
+
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Agent List</strong>
+        <button id="AddAgent" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px">ADD</button>
+
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <table id="agentTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="display:none">ID</th>
+                        <th>Emp Name</th>
+                        <th>Emp Code</th>
+                        <th>TL Name</th>
+                        <th>TL Code</th>
+                        <th>QA Name</th>
+                        <th>Batch ID</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="agentModal" tabindex="-1" aria-labelledby="agentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agentModalLabel">Add Agent</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="agentForm">
+                    <div class="mb-3">
+                        <label for="empName" class="form-label">Emp Name</label>
+                        <input type="text" class="form-control" id="empName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="empCode" class="form-label">Emp Code</label>
+                        <input type="text" class="form-control" id="empCode" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tlName" class="form-label">TL Name</label>
+                        <input type="text" class="form-control" id="tlName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tlCode" class="form-label">TL Code</label>
+                        <input type="text" class="form-control" id="tlCode" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="qaName" class="form-label">QA Name</label>
+                        <input type="text" class="form-control" id="qaName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="batchID" class="form-label">Batch ID</label>
+                        <input type="text" class="form-control" id="batchID" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveAgent">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card shadow mb-4">
     <div class="card-header">
         <strong class="card-title">Zero Tolerance Behaviour</strong>
@@ -417,6 +494,64 @@
 
 
 <script src="~/js/jquery.min.js"></script>
+
+
+<script>
+        $(document).ready(function () {
+
+        $("#AddAgent").click(function () {
+            $("#agentModal").modal("show");
+        });
+         $(".btn-close, .btn-secondary").click(function () {
+        $("#agentModal").modal("hide");
+    });
+
+        $("#saveAgent").click(function () {
+       
+            var empName = $("#empName").val();
+            var empCode = $("#empCode").val();
+            var tlName = $("#tlName").val();
+            var tlCode = $("#tlCode").val();
+            var qaName = $("#qaName").val();
+            var batchID = $("#batchID").val();
+
+    
+            if (!empName || !empCode || !tlName || !tlCode || !qaName || !batchID) {
+                alert("All fields are required!");
+                return;
+            }
+
+            var newID = Math.floor(Math.random() * 10000);
+
+       
+            var newRow = `<tr>
+                <td style="display:none">${newID}</td>
+                <td>${empName}</td>
+                <td>${empCode}</td>
+                <td>${tlName}</td>
+                <td>${tlCode}</td>
+                <td>${qaName}</td>
+                <td>${batchID}</td>
+                <td><button class="btn btn-danger btn-sm removeAgent">Remove</button></td>
+            </tr>`;
+
+         
+            $("#agentTable tbody").append(newRow);
+
+       
+            $("#agentModal").modal("hide");
+
+       
+            $("#agentForm")[0].reset();
+        });
+
+ 
+        $("#agentTable").on("click", ".removeAgent", function () {
+            $(this).closest("tr").remove();
+        });
+    });
+
+</script>
 <script>
 
            function onLocationChange_ForReplic() {
@@ -882,6 +1017,47 @@
                         console.error("Error inserting data:", error);
                     }
                 });
+
+
+                var agentData = [];
+
+             let programID_2 = $("#ProgramID").val();
+            let subProgramID_2 = $("#SUBProgramID").val();
+       
+            $("#agentTable tbody tr").each(function () {
+                var row = $(this).find("td");
+                var agent = {
+                    ID: $(row[0]).text().trim(),
+                    EmpName: $(row[1]).text().trim(),
+                    EmpCode: $(row[2]).text().trim(),
+                    TL_Name: $(row[3]).text().trim(),
+                    TL_Code: $(row[4]).text().trim(),
+                    QA_Name: $(row[5]).text().trim(),
+                    Batch_ID: $(row[6]).text().trim(),
+                                    programId:programID_2,
+                    subProgramId: subProgramID_2
+                    };
+                agentData.push(agent);
+            });
+
+            console.log(agentData); // Debugging output
+
+            $.ajax({
+                type: "POST",
+                url: "/ManageForm/SaveAgents",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ agents: agentData }),  // Wrap inside an object
+                success: function (response) {
+                    alert("Form Edited  successfully!");
+                         window.location.href = "/ManageForm/FormBuilder";
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+
+
             });
         });
 
@@ -1128,6 +1304,28 @@
                 $("#SectionGried").show();
 
                 console.log("Full Response:", response);
+
+
+                 if (response.agentgried && response.agentgried.length > 0) {
+                    var tbody = $("#agentTable tbody");
+                    tbody.empty(); // Clear existing rows
+
+                        $.each(response.agentgried, function (index, agent) {
+                        var row = `<tr>
+                            <td style="display:none" >${agent.id}</td>
+                            <td>${agent.empName}</td>
+                            <td>${agent.empCode}</td>
+                            <td>${agent.tL_Name}</td>
+                            <td>${agent.tL_Code}</td>
+                            <td>${agent.qA_Name}</td>
+                                     <td>${agent.batch_ID}</td>
+                                           <td><button class="btn btn-danger btn-sm removeAgent">Remove</button></td>
+                        </tr>`;
+                        tbody.append(row);
+                    });
+                } else {
+                    $("#agentTable tbody").html("<tr><td colspan='6' class='text-center'>No Data Found</td></tr>");
+                }
 
                 populateGrid(response.sectionGrid);
                  if (response?.filteredPredictiveList?.length > 0) {

@@ -6,11 +6,70 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static System.Collections.Specialized.BitVector32;
 using Org.BouncyCastle.Asn1.Cms;
+using System.Diagnostics;
 
 namespace QMS.DataBaseService
 {
     public class Dl_formBuilder
     {
+
+        public async Task UpdateAgentfeilds(List<UpdateAgentList> fields)
+        {
+            var ProgramID = fields.First().programId.ToString();
+            var subProgramId = fields.First().subProgramId.ToString();
+            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            {
+                await con.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("EditFormvalue", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Operation", "DeleteAgentGried");
+                    cmd.Parameters.AddWithValue("@ProcessID", ProgramID);
+                    cmd.Parameters.AddWithValue("@SubProcessID", subProgramId);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    foreach (var field in fields)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Operation", "InsertAgentGried");
+                            cmd.Parameters.AddWithValue("@EmpName", field.EmpName);
+                            cmd.Parameters.AddWithValue("@EmpCode", field.EmpCode);
+                            cmd.Parameters.AddWithValue("@TL_Name", field.TL_Name);
+                            cmd.Parameters.AddWithValue("@TL_Code", field.TL_Code);
+                            cmd.Parameters.AddWithValue("@QA_Name", field.QA_Name);
+                            cmd.Parameters.AddWithValue("@Batch_ID", field.Batch_ID);
+                            cmd.Parameters.AddWithValue("@processID", ProgramID);
+                            cmd.Parameters.AddWithValue("@SubprocessID", subProgramId);
+                            cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+                            cmd.CommandTimeout = 0;
+
+                            await cmd.ExecuteNonQueryAsync(); // Ensure command execution
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error inserting dynamic fields: " + ex.Message);
+            }
+
+         
+        }
 
         public async Task<DataTable> GetProcessListAsync()
         {
@@ -623,7 +682,35 @@ namespace QMS.DataBaseService
             }
             return dt;
         }
+        public async Task<DataTable> GetAgentGriedAsync(int processID, int SubprocessID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
 
+                    using (SqlCommand cmd = new SqlCommand("EditFormvalue", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GetAgentGried");
+                        cmd.Parameters.AddWithValue("@processID", processID);
+                        cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
         public async Task<DataTable> GetSectionGriedReplicatedAsync(int processID, int SubprocessID)
         {
             DataTable dt = new DataTable();

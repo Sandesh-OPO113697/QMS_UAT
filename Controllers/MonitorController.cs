@@ -19,6 +19,14 @@ namespace QMS.Controllers
             dl_FormBuilder = adl;
             dl_monitor = dmmonoi;
         }
+
+        public async Task<JsonResult> GetPauseLimit([FromBody] Process_SUbProcess id)
+        {
+            string pauselimit = await dl_monitor.GetPauseLimitByProgram(id.ProcessID.ToString(), id.SUBProcessID.ToString());
+           
+            return Json(new { success = true, pauselimit = pauselimit });
+
+        }
         [HttpPost]
         [Route("save-audit")]
         public async Task< IActionResult > SaveAudit([FromBody] AuditPauseLog audit)

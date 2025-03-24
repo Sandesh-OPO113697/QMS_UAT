@@ -18,8 +18,13 @@ namespace QMS.Controllers
             _admin = adam;
             dl_FormBuilder = adl;
         }
-
-        [HttpPost("ManageForm/GetProcessListAsync")]
+        [HttpPost]
+        public async Task< JsonResult> SaveAgents([FromBody] AgentRequestModel agents)
+        {
+            await dl_FormBuilder.UpdateAgentfeilds(agents.Agents);
+            return Json(new { success = true, message = "Agents saved successfully!" });
+        }
+            [HttpPost("ManageForm/GetProcessListAsync")]
         public async Task< JsonResult> GetProcessListAsync([FromBody] DropDawon model)
         {
 
@@ -405,6 +410,7 @@ namespace QMS.Controllers
             try
             {
                 var dataTable = await dl_FormBuilder.GetSectionGriedAsync(id.ProcessID, id.SUBProcessID);
+                var dataTable2 = await dl_FormBuilder.GetAgentGriedAsync(id.ProcessID, id.SUBProcessID);
                 DataTable DynamicFeild = await dl_FormBuilder.GetDynamicGriedAsync(id.ProcessID, id.SUBProcessID);
 
 
@@ -422,6 +428,22 @@ namespace QMS.Controllers
                     Active = row.Field<string>("Active")
                 }).ToList();
 
+                var agentgried = dataTable2.AsEnumerable().Select(row => new AgentListModel
+                {
+                    ID = row.Field<int>("ID"),
+                    EmpName = row.Field<string>("EmpName"),
+                    EmpCode = row.Field<string>("EmpCode"),
+                    TL_Name = row.Field<string>("TL_Name"),
+                    Batch_ID = row.Field<string>("Batch_ID"),
+                    TL_Code = row.Field<string>("TL_Code"),
+                    QA_Name = row.Field<string>("QA_Name")
+
+
+
+
+                }).ToList();
+
+
 
                 List<SelectListItem> filteredRoutwCauseList = new List<SelectListItem>();
                 List<SelectListItem> filteredPredictiveList = new List<SelectListItem>();
@@ -467,7 +489,8 @@ namespace QMS.Controllers
                     FilteredRoutwCauseList = filteredRoutwCauseList,
                     FilteredPredictiveList = filteredPredictiveList,
                     FilteredZTClassificationList = filteredZTClassificationList,
-                    ZeroTolerance = Zero_Tolerance
+                    ZeroTolerance = Zero_Tolerance,
+                    agentgried= agentgried
                 });
             }
             catch (Exception ex)
@@ -485,7 +508,7 @@ namespace QMS.Controllers
                 var dataTable = await dl_FormBuilder.GetSectionGriedReplicatedAsync(id.ProcessID, id.SUBProcessID);
                 DataTable DynamicFeild = await dl_FormBuilder.GetdynamicFeildsGriedAsync(id.ProcessID, id.SUBProcessID);
 
-
+                var dataTable2 = await dl_FormBuilder.GetAgentGriedAsync(id.ProcessID, id.SUBProcessID);
                 var sectionList = dataTable.AsEnumerable().Select(row => new SectionGridModel
                 {
                     Id = row.Field<int>("id"),
@@ -500,7 +523,20 @@ namespace QMS.Controllers
                     Active = row.Field<string>("Active")
                 }).ToList();
 
+                var agentgried = dataTable2.AsEnumerable().Select(row => new AgentListModel
+                {
+                    ID = row.Field<int>("ID"),
+                    EmpName = row.Field<string>("EmpName"),
+                    EmpCode = row.Field<string>("EmpCode"),
+                    TL_Name = row.Field<string>("TL_Name"),
+                    Batch_ID = row.Field<string>("Batch_ID"),
+                    TL_Code = row.Field<string>("TL_Code"),
+                    QA_Name = row.Field<string>("QA_Name")
 
+
+
+
+                }).ToList();
                 List<SelectListItem> filteredRoutwCauseList = new List<SelectListItem>();
                 List<SelectListItem> filteredPredictiveList = new List<SelectListItem>();
                 List<SelectListItem> filteredZTClassificationList = new List<SelectListItem>();
@@ -545,7 +581,8 @@ namespace QMS.Controllers
                     FilteredRoutwCauseList = filteredRoutwCauseList,
                     FilteredPredictiveList = filteredPredictiveList,
                     FilteredZTClassificationList = filteredZTClassificationList,
-                    ZeroTolerance = Zero_Tolerance
+                    ZeroTolerance = Zero_Tolerance,
+                    agentgried = agentgried
                 });
             }
             catch (Exception ex)
