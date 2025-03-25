@@ -241,7 +241,7 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@MonitorID",0);
                         cmd.Parameters.AddWithValue("@CQ_Score", model.CQ_Scrore);
                         cmd.Parameters.AddWithValue("@Agent_Name", model.AgentID);
-                        cmd.Parameters.AddWithValue("@AgentID", Convert.ToInt32(model.AgentID));
+                        cmd.Parameters.AddWithValue("@AgentID",model.AgentID);
                         cmd.Parameters.AddWithValue("@TLName", model.TL_id);
                         cmd.Parameters.AddWithValue("@TL_ID", model.TL_id);
                         cmd.Parameters.AddWithValue("@MonitorDate", Convert.ToDateTime( model.Monitored_date));

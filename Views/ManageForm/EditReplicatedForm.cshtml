@@ -261,6 +261,27 @@
 </div>
 
 
+<div class="card shadow" id="Rating_List">
+    <div class="card-header">
+        <strong class="card-title">Rating List</strong>
+        <button id="ratAdd" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px" onclick="AddDropDawon('rating')">ADD</button>
+
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered mt-3" id="RatingTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Rating</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+</div>
 
 <div class="card shadow mb-4">
     <div class="card-header">
@@ -288,74 +309,87 @@
 
 
 
+
 <div class="card shadow mb-4">
     <div class="card-header">
-        <strong class="card-title">Agent List</strong>
-        <button id="AddAgent" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px">ADD</button>
+        <strong class="card-title">Disposition List</strong>
+        <button id="AddDisposition" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px">ADD</button>
 
     </div>
     <div class="card-body">
         <div class="row">
-            <table id="agentTable" class="table table-bordered">
+
+            <table id="dispositionTable" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th style="display:none">ID</th>
-                        <th>Emp Name</th>
-                        <th>Emp Code</th>
-                        <th>TL Name</th>
-                        <th>TL Code</th>
-                        <th>QA Name</th>
-                        <th>Batch ID</th>
+                        <th style="display:none">Disposition ID</th>
+                        <th>Disposition Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
-
         </div>
     </div>
 </div>
 
 
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="agentModal" tabindex="-1" aria-labelledby="agentModalLabel" aria-hidden="true">
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Sub Disposition List</strong>
+        <button id="AddSubDisposition" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px">ADD</button>
+
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+            <table id="subdispositionTable" class="table table-bordered">
+                <thead>
+                    <tr>
+
+                        <th>SubDisposition Name</th>
+                        <th>Disposition Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="subDispositionModal" tabindex="-1" aria-labelledby="subDispositionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="agentModalLabel">Add Agent</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
             <div class="modal-body">
-                <form id="agentForm">
-                    <div class="mb-3">
-                        <label for="empName" class="form-label">Emp Name</label>
-                        <input type="text" class="form-control" id="empName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="empCode" class="form-label">Emp Code</label>
-                        <input type="text" class="form-control" id="empCode" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tlName" class="form-label">TL Name</label>
-                        <input type="text" class="form-control" id="tlName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tlCode" class="form-label">TL Code</label>
-                        <input type="text" class="form-control" id="tlCode" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="qaName" class="form-label">QA Name</label>
-                        <input type="text" class="form-control" id="qaName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="batchID" class="form-label">Batch ID</label>
-                        <input type="text" class="form-control" id="batchID" required>
-                    </div>
-                </form>
+                <label for="dispositionDropdown" class="form-label">Select Disposition:</label>
+                <select id="dispositionDropdown" class="form-control">
+                    <option value="">-- Select Disposition --</option>
+                </select>
+
+                <label for="subDispositionName" class="form-label mt-3">Sub Disposition Name:</label>
+                <input type="text" id="subDispositionName" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="CancleSubDisposition" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="saveSubDisposition">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="dispositionModal" tabindex="-1" aria-labelledby="dispositionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <label for="dispositionName" class="form-label">Disposition Name:</label>
+                <input type="text" id="dispositionName" class="form-control" />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveAgent">Save</button>
+                <button type="button" class="btn btn-success" id="saveDisposition">Save</button>
             </div>
         </div>
     </div>
@@ -494,64 +528,153 @@
 
 
 <script src="~/js/jquery.min.js"></script>
-
-
 <script>
-        $(document).ready(function () {
-
-        $("#AddAgent").click(function () {
-            $("#agentModal").modal("show");
+       $(document).ready(function () {
+        // Open the modal on ADD button click
+        $("#AddDisposition").click(function () {
+            $("#dispositionModal").modal("show");
         });
-         $(".btn-close, .btn-secondary").click(function () {
-        $("#agentModal").modal("hide");
-    });
+          // Close modal on "Close" button click
+            $(".btn-secondary").click(function () {
+                $("#dispositionModal").modal("hide");
+            });
+        // Handle the Save button click
+        $("#saveDisposition").click(function () {
+            var dispositionName = $("#dispositionName").val().trim();
 
-        $("#saveAgent").click(function () {
-       
-            var empName = $("#empName").val();
-            var empCode = $("#empCode").val();
-            var tlName = $("#tlName").val();
-            var tlCode = $("#tlCode").val();
-            var qaName = $("#qaName").val();
-            var batchID = $("#batchID").val();
-
-    
-            if (!empName || !empCode || !tlName || !tlCode || !qaName || !batchID) {
-                alert("All fields are required!");
+            if (dispositionName === "") {
+                alert("Please enter a disposition name.");
                 return;
             }
 
-            var newID = Math.floor(Math.random() * 10000);
+            // Create a unique ID (for demo purposes, you may replace this with a real ID from the backend)
+            var uniqueID = new Date().getTime();
 
-       
+            // Append the new row to the table
             var newRow = `<tr>
-                <td style="display:none">${newID}</td>
-                <td>${empName}</td>
-                <td>${empCode}</td>
-                <td>${tlName}</td>
-                <td>${tlCode}</td>
-                <td>${qaName}</td>
-                <td>${batchID}</td>
-                <td><button class="btn btn-danger btn-sm removeAgent">Remove</button></td>
+                <td style="display:none">${uniqueID}</td>
+                <td>${dispositionName}</td>
+                <td><button class="btn btn-danger removeDisposition">Remove</button></td>
             </tr>`;
 
-         
-            $("#agentTable tbody").append(newRow);
+            $("#dispositionTable tbody").append(newRow);
 
-       
-            $("#agentModal").modal("hide");
-
-       
-            $("#agentForm")[0].reset();
+            // Close the modal and clear the input
+            $("#dispositionModal").modal("hide");
+            $("#dispositionName").val("");
         });
 
- 
-        $("#agentTable").on("click", ".removeAgent", function () {
+        // Remove row when clicking the remove button
+        $(document).on("click", ".removeDisposition", function () {
             $(this).closest("tr").remove();
         });
     });
 
+     function bindDispositionGrid(data) {
+        var table = $("#dispositionTable");
+        var tbody = table.find("tbody");
+        tbody.empty(); // Clear previous data
+
+        if (data.length === 0) {
+            alert("No data available.");
+            return;
+        }
+
+        data.forEach(function (item) {
+            var row = `<tr>
+                <td  style="display:none">${item.dispostition_ID}</td>
+                <td>${item.disposition_name}</td>
+                   <td><button class="btn btn-danger removeDisposition">Remove</button></td>
+            </tr>`;
+            tbody.append(row);
+        });
+
+        table.show(); // Show table after binding data
+    }
 </script>
+<script>
+        $(document).ready(function () {
+        var dispositionList = []; // Store disposition data for dropdown
+
+
+        $("#AddSubDisposition").click(function () {
+            $("#subDispositionModal").modal("show");
+        });
+
+
+        $("#CancleSubDisposition").click(function () {
+            $("#subDispositionModal").modal("hide");
+        });
+
+
+
+
+        // Handle Save button click
+        $("#saveSubDisposition").click(function () {
+            var subDispositionName = $("#subDispositionName").val().trim();
+            var selectedDispositionID = $("#dispositionDropdown").val();
+            var selectedDispositionText = $("#dispositionDropdown option:selected").text();
+
+            if (selectedDispositionID === "" || subDispositionName === "") {
+                alert("Please select a disposition and enter a sub disposition name.");
+                return;
+            }
+
+            // Append new row to the table
+            var newRow = `<tr>
+                <td>${subDispositionName}</td>
+                <td>${selectedDispositionText}</td>
+                <td><button class="btn btn-danger removeDisposition">Remove</button></td>
+            </tr>`;
+
+            $("#subdispositionTable tbody").append(newRow);
+
+            // Close modal and clear input
+            $("#subDispositionModal").modal("hide");
+            $("#subDispositionName").val("");
+        });
+
+        // Remove row on click
+        $(document).on("click", ".removeDisposition", function () {
+            $(this).closest("tr").remove();
+        });
+
+    });
+
+      function populateDispositionDropdown(data) {
+            dispositionList = data; // Store for later use
+            var dropdown = $("#dispositionDropdown");
+            dropdown.empty();
+            dropdown.append('<option value="">-- Select Disposition --</option>');
+
+            data.forEach(function (item) {
+                dropdown.append(`<option value="${item.dispostition_ID}">${item.disposition_name}</option>`);
+            });
+        }
+
+     function bindSubDispositionGrid(data) {
+        var table = $("#subdispositionTable");
+        var tbody = table.find("tbody");
+        tbody.empty(); // Clear previous data
+
+        if (data.length === 0) {
+            alert("No data available.");
+            return;
+        }
+
+        data.forEach(function (item) {
+            var row = `<tr>
+                <td >${item.subDisposition}</td>
+                <td>${item.disposition}</td>
+                   <td><button class="btn btn-danger removeDisposition">Remove</button></td>
+            </tr>`;
+            tbody.append(row);
+        });
+
+        table.show(); // Show table after binding data
+    }
+</script>
+
 <script>
 
            function onLocationChange_ForReplic() {
@@ -986,6 +1109,7 @@
                 var rootCauseValues = collectTableValues("#rootCauseTable");
                 var predictiveValues = collectTableValues("#predictiveAnalysisTable");
                 var ztClassificationValues = collectTableValues("#ztClassificationTable");
+                var RatinfGried = collectTableValues("#RatingTable");
                 var zeroTolerance = $("input[name='zeroTolerance']:checked").val() || "No";
                var programId = document.getElementById("ProgramID").value;
             var subProgramId = document.getElementById("SUBProgramID").value;
@@ -993,7 +1117,9 @@
                     Root_Cause_Analysis: rootCauseValues,
                     Predictive_Analysis: predictiveValues,
                     ZT_Classification: ztClassificationValues,
+                     
                     Zero_Tolerance: zeroTolerance,
+                    RatinfGried:RatinfGried,
                     programId:programId,
                     subProgramId:subProgramId,
                      IsActive: 1,
@@ -1019,48 +1145,94 @@
                 });
 
 
-                var agentData = [];
+               
 
-             let programID_2 = $("#ProgramID").val();
-            let subProgramID_2 = $("#SUBProgramID").val();
-       
-            $("#agentTable tbody tr").each(function () {
-                var row = $(this).find("td");
-                var agent = {
-                    ID: $(row[0]).text().trim(),
-                    EmpName: $(row[1]).text().trim(),
-                    EmpCode: $(row[2]).text().trim(),
-                    TL_Name: $(row[3]).text().trim(),
-                    TL_Code: $(row[4]).text().trim(),
-                    QA_Name: $(row[5]).text().trim(),
-                    Batch_ID: $(row[6]).text().trim(),
-                                    programId:programID_2,
-                    subProgramId: subProgramID_2
-                    };
-                agentData.push(agent);
-            });
 
-            console.log(agentData); // Debugging output
+            var dataToDispSend = getDispositionTableData();
+               var dataToSubDispSend = getSubDispositionTableData();
+              console.log("Dispo");
+              console.log(JSON.stringify(dataToDispSend));
+               console.log(JSON.stringify(dataToSubDispSend));
 
-            $.ajax({
-                type: "POST",
-                url: "/ManageForm/SaveAgents",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify({ agents: agentData }),  // Wrap inside an object
-                success: function (response) {
-                    alert("Form Edited  successfully!");
-                         window.location.href = "/ManageForm/FormBuilder";
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
+
+
+                   $.ajax({
+                        url: "/SaveDispositions",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ dispositions: dataToDispSend }),
+                        success: function (response) {
+                           
+                        },
+                        error: function (error) {
+                            console.log("Error:", error);
+                        }
+                    });
+
+                    $.ajax({
+                        url: "/SaveSubDispositions",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ subDispositions: dataToSubDispSend }),
+                        success: function (response) {
+                          
+                        },
+                        error: function (error) {
+                            console.log("Error:", error);
+                        }
+                    });
+
+
 
 
             });
         });
 
+
+            function getSubDispositionTableData() {
+        var subDispositionData = [];
+
+        $("#subdispositionTable tbody tr").each(function () {
+            var row = $(this);
+            var subDispositionName = row.find("td:eq(0)").text().trim(); // Get SubDisposition Name
+            var dispositionName = row.find("td:eq(1)").text().trim(); // Get Disposition Name
+             var ProgramID = document.getElementById("ProgramID").value;
+            var SubProgramID = document.getElementById("SUBProgramID").value;
+            if (subDispositionName && dispositionName) {
+                subDispositionData.push({
+                    subDisposition: subDispositionName,
+                    disposition: dispositionName,
+                      ProgramID:ProgramID,
+                    SubProgramID:SubProgramID
+                });
+            }
+        });
+
+        return subDispositionData;
+    }
+
+            function getDispositionTableData() {
+        var dispositionData = [];
+
+        $("#dispositionTable tbody tr").each(function () {
+            var row = $(this);
+            var dispositionID = row.find("td:eq(0)").text().trim(); // Get Disposition ID (hidden)
+            var dispositionName = row.find("td:eq(1)").text().trim(); // Get Disposition Name
+              var ProgramID = document.getElementById("ProgramID").value;
+            var SubProgramID = document.getElementById("SUBProgramID").value;
+
+            if (dispositionID && dispositionName) {
+                dispositionData.push({
+                    dispostition_ID: dispositionID,
+                    disposition_name: dispositionName,
+                    ProgramID:ProgramID,
+                    SubProgramID:SubProgramID
+                });
+            }
+        });
+
+        return dispositionData;
+    }
         function ActiveForm()
         {
              var programId = document.getElementById("ProgramID").value;
@@ -1166,6 +1338,8 @@
                 case "rootcause":
                     tableId = "#rootCauseTable";
                     break;
+                case "rating":
+                    tableId = "#RatingTable";
                 default:
                     alert("Invalid type");
                     return;
@@ -1302,30 +1476,28 @@
             dataType: "json",
             success: function (response) {
                 $("#SectionGried").show();
+                  $("#DisposaitionListDiv").show();
+
+                  var data = response.filteredRatingList; // Extract data
+
+                var tableBody = $("#RatingTable tbody");
+                tableBody.empty(); // Clear previous data
+
+                $.each(data, function (index, item) {
+                    var row = `<tr>
+                      <td>${item.value}</td>
+                        <td>${item.text}</td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deleteRow(this)">Delete</button></td>
+                    </tr>`;
+                    tableBody.append(row);
+                });
 
                 console.log("Full Response:", response);
+                bindDispositionGrid(response.dispositiongried);
+                  bindSubDispositionGrid(response.subdispositiongried);
+                   populateDispositionDropdown(response.dispositiongried);
 
-
-                 if (response.agentgried && response.agentgried.length > 0) {
-                    var tbody = $("#agentTable tbody");
-                    tbody.empty(); // Clear existing rows
-
-                        $.each(response.agentgried, function (index, agent) {
-                        var row = `<tr>
-                            <td style="display:none" >${agent.id}</td>
-                            <td>${agent.empName}</td>
-                            <td>${agent.empCode}</td>
-                            <td>${agent.tL_Name}</td>
-                            <td>${agent.tL_Code}</td>
-                            <td>${agent.qA_Name}</td>
-                                     <td>${agent.batch_ID}</td>
-                                           <td><button class="btn btn-danger btn-sm removeAgent">Remove</button></td>
-                        </tr>`;
-                        tbody.append(row);
-                    });
-                } else {
-                    $("#agentTable tbody").html("<tr><td colspan='6' class='text-center'>No Data Found</td></tr>");
-                }
+                
 
                 populateGrid(response.sectionGrid);
                  if (response?.filteredPredictiveList?.length > 0) {

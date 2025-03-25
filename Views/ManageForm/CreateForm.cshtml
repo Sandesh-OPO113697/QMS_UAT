@@ -184,12 +184,6 @@
                 </div>
             </div>
 
-            @* <div class="col-md-3">
-                <div class="form-group mb-3">
-                    <label for="Rating_ID">Rating</label>
-                    @Html.DropDownList("Rating_ID", (List<SelectListItem>)ViewBag.RatingMaste, "Select Rating", new { @class = "custom-select", id = "Rating_ID" })
-                </div>
-            </div> *@
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
@@ -323,7 +317,52 @@
 
 
 
+<div class="card shadow mb-4" id="RatingDropDawon" style="display:none;margin-top:15px">
+    <div class="card-header">
+        <strong class="card-title">Rating</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
 
+            <div class="col-md-3">
+                <div class="form-group mb-3">
+                   
+                    <label for="Rating_ID">Rating</label>
+                    @Html.DropDownList("Rating_ID", (List<SelectListItem>)ViewBag.RatingMaste, "Select Rating", new { @class = "custom-select", id = "Rating_ID" })
+
+              
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group mb-3">
+                    <button id="ratingAdd" class="btn btn-primary mt-4">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow" id="Rating_List" style="display:none">
+    <div class="card-header">
+        <strong class="card-title">Rating List</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered mt-3" id="RatingTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Rating</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+</div>
 <div class="card shadow mb-4" id="Predictive_CSAT" style="display:none;margin-top:15px">
     <div class="card-header">
         <strong class="card-title">Predictive Analysis</strong>
@@ -375,7 +414,7 @@
 
     </div>
 </div>
-<div class="card shadow mb-4" id="Upload_Dispostition_List" >
+<div class="card shadow mb-4" id="Upload_Dispostition_List" style="display:none" >
     <div class="card-header">
         <strong class="card-title">Upload Disposition List</strong>
     </div>
@@ -465,6 +504,53 @@
 
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/apps.js"></script>
+
+<script>
+
+
+    $(document).ready(function () {
+    $("#ratingAdd").on("click", function () {
+        var selectedText = $("#Rating_ID option:selected").text();
+        var selectedValue = $("#Rating_ID").val();
+            $("#Rating_List").show();
+
+        if (selectedValue === "" || selectedValue === "Select Rating") {
+            alert("Please select a valid rating.");
+            return;
+        }
+
+        // Check if rating already exists in the table
+        var exists = false;
+        $("#RatingTable tbody tr").each(function () {
+            if ($(this).find("td:first").text() === selectedValue) {
+                exists = true;
+                return false; // Break loop
+            }
+        });
+
+        if (exists) {
+            alert("Rating already added.");
+            return;
+        }
+
+        // Create a new row with Remove button
+        var newRow = `<tr>
+            <td>${selectedValue}</td>
+            <td>${selectedText}</td>
+            <td><button class="btn btn-danger btn-sm removeRating">Remove</button></td>
+        </tr>`;
+
+        $("#RatingTable tbody").append(newRow);
+    });
+
+    // Remove row when Remove button is clicked
+    $(document).on("click", ".removeRating", function () {
+        $(this).closest("tr").remove();
+    });
+});
+
+
+    </script>
 <script>
     function UpLoadDispo()
     {
@@ -490,12 +576,11 @@
             if (data.success) {
                 alert("File uploaded successfully: " + data.fileName);
             } else {
-                alert("Error: " + data.message);
+               
             }
         })
         .catch(error => {
-            alert("Error uploading file.");
-            console.error("Error:", error);
+           
         });
     }
    
@@ -669,19 +754,22 @@
         let rootCauseValues = [];
         let predictiveValues = [];
         let ztClassificationValues = [];
-        let zeroTolerance = $("input[name='zeroTolerance']:checked").val(); // Get checked value
+       var RatinfGried = [];
+        let zeroTolerance = $("input[name='zeroTolerance']:checked").val();
 
-        // Get values from RCA table
         $("#rcaTable tbody tr").each(function () {
             rootCauseValues.push($(this).find("td:first").text().trim());
         });
-
-        // Get values from Predictive CSAT table
+         $("#RatingTable tbody tr").each(function () {
+            var id = $(this).find("td:eq(0)").text().trim();
+            RatinfGried.push(id);
+        });
+  
+  
         $("#Predictive_CSAT tbody tr").each(function () {
             predictiveValues.push($(this).find("td:first").text().trim());
         });
 
-        // Get values from ZT Classification table
         $("#ZT_Classificationtbl tbody tr").each(function () {
             ztClassificationValues.push($(this).find("td:first").text().trim());
         });
@@ -692,6 +780,7 @@
             Root_Cause_Analysis: rootCauseValues.join(","),
             Predictive_Analysis: predictiveValues.join(","),
             ZT_Classification: ztClassificationValues.join(","),
+            RatinfGried:RatinfGried.join(","),
             Zero_Tolerance: zeroTolerance,
             ProgramID: programID, // Example static value, replace as needed
             SubProgramID: subProgramID, // Example static value, replace as needed
@@ -733,6 +822,38 @@
         });
     });
 
+    function Uploadrating()
+    {
+         var tableData = [];
+
+ 
+        $("#RatingTable tbody tr").each(function () {
+            var row = {
+                id: $(this).find("td:eq(0)").text().trim(),   
+                rating: $(this).find("td:eq(1)").text().trim() 
+            };
+            tableData.push(row);
+        });
+
+        if (tableData.length === 0) {
+            alert("No data available to submit.");
+            return;
+        }
+
+        $.ajax({
+            url: "/YourController/YourAction",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ ratings: tableData }),
+            success: function (response) {
+                alert("Form submitted successfully!");
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+                alert("Error submitting form. Please try again.");
+            }
+        });
+    }
     function submitFormData() {
 
 
@@ -807,6 +928,11 @@
             isValid = false;
         }
 
+         if ($("#RatingTable  tbody tr").length === 0) {
+            alert("Please add at least one RatingTable ");
+            return;
+            isValid = false;
+        }
 
         if (!$("#yesCheckbox").is(":checked") && !$("#noCheckbox").is(":checked")) {
             alert("Please select Zero Tolerance Behaviour.");
@@ -903,6 +1029,8 @@
                     $("#Predictive_CSAT").hide();
                      $("#ZT_Classification").hide();
                       $("#Zero_tolerance_behaviour").hide();
+                            $("#Upload_Dispostition_List").hide();
+                      
                     alert("Select Valid Sub Program");
                      return ;
 
@@ -942,8 +1070,10 @@
                                                     $("#Staticfeild").show();
                                                     $("#ZT_Classification").show();
 
+                                                     $("#RatingDropDawon").show();
                                                     $("#Zero_tolerance_behaviour").show();
                                                     $("#Predictive_CSAT").show();
+                                                      $("#Upload_Dispostition_List").show();
 
                                             }
                                     },

@@ -287,6 +287,19 @@ namespace QMS.Controllers
 
                     result = new { success = true, data = getPredictiveList, message = "Categories fetched successfully!" };
                     break;
+
+                case "rating":
+                    DataSet ds = await dl_FormBuilder.GetSectionDropdownDataAsync();
+                    DataTable ratingTableData = ds.Tables[1];
+                    var ratingTable = ratingTableData.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["Id"].ToString(),
+                        Text = $"{row["RatingName"]}"
+                    }).ToList();
+
+
+                    result = new { success = true, data = ratingTable, message = "Categories fetched successfully!" };
+                    break;
                 case "ztclassification":
                     var getZT_Classification = await dl_FormBuilder.getZT_Classification();
                     var getZT_ClassificationList = getZT_Classification.AsEnumerable().Select(row => new SelectListItem
@@ -486,6 +499,7 @@ namespace QMS.Controllers
                 List<SelectListItem> filteredRoutwCauseList = new List<SelectListItem>();
                 List<SelectListItem> filteredPredictiveList = new List<SelectListItem>();
                 List<SelectListItem> filteredZTClassificationList = new List<SelectListItem>();
+                List<SelectListItem> filteredRatingList = new List<SelectListItem>();
                 string Zero_Tolerance = "No";
 
                 if (DynamicFeild.Rows.Count > 0)
@@ -495,6 +509,8 @@ namespace QMS.Controllers
                     var Root_Cause_Analysis = DynamicFeild.Rows[0]["Root_Cause_Analysis"].ToString().Split(',').Select(s => s.Trim()).ToList();
                     var Predictive_Analysis = DynamicFeild.Rows[0]["Predictive_Analysis"].ToString().Split(',').Select(s => s.Trim()).ToList();
                     var ZT_Classification = DynamicFeild.Rows[0]["ZT_Classification"].ToString().Split(',').Select(s => s.Trim()).ToList();
+
+                    var Rating = DynamicFeild.Rows[0]["Rating"].ToString().Split(',').Select(s => s.Trim()).ToList();
 
                     var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
                     var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
@@ -511,7 +527,14 @@ namespace QMS.Controllers
                         Text = $"{row["Predictive_CSAT"]}"
                     }).ToList();
                     filteredPredictiveList = getPredictiveList.Where(item => Predictive_Analysis.Contains(item.Value)).ToList();
-
+                    DataSet ds = await dl_FormBuilder.GetSectionDropdownDataAsync();
+                    DataTable ratingTableData = ds.Tables[1];
+                    var ratingTable = ratingTableData.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["Id"].ToString(),
+                        Text = $"{row["RatingName"]}"
+                    }).ToList();
+                    filteredRatingList = ratingTable.Where(item => Rating.Contains(item.Value)).ToList();
                     var getZT_Classification = await dl_FormBuilder.getZT_Classification();
                     var getZT_ClassificationList = getZT_Classification.AsEnumerable().Select(row => new SelectListItem
                     {
@@ -530,7 +553,8 @@ namespace QMS.Controllers
                     ZeroTolerance = Zero_Tolerance,
                     agentgried= agentgried,
                     dispositiongried= dispositiongried,
-                    subdispositiongried=subdispositiongried
+                    subdispositiongried=subdispositiongried,
+                    filteredRatingList=filteredRatingList
                 });
             }
             catch (Exception ex)
@@ -549,6 +573,10 @@ namespace QMS.Controllers
                 DataTable DynamicFeild = await dl_FormBuilder.GetdynamicFeildsGriedAsync(id.ProcessID, id.SUBProcessID);
 
                 var dataTable2 = await dl_FormBuilder.GetAgentGriedAsync(id.ProcessID, id.SUBProcessID);
+
+                var dataTable3 = await dl_FormBuilder.GetDispostionGriedAsync(id.ProcessID, id.SUBProcessID);
+                var dataTable4 = await dl_FormBuilder.GetSubDispositionriedAsync(id.ProcessID, id.SUBProcessID);
+
                 var sectionList = dataTable.AsEnumerable().Select(row => new SectionGridModel
                 {
                     Id = row.Field<int>("id"),
@@ -577,6 +605,26 @@ namespace QMS.Controllers
 
 
                 }).ToList();
+
+                var dispositiongried = dataTable3.AsEnumerable().Select(row => new EditDispoModel
+                {
+
+                    Dispostition_ID = row.Field<int>("Dispostition_ID"),
+                    Disposition_name = row.Field<string>("Disposition_name")
+
+
+                }).ToList();
+
+                var subdispositiongried = dataTable4.AsEnumerable().Select(row => new EditSubDispoModel
+                {
+
+                    Disposition = row.Field<string>("Disposition"),
+                    SubDisposition = row.Field<string>("SubDisposition")
+
+
+                }).ToList();
+
+
                 List<SelectListItem> filteredRoutwCauseList = new List<SelectListItem>();
                 List<SelectListItem> filteredPredictiveList = new List<SelectListItem>();
                 List<SelectListItem> filteredZTClassificationList = new List<SelectListItem>();
@@ -622,7 +670,9 @@ namespace QMS.Controllers
                     FilteredPredictiveList = filteredPredictiveList,
                     FilteredZTClassificationList = filteredZTClassificationList,
                     ZeroTolerance = Zero_Tolerance,
-                    agentgried = agentgried
+                    agentgried = agentgried,
+                    dispositiongried = dispositiongried,
+                    subdispositiongried = subdispositiongried
                 });
             }
             catch (Exception ex)

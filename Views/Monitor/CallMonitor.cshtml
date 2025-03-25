@@ -2,7 +2,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="col-md-12 my-4">
+<div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow">
         <div class="card-body">
             <h5 class="card-title">  </h5>
@@ -42,7 +42,7 @@
 
 
 
-<div class="col-md-12 my-4">
+<div class="col-md-12 my-4" id="SerchRecoding">
     <div class="card shadow">
         <div class="card-body">
             <h5 class="card-title"> Search Recording </h5>
@@ -108,31 +108,35 @@
 </div>
 
 
-
-<div id="recordingContainer"></div>
-<div class="row">
-    <div class="col-md-6 my-4" id="RelListDiv" style="display:none">
-        <div class="card shadow">
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th class="w-40">Agent ID</th>
-                                <th class="w-40">Transaction ID</th>
-                                <th class="w-40">Duration</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recTableBody">
-                        </tbody>
-                    </table>
-                </div>
+<div id="RelListDiv" style="display:none">
+    <div class="card shadow">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Play</th>
+                            <th >Agent ID</th>
+                            <th >Transaction ID</th>
+                            <th >Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recTableBody">
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="col-md-6 my-4" id="LastReansaction" style="display:none">
+<div class="row"  id="LastReansaction" style="display: flex; display:none; align-items: stretch;">
+    <div class="col-md-6 my-4" style="display: flex; flex-direction: column;">
+   
+                 <div id="recordingContainer"></div>
+        
+    </div>
+
+    <div class="col-md-6 my-4" style=" display: flex; flex-direction: column;">
         <div class="card shadow">
             <div class="container-fluid">
                 <div class="row justify-content-center">
@@ -224,6 +228,7 @@
 
                     <th>Weightage</th>
                     <th>Comments Section</th>
+                    <th>Fatal</th>
 
                     
 
@@ -299,23 +304,6 @@
 
 
 
-<div class="card shadow mb-4" id="ZtClassfictions" style="display:none">
-    <div class="card-header">
-        <strong class="card-title">ZT Classification</strong>
-      
-    </div>
-    <div class="card-body">
-        <div class="row col-md-4">
-            <label for="ZTClassification">Select  ZT Classification</label>
-            <select id="ZTClassification" class="custom-select">
-              
-            </select>
-
-        </div>
-    </div>
-</div>
-
-
 <div class="card shadow mb-4" id="Zerotollernce" style="display:none">
     <div class="card-header">
         <strong class="card-title">Zero Tolerance Behaviour</strong>
@@ -337,11 +325,28 @@
 </div>
 
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-4" id="ZtClassfictions" style="display:none">
+    <div class="card-header">
+        <strong class="card-title">ZT Classification</strong>
+      
+    </div>
+    <div class="card-body">
+        <div class="row col-md-4">
+            <label for="ZTClassification">Select  ZT Classification</label>
+            <select id="ZTClassification" class="custom-select">
+              
+            </select>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow mb-4" id="ButtonForAudit" style="display:none">
     <div class="card-header">
     </div>
     <div class="card-body">
-        <div class="row">
+        <div class="row d-flex flex-wrap" style="gap: 10px; display: flex; justify-content: flex-start;">
 
             <div class="col-md-2">
                 <div class="form-group mb-3">
@@ -371,6 +376,33 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let yesCheckbox = document.getElementById("yesCheckbox");
+        let noCheckbox = document.getElementById("noCheckbox");
+        let btnLogZT = document.getElementById("btnLogZT");
+
+        function toggleButton() {
+            if (yesCheckbox.checked) {
+                btnLogZT.style.display = "block"; // Show button
+            } else {
+                btnLogZT.style.display = "none"; // Hide button
+            }
+        }
+
+        // Add event listeners to both checkboxes
+        yesCheckbox.addEventListener("change", function () {
+            noCheckbox.checked = !yesCheckbox.checked; // Uncheck "No" if "Yes" is checked
+            toggleButton();
+        });
+
+        noCheckbox.addEventListener("change", function () {
+            yesCheckbox.checked = !noCheckbox.checked; // Uncheck "Yes" if "No" is checked
+            toggleButton();
+        });
+    });
+</script>
 <script>
 
     function InsertCallAudit() {
@@ -601,7 +633,15 @@
              $("#Predictivediv").hide();
              $("#ZtClassfictions").hide();
              $("#Zerotollernce").hide();
-       
+             $("#ButtonForAudit").hide();
+
+                 $("#LastReansaction").hide();
+
+                $("#AuditDiv").show();
+                 $("#SerchRecoding").show();
+                  $("#RelListDiv").show();
+            
+        location.reload();
     }
 
     function SubMitedata() {
@@ -689,7 +729,7 @@
             success: function (response) {
                 if (response.success) {
                     alert("Call Evaluation  submitted successfully!");
-                    clearValues();
+                   
                   
                 } else {
                     alert("Failed to submit  Evaluation data.");
@@ -700,6 +740,8 @@
                 alert("An error occurred while submitting data.");
             }
         });
+
+         clearValues();
     }
 </script>
 
@@ -788,6 +830,12 @@
             target.style.color = "#03FD03";
             target.style.setProperty("color", "#03FD03", "important");
 
+                $("#LastReansaction").show();
+                  $("#RelListDiv").hide();
+                    $("#SerchRecoding").hide();
+                      $("#AuditDiv").hide();
+               
+            
             var audioPath = target.getAttribute("data-path");
 
                               $.ajax({
@@ -812,24 +860,58 @@
                                             dataType: "json",
                                             success: function (response) {
                                                 if (response.success) {
+                                               
                                                     let container = document.getElementById("recordingContainer");
-                                                    container.innerHTML = "";
-                                                    let byteCharacters = atob(response.audioData);
-                                                    let byteNumbers = new Array(byteCharacters.length);
+                                                    container.innerHTML = ""; // Clear previous content
+                                                    let imagePath = '/images/call_recording.jpg';
+                                                    console.log("Image Path:", imagePath); // Debugging
+
+                                                    container.style.backgroundImage = `url('${imagePath}')`;
+                                                    container.style.backgroundSize = "cover";
+                                                    container.style.backgroundPosition = "center";
+                                                    container.style.backgroundRepeat = "no-repeat";
+                                                    container.style.minHeight = "300px"; // Adjust height as needed
+                                                    container.style.display = "flex";
+                                                    container.style.alignItems = "center";
+                                                    container.style.justifyContent = "center";
+                                                    container.style.flexDirection = "column"; // Stack elements vertically
+                                                    container.style.padding = "20px";
+                                                    if (!response.audioData) {
+                                                        console.error("No audio data received.");
+                                                        return;
+                                                    }
+
+                                                    let byteCharacters;
+                                                    try {
+                                                        byteCharacters = atob(response.audioData);
+                                                    } catch (e) {
+                                                        console.error("Invalid Base64 audio data:", e);
+                                                        return;
+                                                    }
+
+                                                    let byteNumbers = new Uint8Array(byteCharacters.length);
                                                     for (let i = 0; i < byteCharacters.length; i++) {
                                                         byteNumbers[i] = byteCharacters.charCodeAt(i);
                                                     }
-                                                    let byteArray = new Uint8Array(byteNumbers);
-                                                    let blob = new Blob([byteArray], { type: "audio/mpeg" });
+
+                                                    let blob = new Blob([byteNumbers], { type: "audio/mpeg" });
                                                     let audioUrl = URL.createObjectURL(blob);
 
+                                                    console.log("Audio URL:", audioUrl); // Debugging
+
+                                                   
                                                     let audioPlayer = document.createElement("audio");
                                                     audioPlayer.controls = true;
                                                     audioPlayer.src = audioUrl;
-                                                    audioPlayer.autoplay = true;
                                                     audioPlayer.style.width = "100%";
+                                                    audioPlayer.style.maxWidth = "439px";
+                                                    audioPlayer.style.margin = "5px auto";
+                                                    audioPlayer.style.marginTop = "527px"; 
+                                                    audioPlayer.autoplay = true;
                                                     container.appendChild(audioPlayer);
-                                                    container.style.display = "block";
+                                                    audioPlayer.play().catch(error => {
+                                                        console.error("Autoplay blocked:", error);
+                                                    });
                                                 } else {
                                                     console.error("Error: " + response.message);
                                                 }
@@ -995,7 +1077,23 @@
 </script>
 <script>
 
-     
+
+     function HideDiv()
+     {
+
+         $("#SectionGried").hide();
+           $("#rooutcause").hide();
+             $("#Predictivediv").hide();
+             $("#ZtClassfictions").hide();
+             $("#Zerotollernce").hide();
+               $("#ButtonForAudit").hide();
+                     $("#LastReansaction").hide();
+
+                $("#AuditDiv").show();
+                 $("#SerchRecoding").show();
+                  $("#RelListDiv").show();
+
+     }
 
      function DisplayDiv()
      {
@@ -1005,6 +1103,7 @@
              $("#Predictivediv").show();
              $("#ZtClassfictions").show();
              $("#Zerotollernce").show();
+               $("#ButtonForAudit").show();
      }
     function OnAuditChange()
     {
@@ -1084,8 +1183,8 @@
 
 
                       if (!fromDate || !toDate ) {
-                                $("#FromDate").val(""); // Clear the value
-                                $("#Todate").val("");   // Clear the value
+                                $("#FromDate").val("");
+                                $("#Todate").val("");  
                                 alert("Invalid date selection. Dates have been cleared.");
                             }
                 if (!agentId) {
@@ -1093,7 +1192,7 @@
                     return;
                 }
            var programId = document.getElementById("AgentID").value;
-
+             console.log("Agent ID .. " +programId );
 
            if (programId == "") {
                alert("Please Select Agent first");
@@ -1120,7 +1219,7 @@
            });
            
            $("#RelListDiv").show();
-             $("#LastReansaction").show();
+           
            $.ajax({
                     type: "POST",
                     data: JSON.stringify({ fromDate: fromDate, toDate: toDate, agentId: agentId }),
@@ -1144,10 +1243,10 @@
                                             </div>
 
                                         </td>
-                                        <td class="text-muted">${rec.AgentId}</td>
-                                         <td class="text-muted">${rec.CONNID}</td>
+                                        <td >${rec.AgentId}</td>
+                                         <td >${rec.CONNID}</td>
 
-                                        <td class="text-muted">${rec.CallDuration}</td>
+                                        <td >${rec.CallDuration}</td>
                                     </tr>`;
 
                                     tableBody.innerHTML += row;
@@ -1163,67 +1262,151 @@
                 GetSectionGried();
 
        }
-        function populateGrid(data) {
+    //     function populateGrid(data) {
+    //     var tableBody = $("#sectionGrid tbody");
+    //     tableBody.empty();
+    //     if (data.length === 0) {
+    //         tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
+    //         return;
+    //     }
+
+    //                 $.each(data, function (index, item) {
+    //                     var row = `<tr>
+    //                     <td>${item.category}</td>
+    //                     <td>${item.level}</td>
+    //                     <td>${item.sectionName}</td>
+    //                     <td>
+    //                         <select class="qa-rating form-control" data-index="${index}">
+    //                          <option value="">Select Rating</option>
+    //                             <option value="Met">Met</option>
+    //                             <option value="Not Met">Not Met</option>
+    //                         </select>
+    //                     </td>
+    //                     <td>${item.scorable}</td>
+    //                     <td class="score-col">${item.score}</td>
+    //                       <td><input type="text" class="form-control" id="Comments_Section" placeholder="Enter Comments Section"></td>
+
+    //                       <td>
+    //                         <select class="fatal-select form-control" data-index="${index}">
+    //                          <option value="">Select Fatel</option>
+    //                             <option value="Yes">Yes</option>
+    //                             <option value="No">No</option>
+    //                         </select>
+    //                     </td>
+    //                 </tr>`;
+
+    //                     tableBody.append(row);
+    //                 });
+    //                    var footerRow = `<tr>
+    //     <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
+    //     <td id="totalScore" class="font-weight-bold">0</td>
+    // </tr>`;
+
+    // tableBody.append(footerRow);
+
+
+    //  $(".fatal-select").on("change", function () {
+    //     calculateTotalScore();
+    // });
+
+
+    //      $(".qa-rating").on("change", function () {
+    //     var selectedValue = $(this).val();
+    //     var rowIndex = $(this).data("index");
+    //     var scoreCell = $(this).closest("tr").find(".score-col");
+
+    //     if (selectedValue === "Met") {
+    //         scoreCell.text(data[rowIndex].score);
+    //     } else {
+    //         scoreCell.text(0);
+    //     }
+    //     calculateTotalScore();
+    // });
+    // calculateTotalScore();
+    // }
+        function populateGrid(data, ratingList) {
         var tableBody = $("#sectionGrid tbody");
         tableBody.empty();
+
         if (data.length === 0) {
             tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
             return;
         }
 
-                    $.each(data, function (index, item) {
-                        var row = `<tr>
-                        <td>${item.category}</td>
-                        <td>${item.level}</td>
-                        <td>${item.sectionName}</td>
-                        <td>
-                            <select class="qa-rating form-control" data-index="${index}">
-                             <option value="">Select Rating</option>
-                                <option value="Met">Met</option>
-                                <option value="Not Met">Not Met</option>
-                            </select>
-                        </td>
-                        <td>${item.scorable}</td>
-                        <td class="score-col">${item.score}</td>
-                          <td><input type="text" class="form-control" id="Comments_Section" placeholder="Enter Comments Section"></td>
-                    </tr>`;
+        $.each(data, function (index, item) {
+            // Create options dynamically from ratingList
+            var ratingOptions = `<option value="">Select Rating</option>`;
+            $.each(ratingList, function (_, rating) {
+                ratingOptions += `<option value="${rating.text}">${rating.text}</option>`;
+            });
 
-                        tableBody.append(row);
-                    });
-                       var footerRow = `<tr>
-        <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
-        <td id="totalScore" class="font-weight-bold">0</td>
-    </tr>`;
+            var row = `<tr>
+                <td>${item.category}</td>
+                <td>${item.level}</td>
+                <td>${item.sectionName}</td>
+                <td>
+                    <select class="qa-rating form-control" data-index="${index}">
+                        ${ratingOptions}
+                    </select>
+                </td>
+                <td>${item.scorable}</td>
+                <td class="score-col">${item.score}</td>
+                <td><input type="text" class="form-control" id="Comments_Section" placeholder="Enter Comments Section"></td>
+                <td>
+                    <select class="fatal-select form-control" data-index="${index}">
+                        <option value="">Select Fatal</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </td>
+            </tr>`;
 
-    tableBody.append(footerRow);
+            tableBody.append(row);
+        });
 
-         $(".qa-rating").on("change", function () {
-        var selectedValue = $(this).val();
-        var rowIndex = $(this).data("index");
-        var scoreCell = $(this).closest("tr").find(".score-col");
+        var footerRow = `<tr>
+            <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
+            <td id="totalScore" class="font-weight-bold">0</td>
+        </tr>`;
+        tableBody.append(footerRow);
 
-        if (selectedValue === "Met") {
-            scoreCell.text(data[rowIndex].score);
-        } else {
-            scoreCell.text(0);
-        }
+        // Bind event handlers for score calculation
+        $(".fatal-select").on("change", function () {
+            calculateTotalScore();
+        });
+
+        $(".qa-rating").on("change", function () {
+            var selectedValue = $(this).val();
+            var rowIndex = $(this).data("index");
+            var scoreCell = $(this).closest("tr").find(".score-col");
+
+            if (selectedValue === "Yes") {
+                scoreCell.text(data[rowIndex].score);
+            } else {
+                scoreCell.text(0);
+            }
+            calculateTotalScore();
+        });
+
         calculateTotalScore();
-    });
-    calculateTotalScore();
     }
 
      function calculateTotalScore() {
-     
+      let isFatal = false;
         let total = 0;
         $("#sectionGrid tbody tr").each(function () {
             var scorable = $(this).find("td:nth-child(5)").text().trim(); // 5th column (scorable)
             var score = parseInt($(this).find(".score-col").text()) || 0;
+             var fatalValue = $(this).find(".fatal-select").val();
 
+        if (fatalValue === "Yes") {
+            isFatal = true;
+        }
             if (scorable === "Yes") {
                 total += score;
             }
         });
-        $("#totalScore").text(total);
+        $("#totalScore").text(isFatal ? "0" : total);
     }
 
        function GetSectionGried()
@@ -1237,7 +1420,7 @@
                 data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
                 success: function (response) {
                   console.log(JSON.stringify(response));
-                    populateGrid(response.sectionGrid);
+                      populateGrid(response.sectionGrid, response.filteredRatingList);
 
                             if (response?.filteredPredictiveList?.length > 0) {
                                  populateTable("#predictiveAnalysisTable", response.filteredPredictiveList, "Predictive");

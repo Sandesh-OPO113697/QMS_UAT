@@ -180,10 +180,19 @@ namespace QMS.Controllers
                 return Json(new { success = false, message = "Error: " + ex.Message });
             }
         }
-        public async Task<JsonResult> GetTLName([FromBody] DropDawon id)
+        public async Task<JsonResult> GetTLName([FromBody] DropDawnString id)
         {
+            string tl_name = string.Empty;
+            try
+            {
+                 tl_name = await dl_monitor.GetTeamLeaderName(id.ID.ToString());
+            }
+            catch(Exception ex )
+            {
 
-            string tl_name = await dl_monitor.GetTeamLeaderName(id.Id.ToString());
+            }
+
+       
 
             return Json(new { success = true, tl_name });
         }

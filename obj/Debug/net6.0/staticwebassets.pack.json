@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\Images\\1point1-small-logo.png"
     },
     {
+      "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\Images\\Call_Recording.jpg",
+      "PackagePath": "staticwebassets\\Images\\Call_Recording.jpg"
+    },
+    {
       "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\Images\\QMSLOGO.webp",
       "PackagePath": "staticwebassets\\Images\\QMSLOGO.webp"
     },

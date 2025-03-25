@@ -6,6 +6,7 @@
         public string Predictive_Analysis { get; set; }
         public string ZT_Classification { get; set; }
         public string Zero_Tolerance { get; set; }
+        public string RatinfGried { get; set; }
         public int ProgramID { get; set; }
         public int SubProgramID { get; set; }
         public int IsActive { get; set; }

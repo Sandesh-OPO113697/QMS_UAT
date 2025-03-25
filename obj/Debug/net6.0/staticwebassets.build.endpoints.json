@@ -167,6 +167,88 @@
       ]
     },
     {
+      "Route": "Images/Call_Recording.jpg",
+      "AssetFile": "Images/Call_Recording.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "142316"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OIYUdBjgkiRkRwlUFQ/ht3oG8M0z6CLQRg5gpwx56Dc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 25 Feb 2021 14:05:10 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-OIYUdBjgkiRkRwlUFQ/ht3oG8M0z6CLQRg5gpwx56Dc="
+        }
+      ]
+    },
+    {
+      "Route": "Images/Call_Recording.sn2vfu0n7s.jpg",
+      "AssetFile": "Images/Call_Recording.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "142316"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OIYUdBjgkiRkRwlUFQ/ht3oG8M0z6CLQRg5gpwx56Dc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 25 Feb 2021 14:05:10 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "sn2vfu0n7s"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-OIYUdBjgkiRkRwlUFQ/ht3oG8M0z6CLQRg5gpwx56Dc="
+        },
+        {
+          "Name": "label",
+          "Value": "Images/Call_Recording.jpg"
+        }
+      ]
+    },
+    {
       "Route": "Images/QMSLOGO.n8kespjk44.webp",
       "AssetFile": "Images/QMSLOGO.webp",
       "Selectors": [],
@@ -685,7 +767,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 24 Mar 2025 13:14:01 GMT"
+          "Value": "Tue, 25 Mar 2025 13:22:24 GMT"
         }
       ],
       "EndpointProperties": [
@@ -730,7 +812,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 24 Mar 2025 13:14:01 GMT"
+          "Value": "Tue, 25 Mar 2025 13:22:24 GMT"
         }
       ],
       "EndpointProperties": [

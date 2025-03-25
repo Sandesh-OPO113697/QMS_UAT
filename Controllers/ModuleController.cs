@@ -11,10 +11,44 @@ namespace QMS.Controllers
     {
         private readonly DL_Module _module;
         private readonly Dl_Admin _admin;
-        public ModuleController(DL_Module adl, Dl_Admin adam)
+        private readonly Dl_formBuilder dl_FormBuilder;
+        public ModuleController(DL_Module adl, Dl_Admin adam , Dl_formBuilder adl2)
         {
             _module = adl;
             _admin = adam;
+            dl_FormBuilder = adl2;
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdatePauseCount(int id, int ProgramID , string pauseValue)
+        {
+                  await _module.UpdatePauseCount(id , ProgramID , pauseValue);
+            return Json(new { sucess = true });
+        }
+            [HttpPost]
+        public async Task< JsonResult> Edit(int id , int ProgramID)
+        {
+            var dataTable2 = await dl_FormBuilder.GetAgentGriedAsync(ProgramID, id);
+            var agentgried = dataTable2.AsEnumerable().Select(row => new AgentListModel
+            {
+                ID = row.Field<int>("ID"),
+                EmpName = row.Field<string>("EmpName"),
+                EmpCode = row.Field<string>("EmpCode"),
+                TL_Name = row.Field<string>("TL_Name"),
+                Batch_ID = row.Field<string>("Batch_ID"),
+                TL_Code = row.Field<string>("TL_Code"),
+                QA_Name = row.Field<string>("QA_Name")
+
+
+
+
+            }).ToList();
+            return Json(new
+            {
+             
+                agentgried = agentgried,
+             
+            });
         }
 
         public IActionResult FetureSubFeture(string RoleName, string Featureid, string SubFeatureid)
