@@ -20,7 +20,7 @@
 }
 
 
-<div class="col-md-12 my-4">
+<div class="col-md-12 my-4" id="MainDiv">
     <div class="card shadow">
         <div class="card-body">
             @using (Html.BeginForm("InsertSubProcess", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -41,7 +41,7 @@
                             <input type="hidden" id="HiddenSubProcessID">
                         </div>
 
-                      
+
 
                     </div>
 
@@ -65,7 +65,7 @@
 
                         </div>
                         <div class="form-group mb-3">
-                              </div>
+                        </div>
                     </div>
                 </div>
 
@@ -81,6 +81,103 @@
     </div>
 </div>
 
+
+<div class="col-md-12 my-4" id="EditDiv" style="display:none">
+    <div class="card shadow">
+        <div class="card-body">
+            @using (Html.BeginForm("UpdateSubProcess", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="LocationDropDown">Location Name</label>
+                            @Html.DropDownList("Location_ID2", (List<SelectListItem>)ViewBag.Locations, new { @class = "custom-select", id = "Location_ID", disabled = "disabled" })
+
+                        </div>
+
+
+                        <div class="form-group mb-3">
+                            <label for="SubProcess">SubProcess</label>
+                            <input type="text" id="SubProcess2" name="SubProcess" autocomplete="off" class="form-control" />
+                            <input type="hidden" id="HiddenSubProcessID23" name="SubProcessID">
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="ProgramID22">Program Name</label>
+                            <input type="text" id="ProgramID22" name="ProgramID22" autocomplete="off" class="form-control" readonly />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="Number_Of_Pause">Number Of Pause</label>
+                            <input type="number" id="Number_Of_Pause2" name="Number_Of_Pause" autocomplete="off" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="card shadow mb-4" id="AgentListEdit" style="display:none">
+                    <div class="card-header">
+                        <strong class="card-title">Agent List</strong>
+                        <button id="selectAll" style="margin-left:50px;" class="btn btn-primary mt-3"> Selected All</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <table id="agentTable" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Emp Name</th>
+                                        <th>Emp Code</th>
+                                        <th>TL Name</th>
+                                        <th>TL Code</th>
+                                        <th>QA Name</th>
+                                        <th>Batch ID</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-2 my-4">
+                        <label for="ProgramID2"></label>
+                        <button type="submit" id="RemoveAllAgent" class="btn btn-primary">Remove Agnets</button>
+
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="ProgramID2">Upload Agent List</label>
+                        <input type="file" id="fileUpload2" name="file" class="form-control" required />
+                    </div>
+
+
+                    <div class="col-md-2 my-4">
+                        <label for="ProgramID2"></label>
+                        <button type="submit" id="UpdateSubProcesdure" class="btn btn-primary">Save</button>
+
+                    </div>
+                </div>
+
+            }
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
 <div id="UserCardBody" style="visibility:hidden" class="col-md-12 my-4">
     <div class="card shadow">
         <div class="card-body">
@@ -95,8 +192,7 @@
                         <th>SubProcess</th>
                         <th>Action</th>
                         <th>Edit</th>
-                        <th>Agent List</th>
-                        <th>Pause Count</th>
+                     
                     </tr>
                 </thead>
                 <tbody>
@@ -231,6 +327,113 @@
 
 
 <script src="~/js/jquery.min.js"></script>
+
+
+<script>
+
+        $(document).ready(function () {
+        $("#UpdateSubProcesdure").click(function (e) {
+            e.preventDefault(); // Prevent default form submission
+                  var subProcessID = $("#HiddenSubProcessID23").val().trim();
+        var subProcess = $("#SubProcess2").val().trim();
+        var programName = $("#ProgramID22").val().trim();
+        var numberOfPause = $("#Number_Of_Pause2").val().trim();
+        var fileUpload = $("#fileUpload2").val();
+
+            // Validation checks
+            if (subProcess === "") {
+                alert("Please enter SubProcess.");
+                return false;
+            }
+            if (programName === "") {
+                alert("Please enter Program Name.");
+                return false;
+            }
+            if (numberOfPause === "") {
+                alert("Please enter Number Of Pause.");
+                return false;
+            }
+            if (fileUpload === "") {
+                alert("Please upload the Agent List file.");
+                return false;
+            }
+
+            // If all checks pass, submit the form
+            $(this).closest("form").submit();
+        });
+    });
+
+</script>
+<script>
+
+
+
+    $(document).ready(function () {
+           $("#selectAll").click(function () {
+               var allChecked = $(".agentCheckbox").length === $(".agentCheckbox:checked").length;
+               $(".agentCheckbox").prop("checked", !allChecked);
+           });
+       });
+
+
+        $(document).ready(function () {
+        $("#RemoveAllAgent").click(function () {
+            var selectedEmpCodes = [];
+             var process = $("#ProgramID22").val();
+        var subProcess = $("#HiddenSubProcessID23").val();
+               console.log("Process:", process);
+           console.log("SubProcess:", subProcess);
+            // Collect all checked checkboxes and get their associated Employee Codes
+            $(".agentCheckbox:checked").each(function () {
+                var empCode = $(this).closest("tr").find("td:eq(2)").text().trim(); // Get Emp Code (3rd column)
+                selectedEmpCodes.push(empCode);
+            });
+
+            if (selectedEmpCodes.length === 0) {
+                alert("No agents selected.");
+                return;
+            }
+
+            console.log("Selected Emp Codes:", selectedEmpCodes);
+
+
+                        $.ajax({
+                             url: "/Module/RemoveAgents",// Replace with your actual API URL
+                            type: "POST",
+                            data: JSON.stringify({ empCodes: selectedEmpCodes , process: process, subProcess: subProcess}),
+                            contentType: "application/json",
+                            success: function (response) {
+                                               if (response.success) {
+                                        alert("Agents removed successfully!");
+
+                                        // Refresh the table with updated data
+                                        var tbody = $("#agentTable tbody");
+                                        tbody.empty(); // Clear table before appending new data
+                                        console.log(JSON.stringify(response.agentgried))
+                                        $.each(response.agentgried, function (index, agent) {
+                                            var row = `<tr>
+                                                <td><input type="checkbox" class="agentCheckbox" value="${agent.id}"></td>
+                                                <td>${agent.empName}</td>
+                                                <td>${agent.empCode}</td>
+                                                <td>${agent.tL_Name}</td>
+                                                <td>${agent.tL_Code}</td>
+                                                <td>${agent.qA_Name}</td>
+                                                         <td>${agent.batch_ID}</td>
+                                            </tr>`;
+                                            tbody.append(row);
+                                        });
+                                    } else {
+                                        alert("Failed to remove agents.");
+                                    }
+                },
+                error: function () {
+                    alert("An error occurred while removing agents.");
+                }
+            });
+        });
+    });
+
+</script>
 <script>
          $(document).ready(function () {
         // Open modal when clicking "ADD" button
@@ -367,7 +570,7 @@
             type: "POST",
             data: JSON.stringify({ id: programId }),
 
-            url: "/Admin/GetSUBProcessList",
+            url: "/Module/GetSUBProcessList",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
@@ -393,29 +596,28 @@
 
                         var firstText = textValues[0];
                         var secondText = textValues[1];
-                        var row = `
-                                <tr>
-                                          <td>${item.value}</td>
-                                    <td>${locationName}</td>
-                                    <td>${processName}</td>
-                                        <td>${firstText} </td>
-                                             <td>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="chk_${item.value}" ${secondText == "1" ? "checked" : ""} onclick="updateStatus('${item.value}', this.checked)" />
-                            <label class="custom-control-label" for="chk_${item.value}"></label>
-                        </div>
-                    </td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary" onclick="editSubProcess('${item.value}', '${firstText}')">Edit</button>
-                                    </td>
-                                     <td>
-                                                <button class="btn btn-sm btn-primary" onclick="editAgent('${item.value}', '${firstText}')">Agent</button>
+                           var ThirtText = textValues[2];
+                       var row = `
+                                    <tr>
+                                              <td>${item.value}</td>
+                                        <td>${locationName}</td>
+                                        <td>${processName}</td>
+                                            <td>${firstText} </td>
+                                             <td>${ThirtText} </td>
+                                                 <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="chk_${item.value}" ${secondText == "1" ? "checked" : ""} onclick="updateStatus('${item.value}', this.checked)" />
+                                <label class="custom-control-label" for="chk_${item.value}"></label>
+                            </div>
+                        </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary" onclick="editSubProcess('${item.value}', '${firstText}', '${processName}', '${ThirtText}', '${locationName}')">Edit</button>
+
                                         </td>
-                                          <td>
-                                                <button class="btn btn-sm btn-primary" onclick="PauseCount('${item.value}', '${firstText}')">Pause Count</button>
-                                        </td>
-                                </tr>
-                            `;
+
+
+                                    </tr>
+                                `;
                         tableBody.append(row);
                     });
                 } else {
@@ -474,6 +676,7 @@
 
     }
      function editAgent(id, currentName) {
+
          $("#AgentListEdit").show();
          $("#HiddenSubProcessID").val(id);
          var ProgramID = $("#ProgramID").val();
@@ -489,14 +692,14 @@
 
                         $.each(response.agentgried, function (index, agent) {
                         var row = `<tr>
-                            <td style="display:none" >${agent.id}</td>
+                             <td><input type="checkbox" class="agentCheckbox" value="${agent.id}"></td>
                             <td>${agent.empName}</td>
                             <td>${agent.empCode}</td>
                             <td>${agent.tL_Name}</td>
                             <td>${agent.tL_Code}</td>
                             <td>${agent.qA_Name}</td>
                                      <td>${agent.batch_ID}</td>
-                                           <td><button class="btn btn-danger btn-sm removeAgent">Remove</button></td>
+
                         </tr>`;
                         tbody.append(row);
                     });
@@ -509,7 +712,6 @@
         }
     });
     }
-
 
     function SaveSUBProcess(id, status) {
         $.ajax({
@@ -532,12 +734,18 @@
         });
 
     }
-    function editSubProcess(id, currentName) {
-        // Populate the modal with current data
-        $('#editSubProcess').val(currentName);
-        $('#editSubProcessId').val(id);
-        $('#editModal').modal('show');
-    }
+    function editSubProcess(value, firstText,processName, thirtText , locationName) {
+         $("#EditDiv").show();
+         $("#MainDiv").hide();
+          editAgent(value, firstText);
+             document.getElementById("HiddenSubProcessID23").value = value;
+         document.getElementById("SubProcess2").value = firstText;
+     document.getElementById("Number_Of_Pause2").value = thirtText;
+     document.getElementById("ProgramID22").value = processName;
+      document.getElementById("Location_ID2").value = locationName;
+
+
+     }
 
     function saveChanges() {
         var updatedName = $('#editSubProcess').val();
@@ -562,4 +770,3 @@
 
     }
 </script>
-

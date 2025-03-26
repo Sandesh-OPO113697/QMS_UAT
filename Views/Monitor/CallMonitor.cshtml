@@ -640,7 +640,9 @@
                 $("#AuditDiv").show();
                  $("#SerchRecoding").show();
                   $("#RelListDiv").show();
-            
+                     $("#LastReansaction").show();
+
+
         location.reload();
     }
 
@@ -830,8 +832,9 @@
             target.style.color = "#03FD03";
             target.style.setProperty("color", "#03FD03", "important");
 
-                $("#LastReansaction").show();
+                $("#LastReansaction").hide();
                   $("#RelListDiv").hide();
+                   $("#LastReansaction").hide();
                     $("#SerchRecoding").hide();
                       $("#AuditDiv").hide();
                
@@ -848,9 +851,20 @@
                             if (response.success) {
                                 if (response.connid && response.connid.trim() !== "") {
                                     alert("For This Transaction ID, Audit Has Been Done");
+                                      $("#LastReansaction").hide();
+                                    $("#RelListDiv").hide();
+                                 
+                                    $("#SerchRecoding").show();
+                                    $("#AuditDiv").show();
+                                
                                     return;
                                 }
+
                                 else{
+
+                                 $("#LastReansaction").show();
+                                  $("#RelListDiv").hide();
+                                   
                                       $("#Transaction_ID").val(audioPath);
                                         $.ajax({
                                             type: "POST",
@@ -1087,11 +1101,12 @@
              $("#ZtClassfictions").hide();
              $("#Zerotollernce").hide();
                $("#ButtonForAudit").hide();
-                     $("#LastReansaction").hide();
+                   
 
                 $("#AuditDiv").show();
                  $("#SerchRecoding").show();
                   $("#RelListDiv").show();
+               
 
      }
 
@@ -1218,7 +1233,7 @@
                }
            });
            
-           $("#RelListDiv").show();
+           
            
            $.ajax({
                     type: "POST",
@@ -1228,7 +1243,7 @@
                     dataType: "json",
                     success: function (response) {
                         if (response.success) {
-
+                            $("#RelListDiv").show();
                              let recList = JSON.parse(response.reclist);
 
 
@@ -1262,68 +1277,7 @@
                 GetSectionGried();
 
        }
-    //     function populateGrid(data) {
-    //     var tableBody = $("#sectionGrid tbody");
-    //     tableBody.empty();
-    //     if (data.length === 0) {
-    //         tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
-    //         return;
-    //     }
-
-    //                 $.each(data, function (index, item) {
-    //                     var row = `<tr>
-    //                     <td>${item.category}</td>
-    //                     <td>${item.level}</td>
-    //                     <td>${item.sectionName}</td>
-    //                     <td>
-    //                         <select class="qa-rating form-control" data-index="${index}">
-    //                          <option value="">Select Rating</option>
-    //                             <option value="Met">Met</option>
-    //                             <option value="Not Met">Not Met</option>
-    //                         </select>
-    //                     </td>
-    //                     <td>${item.scorable}</td>
-    //                     <td class="score-col">${item.score}</td>
-    //                       <td><input type="text" class="form-control" id="Comments_Section" placeholder="Enter Comments Section"></td>
-
-    //                       <td>
-    //                         <select class="fatal-select form-control" data-index="${index}">
-    //                          <option value="">Select Fatel</option>
-    //                             <option value="Yes">Yes</option>
-    //                             <option value="No">No</option>
-    //                         </select>
-    //                     </td>
-    //                 </tr>`;
-
-    //                     tableBody.append(row);
-    //                 });
-    //                    var footerRow = `<tr>
-    //     <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
-    //     <td id="totalScore" class="font-weight-bold">0</td>
-    // </tr>`;
-
-    // tableBody.append(footerRow);
-
-
-    //  $(".fatal-select").on("change", function () {
-    //     calculateTotalScore();
-    // });
-
-
-    //      $(".qa-rating").on("change", function () {
-    //     var selectedValue = $(this).val();
-    //     var rowIndex = $(this).data("index");
-    //     var scoreCell = $(this).closest("tr").find(".score-col");
-
-    //     if (selectedValue === "Met") {
-    //         scoreCell.text(data[rowIndex].score);
-    //     } else {
-    //         scoreCell.text(0);
-    //     }
-    //     calculateTotalScore();
-    // });
-    // calculateTotalScore();
-    // }
+    
         function populateGrid(data, ratingList) {
         var tableBody = $("#sectionGrid tbody");
         tableBody.empty();
@@ -1380,7 +1334,7 @@
             var rowIndex = $(this).data("index");
             var scoreCell = $(this).closest("tr").find(".score-col");
 
-            if (selectedValue === "Yes") {
+            if (selectedValue === "Yes" || selectedValue ===  "Met" ||selectedValue === "Meeting_expectations"||selectedValue ===  "exceeding expectations" ||selectedValue === "Partially Met") {
                 scoreCell.text(data[rowIndex].score);
             } else {
                 scoreCell.text(0);
@@ -1399,7 +1353,7 @@
             var score = parseInt($(this).find(".score-col").text()) || 0;
              var fatalValue = $(this).find(".fatal-select").val();
 
-        if (fatalValue === "Yes") {
+        if (fatalValue === "Yes" ) {
             isFatal = true;
         }
             if (scorable === "Yes") {

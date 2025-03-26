@@ -410,11 +410,32 @@ namespace QMS.Controllers
             return RedirectToAction("CreateUser");
 
         }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateSubProcess(string SubProcessID, string SubProcess, string ProgramID22, int? Number_Of_Pause, IFormFile file)
+        {
+            List<string> errorMessages = new List<string>();
+
+
+            await _admin.UpdateSubProcesssBT(SubProcessID, SubProcess, ProgramID22, Number_Of_Pause, file);
+            errorMessages.Add("Sub-Process Edit Sucessfully !");
+            TempData["ErrorMessages"] = errorMessages;
+            return RedirectToAction("CreateSubProcess");
+
+        }
         public async Task<JsonResult> GetProcessList([FromBody] DropDawon id)
         {
 
-            var proces = await _admin.GetProcessName(id.Id);
-            return Json(new { success = true, proces });
+            try
+            {
+                var proces = await _admin.GetProcessName(id.Id);
+                return Json(new { success = true, proces });
+            }
+            catch(Exception ex)
+            {
+                return Json(new { success = false, proces =""});
+            }
+          
         }
         [HttpPost]
         public async Task<JsonResult> HandleBackspace()

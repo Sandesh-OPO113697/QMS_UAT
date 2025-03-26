@@ -282,11 +282,15 @@ D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\refint\QMS.dll
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\QMS.pdb
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\QMS.genruntimeconfig.cache
 D:\QMS Dash\WEB_QMS\QMS\QMS\obj\Debug\net6.0\ref\QMS.dll
-D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.exe
 D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\appsettings.Development.json
 D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\appsettings.json
 D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.staticwebassets.runtime.json
 D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.staticwebassets.endpoints.json
+D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.exe
+D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.deps.json
+D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.runtimeconfig.json
+D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.dll
+D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.pdb
 D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
 D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\Enums.NET.dll
 D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\EPPlus.dll
@@ -371,9 +375,5 @@ D:\QMS\QMS_MVC_CORE\obj\Debug\net6.0\QMS.csproj.Up2Date
 D:\QMS\QMS_MVC_CORE\obj\Debug\net6.0\QMS.dll
 D:\QMS\QMS_MVC_CORE\obj\Debug\net6.0\refint\QMS.dll
 D:\QMS\QMS_MVC_CORE\obj\Debug\net6.0\QMS.pdb
-D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.deps.json
-D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.runtimeconfig.json
-D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.dll
-D:\QMS\QMS_MVC_CORE\bin\Debug\net6.0\QMS.pdb
 D:\QMS\QMS_MVC_CORE\obj\Debug\net6.0\QMS.genruntimeconfig.cache
 D:\QMS\QMS_MVC_CORE\obj\Debug\net6.0\ref\QMS.dll

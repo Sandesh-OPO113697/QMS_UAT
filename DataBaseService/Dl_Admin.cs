@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using NPOI.Util;
 using OfficeOpenXml;
 using QMS.Encription;
 using QMS.Models;
@@ -23,7 +24,100 @@ namespace QMS.DataBaseService
         }
 
 
+        public async Task UpdateSubProcesssBT(string SubProcessID, string SubProcess, string ProgramID22, int? Number_Of_Pause, IFormFile file)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    string query = "EditFormvalue";
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "UpdateSubProcess");
+                        cmd.Parameters.AddWithValue("@SubprocessID", SubProcessID);
+                        cmd.Parameters.AddWithValue("@SubprocessName", SubProcess);
+                        cmd.Parameters.AddWithValue("@Pausecontt", Number_Of_Pause);
 
+                        object result = await cmd.ExecuteScalarAsync();
+
+                        int ProcessIDTest = result != null ? Convert.ToInt32(result) : 0;
+                        UpdateAgent(SubProcessID, ProcessIDTest.ToString() , file);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+            
+        }
+
+        public async Task UpdateAgent(string SubProgramID, string ProgramID, IFormFile file)
+        {
+            int successCount = 0, duplicateCount = 0, invalidCount = 0;
+            string extension = Path.GetExtension(file.FileName);
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                stream.Position = 0;
+                if (extension == ".xlsx")  // Handle modern Excel files
+                {
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        int rowCount = worksheet.Dimension.Rows;
+
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+
+                            string EmpName = worksheet.Cells[row, 1].Value?.ToString()?.Trim();
+                            string EmpCode = worksheet.Cells[row, 2].Value?.ToString()?.Trim()?.ToUpper();
+                            string TL_Name = worksheet.Cells[row, 3].Value?.ToString()?.Trim();
+                            string TL_Code = worksheet.Cells[row, 4].Value?.ToString()?.Trim();
+
+                            string QA_Name = worksheet.Cells[row, 5].Value?.ToString()?.Trim();
+                            string Batch_ID = worksheet.Cells[row, 6].Value?.ToString()?.Trim();
+                            await InsertAgenttList(EmpName, EmpCode, TL_Name, TL_Code, ProgramID, SubProgramID.ToString(), QA_Name, Batch_ID);
+                            successCount++;
+                        }
+                    }
+
+                }
+                else if (extension == ".xls")
+                {
+                    HSSFWorkbook hssfwb = new HSSFWorkbook(stream);
+                    ISheet sheet = hssfwb.GetSheetAt(0);
+                    int rowCount = sheet.PhysicalNumberOfRows;
+
+                    for (int row = 1; row < rowCount; row++)
+                    {
+                        IRow currentRow = sheet.GetRow(row);
+
+                        string EmpName = currentRow.GetCell(0)?.ToString()?.Trim();
+                        string EmpCode = currentRow.GetCell(1)?.ToString()?.Trim()?.ToUpper();
+                        string TL_Name = currentRow.GetCell(2)?.ToString()?.Trim();
+                        string TL_Code = currentRow.GetCell(3)?.ToString()?.Trim();
+
+                        string QA_Name = currentRow.GetCell(4)?.ToString()?.Trim();
+                        string Batch_ID = currentRow.GetCell(5)?.ToString()?.Trim();
+
+                        await InsertAgenttList(EmpName, EmpCode, TL_Name, TL_Code, ProgramID, SubProgramID.ToString(), QA_Name, Batch_ID);
+                        successCount++;
+                    }
+                }
+                else
+                {
+
+                }
+
+
+
+
+            }
+        }
         public async Task DeactiveActiveSubProcess(int id, bool isActive)
         {
             string status = isActive ? "1" : "0";
@@ -194,6 +288,11 @@ namespace QMS.DataBaseService
 
 
         }
+
+
+
+
+       
         public async Task InsertAgenttList(string EmpName, string EmpCode, string TL_Name, string TL_Code, string processID, string SubProcessID, string QA_Name, string Batch_ID)
         {
 

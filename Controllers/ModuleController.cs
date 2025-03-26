@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using QMS.DataBaseService;
 using QMS.Models;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace QMS.Controllers
 {
@@ -18,7 +19,30 @@ namespace QMS.Controllers
             _admin = adam;
             dl_FormBuilder = adl2;
         }
+        [HttpPost]
+        public async Task<IActionResult> RemoveAgents([FromBody] RemoveAgentsRequest request)
+        {
+            bool isDeleted = await _module.RemoveAgents(request.EmpCodes, request.process, request.subProcess);
+            DataTable dt = await _module.GetAgentListUpdated( request.process, request.subProcess);
+            var agentList = dt.AsEnumerable().Select(row => new
+            {
+                ID = row["ID"],
+                EmpName = row["EmpName"],
+                EmpCode = row["EmpCode"],
+                TL_Name = row["TL_Name"],
+                TL_Code = row["TL_Code"],
+                QA_Name = row["QA_Name"],
+                Batch_ID = row["Batch_ID"]
+            }).ToList();
 
+            return Json(new { success = isDeleted, message = isDeleted ? "Agents removed successfully!" : "No agents selected.", agentgried = agentList });
+        }
+        public async Task<JsonResult> GetSUBProcessList([FromBody] DropDawon id)
+        {
+
+            var proces = await _module.GetSUBProcessName(id.Id);
+            return Json(new { success = true, proces });
+        }
         [HttpPost]
         public async Task<JsonResult> UpdatePauseCount(int id, int ProgramID , string pauseValue)
         {
@@ -451,6 +475,21 @@ namespace QMS.Controllers
             return RedirectToAction("CreateSubProcess");
 
         }
+
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateSubProcess(string SubProcessID, string SubProcess, string ProgramID22, int? Number_Of_Pause, IFormFile file)
+        {
+            List<string> errorMessages = new List<string>();
+
+
+            await _admin.UpdateSubProcesssBT(SubProcessID, SubProcess, ProgramID22, Number_Of_Pause, file);
+            errorMessages.Add("Sub-Process Edit Sucessfully !");
+            TempData["ErrorMessages"] = errorMessages;
+            return RedirectToAction("CreateSubProcess");
+
+        }
+
 
         public async Task<ActionResult> ProcessAssign()
         {

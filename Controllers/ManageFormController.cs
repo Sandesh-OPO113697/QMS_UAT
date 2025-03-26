@@ -628,6 +628,7 @@ namespace QMS.Controllers
                 List<SelectListItem> filteredRoutwCauseList = new List<SelectListItem>();
                 List<SelectListItem> filteredPredictiveList = new List<SelectListItem>();
                 List<SelectListItem> filteredZTClassificationList = new List<SelectListItem>();
+                List<SelectListItem> filteredRatingList = new List<SelectListItem>();
                 string Zero_Tolerance = "No";
 
                 if (DynamicFeild.Rows.Count > 0)
@@ -637,7 +638,7 @@ namespace QMS.Controllers
                     var Root_Cause_Analysis = DynamicFeild.Rows[0]["Root_Cause_Analysis"].ToString().Split(',').Select(s => s.Trim()).ToList();
                     var Predictive_Analysis = DynamicFeild.Rows[0]["Predictive_Analysis"].ToString().Split(',').Select(s => s.Trim()).ToList();
                     var ZT_Classification = DynamicFeild.Rows[0]["ZT_Classification"].ToString().Split(',').Select(s => s.Trim()).ToList();
-
+                    var Rating = DynamicFeild.Rows[0]["Rating"].ToString().Split(',').Select(s => s.Trim()).ToList();
                     var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
                     var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
                     {
@@ -653,7 +654,14 @@ namespace QMS.Controllers
                         Text = $"{row["Predictive_CSAT"]}"
                     }).ToList();
                     filteredPredictiveList = getPredictiveList.Where(item => Predictive_Analysis.Contains(item.Value)).ToList();
-
+                    DataSet ds = await dl_FormBuilder.GetSectionDropdownDataAsync();
+                    DataTable ratingTableData = ds.Tables[1];
+                    var ratingTable = ratingTableData.AsEnumerable().Select(row => new SelectListItem
+                    {
+                        Value = row["Id"].ToString(),
+                        Text = $"{row["RatingName"]}"
+                    }).ToList();
+                    filteredRatingList = ratingTable.Where(item => Rating.Contains(item.Value)).ToList();
                     var getZT_Classification = await dl_FormBuilder.getZT_Classification();
                     var getZT_ClassificationList = getZT_Classification.AsEnumerable().Select(row => new SelectListItem
                     {
@@ -672,7 +680,8 @@ namespace QMS.Controllers
                     ZeroTolerance = Zero_Tolerance,
                     agentgried = agentgried,
                     dispositiongried = dispositiongried,
-                    subdispositiongried = subdispositiongried
+                    subdispositiongried = subdispositiongried,
+                    filteredRatingList=filteredRatingList
                 });
             }
             catch (Exception ex)
