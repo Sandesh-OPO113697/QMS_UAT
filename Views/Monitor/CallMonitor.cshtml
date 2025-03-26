@@ -108,6 +108,59 @@
 </div>
 
 
+
+
+<div class="col-md-12 my-4" id="NonVoice" style="display:none">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">  </h5>
+            <div class="row">
+
+               
+                 <div class="form-group col-md-6">
+                    <label for="ConnID">Transaction_ID</label>
+                    <input type="text" class="form-control" id="Transaction_ID2" aria-describedby="button-addon2" onkeydown="handleEnter(event)">
+
+
+                </div>
+                
+
+            
+                 <div class="form-group col-md-6">
+                    <label for="Monitored_date">Monitored date</label>
+                    <input type="text" class="form-control" id="Monitored_date2" aria-describedby="button-addon2" readonly>
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="Transaction_Date">Transaction Date</label>
+                    <input type="text" class="form-control" id="Transaction_Date2" aria-describedby="button-addon2" readonly>
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="Year">Year</label>
+                    <input type="text" class="form-control" id="Year2" aria-describedby="button-addon2" readonly>
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="Month">Month</label>
+                    <input type="text" class="form-control" id="Month2" aria-describedby="button-addon2" readonly>
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="Week">Week</label>
+                    <input type="text" class="form-control" id="Week2" aria-describedby="button-addon2" readonly>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div id="RelListDiv" style="display:none">
     <div class="card shadow">
         <div class="container-fluid">
@@ -376,6 +429,58 @@
         </div>
     </div>
 </div>
+<script>
+    function handleEnter(event) {
+        console.log("Key Pressed:", event.key); // Debugging
+
+        if (event.key === "Enter" || event.keyCode === 13) {
+            event.preventDefault(); // Prevents accidental form submission if inside a form
+
+         
+            myFunction(); // Call your function
+        }
+    }
+
+
+    function myFunction() {
+        let value = document.getElementById("Transaction_ID2").value.trim(); // Get the input value and trim spaces
+
+        if (!value) {
+            alert("Please enter a Transaction ID.");
+            return;
+        }
+
+        console.log("Transaction ID entered:", value);
+
+        $.ajax({
+            type: "POST",
+            url: "/Monitor/CheckTheAuditIsDone",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({ id: value }),
+            success: function (response) {
+                console.log("AJAX Response:", response);
+
+                if (response.success) {
+                    if (response.connid && response.connid.trim() !== "") {
+                        alert("For This Transaction ID, Audit Has Been Done.");
+                        $("#LastReansaction").show();
+                        $("#RelListDiv").hide();
+                        return;
+                    }
+                } else {
+                    console.error("Error:", response.message || "Unknown error occurred.");
+                }
+
+                GetSectionGried();
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", error);
+            }
+        });
+    }
+</script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -764,6 +869,8 @@
        
         document.getElementById("Monitored_date").value = formattedDate;
         document.getElementById("Transaction_Date").value = formattedDate;
+          document.getElementById("Monitored_date2").value = formattedDate;
+        document.getElementById("Transaction_Date2").value = formattedDate;
         
 
          var year = today.getFullYear();
@@ -772,6 +879,10 @@
              document.getElementById("Year").value = year;
           document.getElementById("Month").value = month;
           document.getElementById("Week").value = weekNumber;
+
+           document.getElementById("Year2").value = year;
+          document.getElementById("Month2").value = month;
+          document.getElementById("Week2").value = weekNumber;
 
 
             function configureDatePicker(id) {
@@ -1141,6 +1252,7 @@
         $("#dispositionId").empty().append('<option value="">Select Disposition</option>');
         $("#SubDispositionID").empty().append('<option value="">Select Sub Disposition</option>');
         $("#AgentID").empty().append('<option value="">Select Agent</option>');
+       
         $("#TL_id").val("");
         $("#RelListDiv").hide();
             $("#LastReansaction").hide();
@@ -1151,6 +1263,7 @@
         $("#dispositionId").empty().append('<option value="">Select Disposition</option>');
         $("#SubDispositionID").empty().append('<option value="">Select Sub Disposition</option>');
         $("#AgentID").empty().append('<option value="">Select Agent</option>');
+        
         $("#TL_id").val("");
         $("#RelListDiv").hide();
             $("#LastReansaction").hide();
@@ -1222,7 +1335,8 @@
                dataType: "json",
                success: function (response) {
                 if (response.success) {
-                    $("#TL_id").val(response.tl_name);  // Corrected this line
+                    $("#TL_id").val(response.tl_name); 
+                   
                 } else {
                     alert("Error fetching TL Name.");
                     $("#RelListDiv").hide();
@@ -1429,6 +1543,18 @@
                 dataType: "json",
                 data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
                 success: function (response) {
+
+                    console.log(response.typeofprocess);
+                    if(response.typeofprocess==="Non_Voice")
+                    {
+                        $("#NonVoice").show();
+                        $("#SerchRecoding").hide();
+                        
+                    }
+                    else{
+                         $("#NonVoice").hide();
+                        $("#SerchRecoding").show();
+                    }
                   var dropdown = $('#dispositionId');
                     dropdown.empty();
                     dropdown.append('<option value="">Select Disposition</option>');
@@ -1455,6 +1581,11 @@
                             dropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
                         });
                      }
+
+
+
+                                          
+
                 },
                 error: function (xhr, status, error) {
                     console.error("Error occurred: " + error);

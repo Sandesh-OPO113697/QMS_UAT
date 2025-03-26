@@ -438,7 +438,7 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause, IFormFile file)
+        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause, IFormFile file , string TypeProcess)
         {
             List<string> errorMessages = new List<string>();
 
@@ -446,6 +446,12 @@ namespace QMS.Controllers
             if (string.IsNullOrEmpty(ProgramID))
             {
                 errorMessages.Add("Please Select Process Name.");
+                TempData["ErrorMessages"] = errorMessages;
+                return RedirectToAction("CreateSubProcess");
+            }
+            if (string.IsNullOrEmpty(TypeProcess))
+            {
+                errorMessages.Add("Please Select TypeProcess .");
                 TempData["ErrorMessages"] = errorMessages;
                 return RedirectToAction("CreateSubProcess");
             }
@@ -469,7 +475,7 @@ namespace QMS.Controllers
             }
 
 
-            await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file);
+            await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file , TypeProcess);
             errorMessages.Add("Sub-Process Created Sucessfully !");
             TempData["ErrorMessages"] = errorMessages;
             return RedirectToAction("CreateSubProcess");

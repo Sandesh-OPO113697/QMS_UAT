@@ -193,7 +193,7 @@ namespace QMS.DataBaseService
             }
 
         }
-        public async Task InsertSubProcessDetailsAsync(string Location_ID, string ProgramID, string SubProcess, int Number_Of_Pause , IFormFile file)
+        public async Task InsertSubProcessDetailsAsync(string Location_ID, string ProgramID, string SubProcess, int Number_Of_Pause , IFormFile file , string TypeProcess)
         {
             int SubProgramID = 0;
             using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
@@ -208,6 +208,7 @@ namespace QMS.DataBaseService
                     cmd.Parameters.AddWithValue("@Procesname", ProgramID);
                     cmd.Parameters.AddWithValue("@Subprogram", SubProcess.ToUpper());
                     cmd.Parameters.AddWithValue("@Number_Of_Pause", Number_Of_Pause);
+                    cmd.Parameters.AddWithValue("@TypeProcess", TypeProcess);
                     cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
                    
                     SqlParameter outpouparameter = new SqlParameter("@InserTedID", SqlDbType.Int)

@@ -457,6 +457,41 @@ namespace QMS.DataBaseService
 
         }
 
+        public async Task<string> GetProvcessType(string Process, string? SubProcess)
+        {
+            string TText = "";
+            string StoreProcedure = "MonitoringDetails";
+            try
+            {
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(StoreProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Operations", "GetProcesstype");
+                        command.Parameters.AddWithValue("@Process", Process);
+                        command.Parameters.AddWithValue("@SubProcess", SubProcess);
+                        using (var reder = await command.ExecuteReaderAsync())
+                        {
+                            while (await reder.ReadAsync())
+                            {
+                                 TText = reder["type"].ToString();
+                                
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return TText;
+
+        }
+
         public async Task<List<SelectListItem>> GetSubDisposition(string Process, string? SubProcess, string Disposition)
         {
             var Adudit = new List<SelectListItem>();

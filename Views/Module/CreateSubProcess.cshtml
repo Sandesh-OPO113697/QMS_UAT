@@ -42,6 +42,9 @@
 
                         <div class="form-group mb-3">
                             <label for="ProgramID2">Upload Agent List</label>
+                            <small class="form-text text-muted">
+                                <a href="/SampleFile/AgentUpload.xls" download>Download Sample File</a>
+                            </small>
                             <input type="file" id="fileUpload" name="file" class="form-control" required />
                         </div>
 
@@ -58,6 +61,16 @@
                             <label for="Number_Of_Pause">Number Of Pause</label>
                             <input type="number" id="Number_Of_Pause" name="Number_Of_Pause" autocomplete="off" class="form-control" />
                         </div>
+
+                         <div class="form-group mb-3">
+                            <label for="TypeProcess">Type Of Process</label>
+                            <select name="TypeProcess" id="TypeProcess" class="custom-select">
+                                <option value="">Select Process</option>
+                                <option value="Voice">Voice</option>
+                                <option value="Non_Voice">Non Voice</option>
+                            </select>
+                        </div>
+
                     </div>
                 </div>
 

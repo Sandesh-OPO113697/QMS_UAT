@@ -185,7 +185,8 @@ namespace QMS.Controllers
             string tl_name = string.Empty;
             try
             {
-                 tl_name = await dl_monitor.GetTeamLeaderName(id.ID.ToString());
+               
+                tl_name = await dl_monitor.GetTeamLeaderName(id.ID.ToString());
             }
             catch(Exception ex )
             {
@@ -216,9 +217,11 @@ namespace QMS.Controllers
         public async Task<JsonResult> GetDispositoin([FromBody] Process_SUbProcess id)
         {
             List<SelectListItem> sampleSize = await dl_monitor.GetDisposition(id.ProcessID.ToString(), id.SUBProcessID.ToString());
+
+           string typeofprocess = await dl_monitor.GetProvcessType(id.ProcessID.ToString(), id.SUBProcessID.ToString());
             List<SelectListItem> agentlist = await dl_monitor.GetAgentName(id.ProcessID.ToString(), id.SUBProcessID.ToString());
 
-            return Json(new { success = true, samplesize = sampleSize, agentlist = agentlist });
+            return Json(new { success = true, samplesize = sampleSize, agentlist = agentlist  , typeofprocess =typeofprocess });
 
         }
 
