@@ -41,6 +41,18 @@
       "PackagePath": "staticwebassets\\Images\\user.png"
     },
     {
+      "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\AgentUpload.xls",
+      "PackagePath": "staticwebassets\\SampleFile\\AgentUpload.xls"
+    },
+    {
+      "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadCategory.xls",
+      "PackagePath": "staticwebassets\\SampleFile\\UploadCategory.xls"
+    },
+    {
+      "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\dispo.xls",
+      "PackagePath": "staticwebassets\\SampleFile\\dispo.xls"
+    },
+    {
       "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.css"
     },

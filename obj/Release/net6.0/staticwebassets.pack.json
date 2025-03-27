@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\Images\\1point1-small-logo.png"
     },
     {
+      "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\Images\\Call_Recording.jpg",
+      "PackagePath": "staticwebassets\\Images\\Call_Recording.jpg"
+    },
+    {
       "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\Images\\QMSLOGO.webp",
       "PackagePath": "staticwebassets\\Images\\QMSLOGO.webp"
     },
@@ -35,6 +39,18 @@
     {
       "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\Images\\user.png",
       "PackagePath": "staticwebassets\\Images\\user.png"
+    },
+    {
+      "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\AgentUpload.xls",
+      "PackagePath": "staticwebassets\\SampleFile\\AgentUpload.xls"
+    },
+    {
+      "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadCategory.xls",
+      "PackagePath": "staticwebassets\\SampleFile\\UploadCategory.xls"
+    },
+    {
+      "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\dispo.xls",
+      "PackagePath": "staticwebassets\\SampleFile\\dispo.xls"
     },
     {
       "Id": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.css",

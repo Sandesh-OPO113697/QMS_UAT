@@ -171,6 +171,8 @@
                             <th> Play</th>
                             <th >Agent ID</th>
                             <th >Transaction ID</th>
+                            <th >Start Time</th>
+                            <th>End Time</th>
                             <th >Duration</th>
                         </tr>
                     </thead>
@@ -429,6 +431,128 @@
         </div>
     </div>
 </div>
+<div id="voiceModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: white; padding: 20px; box-shadow: 0px 0px 10px gray; border-radius: 10px; z-index: 1000;">
+
+    <h4>Record Your Voice Message</h4>
+
+    <button id="startRecording" style="background-color: gray; color: white; border: none; padding: 10px;
+        margin: 5px; cursor: pointer; border-radius: 5px;">
+        Start Recording
+    </button>
+
+    <button id="stopRecording" style="background-color: gray; color: white; border: none; padding: 10px;
+        margin: 5px; cursor: pointer; border-radius: 5px;" disabled>
+        Stop Recording
+    </button>
+
+    <p id="recordingIndicator" style="display: none; color: red; font-weight: bold;">🔴 Recording...</p>
+
+    <audio id="audioPlayback" controls style="display: none; margin-top: 10px;"></audio>
+
+    <button id="saveRecording" style="background-color: blue; color: white; border: none; padding: 10px;
+        margin: 5px; cursor: pointer; border-radius: 5px;" disabled>
+        Save
+    </button>
+
+    <button id="closeModal" style="background-color: gray; color: white; border: none; padding: 10px;
+        margin: 5px; cursor: pointer; border-radius: 5px;">
+        Close
+    </button>
+
+</div>
+
+<script>
+    document.getElementById("btnVoicefeed").addEventListener("click", function () {
+        document.getElementById("voiceModal").style.display = "block";
+    });
+
+    document.getElementById("closeModal").addEventListener("click", function () {
+        document.getElementById("voiceModal").style.display = "none";
+    });
+
+    let mediaRecorder;
+    let audioChunks = [];
+
+    document.getElementById("startRecording").addEventListener("click", async function () {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.start();
+            audioChunks = [];
+
+            // Show recording indicator
+            document.getElementById("recordingIndicator").style.display = "block";
+
+            mediaRecorder.ondataavailable = event => {
+                audioChunks.push(event.data);
+            };
+
+            mediaRecorder.onstop = async () => {
+                const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+                const audioURL = URL.createObjectURL(audioBlob);
+                document.getElementById("audioPlayback").src = audioURL;
+                document.getElementById("audioPlayback").style.display = "block";
+                document.getElementById("saveRecording").disabled = false;
+
+                // Hide recording indicator
+                document.getElementById("recordingIndicator").style.display = "none";
+            };
+
+            document.getElementById("stopRecording").disabled = false;
+            document.getElementById("startRecording").disabled = true;
+        } catch (error) {
+            console.error("Error accessing microphone:", error);
+        }
+    });
+
+    document.getElementById("stopRecording").addEventListener("click", function () {
+        mediaRecorder.stop();
+        document.getElementById("stopRecording").disabled = true;
+        document.getElementById("startRecording").disabled = false;
+        document.getElementById("recordingIndicator").style.display = "none"; // Hide indicator
+    });
+
+               document.getElementById("saveRecording").addEventListener("click", async function () {
+        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+
+        const reader = new FileReader();
+        reader.readAsDataURL(audioBlob); // Convert to Base64
+        reader.onloadend = async function () {
+            const base64Audio = reader.result.split(",")[1]; // Extract Base64 data
+
+            var Transaction_ID = $("#Transaction_ID").val();
+            var Transaction_ID2 = $("#Transaction_ID2").val();
+
+            var finalTransactionID = Transaction_ID || Transaction_ID2;
+
+            if (!finalTransactionID) {
+                alert("No valid Transaction ID found!");
+                return;
+            }
+
+            $.ajax({
+                url: "/save-voice-message",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    TransactionId: finalTransactionID,
+                    AudioData: base64Audio  // Send Base64 string instead of array
+                }),
+                success: function (response) {
+                    alert("Voice message saved successfully!");
+                     document.getElementById("voiceModal").style.display = "none";
+                },
+                error: function (error) {
+                    console.error("Error saving voice message:", error);
+                    alert("Failed to save voice message!");
+                }
+            });
+        };
+    });
+
+
+</script>
 <script>
     function handleEnter(event) {
         console.log("Key Pressed:", event.key); // Debugging
@@ -464,11 +588,15 @@
                 if (response.success) {
                     if (response.connid && response.connid.trim() !== "") {
                         alert("For This Transaction ID, Audit Has Been Done.");
-                        $("#LastReansaction").show();
+                     
                         $("#RelListDiv").hide();
                         return;
                     }
+                    else{
+                         $("#LastReansaction").show();
+                    }
                 } else {
+                      
                     console.error("Error:", response.message || "Unknown error occurred.");
                 }
 
@@ -514,7 +642,11 @@
         console.log("Button Clicked!");
         var selectedZTClassification = $("#ZTClassification").val();
         var zeroToleranceValue = $("input[name='zeroTolerance']:checked").val();
-        var CcID = $("#Transaction_ID").val();
+          var Transaction_ID = $("#Transaction_ID").val();
+        var Transaction_ID2 = $("#Transaction_ID2").val();
+
+        var finalTransactionID = Transaction_ID || Transaction_ID2;
+        var CcID = finalTransactionID;
         var totalScoreValue = $("#totalScore").text().trim();
 
         if (!selectedZTClassification ) {
@@ -758,8 +890,11 @@
                     alert("Please resume before  Submite the audit.");
                     return;
                 }
-       
-         var CcID = $("#Transaction_ID").val();
+         var Transaction_ID = $("#Transaction_ID").val();
+        var Transaction_ID2 = $("#Transaction_ID2").val();
+
+        var finalTransactionID = Transaction_ID || Transaction_ID2;
+         var CcID =finalTransactionID;
          if (!CcID) {
             alert("Please Select Call For  Audit First .");
             return false;
@@ -1375,6 +1510,8 @@
                                         <td >${rec.AgentId}</td>
                                          <td >${rec.CONNID}</td>
 
+                                        <td >${rec.StartTime}</td>
+                                        <td >${rec.EndTime}</td>
                                         <td >${rec.CallDuration}</td>
                                     </tr>`;
 

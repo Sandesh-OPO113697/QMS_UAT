@@ -19,6 +19,15 @@ namespace QMS.Controllers
             _admin = adam;
             dl_FormBuilder = adl;
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> BulkInsertcagetoryList(IFormFile file, string processID, string SubProcesID)
+        {
+            await dl_FormBuilder.BuilkCategoryUpload(file, processID, SubProcesID);
+            return Ok();
+        }
+
         [HttpPost("SaveDispositions")]
         public async Task< IActionResult> SaveDispositions([FromBody] EditDispoRequestModel dispositions)
         {

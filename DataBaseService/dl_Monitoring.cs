@@ -30,6 +30,59 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
             _dcl = dL;
         }
+        public async Task<string> SaveVoiceMessage(VoiceMessageModel model)
+        {
+            try
+            {
+                // Convert Base64 string to byte array
+                byte[] audioBytes = model.AudioData != null ? Convert.FromBase64String(model.AudioData) : null;
+
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("SaveVoicemassage", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+
+                        cmd.Parameters.AddWithValue("@Operations", "CheckvoiceMassage");
+                        cmd.Parameters.AddWithValue("@TransactionId", model.TransactionId);
+                        cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+
+                        // Ensure audio data is not null before inserting
+                        if (audioBytes != null && audioBytes.Length > 0)
+                        {
+                            cmd.Parameters.Add("@AudioData", SqlDbType.VarBinary, -1).Value = audioBytes;
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@AudioData", SqlDbType.VarBinary, -1).Value = DBNull.Value;
+                        }
+
+                        SqlParameter outputParam = new SqlParameter("@OutputTransactionId", SqlDbType.NVarChar, 50)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outputParam);
+
+                        await cmd.ExecuteNonQueryAsync();
+
+                        // Get returned transaction ID
+                        string transactionIdFromDB = outputParam.Value?.ToString();
+
+                        return transactionIdFromDB;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return null;
+            }
+        }
+
+
         private List<AuditRecord> ProcessLogs(List<AuditEntry> logs)
         {
             List<AuditRecord> records = new List<AuditRecord>();

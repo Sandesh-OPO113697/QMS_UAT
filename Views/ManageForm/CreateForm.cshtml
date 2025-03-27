@@ -432,6 +432,24 @@
 </div>
 
 
+
+<div class="card shadow mb-4" id="Upload_Category_List" style="display:none">
+    <div class="card-header">
+        <strong class="card-title">Upload Category List</strong> <small class="form-text text-muted">
+            <a href="/SampleFile/UploadCategory.xls" download>Download Sample File</a>
+        </small>
+    </div>
+    <div class="card-body">
+        <form id="uploadForm" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="file" id="fileUploadCategory" name="file" class="form-control" required />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="card shadow mb-4" id="ZT_Classification" style="display:none;margin-top:15px">
     <div class="card-header">
         <strong class="card-title">ZT_Classification</strong>
@@ -554,6 +572,40 @@
 
     </script>
 <script>
+
+    function UpLoadCategory()
+{
+     var fileInput = document.getElementById("fileUploadCategory");
+    if (fileInput.files.length === 0) {
+        alert("Please select a file to upload.");
+        return;
+    }
+
+      let programID = $("#ProgramID").val();
+    let subProgramID = $("#SUBProgramID").val();
+    var formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+    formData.append("processID", programID);
+    formData.append("SubProcesID", subProgramID);
+
+    fetch("/ManageForm/BulkInsertcagetoryList", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("File uploaded successfully: " + data.fileName);
+        } else {
+
+        }
+    })
+    .catch(error => {
+
+    });
+}
+
+
     function UpLoadDispo()
     {
          var fileInput = document.getElementById("fileUpload");
@@ -818,9 +870,11 @@
             return;
         }
 
-            submitFormData();
+           
 
                UpLoadDispo();
+               UpLoadCategory();
+                submitFormData();
         });
     });
 
@@ -1032,6 +1086,7 @@
                      $("#ZT_Classification").hide();
                       $("#Zero_tolerance_behaviour").hide();
                             $("#Upload_Dispostition_List").hide();
+                             $("#Upload_Category_List").hide();
                       
                     alert("Select Valid Sub Program");
                      return ;
@@ -1076,6 +1131,7 @@
                                                     $("#Zero_tolerance_behaviour").show();
                                                     $("#Predictive_CSAT").show();
                                                       $("#Upload_Dispostition_List").show();
+                                                       $("#Upload_Category_List").show();
 
                                             }
                                     },

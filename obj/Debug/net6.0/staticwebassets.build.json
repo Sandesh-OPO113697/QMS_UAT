@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "GIjnACkGPgYlnyUCq1NLFZfo57qhI9+DfXi0+Dq+2fg=",
+  "Hash": "V6GfdrugMEc6QAuAyUz4uShjVflyiMgKX5QnllzVRuk=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -3816,6 +3816,69 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\AgentUpload.xls",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "SampleFile/AgentUpload#[.{fingerprint}]?.xls",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "0xxjx35x9r",
+      "Integrity": "jJC9UrYkJvHyBhERkgOZ4WlZ6Qt8sadXM5n+w/2PsSA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\SampleFile\\AgentUpload.xls"
+    },
+    {
+      "Identity": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\dispo.xls",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "SampleFile/dispo#[.{fingerprint}]?.xls",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "zj6xtw955c",
+      "Integrity": "kdN4JOlBn06SQrRBZUa1LpLXwiHOBt69Vy25wdxoETw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\SampleFile\\dispo.xls"
+    },
+    {
+      "Identity": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadCategory.xls",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "SampleFile/UploadCategory#[.{fingerprint}]?.xls",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "5z03e0hi32",
+      "Integrity": "T3qrGTJtu4ikaw7xx5Kt0CjgjRy6OGxd6HuWqKKG/8c=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\SampleFile\\UploadCategory.xls"
     }
   ],
   "Endpoints": [
@@ -18520,7 +18583,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 26 Mar 2025 13:22:46 GMT"
+          "Value": "Thu, 27 Mar 2025 10:16:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -18557,7 +18620,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 26 Mar 2025 13:22:46 GMT"
+          "Value": "Thu, 27 Mar 2025 10:16:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -18602,7 +18665,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 26 Mar 2025 13:22:46 GMT"
+          "Value": "Thu, 27 Mar 2025 10:16:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -18647,7 +18710,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 26 Mar 2025 13:22:46 GMT"
+          "Value": "Thu, 27 Mar 2025 10:16:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -18658,6 +18721,252 @@
         {
           "Name": "integrity",
           "Value": "sha256-yhLo8+8LJkqKNtlsljU7NBpGlkNNioeSmjHhxUMqt7g="
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/AgentUpload.0xxjx35x9r.xls",
+      "AssetFile": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\AgentUpload.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "20992"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jJC9UrYkJvHyBhERkgOZ4WlZ6Qt8sadXM5n+w/2PsSA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Mar 2025 05:13:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0xxjx35x9r"
+        },
+        {
+          "Name": "label",
+          "Value": "SampleFile/AgentUpload.xls"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-jJC9UrYkJvHyBhERkgOZ4WlZ6Qt8sadXM5n+w/2PsSA="
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/AgentUpload.xls",
+      "AssetFile": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\AgentUpload.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "20992"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jJC9UrYkJvHyBhERkgOZ4WlZ6Qt8sadXM5n+w/2PsSA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Mar 2025 05:13:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-jJC9UrYkJvHyBhERkgOZ4WlZ6Qt8sadXM5n+w/2PsSA="
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/dispo.xls",
+      "AssetFile": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\dispo.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "20992"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"kdN4JOlBn06SQrRBZUa1LpLXwiHOBt69Vy25wdxoETw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Mar 2025 05:00:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-kdN4JOlBn06SQrRBZUa1LpLXwiHOBt69Vy25wdxoETw="
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/dispo.zj6xtw955c.xls",
+      "AssetFile": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\dispo.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "20992"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"kdN4JOlBn06SQrRBZUa1LpLXwiHOBt69Vy25wdxoETw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Mar 2025 05:00:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "zj6xtw955c"
+        },
+        {
+          "Name": "label",
+          "Value": "SampleFile/dispo.xls"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-kdN4JOlBn06SQrRBZUa1LpLXwiHOBt69Vy25wdxoETw="
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/UploadCategory.5z03e0hi32.xls",
+      "AssetFile": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadCategory.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "20992"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"T3qrGTJtu4ikaw7xx5Kt0CjgjRy6OGxd6HuWqKKG/8c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Mar 2025 06:49:09 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "5z03e0hi32"
+        },
+        {
+          "Name": "label",
+          "Value": "SampleFile/UploadCategory.xls"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-T3qrGTJtu4ikaw7xx5Kt0CjgjRy6OGxd6HuWqKKG/8c="
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/UploadCategory.xls",
+      "AssetFile": "D:\\QMS\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadCategory.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "20992"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"T3qrGTJtu4ikaw7xx5Kt0CjgjRy6OGxd6HuWqKKG/8c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Mar 2025 06:49:09 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-T3qrGTJtu4ikaw7xx5Kt0CjgjRy6OGxd6HuWqKKG/8c="
         }
       ]
     }

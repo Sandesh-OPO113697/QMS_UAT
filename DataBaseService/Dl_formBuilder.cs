@@ -15,6 +15,109 @@ namespace QMS.DataBaseService
 {
     public class Dl_formBuilder
     {
+
+
+
+        public async Task BuilkCategoryUpload(IFormFile file, string processID, string SubProcesID)
+        {
+            int successCount = 0, duplicateCount = 0, invalidCount = 0;
+            string extension = Path.GetExtension(file.FileName);
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                stream.Position = 0;
+                if (extension == ".xlsx")
+                {
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        int rowCount = worksheet.Dimension.Rows;
+
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+
+                            string cagetory1 = worksheet.Cells[row, 1].Value?.ToString()?.Trim();
+                            string cagetory2 = worksheet.Cells[row, 2].Value?.ToString()?.Trim()?.ToUpper();
+                            string cagetory3 = worksheet.Cells[row, 3].Value?.ToString()?.Trim()?.ToUpper();
+                            string cagetory4 = worksheet.Cells[row, 4].Value?.ToString()?.Trim()?.ToUpper();
+                            string cagetory5 = worksheet.Cells[row, 5].Value?.ToString()?.Trim()?.ToUpper();
+
+                            await InsertCategoryUpload(cagetory1, cagetory2, cagetory3, cagetory4, cagetory5, processID, SubProcesID);
+                            successCount++;
+
+                        }
+                    }
+
+                }
+                else if (extension == ".xls")
+                {
+                    HSSFWorkbook hssfwb = new HSSFWorkbook(stream);
+                    ISheet sheet = hssfwb.GetSheetAt(0);
+                    int rowCount = sheet.PhysicalNumberOfRows;
+
+                    for (int row = 1; row < rowCount; row++)
+                    {
+                        IRow currentRow = sheet.GetRow(row);
+
+                        string cagetory1 = currentRow.GetCell(0)?.ToString()?.Trim();
+                        string cagetory2 = currentRow.GetCell(1)?.ToString()?.Trim()?.ToUpper();
+                        string cagetory3 = currentRow.GetCell(2)?.ToString()?.Trim()?.ToUpper();
+                        string cagetory4 = currentRow.GetCell(3)?.ToString()?.Trim()?.ToUpper();
+                        string cagetory5 = currentRow.GetCell(4)?.ToString()?.Trim()?.ToUpper();
+
+
+
+                        await InsertCategoryUpload(cagetory1, cagetory2, cagetory3, cagetory4, cagetory5, processID, SubProcesID);
+
+
+
+                        successCount++;
+
+                    }
+                }
+                else
+                {
+
+                }
+
+
+
+
+            }
+
+        }
+
+
+
+        public async Task InsertCategoryUpload(string cagetory1, string cagetory2, string cagetory3, string cagetory4, string cagetory5, string processID, string SubProcesID)
+        {
+            int insertedID = 0;
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("usp_InsertCategoryData", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+                    cmd.Parameters.AddWithValue("@cagetory1", cagetory1);
+                    cmd.Parameters.AddWithValue("@cagetory2", cagetory2);
+                    cmd.Parameters.AddWithValue("@cagetory3", cagetory3);
+                    cmd.Parameters.AddWithValue("@cagetory4", cagetory4);
+                    cmd.Parameters.AddWithValue("@cagetory5", cagetory5);
+                    cmd.Parameters.AddWithValue("@ProcessID", processID);
+                    cmd.Parameters.AddWithValue("@SubProcessID", SubProcesID);
+                    cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+
+                    await cmd.ExecuteNonQueryAsync();
+
+
+                }
+            }
+
+
+        }
+
         public async Task UpdateDispositionfeilds(List<EditDispoModelString> fields)
         {
             var ProgramID = fields.First().ProgramID.ToString();

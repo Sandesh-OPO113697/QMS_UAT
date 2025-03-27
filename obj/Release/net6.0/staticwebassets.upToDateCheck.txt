@@ -78,6 +78,7 @@ wwwroot\fonts\feather.svg
 wwwroot\fonts\feather.ttf
 wwwroot\fonts\feather.woff
 wwwroot\Images\1point1-small-logo.png
+wwwroot\Images\Call_Recording.jpg
 wwwroot\Images\favicon.ico
 wwwroot\Images\mainLogo.png
 wwwroot\Images\nagalogo.png
@@ -176,3 +177,6 @@ wwwroot\lib\jquery-validation\LICENSE.md
 wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
 wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
 wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
+wwwroot\SampleFile\AgentUpload.xls
+wwwroot\SampleFile\dispo.xls
+wwwroot\SampleFile\UploadCategory.xls

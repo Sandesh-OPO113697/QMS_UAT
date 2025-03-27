@@ -67,6 +67,8 @@ namespace QMS.DataBaseService
         {
             string Dycon = await _dlcon.GetDynStrByUserIDAsync(username);
             int isValid = 0;
+
+            string usernametest = await _enc.EncryptAsync(username);
             using (SqlConnection connection = new SqlConnection(Dycon))
             {
                 await connection.OpenAsync();
@@ -80,7 +82,7 @@ namespace QMS.DataBaseService
                     command.Parameters.AddWithValue("@EmailOTP", emailOTP);
                     command.Parameters.AddWithValue("@PhoneOTP", phoneOTP);
            
-                    command.Parameters.AddWithValue("@Username", await _enc.EncryptAsync(username));
+                    command.Parameters.AddWithValue("@Username", usernametest);
                     object result = await command.ExecuteScalarAsync();
 
                     isValid = result != null ? Convert.ToInt32(result) : 0;

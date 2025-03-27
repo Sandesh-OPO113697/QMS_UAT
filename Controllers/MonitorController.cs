@@ -19,7 +19,13 @@ namespace QMS.Controllers
             dl_FormBuilder = adl;
             dl_monitor = dmmonoi;
         }
-
+        [HttpPost]
+        [Route("save-voice-message")]
+        public async Task<IActionResult> SaveVoiceMessage([FromBody] VoiceMessageModel model)
+        {
+            string pauselimit = await dl_monitor.SaveVoiceMessage(model);
+            return Ok(new { message = "Voice message saved successfully!" });
+        }
         public async Task<JsonResult> GetPauseLimit([FromBody] Process_SUbProcess id)
         {
             string pauselimit = await dl_monitor.GetPauseLimitByProgram(id.ProcessID.ToString(), id.SUBProcessID.ToString());
