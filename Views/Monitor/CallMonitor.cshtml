@@ -422,6 +422,14 @@
                 </div>
 
             </div>
+
+
+            <div class="col-md-2">
+                <div class="form-group mb-3">
+                    <button id="SaveForm" class="btn btn-primary mt-4" onclick="SaveEndTime()">Save Form</button>
+                </div>
+                <input type="hidden" id="hiddenEndTime">
+            </div>
             <div class="col-md-2">
                 <div class="form-group mb-3">
                     <button id="btnVoicefeed" class="btn btn-primary mt-4">Record voice Feedback</button>
@@ -1202,7 +1210,7 @@
 </script>
 
 <script>
-    let timerInterval, startTime, pauseTime, resumeTime, endTime;
+    let timerInterval, startTime, pauseTime, resumeTime, endTime , SaveEnodTimes;
     let elapsedSeconds = 0, pauseCount = 0, pauseLimit=0, totalPauseDuration = 0;
     let auditLogs = [];
 
@@ -1252,6 +1260,13 @@
         }, 1000);
     }
 
+    function SaveEndTime()
+    {
+        let  SavendTime = new Date();
+         document.getElementById("hiddenEndTime").value = SavendTime;
+        
+    }
+
     function togglePause() {
         let pauseButton = document.getElementById("pauseButton");
         let pauseIcon = document.getElementById("pauseIcon");
@@ -1293,8 +1308,9 @@
     function endAudit() {
         clearInterval(timerInterval);
         timerInterval = null;
-        endTime = new Date();
-
+        // endTime = new Date();
+         let hiddenEndTimeValue = document.getElementById("hiddenEndTime").value;
+      let endTime = hiddenEndTimeValue ? new Date(hiddenEndTimeValue) : new Date();
         auditLogs.push({ type: "End", time: endTime });
 
         // Prepare Data for AJAX
@@ -1449,6 +1465,7 @@
                                 $("#FromDate").val("");
                                 $("#Todate").val("");  
                                 alert("Invalid date selection. Dates have been cleared.");
+                                return;
                             }
                 if (!agentId) {
                     alert("Please select an Agent.");
