@@ -1264,6 +1264,7 @@
     {
         let  SavendTime = new Date();
          document.getElementById("hiddenEndTime").value = SavendTime;
+         alert("Form Saved Sucessfully...!");
         
     }
 
@@ -1286,25 +1287,47 @@
             auditLogs.push({ type: "Pause", time: pauseTime });
 
             document.getElementById("pauseCount").innerText = `Pauses: ${pauseCount}`;
+
+             pauseTimeout = setTimeout(() => {
+            resumeTimer();
+        }, 30000);
+
         } else {
             // Resuming
 
              
-            resumeTime = new Date();
-            let pauseDuration = (resumeTime - pauseTime) / 1000;
-            totalPauseDuration += pauseDuration;
+            // resumeTime = new Date();
+            // let pauseDuration = (resumeTime - pauseTime) / 1000;
+            // totalPauseDuration += pauseDuration;
 
-            auditLogs.push({ type: "Resume", time: resumeTime, pauseDuration });
+            // auditLogs.push({ type: "Resume", time: resumeTime, pauseDuration });
 
-            timerInterval = setInterval(() => {
-                elapsedSeconds++;
-                updateTimerDisplay();
-            }, 1000);
+            // timerInterval = setInterval(() => {
+            //     elapsedSeconds++;
+            //     updateTimerDisplay();
+            // }, 1000);
 
-            pauseIcon.classList.replace("fe-pause", "fe-play");
+            // pauseIcon.classList.replace("fe-pause", "fe-play");
+
+             clearTimeout(pauseTimeout);
+             resumeTimer();
         }
     }
+        function resumeTimer() {
+        resumeTime = new Date();
+        let pauseDuration = (resumeTime - pauseTime) / 1000;
+        totalPauseDuration += pauseDuration;
 
+        auditLogs.push({ type: "Resume", time: resumeTime, pauseDuration });
+
+        timerInterval = setInterval(() => {
+            elapsedSeconds++;
+            updateTimerDisplay();
+        }, 1000);
+
+        let pauseIcon = document.getElementById("pauseIcon");
+        pauseIcon.classList.replace("fe-pause", "fe-play");
+    }
     function endAudit() {
         clearInterval(timerInterval);
         timerInterval = null;
