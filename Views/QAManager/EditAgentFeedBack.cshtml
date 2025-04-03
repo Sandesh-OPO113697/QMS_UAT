@@ -1,0 +1,173 @@
+﻿@model AgentFeedBackSectionList
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow mb-4" id="SectionGried" style="@(Model.sectionList.Any() ? "display:block" : "display:none")">
+    <div class="card-header">
+        <strong class="card-title">Form</strong>
+    </div>
+    <div class="card-body">
+        <table id="sectionGrid" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Level</th>
+                    <th>Section Name</th>
+                    <th>QA Rating</th>
+                    <th>Scorable</th>
+                    <th>Weightage</th>
+                    <th>Comments Section</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.sectionList)
+                {
+                    <tr>
+                        <td>@item.category</td>
+                        <td>@item.level</td>
+                        <td>@item.SectionName</td>
+                    
+             
+                        <td>
+                            <select class="qa-rating form-control">
+                                <option value="">Select Rating</option>
+                                @foreach (var rating in Model.filteredRatingList)
+                                {
+                     
+                                    <option value="@rating.Value" selected="@(rating.Text == item.QA_rating.ToString() ? "selected" : null)">
+                                        @rating.Text
+                                    </option>
+                                }
+                            </select>
+                        </td>
+                        <td>@item.Scorable</td>
+                        <td class="score-col">@item.Weightage</td>
+                        <td>
+                            <input type="text" class="form-control" placeholder="Enter Comments" value="@item.Commentssection">
+                        </td>
+                    </tr>
+                }
+
+                <tr>
+                    <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
+                    <td id="totalScore" class="font-weight-bold">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="col-md-12 my-4" id="AuditDiv">
+    <div class="card shadow" style="border-radius: 10px; border: 1px solid #ddd;">
+        <div class="card-body" style="padding: 20px;">
+            <h5 class="card-title" style="font-weight: bold; color: #24294a;">Dispute Feedback </h5>
+          
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label for="QAComments" style="font-weight: 600; color: #333;">QA Comments</label>
+                    <input type="text" value="@ViewBag.QA_Comments" id="QA_Comments"
+                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #f8f9fa; color: #555;">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label for="AgentComent" style="font-weight: 600; color: #333;">Agent Comments</label>
+                    <input type="text" id="AgentComent" readonly value="@ViewBag.Agent_Comment"
+                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; color: #555;">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label for="AgentComent" style="font-weight: 600; color: #333;">Calibrated Comments</label>
+                    <input type="text" id="Calibrated" placeholder="Enter your comments"
+                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; color: #555;">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <button type="submit" onclick="submitDispute()"
+                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                        Acknowledge
+                    </button>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/js/jquery.min.js"></script>
+<script>
+      $(document).ready(function () {
+        function calculateTotalScore() {
+            let total = 0;
+
+            $("#sectionGrid tbody tr").each(function () {
+                var scorable = $(this).find("td:nth-child(5)").text().trim(); // 5th column (Scorable)
+                var score = parseInt($(this).find(".score-col").text()) || 0;
+              
+                if (scorable === "Yes") {
+                    total += score;
+                }
+            });
+
+            $("#totalScore").text(total);
+        }
+        calculateTotalScore();
+
+        $(".qa-rating").change(function () {
+            var selectedValue = $(this).val();
+            var rowIndex = $(this).data("index");
+            var scoreCell = $(this).closest("tr").find(".score-col");
+
+            if (selectedValue === "Yes" || selectedValue ===  "Met" ||selectedValue === "Meeting_expectations"||selectedValue ===  "exceeding expectations" ||selectedValue === "Partially Met") {
+                scoreCell.text(data[rowIndex].score);
+            } else {
+                scoreCell.text(0);
+            }
+            calculateTotalScore();
+        });
+    });
+
+           function submitDispute() {
+        var calibration = $("#Calibrated").val();
+        var QA_Comments = $("#QA_Comments").val().trim();
+        var totalScore = $("#totalScore").text().trim(); // Use .text() instead of .val()
+
+        // Check if the comment field is empty
+        if (QA_Comments === "") {
+            alert("Please enter a comment before acknowledging.");
+            return;
+        }
+
+        $.ajax({
+            url: '/QAManager/SubmitDisputeFeedbackByQA',
+            type: 'POST',
+            data: { comment: QA_Comments, calibration: calibration, totalScore: totalScore },
+            success: function (response) {
+                alert(response.message);
+                $("#QA_Comments").val(""); // Clear the comment field after submission
+
+                if (response.success) {
+                    window.location.href = '/QAManager/Dashboard';
+                }
+            },
+            error: function () {
+                alert("Error submitting the comment.");
+            }
+        });
+    }
+
+
+</script>
+
+

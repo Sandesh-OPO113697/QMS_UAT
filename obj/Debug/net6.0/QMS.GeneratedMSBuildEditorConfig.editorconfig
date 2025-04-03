@@ -52,6 +52,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm9sZU1hcHBpbmcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/QMS/QMS_MVC_CORE/Views/Agent/AgentFeedBack.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWdlbnRcQWdlbnRGZWVkQmFjay5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/QMS/QMS_MVC_CORE/Views/Agent/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWdlbnRcRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/QMS/QMS_MVC_CORE/Views/LogIn/Unauthorized.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9nSW5cVW5hdXRob3JpemVkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -122,6 +130,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/QMS/QMS_MVC_CORE/Views/Monitor/CallMonitor.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9uaXRvclxDYWxsTW9uaXRvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/QMS/QMS_MVC_CORE/Views/QAManager/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/QMS/QMS_MVC_CORE/Views/QAManager/EditAgentFeedBack.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXEVkaXRBZ2VudEZlZWRCYWNrLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/QMS/QMS_MVC_CORE/Views/Sampling/DashBoard.cshtml]

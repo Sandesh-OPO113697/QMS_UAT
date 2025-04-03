@@ -1,0 +1,81 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model AgentDashboardViewModel
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title"> Pending Feedback Acknowledgement</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.FeedbackList != null && Model.FeedbackList.Any())
+                {
+                    @foreach (var item in Model.FeedbackList)
+                    {
+                        <tr>
+                            <td>@item.TransactionID</td>
+                            <td>
+
+                                <a href="/Agent/AgentFeedBack?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2" class="text-center">No pending feedback.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title"> Pending Dispute Acknowledgement</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.DisputeList != null && Model.DisputeList.Any())
+                {
+                    @foreach (var item in Model.DisputeList)
+                    {
+                        <tr>
+                            <td>@item.TransactionID</td>
+                            <td>
+                                <a href="@Url.Action("AgentFeedbackDispute", "Agent", new { id = item.TransactionID })" class="btn btn-primary btn-sm">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2" class="text-center">No pending disputes.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
