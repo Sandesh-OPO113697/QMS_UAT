@@ -30,9 +30,24 @@ namespace QMS.Controllers
                 return Json(new { success = true, message = "Acknowlegde has been Done...." });
             }
 
-          
         }
-    
+
+        [HttpPost]
+        public async Task<IActionResult> SubmitDisputeFeedback(string comment)
+        {
+            if (string.IsNullOrEmpty(comment))
+            {
+                return Json(new { success = false, message = "Comment cannot be empty." });
+            }
+            else
+            {
+                string TransactionID = TempData["TtransactionDisputeID"].ToString();
+                await dl_Agent.SubmiteDisputeAgentAkowedge(comment, TransactionID);
+                return Json(new { success = true, message = "Acknowlegde has been Done...." });
+            }
+
+        }
+
         [HttpPost]
         public async Task<IActionResult> DisputeFeedback(string comment)
         {
@@ -102,6 +117,40 @@ namespace QMS.Controllers
 
             return View(sectionList);
         }
-       
+
+
+        public async Task<IActionResult> AgentDisputeFeedBack(string TransactionID)
+        {
+            TempData["TtransactionDisputeID"] = TransactionID;
+            DataTable dt1 = await dl_Agent.getAgentFeedbackSection(TransactionID);
+            DataTable dt12 = await dl_Agent.getCQScoreQADisputeSection(TransactionID);
+            string CQScore = dt12.Rows[0]["CQ_Score"].ToString();
+            string QA_Comments = dt12.Rows[0]["QA_Comments"].ToString();
+            string Calibrated = dt12.Rows[0]["CalibratedComment"].ToString();
+            byte[] audioBytes = dt12.Rows[0]["AudioData"] as byte[];
+            if (audioBytes != null)
+            {
+                string base64Audio = Convert.ToBase64String(audioBytes);
+                ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+            }
+            ViewBag.QA_Comments = QA_Comments;
+            ViewBag.cqscore = CQScore;
+            ViewBag.Calibrated = Calibrated;
+            var sectionList = dt1.AsEnumerable().Select(row => new AgentfeedbackSectionModel
+            {
+
+                category = row.Field<string>("category"),
+                level = row.Field<string>("level"),
+                Section = row.Field<string>("SectionName"),
+                QA_rating = row.Field<string>("QA_rating"),
+                Scorable = row.Field<string>("Scorable"),
+                Weightage = row.Field<string>("Weightage"),
+                Commentssection = row.Field<string>("Commentssection")
+            }).ToList();
+
+            return View(sectionList);
+        }
+
+
     }
 }

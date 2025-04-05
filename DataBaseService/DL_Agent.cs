@@ -128,6 +128,35 @@ namespace QMS.DataBaseService
             }
             return dt;
         }
+
+
+
+        public async Task<DataTable> getCQScoreQADisputeSection(string TransactionID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("AgentSurvey", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+
+                        cmd.Parameters.AddWithValue("@Mode", "GetCQQADisputeSctore");
+                        cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
         public async Task SubmiteAgentAkowedge(string AgentComment , string TransactionID)
         {
            
@@ -153,6 +182,33 @@ namespace QMS.DataBaseService
 
             }
           
+        }
+
+        public async Task SubmiteDisputeAgentAkowedge(string AgentComment, string TransactionID)
+        {
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("AgentSurvey", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@AgentComment", AgentComment);
+                        cmd.Parameters.AddWithValue("@Mode", "SubmiteIdpsuteAgentComment");
+                        cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
+                        cmd.ExecuteNonQueryAsync();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
 

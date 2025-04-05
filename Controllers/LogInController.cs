@@ -106,6 +106,12 @@ namespace QMS.Controllers
                         HttpContext.Session.SetString("UserType", "QA Manager");
                         return RedirectToAction("Dashboard", "QAManager");
                     }
+
+                    else if (UserInfo.UserType == "Agent")
+                    {
+                        HttpContext.Session.SetString("UserType", "Agent");
+                        return RedirectToAction("Dashboard", "Agent");
+                    }
                     else
                     {
                         HttpContext.Session.SetString("UserType", "AccountUser");
@@ -113,6 +119,14 @@ namespace QMS.Controllers
                     }
                    
                 }
+
+                else if (IsValid == 2)
+                {
+
+                    TempData["Reset"] = "Please Reset your Password";
+                    return RedirectToAction("UserLogIn", "LogIn");
+                }
+
                 else
                 {
                     TempData["LoginMessage"] = "User Invalid";

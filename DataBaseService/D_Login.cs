@@ -418,6 +418,7 @@ namespace QMS.DataBaseService
 
         public async Task<int> CheckAccountUserAsync(string UserID, string Password)
         {
+            string reset = "";
             string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
             try
             {
@@ -442,7 +443,7 @@ namespace QMS.DataBaseService
                         UserInfo.IsActive = dt.Rows[0]["isactive"].ToString();
                         UserInfo.LocationID = dt.Rows[0]["Location"].ToString();
                         UserInfo.AccountID = dt.Rows[0]["Account_id"].ToString();
-
+                        reset = dt.Rows[0]["flag"].ToString();
                         //string token = JWTHelper.CreateJWTToken(UserID, UserInfo.UserType);
                         //if (token != null)
                         //{
@@ -458,7 +459,16 @@ namespace QMS.DataBaseService
 
 
                         //}
-                        return 1;
+
+                        if (reset == "0")
+                        {
+
+                            return 2;
+                        }
+
+                        {
+                            return 1;
+                        }
                     }
                     else
                     {

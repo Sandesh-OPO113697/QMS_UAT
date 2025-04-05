@@ -304,6 +304,7 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@ZTClassification", model.ZTClassification);
                         cmd.Parameters.AddWithValue("@ZeroToleranceBehaviour", model.ZeroTolerance);
                         cmd.Parameters.AddWithValue("@week", model.Week);
+                        cmd.Parameters.AddWithValue("@Remarks", model.Remarks);
                         cmd.Parameters.AddWithValue("@InsertDate", DateTime.Now);
                         cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
                         await    cmd.ExecuteNonQueryAsync();

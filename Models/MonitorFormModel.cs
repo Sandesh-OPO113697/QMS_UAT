@@ -20,5 +20,7 @@
         public string ZTClassification { get; set; }
         public string ZeroTolerance { get; set; }
         public string CQ_Scrore { get; set; }
+
+        public string Remarks { get; set; }
     }
 }

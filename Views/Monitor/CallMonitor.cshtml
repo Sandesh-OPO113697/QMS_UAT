@@ -397,6 +397,22 @@
 </div>
 
 
+<div class="card shadow mb-4" id="Remarks" style="display:none">
+    <div class="card-header">
+        <strong class="card-title">Remarks</strong>
+
+    </div>
+    <div class="card-body">
+        <div class="row col-md-4">
+            <label for="ConnID">Remarks</label>
+            <input type="text" class="form-control" id="txtRemarks" placeholder="Enter remarks">
+
+
+        </div>
+    </div>
+</div>
+
+
 <div class="card shadow mb-4" id="ButtonForAudit" style="display:none">
     <div class="card-header">
     </div>
@@ -652,7 +668,7 @@
         var zeroToleranceValue = $("input[name='zeroTolerance']:checked").val();
           var Transaction_ID = $("#Transaction_ID").val();
         var Transaction_ID2 = $("#Transaction_ID2").val();
-
+         var Remarks = $("#txtRemarks").val();
         var finalTransactionID = Transaction_ID || Transaction_ID2;
         var CcID = finalTransactionID;
         var totalScoreValue = $("#totalScore").text().trim();
@@ -667,6 +683,11 @@
         }
         if (!CcID) {
             alert("Please Select Call For  Audit  .");
+            return false;
+        }
+
+        if (!Remarks) {
+            alert("Please Enter Remarks.");
             return false;
         }
 
@@ -688,7 +709,8 @@
             Week: $("#Week").val(),
             ZTClassification: selectedZTClassification,
             ZeroTolerance: zeroToleranceValue,
-            CQ_Scrore: totalScoreValue
+            CQ_Scrore: totalScoreValue,
+             Remarks:Remarks
         };
     }
 
@@ -879,7 +901,7 @@
              $("#ZtClassfictions").hide();
              $("#Zerotollernce").hide();
              $("#ButtonForAudit").hide();
-
+             $("#Remarks").hide();
                  $("#LastReansaction").hide();
 
                 $("#AuditDiv").show();
@@ -1386,7 +1408,7 @@
              $("#ZtClassfictions").hide();
              $("#Zerotollernce").hide();
                $("#ButtonForAudit").hide();
-                   
+                   $("#Remarks").hide();
 
                 $("#AuditDiv").show();
                  $("#SerchRecoding").show();
@@ -1402,6 +1424,7 @@
            $("#rooutcause").show();
              $("#Predictivediv").show();
              $("#ZtClassfictions").show();
+             $("#Remarks").show();
              $("#Zerotollernce").show();
                $("#ButtonForAudit").show();
      }

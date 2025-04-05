@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\QMS\\QMS_MVC_CORE\\QMS.csproj": {}
+    "D:\\Projects\\QMS_MVC_CORE\\QMS.csproj": {}
   },
   "projects": {
-    "D:\\QMS\\QMS_MVC_CORE\\QMS.csproj": {
+    "D:\\Projects\\QMS_MVC_CORE\\QMS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\QMS\\QMS_MVC_CORE\\QMS.csproj",
+        "projectUniqueName": "D:\\Projects\\QMS_MVC_CORE\\QMS.csproj",
         "projectName": "QMS",
-        "projectPath": "D:\\QMS\\QMS_MVC_CORE\\QMS.csproj",
+        "projectPath": "D:\\Projects\\QMS_MVC_CORE\\QMS.csproj",
         "packagesPath": "C:\\Users\\OPO113697\\.nuget\\packages\\",
-        "outputPath": "D:\\QMS\\QMS_MVC_CORE\\obj\\",
+        "outputPath": "D:\\Projects\\QMS_MVC_CORE\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -80,7 +80,10 @@ namespace QMS.DataBaseService
 
                             string QA_Name = worksheet.Cells[row, 5].Value?.ToString()?.Trim();
                             string Batch_ID = worksheet.Cells[row, 6].Value?.ToString()?.Trim();
-                            await InsertAgenttList(EmpName, EmpCode, TL_Name, TL_Code, ProgramID, SubProgramID.ToString(), QA_Name, Batch_ID);
+                            string EmailID = worksheet.Cells[row, 7].Value?.ToString()?.Trim();
+                            string Password = worksheet.Cells[row, 8].Value?.ToString()?.Trim();
+                            string Phone = worksheet.Cells[row, 9].Value?.ToString()?.Trim();
+                            await InsertAgenttList(EmpName, EmpCode, TL_Name, TL_Code, ProgramID, SubProgramID.ToString(), QA_Name, Batch_ID, EmailID, Password, Phone);
                             successCount++;
                         }
                     }
@@ -103,8 +106,10 @@ namespace QMS.DataBaseService
 
                         string QA_Name = currentRow.GetCell(4)?.ToString()?.Trim();
                         string Batch_ID = currentRow.GetCell(5)?.ToString()?.Trim();
-
-                        await InsertAgenttList(EmpName, EmpCode, TL_Name, TL_Code, ProgramID, SubProgramID.ToString(), QA_Name, Batch_ID);
+                        string EmailID = currentRow.GetCell(6)?.ToString()?.Trim();
+                        string Password = currentRow.GetCell(7)?.ToString()?.Trim();
+                        string Phone = currentRow.GetCell(8)?.ToString()?.Trim();
+                        await InsertAgenttList(EmpName, EmpCode, TL_Name, TL_Code, ProgramID, SubProgramID.ToString(), QA_Name, Batch_ID, EmailID, Password, Phone);
                         successCount++;
                     }
                 }
@@ -112,9 +117,6 @@ namespace QMS.DataBaseService
                 {
 
                 }
-
-
-
 
             }
         }
@@ -247,7 +249,10 @@ namespace QMS.DataBaseService
 
                                 string QA_Name = worksheet.Cells[row, 5].Value?.ToString()?.Trim();
                                 string Batch_ID = worksheet.Cells[row, 6].Value?.ToString()?.Trim();
-                                await InsertAgenttList(EmpName, EmpCode, TL_Name, TL_Code, ProgramID, SubProgramID.ToString(), QA_Name, Batch_ID);
+                                string EmailID = worksheet.Cells[row, 7].Value?.ToString()?.Trim();
+                                string Password = worksheet.Cells[row, 8].Value?.ToString()?.Trim();
+                                string Phone = worksheet.Cells[row, 9].Value?.ToString()?.Trim();
+                                await InsertAgenttList(EmpName, EmpCode, TL_Name, TL_Code, ProgramID, SubProgramID.ToString(), QA_Name, Batch_ID, EmailID, Password, Phone);
                                 successCount++;
                             }
                         }
@@ -270,8 +275,10 @@ namespace QMS.DataBaseService
 
                             string QA_Name = currentRow.GetCell(4)?.ToString()?.Trim();
                             string Batch_ID = currentRow.GetCell(5)?.ToString()?.Trim();
-
-                            await InsertAgenttList(EmpName, EmpCode, TL_Name, TL_Code, ProgramID, SubProgramID.ToString(), QA_Name, Batch_ID);
+                            string EmailID = currentRow.GetCell(6)?.ToString()?.Trim();
+                            string Password = currentRow.GetCell(7)?.ToString()?.Trim();
+                            string Phone = currentRow.GetCell(8)?.ToString()?.Trim();
+                            await InsertAgenttList(EmpName, EmpCode, TL_Name, TL_Code, ProgramID, SubProgramID.ToString(), QA_Name, Batch_ID, EmailID, Password, Phone);
                             successCount++;
                         }
                     }
@@ -290,12 +297,9 @@ namespace QMS.DataBaseService
 
         }
 
-
-
-
-       
-        public async Task InsertAgenttList(string EmpName, string EmpCode, string TL_Name, string TL_Code, string processID, string SubProcessID, string QA_Name, string Batch_ID)
+        public async Task InsertAgenttList(string EmpName, string EmpCode, string TL_Name, string TL_Code, string processID, string SubProcessID, string QA_Name, string Batch_ID, string EmailID, string Password, string Phone)
         {
+            string UserName = UserInfo.UserName.Substring(0, 3);
 
             using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
             {
@@ -305,17 +309,48 @@ namespace QMS.DataBaseService
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandTimeout = 0;
-                    cmd.Parameters.AddWithValue("@EmpName", EmpName);
-                    cmd.Parameters.AddWithValue("@EmpCode", EmpCode);
+                    cmd.Parameters.AddWithValue("@EmpName", UserName + "_" + EmpName);
+                    cmd.Parameters.AddWithValue("@EmpCode", UserName + "_" + EmpCode);
                     cmd.Parameters.AddWithValue("@TL_Name", TL_Name);
-                    cmd.Parameters.AddWithValue("@TL_Code", TL_Code);
+                    cmd.Parameters.AddWithValue("@TL_Code", UserName + "_" + TL_Code);
                     cmd.Parameters.AddWithValue("@ProcessID", processID);
                     cmd.Parameters.AddWithValue("@SubProcessID", SubProcessID);
                     cmd.Parameters.AddWithValue("@QA_Name", QA_Name);
                     cmd.Parameters.AddWithValue("@Batch_ID", Batch_ID);
-
+                    cmd.Parameters.AddWithValue("@EmailID", EmailID);
+                    cmd.Parameters.AddWithValue("@Password", Password);
+                    cmd.Parameters.AddWithValue("@Phone", Phone);
                     await cmd.ExecuteNonQueryAsync();
                 }
+
+
+                using (SqlCommand cmd = new SqlCommand("CreateUser", conn))
+                {
+
+
+
+                    string UserNameENC = await _enc.EncryptAsync(UserName + "_" + EmpCode);
+                    string NameENC = await _enc.EncryptAsync(UserName + "_" + EmpName);
+                    string PassENC = await _enc.EncryptAsync(Password);
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Location", UserInfo.LocationID);
+                    cmd.Parameters.AddWithValue("@UserName", UserNameENC);
+                    cmd.Parameters.AddWithValue("@Program", processID);
+                    cmd.Parameters.AddWithValue("@Password", PassENC);
+                    cmd.Parameters.AddWithValue("@SubProcesname", SubProcessID);
+                    cmd.Parameters.AddWithValue("@Role", 11);
+                    cmd.Parameters.AddWithValue("@AccountID", UserInfo.AccountID);
+                    cmd.Parameters.AddWithValue("@UserNamedrp", UserName + "_" + EmpName);
+                    cmd.Parameters.AddWithValue("@Name", NameENC);
+                    cmd.Parameters.AddWithValue("@Phone", Phone);
+                    cmd.Parameters.AddWithValue("@Procesname", processID);
+                    cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+                    cmd.Parameters.AddWithValue("@email", EmailID);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+
             }
         }
         public async Task InsertProcessDetailsAsync(string Location_ID, string Process, string DataRetention)

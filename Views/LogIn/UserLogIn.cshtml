@@ -409,6 +409,27 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
+        window.addEventListener('load', function () {
+            var Reset = '@TempData["Reset"]';
+
+            if (Reset && Reset !== "null" && Reset !== "") {
+                alert(Reset);
+                if (typeof openResetPasswordModal2 === 'function') {
+                    openResetPasswordModal2();
+                } else {
+                    console.error('openResetPasswordModal2 is not defined');
+                }
+            }
+        });
+
+        function openResetPasswordModal2() {
+            var modal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
+            modal.show();
+        }
+    </script>
+
+
+    <script>
         function sendResetOTP() {
             let email = document.getElementById('resetEmail').value;
             let phone = document.getElementById('resetPhone').value;
