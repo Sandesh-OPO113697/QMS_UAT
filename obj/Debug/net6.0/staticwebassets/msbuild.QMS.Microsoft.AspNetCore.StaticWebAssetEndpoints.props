@@ -2152,25 +2152,25 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\QMS.i1s19o2acm.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-yhLo8\u002B8LJkqKNtlsljU7NBpGlkNNioeSmjHhxUMqt7g="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1120"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022yhLo8\u002B8LJkqKNtlsljU7NBpGlkNNioeSmjHhxUMqt7g=\u0022"},{"Name":"Last-Modified","Value":"Sat, 05 Apr 2025 06:40:22 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1120"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022yhLo8\u002B8LJkqKNtlsljU7NBpGlkNNioeSmjHhxUMqt7g=\u0022"},{"Name":"Last-Modified","Value":"Tue, 08 Apr 2025 10:52:57 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/QMS/QMS.i1s19o2acm.bundle.scp.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\QMS.i1s19o2acm.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"i1s19o2acm"},{"Name":"integrity","Value":"sha256-yhLo8\u002B8LJkqKNtlsljU7NBpGlkNNioeSmjHhxUMqt7g="},{"Name":"label","Value":"_content/QMS/QMS.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1120"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022yhLo8\u002B8LJkqKNtlsljU7NBpGlkNNioeSmjHhxUMqt7g=\u0022"},{"Name":"Last-Modified","Value":"Sat, 05 Apr 2025 06:40:22 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1120"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022yhLo8\u002B8LJkqKNtlsljU7NBpGlkNNioeSmjHhxUMqt7g=\u0022"},{"Name":"Last-Modified","Value":"Tue, 08 Apr 2025 10:52:57 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/QMS/SampleFile/AgentUpload.0xxjx35x9r.xls">
+    <StaticWebAssetEndpoint Include="_content/QMS/SampleFile/AgentUpload.uf2f2dx0bx.xls">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\SampleFile\AgentUpload.xls'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"0xxjx35x9r"},{"Name":"integrity","Value":"sha256-jJC9UrYkJvHyBhERkgOZ4WlZ6Qt8sadXM5n\u002Bw/2PsSA="},{"Name":"label","Value":"_content/QMS/SampleFile/AgentUpload.xls"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"20992"},{"Name":"Content-Type","Value":"application/vnd.ms-excel"},{"Name":"ETag","Value":"\u0022jJC9UrYkJvHyBhERkgOZ4WlZ6Qt8sadXM5n\u002Bw/2PsSA=\u0022"},{"Name":"Last-Modified","Value":"Fri, 04 Apr 2025 04:07:52 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"uf2f2dx0bx"},{"Name":"integrity","Value":"sha256-5p/HFcj7xvGzTH\u002BWLq0l/o12q8fs3J\u002BOjVp2l36mJkk="},{"Name":"label","Value":"_content/QMS/SampleFile/AgentUpload.xls"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"22016"},{"Name":"Content-Type","Value":"application/vnd.ms-excel"},{"Name":"ETag","Value":"\u00225p/HFcj7xvGzTH\u002BWLq0l/o12q8fs3J\u002BOjVp2l36mJkk=\u0022"},{"Name":"Last-Modified","Value":"Mon, 07 Apr 2025 05:31:43 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/QMS/SampleFile/AgentUpload.xls">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\SampleFile\AgentUpload.xls'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-jJC9UrYkJvHyBhERkgOZ4WlZ6Qt8sadXM5n\u002Bw/2PsSA="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"20992"},{"Name":"Content-Type","Value":"application/vnd.ms-excel"},{"Name":"ETag","Value":"\u0022jJC9UrYkJvHyBhERkgOZ4WlZ6Qt8sadXM5n\u002Bw/2PsSA=\u0022"},{"Name":"Last-Modified","Value":"Fri, 04 Apr 2025 04:07:52 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-5p/HFcj7xvGzTH\u002BWLq0l/o12q8fs3J\u002BOjVp2l36mJkk="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"22016"},{"Name":"Content-Type","Value":"application/vnd.ms-excel"},{"Name":"ETag","Value":"\u00225p/HFcj7xvGzTH\u002BWLq0l/o12q8fs3J\u002BOjVp2l36mJkk=\u0022"},{"Name":"Last-Modified","Value":"Mon, 07 Apr 2025 05:31:43 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/QMS/SampleFile/dispo.xls">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\SampleFile\dispo.xls'))</AssetFile>

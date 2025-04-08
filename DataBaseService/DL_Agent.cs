@@ -239,7 +239,7 @@ namespace QMS.DataBaseService
 
             List<string> emailids = dt.AsEnumerable().Select(row => row["Emails"].ToString()).ToList();
             string message = "This Agent Is Dispiute this Feedback Treansaction ID : " + TransactionID +" Agent Name : " + UserInfo.UserName;
-            bool isSent =  SendEmail(emailids, message);
+            bool isSent =  await SendEmailAsync(emailids, message);
             try
             {
                 using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
@@ -263,17 +263,18 @@ namespace QMS.DataBaseService
             }
 
         }
-        public bool SendEmail(List<string> recipientEmails, string Massage)
+        public async Task<bool> SendEmailAsync(List<string> recipientEmails, string Massage)
         {
             string mailHost = "192.168.0.122";
             int mailPort = 587;
             string mailUserId = "reports@1point1.in";
             string mailPassword = "Pass@1234";
             string mailFrom = "reports@1point1.in";
+
             try
             {
                 var emailMessage = new MimeMessage();
-                emailMessage.From.Add(new MailboxAddress("Sender", mailFrom));
+                emailMessage.From.Add(new MailboxAddress("QMS_EMAIL", mailFrom));
 
                 // Add multiple recipients
                 foreach (var recipientEmail in recipientEmails)
@@ -284,16 +285,17 @@ namespace QMS.DataBaseService
                 emailMessage.Subject = "Dispute feedBack Massage";
                 var bodyBuilder = new BodyBuilder
                 {
-                    TextBody = $"Dear TL/Manager,\n\nAgent Dispute  is: {Massage}\n\nRegards,\nApplication Team"
+                    TextBody = $"Dear TL/Manager,\n\nAgent Dispute is: {Massage}\n\nRegards,\nApplication Team"
                 };
                 emailMessage.Body = bodyBuilder.ToMessageBody();
 
                 using var client = new MailKit.Net.Smtp.SmtpClient();
                 ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-                client.Connect(mailHost, mailPort, SecureSocketOptions.StartTls);
-                client.Authenticate(mailUserId, mailPassword);
-                client.Send(emailMessage);
-                client.Disconnect(true);
+
+                await client.ConnectAsync(mailHost, mailPort, SecureSocketOptions.StartTls);
+                await client.AuthenticateAsync(mailUserId, mailPassword);
+                await client.SendAsync(emailMessage);
+                await client.DisconnectAsync(true);
 
                 Console.WriteLine("OTP email sent successfully.");
                 return true;
@@ -303,7 +305,8 @@ namespace QMS.DataBaseService
                 Console.WriteLine($"Failed to send OTP email: {ex.Message}");
                 return false;
             }
-        }   
+        }
+
         public async Task<DataTable> getPrrocessAndSubProcess(string TransactionID)
         {
             DataTable dt = new DataTable();

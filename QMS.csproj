@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\SampleFile\AgentUpload.xls" />
     <None Include="wwwroot\SampleFile\dispo.xls" />
     <None Include="wwwroot\SampleFile\UploadCategory.xls" />
   </ItemGroup>

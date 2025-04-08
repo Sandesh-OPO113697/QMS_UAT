@@ -19,6 +19,27 @@ namespace QMS.Controllers
             dl_Agent = adla;
             this.dl_FormBuilder = dl_FormBuilder;
         }
+
+        [HttpPost]
+        public async Task<JsonResult> InsertSectionAudit([FromBody] List<SectionAuditModel> sectionData)
+        {
+
+            string TransactionID = TempData["TransactionID_Dispute"].ToString();
+            if (sectionData == null || sectionData.Count == 0)
+            {
+                return Json(new { success = false, message = "No data received" });
+            }
+            var result = await dl_qa.UpdateSectionByQAEvaluation(sectionData , TransactionID);
+            if (result == 1)
+            {
+                return Json(new { success = true, message = "Ok" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "No data Insert" });
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> SubmitDisputeFeedbackByQA(string comment, string calibration , string totalScore)
         {
@@ -45,6 +66,7 @@ namespace QMS.Controllers
         public async Task<IActionResult> EditAgentFeedBack(string TransactionID)
         {
             TempData["TransactionID_Dispute"] = TransactionID;
+            ViewBag.TransactionID = TransactionID;
             DataTable dt1 = await dl_Agent.getPrrocessAndSubProcess(TransactionID);
             string processID = dt1.Rows[0]["ProgramID"].ToString();
             string SUBprocessID = dt1.Rows[0]["SubProgramID"].ToString();

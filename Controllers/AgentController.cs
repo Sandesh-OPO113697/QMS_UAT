@@ -59,33 +59,48 @@ namespace QMS.Controllers
             {
                 string TransactionID = TempData["TtransactionID"].ToString();
                 await dl_Agent.DisputeAgentFeedback(comment, TransactionID);
-                return Json(new { success = true, message = "Acknowlegde has been Done...." });
+                return Json(new { success = true, message = "Dispute has been Done...." });
             }
 
 
         }
         public async Task<IActionResult> Dashboard()
         {
-            DataTable dt1 = await dl_Agent.getMonitororIds();
-            DataTable dt2 = await dl_Agent.getDisputeMonitororIds();
-            List<AgentFeedBackDetails> feedbackList = dt1.AsEnumerable().Select(row => new AgentFeedBackDetails
+            try
             {
-                TransactionID = row.Field<string>("TransactionID")
-            }).ToList();
 
-            List<AgentFeedBackDetails> disputeList = dt2.AsEnumerable().Select(row => new AgentFeedBackDetails
+                DataTable dt1 = await dl_Agent.getMonitororIds();
+                DataTable dt2 = await dl_Agent.getDisputeMonitororIds();
+                List<AgentFeedBackDetails> feedbackList = dt1.AsEnumerable().Select(row => new AgentFeedBackDetails
+                {
+                    TransactionID = row.Field<string>("TransactionID"),
+                    CreatedDate = row.Field<DateTime>("CreatedDate")
+
+
+                }).ToList();
+
+
+                List<AgentFeedBackDetails> disputeList = dt2.AsEnumerable().Select(row => new AgentFeedBackDetails
+                {
+                    TransactionID = row.Field<string>("TransactionID"),
+                    CreatedDate = row.Field<DateTime>("CreatedDate")
+
+                }).ToList();
+
+
+                var viewModel = new AgentDashboardViewModel
+                {
+                    FeedbackList = feedbackList,
+                    DisputeList = disputeList
+                };
+
+                return View(viewModel);
+            }
+            catch(Exception ex)
             {
-                TransactionID = row.Field<string>("TransactionID")
-            }).ToList();
-
-
-            var viewModel = new AgentDashboardViewModel
-            {
-                FeedbackList = feedbackList,
-                DisputeList = disputeList
-            };
-
-            return View(viewModel);
+                return View();
+            }
+          
         }
 
         public async Task<IActionResult> AgentFeedBack(string TransactionID)

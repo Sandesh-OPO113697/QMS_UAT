@@ -104,48 +104,47 @@ namespace QMS.DataBaseService
 
             }
             string Email = dt2.Rows[0]["Email"].ToString();
-            SendEmail(Email , "Your Score Is Recalculated");
+            await SendEmailAsync(Email , "Your Score Is Recalculated");
         }
-        public bool SendEmail(string recipientEmails, string Massage)
+        public async Task<bool> SendEmailAsync(string recipientEmails, string Massage)
         {
             string mailHost = "192.168.0.122";
             int mailPort = 587;
             string mailUserId = "reports@1point1.in";
             string mailPassword = "Pass@1234";
             string mailFrom = "reports@1point1.in";
+
             try
             {
                 var emailMessage = new MimeMessage();
-                emailMessage.From.Add(new MailboxAddress("Sender", mailFrom));
+                emailMessage.From.Add(new MailboxAddress("QMS_EMAIL", mailFrom));
 
-                // Add multiple recipients
-             
-                    emailMessage.To.Add(new MailboxAddress("", recipientEmails));
-               
+                // Add recipient
+                emailMessage.To.Add(new MailboxAddress("", recipientEmails));
 
                 emailMessage.Subject = "Dispute feedBack Massage";
                 var bodyBuilder = new BodyBuilder
                 {
-                    TextBody = $"Dear Agent,\n\nAgent Dispute  is: {Massage}\n\nRegards,\nApplication Team"
+                    TextBody = $"Dear Agent,\n\nAgent Dispute is: {Massage}\n\nRegards,\nApplication Team"
                 };
                 emailMessage.Body = bodyBuilder.ToMessageBody();
 
                 using var client = new MailKit.Net.Smtp.SmtpClient();
                 ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-                client.Connect(mailHost, mailPort, SecureSocketOptions.StartTls);
-                client.Authenticate(mailUserId, mailPassword);
-                client.Send(emailMessage);
-                client.Disconnect(true);
 
-              
+                await client.ConnectAsync(mailHost, mailPort, SecureSocketOptions.StartTls);
+                await client.AuthenticateAsync(mailUserId, mailPassword);
+                await client.SendAsync(emailMessage);
+                await client.DisconnectAsync(true);
+
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-               
                 return false;
             }
         }
+
         public async Task<DataTable> GetMonitporedSectionGriedAsync(int processID, int SubprocessID)
         {
             DataTable dt = new DataTable();
@@ -174,6 +173,59 @@ namespace QMS.DataBaseService
 
             }
             return dt;
+        }
+        public async Task<int> UpdateSectionByQAEvaluation(List<SectionAuditModel> model , string TransactionID)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                     using (SqlCommand cmd = new SqlCommand("UpdateSectionEvaluation", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Operation", "DeleteData");
+                        cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
+
+
+                        await cmd.ExecuteNonQueryAsync();
+                        }
+                   
+                }
+
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    foreach (var section in model)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("UpdateSectionEvaluation", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Category", section.category);
+                            cmd.Parameters.AddWithValue("@Level", section.level);
+                            cmd.Parameters.AddWithValue("@SectionName", section.sectionName);
+                            cmd.Parameters.AddWithValue("@QA_rating", section.qaRating);
+                            cmd.Parameters.AddWithValue("@Scorable", section.scorable);
+                            cmd.Parameters.AddWithValue("@Weightage", section.score);
+                            cmd.Parameters.AddWithValue("@Commentssection", section.comments ?? (object)DBNull.Value);
+                            cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
+                            cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+                            cmd.Parameters.AddWithValue("@Operation", "Update");
+
+
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+                return 1; // Return 1 only after all records are inserted successfully
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return 0; // Return 0 on failure
+            }
         }
         public async Task<List<DisputeCallfeedbackModel>> DisputeAgentFeedback()
         {
@@ -239,8 +291,12 @@ namespace QMS.DataBaseService
                     }
                 }
             }
+            var distinctAuditDetailsList = auditDetailsList
+    .GroupBy(x => new { x.TransactionID, x.AgentID, x.TLName, x.MonitorBy })
+    .Select(g => g.First())
+    .ToList();
 
-            return auditDetailsList;
+            return distinctAuditDetailsList;
 
         }
 

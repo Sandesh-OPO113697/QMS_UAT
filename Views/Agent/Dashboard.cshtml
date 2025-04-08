@@ -12,6 +12,7 @@
             <thead>
                 <tr>
                     <th>Transaction ID</th>
+                    <th>Date</th>
                     <th>View</th>
                 </tr>
             </thead>
@@ -20,16 +21,24 @@
                 {
                     @foreach (var item in Model.FeedbackList)
                     {
-                        <tr>
-                            <td>@item.TransactionID</td>
-                            <td>
+                        bool isOlderThan24Hours = (DateTime.Now - item.CreatedDate).TotalHours > 24;
 
+                        <tr>
+                            <td class="@(isOlderThan24Hours ? "text-danger" : "")">
+                                @item.TransactionID
+                            </td>
+                            <td>
+                            @item.CreatedDate 
+                             
+                            </td>
+                            <td>
                                 <a href="/Agent/AgentFeedBack?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
                                     View
                                 </a>
                             </td>
                         </tr>
                     }
+
                 }
                 else
                 {
@@ -51,6 +60,7 @@
             <thead>
                 <tr>
                     <th>Transaction ID</th>
+                    <th>Date</th>
                     <th>View</th>
                 </tr>
             </thead>
@@ -59,8 +69,15 @@
                 {
                     @foreach (var item in Model.DisputeList)
                     {
+                        bool isOlderThan24Hours = (DateTime.Now - item.CreatedDate).TotalHours > 24;
                         <tr>
-                            <td>@item.TransactionID</td>
+                            <td class="@(isOlderThan24Hours ? "text-danger" : "")">
+                                @item.TransactionID
+                            </td>
+                            <td>
+                               @item.CreatedDate 
+                            
+                            </td>
                             <td>
                                 <a href="/Agent/AgentDisputeFeedBack?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
                                     View

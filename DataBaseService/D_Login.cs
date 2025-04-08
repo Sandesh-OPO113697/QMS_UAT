@@ -104,7 +104,7 @@ namespace QMS.DataBaseService
             {
                 var emailMessage = new MimeMessage();
 
-                emailMessage.From.Add(new MailboxAddress("Sender", mailFrom));
+                emailMessage.From.Add(new MailboxAddress("QMS_EMAIL", mailFrom));
                 emailMessage.To.Add(new MailboxAddress("", recipientEmail));
                 emailMessage.Subject = $"OTP: {OTP}";
                 var bodyBuilder = new BodyBuilder

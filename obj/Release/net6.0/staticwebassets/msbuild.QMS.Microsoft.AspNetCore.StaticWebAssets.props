@@ -3252,8 +3252,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>0xxjx35x9r</Fingerprint>
-      <Integrity>jJC9UrYkJvHyBhERkgOZ4WlZ6Qt8sadXM5n+w/2PsSA=</Integrity>
+      <Fingerprint>uf2f2dx0bx</Fingerprint>
+      <Integrity>5p/HFcj7xvGzTH+WLq0l/o12q8fs3J+OjVp2l36mJkk=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\SampleFile\AgentUpload.xls'))</OriginalItemSpec>
