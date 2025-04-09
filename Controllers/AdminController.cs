@@ -69,48 +69,56 @@ namespace QMS.Controllers
         [HttpPost]
         public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause, IFormFile file , string TypeProcess)
         {
-            List<string> errorMessages = new List<string>();
-
-            if (string.IsNullOrEmpty(Location_ID) || Location_ID == "Select Location")
+            try
             {
-                errorMessages.Add("Please select a valid location.");
+                List<string> errorMessages = new List<string>();
+
+                if (string.IsNullOrEmpty(Location_ID) || Location_ID == "Select Location")
+                {
+                    errorMessages.Add("Please select a valid location.");
+                    TempData["ErrorMessages"] = errorMessages;
+                    return RedirectToAction("CreateSubProcess");
+                }
+                if (string.IsNullOrEmpty(TypeProcess))
+                {
+                    errorMessages.Add("Please Select TypeProcess .");
+                    TempData["ErrorMessages"] = errorMessages;
+                    return RedirectToAction("CreateSubProcess");
+                }
+                if (string.IsNullOrEmpty(ProgramID))
+                {
+                    errorMessages.Add("Please Select Process Name.");
+                    TempData["ErrorMessages"] = errorMessages;
+                    return RedirectToAction("CreateSubProcess");
+                }
+
+                if (string.IsNullOrEmpty(SubProcess))
+                {
+                    errorMessages.Add("Please Enter Data Sub Process .");
+                    TempData["ErrorMessages"] = errorMessages;
+                    return RedirectToAction("CreateSubProcess");
+                }
+                if (Number_Of_Pause <= 0)  // Direct check since it's a non-nullable int
+                {
+                    ModelState.AddModelError("Number_Of_Pause", "Please enter a valid number of pauses (greater than 0).");
+                }
+
+                if (file == null || file.Length == 0)
+                {
+                    TempData["ErrorMessages"] = "Please select a valid Excel file!";
+                    return RedirectToAction("CreateSubProcess");
+                }
+
+
+                await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file, TypeProcess);
+                errorMessages.Add("Sub-Process Created Sucessfully !");
                 TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateSubProcess");
             }
-            if (string.IsNullOrEmpty(TypeProcess))
+            catch(Exception ex)
             {
-                errorMessages.Add("Please Select TypeProcess .");
-                TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateSubProcess");
-            }
-            if (string.IsNullOrEmpty(ProgramID))
-            {
-                errorMessages.Add("Please Select Process Name.");
-                TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateSubProcess");
-            }
 
-            if (string.IsNullOrEmpty(SubProcess))
-            {
-                errorMessages.Add("Please Enter Data Sub Process .");
-                TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateSubProcess");
             }
-            if (Number_Of_Pause <= 0)  // Direct check since it's a non-nullable int
-            {
-                ModelState.AddModelError("Number_Of_Pause", "Please enter a valid number of pauses (greater than 0).");
-            }
-
-            if (file == null || file.Length == 0)
-            {
-                TempData["ErrorMessages"] = "Please select a valid Excel file!";
-                return RedirectToAction("CreateSubProcess");
-            }
-
-
-            await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess , Number_Of_Pause , file , TypeProcess);
-            errorMessages.Add("Sub-Process Created Sucessfully !");
-            TempData["ErrorMessages"] = errorMessages;
+            
             return RedirectToAction("CreateSubProcess");
 
         }

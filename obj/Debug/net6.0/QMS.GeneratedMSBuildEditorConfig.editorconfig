@@ -180,6 +180,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/UpdateManagement/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXBkYXRlTWFuYWdlbWVudFxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

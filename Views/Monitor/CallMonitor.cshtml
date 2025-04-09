@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="ProgramID">Audit Type</label>
-                    @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", onchange ="OnAuditChange()"})
+                    @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", onchange = "OnAuditChange()" })
                 </div>
 
                 <div class="form-group col-md-6">
@@ -22,7 +22,7 @@
                     </select>
                 </div>
 
-                <div class="form-group col-md-6" id="DispoID"style="display:none">
+                <div class="form-group col-md-6" id="DispoID" style="display:none">
                     <label for="dispositionId">Disposition</label>
                     <select name="dispositionId" id="dispositionId" class="custom-select" onchange="onDispositionChange()">
                     </select>
@@ -57,7 +57,7 @@
                     <label for="ToDate">To Date</label>
                     <input type="date" id="Todate" class="custom-select">
                 </div>
-             
+
                 <div class="form-group col-md-6">
                     <label for="AgentID">Agent Name</label>
                     <select name="AgentID" id="AgentID" class="custom-select" onchange="onAgentIDChange()">
@@ -69,13 +69,13 @@
                     <input type="text" placeholder="TL Name" class="custom-select" id="TL_id" readonly />
                 </div>
 
-                 <div class="form-group col-md-6">
+                <div class="form-group col-md-6">
                     <label for="ConnID">Transaction_ID</label>
                     <input type="text" class="form-control" id="Transaction_ID" aria-describedby="button-addon2" readonly>
 
                 </div>
 
-                 <div class="form-group col-md-6">
+                <div class="form-group col-md-6">
                     <label for="Monitored_date">Monitored date</label>
                     <input type="text" class="form-control" id="Monitored_date" aria-describedby="button-addon2" readonly>
 
@@ -116,17 +116,17 @@
             <h5 class="card-title">  </h5>
             <div class="row">
 
-               
-                 <div class="form-group col-md-6">
+
+                <div class="form-group col-md-6">
                     <label for="ConnID">Transaction_ID</label>
                     <input type="text" class="form-control" id="Transaction_ID2" aria-describedby="button-addon2" onkeydown="handleEnter(event)">
 
 
                 </div>
-                
 
-            
-                 <div class="form-group col-md-6">
+
+
+                <div class="form-group col-md-6">
                     <label for="Monitored_date">Monitored date</label>
                     <input type="text" class="form-control" id="Monitored_date2" aria-describedby="button-addon2" readonly>
 
@@ -169,11 +169,11 @@
                     <thead>
                         <tr>
                             <th> Play</th>
-                            <th >Agent ID</th>
-                            <th >Transaction ID</th>
-                            <th >Start Time</th>
+                            <th>Agent ID</th>
+                            <th>Transaction ID</th>
+                            <th>Start Time</th>
                             <th>End Time</th>
-                            <th >Duration</th>
+                            <th>Duration</th>
                         </tr>
                     </thead>
                     <tbody id="recTableBody">
@@ -184,11 +184,11 @@
     </div>
 </div>
 
-<div class="row"  id="LastReansaction" style="display: flex; display:none; align-items: stretch;">
+<div class="row" id="LastReansaction" style="display: flex; display:none; align-items: stretch;">
     <div class="col-md-6 my-4" style="display: flex; flex-direction: column;">
-   
-                 <div id="recordingContainer"></div>
-        
+
+        <div id="recordingContainer"></div>
+
     </div>
 
     <div class="col-md-6 my-4" style=" display: flex; flex-direction: column;">
@@ -198,7 +198,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                              
+
                                 <th class="w-40">ID</th>
                                 <th class="w-40">Transaction ID</th>
                                 <th class="w-40">CQ_Score</th>
@@ -224,7 +224,7 @@
                             }
                         </tbody>
                     </table>
-                </div> 
+                </div>
                 <div>
 
                     <div class="col-md-12">
@@ -253,10 +253,10 @@
                                 Limit Of Pauses:
                             </span>
 
-                          
+
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
         </div>
@@ -285,7 +285,7 @@
                     <th>Comments Section</th>
                     <th>Fatal</th>
 
-                    
+
 
                 </tr>
             </thead>
@@ -302,14 +302,14 @@
 <div class="card shadow mb-4" id="rooutcause" style="display:none">
     <div class="card-header">
         <strong class="card-title">Root Cause Analysis</strong>
-       
+
     </div>
     <div class="card-body">
         <div class="row">
             <table id="rootCauseTable" class="table table-bordered">
                 <thead>
                     <tr>
-                      
+
                         <th>Metric RCA</th>
                         <th>Controllable</th>
                         <th>RCA 1</th>
@@ -332,14 +332,14 @@
 <div class="card shadow mb-4" id="Predictivediv" style="display:none">
     <div class="card-header">
         <strong class="card-title">Predictive Analysis</strong>
-       
+
     </div>
     <div class="card-body">
         <div class="row">
             <table id="predictiveAnalysisTable" class="table table-bordered">
                 <thead>
                     <tr>
-                       
+
                         <th>Predictive - CSAT</th>
                         <th>Predictive - NPS</th>
                         <th>Predictive - FCR</th>
@@ -347,7 +347,7 @@
                         <th>Predictive - Sales effort</th>
                         <th>Predictive - Collection effort</th>
                         <th>Predictive - Probable escalation</th>
-                       
+
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -367,7 +367,7 @@
         <div class="row">
             <label><strong>Was there any Zero Tolerance Behaviour identified?</strong></label>
             <div class="form-check form-check-inline" style="margin-left: 75px;">
-                <input class="form-check-input" type="checkbox" id="yesCheckbox" name="zeroTolerance" value="Yes">
+                <input class="form-check-input" type="checkbox" id="yesCheckbox" name="zeroTolerance" value="Yes" checked>
                 <label class="form-check-label" for="yesCheckbox">Yes</label>
             </div>
             <div class="form-check form-check-inline" style="margin-left: 75px;">
@@ -383,13 +383,12 @@
 <div class="card shadow mb-4" id="ZtClassfictions" style="display:none">
     <div class="card-header">
         <strong class="card-title">ZT Classification</strong>
-      
+
     </div>
     <div class="card-body">
         <div class="row col-md-4">
             <label for="ZTClassification">Select  ZT Classification</label>
             <select id="ZTClassification" class="custom-select">
-              
             </select>
 
         </div>
@@ -417,22 +416,15 @@
     <div class="card-header">
     </div>
     <div class="card-body">
-        <div class="row d-flex flex-wrap" style="gap: 10px; display: flex; justify-content: flex-start;">
+        <div class="row d-flex flex-wrap" style="gap: 10px; display: flex;  flex-wrap: wrap; justify-content: flex-start;">
 
-            <div class="col-md-2">
+            <div class="col-md-2" style="flex: 1;">
                 <div class="form-group mb-3">
                     <button id="btnSubmite" class="btn btn-primary mt-4" onclick="SubMitedata()">Submit</button>
                 </div>
             </div>
-         
 
-            <div class="col-md-2">
-                <div class="form-group mb-3">
-                    <button id="btnLogZT" class="btn btn-primary mt-4" >Log ZT</button>
-                </div>
-
-            </div>
-            <div class="col-md-2">
+            <div class="col-md-2" style="flex: 1;">
                 <div class="form-group mb-3">
                     <button id="btnClearForm" class="btn btn-primary mt-4">Clear Form</button>
                 </div>
@@ -440,13 +432,13 @@
             </div>
 
 
-            <div class="col-md-2">
+            <div class="col-md-2" style="flex: 1;">
                 <div class="form-group mb-3">
                     <button id="SaveForm" class="btn btn-primary mt-4" onclick="SaveEndTime()">Save Form</button>
                 </div>
                 <input type="hidden" id="hiddenEndTime">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2" style="flex: 1;">
                 <div class="form-group mb-3">
                     <button id="btnVoicefeed" class="btn btn-primary mt-4">Record voice Feedback</button>
                 </div>
@@ -584,7 +576,7 @@
         if (event.key === "Enter" || event.keyCode === 13) {
             event.preventDefault(); // Prevents accidental form submission if inside a form
 
-         
+
             myFunction(); // Call your function
         }
     }
@@ -612,7 +604,7 @@
                 if (response.success) {
                     if (response.connid && response.connid.trim() !== "") {
                         alert("For This Transaction ID, Audit Has Been Done.");
-                     
+
                         $("#RelListDiv").hide();
                         return;
                     }
@@ -620,7 +612,7 @@
                          $("#LastReansaction").show();
                     }
                 } else {
-                      
+
                     console.error("Error:", response.message || "Unknown error occurred.");
                 }
 
@@ -642,20 +634,22 @@
 
         function toggleButton() {
             if (yesCheckbox.checked) {
-                btnLogZT.style.display = "block"; // Show button
+                btnLogZT.style.display = "block"; 
+                $("#ZtClassfictions").show();
             } else {
-                btnLogZT.style.display = "none"; // Hide button
+                btnLogZT.style.display = "none"; 
+                  $("#ZtClassfictions").hide();
             }
         }
 
-        // Add event listeners to both checkboxes
+
         yesCheckbox.addEventListener("change", function () {
-            noCheckbox.checked = !yesCheckbox.checked; // Uncheck "No" if "Yes" is checked
+            noCheckbox.checked = !yesCheckbox.checked; 
             toggleButton();
         });
 
         noCheckbox.addEventListener("change", function () {
-            yesCheckbox.checked = !noCheckbox.checked; // Uncheck "Yes" if "No" is checked
+            yesCheckbox.checked = !noCheckbox.checked; 
             toggleButton();
         });
     });
@@ -663,7 +657,7 @@
 <script>
 
     function InsertCallAudit() {
-        console.log("Button Clicked!");
+      
         var selectedZTClassification = $("#ZTClassification").val();
         var zeroToleranceValue = $("input[name='zeroTolerance']:checked").val();
           var Transaction_ID = $("#Transaction_ID").val();
@@ -673,12 +667,18 @@
         var CcID = finalTransactionID;
         var totalScoreValue = $("#totalScore").text().trim();
 
-        if (!selectedZTClassification ) {
-            alert("Please  selected ZTC lassification  .");
-            return false;
-        }
+
+      
         if (!zeroToleranceValue ) {
             alert("Please  selected  zero ToleranceValue .");
+
+            if (zeroToleranceValue=="Yes")
+            {
+                  if (!selectedZTClassification ) {
+                    alert("Please  selected ZTC lassification  .");
+                    return false;
+                  }
+            }
             return false;
         }
         if (!CcID) {
@@ -715,7 +715,7 @@
     }
 
     function InsertSectionAudit() {
-        
+
          var isValid = true;
             var gridData = [];
 
@@ -736,18 +736,18 @@
                     if (qaRating === "") {
                         isValid = false;
                         $row.find(".qa-rating").addClass("border border-danger");
-                      
+
                     } else {
                         $row.find(".qa-rating").removeClass("border border-danger");
-                       
+
                     }
 
                      if ( comments === "") {
                         isValid = false;
-                       
+
                          $row.find("input[type='text']").addClass("border border-danger");
                     } else {
-                        
+
                          $row.find("input[type='text']").removeClass("border border-danger");
                     }
 
@@ -877,14 +877,14 @@
         return isValid ? dataToSend : false;
     }
 
-        function clearValues() {
+    function clearValues() {
         $("#sectionGrid tbody").find("tr").each(function () {
-            $(this).find(".qa-rating").val(""); 
-            
+            $(this).find(".qa-rating").val("");
+
             $(this).find("#Comments_Section").val("");
         });
              $("#rootCauseTable tbody, #predictiveAnalysisTable tbody").find("tr").each(function () {
-            $(this).find("select").val(""); 
+            $(this).find("select").val("");
             $(this).find("input[type='text']").val("");
         });
 
@@ -892,7 +892,7 @@
         $("#yesCheckbox, #noCheckbox").prop("checked", false);
 
            let container = document.getElementById("recordingContainer");
-            container.innerHTML = ""; 
+            container.innerHTML = "";
             container.style.display = "none";
 
              $("#SectionGried").hide();
@@ -910,11 +910,19 @@
                      $("#LastReansaction").show();
 
 
-        location.reload();
+       
+    }
+    function Reload()
+    {
+
+         location.reload();
+
     }
 
-    function SubMitedata() {
-         let pauseIcon = document.getElementById("pauseIcon");
+       
+      function GetCheckAndSubmite()
+      {
+          let pauseIcon = document.getElementById("pauseIcon");
 
                 if (pauseIcon.classList.contains("fe-pause")) {
                     alert("Please resume before  Submite the audit.");
@@ -984,11 +992,11 @@
             contentType: "application/json",
             data: JSON.stringify(rootCauseData),
             success: function (response) {
-                
+
             },
             error: function (xhr, status, error) {
                 console.error("Error:", error);
-               
+
             }
         });
 
@@ -1001,8 +1009,8 @@
             success: function (response) {
                 if (response.success) {
                     alert("Call Evaluation  submitted successfully!");
-                   
-                  
+
+
                 } else {
                     alert("Failed to submit  Evaluation data.");
                 }
@@ -1014,6 +1022,12 @@
         });
 
          clearValues();
+      }
+
+
+    function SubMitedata() {
+         GetCheckAndSubmite();
+         Reload();
     }
 </script>
 
@@ -1028,18 +1042,18 @@
     document.addEventListener("DOMContentLoaded", function () {
          var today = new Date();
 
-   
+
         var formattedDate = today.toISOString().split('T')[0];
 
-       
+
         document.getElementById("Monitored_date").value = formattedDate;
         document.getElementById("Transaction_Date").value = formattedDate;
           document.getElementById("Monitored_date2").value = formattedDate;
         document.getElementById("Transaction_Date2").value = formattedDate;
-        
+
 
          var year = today.getFullYear();
-        var month = today.toLocaleString('default', { month: 'long' }); 
+        var month = today.toLocaleString('default', { month: 'long' });
         var weekNumber = getWeekNumber(today);
              document.getElementById("Year").value = year;
           document.getElementById("Month").value = month;
@@ -1113,8 +1127,8 @@
                    $("#LastReansaction").hide();
                     $("#SerchRecoding").hide();
                       $("#AuditDiv").hide();
-               
-            
+
+
             var audioPath = target.getAttribute("data-path");
 
                               $.ajax({
@@ -1129,10 +1143,10 @@
                                     alert("For This Transaction ID, Audit Has Been Done");
                                       $("#LastReansaction").hide();
                                     $("#RelListDiv").hide();
-                                 
+
                                     $("#SerchRecoding").show();
                                     $("#AuditDiv").show();
-                                
+
                                     return;
                                 }
 
@@ -1140,7 +1154,7 @@
 
                                  $("#LastReansaction").show();
                                   $("#RelListDiv").hide();
-                                   
+
                                       $("#Transaction_ID").val(audioPath);
                                         $.ajax({
                                             type: "POST",
@@ -1150,7 +1164,7 @@
                                             dataType: "json",
                                             success: function (response) {
                                                 if (response.success) {
-                                               
+
                                                     let container = document.getElementById("recordingContainer");
                                                     container.innerHTML = ""; // Clear previous content
                                                     let imagePath = '/images/call_recording.jpg';
@@ -1189,14 +1203,14 @@
 
                                                     console.log("Audio URL:", audioUrl); // Debugging
 
-                                                   
+
                                                     let audioPlayer = document.createElement("audio");
                                                     audioPlayer.controls = true;
                                                     audioPlayer.src = audioUrl;
                                                     audioPlayer.style.width = "100%";
                                                     audioPlayer.style.maxWidth = "439px";
                                                     audioPlayer.style.margin = "5px auto";
-                                                    audioPlayer.style.marginTop = "527px"; 
+                                                    audioPlayer.style.marginTop = "527px";
                                                     audioPlayer.autoplay = true;
                                                     container.appendChild(audioPlayer);
                                                     audioPlayer.play().catch(error => {
@@ -1223,7 +1237,7 @@
 
 
 
-          
+
         }
     });
 
@@ -1246,7 +1260,7 @@
 
     function startAudit() {
         DisplayDiv();
-           
+
 
 
 
@@ -1258,7 +1272,7 @@
              dataType: "json",
              data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
              success: function (response) {
-                 
+
                       pauseLimit = response.pauselimit;
                        document.getElementById("pauseLimit").innerText = `Limit Of Pauses: ${pauseLimit}`;
 
@@ -1267,11 +1281,11 @@
                  console.error("Error occurred: " + error);
              }
          });
-         
-      
+
+
         startTime = new Date();
         document.getElementById("pauseButton").disabled = false;
-     
+
         document.getElementById("StartAudit").disabled = true;
 
         auditLogs.push({ type: "Start", time: startTime });
@@ -1287,7 +1301,7 @@
         let  SavendTime = new Date();
          document.getElementById("hiddenEndTime").value = SavendTime;
          alert("Form Saved Sucessfully...!");
-        
+
     }
 
     function togglePause() {
@@ -1317,7 +1331,7 @@
         } else {
             // Resuming
 
-             
+
             // resumeTime = new Date();
             // let pauseDuration = (resumeTime - pauseTime) / 1000;
             // totalPauseDuration += pauseDuration;
@@ -1387,7 +1401,7 @@
         // Reset UI
         document.getElementById("StartAudit").disabled = false;
         document.getElementById("pauseButton").disabled = true;
-   
+
         document.getElementById("pauseCount").innerText = "Pauses: 0";
         elapsedSeconds = 0;
         pauseCount = 0;
@@ -1413,13 +1427,13 @@
                 $("#AuditDiv").show();
                  $("#SerchRecoding").show();
                   $("#RelListDiv").show();
-               
+
 
      }
 
      function DisplayDiv()
      {
-       
+
          $("#SectionGried").show();
            $("#rooutcause").show();
              $("#Predictivediv").show();
@@ -1435,13 +1449,13 @@
         {
            $("#DispoID").show();
               $("#SUBDispoID").show();
-           
+
         }
         else{
             $("#DispoID").hide();
             $("#SUBDispoID").hide();
         }
-   
+
 
     }
         function clearFields() {
@@ -1449,7 +1463,7 @@
         $("#dispositionId").empty().append('<option value="">Select Disposition</option>');
         $("#SubDispositionID").empty().append('<option value="">Select Sub Disposition</option>');
         $("#AgentID").empty().append('<option value="">Select Agent</option>');
-       
+
         $("#TL_id").val("");
         $("#RelListDiv").hide();
             $("#LastReansaction").hide();
@@ -1460,7 +1474,7 @@
         $("#dispositionId").empty().append('<option value="">Select Disposition</option>');
         $("#SubDispositionID").empty().append('<option value="">Select Sub Disposition</option>');
         $("#AgentID").empty().append('<option value="">Select Agent</option>');
-        
+
         $("#TL_id").val("");
         $("#RelListDiv").hide();
             $("#LastReansaction").hide();
@@ -1509,7 +1523,7 @@
 
                       if (!fromDate || !toDate ) {
                                 $("#FromDate").val("");
-                                $("#Todate").val("");  
+                                $("#Todate").val("");
                                 alert("Invalid date selection. Dates have been cleared.");
                                 return;
                             }
@@ -1533,8 +1547,8 @@
                dataType: "json",
                success: function (response) {
                 if (response.success) {
-                    $("#TL_id").val(response.tl_name); 
-                   
+                    $("#TL_id").val(response.tl_name);
+
                 } else {
                     alert("Error fetching TL Name.");
                     $("#RelListDiv").hide();
@@ -1544,9 +1558,9 @@
                    console.error("Error occurred: " + error);
                }
            });
-           
-           
-           
+
+
+
            $.ajax({
                     type: "POST",
                     data: JSON.stringify({ fromDate: fromDate, toDate: toDate, agentId: agentId }),
@@ -1591,7 +1605,7 @@
                 GetSectionGried();
 
        }
-    
+
         function populateGrid(data, ratingList) {
         var tableBody = $("#sectionGrid tbody");
         tableBody.empty();
@@ -1749,7 +1763,7 @@
                     {
                         $("#NonVoice").show();
                         $("#SerchRecoding").hide();
-                        
+
                     }
                     else{
                          $("#NonVoice").hide();
@@ -1784,7 +1798,7 @@
 
 
 
-                                          
+
 
                 },
                 error: function (xhr, status, error) {
@@ -1941,7 +1955,7 @@
                                     }
 
                     let row = `<tr>
-                       
+
                         <td>${item.text}</td>
                         ${extraColumns}
                     </tr>`;

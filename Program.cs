@@ -21,7 +21,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<DLConnection>();
 builder.Services.AddTransient<D_Login>();
@@ -34,6 +33,7 @@ builder.Services.AddTransient<Dl_formBuilder>();
 builder.Services.AddTransient<dl_Monitoring>();
 builder.Services.AddTransient<DL_Agent>();
 builder.Services.AddTransient<DL_QaManager>();
+builder.Services.AddTransient<Dl_UpdateManagement>();
 
 
 
