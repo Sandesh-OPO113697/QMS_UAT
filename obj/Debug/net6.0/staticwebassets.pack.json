@@ -505,6 +505,10 @@
       "PackagePath": "staticwebassets\\js\\uppy.min.js"
     },
     {
+      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\xlsx.full.min.js",
+      "PackagePath": "staticwebassets\\js\\xlsx.full.min.js"
+    },
+    {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },

@@ -1,1 +1,357 @@
-﻿
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12 my-4" id="AuditDiv">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Program</label>
+                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 my-4" id="agentListContainer" style="display:none">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title"> Agent List </h5>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 my-4" id="tlListContainer" style="display:none">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title"> Team Leader List </h5>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 my-4" id="subjectContainer">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="UploadSubject">Update Subject</label>
+                    <input class="form-control" type="text" id="UploadSubject" placeholder="Enter Subject" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="Doc">Update Document</label>
+                    <input class="form-control" type="file" id="fileUploader" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="Comments">Comments</label>
+                    <input class="form-control" type="text" id="Comments" placeholder="Enter Comments" />
+                </div>
+                <div class="form-group col-md-6">
+                  
+                    <button class="btn btn-secondary ml-2" style="margin-top:30px;" id="ViewBtn">View</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mailModal" tabindex="-1" aria-labelledby="mailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 950px;">
+        <div class="modal-content" style="border-radius: 10px; border: 1px solid #e0e0e0; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
+            <div class="modal-header" style="background-color: #f4f6f8; border-bottom: 1px solid #ddd;">
+                <h5 class="modal-title" style="font-weight: 600; font-size: 20px; color: #333;">📧 Notification Preview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 28px; background: none; border: none; color: #555;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body" style="padding: 25px; font-family: 'Segoe UI', sans-serif; color: #333;">
+                <div style="margin-bottom: 20px;">
+                    <strong style="font-size: 16px;">Subject:</strong>
+                    <span id="mailModalSubject" style="margin-left: 10px; font-size: 16px; color: #555;"></span>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <strong style="font-size: 16px;">To:</strong>
+                    <span id="mailModalTo" style="margin-left: 10px; font-size: 16px; color: #555;"></span>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <strong style="font-size: 16px;">Body:</strong>
+                    <div id="mailModalBody" style="margin-top: 5px; font-size: 15px; line-height: 1.7; background-color: #fafafa; padding: 15px; border-radius: 6px; border: 1px solid #eee;"></div>
+                </div>
+
+                <div id="mailModalAttachment" style="margin-top: 30px; border-top: 1px solid #e0e0e0; padding-top: 20px;"></div>
+            </div>
+            <div class="modal-footer" style="background-color: #f4f6f8; border-top: 1px solid #ddd;">
+
+                <button type="button" class="btn btn-primary" id="publishMailBtn" style="background-color: #007bff; border-color: #007bff;">
+                    🚀 Publish
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        let uploadedMailData = null;
+            let selectedFile = null;
+
+        $('#fileUploader').on('change', function (e) {
+            const file = e.target.files[0];
+            const subject = $('#UploadSubject').val();
+            const comments = $('#Comments').val();
+
+            if (!file) {
+                alert("Please select a file.");
+                return;
+            }
+
+            uploadedMailData = { file, subject, comments };
+             selectedFile = file;
+        });
+
+        $('#ViewBtn').on('click', function () {
+            if (!uploadedMailData) {
+                alert("Please upload a file first.");
+                return;
+            }
+
+            const { file, subject, comments } = uploadedMailData;
+            const agentCodes = [];
+            const tlCodes = [];
+
+            $('input[type="checkbox"]:checked').each(function () {
+                // agentCodes.push($(this).val());
+                agentCodes.push($(this).data("email"));
+
+            });
+
+            $('#mailModalSubject').text(subject || "No Subject");
+            $('#mailModalBody').text(comments || "No Comments");
+            $('#mailModalTo').text([...agentCodes, ...tlCodes].join(', ') || "No Recipients");
+
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            const reader = new FileReader();
+
+               reader.onload = function (e) {
+        let html = "";
+
+        if (["xlsx", "xls", "csv"].includes(fileExtension)) {
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: 'binary' });
+            const sheetName = workbook.SheetNames[0];
+            let rawHtml = XLSX.utils.sheet_to_html(workbook.Sheets[sheetName]);
+
+            // Enhanced table styling with zebra stripes, hover, and rounded header
+            rawHtml = rawHtml
+                .replace(/<table[^>]*>/, `
+                    <table style="
+                        width: 100%;
+                        border-collapse: collapse;
+                        font-family: 'Segoe UI', sans-serif;
+                        font-size: 14px;
+                        margin-top: 10px;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                        overflow-x: auto;
+                    ">
+                `)
+                .replace(/<thead>/, `<thead style="background-color: #f1f5f9;">`)
+                .replace(/<th[^>]*>/g, `
+                    <th style="
+                        background-color: #e8f0fe;
+                        border: 1px solid #d0d7de;
+                        padding: 12px 14px;
+                        text-align: left;
+                        font-weight: 600;
+                        color: #333;
+                        white-space: nowrap;
+                        border-bottom: 2px solid #d0d7de;
+                    ">
+                `)
+                .replace(/<td[^>]*>/g, `
+                    <td style="
+                        border: 1px solid #e0e0e0;
+                        padding: 10px 12px;
+                        color: #444;
+                        background-color: #ffffff;
+                    ">
+                `)
+                .replace(/<\/tr>/g, `</tr>`) // preserve row endings for zebra effect
+
+            // Wrap with container & add scroll
+            html = `
+                <div style="
+                    max-height: 500px;
+                    overflow-x: auto;
+                    overflow-y: auto;
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                    padding: 10px;
+                    background-color: #fefefe;
+                    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+                ">
+                    <style>
+                        #mailModalAttachment table tr:nth-child(even) td {
+                            background-color: #f9f9f9;
+                        }
+                        #mailModalAttachment table tr:hover td {
+                            background-color: #eef6ff;
+                            transition: background-color 0.3s;
+                        }
+                    </style>
+                    ${rawHtml}
+                </div>`;
+        } else if (fileExtension === "pdf") {
+            html = `<iframe src="${URL.createObjectURL(file)}" width="100%" height="500px" style="border: 1px solid #ccc; border-radius: 6px;"></iframe>`;
+        } else {
+            html = `<p style="color: red;">Cannot preview this file type: ${fileExtension}</p>`;
+        }
+
+        $('#mailModalAttachment').html(html);
+        $('#mailModal').modal('show');
+    };
+
+
+            if (["xlsx", "xls", "csv"].includes(fileExtension)) {
+                reader.readAsBinaryString(file);
+            } else {
+                reader.readAsDataURL(file);
+            }
+        });
+
+
+
+
+        $('#publishMailBtn').on('click', function () {
+        if (!selectedFile) {
+            alert("No file selected.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async function () {
+            const base64 = reader.result.split(',')[1]; // Remove "data:*/*;base64," part
+             const agentCodes = [];
+
+               $('input[type="checkbox"]:checked').each(function () {
+        agentCodes.push($(this).val());
+    });
+          
+            const mailData = {
+                To: $('#mailModalTo').text().trim(),
+                Subject: $('#mailModalSubject').text().trim(),
+                Body: $('#mailModalBody').html().trim(), // if body is rich HTML
+                AttachmentBase64: base64,
+                AttachmentFileName: selectedFile.name,
+                agentCodes: agentCodes
+            };
+
+            const res = await fetch('/UpdateManagement/Send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(mailData)
+            });
+
+               const result = await res.json();
+               
+                if (result.success) {
+                    alert(result.message);
+                    $('#mailModal').modal('hide'); // Hide the modal
+                } else {
+                    alert("Mail sending failed. Please try again.");
+                     $('#mailModal').modal('hide');
+                }
+        };
+
+        reader.readAsDataURL(selectedFile);
+    });
+    });
+
+    function onSubProgramChange() {
+        const selectedValue = $('#SUBProgramID').val();
+        if (selectedValue === '') {
+            alert('Please select a valid Sub Program Name.');
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/UpdateManagement/getTlAndAgentList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
+            success: function (response) {
+                const data = response.agentTlList;
+                $("#agentListContainer, #tlListContainer").show();
+                $("#agentListContainer .card-body").find("div.checkbox-wrapper").remove();
+                $("#tlListContainer .card-body").find("div.checkbox-wrapper").remove();
+
+                let uniqueTLs = {};
+
+                data.forEach(function (row, index) {
+                    $('#agentListContainer .card-body').append(
+                        `<div class="checkbox-wrapper" style="margin-bottom: 6px; display: flex; align-items: center;">
+                            <input type="checkbox" id="agent_${index}" value="${row.empCode}" data-email="${row.empemails}" style="margin-right: 8px; transform: scale(1.2);" />
+                            <label for="agent_${index}" style="font-size: 15px;margin-top: 12px;margin-left: 13px; font-weight: 500;">${row.empName}</label>
+                                                   </div>`
+                    );
+
+                    if (!uniqueTLs[row.tL_Code]) {
+                        uniqueTLs[row.tL_Code] = row.tL_Name;
+                        $('#tlListContainer .card-body').append(
+                            `<div class="checkbox-wrapper" style="margin-bottom: 6px; display: flex; align-items: center;">
+                                <input type="checkbox" id="tl_${row.tL_Code}" value="${row.tL_Code}" data-email="${row.tlemail}" style="margin-right: 8px; transform: scale(1.2);" />
+                                <label for="tl_${row.tL_Code}" style="font-size: 15px;margin-top: 12px;margin-left: 13px; font-weight: 500;">${row.tL_Name}</label>
+                                                             </div>`
+                        );
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+    }
+
+    function onProgramChange() {
+        const programId = $('#ProgramID').val();
+        if (programId === "") {
+            alert("Please Select Program first");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Admin/GetSUBProcessList",
+            data: JSON.stringify({ id: programId }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                const dropdown = $('#SUBProgramID');
+                dropdown.empty();
+                dropdown.append('<option value="">Select Sub Process</option>');
+                response.proces.forEach(function (item) {
+                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+    }
+</script>

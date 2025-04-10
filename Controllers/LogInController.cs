@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QMS.DataBaseService;
 using QMS.Models;
+using System.Data;
 
 namespace QMS.Controllers
 {
@@ -138,5 +139,55 @@ namespace QMS.Controllers
         {
             return View();
         }
+        public IActionResult DownloadAttachment(string fileName)
+        {
+            // Fetch file from DB using the filename
+            DataTable dt = _login.GetNotificationByIser(UserInfo.UserName).Result;
+            var fileRow = dt.AsEnumerable().FirstOrDefault(r => r["AttachmentFileName"].ToString() == fileName);
+
+            if (fileRow != null)
+            {
+                byte[] fileBytes = (byte[])fileRow["Files"];
+                return File(fileBytes, "application/octet-stream", fileName);
+            }
+
+            return NotFound();
+        }
+
+        [HttpGet]
+        public async  Task<IActionResult> NotificationClosed()
+        {
+            await _login.EndNotificationByuser(UserInfo.UserName);
+
+            return Ok("Success");
+        }
+
+        public async Task<IActionResult> GetNotification()
+        {
+            DataTable dt = await _login.GetNotificationByIser(UserInfo.UserName);
+
+            if (dt.Rows.Count > 0)
+            {
+                var row = dt.Rows[0];
+                string fileString = row["Files"]?.ToString();
+                var result = new
+                {
+                    UserCode = row["UserCode"].ToString(),
+                    Subject = row["Subject"].ToString(),
+                    Body = row["Body"].ToString(),
+                    attachmentFileName = row["AttachmentFileName"].ToString(),
+                    fileBase64 = fileString // Already a string
+                };
+
+                return Json(result);
+            }
+
+            return Json(null);
+        }
+
+
+
+
+
     }
 }

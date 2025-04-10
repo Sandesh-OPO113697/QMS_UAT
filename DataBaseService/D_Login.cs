@@ -566,7 +566,59 @@ namespace QMS.DataBaseService
                 return 0;
             }
         }
+        public async Task<DataTable> GetNotificationByIser(string UserID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection cc = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await cc.OpenAsync();
+                   
+                    SqlCommand cmd = new SqlCommand("UpdateManagement", cc);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@EmpCode", UserID);
+                    cmd.Parameters.AddWithValue("@Operation", "getNotification");
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    adpt.Fill(dt);
+                    await cc.CloseAsync();
+                    
 
+                }
+            }
+            catch (Exception ex)
+            {
+                return dt;
+            }
+            return dt;
+        }
+
+
+        public async Task EndNotificationByuser(string UserID)
+        {
+           
+            try
+            {
+                using (SqlConnection cc = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await cc.OpenAsync();
+
+                    SqlCommand cmd = new SqlCommand("UpdateManagement", cc);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@EmpCode", UserID);
+                    cmd.Parameters.AddWithValue("@Operation", "RemovegetNotification");
+                    await cmd.ExecuteNonQueryAsync();
+                    await cc.CloseAsync();
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+              
+            }
+          
+        }
 
     }
 }

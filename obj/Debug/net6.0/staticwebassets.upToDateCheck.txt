@@ -120,6 +120,7 @@ wwwroot\js\simplebar.min.js
 wwwroot\js\tinycolor-min.js
 wwwroot\js\topojson.min.js
 wwwroot\js\uppy.min.js
+wwwroot\js\xlsx.full.min.js
 wwwroot\lib\bootstrap\dist\css\bootstrap.css
 wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap.min.css

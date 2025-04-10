@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "cT5eIYkXI6kH9Zt+mJ03xppUSRR/icQTRNOSpTGSQDs=",
+  "Hash": "CyOsonhqrc+b02DhCX97O/+aVpGJSTDDeVpSmi2q9vI=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -2619,6 +2619,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\uppy.min.js"
+    },
+    {
+      "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\xlsx.full.min.js",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "js/xlsx.full.min#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "15mzku7kxk",
+      "Integrity": "K2mPzYpre1TGClZesgKpOcS8MQeQScxQwq89fbqJ6wA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\xlsx.full.min.js"
     },
     {
       "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
@@ -13887,6 +13908,88 @@
       ]
     },
     {
+      "Route": "js/xlsx.full.min.15mzku7kxk.js",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\xlsx.full.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "778378"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"K2mPzYpre1TGClZesgKpOcS8MQeQScxQwq89fbqJ6wA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 10 Apr 2025 13:28:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "15mzku7kxk"
+        },
+        {
+          "Name": "label",
+          "Value": "js/xlsx.full.min.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-K2mPzYpre1TGClZesgKpOcS8MQeQScxQwq89fbqJ6wA="
+        }
+      ]
+    },
+    {
+      "Route": "js/xlsx.full.min.js",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\xlsx.full.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "778378"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"K2mPzYpre1TGClZesgKpOcS8MQeQScxQwq89fbqJ6wA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 10 Apr 2025 13:28:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-K2mPzYpre1TGClZesgKpOcS8MQeQScxQwq89fbqJ6wA="
+        }
+      ]
+    },
+    {
       "Route": "lib/bootstrap/dist/css/bootstrap.css",
       "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "Selectors": [],
@@ -18583,7 +18686,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 13:14:27 GMT"
+          "Value": "Thu, 10 Apr 2025 13:30:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -18620,7 +18723,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 13:14:27 GMT"
+          "Value": "Thu, 10 Apr 2025 13:30:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -18665,7 +18768,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 13:14:27 GMT"
+          "Value": "Thu, 10 Apr 2025 13:30:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -18710,7 +18813,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 13:14:27 GMT"
+          "Value": "Thu, 10 Apr 2025 13:30:47 GMT"
         },
         {
           "Name": "Cache-Control",
