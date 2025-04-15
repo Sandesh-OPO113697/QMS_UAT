@@ -22,7 +22,7 @@ namespace QMS.DataBaseService
 
             _enc = dL_Encrpt;
         }
-        public async Task SubmiteDisputeAkowedge(string QaComment,   string calibration , string TransactionID,  string CQscore)
+        public async Task SubmiteDisputeAkowedge(string QaComment, string calibration, string TransactionID, string CQscore)
         {
 
             try
@@ -67,7 +67,7 @@ namespace QMS.DataBaseService
                     }
                 }
 
-               
+
 
             }
             catch (Exception ex)
@@ -104,7 +104,7 @@ namespace QMS.DataBaseService
 
             }
             string Email = dt2.Rows[0]["Email"].ToString();
-            await SendEmailAsync(Email , "Your Score Is Recalculated");
+            await SendEmailAsync(Email, "Your Score Is Recalculated");
         }
         public async Task<bool> SendEmailAsync(string recipientEmails, string Massage)
         {
@@ -174,7 +174,7 @@ namespace QMS.DataBaseService
             }
             return dt;
         }
-        public async Task<int> UpdateSectionByQAEvaluation(List<SectionAuditModel> model , string TransactionID)
+        public async Task<int> UpdateSectionByQAEvaluation(List<SectionAuditModel> model, string TransactionID)
         {
             try
             {
@@ -182,16 +182,16 @@ namespace QMS.DataBaseService
                 {
                     await conn.OpenAsync();
 
-                     using (SqlCommand cmd = new SqlCommand("UpdateSectionEvaluation", conn))
-                        {
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.AddWithValue("@Operation", "DeleteData");
+                    using (SqlCommand cmd = new SqlCommand("UpdateSectionEvaluation", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "DeleteData");
                         cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
 
 
                         await cmd.ExecuteNonQueryAsync();
-                        }
-                   
+                    }
+
                 }
 
                 using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
@@ -299,6 +299,148 @@ namespace QMS.DataBaseService
             return distinctAuditDetailsList;
 
         }
+
+
+        public async Task<List<ZTcaseModel>> ZtcaseShow()
+        {
+            DataTable dt = new DataTable();
+            List<ZTcaseModel> list = new List<ZTcaseModel>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("AgentSurvey", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Mode", "ZT_Case_Qa_manager");
+                        cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+               
+                foreach (DataRow row in dt.Rows)
+                {
+                    ZTcaseModel model = new ZTcaseModel
+                    {
+                      
+                       
+                        ProgramID = row["ProgramID"]?.ToString(),
+                        SubProgramID = row["SubProgramID"]?.ToString(),
+                        AgentName = row["AgentName"]?.ToString(),
+                        EmployeeID = row["EmployeeID"]?.ToString(),
+                        AgentSupervsor = row["AgentSupervsor"]?.ToString(),
+                        ZTRaisedBy = row["ZTRaisedBy"]?.ToString(),
+                        ZTRaisedDate = row["ZTRaisedDate"]?.ToString(),
+                        TransactionDate = row["TransactionDate"]?.ToString(),
+                        ZTClassification = row["ZTClassification"]?.ToString(),
+                        TransactionID = row["TransactionID"]?.ToString(),
+                    };
+
+                    list.Add(model);
+                }
+            }
+            catch (Exception ex)
+            {
+               
+            }
+
+            return list;
+        }
+
+        public async Task<DataTable> GetQaManagerZtCaseViewDetails(string TransactionID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("ZtViewDetails", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Mode", "GetManagerView");
+                        cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
+
+        public async Task SubmiteQaManagerApprove(string Comment, String ZTHistory, string TransactionID)
+        {
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("ZtViewDetails", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@QaManagerComment", Comment);
+                        cmd.Parameters.AddWithValue("@ZTHistory", ZTHistory);
+                        cmd.Parameters.AddWithValue("@Mode", "UpdateQaManagerApproveComment");
+                        cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
+                        cmd.ExecuteNonQueryAsync();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+
+        public async Task SubmiteQaManagerReject(string Comment, String ZTHistory, string TransactionID)
+        {
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("ZtViewDetails", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@QaManagerComment", Comment);
+                        cmd.Parameters.AddWithValue("@ZTHistory", ZTHistory);
+                        cmd.Parameters.AddWithValue("@Mode", "UpdateQaManagerRejectComment");
+                        cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
+                        cmd.ExecuteNonQueryAsync();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+
+
+
 
     }
 }

@@ -1,0 +1,122 @@
+﻿@model ZtPanelHrCase
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Pending Zt Case Panel</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ProgramID</th>
+                    <th>SubProgramID</th>
+                    <th>AgentName</th>
+                    <th>EmployeeID</th>
+                    <th>AgentSupervsor</th>
+                    <th>ZTRaisedBy</th>
+                    <th>ZTRaisedDate</th>
+                    <th>TransactionDate</th>
+                    <th>ZTClassification</th>
+                    <th>TransactionID</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.PanelList != null && Model.PanelList.Any())
+                {
+                    @foreach (var item in Model.PanelList)
+                    {
+                        <tr>
+                            <td>@item.ProgramID</td>
+                            <td>@item.SubProgramID</td>
+                            <td>@item.AgentName</td>
+                            <td>@item.EmployeeID</td>
+                            <td>@item.AgentSupervsor</td>
+                            <td>@item.ZTRaisedBy</td>
+                            <td>@item.ZTRaisedDate</td>
+                            <td>@item.TransactionDate</td>
+                            <td>@item.ZTClassification</td>
+                            <td>@item.TransactionID</td>
+
+                            <td>
+                                <a href="/HR/PanelCases?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No pending Zt Cases.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="card-header">
+        <strong class="card-title">Pending Zt Case HR</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ProgramID</th>
+                    <th>SubProgramID</th>
+                    <th>AgentName</th>
+                    <th>EmployeeID</th>
+                    <th>AgentSupervsor</th>
+                    <th>ZTRaisedBy</th>
+                    <th>ZTRaisedDate</th>
+                    <th>TransactionDate</th>
+                    <th>ZTClassification</th>
+                    <th>TransactionID</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ZTcaseHrList != null && Model.ZTcaseHrList.Any())
+                {
+                    @foreach (var item in Model.ZTcaseHrList)
+                    {
+                        <tr>
+                            <td>@item.ProgramID</td>
+                            <td>@item.SubProgramID</td>
+                            <td>@item.AgentName</td>
+                            <td>@item.EmployeeID</td>
+                            <td>@item.AgentSupervsor</td>
+                            <td>@item.ZTRaisedBy</td>
+                            <td>@item.ZTRaisedDate</td>
+                            <td>@item.TransactionDate</td>
+                            <td>@item.ZTClassification</td>
+                            <td>@item.TransactionID</td>
+
+                            <td>
+                                <a href="/HR/HrZtCases?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No pending Zt Cases.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+</div>

@@ -1,8 +1,10 @@
-﻿@{
+﻿@model DisputeFeedbackViewModel
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model List<DisputeCallfeedbackModel>
+ 
 
 <div class="card shadow mb-4">
     <div class="card-header">
@@ -20,9 +22,9 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null && Model.Any())
+                @if (Model.DisputeList != null && Model.DisputeList.Any())
                 {
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.DisputeList)
                     {
                         <tr>
                             <td>@item.TransactionID</td>
@@ -46,7 +48,66 @@
             </tbody>
         </table>
     </div>
+
+
+    <div class="card-header">
+        <strong class="card-title">ZT Cases QA Manager View</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ProgramID</th>
+                    <th>SubProgramID</th>
+                    <th>AgentName</th>
+                    <th>EmployeeID</th>
+                    <th>AgentSupervsor</th>
+                    <th>ZTRaisedBy</th>
+                    <th>ZTRaisedDate</th>
+                    <th>TransactionDate</th>
+                    <th>ZTClassification</th>
+                    <th>TransactionID</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ZTcaseList != null && Model.ZTcaseList.Any())
+                {
+                    @foreach (var item in Model.ZTcaseList)
+                    {
+                        <tr>
+                            <td>@item.ProgramID</td>
+                            <td>@item.SubProgramID</td>
+                            <td>@item.AgentName</td>
+                            <td>@item.EmployeeID</td>
+                            <td>@item.AgentSupervsor</td>
+                            <td>@item.ZTRaisedBy</td>
+                            <td>@item.ZTRaisedDate</td>
+                            <td>@item.TransactionDate</td>
+                            <td>@item.ZTClassification</td>
+                            <td>@item.TransactionID</td>
+                          
+                            <td>
+                                <a href="/QAManager/ZeroTolerance?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No pending Zt Cases.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
 </div>
+<<<<<<< HEAD
 
 @await Html.PartialAsync("_MailModal")
 <script src="~/js/xlsx.full.min.js"></script>
@@ -161,3 +222,6 @@
         });
 </script>
 
+=======
+ 
+>>>>>>> c4e038a (Camplaince)

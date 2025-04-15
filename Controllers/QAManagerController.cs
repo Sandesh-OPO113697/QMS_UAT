@@ -20,6 +20,8 @@ namespace QMS.Controllers
             this.dl_FormBuilder = dl_FormBuilder;
         }
 
+
+
         [HttpPost]
         public async Task<JsonResult> InsertSectionAudit([FromBody] List<SectionAuditModel> sectionData)
         {
@@ -29,7 +31,7 @@ namespace QMS.Controllers
             {
                 return Json(new { success = false, message = "No data received" });
             }
-            var result = await dl_qa.UpdateSectionByQAEvaluation(sectionData , TransactionID);
+            var result = await dl_qa.UpdateSectionByQAEvaluation(sectionData, TransactionID);
             if (result == 1)
             {
                 return Json(new { success = true, message = "Ok" });
@@ -40,8 +42,11 @@ namespace QMS.Controllers
             }
         }
 
+
+
+
         [HttpPost]
-        public async Task<IActionResult> SubmitDisputeFeedbackByQA(string comment, string calibration , string totalScore)
+        public async Task<IActionResult> SubmitDisputeFeedbackByQA(string comment, string calibration, string totalScore)
         {
             if (string.IsNullOrEmpty(comment))
             {
@@ -50,17 +55,29 @@ namespace QMS.Controllers
             else
             {
                 string TransactionID = TempData["TransactionID_Dispute"].ToString();
-                await dl_qa.SubmiteDisputeAkowedge(comment, calibration ,  TransactionID , totalScore);
+                await dl_qa.SubmiteDisputeAkowedge(comment, calibration, TransactionID, totalScore);
                 return Json(new { success = true, message = "Dispute has been Done...." });
             }
 
 
         }
 
+
+
         public async Task<IActionResult> Dashboard()
         {
-            List<DisputeCallfeedbackModel> List= await dl_qa.DisputeAgentFeedback();
-            return View(List);
+
+
+            List<DisputeCallfeedbackModel> List = await dl_qa.DisputeAgentFeedback();
+            List<ZTcaseModel> ZTlist = await dl_qa.ZtcaseShow();
+
+            var viewModel = new DisputeFeedbackViewModel
+            {
+                DisputeList = List,
+                ZTcaseList = ZTlist
+            };
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> EditAgentFeedBack(string TransactionID)
@@ -70,7 +87,7 @@ namespace QMS.Controllers
             DataTable dt1 = await dl_Agent.getPrrocessAndSubProcess(TransactionID);
             string processID = dt1.Rows[0]["ProgramID"].ToString();
             string SUBprocessID = dt1.Rows[0]["SubProgramID"].ToString();
-          ViewBag.Agent_Comment = dt1.Rows[0]["Agent_Comment"].ToString();
+            ViewBag.Agent_Comment = dt1.Rows[0]["Agent_Comment"].ToString();
             var dataTable = await dl_qa.GetMonitporedSectionGriedAsync(Convert.ToInt32(processID), Convert.ToInt32(SUBprocessID));
             var sectionList = dataTable.AsEnumerable().Select(row => new MonitoredSectionGridModel
             {
@@ -83,7 +100,7 @@ namespace QMS.Controllers
                 Weightage = row.Field<string>("Weightage"),
                 Commentssection = row.Field<string>("Commentssection")
 
-            
+
             }).ToList();
 
 
@@ -109,5 +126,82 @@ namespace QMS.Controllers
             return View(viewModel);
 
         }
+        public async Task<IActionResult> ZeroTolerance(string TransactionID)
+        {
+            TempData["TtransactionID"] = TransactionID;
+
+
+
+            DataTable dt = await dl_qa.GetQaManagerZtCaseViewDetails(TransactionID);
+            DataTable dt12 = await dl_Agent.getCQScoreQADisputeSection(TransactionID);
+            byte[] audioBytes = dt12.Rows[0]["AudioData"] as byte[];
+            if (audioBytes != null)
+            {
+                string base64Audio = Convert.ToBase64String(audioBytes);
+                ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+            }
+
+
+            string ProgramID = dt.Rows[0]["ProgramID"].ToString();
+            string SubProgramID = dt.Rows[0]["SubProgramID"].ToString();
+            string AgentName = dt.Rows[0]["AgentName"].ToString();
+            string EmployeeID = dt.Rows[0]["EmployeeID"].ToString();
+            string AgentSupervsor = dt.Rows[0]["AgentSupervsor"].ToString();
+            string ZTRaisedBy = dt.Rows[0]["ZTRaisedBy"].ToString();
+            string ZTRaisedDate = dt.Rows[0]["ZTRaisedDate"].ToString();
+            string TransactionDate = dt.Rows[0]["TransactionDate"].ToString();
+            string ZTClassification = dt.Rows[0]["ZTClassification"].ToString();
+
+            ViewBag.ProgramID = ProgramID;
+            ViewBag.SubProgramID = SubProgramID;
+            ViewBag.AgentName = AgentName;
+            ViewBag.EmployeeID = EmployeeID;
+            ViewBag.AgentSupervsor = AgentSupervsor;
+            ViewBag.ZTRaisedBy = ZTRaisedBy;
+            ViewBag.ZTRaisedDate = ZTRaisedDate;
+            ViewBag.TransactionDate = TransactionDate;
+            ViewBag.ZTClassification = ZTClassification;
+
+
+            return View();
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> SubmiQaManagerStatusApprove(string comment, string ZTHistory)
+        {
+            if (string.IsNullOrEmpty(comment))
+            {
+                return Json(new { success = false, message = "Comment cannot be empty." });
+            }
+            else
+            {
+                string TransactionID = TempData["TtransactionID"].ToString();
+                await dl_qa.SubmiteQaManagerApprove(comment, ZTHistory, TransactionID);
+                return Json(new { success = true, message = "QA Manager Approved Successfully...." });
+            }
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SubmiQaManagerStatusReject(string comment, string ZTHistory)
+        {
+            if (string.IsNullOrEmpty(comment))
+            {
+                return Json(new { success = false, message = "Comment cannot be empty." });
+            }
+            else
+            {
+                string TransactionID = TempData["TtransactionDisputeID"].ToString();
+                await dl_qa.SubmiteQaManagerReject(comment, ZTHistory, TransactionID);
+                return Json(new { success = true, message = "QA Manager Reject Successfully...." });
+            }
+
+        }
+
     }
+
+
 }

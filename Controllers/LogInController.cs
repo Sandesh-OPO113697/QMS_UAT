@@ -107,6 +107,17 @@ namespace QMS.Controllers
                         HttpContext.Session.SetString("UserType", "QA Manager");
                         return RedirectToAction("Dashboard", "QAManager");
                     }
+                    else if (UserInfo.UserType == "Operation Manager")
+                    {
+                        HttpContext.Session.SetString("UserType", "Operation Manager");
+                        return RedirectToAction("Dashboard", "Operation");
+                    }
+
+                    else if (UserInfo.UserType == "HR")
+                    {
+                        HttpContext.Session.SetString("UserType", "HR");
+                        return RedirectToAction("Dashboard", "HR");
+                    }
 
                     else if (UserInfo.UserType == "Agent")
                     {
