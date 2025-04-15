@@ -64,6 +64,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWdlbnRcRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/HR/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/HR/HrZtCases.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcSHJadENhc2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/HR/PanelCases.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcUGFuZWxDYXNlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/LogIn/Unauthorized.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9nSW5cVW5hdXRob3JpemVkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -136,12 +148,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9uaXRvclxDYWxsTW9uaXRvci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/Operation/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/Operation/OperationZtCase.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXE9wZXJhdGlvblp0Q2FzZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/QAManager/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXERhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/QMS_MVC_CORE/Views/QAManager/EditAgentFeedBack.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXEVkaXRBZ2VudEZlZWRCYWNrLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/QAManager/ZeroTolerance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXFplcm9Ub2xlcmFuY2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/QMS_MVC_CORE/Views/Sampling/DashBoard.cshtml]

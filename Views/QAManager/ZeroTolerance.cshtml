@@ -1,0 +1,184 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-md-12 my-4" id="AuditDiv">
+    <div class="card shadow" style="border-radius: 10px; border: 1px solid #ddd;">
+        <div class="card-body" style="padding: 20px;">
+            <h5 class="card-title" style="font-weight: bold; color: #24294a;">QA Manager View</h5>
+
+        
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="Program">Program</label>
+                    <input type="text" class="form-control" id="Program" value="@ViewBag.ProgramID" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="SubProgram">SubProgram</label>
+                    <input type="text" class="form-control" id="SubProgram" value="@ViewBag.SubProgramID" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="AgentName">Agent Name</label>
+                    <input type="text" class="form-control" id="AgentName" value="@ViewBag.AgentName" readonly>
+                </div>
+            </div>
+
+           
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="EmployeeID">Employee ID</label>
+                    <input type="text" class="form-control" id="EmployeeID" value="@ViewBag.EmployeeID" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="AgentSupervsor">Agent Supervisor</label>
+                    <input type="text" class="form-control" id="AgentSupervsor" value="@ViewBag.AgentSupervsor" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="Raiseddate">Raised Date</label>
+                    <input type="text" class="form-control" id="Raiseddate" value="@ViewBag.ZTRaisedDate" readonly>
+                </div>
+            </div>
+
+         
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="Transactiondate">Transaction Date</label>
+                    <input type="text" class="form-control" id="Transactiondate" value="@ViewBag.TransactionDate" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="ZTClasification">ZT Classification</label>
+                    <input type="text" class="form-control" id="ZTClasification" value="@ViewBag.ZTClassification" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="ZTHistory">ZT History</label>
+                    <input type="text" class="form-control" id="ZTHistory" placeholder="Enter your ZT History">
+                </div>
+            </div>
+
+          
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="QAComments">QA Comments</label>
+                    <input type="text" class="form-control" id="QAComments" value="@ViewBag.SubProgramID" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="QAManagerComments">QA Manager Comments</label>
+                    <input type="text" class="form-control" id="QAManagerComments" placeholder="Enter your comments">
+                </div>
+                
+            </div>
+
+            <div class="row" style="margin-top: 15px;">
+                <div class="form-group col-md-12">
+                    <label for="QAComments" style="font-weight: 600; color: #24294a; font-size: 16px; display: block; margin-bottom: 8px;">
+                        Voice Feedback
+                    </label>
+
+                    <div style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #f8f9fa; text-align: center;">
+                        @if (!string.IsNullOrEmpty(ViewBag.AudioData))
+                        {
+                            <audio controls style="width: 100%; max-width: 400px;">
+                                <source src="@ViewBag.AudioData" type="audio/wav">
+                                Your browser does not support the audio element.
+                            </audio>
+                        }
+                        else
+                        {
+                            <p style="color: #777; font-style: italic;">No audio available.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+         
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <button type="submit" onclick="submitApprove()"
+                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                        Approve
+                    </button>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <button type="submit" onclick="submitReject()"
+                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                        Reject
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/js/jquery.min.js"></script>
+
+<script>
+        function submitApprove() {
+        var QAManagerComments = $("#QAManagerComments").val(); 
+        var ZTHistory = $("#ZTHistory").val();
+
+        if (QAManagerComments.trim() === "") {
+            alert("Please enter a comment.");
+            return;
+        }
+
+        $.ajax({
+            url: '/QAManager/SubmiQaManagerStatusApprove',
+            type: 'POST',
+            data: {
+                comment: QAManagerComments,
+                ZTHistory: ZTHistory
+            },
+            success: function (response) {
+                alert(response.message);
+                $("#QAManagerComments").val("");
+                $("#ZTHistory").val("");
+
+                if (response.success) {
+                    window.location.href = '/Agent/Dashboard';
+                }
+            },
+            error: function () {
+                alert("Error submitting the comment.");
+            }
+        });
+    }
+
+     function submitReject() {
+        var QAManagerComments = $("#QAManagerComments").val();
+        var ZTHistory = $("#ZTHistory").val();
+
+        if (QAManagerComments.trim() === "") {
+            alert("Please enter a comment.");
+            return;
+        }
+
+        $.ajax({
+            url: '/QAManager/SubmiQaManagerStatusReject',
+            type: 'POST',
+            data: {
+                comment: QAManagerComments,
+                ZTHistory: ZTHistory
+            },
+            success: function (response) {
+                alert(response.message);
+                $("#QAManagerComments").val("");
+                $("#ZTHistory").val("");
+
+                if (response.success) {
+                    window.location.href = '/Agent/Dashboard';
+                }
+            },
+            error: function () {
+                alert("Error submitting the comment.");
+            }
+        });
+    }
+
+</script>

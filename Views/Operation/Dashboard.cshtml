@@ -4,60 +4,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
- 
+
 
 <div class="card shadow mb-4">
     <div class="card-header">
-        <strong class="card-title">Pending Feedback Dispute</strong>
+        <strong class="card-title">Pending ZT Case View</strong>
     </div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Transaction ID</th>
-                    <th>AgentID</th>
-                    <th>TL Name</th>
-                    <th>Monitor By</th>
-                    <th>View</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.DisputeList != null && Model.DisputeList.Any())
-                {
-                    @foreach (var item in Model.DisputeList)
-                    {
-                        <tr>
-                            <td>@item.TransactionID</td>
-                            <td>@item.AgentID</td>
-                            <td>@item.TLName</td>
-                            <td>@item.MonitorBy</td>
-                            <td>
-                                <a href="/QAManager/EditAgentFeedBack?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
-                                    View
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="5" class="text-center">No pending feedback.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+    
 
 
     <div class="card-header">
-        <strong class="card-title">ZT Cases QA Manager View</strong>
+        <strong class="card-title">ZT Cases</strong>
     </div>
     <div class="card-body">
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ProgramID</th>
+                    <th>ProgramIDrrrr</th>
                     <th>SubProgramID</th>
                     <th>AgentName</th>
                     <th>EmployeeID</th>
@@ -86,9 +49,9 @@
                             <td>@item.TransactionDate</td>
                             <td>@item.ZTClassification</td>
                             <td>@item.TransactionID</td>
-                          
+
                             <td>
-                                <a href="/QAManager/ZeroTolerance?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
+                                <a href="/Operation/OperationZtCase?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
                                     View
                                 </a>
                             </td>
@@ -108,9 +71,3 @@
 
 </div>
 
-
-<script src="~/js/jquery.min.js"></script>
-@await Html.PartialAsync("_MailModal")
-<script src="~/js/xlsx.full.min.js"></script>
-
-<script src="~/js/notification.js"></script>
