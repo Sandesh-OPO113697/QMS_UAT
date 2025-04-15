@@ -14,77 +14,7 @@
         </span>
     </div>
 }
-@* 
-<form class="AdminCreateio">
-    <div class="col-md-12 my-4">
-        <div class="card shadow">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label for="custom-select-1">Select Role</label>
-                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Role", new { @class = "custom-select", id = "ID", onchange = "OnRoleChange(this)" })
-                            <input type="hidden" id="UserName" name="UserName" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label for="custom-select-1">Select Feature</label>
-                            @foreach (var item in ViewBag.Feature as List<FeatureWithSubFeatures>)
-                            {
-                                <div>
 
-                                    <input type="checkbox"
-                                           name="selectedProcesses"
-                                           value="@item.FeatureValue"
-                                           id="feature-@item.FeatureValue"
-                                           class="process-checkbox"
-                                           onchange="onFeatureCheckboxChange(this)" />
-                                    <label for="feature-@item.FeatureValue">@item.FeatureName</label>
-
-
-                                    <div class="sub-features-container" id="subFeatures-@item.FeatureValue" style="margin-left: 20px; display: none;">
-                                        @foreach (var subFeature in item.SubFeatures)
-                                        {
-                                            <div>
-                                                <input type="checkbox"
-                                                       name="subFeature-@item.FeatureValue"
-                                                       value="@subFeature.SubFeatureValue"
-                                                       id="subFeature-@subFeature.SubFeatureValue"
-                                                       class="sub-feature-checkbox" />
-                                                <label for="subFeature-@subFeature.SubFeatureValue">@subFeature.SubFeatureName</label>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            }
-                        </div>
-
-                       
-                           
-                            
-                       
-                     
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group mb-3 ">
-                            <label for="custom-select-1">Feture Module</label>
-                            <div id="checkbox-container">
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-2 my-4">
-        <div class="card-body d-flex justify-content-center align-items-center">
-            <button class="btn btn-primary" type="submit">Submit</button>
-        </div>
-    </div>
-</form> *@
 
 <form class="AdminCreateio">
     <div class="col-md-12 my-4">
@@ -93,8 +23,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="custom-select-1">Select Role</label>
-                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Role", new { @class = "custom-select", id = "ID", onchange = "OnRoleChange(this)" })
+                            <label for="custom-select-1">Select Role</label> <span style="color:red">*</span>
+                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Role", new { @class = "custom-select", id = "ID", onchange = "OnRoleChange(this)", required = "required" })
                             <input type="hidden" id="UserName" name="UserName" />
                         </div>
                     </div>

@@ -183,7 +183,7 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "28":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("Dashboard", "UpdateManagement", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
                         case "29":
                             return RedirectToAction("ManageModule");
                         case "30":

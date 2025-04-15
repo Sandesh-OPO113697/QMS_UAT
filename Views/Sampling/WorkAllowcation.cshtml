@@ -9,25 +9,25 @@
             <h5 class="card-title">Work allocation  </h5>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="ProgramID">Audit Type</label>
-                    @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", onchange = "AuditType()" })
+                    <label for="ProgramID">Audit Type</label> <span style="color:red">*</span>
+                    @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", onchange = "AuditType()", required = "required" })
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="ProgramID">Select Location</label>
-                    @Html.DropDownList("LocationID", (List<SelectListItem>)ViewBag.LocationName, "Select Location", new { @class = "custom-select", id = "LocationID", })
+                    <label for="ProgramID">Select Location</label> <span style="color:red">*</span>
+                    @Html.DropDownList("LocationID", (List<SelectListItem>)ViewBag.LocationName, "Select Location", new { @class = "custom-select", id = "LocationID", required = "required" })
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="ProgramID">Select Role</label>
-                    @Html.DropDownList("RoleID", (List<SelectListItem>)ViewBag.RoleList, "Select Role", new { @class = "custom-select", id = "RoleID", })
+                    <label for="ProgramID">Select Role</label> <span style="color:red">*</span>
+                    @Html.DropDownList("RoleID", (List<SelectListItem>)ViewBag.RoleList, "Select Role", new { @class = "custom-select", id = "RoleID",  required = "required" })
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="ProgramID">Select Program</label>
-                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" })
+                    <label for="ProgramID">Select Program</label> <span style="color:red">*</span>
+                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" })
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="SUBProgramID">Sub Program Name</label>
-                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()">
+                    <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()" required>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
@@ -47,23 +47,23 @@
         <div class="card-body">
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Agent HC</label>
-                    <input type="number" id="Agent" class="custom-select" oninput="syncValue()" />
+                    <label for="SamplingSize">Agent HC</label> <span style="color:red">*</span>
+                    <input type="number" required id="Agent" required class="custom-select" oninput="syncValue()" />
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">QA HC</label>
-                    <input type="text" id="qa" class="custom-select" />
+                    <label for="SamplingSize">QA HC</label> <span style="color:red">*</span>
+                    <input type="text" required id="qa" class="custom-select" />
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Ops TL HC</label>
-                    <input type="text" id="tl" class="custom-select" />
+                    <label for="SamplingSize">Ops TL HC</label> <span style="color:red">*</span>
+                    <input type="text" required id="tl" class="custom-select" />
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Define Target/Agent/Month</label>
-                    <select name="target" id="target" class="custom-select" onchange="OnChnageMonth(this);">
+                    <label for="SamplingSize">Define Target/Agent/Month</label> <span style="color:red">*</span>
+                    <select name="target" id="target" class="custom-select" onchange="OnChnageMonth(this);" required>
                         <option value="">Select Target</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -78,7 +78,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">No Of Working Days</label>
+                    <label for="SamplingSize">No Of Working Days</label> <span style="color:red">*</span>
                     <input type="number" id="NoOfWorking" class="custom-select" onkeyup="handleWCChange(this)" />
                 </div>
             </div>
@@ -96,26 +96,26 @@
             <h5 class="card-title">Regular monitoring Audit </h5>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Active Head count</label>
-                    <input type="number" id="R_G_Active_Head_count" class="custom-select" onkeyup="handleHCChange(this)" />
+                    <label for="SamplingSize">Active Head count</label> <span style="color:red">*</span>
+                    <input type="number" required id="R_G_Active_Head_count" class="custom-select" onkeyup="handleHCChange(this)" />
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Audit sampling/Month</label>
-                    <input type="text" id="R_G_Audit_sampling_Month" class="custom-select" readonly />
+                    <label for="SamplingSize">Audit sampling/Month</label> <span style="color:red">*</span>
+                    <input type="text" required id="R_G_Audit_sampling_Month" class="custom-select" readonly />
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">#Of QA</label>
-                    <input type="text" id="R_G_of-qa" class="custom-select" onkeyup="handleQAInputChange(this)" />
+                    <label for="SamplingSize">#Of QA</label> <span style="color:red">*</span>
+                    <input type="text" required id="R_G_of-qa" class="custom-select" onkeyup="handleQAInputChange(this)" />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Per QA Monthly  target</label>
-                    <input type="text" id="R_G_Per_QA_Monthly_target" class="custom-select" readonly />
+                    <label for="SamplingSize">Per QA Monthly  target</label> <span style="color:red">*</span>
+                    <input type="text" required  id="R_G_Per_QA_Monthly_target" class="custom-select" readonly />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Per QA Daily Traget</label>
-                    <input type="text" id="R_G_Per_QA_Daily_Traget" class="custom-select" readonly />
+                    <label for="SamplingSize">Per QA Daily Traget</label> <span style="color:red">*</span>
+                    <input type="text" required  id="R_G_Per_QA_Daily_Traget" class="custom-select" readonly />
                 </div>
             </div>
         </div>
@@ -128,30 +128,30 @@
             <h5 class="card-title">Transformation Audit </h5>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Active Head count</label>
-                    <input type="number" id="t_Audit_Active_Head_count" class="custom-select" onkeyup="handleHCChange(this)" />
+                    <label for="SamplingSize">Active Head count</label> <span style="color:red">*</span>
+                    <input type="number" required id="t_Audit_Active_Head_count" class="custom-select" onkeyup="handleHCChange(this)" />
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Audit sampling/Month</label>
-                    <input type="text" id="t_Audit_Audit_sampling_Month" class="custom-select" readonly />
+                    <label for="SamplingSize">Audit sampling/Month</label> <span style="color:red">*</span>
+                    <input type="text" required id="t_Audit_Audit_sampling_Month" class="custom-select" readonly />
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">#Of QA</label>
-                    <input type="text" id="t_Audit_of-qa" class="custom-select" onkeyup="handleQAInputChange(this)" />
+                    <label for="SamplingSize">#Of QA</label> <span style="color:red">*</span>
+                    <input type="text" required id="t_Audit_of-qa" class="custom-select" onkeyup="handleQAInputChange(this)" />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Target (Manual)</label>
-                    <input type="text" id="t_Audit_Target_Manual" class="custom-select" />
+                    <label for="SamplingSize">Target (Manual)</label> <span style="color:red">*</span>
+                    <input type="text" required  id="t_Audit_Target_Manual" class="custom-select" />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Per QA Monthly  target</label>
-                    <input type="text" id="t_Audit_Per_QA_Monthly_target" class="custom-select" readonly />
+                    <label for="SamplingSize">Per QA Monthly  target</label> <span style="color:red">*</span>
+                    <input type="text" required id="t_Audit_Per_QA_Monthly_target" class="custom-select" readonly />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Per QA Daily Traget</label>
-                    <input type="text" id="t_Audit_Per_QA_Daily_Traget" class="custom-select" readonly />
+                    <label for="SamplingSize">Per QA Daily Traget</label> <span style="color:red">*</span>
+                    <input type="text" required  id="t_Audit_Per_QA_Daily_Traget" class="custom-select" readonly />
                 </div>
             </div>
         </div>
@@ -164,30 +164,30 @@
             <h5 class="card-title">Hygiene & Risk Audit </h5>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Active Head count</label>
-                    <input type="text" id="H_R_Audit_Active_Head_count" class="custom-select" onkeyup="handleHCChange(this)" />
+                    <label for="SamplingSize">Active Head count</label> <span style="color:red">*</span>
+                    <input type="text" required id="H_R_Audit_Active_Head_count" class="custom-select" onkeyup="handleHCChange(this)" />
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Audit sampling/Month</label>
-                    <input type="text" id="H_R_Audit_Audit_sampling_Month" class="custom-select" readonly />
+                    <label for="SamplingSize">Audit sampling/Month</label> <span style="color:red">*</span>
+                    <input type="text" required  id="H_R_Audit_Audit_sampling_Month" class="custom-select" readonly />
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">#Of QA</label>
-                    <input type="text" id="H_R_Audit_of-qa" class="custom-select" onkeyup="handleQAInputChange(this)" />
+                    <label for="SamplingSize">#Of QA</label> <span style="color:red">*</span>
+                    <input type="text"  required id="H_R_Audit_of-qa" class="custom-select" onkeyup="handleQAInputChange(this)" />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Target (Manual)</label>
-                    <input type="text" id="H_R_Audit_Target_Manual" class="custom-select" />
+                    <label for="SamplingSize">Target (Manual)</label> <span style="color:red">*</span>
+                    <input type="text" required  id="H_R_Audit_Target_Manual" class="custom-select" />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Per QA Monthly  target</label>
-                    <input type="text" id="H_R_Audit_Per_QA_Monthly_target" class="custom-select" readonly />
+                    <label for="SamplingSize">Per QA Monthly  target</label> <span style="color:red">*</span>
+                    <input type="text"  required id="H_R_Audit_Per_QA_Monthly_target" class="custom-select" readonly />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="SamplingSize">Per QA Daily Traget</label>
-                    <input type="text" id="H_R_Audit_Per_QA_Daily_Traget" class="custom-select" readonly />
+                    <label for="SamplingSize">Per QA Daily Traget</label> <span style="color:red">*</span>
+                    <input type="text" required  id="H_R_Audit_Per_QA_Daily_Traget" class="custom-select" readonly />
                 </div>
             </div>
         </div>
@@ -239,14 +239,14 @@
 
         if (document.getElementById("T_Adit").style.display !== "none") {
 
-            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = document.getElementById("t_Audit_Per_QA_Monthly_target").value / input.value
+            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = Math.round( document.getElementById("t_Audit_Per_QA_Monthly_target").value / input.value);
         }
         if (document.getElementById("H_R_Adit").style.display !== "none") {
        
-            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value = document.getElementById("H_R_Audit_Per_QA_Monthly_target").value / input.value
+            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value =Math.round( document.getElementById("H_R_Audit_Per_QA_Monthly_target").value / input.value);
         }
         if (document.getElementById("R_Adit").style.display !== "none") {
-            document.getElementById("R_G_Per_QA_Daily_Traget").value = document.getElementById("R_G_Per_QA_Monthly_target").value / input.value
+            document.getElementById("R_G_Per_QA_Daily_Traget").value = Math.round( document.getElementById("R_G_Per_QA_Monthly_target").value / input.value);
 
         }
     }
@@ -255,33 +255,33 @@
      
         if (document.getElementById("T_Adit").style.display !== "none") {
            
-            document.getElementById("t_Audit_Per_QA_Monthly_target").value = (document.getElementById("t_Audit_Active_Head_count").value * document.getElementById("t_Audit_Audit_sampling_Month").value / input.value);
-            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = ( document.getElementById("t_Audit_Per_QA_Monthly_target").value) / document.getElementById("NoOfWorking").value
+            document.getElementById("t_Audit_Per_QA_Monthly_target").value = Math.round( (document.getElementById("t_Audit_Active_Head_count").value * document.getElementById("t_Audit_Audit_sampling_Month").value / input.value));
+            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = Math.round( ( document.getElementById("t_Audit_Per_QA_Monthly_target").value) / document.getElementById("NoOfWorking").value);
         }
         if (document.getElementById("H_R_Adit").style.display !== "none") {
-            document.getElementById("H_R_Audit_Per_QA_Monthly_target").value = (document.getElementById("H_R_Audit_Active_Head_count").value * document.getElementById("H_R_Audit_Audit_sampling_Month").value) / input.value;
-            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value = ( document.getElementById("H_R_Audit_Per_QA_Monthly_target").value) / document.getElementById("NoOfWorking").value
+            document.getElementById("H_R_Audit_Per_QA_Monthly_target").value = Math.round( (document.getElementById("H_R_Audit_Active_Head_count").value * document.getElementById("H_R_Audit_Audit_sampling_Month").value) / input.value);
+            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value = Math.round( ( document.getElementById("H_R_Audit_Per_QA_Monthly_target").value) / document.getElementById("NoOfWorking").value);
         }
         if (document.getElementById("R_Adit").style.display !== "none") {
-            document.getElementById("R_G_Per_QA_Monthly_target").value = (document.getElementById("R_G_Active_Head_count").value * document.getElementById("R_G_Audit_sampling_Month").value) / input.value;
-            document.getElementById("R_G_Per_QA_Daily_Traget").value = ( document.getElementById("R_G_Per_QA_Monthly_target").value) / document.getElementById("NoOfWorking").value
+            document.getElementById("R_G_Per_QA_Monthly_target").value = Math.round( (document.getElementById("R_G_Active_Head_count").value * document.getElementById("R_G_Audit_sampling_Month").value) / input.value);
+            document.getElementById("R_G_Per_QA_Daily_Traget").value = Math.round( ( document.getElementById("R_G_Per_QA_Monthly_target").value) / document.getElementById("NoOfWorking").value)
         }
     }
     function handleHCChange(input) {
 
         if (document.getElementById("T_Adit").style.display !== "none") {
-            document.getElementById("t_Audit_Per_QA_Monthly_target").value = (input.value * document.getElementById("t_Audit_Audit_sampling_Month").value )/ document.getElementById("t_Audit_of-qa").value;
-            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = document.getElementById("t_Audit_Per_QA_Monthly_target").value / document.getElementById("NoOfWorking").value;
+            document.getElementById("t_Audit_Per_QA_Monthly_target").value =  Math.round( (input.value * document.getElementById("t_Audit_Audit_sampling_Month").value )/ document.getElementById("t_Audit_of-qa").value);
+            document.getElementById("t_Audit_Per_QA_Daily_Traget").value = Math.round(  document.getElementById("t_Audit_Per_QA_Monthly_target").value / document.getElementById("NoOfWorking").value);
             document.getElementById("Agent").value = document.getElementById("t_Audit_Active_Head_count").value;
         }
         if (document.getElementById("H_R_Adit").style.display !== "none") {
-            document.getElementById("H_R_Audit_Per_QA_Monthly_target").value = (input.value * document.getElementById("H_R_Audit_Audit_sampling_Month").value) /document.getElementById("H_R_Audit_of-qa").value;
-            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value = document.getElementById("H_R_Audit_Per_QA_Monthly_target").value / document.getElementById("NoOfWorking").value;
+            document.getElementById("H_R_Audit_Per_QA_Monthly_target").value = Math.round( (input.value * document.getElementById("H_R_Audit_Audit_sampling_Month").value) /document.getElementById("H_R_Audit_of-qa").value);
+            document.getElementById("H_R_Audit_Per_QA_Daily_Traget").value = Math.round( document.getElementById("H_R_Audit_Per_QA_Monthly_target").value / document.getElementById("NoOfWorking").value);
             document.getElementById("Agent").value = document.getElementById("H_R_Audit_Active_Head_count").value;
         }
         if (document.getElementById("R_Adit").style.display !== "none") {
-            document.getElementById("R_G_Per_QA_Monthly_target").value = (input.value * document.getElementById("R_G_Audit_sampling_Month").value)/ document.getElementById("R_G_of-qa").value;
-            document.getElementById("R_G_Per_QA_Daily_Traget").value = document.getElementById("R_G_Per_QA_Monthly_target").value / document.getElementById("NoOfWorking").value;
+            document.getElementById("R_G_Per_QA_Monthly_target").value = Math.round( (input.value * document.getElementById("R_G_Audit_sampling_Month").value)/ document.getElementById("R_G_of-qa").value);
+            document.getElementById("R_G_Per_QA_Daily_Traget").value = Math.round( document.getElementById("R_G_Per_QA_Monthly_target").value / document.getElementById("NoOfWorking").value);
             document.getElementById("Agent").value = document.getElementById("R_G_Active_Head_count").value;
 
         }

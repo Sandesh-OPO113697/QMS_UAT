@@ -30,13 +30,13 @@
                     <!-- First Column -->
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="LocationDropDown">Location Name</label>
-                            @Html.DropDownList("Location_ID", (List<SelectListItem>)ViewBag.Locations, "Select Location", new { @class = "custom-select", id = "Location_ID", onchange = "onLocationChange()" })
+                            <label for="LocationDropDown">Location Name</label>  <span style="color:red">*</span>
+                            @Html.DropDownList("Location_ID", (List<SelectListItem>)ViewBag.Locations, "Select Location", new { @class = "custom-select", id = "Location_ID", onchange = "onLocationChange()", required = "required" })
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="ProgramID">Program Name</label>
-                            <select name="ProgramID" id="ProgramID" class="custom-select" onchange="onProgramChange()">
+                            <label for="ProgramID">Program Name</label>  <span style="color:red">*</span>
+                            <select name="ProgramID" id="ProgramID" class="custom-select" onchange="onProgramChange()" required>
                                 <option value="">Select Process</option>
                             </select>
                         </div>
@@ -45,8 +45,8 @@
                     <!-- Second Column -->
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="TypeProcess">Type Of Process</label>
-                            <select name="TypeProcess" id="TypeProcess" class="custom-select">
+                            <label for="TypeProcess">Type Of Process</label> <span style="color:red">*</span>
+                            <select name="TypeProcess" id="TypeProcess" class="custom-select" required> 
                                 <option value="">Select Process</option>
                                 <option value="Voice">Voice</option>
                                 <option value="Non_Voice">Non Voice</option>
@@ -54,10 +54,10 @@
                         </div>
 
                         <div class="form-group mb-3">
-                           
 
-                            <label for="SubProcess">SubProcess</label>
-                            <input type="text" id="SubProcess" name="SubProcess" autocomplete="off" class="form-control" />
+
+                            <label for="SubProcess">SubProcess</label> <span style="color:red">*</span>
+                            <input type="text" required id="SubProcess" name="SubProcess" autocomplete="off" class="form-control" />
                             <input type="hidden" id="HiddenSubProcessID">
                         </div>
                     </div>
@@ -67,8 +67,8 @@
                     <!-- First Column -->
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="Number_Of_Pause">Number Of Pause</label>
-                            <input type="number" id="Number_Of_Pause" name="Number_Of_Pause" autocomplete="off" class="form-control" />
+                            <label for="Number_Of_Pause">Number Of Pause</label> <span style="color:red">*</span>
+                            <input type="number" required id="Number_Of_Pause" name="Number_Of_Pause" autocomplete="off" class="form-control" />
                         </div>
                     </div>
 
@@ -76,9 +76,10 @@
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label for="fileUpload">Upload Agent List</label>  <small class="form-text text-muted">
-                                <a href="/SampleFile/AgentUpload.xls" download>Download Sample File</a>
+                                <span style="color:red">*</span>
+                                <a href="/SampleFile/AgentUpload.xls"  download>Download Sample File</a>
                             </small>
-                            <input type="file" id="fileUpload" name="file" class="form-control" required />
+                            <input  type="file" id="fileUpload" name="file" class="form-control" required />
                         </div>
                     </div>
                 </div>

@@ -12,26 +12,26 @@
 
 
                 <div class="form-group col-md-6">
-                    <label for="ProgramID">Program Name</label>
+                    <label for="ProgramID">Program Name</label>  <span style="color:red">*</span>
                     @Html.DropDownList(
                              "ProgramID",
                              (List<SelectListItem>)ViewBag.ProcessList,
                              "Select Program",
-                             new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" }
+                             new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" }
                              )
                 </div>
 
 
                 <div class="form-group col-md-6">
-                    <label for="SUBProgramID">Sub Program Name</label>
-                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="GetOldSanpmlingCount()">
+                    <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="GetOldSanpmlingCount()" required>
                         <option value="">Select Process</option>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
 
-                    <label for="confidenceLevel">Confidence Level</label>
-                    <select id="confidenceLevel" class="custom-select">
+                    <label for="confidenceLevel">Confidence Level</label> <span style="color:red">*</span>
+                    <select id="confidenceLevel" class="custom-select" required>
                         <option value="1.28">80%</option>
                         <option value="1.65">90%</option>
                         <option value="1.75">92%</option>
@@ -44,16 +44,16 @@
                 </div>
                 <div class="form-group col-md-6">
 
-                    <label for="marginOfError">Margin of Error (%)</label>
-                    <input type="number" id="marginOfError" placeholder="e.g., 5" value="5" class="form-control" />
+                    <label for="marginOfError">Margin of Error (%)</label> <span style="color:red">*</span>
+                    <input type="number" required id="marginOfError" placeholder="e.g., 5" value="5" class="form-control" />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="stdDev">Population Proportion (%)</label>
-                    <input type="number" id="stdDev" placeholder="e.g., 0.5" value="50" class="form-control" />
+                    <label for="stdDev">Population Proportion (%)</label> <span style="color:red">*</span>
+                    <input type="number" required id="stdDev" placeholder="e.g., 0.5" value="50" class="form-control" />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="populationSize">Population Size (Optional)</label>
-                    <input type="number" id="populationSize" placeholder="e.g., 1000" class="form-control" />
+                    <label for="populationSize">Population Size (Optional)</label> <span style="color:red">*</span>
+                    <input type="number" required id="populationSize" placeholder="e.g., 1000" class="form-control" />
                 </div>
             </div>
         </div>

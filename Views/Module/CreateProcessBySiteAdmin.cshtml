@@ -25,7 +25,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label for="LocationDropDown">Location Name</label>
+                        <label for="LocationDropDown">Location Name</label> 
                         @Html.DropDownList(
                                  "Location_ID",
                                  (List<SelectListItem>)ViewBag.LocationName,
@@ -34,13 +34,13 @@
                                  )
                     </div>
                     <div class="col-md-6">
-                        <label for="Program">Program Name</label>
-                        <input type="text" id="txtProgram" name="Program" autocomplete="off" class="form-control" />
+                        <label for="Program">Program Name</label> <span style="color:red">*</span>
+                        <input type="text" required id="txtProgram" name="Program" autocomplete="off" class="form-control" />
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-2">
-                            <label for="DataRetention">Data Retention (Days)</label>
-                            <input type="text" id="txtDataRetention" name="DataRetentions" autocomplete="off" class="form-control" />
+                            <label for="DataRetention">Data Retention (Days)</label> <span style="color:red">*</span>
+                            <input type="text" required id="txtDataRetention" name="DataRetentions" autocomplete="off" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-2 my-4">

@@ -112,6 +112,7 @@ wwwroot\js\jquery.stickOnScroll.js
 wwwroot\js\jquery.timepicker.js
 wwwroot\js\jquery.validate.min.js
 wwwroot\js\moment.min.js
+wwwroot\js\Notification.js
 wwwroot\js\perfect-scrollbar.min.js
 wwwroot\js\popper.min.js
 wwwroot\js\quill.min.js

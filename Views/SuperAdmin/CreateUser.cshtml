@@ -11,7 +11,7 @@
 
 
 
-<form class="AdminCreateio" action="CreateUser" method="post">
+<form class="AdminCreateio" action="CreateUser" method="post" onsubmit="return validateForm()">
     <div class="col-md-12 my-4">
         <div class="card shadow">
             <div class="card-body">
@@ -69,26 +69,26 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label style="visibility:hidden" id="lblUser">User Name</label>
-                            <input type="text" id="txtAdmin" style="visibility:hidden" value="____" name="UserName" autocomplete="off" class="form-control" oninput="restrictBackspace(event)" onkeydown="preventDeleteBackspace(event)" />
+                            <label style="visibility:hidden" id="lblUser">User Name</label> <span style="color:red">*</span>
+                            <input type="text" required id="txtAdmin" style="visibility:hidden" value="____" name="UserName" autocomplete="off" class="form-control" oninput="restrictBackspace(event)" onkeydown="preventDeleteBackspace(event)" />
                         </div>
                     </div>
                      <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label style="visibility:hidden" id="lblpass">Password</label>
-                            <input type="password" id="txtPassword" style="visibility:hidden" name="Password" class="form-control" />
+                            <label style="visibility:hidden" id="lblpass">Password</label> <span style="color:red">*</span>
+                            <input type="password" required id="txtPassword" style="visibility:hidden" name="Password" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label style="visibility:hidden" id="lblphone">Phone</label>
-                            <input type="text" id="txtphone" style="visibility:hidden" oninput="validatePhone(this)" name="Phone" class="form-control" />
+                            <label style="visibility:hidden" id="lblphone">Phone</label> <span style="color:red">*</span>
+                            <input type="text" id="txtphone" required style="visibility:hidden" oninput="validatePhone(this)" name="Phone" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label style="visibility:hidden" id="lblemail">Email</label>
-                            <input type="email" style="visibility:hidden" id="txtemail" name="Email" class="form-control" />
+                            <label style="visibility:hidden" id="lblemail">Email</label> <span style="color:red">*</span>
+                            <input type="email" required style="visibility:hidden" id="txtemail" name="Email" class="form-control" />
                         </div>
                     </div>
 
@@ -110,6 +110,20 @@
 
 
 
+<script>
+    function validateForm() {
+        const userName = document.getElementById("txtAdmin").value.trim();
+
+    if (userName.length <= 9) {
+        alert("Username must be more than 9 characters.");
+        return false;
+    }
+
+
+
+    return true;
+    }
+</script>
 
 <script type="text/javascript">
     function validatePhone(input) {

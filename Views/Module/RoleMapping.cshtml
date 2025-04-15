@@ -28,8 +28,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="custom-select-1">Select Users</label>
-                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Role", new { @class = "custom-select", id = "ID", onchange = "GetProcessOnUser(this)" })
+                            <label for="custom-select-1">Select Users</label> <span style="color:red">*</span>
+                            @Html.DropDownList("User_ID", (List<SelectListItem>)ViewBag.UserList, "Select Users", new { @class = "custom-select", id = "ID", onchange = "GetProcessOnUser(this)", required = "required" })
                             <input type="hidden" id="UserName" name="UserName" />
                         </div>
                     </div>

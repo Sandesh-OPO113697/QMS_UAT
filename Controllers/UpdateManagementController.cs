@@ -46,7 +46,7 @@ namespace QMS.Controllers
             //bool status = await dl_udm.SendMail(model.To, model.Subject, model.Body, model.AttachmentBase64, model.AttachmentFileName);
             return Ok(new { success = true, message = true ? "Notification sent successfully!" : "Failed to send Notification." });
         }
-        public async  Task<IActionResult> Dashboard()
+        public async  Task<IActionResult> Dashboard(int SubFeatureid, string RoleName, int Featureid)
         {
             DataTable dt = await _admin.GetProcessListAsync();
             var processList = dt.AsEnumerable().Select(row => new SelectListItem

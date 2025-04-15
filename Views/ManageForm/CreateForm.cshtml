@@ -11,20 +11,20 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group mb-3">
-                    <label for="ProgramID">Program Name</label>
+                    <label for="ProgramID">Program Name</label> <span style="color:red">*</span>
                     @Html.DropDownList(
                              "ProgramID",
                              (List<SelectListItem>)ViewBag.ProcessList,
                              "Select Program",
-                             new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" }
+                             new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" }
                              )
                 </div>
 
             </div>
             <div class="col-md-6">
                 <div class="form-group mb-3">
-                    <label for="SUBProgramID">Sub Program Name</label>
-                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()">
+                    <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()" required>
                         <option value="">Select Process</option>
                     </select>
                 </div>
@@ -172,14 +172,16 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                    <label for="Section_Category">Category</label>
+                    <label for="Section_Category">Category</label><span style="color:red">*</span>
+
                     <input type="text" id="Section_Category" class="form-control">
                 </div>
             </div>
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                    <label for="Section_ID">Section</label>
+                    <label for="Section_ID">Section</label><span style="color:red">*</span>
+
                     @Html.DropDownList("Section_ID", (List<SelectListItem>)ViewBag.Section_Category, "Select Section", new { @class = "custom-select", id = "Section_ID" })
                 </div>
             </div>
@@ -187,7 +189,8 @@
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                    <label for="scorableDropdown">Scorable</label>
+                    <label for="scorableDropdown">Scorable</label><span style="color:red">*</span>
+
                     <select id="scorableDropdown" class="custom-select">
                         <option value="">Select</option>
                         <option value="Yes">YES</option>
@@ -198,14 +201,16 @@
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                    <label for="Section_Score">Weightage</label>
+                    <label for="Section_Score">Weightage</label><span style="color:red">*</span>
+
                     <input type="number" id="Section_Score" class="form-control">
                 </div>
             </div>
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                    <label for="LevelDropdown">Level</label>
+                    <label for="LevelDropdown">Level</label><span style="color:red">*</span>
+
 
                     <select id="LevelDropdown" class="custom-select">
                         <option value="">Select</option>
@@ -271,8 +276,9 @@
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                    <label for="Field_Name">Metric RCA</label>
-                    @Html.DropDownList("Field_Name", (List<SelectListItem>)ViewBag.Routw_causeList, "Select Metric RCA", new { @class = "custom-select", id = "Field_Name" })
+                    <label for="Field_Name">Metric RCA</label><span style="color:red">*</span>
+
+                    @Html.DropDownList("Field_Name", (List<SelectListItem>)ViewBag.Routw_causeList, "Select Metric RCA", new { @class = "custom-select", id = "Field_Name", required = "required" })
 
                     <small class="text-danger d-none" id="nameError">Field Name is required.</small>
                 </div>
@@ -327,8 +333,8 @@
             <div class="col-md-3">
                 <div class="form-group mb-3">
                    
-                    <label for="Rating_ID">Rating</label>
-                    @Html.DropDownList("Rating_ID", (List<SelectListItem>)ViewBag.RatingMaste, "Select Rating", new { @class = "custom-select", id = "Rating_ID" })
+                    <label for="Rating_ID">Rating</label><span style="color:red">*</span>
+                    @Html.DropDownList("Rating_ID", (List<SelectListItem>)ViewBag.RatingMaste, "Select Rating", new { @class = "custom-select", id = "Rating_ID", required = "required" })
 
               
                 </div>
@@ -372,8 +378,8 @@
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                    <label for="Field_Name">Predictive - CSAT</label>
-                    @Html.DropDownList("getPredictive", (List<SelectListItem>)ViewBag.getPredictiveList, "Select Predictive - CSAT", new { @class = "custom-select", id = "getPredictive" })
+                    <label for="Field_Name">Predictive - CSAT</label><span style="color:red">*</span>
+                    @Html.DropDownList("getPredictive", (List<SelectListItem>)ViewBag.getPredictiveList, "Select Predictive - CSAT", new { @class = "custom-select", id = "getPredictive", required = "required" })
 
                     <small class="text-danger d-none" id="nameError">Field Name is required.</small>
                 </div>
@@ -418,7 +424,7 @@
     <div class="card-header">
         <strong class="card-title">Upload Disposition List</strong> <small class="form-text text-muted">
             <a href="/SampleFile/dispo.xls" download>Download Sample File</a>
-        </small>
+        </small> <span style="color:red">*</span>
     </div>
     <div class="card-body">
         <form id="uploadForm" method="post" enctype="multipart/form-data">
@@ -437,7 +443,7 @@
     <div class="card-header">
         <strong class="card-title">Upload Category List</strong> <small class="form-text text-muted">
             <a href="/SampleFile/UploadCategory.xls" download>Download Sample File</a>
-        </small>
+        </small> <span style="color:red">*</span>
     </div>
     <div class="card-body">
         <form id="uploadForm" method="post" enctype="multipart/form-data">
@@ -459,8 +465,8 @@
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                    <label for="Field_Name">ZT Classification</label>
-                    @Html.DropDownList("ZT_ClassificationID", (List<SelectListItem>)ViewBag.getZT_ClassificationList, "Select ZT_Classification", new { @class = "custom-select", id = "ZT_ClassificationID" })
+                    <label for="Field_Name">ZT Classification</label> <span style="color:red">*</span>
+                    @Html.DropDownList("ZT_ClassificationID", (List<SelectListItem>)ViewBag.getZT_ClassificationList, "Select ZT_Classification", new { @class = "custom-select", id = "ZT_ClassificationID", required = "required" })
 
                     <small class="text-danger d-none" id="nameError">Field Name is required.</small>
                 </div>
@@ -499,7 +505,7 @@
 
 <div class="card shadow mb-4" id="Zero_tolerance_behaviour" style="display:none;margin-top:15px">
     <div class="card-header">
-        <strong class="card-title">Zero Tolerance Behaviour</strong>
+        <strong class="card-title">Zero Tolerance Behaviour</strong> <span style="color:red">*</span>
     </div>
     <div class="card-body">
         <div class="row">

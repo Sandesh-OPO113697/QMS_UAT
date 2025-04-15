@@ -286,22 +286,22 @@
                         <div id="resetStep1">
                             <div class="mb-3">
                                 <label for="resetUsername" class="form-label" style="font-weight: 300;">Username</label>
-                                <input type="text" class="form-control" id="resetUsername" placeholder="Enter your username" style="border-radius: 8px;">
+                                <input type="text" readonly class="form-control" id="resetUsername" placeholder="Enter your username" style="border-radius: 8px;">
                             </div>
                             <div class="mb-3">
                                 <label for="resetEmail" class="form-label" style="font-weight: 300;">Email</label>
-                                <input type="email" class="form-control" id="resetEmail" placeholder="Enter your email" style="border-radius: 8px;">
+                                <input type="email" readonly class="form-control" id="resetEmail" placeholder="Enter your email" style="border-radius: 8px;">
                             </div>
                             <div class="mb-3">
                                 <label for="resetPhone" class="form-label" style="font-weight: 300;">Phone</label>
-                                <input type="text" class="form-control" id="resetPhone" placeholder="Enter your phone number" style="border-radius: 8px;">
+                                <input type="text" readonly class="form-control" id="resetPhone" placeholder="Enter your phone number" style="border-radius: 8px;">
                             </div>
                             <button type="button" class="button-2  form-control" onclick="sendResetOTP()" style="border-radius: 8px; border: none;">Send OTP</button>
                         </div>
                         <div id="resetStep2" style="display: none;">
                             <div class="mb-3">
                                 <label for="resetUsername" class="form-label" style="font-weight: 300;">Username</label>
-                                <input type="text" class="form-control" id="resetUsername" placeholder="Enter your username" style="border-radius: 8px;">
+                                <input type="text" readonly class="form-control" id="resetUsername2" placeholder="Enter your username" style="border-radius: 8px;">
                             </div>
                             <div class="mb-3">
                                 <label for="emailOTP" class="form-label" style="font-weight: 300;">Email OTP</label>
@@ -409,6 +409,53 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
+        $(document).ready(function () {
+
+            $('#resetPasswordLink').on('click', function (e) {
+                e.preventDefault();
+
+                var loginUsername = $('input[name="Username"]').val();
+
+                if (!loginUsername || loginUsername.trim() === '') {
+                    alert("Please enter your username first.");
+                    return;
+                } else {
+             
+
+                    $.ajax({
+                        url: '/LogIn/CheckUsername',
+                        type: 'POST',
+                        data: { username: loginUsername },
+                        success: function (response) {
+                            console.log(JSON.stringify(response));
+                            if (response.success) {
+                                  var userData = response.data[0];
+                             
+                             $('#resetUsername2').val(loginUsername);
+                                $('#resetUsername').val(loginUsername);
+                                $('#resetEmail').val(userData.Email);  // Access Email
+                                   $('#resetPhone').val(userData.PhoneNumber);
+                                var modal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
+                                modal.show();
+                            } else {
+                                alert("Username not found or error occurred: " + (response.error || ""));
+                                console.log("Server response:", response);
+                            }
+                        },
+                        error: function (xhr, status, thrownError) {
+                            console.error("AJAX Error Status:", status);
+                            console.error("AJAX Error Thrown:", thrownError);
+                            console.error("Full Response Text:", xhr.responseText);
+                            alert("AJAX call failed. Check console for error details.");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    <script>
         window.addEventListener('load', function () {
             var Reset = '@TempData["Reset"]';
 
@@ -423,8 +470,46 @@
         });
 
         function openResetPasswordModal2() {
-            var modal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
-            modal.show();
+          
+            // var modal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
+            // modal.show();
+
+            var loginUsername = '@TempData["Username"]';
+
+                if (!loginUsername || loginUsername.trim() === '') {
+                    alert("Please enter your username first.");
+                    return;
+                } else {
+
+
+                    $.ajax({
+                        url: '/LogIn/CheckUsername',
+                        type: 'POST',
+                        data: { username: loginUsername },
+                        success: function (response) {
+                            console.log(JSON.stringify(response));
+                            if (response.success) {
+                                  var userData = response.data[0];
+
+                             $('#resetUsername2').val(loginUsername);
+                                $('#resetUsername').val(loginUsername);
+                                $('#resetEmail').val(userData.Email);  // Access Email
+                                   $('#resetPhone').val(userData.PhoneNumber);
+                                var modal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
+                                modal.show();
+                            } else {
+                                alert("Username not found or error occurred: " + (response.error || ""));
+                                console.log("Server response:", response);
+                            }
+                        },
+                        error: function (xhr, status, thrownError) {
+                            console.error("AJAX Error Status:", status);
+                            console.error("AJAX Error Thrown:", thrownError);
+                            console.error("Full Response Text:", xhr.responseText);
+                            alert("AJAX call failed. Check console for error details.");
+                        }
+                    });
+                }
         }
     </script>
 
@@ -460,7 +545,7 @@
         }
 
         function verifyAndResetPassword() {
-            let username = document.getElementById('resetUsername').value;
+            let username = document.getElementById('resetUsername2').value;
             let emailOTP = document.getElementById('emailOTP').value;
             let phoneOTP = document.getElementById('phoneOTP').value;
             let newPassword = document.getElementById('newPassword').value;
@@ -495,6 +580,7 @@
 
 
         function openResetPasswordModal() {
+            
             document.getElementById('lnkSubmit').style.display = 'none';
             document.getElementById('ResetPass').style.display = 'block';
 

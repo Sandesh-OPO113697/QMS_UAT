@@ -18,6 +18,51 @@ namespace QMS.Controllers
             _dlcon = dlcon;
             this.response = httpContextAccessor.HttpContext?.Response;
         }
+
+        [HttpPost]
+        public async Task<JsonResult> CheckUsername(string username)
+        {
+            try
+            {
+                // Fetch the data from your method
+                DataTable result = await _login.getEmailAndPhone(username);
+                bool isValid = result != null && result.Rows.Count > 0;
+
+                // Convert DataTable to a List of dictionaries for easier serialization
+                var rows = new List<Dictionary<string, object>>();
+                if (isValid)
+                {
+                    foreach (DataRow row in result.Rows)
+                    {
+                        var rowDict = new Dictionary<string, object>();
+                        foreach (DataColumn column in result.Columns)
+                        {
+                            rowDict[column.ColumnName] = row[column];
+                        }
+                        rows.Add(rowDict);
+                    }
+                }
+
+                return Json(new
+                {
+                    success = isValid,
+                    data = isValid ? rows : null
+                });
+            }
+            catch (Exception ex)
+            {
+                // Optional: log the exception if logging is available
+                return Json(new
+                {
+                    success = false,
+                    error = ex.Message
+                });
+            }
+        }
+
+
+
+
         public async Task< ActionResult> UserLogIn()
         {
             
@@ -125,6 +170,8 @@ namespace QMS.Controllers
                 {
 
                     TempData["Reset"] = "Please Reset your Password";
+
+                    TempData["Username"] = Username;
                     return RedirectToAction("UserLogIn", "LogIn");
                 }
 

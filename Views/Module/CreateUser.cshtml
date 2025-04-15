@@ -67,7 +67,7 @@
         </div>
     </div>
 </div>
-<form action="@Url.Action("InsertUsers", "Module")" method="post">
+<form action="@Url.Action("InsertUsers", "Module")" method="post" onsubmit="return validateForm()">
     <div class="col-md-12 my-4">
         <div class="card shadow">
             <div class="card-body">
@@ -82,33 +82,34 @@
                                  )
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="ProgramID">Program Name</label>
+                        <label for="ProgramID">Program Name</label> <span style="color:red">*</span>
                         @Html.DropDownList(
                                  "ProgramID",
                                  (List<SelectListItem>)ViewBag.ProcessList,
                                  "Select Program",
-                                 new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" }
+                                 new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" }
                                  )
 
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="SUBProgramID">Sub Program Name</label>
-                        <select name="SUBProgramID" id="SUBProgramID" class="custom-select">
+                        <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                        <select name="SUBProgramID" id="SUBProgramID" class="custom-select" required>
                             <option value="">Select Process</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="Role_ID">Role</label>
+                        <label for="Role_ID">Role</label> <span style="color:red">*</span>
                         @Html.DropDownList(
                                  "Role_ID",
                                  (List<SelectListItem>)ViewBag.Role,
                                  "Select Role",
-                                 new { @class = "custom-select", id = "Role_ID" }
+                                 new { @class = "custom-select", id = "Role_ID", required = "required" }
                                  )
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtUsername">User ID</label>
+                        <label for="txtUsername">User ID</label> <span style="color:red">*</span>
                         <input type="text"
+                            required
                                name="UserID"
                                id="txtUsername"
                                autocomplete="off"
@@ -117,23 +118,24 @@
                                oninput="restrictBackspace(event)" />
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtPassword">Password</label>
-                        <input type="password" name="Password" id="txtPassword" autocomplete="off" class="form-control" />
+                        <label for="txtPassword">Password</label> <span style="color:red">*</span>
+                        <input type="password" name="Password" required id="txtPassword" autocomplete="off" class="form-control" />
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtUserName">User Name</label>
-                        <input type="text" name="UserName" id="txtUserName" autocomplete="off" class="form-control" />
+                        <label for="txtUserName">User Name</label> <span style="color:red">*</span>
+                        <input type="text" name="UserName" required id="txtUserName" autocomplete="off" class="form-control" />
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label id="lblemail">Email</label>
-                            <input type="email" id="txtemail" name="Email" class="form-control" />
+                            <label id="lblemail">Email</label> <span style="color:red">*</span>
+                            <input type="email" required id="txtemail" name="Email" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="txtPhone">Phone Number</label>
+                        <label for="txtPhone">Phone Number</label> <span style="color:red">*</span>
                         <input type="number"
+                            required
                                name="PhoneNumber"
                                id="txtPhone"
                                oninput="validatePhone(this)"
@@ -180,7 +182,19 @@
     });
 </script>
 <script>
-    
+        function validateForm() {
+        const userName = document.getElementById("txtUsername").value.trim();
+
+        if (userName.length <= 9) {
+            alert("Username must be more than 9 characters.");
+            return false;
+        }
+
+        // If other field validations exist, add them here...
+
+        return true; // Allow form submission
+    }
+
         function validatePhone(input) {
             input.value = input.value.replace(/\D/g, '');
             if (input.value.length > 10) {

@@ -593,6 +593,36 @@ namespace QMS.DataBaseService
             return dt;
         }
 
+        public async Task<DataTable> getEmailAndPhone(string UserID)
+        {
+            string username = await _enc.EncryptAsync(UserID);
+            DataTable dt = new DataTable();
+
+            string conn = await _dlcon.GetDynStrByUserIDAsync(UserID);
+            try
+            {
+                using (SqlConnection cc = new SqlConnection(conn))
+                {
+                    await cc.OpenAsync();
+
+                    SqlCommand cmd = new SqlCommand("GetEmailPhone", cc);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserName", username);
+                    cmd.Parameters.AddWithValue("@Operation", "GetEmailPhone");
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    adpt.Fill(dt);
+                    await cc.CloseAsync();
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return dt;
+            }
+            return dt;
+        }
+
 
         public async Task EndNotificationByuser(string UserID)
         {
