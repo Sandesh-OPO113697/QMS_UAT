@@ -98,7 +98,8 @@ namespace QMS.Controllers
                 SectionName = row.Field<string>("SectionName"),
                 Scorable = row.Field<string>("Scorable"),
                 Weightage = row.Field<string>("Weightage"),
-                Commentssection = row.Field<string>("Commentssection")
+                Commentssection = row.Field<string>("Commentssection"),
+                Fatal = row.Field<string>("Fatal")
 
 
             }).ToList();
@@ -133,13 +134,17 @@ namespace QMS.Controllers
 
 
             DataTable dt = await dl_qa.GetQaManagerZtCaseViewDetails(TransactionID);
-            DataTable dt12 = await dl_Agent.getCQScoreQADisputeSection(TransactionID);
-            byte[] audioBytes = dt12.Rows[0]["AudioData"] as byte[];
-            if (audioBytes != null)
+            DataSet dt12 = await dl_Agent.getCQScoreQADisputeSection(TransactionID);
+            if (dt12.Tables[1].Rows.Count > 0)
             {
-                string base64Audio = Convert.ToBase64String(audioBytes);
-                ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                byte[] audioBytes = dt12.Tables[1].Rows[0]["AudioData"] as byte[];
+                if (audioBytes != null)
+                {
+                    string base64Audio = Convert.ToBase64String(audioBytes);
+                    ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                }
             }
+
 
 
             string ProgramID = dt.Rows[0]["ProgramID"].ToString();

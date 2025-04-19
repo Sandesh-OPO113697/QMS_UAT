@@ -106,51 +106,89 @@ namespace QMS.Controllers
         public async Task<IActionResult> AgentFeedBack(string TransactionID)
         {
             TempData["TtransactionID"] = TransactionID;
+
             DataTable dt1 = await dl_Agent.getAgentFeedbackSection(TransactionID);
-            DataTable dt12 = await dl_Agent.getCQScoreSection(TransactionID);
-            string CQScore = dt12.Rows[0]["CQ_Score"].ToString();
-            string QA_Comments = dt12.Rows[0]["QA_Comments"].ToString();
-            byte[] audioBytes = dt12.Rows[0]["AudioData"] as byte[];
-            if (audioBytes != null)
+            DataSet dt12 = await dl_Agent.getCQScoreSection(TransactionID);
+
+            string CQScore = string.Empty;
+            string QA_Comments = string.Empty;
+
+            if (dt12.Tables.Count > 0 && dt12.Tables[0].Rows.Count > 0)
             {
-                string base64Audio = Convert.ToBase64String(audioBytes);
-                ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                CQScore = dt12.Tables[0].Rows[0]["CQ_Score"]?.ToString();
+                QA_Comments = dt12.Tables[0].Rows[0]["QA_Comments"]?.ToString();
             }
+            if (!string.IsNullOrEmpty(QA_Comments) && dt12.Tables.Count > 1 && dt12.Tables[1].Rows.Count > 0)
+            {
+                byte[] audioBytes = dt12.Tables[1].Rows[0]["AudioData"] as byte[];
+                if (audioBytes != null && audioBytes.Length > 0)
+                {
+                    string base64Audio = Convert.ToBase64String(audioBytes);
+                    ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                }
+            }
+
             ViewBag.QA_Comments = QA_Comments;
             ViewBag.cqscore = CQScore;
+
             var sectionList = dt1.AsEnumerable().Select(row => new AgentfeedbackSectionModel
             {
-
                 category = row.Field<string>("category"),
                 level = row.Field<string>("level"),
                 Section = row.Field<string>("SectionName"),
                 QA_rating = row.Field<string>("QA_rating"),
                 Scorable = row.Field<string>("Scorable"),
                 Weightage = row.Field<string>("Weightage"),
-                Commentssection = row.Field<string>("Commentssection")
+                Commentssection = row.Field<string>("Commentssection"),
+                 Fatal = row.Field<string>("Fatal")
             }).ToList();
 
             return View(sectionList);
         }
 
 
+
         public async Task<IActionResult> AgentDisputeFeedBack(string TransactionID)
         {
             TempData["TtransactionDisputeID"] = TransactionID;
             DataTable dt1 = await dl_Agent.getAgentFeedbackSection(TransactionID);
-            DataTable dt12 = await dl_Agent.getCQScoreQADisputeSection(TransactionID);
-            string CQScore = dt12.Rows[0]["CQ_Score"].ToString();
-            string QA_Comments = dt12.Rows[0]["QA_Comments"].ToString();
-            string Calibrated = dt12.Rows[0]["CalibratedComment"].ToString();
-            byte[] audioBytes = dt12.Rows[0]["AudioData"] as byte[];
-            if (audioBytes != null)
+            DataSet dt12 = await dl_Agent.getCQScoreQADisputeSection(TransactionID);
+            //string CQScore = dt12.Rows[0]["CQ_Score"].ToString();
+            //string QA_Comments = dt12.Rows[0]["QA_Comments"].ToString();
+            //string Calibrated = dt12.Rows[0]["CalibratedComment"].ToString();
+            //byte[] audioBytes = dt12.Rows[0]["AudioData"] as byte[];
+            //if (audioBytes != null)
+            //{
+            //    string base64Audio = Convert.ToBase64String(audioBytes);
+            //    ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+            //}
+
+            string CQScore = string.Empty;
+            string QA_Comments = string.Empty;
+            string CalibratedComment = string.Empty;
+
+            if (dt12.Tables.Count > 0 && dt12.Tables[0].Rows.Count > 0)
             {
-                string base64Audio = Convert.ToBase64String(audioBytes);
-                ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                CQScore = dt12.Tables[0].Rows[0]["CQ_Score"]?.ToString();
+                QA_Comments = dt12.Tables[0].Rows[0]["QA_Comments"]?.ToString();
+                CalibratedComment = dt12.Tables[0].Rows[0]["CalibratedComment"]?.ToString();
             }
+            if (!string.IsNullOrEmpty(QA_Comments) && dt12.Tables.Count > 1 && dt12.Tables[1].Rows.Count > 0)
+            {
+                byte[] audioBytes = dt12.Tables[1].Rows[0]["AudioData"] as byte[];
+                if (audioBytes != null && audioBytes.Length > 0)
+                {
+                    string base64Audio = Convert.ToBase64String(audioBytes);
+                    ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                }
+            }
+
+
+
+
             ViewBag.QA_Comments = QA_Comments;
             ViewBag.cqscore = CQScore;
-            ViewBag.Calibrated = Calibrated;
+            ViewBag.Calibrated = CalibratedComment;
             var sectionList = dt1.AsEnumerable().Select(row => new AgentfeedbackSectionModel
             {
 
@@ -160,7 +198,8 @@ namespace QMS.Controllers
                 QA_rating = row.Field<string>("QA_rating"),
                 Scorable = row.Field<string>("Scorable"),
                 Weightage = row.Field<string>("Weightage"),
-                Commentssection = row.Field<string>("Commentssection")
+                Commentssection = row.Field<string>("Commentssection"),
+                Fatal = row.Field<string>("Fatal")
             }).ToList();
 
             return View(sectionList);

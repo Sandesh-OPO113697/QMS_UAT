@@ -1,4 +1,4 @@
-﻿@model List<AgentfeedbackSectionModel> 
+﻿@model List<AgentfeedbackSectionModel>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,7 +18,9 @@
                     <th>QA Rating</th>
                     <th>Scorable</th>
                     <th>Weightage</th>
+                    <th>Fatal</th>
                     <th>Comments Section</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -26,22 +28,24 @@
                 {
                     @foreach (var item in Model)
                     {
-                                <tr>
-                                    <td>@item.category</td>
-                                    <td>@item.level</td>
-                                    <td>@item.Section</td>
-                                    <td>@item.QA_rating</td>
-                                    <td>@item.Scorable</td>
-                                    <td>@item.Weightage</td> 
-                                    <td>@item.Commentssection</td>
-                                </tr>
+                        <tr>
+                            <td>@item.category</td>
+                            <td>@item.level</td>
+                            <td>@item.Section</td>
+                            <td>@item.QA_rating</td>
+                            <td>@item.Scorable</td>
+                            <td>@item.Weightage</td>
+                            <td>@item.Fatal</td>
+                            <td>@item.Commentssection</td>
+
+                        </tr>
                     }
                 }
                 else
                 {
-                        <tr>
-                            <td colspan="7" class="text-center">No feedback sections available.</td>
-                        </tr>
+                    <tr>
+                        <td colspan="7" class="text-center">No feedback sections available.</td>
+                    </tr>
                 }
                 <tr>
                     <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
@@ -65,14 +69,14 @@
                     <div style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #f8f9fa; text-align: center;">
                         @if (!string.IsNullOrEmpty(ViewBag.AudioData))
                         {
-                                <audio controls style="width: 100%; max-width: 400px;">
-                                    <source src="@ViewBag.AudioData" type="audio/wav">
-                                    Your browser does not support the audio element.
-                                </audio>
+                            <audio controls style="width: 100%; max-width: 400px;">
+                                <source src="@ViewBag.AudioData" type="audio/wav">
+                                Your browser does not support the audio element.
+                            </audio>
                         }
                         else
                         {
-                                <p style="color: #777; font-style: italic;">No audio available.</p>
+                            <p style="color: #777; font-style: italic;">No audio available.</p>
                         }
                     </div>
                 </div>
@@ -110,7 +114,7 @@
                         Acknowledge
                     </button>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -119,7 +123,7 @@
 
 
 
-    <script>
+<script>
         function submitAgentComment() {
             var agentComment = $("#AgentComent").val(); // Get the input value
 
@@ -134,9 +138,9 @@
                 data: { comment: agentComment },
                 success: function (response) {
                     alert(response.message);
-                    $("#AgentComent").val(""); 
+                    $("#AgentComent").val("");
                          if (response.success) {
-                        window.location.href = '/Agent/Dashboard'; 
+                        window.location.href = '/Agent/Dashboard';
                     }
                 },
                 error: function () {

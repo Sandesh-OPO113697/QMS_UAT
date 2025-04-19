@@ -341,7 +341,7 @@ namespace QMS.DataBaseService
                     cmd.Parameters.AddWithValue("@SubProcesname", SubProcessID);
                     cmd.Parameters.AddWithValue("@Role", 11);
                     cmd.Parameters.AddWithValue("@AccountID", UserInfo.AccountID);
-                    cmd.Parameters.AddWithValue("@UserNamedrp", UserName + "_" + EmpName);
+                    cmd.Parameters.AddWithValue("@UserNamedrp", UserName + "_" + EmpCode);
                     cmd.Parameters.AddWithValue("@Name", NameENC);
                     cmd.Parameters.AddWithValue("@Phone", Phone);
                     cmd.Parameters.AddWithValue("@Procesname", processID);
@@ -1235,8 +1235,8 @@ namespace QMS.DataBaseService
 
 
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Mode", mode);
-                    cmd.Parameters.AddWithValue("@status", usernameParam);
+                    cmd.Parameters.Add("@Mode", SqlDbType.NVarChar).Value = mode;
+                    cmd.Parameters.Add("@status", SqlDbType.NVarChar).Value = usernameParam;
 
 
                     await con.OpenAsync();
@@ -1244,7 +1244,7 @@ namespace QMS.DataBaseService
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        await Task.Run(() => da.Fill(dt));
+                        da.Fill(dt); // Sync fill
                     }
                 }
             }

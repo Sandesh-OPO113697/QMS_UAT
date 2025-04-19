@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "6t1ti4yNJIi282ZZnzOPxDgEjY/At2thApIAkNYjMRo=",
+  "Hash": "LJy7WeThKCyjugyQhjLf+PLOYAsrkjlzKFzP9itbYoI=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -2453,6 +2453,27 @@
       "OriginalItemSpec": "wwwroot\\js\\moment.min.js"
     },
     {
+      "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "js/Notification#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "7j0k2vxadj",
+      "Integrity": "TRLs/+RDkRKT/TkPLkMVfwCIDj4eHKD64iiT6EL6sA0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Notification.js"
+    },
+    {
       "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\perfect-scrollbar.min.js",
       "SourceId": "QMS",
       "SourceType": "Discovered",
@@ -2619,6 +2640,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\uppy.min.js"
+    },
+    {
+      "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\xlsx.full.min.js",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "js/xlsx.full.min#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "15mzku7kxk",
+      "Integrity": "K2mPzYpre1TGClZesgKpOcS8MQeQScxQwq89fbqJ6wA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\xlsx.full.min.js"
     },
     {
       "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
@@ -13231,6 +13273,88 @@
       ]
     },
     {
+      "Route": "js/Notification.7j0k2vxadj.js",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5211"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"TRLs/+RDkRKT/TkPLkMVfwCIDj4eHKD64iiT6EL6sA0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 15 Apr 2025 06:37:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "7j0k2vxadj"
+        },
+        {
+          "Name": "label",
+          "Value": "js/Notification.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-TRLs/+RDkRKT/TkPLkMVfwCIDj4eHKD64iiT6EL6sA0="
+        }
+      ]
+    },
+    {
+      "Route": "js/Notification.js",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5211"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"TRLs/+RDkRKT/TkPLkMVfwCIDj4eHKD64iiT6EL6sA0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 15 Apr 2025 06:37:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-TRLs/+RDkRKT/TkPLkMVfwCIDj4eHKD64iiT6EL6sA0="
+        }
+      ]
+    },
+    {
       "Route": "js/perfect-scrollbar.min.19ovxpl3lk.js",
       "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\perfect-scrollbar.min.js",
       "Selectors": [],
@@ -13883,6 +14007,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-TH8COlQ6pTK856eSSG3MiVnDR+USeKK1kUVAJjvWhO0="
+        }
+      ]
+    },
+    {
+      "Route": "js/xlsx.full.min.15mzku7kxk.js",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\xlsx.full.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "778378"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"K2mPzYpre1TGClZesgKpOcS8MQeQScxQwq89fbqJ6wA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 10 Apr 2025 13:28:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "15mzku7kxk"
+        },
+        {
+          "Name": "label",
+          "Value": "js/xlsx.full.min.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-K2mPzYpre1TGClZesgKpOcS8MQeQScxQwq89fbqJ6wA="
+        }
+      ]
+    },
+    {
+      "Route": "js/xlsx.full.min.js",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\xlsx.full.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "778378"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"K2mPzYpre1TGClZesgKpOcS8MQeQScxQwq89fbqJ6wA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 10 Apr 2025 13:28:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-K2mPzYpre1TGClZesgKpOcS8MQeQScxQwq89fbqJ6wA="
         }
       ]
     },

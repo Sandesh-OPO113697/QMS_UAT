@@ -2,7 +2,6 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="card shadow mb-4" id="SectionGried" style="@(Model.sectionList.Any() ? "display:block" : "display:none")">
     <div class="card-header">
         <strong class="card-title">Form</strong>
@@ -16,8 +15,10 @@
                     <th>Section Name</th>
                     <th>QA Rating</th>
                     <th>Scorable</th>
-                    <th>Weightage</th>
+                    <th>Score</th> <!-- Only one column here -->
+                    <th>Fatal</th>
                     <th>Comments Section</th>
+                
                 </tr>
             </thead>
             <tbody>
@@ -27,42 +28,70 @@
                         <td>@item.category</td>
                         <td>@item.level</td>
                         <td>@item.SectionName</td>
-                    
-             
+
                         <td>
                             <select class="qa-rating form-control">
                                 <option value="">Select Rating</option>
                                 @foreach (var rating in Model.filteredRatingList)
                                 {
-                     
                                     <option value="@rating.Value" selected="@(rating.Text == item.QA_rating.ToString() ? "selected" : null)">
                                         @rating.Text
                                     </option>
                                 }
                             </select>
                         </td>
-                        <td>@item.Scorable</td>
-                        <td class="score-col">@item.Weightage</td>
+
+                        <td class="scorable">@item.Scorable</td>
+
+                        <!-- This is the combined Score column -->
+                        <td class="score-col" data-weightage="@item.Weightage" data-final-score="0">@item.Weightage</td>
+
+                      
+                        <td>
+                            <select class="qa-Fatal form-control">
+                                <option value="">Select Fatal</option>
+                                @if (item.Fatal.Trim() == "Yes")
+                                {
+                                    <option value="Yes" selected>Yes</option>
+                                }
+                                else
+                                {
+                                    <option value="Yes">Yes</option>
+                                }
+                                @if (item.Fatal.Trim() == "No")
+                                {
+                                    <option value="No" selected>No</option>
+                                }
+                                else
+                                {
+                                    <option value="No">No</option>
+                                }
+                            </select>
+                        </td>
+
                         <td>
                             <input type="text" class="form-control" placeholder="Enter Comments" value="@item.Commentssection">
                         </td>
+
+
                     </tr>
                 }
 
                 <tr>
                     <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
                     <td id="totalScore" class="font-weight-bold">0</td>
+                    <td colspan="2"></td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
-
 <div class="col-md-12" style="display: flex; flex-direction: column; ">
 
     <div id="recordingContainer"></div>
 
 </div>
+
 
 <div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow" style="border-radius: 10px; border: 1px solid #ddd;">
@@ -129,7 +158,8 @@
             var scorable = $row.find("td:eq(4)").text().trim();
             var score = $row.find("td:eq(5)").text().trim();
             var comments = $row.find("input[type='text']").val().trim();
-
+             var fatal = $row.find(".qa-Fatal").val();
+            
             if (category === "" && level === "" && sectionName === "") {
                 return;
             }
@@ -158,7 +188,8 @@
                 comments: comments,
                 Transaction_ID: "",
                 ProgramID: "",
-                SUBProgramID: ""
+                SUBProgramID: "",
+                fatal:fatal
             });
         });
 
@@ -196,53 +227,78 @@
     $(document).ready(function () {
         initializeSectionData();
 
-        function calculateTotalScore() {
-            let total = 0;
+                 function calculateTotalScore() {
+        let total = 0;
 
-            $("#sectionGrid tbody tr").each(function () {
-                var scorable = $(this).find("td:eq(4)").text().trim();
-                var score = parseInt($(this).find(".score-col").text()) || 0;
+        $("#sectionGrid tbody tr").each(function () {
+            var scorable = $(this).find(".scorable").text().trim();
+            var finalScore = parseInt($(this).find(".score-col").attr("data-final-score")) || 0;
 
-                if (scorable === "Yes") {
-                    total += score;
-                }
-            });
+            if (scorable === "Yes") {
+                total += finalScore;
+            }
+        });
 
-            $("#totalScore").text(total);
-        }
+        $("#totalScore").text(total);
+    }
 
-        calculateTotalScore();
+    calculateTotalScore();
 
-        $(".qa-rating").change(function () {
-            var selectedValue = $(this).find("option:selected").text().trim();
-            var $row = $(this).closest("tr");
-        
-            var scoreCell = $row.find(".score-col");
-             var category = $row.find("td:eq(0)").text().trim();
-    var level = $row.find("td:eq(1)").text().trim();
-    var sectionName = $row.find("td:eq(2)").text().trim()
+    $(".qa-rating").change(function () {
+        var $row = $(this).closest("tr");
+        var selectedValue = $(this).find("option:selected").text().trim();
 
-            if (
-                selectedValue === "Yes" ||
-                selectedValue === "Met" ||
-                selectedValue === "Meeting_expectations" ||
-                selectedValue === "exceeding expectations" ||
-                selectedValue === "Partially Met"
-            ) {
-                let matchedItem = sectionData.find(x =>
-                        x.category === category &&
-                        x.level === level &&
-                        x.sectionName === sectionName );
+        var category = $row.find("td:eq(0)").text().trim();
+        var level = $row.find("td:eq(1)").text().trim();
+        var sectionName = $row.find("td:eq(2)").text().trim();
+
+        var scoreCell = $row.find(".score-col");
+        var baseWeight = parseInt(scoreCell.attr("data-weightage")) || 0;
+
+        let matchedItem = sectionData.find(x =>
+            x.category === category &&
+            x.level === level &&
+            x.sectionName === sectionName
+        );
+
+        let validRating = ["Yes", "Met", "Meeting_expectations", "exceeding expectations", "Partially Met"];
+        let scoreToApply = (validRating.includes(selectedValue) && matchedItem) ? matchedItem.score : 0;
 
       
 
-        scoreCell.text(matchedItem ? matchedItem.score : 0);
-            } else {
-                scoreCell.text(0);
-            }
+        scoreCell.text(scoreToApply);
+        scoreCell.attr("data-final-score", scoreToApply);
 
-            calculateTotalScore();
-        });
+        calculateTotalScore();
+    });
+
+    $(".qa-Fatal").change(function () {
+        var $row = $(this).closest("tr");
+        var scoreCell = $row.find(".score-col");
+
+        var selectedValue = $(this).val().trim();
+        var baseWeight = parseInt(scoreCell.attr("data-weightage")) || 0;
+        var currentRating = $row.find(".qa-rating option:selected").text().trim();
+
+        let matchedItem = sectionData.find(x =>
+            x.category === $row.find("td:eq(0)").text().trim() &&
+            x.level === $row.find("td:eq(1)").text().trim() &&
+            x.sectionName === $row.find("td:eq(2)").text().trim()
+        );
+
+        let validRating = ["Yes", "Met", "Meeting_expectations", "exceeding expectations", "Partially Met"];
+        let scoreToApply = ( matchedItem)? matchedItem.score : 0;
+
+        if (selectedValue === "Yes") {
+            scoreToApply = 0;
+        }
+
+        scoreCell.text(scoreToApply);
+        scoreCell.attr("data-final-score", scoreToApply);
+
+        calculateTotalScore();
+    });
+
 
      
         $.ajax({

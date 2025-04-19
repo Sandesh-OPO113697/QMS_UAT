@@ -36,6 +36,7 @@ builder.Services.AddTransient<DL_QaManager>();
 builder.Services.AddTransient<DL_Operation>();
 builder.Services.AddTransient<DL_Hr>();
 builder.Services.AddTransient<Dl_UpdateManagement>();
+builder.Services.AddTransient<Dl_Coaching>();
 
 
 

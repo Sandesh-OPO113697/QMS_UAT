@@ -102,9 +102,9 @@ namespace QMS.DataBaseService
             return dt;
         }
 
-        public async Task<DataTable> getCQScoreSection(string TransactionID)
+        public async Task<DataSet> getCQScoreSection(string TransactionID)
         {
-            DataTable dt = new DataTable();
+            DataSet dt = new DataSet();
             try
             {
                 using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
@@ -131,9 +131,9 @@ namespace QMS.DataBaseService
 
 
 
-        public async Task<DataTable> getCQScoreQADisputeSection(string TransactionID)
+        public async Task<DataSet> getCQScoreQADisputeSection(string TransactionID)
         {
-            DataTable dt = new DataTable();
+            DataSet dt = new DataSet();
             try
             {
                 using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))

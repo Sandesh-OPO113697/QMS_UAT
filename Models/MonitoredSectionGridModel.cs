@@ -13,5 +13,6 @@
         public string Weightage { get; set; }
 
         public string Commentssection { get; set; }
+        public string Fatal { get; set; }
     }
 }

@@ -373,6 +373,10 @@
       "PackagePath": "staticwebassets\\js\\FetureMap.js"
     },
     {
+      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
+      "PackagePath": "staticwebassets\\js\\Notification.js"
+    },
+    {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\apexcharts.custom.js",
       "PackagePath": "staticwebassets\\js\\apexcharts.custom.js"
     },
@@ -503,6 +507,10 @@
     {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\uppy.min.js",
       "PackagePath": "staticwebassets\\js\\uppy.min.js"
+    },
+    {
+      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\xlsx.full.min.js",
+      "PackagePath": "staticwebassets\\js\\xlsx.full.min.js"
     },
     {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\LICENSE",

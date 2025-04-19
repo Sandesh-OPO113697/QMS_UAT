@@ -259,6 +259,7 @@ namespace QMS.DataBaseService
                             cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
                             cmd.Parameters.AddWithValue("@ProgramID", Convert.ToInt32(section.ProgramID));
                             cmd.Parameters.AddWithValue("@SubProgramID", Convert.ToInt32(section.SUBProgramID));
+                            cmd.Parameters.AddWithValue("@fatal", section.fatal);
 
                             await cmd.ExecuteNonQueryAsync();
                         }

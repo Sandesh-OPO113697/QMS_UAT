@@ -13,5 +13,6 @@
         public string ProgramID { get; set; }
 
         public string SUBProgramID { get; set; }
+        public string fatal { get; set; }
     }
 }

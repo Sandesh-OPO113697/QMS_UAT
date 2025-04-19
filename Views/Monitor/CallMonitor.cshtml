@@ -121,7 +121,6 @@
                     <label for="ConnID">Transaction_ID</label>
                     <input type="text" class="form-control" id="Transaction_ID2" aria-describedby="button-addon2" onkeydown="handleEnter(event)">
 
-
                 </div>
 
 
@@ -729,6 +728,7 @@
                     var scorable = $row.find("td:eq(4)").text()?.trim() || "";
                     var score = $row.find("td:eq(5)").text()?.trim() || "";
                    var comments = $row.find("input[type='text']").val()?.trim() || "";
+                    var fatal = $row.find(".fatal-select").val()?.trim() || "";
 
                     if (category === "" && level === "" && sectionName === "") {
                         return;
@@ -761,7 +761,8 @@
                         comments: comments,
                         Transaction_ID: $("#Transaction_ID").val(),
                         ProgramID: $("#ProgramID").val(),
-                        SUBProgramID: $("#SUBProgramID").val()
+                        SUBProgramID: $("#SUBProgramID").val(),
+                        fatal:fatal
                     });
                 });
 
