@@ -175,6 +175,54 @@ namespace QMS.DataBaseService
 
             return Message;
         }
+        public async Task<int> ResetPasswordFDirstTimeAsync(string UserID, string Password)
+        {
+            string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
+            string encUser = await _enc.EncryptAsync(UserID);
+            string encPassword = await _enc.EncryptAsync(Password);
+            int isValid = 0;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Dycon))
+                {
+                    using (SqlCommand command = new SqlCommand("CheckUserValid", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@UserName", encUser);
+                        command.Parameters.AddWithValue("@Password", encPassword);
+                        command.Parameters.AddWithValue("@Operation", "ResetPassword");
+
+                        SqlParameter outputParam2 = new SqlParameter
+                        {
+                            ParameterName = "@IsValid",
+                            SqlDbType = SqlDbType.Int,
+                            Direction = ParameterDirection.Output
+                        };
+                        command.Parameters.Add(outputParam2);
+
+                        await connection.OpenAsync();
+                        await command.ExecuteNonQueryAsync();
+
+
+                        int resetResult = (int)outputParam2.Value;
+
+                        if (resetResult == 1)
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+          
+        }
         public async Task<int> CheckUserIsValidAsync(string UserID, string Password)
         {
             string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);

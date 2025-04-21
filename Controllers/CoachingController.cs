@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QMS.DataBaseService;
+using QMS.Models;
 using System.Data;
 
 namespace QMS.Controllers
@@ -19,6 +20,12 @@ namespace QMS.Controllers
             dl_FormBuilder = adl;
             dl_monitor = dmmonoi;
             dl_udm = adpt;
+        }
+        public async Task<IActionResult> getQaManagertList([FromBody] Process_SUbProcess id)
+        {
+            List<object> list = await dl_coching.GetQaManagerList(id.ProcessID, id.SUBProcessID);
+
+            return Json(new { agentTlList = list });
         }
         public async Task< IActionResult> Dashboard()
         {

@@ -322,6 +322,23 @@
                             <button type="button" class="button-2  form-control" onclick="verifyAndResetPassword()" style="border-radius: 8px; border: none;">Reset Password</button>
                         </div>
 
+                        <div id="resetStep3" style="display: none;">
+                            <div class="mb-3">
+                                <label for="resetUsername3" class="form-label" style="font-weight: 300;">Username</label>
+                                <input type="text" readonly class="form-control" id="resetUsername3" placeholder="Enter your username" style="border-radius: 8px;">
+                            </div>
+                          
+                            <div class="mb-3">
+                                <label for="newPassword3" class="form-label" style="font-weight: 300;">New Password</label>
+                                <input type="password" class="form-control" id="newPassword3" placeholder="Enter new password" style="border-radius: 8px;">
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword3" class="form-label" style="font-weight: 300;">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword3" placeholder="Confirm new password" style="border-radius: 8px;">
+                            </div>
+                            <button type="button" class="button-2  form-control" onclick="verifyAndResetPasswordWithoutOTP()" style="border-radius: 8px; border: none;">Reset Password</button>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -491,10 +508,11 @@
                             if (response.success) {
                                   var userData = response.data[0];
 
-                             $('#resetUsername2').val(loginUsername);
-                                $('#resetUsername').val(loginUsername);
-                                $('#resetEmail').val(userData.Email);  // Access Email
-                                   $('#resetPhone').val(userData.PhoneNumber);
+                         
+                                $('#resetUsername3').val(loginUsername);
+                                           document.getElementById("resetStep1").style.display = "none";
+                                                 document.getElementById("resetStep2").style.display = "none";
+                                                  document.getElementById("resetStep3").style.display = "block";
                                 var modal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
                                 modal.show();
                             } else {
@@ -559,6 +577,11 @@
                 alert("All fields are required. Please fill out all fields.");
                 return;
             }
+                         const alphaNumericRegex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
+        if (!alphaNumericRegex.test(newPassword)) {
+            alert("Password must be alphanumeric (contain at least one letter and one number).");
+            return;
+        }
 
             $.ajax({
                 url: '/Login/ResetPassword',
@@ -577,7 +600,43 @@
                 }
             });
         }
+        function verifyAndResetPasswordWithoutOTP() {
+            let username = document.getElementById('resetUsername3').value;
+         
+            let newPassword = document.getElementById('newPassword3').value;
+            let confirmPassword = document.getElementById('confirmPassword3').value;
 
+            if (newPassword !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
+            if (!username || !newPassword || !confirmPassword) {
+                alert("All fields are required. Please fill out all fields.");
+                return;
+            }
+                         const alphaNumericRegex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
+        if (!alphaNumericRegex.test(newPassword)) {
+            alert("Password must be alphanumeric (contain at least one letter and one number).");
+            return;
+        }
+
+            $.ajax({
+                url: '/Login/ResetPasswordWithoutOTP',
+                type: 'POST',
+                data: { newPassword: newPassword, username: username },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Password reset successfully.");
+                        location.reload();
+                    } else {
+                        alert("OTP verification failed. Please try again.");
+                    }
+                },
+                error: function () {
+                    alert("Error in resetting password.");
+                }
+            });
+        }
 
         function openResetPasswordModal() {
             

@@ -22,13 +22,19 @@
                         <option value="">Select Agent</option>
                     </select>
                 </div>
+                <div class="form-group col-md-6">
+                    <label for="QaManager">Coaching Initiated By</label> <span style="color:red">*</span>
+                    <select name="QaManager" id="QaManager" class="custom-select" required>
+                        <option value="">Select Agent</option>
+                    </select>
+                </div>
 
             </div>
         </div>
     </div>
 </div>
 
-                    <script>
+                  @*   <script>
                         function onSubProgramChange() {
         const selectedValue = $('#SUBProgramID').val();
         if (selectedValue === '') {
@@ -58,6 +64,34 @@
                 console.error("Error occurred: " + error);
             }
         });
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Coaching/getQaManagertList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
+            success: function (response) {
+         
+                console.log(response);
+                   $('#QaManager').find('option:not(:first)').remove();
+                     if (response.agentTlList && Array.isArray(response.agentTlList)) {
+            $.each(response.agentTlList, function (index, agent) {
+                $('#QaManager').append(
+                    $('<option>', {
+                        value: agent.user_Id,
+                        text: agent.userName
+                    })
+                );
+            });
+        }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
     }
     function onProgramChange() {
         const programId = $('#ProgramID').val();
@@ -85,4 +119,83 @@
             }
         });
     }
-                    </script>
+                    </script> *@
+
+<script>
+    async function onSubProgramChange() {
+        const selectedValue = $('#SUBProgramID').val();
+        if (selectedValue === '') {
+            alert('Please select a valid Sub Program Name.');
+            return;
+        }
+
+        const programId = $('#ProgramID').val();
+
+        try {
+            // Get Agent TL List
+            const agentResponse = await fetch("/UpdateManagement/getTlAndAgentList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })
+            });
+            const agentData = await agentResponse.json();
+
+            const agentDropdown = $('#AgentID');
+            agentDropdown.empty();
+            agentDropdown.append('<option value="">Select Agent</option>');
+
+            agentData.agentTlList.forEach(function (agent) {
+                agentDropdown.append('<option value="' + agent.empCode + '">' + agent.empCode + '</option>');
+            });
+
+            // Get QA Manager List
+            const qaResponse = await fetch("/Coaching/getQaManagertList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })
+            });
+            const qaData = await qaResponse.json();
+
+            $('#QaManager').find('option:not(:first)').remove();
+            if (qaData.agentTlList && Array.isArray(qaData.agentTlList)) {
+                qaData.agentTlList.forEach(function (agent) {
+                    $('#QaManager').append(
+                        $('<option>', {
+                            value: agent.user_Id,
+                            text: agent.userName
+                        })
+                    );
+                });
+            }
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
+    async function onProgramChange() {
+        const programId = $('#ProgramID').val();
+        if (programId === "") {
+            alert("Please Select Program first");
+            return;
+        }
+
+        try {
+            const response = await fetch("/Admin/GetSUBProcessList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ id: programId })
+            });
+            const data = await response.json();
+
+            const dropdown = $('#SUBProgramID');
+            dropdown.empty();
+            dropdown.append('<option value="">Select Sub Process</option>');
+
+            data.proces.forEach(function (item) {
+                dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+            });
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+</script>

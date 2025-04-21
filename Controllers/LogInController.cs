@@ -119,7 +119,23 @@ namespace QMS.Controllers
             }
        
         }
+        [HttpPost]
+        public async Task<JsonResult> ResetPasswordWithoutOTP( string newPassword, string username)
+        {
+          
+                    int Result = await _login.ResetPasswordFDirstTimeAsync(username, newPassword);
+                if (Result == 1)
+                {
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    return Json(new { success = false });
+                }
 
+            
+
+        }
 
         [HttpPost]
         public async Task<ActionResult> Login(string Username, string Password)
