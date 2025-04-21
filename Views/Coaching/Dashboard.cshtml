@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="AgentID">Select Agent</label> <span style="color:red">*</span>
-                    <select name="AgentID" id="AgentID" class="custom-select" required>
+                    <select name="AgentID" id="AgentID" class="custom-select" onchange="onAgentChange()" required>
                         <option value="">Select Agent</option>
                     </select>
                 </div>
@@ -34,94 +34,188 @@
     </div>
 </div>
 
-                  @*   <script>
-                        function onSubProgramChange() {
-        const selectedValue = $('#SUBProgramID').val();
-        if (selectedValue === '') {
-            alert('Please select a valid Sub Program Name.');
-            return;
-        }
+<div class="card shadow mb-4" id="MatrixList">
+    <div class="card-header">
+        <strong class="card-title"></strong>
+           </div>
+    <div class="card-body">
+        <div class="row">
+            <table id="MatrixList" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Metrics</th>
+                        <th>Target/Goal</th>
+                        <th>Actual Performance</th>
+                        <th>Select Metric</th>
+                       
 
-        $.ajax({
-            type: "POST",
-            url: "/UpdateManagement/getTlAndAgentList",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
-            success: function (response) {
-                const data = response.agentTlList;
-                console.log(data);
-                const agentDropdown = $('#AgentID');
-            agentDropdown.empty(); // clear existing options
-            agentDropdown.append('<option value="">Select Agent</option>'); // default option
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
 
-            data.forEach(function (agent) {
-               agentDropdown.append('<option value="' + agent.empCode + '">' + agent.empCode + '</option>');
-            });
-               
-            },
-            error: function (xhr, status, error) {
-                console.error("Error occurred: " + error);
-            }
-        });
+        </div>
+    </div>
+</div>
 
-
-        $.ajax({
-            type: "POST",
-            url: "/Coaching/getQaManagertList",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
-            success: function (response) {
-         
-                console.log(response);
-                   $('#QaManager').find('option:not(:first)').remove();
-                     if (response.agentTlList && Array.isArray(response.agentTlList)) {
-            $.each(response.agentTlList, function (index, agent) {
-                $('#QaManager').append(
-                    $('<option>', {
-                        value: agent.user_Id,
-                        text: agent.userName
-                    })
-                );
-            });
-        }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error occurred: " + error);
-            }
-        });
-
-    }
-    function onProgramChange() {
-        const programId = $('#ProgramID').val();
-        if (programId === "") {
-            alert("Please Select Program first");
-            return;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/Admin/GetSUBProcessList",
-            data: JSON.stringify({ id: programId }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                const dropdown = $('#SUBProgramID');
-                dropdown.empty();
-                dropdown.append('<option value="">Select Sub Process</option>');
-                response.proces.forEach(function (item) {
-                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error("Error occurred: " + error);
-            }
-        });
-    }
-                    </script> *@
+<div class="card shadow mb-4" id="MatrixList">
+    <div class="card-header">
+        <strong class="card-title">Review Dates</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="review1">1st Review</label>
+                <input type="date" class="form-control" id="review1" name="review1" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="review2">2nd Review</label>
+                <input type="date" class="form-control" id="review2" name="review2" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="review3">3rd Review</label>
+                <input type="date" class="form-control" id="review3" name="review3" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="review4">4th Review</label>
+                <input type="date" class="form-control" id="review4" name="review4" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center mb-4">
+    <button class="btn btn-primary" onclick="submitForm()">Submit</button>
+</div>
 
 <script>
+        function clearAllFields() {
+        // Reset dropdowns
+        $('#ProgramID').val('');
+        $('#SUBProgramID').empty().append('<option value="">Select Sub Process</option>');
+        $('#AgentID').empty().append('<option value="">Select Agent</option>');
+        $('#QaManager').empty().append('<option value="">Select Agent</option>');
+
+        // Reset review dates
+        $('#review1').val('');
+        $('#review2').val('');
+        $('#review3').val('');
+        $('#review4').val('');
+
+        // Clear matrix table
+        const tableBody = document.querySelector("#MatrixList table tbody");
+        if (tableBody) {
+            tableBody.innerHTML = '';
+        }
+    }
+
+     async function submitForm() {
+        // Validation
+        const programId = $('#ProgramID').val();
+        const subProgramId = $('#SUBProgramID').val();
+        const agentId = $('#AgentID').val();
+        const qaManagerId = $('#QaManager').val();
+        const review1 = $('#review1').val();
+        const review2 = $('#review2').val();
+        const review3 = $('#review3').val();
+        const review4 = $('#review4').val();
+
+
+                if (!programId) {
+                    alert("Please fill in the Program field.");
+                    return;
+                }
+                if (!subProgramId) {
+                    alert("Please fill in the Sub Program field.");
+                    return;
+                }
+                if (!agentId) {
+                    alert("Please fill in the Agent field.");
+                    return;
+                }
+                if (!qaManagerId) {
+                    alert("Please fill in the Coaching Initiated By field.");
+                    return;
+                }
+                if (!review1) {
+                    alert("Please select Review Date 1.");
+                    return;
+                }
+                if (!review2) {
+                    alert("Please select Review Date 2.");
+                    return;
+                }
+                if (!review3) {
+                    alert("Please select Review Date 3.");
+                    return;
+                }
+                if (!review4) {
+                    alert("Please select Review Date 4.");
+                    return;
+                }
+
+        if (new Date(review2) < new Date(review1)) {
+            alert("Review 2 should not be earlier than Review 1.");
+            return;
+        }
+         if (new Date(review3) < new Date(review2)) {
+            alert("Review 3 should not be earlier than Review 2.");
+            return;
+        }
+         if (new Date(review4) < new Date(review3)) {
+            alert("Review 4 should not be earlier than Review 3.");
+            return;
+        }
+
+        // Prepare JSON for Metrics Table
+        const tableRows = document.querySelectorAll("#MatrixList table tbody tr");
+        let metricsJson = [];
+
+        tableRows.forEach(row => {
+            const metricName = row.cells[0].innerText.trim();
+            const target = row.cells[1].innerText.trim();
+            const actual = row.cells[2].innerText.trim();
+             const isChecked = row.cells[3].querySelector("input[type='checkbox']").checked;
+
+            metricsJson.push({
+                metric: metricName,
+                target: target,
+                actual: actual,
+                selected: isChecked
+            });
+        });
+
+        // Prepare JSON for Form Fields
+        const formData = {
+            ProgramID: programId,
+            SubProgramID: subProgramId,
+            AgentID: agentId,
+            QaManager: qaManagerId,
+            Review1: review1,
+            Review2: review2,
+            Review3: review3,
+            Review4: review4
+        };
+
+        console.log("Form Data:", formData);
+        console.log("Metrics Data:", metricsJson);
+
+        // Post to C# Controller
+        try {
+            const response = await fetch('/Coaching/SubmitCoachingData', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ formData, metricsJson })
+            });
+
+            const result = await response.json();
+            alert(result.message || "Form submitted successfully!");
+            clearAllFields();
+        } catch (error) {
+            console.error("Submission failed:", error);
+            alert("Something went wrong. Please try again.");
+        }
+    }
+
     async function onSubProgramChange() {
         const selectedValue = $('#SUBProgramID').val();
         if (selectedValue === '') {
@@ -132,7 +226,7 @@
         const programId = $('#ProgramID').val();
 
         try {
-            // Get Agent TL List
+       
             const agentResponse = await fetch("/UpdateManagement/getTlAndAgentList", {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -148,7 +242,7 @@
                 agentDropdown.append('<option value="' + agent.empCode + '">' + agent.empCode + '</option>');
             });
 
-            // Get QA Manager List
+       
             const qaResponse = await fetch("/Coaching/getQaManagertList", {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -167,6 +261,35 @@
                     );
                 });
             }
+
+                const MatrixListData = await fetch("/Coaching/getMatrix", {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })
+    });
+
+    const MatrixList = await MatrixListData.json();
+    console.log("MatrixList Response:", MatrixList);
+
+    const tableBody = document.querySelector("#MatrixList table tbody");
+    tableBody.innerHTML = ""; // Clear old rows
+
+    MatrixList.agentTlList.forEach((item, index) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${item.matrix}</td>
+            <td>${item.target}</td>
+            <td></td>
+            <td><input type="checkbox" class="metric-checkbox" data-index="${item.matrix}" /></td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+
+                   
+
+
         } catch (error) {
             console.error("Error occurred:", error);
         }
@@ -198,4 +321,42 @@
             console.error("Error occurred:", error);
         }
     }
+
+
+     async function onAgentChange() {
+        const AgentID = $('#AgentID').val();
+
+        console.log("Agent ID" + AgentID);
+        if (AgentID === "") {
+            alert("Please Select Agent  first");
+            return;
+        }
+
+        try {
+            const responsePer = await fetch("/Coaching/GetActualPerformanceList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ id: AgentID })
+            });
+                const text = await responsePer.text();
+    console.log("Raw Response Text:", text);
+    const Performancedata = JSON.parse(text); // fallback in case JSON parsing fails
+
+           //const Performancedata = await responsePer.json();
+        const performanceArray = Performancedata.performance; // This is an array like [56, 78, 66, 56, 34, 99]
+
+        const tableBody = document.querySelector("#MatrixList table tbody");
+        const rows = tableBody.querySelectorAll("tr");
+
+        rows.forEach((row, index) => {
+            if (performanceArray.length > index) {
+                row.cells[2].innerText = performanceArray[index]; // Set value in "Actual Performance" column
+            }
+        });
+
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
 </script>
