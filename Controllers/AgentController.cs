@@ -118,16 +118,24 @@ namespace QMS.Controllers
                 CQScore = dt12.Tables[0].Rows[0]["CQ_Score"]?.ToString();
                 QA_Comments = dt12.Tables[0].Rows[0]["QA_Comments"]?.ToString();
             }
-            if (!string.IsNullOrEmpty(QA_Comments) && dt12.Tables.Count > 1 && dt12.Tables[1].Rows.Count > 0)
+            try
             {
-                byte[] audioBytes = dt12.Tables[1].Rows[0]["AudioData"] as byte[];
-                if (audioBytes != null && audioBytes.Length > 0)
+                if (dt12.Tables.Count > 0 && dt12.Tables[0].Rows.Count > 0)
                 {
-                    string base64Audio = Convert.ToBase64String(audioBytes);
-                    ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                    byte[] audioBytes = dt12.Tables[0].Rows[0]["AudioData"] as byte[];
+                    if (audioBytes != null && audioBytes.Length > 0)
+                    {
+                        string base64Audio = Convert.ToBase64String(audioBytes);
+                        ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                    }
                 }
-            }
 
+            }
+            catch (Exception ex)
+            {
+
+            }
+           
             ViewBag.QA_Comments = QA_Comments;
             ViewBag.cqscore = CQScore;
 

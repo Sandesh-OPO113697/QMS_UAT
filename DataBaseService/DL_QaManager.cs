@@ -22,6 +22,34 @@ namespace QMS.DataBaseService
 
             _enc = dL_Encrpt;
         }
+        public async Task SubmiteCochingComment(string AgentID, string ReviewDate, string Comment, string NumberOFReview)
+        {
+            string EncUser = await _enc.EncryptAsync(UserInfo.UserName);
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("Coaching", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "CommentsSubmit");
+                        cmd.Parameters.AddWithValue("@AgentID", AgentID);
+                        cmd.Parameters.AddWithValue("@ReviewDate", ReviewDate);
+                        cmd.Parameters.AddWithValue("@Comment", Comment);
+                        cmd.Parameters.AddWithValue("@NumberOFReview", NumberOFReview);
+                        cmd.Parameters.AddWithValue("@UserName", EncUser);
+                        await cmd.ExecuteNonQueryAsync();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
         public async Task SubmiteDisputeAkowedge(string QaComment, string calibration, string TransactionID, string CQscore)
         {
 
@@ -39,7 +67,7 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@CQScore", CQscore);
                         cmd.Parameters.AddWithValue("@Mode", "SubmiteQADispute");
                         cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
-                        cmd.ExecuteNonQueryAsync();
+                       await  cmd.ExecuteNonQueryAsync();
 
                     }
                 }
@@ -145,7 +173,7 @@ namespace QMS.DataBaseService
             }
         }
 
-        public async Task<DataTable> GetMonitporedSectionGriedAsync(int processID, int SubprocessID)
+        public async Task<DataTable> GetMonitporedSectionGriedAsync(int processID, int SubprocessID , string TransactionID)
         {
             DataTable dt = new DataTable();
             try
@@ -161,6 +189,7 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@Mode", "GetMotiroedSectionGried");
                         cmd.Parameters.AddWithValue("@processID", processID);
                         cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
+                        cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
                         await Task.Run(() => adpt.Fill(dt));
                     }
@@ -324,13 +353,13 @@ namespace QMS.DataBaseService
                     }
                 }
 
-               
+
                 foreach (DataRow row in dt.Rows)
                 {
                     ZTcaseModel model = new ZTcaseModel
                     {
-                      
-                       
+
+
                         ProgramID = row["ProgramID"]?.ToString(),
                         SubProgramID = row["SubProgramID"]?.ToString(),
                         AgentName = row["AgentName"]?.ToString(),
@@ -348,11 +377,119 @@ namespace QMS.DataBaseService
             }
             catch (Exception ex)
             {
-               
+
             }
 
             return list;
         }
+
+
+        public async Task<List<ReviewDataModel>> GetCaoutingList()
+        {
+            DataTable dt = new DataTable();
+            List<ReviewDataModel> list = new List<ReviewDataModel>();
+            string endcuserName = await _enc.EncryptAsync(UserInfo.UserName);
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("Coaching", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GetCouching");
+                        cmd.Parameters.AddWithValue("@UserName", endcuserName);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    ReviewDataModel model = new ReviewDataModel
+                    {
+
+
+                        AgentID = row["AgentID"]?.ToString(),
+                        ProcessName = row["ProcessName"]?.ToString(),
+                        SubProcess = row["SubProcessName"]?.ToString(),
+                        FirstReview = row["1st Review"]?.ToString(),
+                        Comment1 = row["Comment 1"]?.ToString(),
+                        SecondReview = row["2nd Review"]?.ToString(),
+                        Comment2 = row["Comment 2"]?.ToString(),
+                        ThirdReview = row["3rd Review"]?.ToString(),
+                        Comment3 = row["Comment 3"]?.ToString(),
+                        FourthReview = row["4th Review"]?.ToString(),
+                        Comment4 = row["Comment 4"]?.ToString()
+                    };
+
+                    list.Add(model);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return list;
+        }
+
+
+
+        public async Task<List<MatrixAllDetails>> GetMatrixList(string AgentID)
+        {
+            DataTable dt = new DataTable();
+            List<MatrixAllDetails> list = new List<MatrixAllDetails>();
+            string endcuserName = await _enc.EncryptAsync(UserInfo.UserName);
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("Coaching", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GeMatrixListAll");
+                        cmd.Parameters.AddWithValue("@UserName", endcuserName);
+                        cmd.Parameters.AddWithValue("@AgentID", AgentID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    MatrixAllDetails model = new MatrixAllDetails
+                    {
+
+
+                        AgentID = row["AgentID"]?.ToString(),
+                        Metrics = row["Matrix"]?.ToString(),
+                        Target = row["Target"]?.ToString(),
+                        Actual_Performance = row["Actual_Performance"]?.ToString(),
+                        ReviewDate = row["ReviewDate"]?.ToString(),
+                        CreatedBy = row["CreatedBy"]?.ToString(),
+                  
+                    };
+
+                    list.Add(model);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return list;
+        }
+
 
         public async Task<DataTable> GetQaManagerZtCaseViewDetails(string TransactionID)
         {

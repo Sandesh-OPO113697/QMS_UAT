@@ -41,14 +41,14 @@ namespace QMS.Controllers
         {
             TempData["TtransactionID"] = TransactionID;
 
-
+            ViewBag.TransactionID = TransactionID;
 
             DataTable dt = await dl_qa.GetQaManagerZtCaseViewDetails(TransactionID);
             DataSet dt12 = await dl_Agent.getCQScoreQADisputeSection(TransactionID);
 
-            if (dt12.Tables[1].Rows.Count > 0)
+            if (dt12.Tables[0].Rows.Count > 0)
             {
-                byte[] audioBytes = dt12.Tables[1].Rows[0]["AudioData"] as byte[];
+                byte[] audioBytes = dt12.Tables[0].Rows[0]["AudioData"] as byte[];
                 if (audioBytes != null)
                 {
                     string base64Audio = Convert.ToBase64String(audioBytes);

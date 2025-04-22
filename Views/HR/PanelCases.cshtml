@@ -85,6 +85,11 @@
             </div>
 
             <div class="row" style="margin-top: 15px;">
+                <div class="col-md-12" style="display: flex; flex-direction: column; ">
+
+                    <div id="recordingContainer" data-transaction-id="@ViewBag.TransactionID"></div>
+
+                </div>
                 <div class="form-group col-md-12">
                     <label for="QAComments" style="font-weight: 600; color: #24294a; font-size: 16px; display: block; margin-bottom: 8px;">
                         Voice Feedback
@@ -131,7 +136,69 @@
 
 
 <script src="~/js/jquery.min.js"></script>
+<script>
 
+        $(document).ready(function () {
+            const transactionId = $("#recordingContainer").data("transaction-id");
+       $.ajax({
+            type: "POST",
+             data: JSON.stringify({ id: transactionId }),
+            url: "/Monitor/GetRecording",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (!response.success) return;
+
+                let container = document.getElementById("recordingContainer");
+                container.innerHTML = "";
+
+                container.style.cssText = `
+                    background: url('/images/call_recording.jpg') center/cover no-repeat;
+                    min-height: 300px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    padding: 20px;
+                `;
+
+                if (!response.audioData) {
+                    console.error("No audio data received.");
+                    return;
+                }
+
+                try {
+                    let byteCharacters = atob(response.audioData);
+                    let byteNumbers = new Uint8Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+
+                    let blob = new Blob([byteNumbers], { type: "audio/mpeg" });
+                    let audioUrl = URL.createObjectURL(blob);
+
+                    let audioPlayer = document.createElement("audio");
+                    audioPlayer.controls = true;
+                    audioPlayer.src = audioUrl;
+                    audioPlayer.style.cssText = `
+                        width: 100%;
+                        max-width: 439px;
+                        margin: 5px auto;
+                        margin-top: 527px;
+                    `;
+                    container.appendChild(audioPlayer);
+                    audioPlayer.play().catch(console.error);
+                } catch (e) {
+                    console.error("Invalid Base64 audio data:", e);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+    });
+
+</script>
 <script>
             function submitApprove() {
         var PanelComments = $("#PanelComments").val();

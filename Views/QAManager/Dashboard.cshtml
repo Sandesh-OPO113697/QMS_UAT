@@ -109,6 +109,79 @@
 </div>
 
 
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Coaching </strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>AgentID</th>
+                    <th>Process</th>
+                    <th>SubProcess</th>
+                    <th>1st Review</th>
+                    <th>Comment 1</th>
+                    <th>2nd Review</th>
+                    <th>Comment 2</th>
+                    <th>3rd Review</th>
+                    <th>Comment 3</th>
+                    <th>4th Review</th>
+                    <th>Comment 4</th>
+                    <th>View</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ReviewDataModel != null && Model.ReviewDataModel.Any())
+                {
+                    @foreach (var item in Model.ReviewDataModel)
+                    {
+                        <tr>
+                            <td>@item.AgentID</td>
+                            <td>@item.ProcessName</td>
+                            <td>@item.SubProcess</td>
+                            <td>@item.FirstReview</td>
+                            <td>@item.Comment1</td>
+                            <td>@item.SecondReview</td>
+                            <td>@item.Comment2</td>
+
+                            <td>@item.ThirdReview</td>
+
+                            <td>@item.Comment3</td>
+
+                            <td>@item.FourthReview</td>
+
+                            <td>@item.Comment4</td>
+                            <td>
+                                <a href="/QAManager/SubmiteCoaching?AgentID=@item.AgentID" class="btn btn-primary btn-sm">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No pending feedback.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    
+
+
+</div>
+
+
+
 <script src="~/js/jquery.min.js"></script>
 @await Html.PartialAsync("_MailModal")
 <script src="~/js/xlsx.full.min.js"></script>

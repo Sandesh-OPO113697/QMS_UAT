@@ -741,6 +741,15 @@
                         $row.find(".qa-rating").removeClass("border border-danger");
 
                     }
+                     if (fatal === "") {
+                        isValid = false;
+                         return;
+                        $row.find(".fatal-select").addClass("border border-danger");
+
+                    } else {
+                        $row.find(".fatal-select").removeClass("border border-danger");
+
+                    }
 
                      if ( comments === "") {
                         isValid = false;
@@ -768,7 +777,7 @@
 
 
             if (!isValid) {
-                alert("Please select QA Rating and enter Comments In Section ");
+                alert("Please select All Feilds ");
                 return;
             }
 
@@ -970,7 +979,8 @@
             alert("Please fill all required fields before submitting.");
             return;
         }
-         endAudit();
+        else{
+            endAudit();
         $.ajax({
             url: "/Monitor/FormMinitoringAuditr",
             type: "POST",
@@ -1023,12 +1033,16 @@
         });
 
          clearValues();
+          Reload();
+
+        }
+         
       }
 
 
     function SubMitedata() {
          GetCheckAndSubmite();
-         Reload();
+        
     }
 </script>
 

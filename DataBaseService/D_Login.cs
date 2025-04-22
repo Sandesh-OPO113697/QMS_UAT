@@ -558,7 +558,6 @@ namespace QMS.DataBaseService
                         UserInfo.UserName = await _enc.DecryptAsync(dt.Rows[0]["Name"].ToString());
                         UserInfo.UserType = await _enc.DecryptAsync(dt.Rows[0]["usertype"].ToString());
                       
-
                         return 1;
                     }
 
@@ -595,6 +594,7 @@ namespace QMS.DataBaseService
                     if (dt.Rows.Count > 0)
                     {
                         UserInfo.UserType = await _enc.DecryptAsync(dt.Rows[0]["usertype"].ToString());
+                     
                         return 1;
                     }
                     else

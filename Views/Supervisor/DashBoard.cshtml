@@ -1,0 +1,292 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12 my-4" id="AuditDiv">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Program</label> <span style="color:red">*</span>
+                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()" required>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="AgentID">Select Agent</label> <span style="color:red">*</span>
+                    <select name="AgentID" id="AgentID" class="custom-select" onchange="onAgentChange()" required>
+                        <option value="">Select Agent</option>
+                    </select>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-md-12 my-4" id="CouchingGried" style="display:none" >
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Agent Coaching Summary</h5>
+            <p><strong>Agent Name  :  </strong> <span id="AgentName"></span></></p>
+            <p><strong>Coaching Plan Initiated Date  :  </strong><span id="DateCouching"></span></p>
+
+            <table style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                <thead>
+                    <tr>
+                        <th style="padding: 10px 15px; border: 1px solid #ddd; background-color: #24294a; color: white; text-align: left;">Review Number</th>
+                        <th style="padding: 10px 15px; border: 1px solid #ddd; background-color: #24294a; color: white; text-align: left;">Comment</th>
+                        <th style="padding: 10px 15px; border: 1px solid #ddd; background-color: #24294a; color: white; text-align: left;">Date</th>
+                        <th style="padding: 10px 15px; border: 1px solid #ddd; background-color: #24294a; color: white; text-align: left;">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="reviewTableBody">
+                   
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12 my-4" id="CouchingGriedButton" style="display:none">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="row">
+                
+                <div class="form-group col-md-6">
+                    <label for="GoalStatus">Goal Met Status</label> <span style="color:red">*</span>
+                    <select name="GoalStatus" id="GoalStatus" class="custom-select" onchange="CloseStory()" required>
+                        <option value="">Select Goal Status</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <button type="submit" id="CloseButton" onclick="closedCoauting()"
+                            style="background-color: #24294a; display:none; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                        Close
+                    </button>
+                    <button type="submit" id="ExtendButton"  onclick="ExtendCoauting()"
+                            style="background-color: #24294a; color: #fff; display:none; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                        Extend
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    async function ExtendCoauting() {
+        const ProgramID = $('#ProgramID').val();
+        const SUBProgramID = $('#SUBProgramID').val();
+        const AgentID = $('#AgentID').val();
+
+        try {
+            const agentResponse = await fetch("/Supervisor/ExtenedCoching", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    SUBProgramID: SUBProgramID,
+                    ProgramID: ProgramID,
+                    AgentID: AgentID
+                })
+            });
+
+            const agentData = await agentResponse.json();
+            alert("Coaching  Extend ");
+            console.log(agentData);
+            clearAllFields();// do something with the response
+        } catch (error) {
+            console.error("Error extending coaching:", error);
+        }
+    }
+
+
+     async function closedCoauting() {
+        const ProgramID = $('#ProgramID').val();
+        const SUBProgramID = $('#SUBProgramID').val();
+        const AgentID = $('#AgentID').val();
+
+        try {
+            const agentResponse = await fetch("/Supervisor/ClosedCoching", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    SUBProgramID: SUBProgramID,
+                    ProgramID: ProgramID,
+                    AgentID: AgentID
+                })
+            });
+
+            const agentData = await agentResponse.json();
+               alert("Coaching  Close  ");
+            console.log(agentData);
+             clearAllFields();// do something with the response
+        } catch (error) {
+            console.error("Error extending coaching:", error);
+        }
+    }
+
+
+      function CloseStory() {
+        const Status = $('#GoalStatus').val();
+
+        if (Status === 'Yes') {
+            $('#CloseButton').show();
+            $('#ExtendButton').hide();
+        } else {
+            $('#CloseButton').hide();
+            $('#ExtendButton').show();
+        }
+    }
+
+        function clearAllFields() {
+        // Reset dropdowns
+        $('#ProgramID').val('');
+        $('#SUBProgramID').empty().append('<option value="">Select Sub Process</option>');
+        $('#AgentID').empty().append('<option value="">Select Agent</option>');
+        $("#CouchingGried").hide();
+      $("#CouchingGriedButton").hide();
+       $('#reviewTableBody').empty();
+        
+    }
+
+
+    async function onSubProgramChange() {
+        const selectedValue = $('#SUBProgramID').val();
+        if (selectedValue === '') {
+            alert('Please select a valid Sub Program Name.');
+            return;
+        }
+
+        const programId = $('#ProgramID').val();
+
+        try {
+
+            const agentResponse = await fetch("/UpdateManagement/getTlAndAgentList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })
+            });
+            const agentData = await agentResponse.json();
+
+            const agentDropdown = $('#AgentID');
+            agentDropdown.empty();
+            agentDropdown.append('<option value="">Select Agent</option>');
+
+            agentData.agentTlList.forEach(function (agent) {
+                agentDropdown.append('<option value="' + agent.empCode + '">' + agent.empCode + '</option>');
+            });
+
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
+    async function onProgramChange() {
+        const programId = $('#ProgramID').val();
+        if (programId === "") {
+            alert("Please Select Program first");
+            return;
+        }
+
+        try {
+            const response = await fetch("/Admin/GetSUBProcessList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ id: programId })
+            });
+            const data = await response.json();
+
+            const dropdown = $('#SUBProgramID');
+            dropdown.empty();
+            dropdown.append('<option value="">Select Sub Process</option>');
+
+            data.proces.forEach(function (item) {
+                dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+            });
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
+
+     async function onAgentChange() {
+        const AgentID = $('#AgentID').val();
+
+        console.log("Agent ID" + AgentID);
+        if (AgentID === "") {
+            alert("Please Select Agent  first");
+            return;
+        }
+
+        try {
+            const responsePer = await fetch("/Coaching/GetCochingPlanList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ id: AgentID })
+            });
+                  const text = await responsePer.text();
+    console.log("Raw Response Text:", text);
+
+    const Performancedata = JSON.parse(text); // Parse the JSON
+    const performance = Performancedata.performance; // Extract the array
+      $("#AgentName").text(performance[0]);
+    $("#DateCouching").text(performance[10]);
+    $("#CouchingGried").show();
+      $("#CouchingGriedButton").show();
+    
+    console.log("1st Review:", performance[2], "Date:", performance[1]);
+    console.log("2nd Review:", performance[4], "Date:", performance[3]);
+    console.log("3rd Review:", performance[6], "Date:", performance[5]);
+    console.log("4th Review:", performance[8], "Date:", performance[7]);
+
+     const reviews = [
+      { number: "1st Review", comment: performance[2], date: performance[1] },
+      { number: "2nd Review", comment: performance[4], date: performance[3] },
+      { number: "3rd Review", comment: performance[6], date: performance[5] },
+      { number: "4th Review", comment: performance[8], date: performance[7] }
+    ];
+    const tbody = document.getElementById("reviewTableBody");
+
+    reviews.forEach(review => {
+      const status = review.comment ? "Closed" : "Ongoing";
+      const statusStyle = review.comment
+        ? "background-color: #d4edda; color: #155724;"
+        : "background-color: #fff3cd; color: #856404;";
+
+      const row = `
+        <tr>
+          <td style="padding: 10px 15px; border: 1px solid #ddd;">${review.number}</td>
+          <td style="padding: 10px 15px; border: 1px solid #ddd;">${review.comment || "—"}</td>
+          <td style="padding: 10px 15px; border: 1px solid #ddd;">${review.date || "—"}</td>
+          <td style="padding: 10px 15px; border: 1px solid #ddd; ${statusStyle}">${status}</td>
+        </tr>
+      `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    });
+
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
+</script>

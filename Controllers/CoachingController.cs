@@ -39,6 +39,35 @@ namespace QMS.Controllers
 
        
         }
+        public async Task<IActionResult> GetCochingPlanList([FromBody] DropDawnString id)
+        {
+
+            DataTable dt = await dl_coching.GetCoutingPlanDetailsList(id.ID);
+
+            if (dt.Rows.Count > 0)
+            {
+                var row = dt.Rows[0];
+
+                var performanceList = new List<string>
+            {
+                Convert.ToString(row["AgentID"]),
+                Convert.ToString(row["R_date_1"]),
+                Convert.ToString(row["Comment_1"]),
+                Convert.ToString(row["R_date_2"]),
+                Convert.ToString(row["Comment_2"]),
+                Convert.ToString(row["R_date_3"]),
+                Convert.ToString(row["Comment_3"]),
+                Convert.ToString(row["R_date_4"]),
+                Convert.ToString(row["Comment_4"]),
+                Convert.ToString(row["CreatedBy"]),
+                Convert.ToString(row["Createddate"])
+            };
+
+                return Json(new { performance = performanceList });
+            }
+
+            return Json(new { performance = new List<int>() });
+        }
 
         public async Task<IActionResult> GetActualPerformanceList([FromBody] DropDawnString id)
         {

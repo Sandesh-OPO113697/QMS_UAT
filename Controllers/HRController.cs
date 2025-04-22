@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QMS.DataBaseService;
 using QMS.Models;
+using System;
 using System.Data;
 
 namespace QMS.Controllers
@@ -45,20 +46,27 @@ namespace QMS.Controllers
         {
             TempData["TtransactionID"] = TransactionID;
 
-
+            ViewBag.TransactionID = TransactionID;
 
             DataTable dt = await dl_hr.GetPanelZtCaseViewDetails(TransactionID);
             DataSet dt12 = await dl_Agent.getCQScoreQADisputeSection(TransactionID);
-            if (dt12.Tables[1].Rows.Count > 0)
+            
+            try
             {
-                byte[] audioBytes = dt12.Tables[1].Rows[0]["AudioData"] as byte[];
-                if (audioBytes != null)
+                if (dt12.Tables[0].Rows.Count > 0)
                 {
-                    string base64Audio = Convert.ToBase64String(audioBytes);
-                    ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                    byte[] audioBytes = dt12.Tables[0].Rows[0]["AudioData"] as byte[];
+                    if (audioBytes != null)
+                    {
+                        string base64Audio = Convert.ToBase64String(audioBytes);
+                        ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                    }
                 }
             }
-             
+            catch (Exception ex)
+            {
+
+            }
 
 
             string ProgramID = dt.Rows[0]["ProgramID"].ToString();
@@ -96,20 +104,28 @@ namespace QMS.Controllers
         {
             TempData["TtransactionID"] = TransactionID;
 
-
+            ViewBag.TransactionID = TransactionID;
 
             DataTable dt = await dl_hr.GetPanelZtCaseViewDetails(TransactionID);
             DataSet dt12 = await dl_Agent.getCQScoreQADisputeSection(TransactionID);
-            if ( dt12.Tables[1].Rows.Count > 0)
+            try
             {
-                byte[] audioBytes = dt12.Tables[1].Rows[0]["AudioData"] as byte[];
-                if (audioBytes != null && audioBytes.Length > 0)
+                if (dt12.Tables[0].Rows.Count > 0)
                 {
-                    string base64Audio = Convert.ToBase64String(audioBytes);
-                    ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                    byte[] audioBytes = dt12.Tables[0].Rows[0]["AudioData"] as byte[];
+                    if (audioBytes != null && audioBytes.Length > 0)
+                    {
+                        string base64Audio = Convert.ToBase64String(audioBytes);
+                        ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                    }
                 }
-            }
 
+            }
+            catch (Exception ex)
+            {
+
+            }
+           
 
             string ProgramID = dt.Rows[0]["ProgramID"].ToString();
             string SubProgramID = dt.Rows[0]["SubProgramID"].ToString();

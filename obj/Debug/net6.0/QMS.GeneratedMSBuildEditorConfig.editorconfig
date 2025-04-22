@@ -168,6 +168,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXEVkaXRBZ2VudEZlZWRCYWNrLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/QAManager/SubmiteCoaching.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXFN1Ym1pdGVDb2FjaGluZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/QAManager/ZeroTolerance.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXFplcm9Ub2xlcmFuY2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -210,6 +214,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Projects/QMS_MVC_CORE/Views/SuperAdmin/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/Supervisor/DashBoard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJ2aXNvclxEYXNoQm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/QMS_MVC_CORE/Views/UpdateManagement/Dashboard.cshtml]

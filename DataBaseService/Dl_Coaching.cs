@@ -17,6 +17,62 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
             _dcl = dL;
         }
+        public async Task ExtendCauching(string Program, string subprogram , string Agent)
+        {
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("Coaching", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "ExtendCauching");
+                        cmd.Parameters.AddWithValue("@ProgramID", Program);
+                        cmd.Parameters.AddWithValue("@SubProcessID", subprogram);
+                        cmd.Parameters.AddWithValue("@AgentID", Agent);
+                       await cmd.ExecuteNonQueryAsync();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+        public async Task ClosedCauching(string Program, string subprogram, string Agent)
+        {
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("Coaching", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "ClosedCauching");
+                        cmd.Parameters.AddWithValue("@ProgramID", Program);
+                        cmd.Parameters.AddWithValue("@SubProcessID", subprogram);
+                        cmd.Parameters.AddWithValue("@AgentID", Agent);
+                        await cmd.ExecuteNonQueryAsync();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+
         public async Task SubmitCountingAsync(List<MatrixItem> matrixData, CoachingFormData formData)
         {
             try
@@ -143,9 +199,32 @@ namespace QMS.DataBaseService
             return dt;
         }
 
+        public async Task<DataTable> GetCoutingPlanDetailsList(string AgentID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                     await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("Coaching", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "ActualCochingDetailds");
+                        cmd.Parameters.AddWithValue("@AgentID", AgentID);
 
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        adpt.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
 
+            }
 
+            return dt;
+        }
         public async Task<List<object>> GetMatrixList(int ProcessID, int SubProcessID)
         {
 

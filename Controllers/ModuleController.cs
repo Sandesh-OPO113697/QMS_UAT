@@ -161,9 +161,9 @@ namespace QMS.Controllers
                         case "22":
                             return RedirectToAction("ManageModule");
                         case "23":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("DashBoard", "Supervisor", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
                         case "24":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("DashBoard", "Supervisor", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
                         default:
                             return View();
                     }

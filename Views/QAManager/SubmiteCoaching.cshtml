@@ -1,0 +1,81 @@
+﻿@model List<MatrixAllDetails>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Agent Metrics</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>AgentID</th>
+                    <th>Metrics</th>
+                    <th>Target</th>
+                    <th>Actual_Performance</th>
+                    <th>ReviewDate</th>
+                    <th>Created By</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.AgentID</td>
+                        <td>@item.Metrics</td>
+                        <td>@item.Target</td>
+                        <td>@item.Actual_Performance</td>
+                        <td>@item.ReviewDate</td>
+                        <td>@item.CreatedBy</td>
+
+
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="col-md-12 my-4">
+    <div class="card shadow" style="border-radius: 10px; border: 1px solid #ddd;">
+        <div class="card-body" style="padding: 20px;">
+            <h5 class="card-title" style="font-weight: bold; color: #24294a;"></h5>
+
+            <form method="post" asp-action="SubmiteCochingComment" asp-controller="QAManager">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="AgentID">Agent ID</label>
+                        <input type="text" class="form-control" id="AgentID" name="AgentID" value="@ViewBag.AgentID" readonly />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="ReviewDate">Review Date</label>
+                        <input type="text" class="form-control" id="ReviewDate" name="ReviewDate" value="@ViewBag.ReviewDate" readonly />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="Comment">Comment <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="Comment" name="Comment" required />
+                        <input type="hidden" id="NumberOfReview" name="NumberOfReview" value="@ViewBag.NumberOfReview" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <button type="submit"
+                                style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

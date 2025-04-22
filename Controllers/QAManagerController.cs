@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QMS.DataBaseService;
 using QMS.Models;
+using System;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -42,6 +43,14 @@ namespace QMS.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SubmiteCochingComment(string AgentID, string ReviewDate, string Comment , string NumberOFReview)
+        {
+            await dl_qa.SubmiteCochingComment(AgentID , ReviewDate , Comment , NumberOFReview);
+            return RedirectToAction("Dashboard");
+
+        }
+
 
 
 
@@ -63,6 +72,44 @@ namespace QMS.Controllers
         }
 
 
+        public async Task<IActionResult> SubmiteCoaching(string AgentID)
+        {
+            List<ReviewDataModel> coutingList = await dl_qa.GetCaoutingList();
+            
+            var data = coutingList.FirstOrDefault(x => x.AgentID == AgentID);
+            var comment1 = data.Comment1;
+            var comment2 = data.Comment2;
+            var comment3 = data.Comment3;
+            var comment4 = data.Comment4;
+            var ReviewDate1 = data.FirstReview;
+            var ReviewDate2 = data.SecondReview;
+            var ReviewDate3 = data.ThirdReview;
+            var ReviewDate4 = data.FourthReview;
+            ViewBag.AgentID = AgentID;
+            if (comment1 == "")
+            {
+                ViewBag.NumberOfReview = 1;
+                ViewBag.ReviewDate = ReviewDate1;
+            }
+            else if (comment2 == "")
+            {
+                ViewBag.NumberOfReview = 2;
+                ViewBag.ReviewDate = ReviewDate1;
+            }
+            else if (comment3 == "")
+            {
+                ViewBag.NumberOfReview = 3;
+                ViewBag.ReviewDate = ReviewDate1;
+            }
+            else if (comment4 == "")
+            {ViewBag.NumberOfReview = 4;
+                ViewBag.ReviewDate = ReviewDate1;
+            }
+            List<MatrixAllDetails> ListCoutingMatrix = await dl_qa.GetMatrixList(AgentID);
+
+            return View( ListCoutingMatrix);
+            
+        }
 
         public async Task<IActionResult> Dashboard()
         {
@@ -70,11 +117,13 @@ namespace QMS.Controllers
 
             List<DisputeCallfeedbackModel> List = await dl_qa.DisputeAgentFeedback();
             List<ZTcaseModel> ZTlist = await dl_qa.ZtcaseShow();
+            List<ReviewDataModel> coutingList = await dl_qa.GetCaoutingList();
 
             var viewModel = new DisputeFeedbackViewModel
             {
                 DisputeList = List,
-                ZTcaseList = ZTlist
+                ZTcaseList = ZTlist,
+                ReviewDataModel = coutingList
             };
 
             return View(viewModel);
@@ -82,13 +131,15 @@ namespace QMS.Controllers
 
         public async Task<IActionResult> EditAgentFeedBack(string TransactionID)
         {
+          
             TempData["TransactionID_Dispute"] = TransactionID;
+          
             ViewBag.TransactionID = TransactionID;
             DataTable dt1 = await dl_Agent.getPrrocessAndSubProcess(TransactionID);
             string processID = dt1.Rows[0]["ProgramID"].ToString();
             string SUBprocessID = dt1.Rows[0]["SubProgramID"].ToString();
             ViewBag.Agent_Comment = dt1.Rows[0]["Agent_Comment"].ToString();
-            var dataTable = await dl_qa.GetMonitporedSectionGriedAsync(Convert.ToInt32(processID), Convert.ToInt32(SUBprocessID));
+            var dataTable = await dl_qa.GetMonitporedSectionGriedAsync(Convert.ToInt32(processID), Convert.ToInt32(SUBprocessID) , TransactionID);
             var sectionList = dataTable.AsEnumerable().Select(row => new MonitoredSectionGridModel
             {
 
@@ -129,21 +180,28 @@ namespace QMS.Controllers
         }
         public async Task<IActionResult> ZeroTolerance(string TransactionID)
         {
+            ViewBag.TransactionID = TransactionID;
             TempData["TtransactionID"] = TransactionID;
-
-
-
             DataTable dt = await dl_qa.GetQaManagerZtCaseViewDetails(TransactionID);
             DataSet dt12 = await dl_Agent.getCQScoreQADisputeSection(TransactionID);
-            if (dt12.Tables[1].Rows.Count > 0)
+            try
             {
-                byte[] audioBytes = dt12.Tables[1].Rows[0]["AudioData"] as byte[];
-                if (audioBytes != null)
+                if (dt12.Tables[0].Rows.Count > 0)
                 {
-                    string base64Audio = Convert.ToBase64String(audioBytes);
-                    ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+
+                    byte[] audioBytes = dt12.Tables[0].Rows[0]["AudioData"] as byte[];
+                    if (audioBytes != null)
+                    {
+                        string base64Audio = Convert.ToBase64String(audioBytes);
+                        ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
+                    }
                 }
             }
+            catch(Exception ec)
+            {
+
+            }
+           
 
 
 
