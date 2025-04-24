@@ -215,35 +215,7 @@
         let selectedProcess = "";
         let selectedSubProcess = "";
 
-                      function getSlot(date) {
-      const day = date.getDate();
-      if (day >= 1 && day <= 7) return 1;
-      if (day >= 8 && day <= 14) return 2;
-      if (day >= 15 && day <= 21) return 3;
-      return 4;
-    }
-
-    function getNextSlot(currentSlot) {
-      return currentSlot % 4 + 1; // 1 → 2 → 3 → 4 → 1 ...
-    }
-
-    function getSlotDateRange(year, month, slot) {
-      const startDay = slot === 1 ? 1 : slot === 2 ? 8 : slot === 3 ? 15 : 22;
-      const endDay = slot === 1 ? 7 : slot === 2 ? 14 : slot === 3 ? 21 : new Date(year, month + 1, 0).getDate();
-      return { startDay, endDay };
-    }
-
-    function isDateInSlot(date, slot) {
-      const { startDay, endDay } = getSlotDateRange(date.getFullYear(), date.getMonth(), slot);
-      return date.getDate() >= startDay && date.getDate() <= endDay;
-    }
-
-    function addMonths(date, months) {
-      const newDate = new Date(date);
-      newDate.setMonth(newDate.getMonth() + months);
-      return newDate;
-    }
-
+                     
 
 
 
@@ -269,6 +241,52 @@
             tableBody.innerHTML = '';
         }
     }
+        function parseDate(input, label) {
+        const date = new Date(input);
+        if (isNaN(date)) {
+            alert(`Please enter a valid date for ${label}`);
+            throw new Error(`Invalid date for ${label}`);
+        }
+        return date;
+    }
+
+    // Get today's date with time reset
+    function getToday() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return today;
+    }
+
+    // Slot definitions
+    const slots = [
+        { start: 1, end: 7 },
+        { start: 8, end: 14 },
+        { start: 15, end: 21 },
+        { start: 22, end: 31 }
+    ];
+
+    // Determine which slot a date falls into (0-based index)
+    function getSlot(date) {
+        const day = date.getDate();
+        for (let i = 0; i < slots.length; i++) {
+            if (day >= slots[i].start && day <= slots[i].end) return i;
+        }
+        return -1;
+    }
+
+    // Get the expected date for the next slot (moves to next month if needed)
+    function getNextSlotDate(baseDate, targetSlotIndex) {
+        const slotIndex = targetSlotIndex % 4;
+        const monthOffset = Math.floor(targetSlotIndex / 4);
+        const slot = slots[slotIndex];
+
+        let nextMonth = new Date(baseDate);
+        nextMonth.setMonth(baseDate.getMonth() + monthOffset);
+
+        const maxDay = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0).getDate();
+        const day = Math.min(slot.start, maxDay);
+        return new Date(nextMonth.getFullYear(), nextMonth.getMonth(), day);
+    }
 
      async function submitForm() {
         // Validation
@@ -276,60 +294,60 @@
         const subProgramId = $('#SUBProgramID').val();
         const agentId = $('#AgentID').val();
         const qaManagerId = $('#QaManager').val();
-        const review1 = $('#review1').val();
-        const review2 = $('#review2').val();
-        const review3 = $('#review3').val();
-        const review4 = $('#review4').val();
+        // const review1 = $('#review1').val();
+        // const review2 = $('#review2').val();
+        // const review3 = $('#review3').val();
+        // const review4 = $('#review4').val();
         const review5 = $('#review5').val();
         const review6 = $('#review6').val();
-    //         const rawLastDate = $('#LastDate').val();
-    //                if (!review1 || !review2 || !review3 || !review4) {
-    //   alert("All review dates must be filled.");
-    //   return;
-    // }
+   
 
-    // const dateInputs = [
-    //   new Date(review1),
-    //   new Date(review2),
-    //   new Date(review3),
-    //   new Date(review4)
-    // ];
 
-    // const now = new Date();
-    // now.setHours(0, 0, 0, 0);
+          const review1 = parseDate($('#review1').val(), 'Review 1');
+        const review2 = parseDate($('#review2').val(), 'Review 2');
+        const review3 = parseDate($('#review3').val(), 'Review 3');
+        const review4 = parseDate($('#review4').val(), 'Review 4');
 
-    // // First date must be in the future
-    // if (dateInputs[0] <= now) {
-    //   alert("First date must be in the future.");
-    //   return;
-    // }
+        const today = getToday();
 
-    // let currentSlot = getSlot(dateInputs[0]);
-    // let baseDate = dateInputs[0];
+        if (review1 <= today) {
+            alert('Review 1 must be a future date.');
+            return;
+        }
 
-    // for (let i = 1; i < 4; i++) {
-    //   currentSlot = getNextSlot(currentSlot); // move to next slot
-    //   baseDate = addMonths(baseDate, 0); // keep the same month for now (fix for moving to next month incorrectly)
+        const baseSlot = getSlot(review1);
+        if (baseSlot === -1) {
+            alert("Review 1 is not in a valid slot.");
+            return;
+        }
 
-    //   const expectedMonth = baseDate.getMonth();
-    //   const expectedYear = baseDate.getFullYear();
-    //   const actual = dateInputs[i];
+        const expectedDates = [
+            review1,
+            getNextSlotDate(review1, baseSlot + 1),
+            getNextSlotDate(review1, baseSlot + 2),
+            getNextSlotDate(review1, baseSlot + 3)
+        ];
 
-    //   if (actual <= dateInputs[i - 1]) {
-    //     alert(`Date ${i + 1} must be greater than Date ${i}`);
-    //     return;
-    //   }
+        const actualDates = [review1, review2, review3, review4];
 
-    //   if (
-    //     actual.getMonth() !== expectedMonth ||
-    //     actual.getFullYear() !== expectedYear ||
-    //     !isDateInSlot(actual, currentSlot)
-    //   ) {
-    //     const { startDay, endDay } = getSlotDateRange(expectedYear, expectedMonth, currentSlot);
-    //     alert(`Date ${i + 1} must be in slot ${currentSlot} of ${expectedMonth + 1}/${expectedYear} (${startDay}-${endDay})`);
-    //     return;
-    //   }
-    // }
+        for (let i = 1; i < actualDates.length; i++) {
+            const actual = actualDates[i];
+            const expected = expectedDates[i];
+
+            const actualSlot = getSlot(actual);
+            const expectedSlot = getSlot(expected);
+
+            if (
+                actual.getMonth() !== expected.getMonth() ||
+                actual.getFullYear() !== expected.getFullYear() ||
+                actualSlot !== expectedSlot
+            ) {
+                alert(`Review ${i + 1} should be in slot  (${slots[expectedSlot].start}-${slots[expectedSlot].end}) of ${expected.toLocaleString('default', { month: 'long' })}`);
+                return;
+            }
+        }
+
+
 
                 if (!programId) {
                     alert("Please fill in the Program field.");
