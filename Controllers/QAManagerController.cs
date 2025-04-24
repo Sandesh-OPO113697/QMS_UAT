@@ -73,7 +73,7 @@ namespace QMS.Controllers
 
 
         public async Task<IActionResult> SubmiteCoaching(string AgentID)
-        {
+            {
             List<ReviewDataModel> coutingList = await dl_qa.GetCaoutingList();
             
             var data = coutingList.FirstOrDefault(x => x.AgentID == AgentID);
@@ -81,10 +81,14 @@ namespace QMS.Controllers
             var comment2 = data.Comment2;
             var comment3 = data.Comment3;
             var comment4 = data.Comment4;
+            var comment5 = data.Comment5;
+            var comment6 = data.Comment6;
             var ReviewDate1 = data.FirstReview;
             var ReviewDate2 = data.SecondReview;
             var ReviewDate3 = data.ThirdReview;
             var ReviewDate4 = data.FourthReview;
+            var ReviewDate5 = data.FifthReview;
+            var ReviewDate6 = data.SixReview;
             ViewBag.AgentID = AgentID;
             if (comment1 == "")
             {
@@ -102,10 +106,27 @@ namespace QMS.Controllers
                 ViewBag.ReviewDate = ReviewDate1;
             }
             else if (comment4 == "")
-            {ViewBag.NumberOfReview = 4;
+            {
+                ViewBag.NumberOfReview = 4;
                 ViewBag.ReviewDate = ReviewDate1;
             }
-            List<MatrixAllDetails> ListCoutingMatrix = await dl_qa.GetMatrixList(AgentID);
+            else if (comment5 == "" && ReviewDate5 != "")
+            {
+                ViewBag.NumberOfReview = 5;
+                ViewBag.ReviewDate = ReviewDate5;
+            }
+            else if (comment6 == "" && ReviewDate5 != "")
+            {
+                ViewBag.NumberOfReview = 6;
+                ViewBag.ReviewDate = ReviewDate6;
+            }
+            else
+            {
+                ViewBag.NumberOfReview = 0;
+                ViewBag.ReviewDate = "Null";
+
+            }
+                List<MatrixAllDetails> ListCoutingMatrix = await dl_qa.GetMatrixList(AgentID);
 
             return View( ListCoutingMatrix);
             

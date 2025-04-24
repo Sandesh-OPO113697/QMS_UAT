@@ -115,6 +115,11 @@
 <div class="card shadow mb-4">
     <div class="card-header">
         <strong class="card-title">Coaching </strong>
+        <div>
+            <span class="badge badge-success" style="background-color: #d4edda; color: #155724; padding: 5px 10px; border-radius: 5px;">On-Going</span>
+            <span class="badge badge-warning" style="background-color: #fff3cd; color: #856404; padding: 5px 10px; border-radius: 5px;">Extended</span>
+            <span class="badge badge-danger" style="background-color: #f8d7da; color: #721c24; padding: 5px 10px; border-radius: 5px;">PIP</span>
+        </div>
     </div>
     <div class="card-body">
         <table class="table table-bordered">
@@ -131,6 +136,10 @@
                     <th>Comment 3</th>
                     <th>4th Review</th>
                     <th>Comment 4</th>
+                    <th>5th Review</th>
+                    <th>Comment 5</th>
+                    <th>6th Review</th>
+                    <th>Comment 6</th>
                     <th>View</th>
 
                 </tr>
@@ -140,7 +149,24 @@
                 {
                     @foreach (var item in Model.ReviewDataModel)
                     {
-                        <tr>
+                        string rowClass = "";
+                        if (item.CoachingStatus == "PIP")
+                        {
+                            rowClass = "table-danger"; // Red
+                        }
+                        else if (item.CoachingStatus == "Closed")
+                        {
+                            rowClass = "table-success"; // Green
+                        }
+                        else if (item.CoachingStatus == "Extended")
+                        {
+                            rowClass = "table-warning"; // Yellow
+                        }
+                        else if (item.CoachingStatus == "NotExtended")
+                        {
+                            rowClass = "table-success"; // Yellow
+                        }
+                        <tr class="@rowClass">
                             <td>@item.AgentID</td>
                             <td>@item.ProcessName</td>
                             <td>@item.SubProcess</td>
@@ -156,6 +182,12 @@
                             <td>@item.FourthReview</td>
 
                             <td>@item.Comment4</td>
+
+                            <td>@item.FifthReview</td>
+
+                            <td>@item.Comment5</td>
+                            <td>@item.SixReview</td>
+                            <td>@item.Comment6</td>
                             <td>
                                 <a href="/QAManager/SubmiteCoaching?AgentID=@item.AgentID" class="btn btn-primary btn-sm">
                                     View

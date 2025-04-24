@@ -199,7 +199,7 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@AgentComment", AgentComment);
                         cmd.Parameters.AddWithValue("@Mode", "SubmiteIdpsuteAgentComment");
                         cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
-                        cmd.ExecuteNonQueryAsync();
+                        await cmd.ExecuteNonQueryAsync();
 
                     }
                 }

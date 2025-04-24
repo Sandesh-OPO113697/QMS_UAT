@@ -195,7 +195,7 @@ namespace QMS.DataBaseService
             }
 
         }
-        public async Task InsertSubProcessDetailsAsync(string Location_ID, string ProgramID, string SubProcess, int Number_Of_Pause , IFormFile file , string TypeProcess)
+        public async Task InsertSubProcessDetailsAsync(string Location_ID, string ProgramID, string SubProcess, int Number_Of_Pause, IFormFile file, string TypeProcess, IFormFile files)
         {
             int SubProgramID = 0;
             using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
@@ -212,7 +212,7 @@ namespace QMS.DataBaseService
                     cmd.Parameters.AddWithValue("@Number_Of_Pause", Number_Of_Pause);
                     cmd.Parameters.AddWithValue("@TypeProcess", TypeProcess);
                     cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
-                   
+
                     SqlParameter outpouparameter = new SqlParameter("@InserTedID", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -228,6 +228,8 @@ namespace QMS.DataBaseService
 
                 int successCount = 0, duplicateCount = 0, invalidCount = 0;
                 string extension = Path.GetExtension(file.FileName);
+                string Getextension = Path.GetExtension(files.FileName);
+
                 using (var stream = new MemoryStream())
                 {
                     await file.CopyToAsync(stream);
@@ -284,17 +286,87 @@ namespace QMS.DataBaseService
                     }
                     else
                     {
-                       
+
                     }
 
-                  
 
+                    using (var streams = new MemoryStream())
+                    {
+                        await files.CopyToAsync(streams);
+                        streams.Position = 0;
+                        if (Getextension == ".xlsx")  // Handle modern Excel files
+                        {
+                            using (var packages = new ExcelPackage(streams))
+                            {
+                                ExcelWorksheet worksheet = packages.Workbook.Worksheets[0];
+                                int rowCount = worksheet.Dimension.Rows;
+
+                                for (int row = 2; row <= rowCount; row++)
+                                {
+
+                                    string MATRIX = worksheet.Cells[row, 1].Value?.ToString()?.Trim();
+                                    string TARGET = worksheet.Cells[row, 2].Value?.ToString()?.Trim()?.ToUpper();
+
+                                    await InsertMatrixList(ProgramID, SubProgramID.ToString(), MATRIX, TARGET);
+                                    successCount++;
+                                }
+                            }
+
+                        }
+                        else if (Getextension == ".xls")
+                        {
+                            HSSFWorkbook hssfwb = new HSSFWorkbook(streams);
+                            ISheet sheet = hssfwb.GetSheetAt(0);
+                            int rowCount = sheet.PhysicalNumberOfRows;
+
+                            for (int row = 1; row < rowCount; row++)
+                            {
+                                IRow currentRow = sheet.GetRow(row);
+
+                                string MATRIX = currentRow.GetCell(0)?.ToString()?.Trim();
+                                string TARGET = currentRow.GetCell(1)?.ToString()?.Trim()?.ToUpper();
+
+                                await InsertMatrixList(ProgramID, SubProgramID.ToString(), MATRIX, TARGET);
+                                successCount++;
+                            }
+                        }
+                        else
+                        {
+
+                        }
+
+                    }
 
                 }
 
+
             }
+        }
+        public async Task InsertMatrixList(string ProgramID, string SubProgramID, string MATRIX, string TARGET)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
 
+                    using (SqlCommand cmd = new SqlCommand("InsertmatrixMaster", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@ProgramID", ProgramID);
+                        cmd.Parameters.AddWithValue("@SubProgramID", SubProgramID);
+                        cmd.Parameters.AddWithValue("@MATRIX", MATRIX);
+                        cmd.Parameters.AddWithValue("@TARGET", TARGET);
+                        cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
 
+            }
         }
 
         public async Task InsertAgenttList(string EmpName, string EmpCode, string TL_Name, string TL_Code, string processID, string SubProcessID, string QA_Name, string Batch_ID, string EmailID, string Password, string Phone)

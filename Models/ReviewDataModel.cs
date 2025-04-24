@@ -17,5 +17,12 @@
 
         public string FourthReview { get; set; }
         public string Comment4 { get; set; }
+
+        public string FifthReview { get; set; }
+        public string Comment5 { get; set; }
+
+        public string SixReview { get; set; }
+        public string Comment6 { get; set; }
+        public string CoachingStatus { get; set; }
     }
 }

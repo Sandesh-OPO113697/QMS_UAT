@@ -1,8 +1,10 @@
-﻿@{
+﻿@model List<ReviewDataModel>
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="col-md-12 my-4" id="AuditDiv">
+<div class="col-md-12 my-4" id="AuditDiv"  style="display:none">
     <div class="card shadow">
         <div class="card-body">
             <h5 class="card-title"></h5>
@@ -29,6 +31,96 @@
 </div>
 
 
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Coaching </strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>AgentID</th>
+                    <th>Process</th>
+                    <th>SubProcess</th>
+                    <th>1st Review</th>
+                    <th>Comment 1</th>
+                    <th>2nd Review</th>
+                    <th>Comment 2</th>
+                    <th>3rd Review</th>
+                    <th>Comment 3</th>
+                    <th>4th Review</th>
+                    <th>Comment 4</th>
+                    <th>5th Review</th>
+                    <th>Comment 5</th>
+                    <th>6th Review</th>
+                    <th>Comment 6</th>
+                    <th>View</th>
+
+                </tr>
+            </thead>
+            <tbody>
+              
+                    @foreach (var item in Model)
+                    {
+                    bool showViewButton = !string.IsNullOrEmpty(item.AgentID?.ToString()) &&
+                    !string.IsNullOrEmpty(item.ProcessName) &&
+                    !string.IsNullOrEmpty(item.SubProcess) &&
+                    !string.IsNullOrEmpty(item.FirstReview?.ToString()) &&
+                    !string.IsNullOrEmpty(item.Comment1) &&
+                    !string.IsNullOrEmpty(item.SecondReview?.ToString()) &&
+                    !string.IsNullOrEmpty(item.Comment2) &&
+                    !string.IsNullOrEmpty(item.ThirdReview?.ToString()) &&
+                    !string.IsNullOrEmpty(item.Comment3) &&
+                    !string.IsNullOrEmpty(item.FourthReview?.ToString()) &&
+                    !string.IsNullOrEmpty(item.Comment4);
+                        <tr>
+                            <td>@item.AgentID</td>
+                            <td>@item.ProcessName</td>
+                            <td>@item.SubProcess</td>
+                            <td>@item.FirstReview</td>
+                            <td>@item.Comment1</td>
+                            <td>@item.SecondReview</td>
+                            <td>@item.Comment2</td>
+
+                            <td>@item.ThirdReview</td>
+
+                            <td>@item.Comment3</td>
+
+                            <td>@item.FourthReview</td>
+
+                            <td>@item.Comment4</td>
+
+                            <td>@item.FifthReview</td>
+
+                            <td>@item.Comment5</td>
+                            <td>@item.SixReview</td>
+                            <td>@item.Comment6</td>
+                            <td>
+                            @if (showViewButton)
+                            {
+                                <button onclick="viewAgent(this)"
+                                        data-agentid="@item.AgentID"
+                                        data-process="@item.ProcessName"
+                                        data-subprocess="@item.SubProcess"
+                                        style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                                    View
+                                </button>
+                            }
+                            
+                            </td>
+                        </tr>
+                    }
+               
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+</div>
 
 <div class="col-md-12 my-4" id="CouchingGried" style="display:none" >
     <div class="card shadow">
@@ -81,6 +173,10 @@
                             style="background-color: #24294a; color: #fff; display:none; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
                         Extend
                     </button>
+                    <button type="submit" id="finalCloseBtn" onclick="HRPIP()"
+                            style="background-color: #24294a; color: #fff; display:none; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                        HR PIP
+                    </button>
                 </div>
             </div>
 
@@ -89,11 +185,17 @@
 </div>
 
 <script>
-
+        let selectedAgentID = "";
+    let selectedProcess = "";
+    let selectedSubProcess = "";
     async function ExtendCoauting() {
-        const ProgramID = $('#ProgramID').val();
-        const SUBProgramID = $('#SUBProgramID').val();
-        const AgentID = $('#AgentID').val();
+
+          console.log("Extend Coaching for Agent:", selectedAgentID);
+    console.log("Process:", selectedProcess);
+    console.log("SubProcess:", selectedSubProcess);
+        const ProgramID = selectedProcess;
+        const SUBProgramID = selectedSubProcess;
+        const AgentID = selectedAgentID;
 
         try {
             const agentResponse = await fetch("/Supervisor/ExtenedCoching", {
@@ -111,12 +213,43 @@
             const agentData = await agentResponse.json();
             alert("Coaching  Extend ");
             console.log(agentData);
-            clearAllFields();// do something with the response
+            clearAllFields();
         } catch (error) {
             console.error("Error extending coaching:", error);
         }
     }
 
+
+      async function HRPIP() {
+
+          console.log("Extend Coaching for Agent:", selectedAgentID);
+    console.log("Process:", selectedProcess);
+    console.log("SubProcess:", selectedSubProcess);
+        const ProgramID = selectedProcess;
+        const SUBProgramID = selectedSubProcess;
+        const AgentID = selectedAgentID;
+
+        try {
+            const agentResponse = await fetch("/Supervisor/HRPIP", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    SUBProgramID: SUBProgramID,
+                    ProgramID: ProgramID,
+                    AgentID: AgentID
+                })
+            });
+
+            const agentData = await agentResponse.json();
+            alert("HR PIP Applied ");
+            console.log(agentData);
+            clearAllFields();
+        } catch (error) {
+            console.error("Error extending coaching:", error);
+        }
+    }
 
      async function closedCoauting() {
         const ProgramID = $('#ProgramID').val();
@@ -139,7 +272,7 @@
             const agentData = await agentResponse.json();
                alert("Coaching  Close  ");
             console.log(agentData);
-             clearAllFields();// do something with the response
+             clearAllFields();
         } catch (error) {
             console.error("Error extending coaching:", error);
         }
@@ -147,19 +280,51 @@
 
 
       function CloseStory() {
-        const Status = $('#GoalStatus').val();
+       
+
+            const Status = $('#GoalStatus').val();
 
         if (Status === 'Yes') {
             $('#CloseButton').show();
             $('#ExtendButton').hide();
+          const finalButton = document.getElementById("finalCloseBtn");
+           finalButton.style.display = "none";
         } else {
             $('#CloseButton').hide();
-            $('#ExtendButton').show();
+        
+
+             const rows = document.querySelectorAll("#reviewTableBody tr");
+                let allClosed = true;
+
+                rows.forEach(row => {
+                  const statusCell = row.cells[3]; // 4th column is status
+                  if (statusCell && statusCell.textContent.trim() !== "Closed") {
+                    allClosed = false;
+                  }
+                });
+
+                const finalButton = document.getElementById("finalCloseBtn");
+                if (allClosed && rows.length > 0) {
+                  finalButton.style.display = "inline-block";
+                   $('#ExtendButton').hide();
+                    
+                } else {
+                     $('#ExtendButton').show();
+                   
+                  finalButton.style.display = "none";
+                }
+             
         }
+
+          
+               
+
+
+      
     }
 
         function clearAllFields() {
-        // Reset dropdowns
+
         $('#ProgramID').val('');
         $('#SUBProgramID').empty().append('<option value="">Select Sub Process</option>');
         $('#AgentID').empty().append('<option value="">Select Agent</option>');
@@ -227,13 +392,17 @@
             console.error("Error occurred:", error);
         }
     }
+    
 
-
-     async function onAgentChange() {
-        const AgentID = $('#AgentID').val();
-
-        console.log("Agent ID" + AgentID);
-        if (AgentID === "") {
+     async function viewAgent(button) {
+         
+          const AgentID = button.getAttribute("data-agentid");
+    selectedAgentID = AgentID;
+    selectedProcess = button.getAttribute("data-process");
+    selectedSubProcess = button.getAttribute("data-subprocess");
+          const tbody23 = document.getElementById("reviewTableBody");
+    tbody23.innerHTML = "";
+            if (AgentID === "") {
             alert("Please Select Agent  first");
             return;
         }
@@ -263,7 +432,78 @@
       { number: "1st Review", comment: performance[2], date: performance[1] },
       { number: "2nd Review", comment: performance[4], date: performance[3] },
       { number: "3rd Review", comment: performance[6], date: performance[5] },
-      { number: "4th Review", comment: performance[8], date: performance[7] }
+      { number: "4th Review", comment: performance[8], date: performance[7] },
+       { number: "5th Review", comment: performance[10], date: performance[9] },
+        { number: "6th Review", comment: performance[12], date: performance[11] }
+    ];
+    const tbody = document.getElementById("reviewTableBody");
+
+    reviews.forEach(review => {
+       let status = "Not Initiated";
+    let statusStyle = "background-color: #f8d7da; color: #721c24;"; // Red for Not Initiated
+
+    if (review.date && review.comment) {
+      status = "Closed";
+      statusStyle = "background-color: #d4edda; color: #155724;"; // Green for Closed
+    } else if (review.date && !review.comment) {
+      status = "Ongoing";
+      statusStyle = "background-color: #fff3cd; color: #856404;"; // Yellow for Ongoing
+    }
+
+      const row = `
+        <tr>
+          <td style="padding: 10px 15px; border: 1px solid #ddd;">${review.number}</td>
+          <td style="padding: 10px 15px; border: 1px solid #ddd;">${review.comment || "—"}</td>
+          <td style="padding: 10px 15px; border: 1px solid #ddd;">${review.date || "—"}</td>
+          <td style="padding: 10px 15px; border: 1px solid #ddd; ${statusStyle}">${status}</td>
+        </tr>
+      `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    });
+
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
+
+    async function onAgentChange() {
+        const AgentID = $('#AgentID').val();
+
+        console.log("Agent ID" + AgentID);
+        if (AgentID === "") {
+            alert("Please Select Agent  first");
+            return;
+        }
+
+        try {
+            const responsePer = await fetch("/Coaching/GetCochingPlanList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ id: AgentID })
+            });
+                  const text = await responsePer.text();
+    console.log("Raw Response Text:", text);
+
+    const Performancedata = JSON.parse(text); // Parse the JSON
+    const performance = Performancedata.performance; // Extract the array
+      $("#AgentName").text(performance[0]);
+    $("#DateCouching").text(performance[10]);
+    $("#CouchingGried").show();
+      $("#CouchingGriedButton").show();
+
+    console.log("1st Review:", performance[2], "Date:", performance[1]);
+    console.log("2nd Review:", performance[4], "Date:", performance[3]);
+    console.log("3rd Review:", performance[6], "Date:", performance[5]);
+    console.log("4th Review:", performance[8], "Date:", performance[7]);
+
+     const reviews = [
+      { number: "1st Review", comment: performance[2], date: performance[1] },
+      { number: "2nd Review", comment: performance[4], date: performance[3] },
+      { number: "3rd Review", comment: performance[6], date: performance[5] },
+      { number: "4th Review", comment: performance[8], date: performance[7] },
+       { number: "5th Review", comment: performance[10], date: performance[9] },
+        { number: "6th Review", comment: performance[12], date: performance[11] }
     ];
     const tbody = document.getElementById("reviewTableBody");
 

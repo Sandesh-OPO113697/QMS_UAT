@@ -159,7 +159,8 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "22":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("DashBoard", "Coaching", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
+
                         case "23":
                             return RedirectToAction("DashBoard", "Supervisor", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
                         case "24":
@@ -221,7 +222,8 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "38":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("UploadAPR", "Operation");
+
                         case "39":
                             return RedirectToAction("ManageModule");
 
@@ -438,7 +440,7 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause, IFormFile file , string TypeProcess)
+        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause, IFormFile file , string TypeProcess, IFormFile files)
         {
             try
             {
@@ -477,7 +479,7 @@ namespace QMS.Controllers
                 }
 
 
-                await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file, TypeProcess);
+                await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file, TypeProcess,files);
                 errorMessages.Add("Sub-Process Created Sucessfully !");
                 TempData["ErrorMessages"] = errorMessages;
             }

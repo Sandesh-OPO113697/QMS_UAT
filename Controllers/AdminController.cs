@@ -67,7 +67,7 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause, IFormFile file , string TypeProcess)
+        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause, IFormFile file , string TypeProcess, IFormFile files)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace QMS.Controllers
                 }
 
 
-                await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file, TypeProcess);
+                await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file, TypeProcess , files);
                 errorMessages.Add("Sub-Process Created Sucessfully !");
                 TempData["ErrorMessages"] = errorMessages;
             }

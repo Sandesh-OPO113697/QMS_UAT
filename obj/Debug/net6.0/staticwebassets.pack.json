@@ -41,12 +41,20 @@
       "PackagePath": "staticwebassets\\Images\\user.png"
     },
     {
+      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\APRNEW.xls",
+      "PackagePath": "staticwebassets\\SampleFile\\APRNEW.xls"
+    },
+    {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\AgentUpload.xls",
       "PackagePath": "staticwebassets\\SampleFile\\AgentUpload.xls"
     },
     {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadCategory.xls",
       "PackagePath": "staticwebassets\\SampleFile\\UploadCategory.xls"
+    },
+    {
+      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadMatrix.xls",
+      "PackagePath": "staticwebassets\\SampleFile\\UploadMatrix.xls"
     },
     {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\dispo.xls",

@@ -161,15 +161,7 @@ namespace QMS.Controllers
             TempData["TtransactionDisputeID"] = TransactionID;
             DataTable dt1 = await dl_Agent.getAgentFeedbackSection(TransactionID);
             DataSet dt12 = await dl_Agent.getCQScoreQADisputeSection(TransactionID);
-            //string CQScore = dt12.Rows[0]["CQ_Score"].ToString();
-            //string QA_Comments = dt12.Rows[0]["QA_Comments"].ToString();
-            //string Calibrated = dt12.Rows[0]["CalibratedComment"].ToString();
-            //byte[] audioBytes = dt12.Rows[0]["AudioData"] as byte[];
-            //if (audioBytes != null)
-            //{
-            //    string base64Audio = Convert.ToBase64String(audioBytes);
-            //    ViewBag.AudioData = "data:audio/wav;base64," + base64Audio;
-            //}
+          
 
             string CQScore = string.Empty;
             string QA_Comments = string.Empty;
@@ -181,9 +173,9 @@ namespace QMS.Controllers
                 QA_Comments = dt12.Tables[0].Rows[0]["QA_Comments"]?.ToString();
                 CalibratedComment = dt12.Tables[0].Rows[0]["CalibratedComment"]?.ToString();
             }
-            if (!string.IsNullOrEmpty(QA_Comments) && dt12.Tables.Count > 1 && dt12.Tables[1].Rows.Count > 0)
+            if (!string.IsNullOrEmpty(QA_Comments)  && dt12.Tables[0].Rows.Count > 0)
             {
-                byte[] audioBytes = dt12.Tables[1].Rows[0]["AudioData"] as byte[];
+                byte[] audioBytes = dt12.Tables[0].Rows[0]["AudioData"] as byte[];
                 if (audioBytes != null && audioBytes.Length > 0)
                 {
                     string base64Audio = Convert.ToBase64String(audioBytes);

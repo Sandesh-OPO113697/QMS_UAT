@@ -2,6 +2,118 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@model List<ReviewDataModel>
+
+
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Coaching </strong>
+        <div>
+            <span class="badge badge-success" style="background-color: #d4edda; color: #155724; padding: 5px 10px; border-radius: 5px;">On-Going</span>
+            <span class="badge badge-warning" style="background-color: #fff3cd; color: #856404; padding: 5px 10px; border-radius: 5px;">Extended</span>
+            <span class="badge badge-danger" style="background-color: #f8d7da; color: #721c24; padding: 5px 10px; border-radius: 5px;">PIP</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>AgentID</th>
+                    <th>Process</th>
+                    <th>SubProcess</th>
+                    <th>1st Review</th>
+                    <th>Comment 1</th>
+                    <th>2nd Review</th>
+                    <th>Comment 2</th>
+                    <th>3rd Review</th>
+                    <th>Comment 3</th>
+                    <th>4th Review</th>
+                    <th>Comment 4</th>
+                    <th>5th Review</th>
+                    <th>Comment 5</th>
+                    <th>6th Review</th>
+                    <th>Comment 6</th>
+                    <th>View</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    string rowClass = "";
+                    if (item.CoachingStatus == "PIP")
+                    {
+                        rowClass = "table-danger"; // Red
+                    }
+                    else if (item.CoachingStatus == "Closed")
+                    {
+                        rowClass = "table-success"; // Green
+                    }
+                    else if (item.CoachingStatus == "Extended")
+                    {
+                        rowClass = "table-warning"; // Yellow
+                    }
+                    else if (item.CoachingStatus == "NotExtended")
+                    {
+                        rowClass = "table-success"; // Yellow
+                    }
+                    bool showViewButton = rowClass != "table-danger" &&  !string.IsNullOrEmpty(item.AgentID?.ToString()) &&
+                    !string.IsNullOrEmpty(item.ProcessName) &&
+                    !string.IsNullOrEmpty(item.SubProcess) &&
+                    !string.IsNullOrEmpty(item.FirstReview?.ToString()) &&
+                    !string.IsNullOrEmpty(item.Comment1) &&
+                    !string.IsNullOrEmpty(item.SecondReview?.ToString()) &&
+                    !string.IsNullOrEmpty(item.Comment2) &&
+                    !string.IsNullOrEmpty(item.ThirdReview?.ToString()) &&
+                    !string.IsNullOrEmpty(item.Comment3) &&
+                    !string.IsNullOrEmpty(item.FourthReview?.ToString()) &&
+                    !string.IsNullOrEmpty(item.Comment4);
+                    <tr class="@rowClass">
+                        <td>@item.AgentID</td>
+                        <td>@item.ProcessName</td>
+                        <td>@item.SubProcess</td>
+                        <td>@item.FirstReview</td>
+                        <td>@item.Comment1</td>
+                        <td>@item.SecondReview</td>
+                        <td>@item.Comment2</td>
+
+                        <td>@item.ThirdReview</td>
+
+                        <td>@item.Comment3</td>
+
+                        <td>@item.FourthReview</td>
+
+                        <td>@item.Comment4</td>
+
+                        <td>@item.FifthReview</td>
+
+                        <td>@item.Comment5</td>
+                        <td>@item.SixReview</td>
+                        <td>@item.Comment6</td>
+                        <td>
+                            @if (showViewButton)
+                            {
+                            <button onclick="viewAgent(this)" class="btn btn-primary"
+                                    data-agentid="@item.AgentID"
+                                    data-process="@item.ProcessName"
+                                    data-subprocess="@item.SubProcess">
+                                View
+                            </button>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
 <div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow">
         <div class="card-body">
@@ -34,10 +146,10 @@
     </div>
 </div>
 
-<div class="card shadow mb-4" id="MatrixList">
+<div class="card shadow mb-4" id="MatrixList" style="display:none">
     <div class="card-header">
         <strong class="card-title"></strong>
-           </div>
+    </div>
     <div class="card-body">
         <div class="row">
             <table id="MatrixList" class="table table-bordered">
@@ -47,7 +159,7 @@
                         <th>Target/Goal</th>
                         <th>Actual Performance</th>
                         <th>Select Metric</th>
-                       
+
 
                     </tr>
                 </thead>
@@ -58,36 +170,83 @@
     </div>
 </div>
 
-<div class="card shadow mb-4" id="MatrixList">
+<div class="card shadow mb-4" id="MatrixList2" style="display:none">
     <div class="card-header">
         <strong class="card-title">Review Dates</strong>
     </div>
     <div class="card-body">
         <div class="row">
             <div class="form-group col-md-3">
-                <label for="review1">1st Review</label>
-                <input type="date" class="form-control" id="review1" name="review1" />
+                <input type="hidden" id="LastDate" name="LastDate" value="" />
+
+                <label for="review1" id="labelReview1" style="display:none">1st Review</label>
+                <input type="date" class="form-control" style="display:none" id="review1" name="review1" />
             </div>
             <div class="form-group col-md-3">
-                <label for="review2">2nd Review</label>
-                <input type="date" class="form-control" id="review2" name="review2" />
+                <label for="review2" id="labelReview2" style="display:none">2nd Review</label>
+                <input type="date" class="form-control" style="display:none" id="review2" name="review2" />
             </div>
             <div class="form-group col-md-3">
-                <label for="review3">3rd Review</label>
-                <input type="date" class="form-control" id="review3" name="review3" />
+                <label for="review3" id="labelReview3" style="display:none">3rd Review</label>
+                <input type="date" class="form-control" style="display:none" id="review3" name="review3" />
             </div>
             <div class="form-group col-md-3">
-                <label for="review4">4th Review</label>
-                <input type="date" class="form-control" id="review4" name="review4" />
+                <label for="review4" id="labelReview4" style="display:none">4th Review</label>
+                <input type="date" class="form-control" style="display:none" id="review4" name="review4" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="review5" id="labelReview5" style="display:none">5th Review</label>
+                <input type="date" class="form-control" style="display:none" id="review5" name="review5" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="review6" id="labelReview6" style="display:none">6th Review</label>
+                <input type="date" class="form-control" style="display:none" id="review6" name="review6" />
             </div>
         </div>
     </div>
 </div>
 <div class="text-center mb-4">
-    <button class="btn btn-primary" onclick="submitForm()">Submit</button>
+    <button class="btn btn-primary" id="submite" style="display:none" onclick="submitForm()">Submit</button>
+    <button class="btn btn-primary" id="SubmiteExted" style="display:none" onclick="submitFormExtended()">Submit</button>
 </div>
 
 <script>
+         let selectedAgentID = "";
+        let selectedProcess = "";
+        let selectedSubProcess = "";
+
+                      function getSlot(date) {
+      const day = date.getDate();
+      if (day >= 1 && day <= 7) return 1;
+      if (day >= 8 && day <= 14) return 2;
+      if (day >= 15 && day <= 21) return 3;
+      return 4;
+    }
+
+    function getNextSlot(currentSlot) {
+      return currentSlot % 4 + 1; // 1 → 2 → 3 → 4 → 1 ...
+    }
+
+    function getSlotDateRange(year, month, slot) {
+      const startDay = slot === 1 ? 1 : slot === 2 ? 8 : slot === 3 ? 15 : 22;
+      const endDay = slot === 1 ? 7 : slot === 2 ? 14 : slot === 3 ? 21 : new Date(year, month + 1, 0).getDate();
+      return { startDay, endDay };
+    }
+
+    function isDateInSlot(date, slot) {
+      const { startDay, endDay } = getSlotDateRange(date.getFullYear(), date.getMonth(), slot);
+      return date.getDate() >= startDay && date.getDate() <= endDay;
+    }
+
+    function addMonths(date, months) {
+      const newDate = new Date(date);
+      newDate.setMonth(newDate.getMonth() + months);
+      return newDate;
+    }
+
+
+
+
         function clearAllFields() {
         // Reset dropdowns
         $('#ProgramID').val('');
@@ -100,7 +259,10 @@
         $('#review2').val('');
         $('#review3').val('');
         $('#review4').val('');
-
+         $('#labelReview5, #review5').hide();
+        $('#labelReview6, #review6').hide();
+         $('#MatrixList').hide();
+        $('#MatrixList2').hide();
         // Clear matrix table
         const tableBody = document.querySelector("#MatrixList table tbody");
         if (tableBody) {
@@ -118,7 +280,56 @@
         const review2 = $('#review2').val();
         const review3 = $('#review3').val();
         const review4 = $('#review4').val();
+        const review5 = $('#review5').val();
+        const review6 = $('#review6').val();
+    //         const rawLastDate = $('#LastDate').val();
+    //                if (!review1 || !review2 || !review3 || !review4) {
+    //   alert("All review dates must be filled.");
+    //   return;
+    // }
 
+    // const dateInputs = [
+    //   new Date(review1),
+    //   new Date(review2),
+    //   new Date(review3),
+    //   new Date(review4)
+    // ];
+
+    // const now = new Date();
+    // now.setHours(0, 0, 0, 0);
+
+    // // First date must be in the future
+    // if (dateInputs[0] <= now) {
+    //   alert("First date must be in the future.");
+    //   return;
+    // }
+
+    // let currentSlot = getSlot(dateInputs[0]);
+    // let baseDate = dateInputs[0];
+
+    // for (let i = 1; i < 4; i++) {
+    //   currentSlot = getNextSlot(currentSlot); // move to next slot
+    //   baseDate = addMonths(baseDate, 0); // keep the same month for now (fix for moving to next month incorrectly)
+
+    //   const expectedMonth = baseDate.getMonth();
+    //   const expectedYear = baseDate.getFullYear();
+    //   const actual = dateInputs[i];
+
+    //   if (actual <= dateInputs[i - 1]) {
+    //     alert(`Date ${i + 1} must be greater than Date ${i}`);
+    //     return;
+    //   }
+
+    //   if (
+    //     actual.getMonth() !== expectedMonth ||
+    //     actual.getFullYear() !== expectedYear ||
+    //     !isDateInSlot(actual, currentSlot)
+    //   ) {
+    //     const { startDay, endDay } = getSlotDateRange(expectedYear, expectedMonth, currentSlot);
+    //     alert(`Date ${i + 1} must be in slot ${currentSlot} of ${expectedMonth + 1}/${expectedYear} (${startDay}-${endDay})`);
+    //     return;
+    //   }
+    // }
 
                 if (!programId) {
                     alert("Please fill in the Program field.");
@@ -136,7 +347,38 @@
                     alert("Please fill in the Coaching Initiated By field.");
                     return;
                 }
-                if (!review1) {
+
+                   var LastDate = $('#LastDate').val();
+                console.log("Last date: " + LastDate);
+
+
+
+
+                if (LastDate) {
+                    if (!review5) {
+                        alert("Please select Review Date 5.");
+                        return;
+                    }
+                    if (!review6) {
+                        alert("Please select Review Date 6.");
+                        return;
+                    }
+
+                      
+                    var parts = rawLastDate.split(' ')[0].split('-'); // ["27", "04", "2025"]
+                    var formattedLastDate = `${parts[2]}-${parts[1]}-${parts[0]}`; // "2025-04-27"
+
+                       if (new Date(review5) < new Date(formattedLastDate)) {
+                          alert("Review 5 should not be earlier than Review 4 (" + formattedLastDate + ")");
+                            return;
+                        }
+                         if (new Date(review6) < new Date(review5)) {
+                            alert("Review 6 should not be earlier than Review 5.");
+                            return;
+                        }
+                }
+                else{
+                    if (!review1) {
                     alert("Please select Review Date 1.");
                     return;
                 }
@@ -153,18 +395,21 @@
                     return;
                 }
 
-        if (new Date(review2) < new Date(review1)) {
-            alert("Review 2 should not be earlier than Review 1.");
-            return;
-        }
-         if (new Date(review3) < new Date(review2)) {
-            alert("Review 3 should not be earlier than Review 2.");
-            return;
-        }
-         if (new Date(review4) < new Date(review3)) {
-            alert("Review 4 should not be earlier than Review 3.");
-            return;
-        }
+                        if (new Date(review2) < new Date(review1)) {
+                            alert("Review 2 should not be earlier than Review 1.");
+                            return;
+                        }
+                         if (new Date(review3) < new Date(review2)) {
+                            alert("Review 3 should not be earlier than Review 2.");
+                            return;
+                        }
+                         if (new Date(review4) < new Date(review3)) {
+                            alert("Review 4 should not be earlier than Review 3.");
+                            return;
+                        }
+
+                }
+
 
         // Prepare JSON for Metrics Table
         const tableRows = document.querySelectorAll("#MatrixList table tbody tr");
@@ -193,7 +438,9 @@
             Review1: review1,
             Review2: review2,
             Review3: review3,
-            Review4: review4
+            Review4: review4,
+             Review5: review5,
+              Review6: review6
         };
 
         console.log("Form Data:", formData);
@@ -210,11 +457,159 @@
             const result = await response.json();
             alert(result.message || "Form submitted successfully!");
             clearAllFields();
+             location.reload();
         } catch (error) {
             console.error("Submission failed:", error);
             alert("Something went wrong. Please try again.");
         }
     }
+
+
+        async function submitFormExtended() {
+            // Validation
+                const programId = selectedProcess;
+                const subProgramId = selectedSubProcess;
+                    const agentId = selectedAgentID;
+            const qaManagerId = $('#QaManager').val();
+            const review1 = $('#review1').val();
+            const review2 = $('#review2').val();
+            const review3 = $('#review3').val();
+            const review4 = $('#review4').val();
+            const review5 = $('#review5').val();
+            const review6 = $('#review6').val();
+
+
+
+                    if (!programId) {
+                        alert("Please fill in the Program field.");
+                        return;
+                    }
+                    if (!subProgramId) {
+                        alert("Please fill in the Sub Program field.");
+                        return;
+                    }
+                    if (!agentId) {
+                        alert("Please fill in the Agent field.");
+                        return;
+                    }
+                 
+                       var LastDate = $('#LastDate').val();
+                  
+                    console.log("Last date: " + LastDate);
+
+
+
+
+                    if (LastDate) {
+                        if (!review5) {
+                            alert("Please select Review Date 5.");
+                            return;
+                        }
+                        if (!review6) {
+                            alert("Please select Review Date 6.");
+                            return;
+                        }
+
+                              var rawLastDate = $('#LastDate').val();
+                        var parts = rawLastDate.split(' ')[0].split('-'); // ["27", "04", "2025"]
+                        var formattedLastDate = `${parts[2]}-${parts[1]}-${parts[0]}`; // "2025-04-27"
+
+                           if (new Date(review5) < new Date(formattedLastDate)) {
+                              alert("Review 5 should not be earlier than Review 4 (" + formattedLastDate + ")");
+                                return;
+                            }
+                             if (new Date(review6) < new Date(review5)) {
+                                alert("Review 6 should not be earlier than Review 5.");
+                                return;
+                            }
+                    }
+                    else{
+                        if (!review1) {
+                        alert("Please select Review Date 1.");
+                        return;
+                    }
+                    if (!review2) {
+                        alert("Please select Review Date 2.");
+                        return;
+                    }
+                    if (!review3) {
+                        alert("Please select Review Date 3.");
+                        return;
+                    }
+                    if (!review4) {
+                        alert("Please select Review Date 4.");
+                        return;
+                    }
+
+                            if (new Date(review2) < new Date(review1)) {
+                                alert("Review 2 should not be earlier than Review 1.");
+                                return;
+                            }
+                             if (new Date(review3) < new Date(review2)) {
+                                alert("Review 3 should not be earlier than Review 2.");
+                                return;
+                            }
+                             if (new Date(review4) < new Date(review3)) {
+                                alert("Review 4 should not be earlier than Review 3.");
+                                return;
+                            }
+
+                    }
+
+
+            // Prepare JSON for Metrics Table
+            const tableRows = document.querySelectorAll("#MatrixList table tbody tr");
+            let metricsJson = [];
+
+            tableRows.forEach(row => {
+                const metricName = row.cells[0].innerText.trim();
+                const target = row.cells[1].innerText.trim();
+                const actual = row.cells[2].innerText.trim();
+                 const isChecked = row.cells[3].querySelector("input[type='checkbox']").checked;
+
+                metricsJson.push({
+                    metric: metricName,
+                    target: target,
+                    actual: actual,
+                    selected: isChecked
+                });
+            });
+
+            // Prepare JSON for Form Fields
+            const formData = {
+                ProgramID: programId,
+                SubProgramID: subProgramId,
+                AgentID: agentId,
+                QaManager: qaManagerId,
+                Review1: review1,
+                Review2: review2,
+                Review3: review3,
+                Review4: review4,
+                 Review5: review5,
+                  Review6: review6
+            };
+
+            console.log("Form Data:", formData);
+            console.log("Metrics Data:", metricsJson);
+
+            // Post to C# Controller
+            try {
+                const response = await fetch('/Coaching/SubmitCoachingData', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ formData, metricsJson })
+                });
+
+                const result = await response.json();
+                alert(result.message || "Form submitted successfully!");
+                 location.reload();
+                clearAllFields();
+            } catch (error) {
+                console.error("Submission failed:", error);
+                alert("Something went wrong. Please try again.");
+            }
+        }
+
 
     async function onSubProgramChange() {
         const selectedValue = $('#SUBProgramID').val();
@@ -226,7 +621,7 @@
         const programId = $('#ProgramID').val();
 
         try {
-       
+
             const agentResponse = await fetch("/UpdateManagement/getTlAndAgentList", {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -242,7 +637,7 @@
                 agentDropdown.append('<option value="' + agent.empCode + '">' + agent.empCode + '</option>');
             });
 
-       
+
             const qaResponse = await fetch("/Coaching/getQaManagertList", {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -287,7 +682,7 @@
         tableBody.appendChild(row);
     });
 
-                   
+
 
 
         } catch (error) {
@@ -340,23 +735,227 @@
             });
                 const text = await responsePer.text();
     console.log("Raw Response Text:", text);
-    const Performancedata = JSON.parse(text); // fallback in case JSON parsing fails
+    const Performancedata = JSON.parse(text);
 
-           //const Performancedata = await responsePer.json();
-        const performanceArray = Performancedata.performance; // This is an array like [56, 78, 66, 56, 34, 99]
+           const performanceArray = Performancedata.performance;
+             const matrixList = Performancedata.matrixList;
+              if (!matrixList || matrixList.length === 0) {
+            console.error("matrixList is not defined or is empty.");
 
+        }
         const tableBody = document.querySelector("#MatrixList table tbody");
         const rows = tableBody.querySelectorAll("tr");
 
         rows.forEach((row, index) => {
             if (performanceArray.length > index) {
-                row.cells[2].innerText = performanceArray[index]; // Set value in "Actual Performance" column
+                row.cells[2].innerText = performanceArray[index];
+            }
+            if (matrixList.length > index) {
+                const checkbox = row.querySelector("input[type='checkbox']");
+                if (checkbox) {
+                        checkbox.checked = false; // Check the checkbox if matrixList[index] is 1
+                }
             }
         });
+
+    //      if (matrixList.length > index) {
+    //     const checkbox = row.querySelector("input[type='checkbox']");
+    //     if (checkbox) {
+    //         checkbox.checked = matrixList[index] === 1;  // Check the checkbox if matrixList[index] is 1
+    //     }
+    // }
 
         } catch (error) {
             console.error("Error occurred:", error);
         }
+
+
+
+        $('#MatrixList').show();
+        $('#MatrixList2').show();
+
+
+        try {
+            const responsePer = await fetch("/Coaching/IsCouchingExtend", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ id: AgentID })
+            });
+                const text = await responsePer.text();
+            console.log("EXTEND Status:", text);
+            const Performancedata = JSON.parse(text);
+      console.log("jaosn Status:", Performancedata);
+      $('#LastDate').val(Performancedata.fourthDate);
+    //       if (Performancedata.performance === "extend") {
+    //     // Show review 5 & 6
+    //     $('#labelReview5').show();
+    //     $('#review5').show();
+    //     $('#labelReview6').show();
+    //     $('#review6').show();
+
+    //     // Hide review 1–4
+    //     $('#labelReview1, #review1').hide();
+    //     $('#labelReview2, #review2').hide();
+    //     $('#labelReview3, #review3').hide();
+    //     $('#labelReview4, #review4').hide();
+    // } else {
+    //     // Show review 1–4
+    //     $('#labelReview1, #review1').show();
+    //     $('#labelReview2, #review2').show();
+    //     $('#labelReview3, #review3').show();
+    //     $('#labelReview4, #review4').show();
+
+    //     // Hide review 5 & 6
+    //     $('#labelReview5, #review5').hide();
+    //     $('#labelReview6, #review6').hide();
+    // }
+           $('#labelReview1, #review1').show();
+        $('#labelReview2, #review2').show();
+        $('#labelReview3, #review3').show();
+        $('#labelReview4, #review4').show();
+                 $('#labelReview5, #review5').hide();
+             $('#labelReview6, #review6').hide();
+
+                 $('#submite').show();
+                            $('#SubmiteExted').hide();
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
     }
+
+
+          async function viewAgent(button) {
+
+              const AgentID = button.getAttribute("data-agentid");
+        selectedAgentID = AgentID;
+        selectedProcess = button.getAttribute("data-process");
+        selectedSubProcess = button.getAttribute("data-subprocess");
+    
+   
+
+            
+                            const MatrixListData = await fetch("/Coaching/getMatrixByProcess", {
+            method: "POST",
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+                            body: JSON.stringify({ SUBProcessID: selectedSubProcess, ProcessID: selectedProcess })
+        });
+
+        const MatrixList = await MatrixListData.json();
+        console.log("MatrixList Response:", MatrixList);
+
+        const tableBody = document.querySelector("#MatrixList table tbody");
+        tableBody.innerHTML = ""; // Clear old rows
+
+        MatrixList.agentTlList.forEach((item, index) => {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${item.matrix}</td>
+                <td>${item.target}</td>
+                <td></td>
+                <td><input type="checkbox" class="metric-checkbox" data-index="${item.matrix}" /></td>
+            `;
+
+            tableBody.appendChild(row);
+        });
+
+                 $('#submite').hide();
+                            $('#SubmiteExted').show();
+                           
+
+        if (AgentID === "") {
+            alert("Please Select Agent  first");
+            return;
+        }
+
+        try {
+            const responsePer = await fetch("/Coaching/GetActualPerformanceList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ id: AgentID })
+            });
+                const text = await responsePer.text();
+    console.log("Raw Response Text:", text);
+    const Performancedata = JSON.parse(text);
+
+           const performanceArray = Performancedata.performance;
+             const matrixList = Performancedata.matrixList;
+              if (!matrixList || matrixList.length === 0) {
+            console.error("matrixList is not defined or is empty.");
+
+        }
+        const tableBody = document.querySelector("#MatrixList table tbody");
+        const rows = tableBody.querySelectorAll("tr");
+
+        rows.forEach((row, index) => {
+            if (performanceArray.length > index) {
+                row.cells[2].innerText = performanceArray[index];
+            }
+            if (matrixList.length > index) {
+                const checkbox = row.querySelector("input[type='checkbox']");
+                if (checkbox) {
+                    checkbox.checked = matrixList[index] === 1; // Check the checkbox if matrixList[index] is 1
+                }
+            }
+        });
+
+         if (matrixList.length > index) {
+        const checkbox = row.querySelector("input[type='checkbox']");
+        if (checkbox) {
+            checkbox.checked = matrixList[index] === 1;  // Check the checkbox if matrixList[index] is 1
+        }
+
+    }
+
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+
+
+
+        $('#MatrixList').show();
+        $('#MatrixList2').show();
+
+
+        try {
+            const responsePer = await fetch("/Coaching/IsCouchingExtend", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ id: AgentID })
+            });
+                const text = await responsePer.text();
+            console.log("EXTEND Status:", text);
+            const Performancedata = JSON.parse(text);
+      console.log("jaosn Status:", Performancedata);
+      $('#LastDate').val(Performancedata.fourthDate);
+          if (Performancedata.performance === "extend") {
+       
+        $('#labelReview5').show();
+        $('#review5').show();
+        $('#labelReview6').show();
+        $('#review6').show();
+
+        // Hide review 1–4
+        $('#labelReview1, #review1').hide();
+        $('#labelReview2, #review2').hide();
+        $('#labelReview3, #review3').hide();
+        $('#labelReview4, #review4').hide();
+    } else {
+        // Show review 1–4
+        $('#labelReview1, #review1').show();
+        $('#labelReview2, #review2').show();
+        $('#labelReview3, #review3').show();
+        $('#labelReview4, #review4').show();
+
+        // Hide review 5 & 6
+        $('#labelReview5, #review5').hide();
+        $('#labelReview6, #review6').hide();
+    }
+         
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
 
 </script>

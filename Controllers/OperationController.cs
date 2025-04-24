@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using NPOI.SS.Formula.Functions;
 using QMS.DataBaseService;
 using QMS.Models;
 using System.Data;
@@ -11,15 +13,23 @@ namespace QMS.Controllers
         private readonly DL_Operation dl_Ops;
         private readonly DL_Agent dl_Agent;
         private readonly DL_QaManager dl_qa;
-        public OperationController(DL_Operation adls, DL_QaManager dl_qas, DL_Agent adla)
+        private readonly Dl_Admin dl_admin;
+        public OperationController(DL_Operation adls, DL_QaManager dl_qas, DL_Agent adla, Dl_Admin dl_admin )
         {
 
             dl_Ops = adls;
             dl_qa = dl_qas;
             dl_Agent = adla;
-
+            this.dl_admin = dl_admin;
         }
+        [HttpPost]
+        public async Task<ActionResult> UploadAPRDEtails(string SUBProgramID, string ProgramID, IFormFile files)
+        {
+            await dl_qa.UploadAPR(ProgramID, SUBProgramID, files);
+            TempData["SucessAPR"] = "APR Upload Sucessfull...!";
 
+            return RedirectToAction("UploadAPR");
+        }
         public async Task<IActionResult> Dashboard()
         {
 
@@ -35,6 +45,21 @@ namespace QMS.Controllers
 
             return View(viewModel);
         }
+
+        public async Task<IActionResult> UploadAPR()
+        {
+
+            DataTable dt = await dl_admin.GetProcessListAsync();
+            var processList = dt.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ProcessName"]}",
+            }).ToList();
+            ViewBag.Process = processList;
+
+            return View();
+        }
+
 
 
         public async Task<IActionResult> OperationZtCase(string TransactionID)

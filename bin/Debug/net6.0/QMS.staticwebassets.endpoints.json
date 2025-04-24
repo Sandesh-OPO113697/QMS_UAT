@@ -767,7 +767,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 22 Apr 2025 13:15:44 GMT"
+          "Value": "Thu, 24 Apr 2025 11:14:07 GMT"
         }
       ],
       "EndpointProperties": [
@@ -812,13 +812,95 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 22 Apr 2025 13:15:44 GMT"
+          "Value": "Thu, 24 Apr 2025 11:14:07 GMT"
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
           "Value": "sha256-yhLo8+8LJkqKNtlsljU7NBpGlkNNioeSmjHhxUMqt7g="
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/APRNEW.ddaxmghkzl.xls",
+      "AssetFile": "SampleFile/APRNEW.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "21504"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wdi50pmPjhhe3KwrRSNvID+tLdsslsGEGffXxjCp0fc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 24 Apr 2025 10:58:30 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ddaxmghkzl"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-wdi50pmPjhhe3KwrRSNvID+tLdsslsGEGffXxjCp0fc="
+        },
+        {
+          "Name": "label",
+          "Value": "SampleFile/APRNEW.xls"
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/APRNEW.xls",
+      "AssetFile": "SampleFile/APRNEW.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "21504"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wdi50pmPjhhe3KwrRSNvID+tLdsslsGEGffXxjCp0fc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 24 Apr 2025 10:58:30 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-wdi50pmPjhhe3KwrRSNvID+tLdsslsGEGffXxjCp0fc="
         }
       ]
     },
@@ -983,6 +1065,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-T3qrGTJtu4ikaw7xx5Kt0CjgjRy6OGxd6HuWqKKG/8c="
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/UploadMatrix.p5p5zgpwax.xls",
+      "AssetFile": "SampleFile/UploadMatrix.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "20992"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Yx5iFk66z4GEjR2uu/tTn35/xINfvz7wGC676ddMrQI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 24 Apr 2025 11:05:56 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "p5p5zgpwax"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Yx5iFk66z4GEjR2uu/tTn35/xINfvz7wGC676ddMrQI="
+        },
+        {
+          "Name": "label",
+          "Value": "SampleFile/UploadMatrix.xls"
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/UploadMatrix.xls",
+      "AssetFile": "SampleFile/UploadMatrix.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "20992"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Yx5iFk66z4GEjR2uu/tTn35/xINfvz7wGC676ddMrQI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 24 Apr 2025 11:05:56 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Yx5iFk66z4GEjR2uu/tTn35/xINfvz7wGC676ddMrQI="
         }
       ]
     },

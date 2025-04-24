@@ -10,5 +10,7 @@
         public string Review2 { get; set; }
         public string Review3 { get; set; }
         public string Review4 { get; set; }
+        public string Review5 { get; set; }
+        public string Review6 { get; set; }
     }
 }

@@ -160,6 +160,7 @@
             var comments = $row.find("input[type='text']").val().trim();
              var fatal = $row.find(".qa-Fatal").val();
             
+             console.log("fatal value " + fatal);
             if (category === "" && level === "" && sectionName === "") {
                 return;
             }

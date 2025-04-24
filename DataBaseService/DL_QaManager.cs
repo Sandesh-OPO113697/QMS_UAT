@@ -7,6 +7,13 @@ using QMS.Encription;
 using System.Diagnostics;
 using MailKit.Security;
 using System.Net;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using OfficeOpenXml;
+using Org.BouncyCastle.Asn1.X509;
+using Microsoft.Extensions.Logging;
+using NPOI.SS.Formula.Functions;
+using Org.BouncyCastle.Tsp;
 
 namespace QMS.DataBaseService
 {
@@ -21,6 +28,104 @@ namespace QMS.DataBaseService
         {
 
             _enc = dL_Encrpt;
+        }
+        public async Task UploadAPR(string ProcessID , string Subprocess, IFormFile file)
+        {
+            int successCount = 0, duplicateCount = 0, invalidCount = 0;
+            string extension = Path.GetExtension(file.FileName);
+    
+
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                stream.Position = 0;
+                if (extension == ".xlsx")  // Handle modern Excel files
+                {
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        int rowCount = worksheet.Dimension.Rows;
+
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+
+                            string AgentID = worksheet.Cells[row, 1].Value?.ToString()?.Trim();
+                            string C_SAT = worksheet.Cells[row, 2].Value?.ToString()?.Trim()?.ToUpper();
+                            string NPS = worksheet.Cells[row, 3].Value?.ToString()?.Trim();
+                            string FCR = worksheet.Cells[row, 4].Value?.ToString()?.Trim();
+
+                            string Repeat = worksheet.Cells[row, 5].Value?.ToString()?.Trim();
+                            string AHT = worksheet.Cells[row, 6].Value?.ToString()?.Trim();
+                            string Sales_Conversion = worksheet.Cells[row, 7].Value?.ToString()?.Trim();
+                            string Resolution = worksheet.Cells[row, 8].Value?.ToString()?.Trim();
+
+                             await InsertMatrixList(AgentID, C_SAT, NPS, FCR, ProcessID, Subprocess.ToString(), Repeat, AHT, Sales_Conversion, Resolution);
+                            successCount++;
+                        }
+                    }
+
+                }
+                else if (extension == ".xls")
+                {
+                    HSSFWorkbook hssfwb = new HSSFWorkbook(stream);
+                    ISheet sheet = hssfwb.GetSheetAt(0);
+                    int rowCount = sheet.PhysicalNumberOfRows;
+
+                    for (int row = 1; row < rowCount; row++)
+                    {
+                        IRow currentRow = sheet.GetRow(row);
+
+                        string AgentID = currentRow.GetCell(0)?.ToString()?.Trim();
+                        string C_SAT = currentRow.GetCell(1)?.ToString()?.Trim()?.ToUpper();
+                        string NPS = currentRow.GetCell(2)?.ToString()?.Trim();
+                        string FCR = currentRow.GetCell(3)?.ToString()?.Trim();
+
+                        string Repeat = currentRow.GetCell(4)?.ToString()?.Trim();
+                        string AHT = currentRow.GetCell(5)?.ToString()?.Trim();
+                        string Sales_Conversion = currentRow.GetCell(6)?.ToString()?.Trim();
+                        string Resolution = currentRow.GetCell(7)?.ToString()?.Trim();
+
+                        await InsertMatrixList(AgentID, C_SAT, NPS, FCR, ProcessID, Subprocess.ToString(), Repeat, AHT, Sales_Conversion, Resolution);
+                        successCount++;
+                    }
+                }
+                else
+                {
+                }
+            }
+        }
+        public async Task InsertMatrixList(string AgentID, string  C_SAT, string  NPS, string FCR, string ProgramID, string SubProgramID, string  Repeat, string  AHT, string  Sales_Conversion, string  ResolutionT)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("UploadAPR", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@ProgramID", ProgramID);
+                        cmd.Parameters.AddWithValue("@SubProgramID", SubProgramID);
+                        cmd.Parameters.AddWithValue("@AgentID", AgentID);
+                        cmd.Parameters.AddWithValue("@C_SAT", C_SAT);
+                             cmd.Parameters.AddWithValue("@NPS", NPS);
+                        cmd.Parameters.AddWithValue("@FCR", FCR);
+
+                        cmd.Parameters.AddWithValue("@Repeat", Repeat);
+                        cmd.Parameters.AddWithValue("@AHT", AHT);
+                        cmd.Parameters.AddWithValue("@Sales_Conversion", Sales_Conversion);
+                        cmd.Parameters.AddWithValue("@ResolutionT", ResolutionT);
+                        cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
         public async Task SubmiteCochingComment(string AgentID, string ReviewDate, string Comment, string NumberOFReview)
         {
@@ -232,6 +337,7 @@ namespace QMS.DataBaseService
                         using (SqlCommand cmd = new SqlCommand("UpdateSectionEvaluation", conn))
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
+                       
                             cmd.Parameters.AddWithValue("@Category", section.category);
                             cmd.Parameters.AddWithValue("@Level", section.level);
                             cmd.Parameters.AddWithValue("@SectionName", section.sectionName);
@@ -241,6 +347,7 @@ namespace QMS.DataBaseService
                             cmd.Parameters.AddWithValue("@Commentssection", section.comments ?? (object)DBNull.Value);
                             cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
                             cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+                            cmd.Parameters.AddWithValue("@Fatal", section.fatal);
                             cmd.Parameters.AddWithValue("@Operation", "Update");
 
 
@@ -424,7 +531,71 @@ namespace QMS.DataBaseService
                         ThirdReview = row["3rd Review"]?.ToString(),
                         Comment3 = row["Comment 3"]?.ToString(),
                         FourthReview = row["4th Review"]?.ToString(),
-                        Comment4 = row["Comment 4"]?.ToString()
+                        Comment4 = row["Comment 4"]?.ToString(),
+                        FifthReview = row["5th Review"]?.ToString(),
+                        Comment5 = row["Comment 5"]?.ToString(),
+                        SixReview = row["6th Review"]?.ToString(),
+                        Comment6 = row["Comment 6"]?.ToString(),
+                        CoachingStatus = row["CoachingStatus"]?.ToString()
+                    };
+
+                    list.Add(model);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return list;
+        }
+
+        public async Task<List<ReviewDataModel>> GetCaoutingExtendedList()
+        {
+            DataTable dt = new DataTable();
+            List<ReviewDataModel> list = new List<ReviewDataModel>();
+            string endcuserName = await _enc.EncryptAsync(UserInfo.UserName);
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("Coaching", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GetCouchingExtended");
+                        cmd.Parameters.AddWithValue("@UserName", endcuserName);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    ReviewDataModel model = new ReviewDataModel
+                    {
+
+
+                        AgentID = row["AgentID"]?.ToString(),
+                        ProcessName = row["ProcessName"]?.ToString(),
+                        SubProcess = row["SubProcessName"]?.ToString(),
+                        FirstReview = row["1st Review"]?.ToString(),
+                        Comment1 = row["Comment 1"]?.ToString(),
+                        SecondReview = row["2nd Review"]?.ToString(),
+                        Comment2 = row["Comment 2"]?.ToString(),
+                        ThirdReview = row["3rd Review"]?.ToString(),
+                        Comment3 = row["Comment 3"]?.ToString(),
+                        FourthReview = row["4th Review"]?.ToString(),
+                        Comment4 = row["Comment 4"]?.ToString(),
+                        FifthReview = row["5th Review"]?.ToString(),
+                        Comment5 = row["Comment 5"]?.ToString(),
+                        SixReview = row["6th Review"]?.ToString(),
+                        Comment6 = row["Comment 6"]?.ToString(),
+                        CoachingStatus = row["CoachingStatus"]?.ToString()
                     };
 
                     list.Add(model);

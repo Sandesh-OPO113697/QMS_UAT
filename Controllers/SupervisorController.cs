@@ -35,6 +35,13 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> HRPIP([FromBody] CoachingRequestModel model)
+        {
+            await dl_Coaching.PIPCauching(model.ProgramID, model.SUBProgramID, model.AgentID);
+            return Json(new { success = true, message = "Coaching PIP successfully." });
+        }
+
+        [HttpPost]
         public async Task<IActionResult> ClosedCoching([FromBody] CoachingRequestModel model)
         {
             await dl_Coaching.ClosedCauching(model.ProgramID, model.SUBProgramID, model.AgentID);
@@ -43,6 +50,7 @@ namespace QMS.Controllers
 
         public async Task<IActionResult> DashBoard(string RoleName, string Featureid, string SubFeatureid)
         {
+            List<ReviewDataModel> coutingList = await dl_qa.GetCaoutingList();
             DataTable dt = await _admin.GetProcessListAsync();
             var processList = dt.AsEnumerable().Select(row => new SelectListItem
             {
@@ -50,7 +58,7 @@ namespace QMS.Controllers
                 Text = $"{row["ProcessName"]}",
             }).ToList();
             ViewBag.Process = processList;
-            return View();
+            return View(coutingList);
         }
     }
 }
