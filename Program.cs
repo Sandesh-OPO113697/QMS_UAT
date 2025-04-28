@@ -38,6 +38,7 @@ builder.Services.AddTransient<DL_Hr>();
 builder.Services.AddTransient<Dl_UpdateManagement>();
 builder.Services.AddTransient<Dl_Coaching>();
 builder.Services.AddTransient<dl_Supervisor>();
+builder.Services.AddTransient<dl_Calibration>();
 
 
 

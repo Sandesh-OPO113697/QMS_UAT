@@ -47,8 +47,6 @@ namespace QMS.DataBaseService
                 {
                     ZTcaseModel model = new ZTcaseModel
                     {
-
-
                         ProgramID = row["ProgramID"]?.ToString(),
                         SubProgramID = row["SubProgramID"]?.ToString(),
                         AgentName = row["AgentName"]?.ToString(),

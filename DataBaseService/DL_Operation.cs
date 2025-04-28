@@ -79,6 +79,56 @@ namespace QMS.DataBaseService
         }
 
 
+        public async Task<List<Calibration_ViewModel>> Participants_View()
+        {
+            DataTable dt = new DataTable();
+            List<Calibration_ViewModel> list = new List<Calibration_ViewModel>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("calibration", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "CheckCalibration");
+                        cmd.Parameters.AddWithValue("@Participants", UserInfo.UserName);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    Calibration_ViewModel model = new Calibration_ViewModel
+                    {
+
+
+                        TransactionID = row["TransactionID"]?.ToString(),
+                        Assigned_By = row["CreatedBy"]?.ToString(),
+                        Assigned_Date = row["CreatedDate"]?.ToString()
+                        
+                    };
+
+                    list.Add(model);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return list;
+        }
+
+
+
+
         public async Task SubmiteOperationManagerApprove(string Comment, string TransactionID)
         {
 

@@ -1,4 +1,4 @@
-﻿@model DisputeFeedbackViewModel
+﻿@model OperationViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -70,4 +70,60 @@
 
 
 </div>
+
+
+
+
+<div class="card shadow mb-4">
+  
+
+
+    <div class="card-header">
+        <strong class="card-title">Calibration Pending</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>TransactionID</th>
+                    <th>Assigned_By</th>
+     
+                    <th>Assigned_Date</th>
+                    
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Calibration != null && Model.Calibration.Any())
+                {
+                    @foreach (var item in Model.Calibration)
+                    {
+                        <tr>
+                            <td>@item.TransactionID</td>
+                            <td>@item.Assigned_By</td>
+                            <td>@item.Assigned_Date</td>
+                           
+
+                            <td>
+                                <a href="/Operation/OperationZtCase?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No pending Zt Cases.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
 

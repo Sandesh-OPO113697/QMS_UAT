@@ -1,0 +1,427 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12 my-4" id="AuditDiv">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">  </h5>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Calibration</label>
+                    <input type="text" class="form-control" readonly name="name" value="Calibration Enrol" />
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Program</label>
+                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()">
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="TransactionID">Select Transaction</label>
+                    <select id="TransactionID" class="form-control">
+                        <option value="">Select Transaction</option>
+                        <option value="00f8038254bc6dad">00f8038254bc6dad</option>
+                        <option value="10a8048265bd7ebe">10a8048265bd7ebe</option>
+                        <option value="20b8058376ce8fcf">20b8058376ce8fcf</option>
+                        <option value="30c8068487df90d0">30c8068487df90d0</option>
+                        <option value="40d8078598e0a1e1">40d8078598e0a1e1</option>
+                        <option value="50e80886a9f1b2f2">50e80886a9f1b2f2</option>
+                        <option value="60f80987baf2c3f3">60f80987baf2c3f3</option>
+                        <option value="70g81088cb03d4g4">70g81088cb03d4g4</option>
+                        <option value="80h81189dc14e5h5">80h81189dc14e5h5</option>
+                        <option value="90i8128aed25f6i6">90i8128aed25f6i6</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="Participants">Select Participants</label>
+                    <select name="Participants" id="Participants" class="custom-select" onchange="GetSectionGried()" multiple>
+                        <option value="">Select Participants</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card shadow mb-4" id="SectionGried" style="display:none">
+    <div class="card-header">
+        <strong class="card-title"> Section</strong>
+    </div>
+    <div class="card-body">
+        <table id="sectionGrid" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Level</th>
+                    <th>Section Name</th>
+                    <th>QA Rating</th>
+                    <th>Scorable</th>
+                    <th>Weightage</th>
+                    <th>Comments Section</th>
+                    <th>Fatal</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="card shadow mb-4" id="MasterCalibrator" style="display:none">
+    <div class="card-header">
+        <strong class="card-title"></strong>
+
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="ProgramID">Master Calibrator Comments</label>
+                <input type="text" id="Master_Comments" class="form-control" />
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <button onclick="SubMiteSection()" class="btn btn-primary" id="calibration"> Calibrate</button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+     function InsertSectionAudit() {
+
+         var isValid = true;
+            var gridData = [];
+
+
+                $("#sectionGrid tbody tr:not(:last-child)").each(function () {
+                    var $row = $(this);
+                    var category = $row.find("td:eq(0)").text()?.trim() || "";
+                    var level = $row.find("td:eq(1)").text()?.trim() || "";
+                    var sectionName = $row.find("td:eq(2)").text()?.trim() || "";
+                    var qaRating = $row.find(".qa-rating").val();
+                    var scorable = $row.find("td:eq(4)").text()?.trim() || "";
+                    var score = $row.find("td:eq(5)").text()?.trim() || "";
+                   var comments = $row.find("input[type='text']").val()?.trim() || "";
+                    var fatal = $row.find(".fatal-select").val()?.trim() || "";
+
+                    if (category === "" && level === "" && sectionName === "") {
+                        return;
+                    }
+                    if (qaRating === "") {
+                        isValid = false;
+                        $row.find(".qa-rating").addClass("border border-danger");
+
+                    } else {
+                        $row.find(".qa-rating").removeClass("border border-danger");
+
+                    }
+                     if (fatal === "") {
+                        isValid = false;
+                         return;
+                        $row.find(".fatal-select").addClass("border border-danger");
+
+                    } else {
+                        $row.find(".fatal-select").removeClass("border border-danger");
+
+                    }
+
+                     if ( comments === "") {
+                        isValid = false;
+
+                         $row.find("input[type='text']").addClass("border border-danger");
+                    } else {
+
+                         $row.find("input[type='text']").removeClass("border border-danger");
+                    }
+
+                    gridData.push({
+                        category: category,
+                        level: level,
+                        sectionName: sectionName,
+                        qaRating: qaRating,
+                        scorable: scorable,
+                        score: score,
+                        comments: comments,
+                        Transaction_ID: document.getElementById("TransactionID").value,
+                        ProgramID: $("#ProgramID").val(),
+                        SUBProgramID: $("#SUBProgramID").val(),
+                        fatal:fatal
+                    });
+                });
+
+
+            if (!isValid) {
+                alert("Please select All Feilds ");
+                return;
+            }
+
+
+        return isValid ? gridData : false;
+    }
+    function SubMiteSection()
+    {
+         let sectionAuditData = InsertSectionAudit();
+           console.log(JSON.stringify(sectionAuditData));
+            var SubProgram = document.getElementById("SUBProgramID").value;
+                   var transactionID = document.getElementById("TransactionID").value;
+               var programId = document.getElementById("ProgramID").value;
+               let selectedParticipants = $('#Participants').select2('val');
+                  if (!SubProgram || !transactionID || !programId || !selectedParticipants || selectedParticipants.length === 0) {
+
+                    alert("Please fill all the required fields, including selecting participants.");
+                    return;
+                }
+                   let requestData = {
+                        programId: programId,
+                        subProgram: SubProgram,
+                        selectedParticipants: selectedParticipants,
+                        transactionID:transactionID
+                    };
+
+
+    $.ajax({
+        url: '/Calibration/SubmiteCalibration',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(requestData),
+        success: function(response) {
+            console.log('Server Response:', response);
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+
+          $.ajax({
+            url: "/Calibration/InsertSectionAudit",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(sectionAuditData),
+            success: function (
+            ) { alter("Submite Calibration");
+            }
+        });
+        clearFeilds();
+    }
+
+    function clearFeilds()
+     var tableBody = $("#sectionGrid tbody");
+        tableBody.empty();
+         $('#SectionGried').hide();
+                           $('#MasterCalibrator').hide();
+                          location.reload(); 
+    }
+        function populateGrid(data, ratingList) {
+        var tableBody = $("#sectionGrid tbody");
+        tableBody.empty();
+
+        if (data.length === 0) {
+            tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
+            return;
+        }
+
+        $.each(data, function (index, item) {
+            var ratingOptions = `<option value="">Select Rating</option>`;
+            $.each(ratingList, function (_, rating) {
+                ratingOptions += `<option value="${rating.text}">${rating.text}</option>`;
+            });
+
+            var row = `<tr>
+                <td>${item.category}</td>
+                <td>${item.level}</td>
+                <td>${item.sectionName}</td>
+                <td>
+                    <select class="qa-rating form-control" data-index="${index}">
+                        ${ratingOptions}
+                    </select>
+                </td>
+                <td>${item.scorable}</td>
+                <td class="score-col">${item.score}</td>
+                <td><input type="text" class="form-control" id="Comments_Section" placeholder="Enter Comments Section"></td>
+                <td>
+                    <select class="fatal-select form-control" data-index="${index}">
+                        <option value="">Select Fatal</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </td>
+            </tr>`;
+
+            tableBody.append(row);
+        });
+
+        var footerRow = `<tr>
+            <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
+            <td id="totalScore" class="font-weight-bold">0</td>
+        </tr>`;
+        tableBody.append(footerRow);
+
+        // Bind event handlers for score calculation
+        $(".fatal-select").on("change", function () {
+            calculateTotalScore();
+        });
+
+        $(".qa-rating").on("change", function () {
+            var selectedValue = $(this).val();
+            var rowIndex = $(this).data("index");
+            var scoreCell = $(this).closest("tr").find(".score-col");
+
+            if (selectedValue === "Yes" || selectedValue ===  "Met" ||selectedValue === "Meeting_expectations"||selectedValue ===  "exceeding expectations" ||selectedValue === "Partially Met") {
+                scoreCell.text(data[rowIndex].score);
+            } else {
+                scoreCell.text(0);
+            }
+            calculateTotalScore();
+        });
+
+        calculateTotalScore();
+    }
+
+     function calculateTotalScore() {
+      let isFatal = false;
+        let total = 0;
+        $("#sectionGrid tbody tr").each(function () {
+            var scorable = $(this).find("td:nth-child(5)").text().trim(); // 5th column (scorable)
+            var score = parseInt($(this).find(".score-col").text()) || 0;
+             var fatalValue = $(this).find(".fatal-select").val();
+
+        if (fatalValue === "Yes" ) {
+            isFatal = true;
+        }
+            if (scorable === "Yes") {
+                total += score;
+            }
+        });
+        $("#totalScore").text(isFatal ? "0" : total);
+    }
+      function GetSectionGried()
+       {
+           var selectedValue = document.getElementById("SUBProgramID").value;
+            $.ajax({
+                type: "POST",
+                url: "/ManageForm/GetSectionGried",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
+                success: function (response) {
+                  console.log(JSON.stringify(response));
+
+                      populateGrid(response.sectionGrid, response.filteredRatingList);
+
+                          $('#SectionGried').show();
+                          $('#MasterCalibrator').show();
+
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
+       }
+
+                          function onProgramChange() {
+        var programId = document.getElementById("ProgramID").value;
+        if (programId == "") {
+            alert("Please Select Program first");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: programId }),
+            url: "/Admin/GetSUBProcessList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                var dropdown = $('#SUBProgramID');
+                dropdown.empty();
+                dropdown.append('<option value="">Select Sub Process</option>');
+                response.proces.forEach(function (item) {
+                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+    }
+
+      async function onSubProgramChange() {
+        const selectedValue = $('#SUBProgramID').val();
+        if (selectedValue === '') {
+            alert('Please select a valid Sub Program Name.');
+            return;
+        }
+
+        const programId = $('#ProgramID').val();
+
+        try {
+
+            // const agentResponse = await fetch("/UpdateManagement/getTlAndAgentList", {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/json; charset=utf-8" },
+            //     body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })
+            // });
+            // const agentData = await agentResponse.json();
+
+            // const agentDropdown = $('#AgentID');
+            // agentDropdown.empty();
+            // agentDropdown.append('<option value="">Select Agent</option>');
+
+            // agentData.agentTlList.forEach(function (agent) {
+            //     agentDropdown.append('<option value="' + agent.empCode + '">' + agent.empCode + '</option>');
+            // });
+
+            const qaResponse = await fetch("/Coaching/getQaManagertAnTlListList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })
+            });
+            const qaData = await qaResponse.json();
+
+            $('#Participants').find('option:not(:first)').remove();
+            if (qaData.agentTlList && Array.isArray(qaData.agentTlList)) {
+                qaData.agentTlList.forEach(function (agent) {
+                    $('#Participants').append(
+                        $('<option>', {
+                            value: agent.userName,
+                            text: agent.userName
+                        })
+                    );
+                });
+            }
+                $('#Participants').select2({
+        placeholder: 'Select Participants',
+        allowClear: true
+    });
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
+
+</script>

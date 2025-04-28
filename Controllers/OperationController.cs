@@ -37,10 +37,16 @@ namespace QMS.Controllers
            
             List<ZTcaseModel> ZTlist = await dl_Ops.ZtcaseShow();
 
-            var viewModel = new DisputeFeedbackViewModel
+            List<Calibration_ViewModel> Calibration = await dl_Ops.Participants_View();
+
+
+
+
+            var viewModel = new OperationViewModel
             {
                 
-                ZTcaseList = ZTlist
+                ZTcaseList = ZTlist,
+                Calibration= Calibration
             };
 
             return View(viewModel);
@@ -59,8 +65,11 @@ namespace QMS.Controllers
 
             return View();
         }
+        public async Task<IActionResult> MonitorCalibration(string TransactionID)
+        {
 
-
+            return View();
+        }
 
         public async Task<IActionResult> OperationZtCase(string TransactionID)
         {

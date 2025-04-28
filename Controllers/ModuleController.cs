@@ -145,7 +145,8 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "18":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("Dashboard", "Calibration");
+
                         case "19":
                             return RedirectToAction("ManageModule");
                         case "20":

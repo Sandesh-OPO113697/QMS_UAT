@@ -1368,17 +1368,17 @@
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-gea\u002BUgNXrywzf2ZU/H0fgPWzXut4t9XYuCvJxjM8v/c="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"58520"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022gea\u002BUgNXrywzf2ZU/H0fgPWzXut4t9XYuCvJxjM8v/c=\u0022"},{"Name":"Last-Modified","Value":"Fri, 04 Apr 2025 04:07:53 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/QMS/js/Notification.7j0k2vxadj.js">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\Notification.js'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"7j0k2vxadj"},{"Name":"integrity","Value":"sha256-TRLs/\u002BRDkRKT/TkPLkMVfwCIDj4eHKD64iiT6EL6sA0="},{"Name":"label","Value":"_content/QMS/js/Notification.js"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"5211"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022TRLs/\u002BRDkRKT/TkPLkMVfwCIDj4eHKD64iiT6EL6sA0=\u0022"},{"Name":"Last-Modified","Value":"Tue, 15 Apr 2025 06:37:02 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/QMS/js/Notification.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\Notification.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-TRLs/\u002BRDkRKT/TkPLkMVfwCIDj4eHKD64iiT6EL6sA0="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"5211"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022TRLs/\u002BRDkRKT/TkPLkMVfwCIDj4eHKD64iiT6EL6sA0=\u0022"},{"Name":"Last-Modified","Value":"Tue, 15 Apr 2025 06:37:02 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-SVwHq7bCw6HK\u002B5dmYsOphhapKEc0R2CrmTRP6O\u002BlqNs="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"6212"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022SVwHq7bCw6HK\u002B5dmYsOphhapKEc0R2CrmTRP6O\u002BlqNs=\u0022"},{"Name":"Last-Modified","Value":"Sat, 19 Apr 2025 10:10:55 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/QMS/js/Notification.n8o01ehq7w.js">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\Notification.js'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"n8o01ehq7w"},{"Name":"integrity","Value":"sha256-SVwHq7bCw6HK\u002B5dmYsOphhapKEc0R2CrmTRP6O\u002BlqNs="},{"Name":"label","Value":"_content/QMS/js/Notification.js"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"6212"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022SVwHq7bCw6HK\u002B5dmYsOphhapKEc0R2CrmTRP6O\u002BlqNs=\u0022"},{"Name":"Last-Modified","Value":"Sat, 19 Apr 2025 10:10:55 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/QMS/js/perfect-scrollbar.min.19ovxpl3lk.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\perfect-scrollbar.min.js'))</AssetFile>
@@ -2196,6 +2196,18 @@
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-5p/HFcj7xvGzTH\u002BWLq0l/o12q8fs3J\u002BOjVp2l36mJkk="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"22016"},{"Name":"Content-Type","Value":"application/vnd.ms-excel"},{"Name":"ETag","Value":"\u00225p/HFcj7xvGzTH\u002BWLq0l/o12q8fs3J\u002BOjVp2l36mJkk=\u0022"},{"Name":"Last-Modified","Value":"Mon, 07 Apr 2025 05:31:43 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/QMS/SampleFile/APRNEW.ddaxmghkzl.xls">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\SampleFile\APRNEW.xls'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"ddaxmghkzl"},{"Name":"integrity","Value":"sha256-wdi50pmPjhhe3KwrRSNvID\u002BtLdsslsGEGffXxjCp0fc="},{"Name":"label","Value":"_content/QMS/SampleFile/APRNEW.xls"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"21504"},{"Name":"Content-Type","Value":"application/vnd.ms-excel"},{"Name":"ETag","Value":"\u0022wdi50pmPjhhe3KwrRSNvID\u002BtLdsslsGEGffXxjCp0fc=\u0022"},{"Name":"Last-Modified","Value":"Thu, 24 Apr 2025 10:58:30 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/QMS/SampleFile/APRNEW.xls">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\SampleFile\APRNEW.xls'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-wdi50pmPjhhe3KwrRSNvID\u002BtLdsslsGEGffXxjCp0fc="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"21504"},{"Name":"Content-Type","Value":"application/vnd.ms-excel"},{"Name":"ETag","Value":"\u0022wdi50pmPjhhe3KwrRSNvID\u002BtLdsslsGEGffXxjCp0fc=\u0022"},{"Name":"Last-Modified","Value":"Thu, 24 Apr 2025 10:58:30 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/QMS/SampleFile/dispo.xls">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\SampleFile\dispo.xls'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
@@ -2219,6 +2231,18 @@
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-T3qrGTJtu4ikaw7xx5Kt0CjgjRy6OGxd6HuWqKKG/8c="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"20992"},{"Name":"Content-Type","Value":"application/vnd.ms-excel"},{"Name":"ETag","Value":"\u0022T3qrGTJtu4ikaw7xx5Kt0CjgjRy6OGxd6HuWqKKG/8c=\u0022"},{"Name":"Last-Modified","Value":"Fri, 04 Apr 2025 04:07:52 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/QMS/SampleFile/UploadMatrix.p5p5zgpwax.xls">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\SampleFile\UploadMatrix.xls'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"p5p5zgpwax"},{"Name":"integrity","Value":"sha256-Yx5iFk66z4GEjR2uu/tTn35/xINfvz7wGC676ddMrQI="},{"Name":"label","Value":"_content/QMS/SampleFile/UploadMatrix.xls"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"20992"},{"Name":"Content-Type","Value":"application/vnd.ms-excel"},{"Name":"ETag","Value":"\u0022Yx5iFk66z4GEjR2uu/tTn35/xINfvz7wGC676ddMrQI=\u0022"},{"Name":"Last-Modified","Value":"Thu, 24 Apr 2025 11:05:56 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/QMS/SampleFile/UploadMatrix.xls">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\SampleFile\UploadMatrix.xls'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-Yx5iFk66z4GEjR2uu/tTn35/xINfvz7wGC676ddMrQI="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"20992"},{"Name":"Content-Type","Value":"application/vnd.ms-excel"},{"Name":"ETag","Value":"\u0022Yx5iFk66z4GEjR2uu/tTn35/xINfvz7wGC676ddMrQI=\u0022"},{"Name":"Last-Modified","Value":"Thu, 24 Apr 2025 11:05:56 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>

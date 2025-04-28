@@ -174,6 +174,13 @@ namespace QMS.Controllers
 
             return Json(new { agentTlList = list });
         }
+
+        public async Task<IActionResult> getQaManagertAnTlListList([FromBody] Process_SUbProcess id)
+        {
+            List<object> list = await dl_coching.GetQaManagerAndteamLeaderList(id.ProcessID, id.SUBProcessID);
+
+            return Json(new { agentTlList = list });
+        }
         public async Task<IActionResult> getTlAndAgentList([FromBody] Process_SUbProcess id)
         {
             List<object> list = await dl_coching.GetTLAndAgentList(id.ProcessID, id.SUBProcessID);
