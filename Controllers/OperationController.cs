@@ -14,6 +14,7 @@ namespace QMS.Controllers
         private readonly DL_Agent dl_Agent;
         private readonly DL_QaManager dl_qa;
         private readonly Dl_Admin dl_admin;
+   
         public OperationController(DL_Operation adls, DL_QaManager dl_qas, DL_Agent adla, Dl_Admin dl_admin )
         {
 
@@ -68,6 +69,33 @@ namespace QMS.Controllers
         public async Task<IActionResult> MonitorCalibration(string TransactionID)
         {
 
+            return View();
+        }
+        [HttpPost]
+        public async Task<JsonResult> InsertSectionAudit([FromBody] List<OperationCallibration> sectionData)
+        {
+
+
+            if (sectionData == null || sectionData.Count == 0)
+            {
+                return Json(new { success = false, message = "No data received" });
+            }
+            var result = await dl_Ops.SubmiteSectionEvaluation(sectionData);
+            if (result == 1)
+            {
+                return Json(new { success = true, message = "Ok" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "No data Insert" });
+            }
+        }
+        public async Task<IActionResult> Participants_Calibration_View(string TransactionID , string Process ,string subProcess)
+        {
+
+            ViewBag.TransactionID = TransactionID;
+            ViewBag.Process = Process;
+            ViewBag.subProcess = subProcess;
             return View();
         }
 

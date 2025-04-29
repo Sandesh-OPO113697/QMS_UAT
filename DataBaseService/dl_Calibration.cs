@@ -57,7 +57,7 @@ namespace QMS.DataBaseService
             }
         }
 
-        public async Task SubmiteCalibrationDetails(string programID, string SubProgramID , string TransactionID , List<string> Participants)
+        public async Task SubmiteCalibrationDetails(string programID, string SubProgramID , string TransactionID ,string Comment ,  List<string> Participants)
         {
             try
             {
@@ -74,6 +74,7 @@ namespace QMS.DataBaseService
                       
                             cmd.Parameters.AddWithValue("@ProgramID ", programID);
                             cmd.Parameters.AddWithValue("@SubProgramID ", SubProgramID);
+                            cmd.Parameters.AddWithValue("@Comment ", Comment);
 
                             cmd.Parameters.AddWithValue("@TransactionID ", TransactionID);
                             cmd.Parameters.AddWithValue("@Participants ", participant);

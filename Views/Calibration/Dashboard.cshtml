@@ -16,18 +16,18 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="ProgramID">Select Program</label>
+                    <label for="ProgramID">Select Program</label> <span style="color:red">*</span>
                     @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" })
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="SUBProgramID">Sub Program Name</label>
+                    <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
                     <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()">
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="TransactionID">Select Transaction</label>
+                    <label for="TransactionID">Select Transaction</label> <span style="color:red">*</span>
                     <select id="TransactionID" class="form-control">
                         <option value="">Select Transaction</option>
                         <option value="00f8038254bc6dad">00f8038254bc6dad</option>
@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="Participants">Select Participants</label>
+                    <label for="Participants">Select Participants</label> <span style="color:red">*</span>
                     <select name="Participants" id="Participants" class="custom-select" onchange="GetSectionGried()" multiple>
                         <option value="">Select Participants</option>
                     </select>
@@ -92,7 +92,7 @@
 
         <div class="row">
             <div class="form-group col-md-6">
-                <label for="ProgramID">Master Calibrator Comments</label>
+                <label for="ProgramID">Master Calibrator Comments</label> <span style="color:red">*</span>
                 <input type="text" id="Master_Comments" class="form-control" />
             </div>
 
@@ -184,6 +184,7 @@
 
         return isValid ? gridData : false;
     }
+
     function SubMiteSection()
     {
          let sectionAuditData = InsertSectionAudit();
@@ -191,8 +192,9 @@
             var SubProgram = document.getElementById("SUBProgramID").value;
                    var transactionID = document.getElementById("TransactionID").value;
                var programId = document.getElementById("ProgramID").value;
+                   var CalibratedComment = document.getElementById("Master_Comments").value;
                let selectedParticipants = $('#Participants').select2('val');
-                  if (!SubProgram || !transactionID || !programId || !selectedParticipants || selectedParticipants.length === 0) {
+                  if (!SubProgram || !transactionID || !programId || !CalibratedComment || !selectedParticipants || selectedParticipants.length === 0) {
 
                     alert("Please fill all the required fields, including selecting participants.");
                     return;
@@ -201,7 +203,8 @@
                         programId: programId,
                         subProgram: SubProgram,
                         selectedParticipants: selectedParticipants,
-                        transactionID:transactionID
+                        transactionID:transactionID,
+                        CalibratedComment:  CalibratedComment
                     };
 
 
@@ -230,12 +233,12 @@
         clearFeilds();
     }
 
-    function clearFeilds()
+    function clearFeilds(){
      var tableBody = $("#sectionGrid tbody");
         tableBody.empty();
          $('#SectionGried').hide();
                            $('#MasterCalibrator').hide();
-                          location.reload(); 
+                          location.reload();
     }
         function populateGrid(data, ratingList) {
         var tableBody = $("#sectionGrid tbody");

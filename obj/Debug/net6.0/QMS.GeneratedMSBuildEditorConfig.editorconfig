@@ -168,6 +168,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXE9wZXJhdGlvblp0Q2FzZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/Operation/Participants_Calibration_View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXFBhcnRpY2lwYW50c19DYWxpYnJhdGlvbl9WaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/Operation/UploadAPR.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXFVwbG9hZEFQUi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

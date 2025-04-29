@@ -48,7 +48,7 @@ namespace QMS.Controllers
         [HttpPost]
         public async Task< IActionResult> SubmiteCalibration([FromBody] CalibratorModel model)
         {
-             await dl_qcouch.SubmiteCalibrationDetails(model.ProgramId , model.SubProgram , model.transactionID , model.SelectedParticipants);
+             await dl_qcouch.SubmiteCalibrationDetails(model.ProgramId , model.SubProgram , model.transactionID , model.CalibratedComment ,  model.SelectedParticipants);
             return Ok(new { message = "Data received successfully" });
         }
 

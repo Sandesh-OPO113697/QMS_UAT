@@ -24,7 +24,73 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
         }
 
+        public async Task<int> SubmiteSectionEvaluation(List<OperationCallibration> model)
+        {
 
+            string processID = string.Empty;
+            string SubProcess = string.Empty;
+            string Comment = string.Empty;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    foreach (var section in model)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("InsertSectionCouching_Details", conn))
+                        {
+                            processID = section.ProgramID.ToString();
+                            SubProcess = section.SUBProgramID.ToString();
+                             Comment = section.Comment.ToString();
+
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Category", section.category);
+                            cmd.Parameters.AddWithValue("@Level", section.level);
+                            cmd.Parameters.AddWithValue("@SectionName", section.sectionName);
+                            cmd.Parameters.AddWithValue("@QA_rating", section.qaRating);
+                            cmd.Parameters.AddWithValue("@Scorable", section.scorable);
+                            cmd.Parameters.AddWithValue("@Weightage", section.score);
+                            cmd.Parameters.AddWithValue("@Commentssection", section.comments ?? (object)DBNull.Value);
+                            cmd.Parameters.AddWithValue("@TransactionID", section.Transaction_ID);
+                            cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+                            cmd.Parameters.AddWithValue("@ProgramID", Convert.ToInt32(section.ProgramID));
+                            cmd.Parameters.AddWithValue("@SubProgramID", Convert.ToInt32(section.SUBProgramID));
+                            cmd.Parameters.AddWithValue("@fatal", section.fatal);
+                            
+
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+
+                using (SqlConnection conn2 = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn2.OpenAsync();
+
+                     using (SqlCommand cmd2 = new SqlCommand("calibration", conn2))
+                        {
+
+                        cmd2.CommandType = CommandType.StoredProcedure;
+                        cmd2.Parameters.AddWithValue("@Operation", "UpdateComment");
+                        cmd2.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+                        cmd2.Parameters.AddWithValue("@ProgramID", processID);
+                        cmd2.Parameters.AddWithValue("@SubProgramID", SubProcess);
+
+                        cmd2.Parameters.AddWithValue("@Comment", Comment);
+
+                        await cmd2.ExecuteNonQueryAsync();
+                        }
+                 
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return 0;
+            }
+        }
         public async Task<List<ZTcaseModel>> ZtcaseShow()
         {
             DataTable dt = new DataTable();
@@ -111,8 +177,10 @@ namespace QMS.DataBaseService
 
                         TransactionID = row["TransactionID"]?.ToString(),
                         Assigned_By = row["CreatedBy"]?.ToString(),
-                        Assigned_Date = row["CreatedDate"]?.ToString()
-                        
+                        Assigned_Date = row["CreatedDate"]?.ToString(),
+                        ProgramID = row["ProgramID"]?.ToString(),
+                        SubProgramID = row["SubProgramID"]?.ToString()
+
                     };
 
                     list.Add(model);
