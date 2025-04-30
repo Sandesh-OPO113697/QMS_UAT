@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Org.BouncyCastle.Asn1.Ocsp;
+using Org.BouncyCastle.Bcpg.Sig;
 using QMS.DataBaseService;
 using QMS.Models;
 using System;
@@ -14,12 +16,69 @@ namespace QMS.Controllers
         private readonly Dl_formBuilder dl_FormBuilder;
         private readonly DL_QaManager dl_qa;
         private readonly DL_Agent dl_Agent;
-        public QAManagerController(DL_QaManager adl, DL_Agent adla, Dl_formBuilder dl_FormBuilder)
+        private readonly Dl_Admin _dlamin;
+        public QAManagerController(DL_QaManager adl, DL_Agent adla, Dl_formBuilder dl_FormBuilder, Dl_Admin dlamin)
         {
             dl_qa = adl;
             dl_Agent = adla;
             this.dl_FormBuilder = dl_FormBuilder;
+            _dlamin = dlamin;
         }
+
+
+        public async Task<IActionResult> ZtTriggerSignOff()
+        {
+            string locationid = UserInfo.LocationID;
+            var data = await _dlamin.GetProcessListByLocation(locationid);
+            var processList = data.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ProcessName"]}",
+            }).ToList();
+            ViewBag.ProcessList = processList;
+          
+            string Userid = UserInfo.UserName;
+            string LocationID = UserInfo.LocationID;
+           
+            return View();
+
+            
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> Agentacknowledements()
+        {
+          
+            int result = await dl_qa.UpdateAgentacknowledements();
+            return Json(new { success = true, message = "Agent acknowledements successfully!!!" });
+        }
+
+
+
+        [HttpPost]
+        public async Task<JsonResult> InsertSectionFeilds([FromBody] ZtSignOffSectionDatas request)
+        {
+            if (request == null || request.sections == null || request.sections.Count == 0)
+            {
+                return Json(new { success = false, message = "No data received" });
+            }
+
+            try
+            {
+                int result = await dl_qa.InsertZtSignOff(request.sections);
+
+                return result < 0
+                    ? Json(new { success = true, message = "Data inserted successfully!" })
+                    : Json(new { success = false, message = "Failed to insert data." });
+            }
+            catch (Exception ex)
+            {
+               
+                return Json(new { success = false, message = "An error occurred: " + ex.Message });
+            }
+        }
+
 
 
 
@@ -50,8 +109,6 @@ namespace QMS.Controllers
             return RedirectToAction("Dashboard");
 
         }
-
-
 
 
         [HttpPost]

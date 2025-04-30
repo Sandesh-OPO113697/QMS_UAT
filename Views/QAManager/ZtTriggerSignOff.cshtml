@@ -1,0 +1,353 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title"> Select process</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="ProgramID">Program Name</label> <span style="color:red">*</span>
+                    @Html.DropDownList(
+                             "ProgramID",
+                             (List<SelectListItem>)ViewBag.ProcessList,
+                             "Select Program",
+                             new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" }
+                             )
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" required>
+                        <option value="">Select Process</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow mb-4" id="Parameterfeild">
+    <div class="card-header">
+        <strong class="card-title"> Parameter Section </strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group mb-3">
+                    <label for="Section_Parameter">Parameter</label><span style="color:red">*</span>
+
+                    <input type="text" id="Section_Parameter" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Section_Procedure1">Procedure 1</label><span style="color:red">*</span>
+
+                    <input type="text" id="Section_Procedure1" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Section_Procedure2">Procedure 2</label><span style="color:red">*</span>
+
+                    <input type="text" id="Section_Procedure2" class="form-control">
+                </div>
+              
+            </div>
+            <div class="col-md-3">
+                <div class="form-group mb-3">
+                    <label for="Section_Procedure3">Procedure 3</label><span style="color:red">*</span>
+
+                    <input type="text" id="Section_Procedure3" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Section_Procedure4">Procedure 4</label><span style="color:red">*</span>
+
+                    <input type="text" id="Section_Procedure4" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Section_Procedure5">Procedure 5</label><span style="color:red">*</span>
+
+                    <input type="text" id="Section_Procedure5" class="form-control">
+                </div>
+                
+            </div>
+            <div class="col-md-3">
+                <div class="form-group mb-3">
+                    <label for="Section_Procedure6">Procedure 6</label><span style="color:red">*</span>
+
+                    <input type="text" id="Section_Procedure6" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Section_Procedure7">Procedure 7</label><span style="color:red">*</span>
+
+                    <input type="text" id="Section_Procedure7" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Section_Procedure8">Procedure 8</label><span style="color:red">*</span>
+
+                    <input type="text" id="Section_Procedure8" class="form-control">
+                </div>
+              
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-group mb-3">
+                    <label for="Section_Procedure9">Procedure 9</label><span style="color:red">*</span>
+
+                    <input type="text" id="Section_Procedure9" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Section_Procedure10">Procedure 10</label><span style="color:red">*</span>
+
+                    <input type="text" id="Section_Procedure10" class="form-control">
+                </div>
+               
+                <div class="form-group mb-3">
+                    <button class="btn btn-primary" style="margin-top: 32px; margin-left: 45px;" onclick="addToGrid()">
+                        Add
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card mt-4" id="sectiongried" style="display: none;">
+    <div class="card-header">
+        <strong class="card-title">Parametr List</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered" id="dataGrid">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Procedure1</th>
+
+                    <th>Procedure2</th>
+                    <th>Procedure3</th>
+                    <th>Procedure4</th>
+                    <th>Procedure5</th>
+                    <th>Procedure6</th>
+                    <th>Procedure7</th>
+                    <th>Procedure8</th>
+                    <th>Procedure9</th>
+                    <th>Procedure10</th>
+
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card shadow mb-4" id="ExpireDatefeild">
+    <div class="card-header">
+        <strong class="card-title">Expire Date </strong>
+    </div>
+<div class="card-body">
+    <div class="row">
+        <div class="form-group col-md-3">
+
+
+                <label for="Date" id="labeldate">Expire Date</label>
+                <input type="date" class="form-control" id="Date" name="Date" />
+        </div>
+
+
+            <div class="form-group mb-3">
+                <button class="btn btn-primary" style="margin-top: 32px; margin-left: 45px;" onclick="submitGridData()">
+                    Triggersignoff
+                </button>
+            </div>
+       
+    </div>
+   </div>
+    
+</div>
+
+
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/apps.js"></script>
+
+
+
+
+      
+
+
+<script>
+    function onProgramChange() {
+        var programId = document.getElementById("ProgramID").value;
+        if (programId === "") {
+            alert("Select Valid  Program");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: programId }),
+
+            url: "/Admin/GetSUBProcessList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                console.log(response.d);
+                var dropdown = $('#SUBProgramID');
+                dropdown.empty();
+                dropdown.append('<option value="">Select Process</option>');
+                response.proces.forEach(function (item) {
+                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                });
+
+                if (response.proces && response.proces.length > 0) {
+                    $("#DynamicFeilds").hide();
+                    $("#Staticfeild").hide();
+                    $("#Sectionfeild").hide();
+                } else {
+                    // $("#DynamicFeilds").show();
+                    // $("#Sectionfeild").show();
+                    // $("#Staticfeild").show();
+                 alert("This Program does not have a Sub Program. Please create a Sub Program first!");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
+    }
+
+
+
+     function addToGrid() {
+
+        var Parameter = document.getElementById("Section_Parameter").value.trim();
+        var Procedure1 = document.getElementById("Section_Procedure1").value.trim();
+        var Procedure2 = document.getElementById("Section_Procedure2").value.trim();
+        var Procedure3 = document.getElementById("Section_Procedure3").value.trim();
+        var Procedure4 = document.getElementById("Section_Procedure4").value.trim();
+        var Procedure5 = document.getElementById("Section_Procedure5").value.trim();
+        var Procedure6 = document.getElementById("Section_Procedure6").value.trim();
+        var Procedure7 = document.getElementById("Section_Procedure7").value.trim();
+        var Procedure8 = document.getElementById("Section_Procedure8").value.trim();
+        var Procedure9 = document.getElementById("Section_Procedure9").value.trim();
+        var Procedure10 = document.getElementById("Section_Procedure10").value.trim();
+       
+        if (Parameter === "") {
+            alert("Please fill all fields before adding.");
+            return;
+        }
+        else
+        {
+            $("#sectiongried").show();
+        }
+
+
+        var table = document.getElementById("dataGrid").getElementsByTagName("tbody")[0];
+        var newRow = table.insertRow();
+
+        newRow.innerHTML = `
+                <td>${Parameter}</td>
+                <td>${Procedure1}</td>
+                <td>${Procedure2}</td>
+                <td>${Procedure3}</td>
+                <td>${Procedure4}</td>
+                <td>${Procedure5}</td>
+                <td>${Procedure6}</td>
+                <td>${Procedure7}</td>
+                <td>${Procedure8}</td>
+                <td>${Procedure9}</td>
+                <td>${Procedure10}</td>
+                <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
+            `;
+
+        document.getElementById("Section_Parameter").value = "";
+        document.getElementById("Section_Procedure1").value = "";
+        document.getElementById("Section_Procedure2").value = "";
+        document.getElementById("Section_Procedure3").value = "";
+        document.getElementById("Section_Procedure4").value = "";
+        document.getElementById("Section_Procedure5").value = "";
+        document.getElementById("Section_Procedure6").value = "";
+        document.getElementById("Section_Procedure7").value = "";
+        document.getElementById("Section_Procedure8").value = "";
+        document.getElementById("Section_Procedure9").value = "";
+        document.getElementById("Section_Procedure10").value = "";
+
+      ;
+    }
+
+    function removeRow(button) {
+
+        var row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+
+
+       function submitGridData() {
+        var ProgramID = document.getElementById("ProgramID").value;
+        var SUBProgramID = document.getElementById("SUBProgramID").value;
+        var expiryDate = document.getElementById("Date").value;
+
+        var table = document.getElementById("dataGrid").getElementsByTagName("tbody")[0];
+        var rows = table.getElementsByTagName("tr");
+
+        var dataList = [];
+
+        for (var i = 0; i < rows.length; i++) {
+            var cols = rows[i].getElementsByTagName("td");
+
+            var rowData = {
+                Parameter: cols[0].innerText.trim(),
+                Procedure1: cols[1].innerText.trim(),
+                Procedure2: cols[2].innerText.trim(),
+                Procedure3: cols[3].innerText.trim(),
+                Procedure4: cols[4].innerText.trim(),
+                Procedure5: cols[5].innerText.trim(),
+                Procedure6: cols[6].innerText.trim(),
+                Procedure7: cols[7].innerText.trim(),
+                Procedure8: cols[8].innerText.trim(),
+                Procedure9: cols[9].innerText.trim(),
+                Procedure10: cols[10].innerText.trim(),
+
+                ProgramID: ProgramID,
+                SUBProgramID: SUBProgramID,
+                ExpiryDate: expiryDate
+            };
+
+            dataList.push(rowData);
+        }
+
+        var payload = {
+            sections: dataList
+        };
+
+
+        console.log(JSON.stringify(dataList));
+        $.ajax({
+            url: '/QAManager/InsertSectionFeilds',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            success: function (response) {
+                alert(response.message);
+            },
+            error: function () {
+                alert('Error while saving data.');
+            }
+        });
+    }
+
+
+
+
+</script>

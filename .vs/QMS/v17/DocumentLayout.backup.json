@@ -1,0 +1,134 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_code_latest\\qms_mvc_core\\qms_mvc_core\\controllers\\qamanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:controllers\\qamanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_code_latest\\qms_mvc_core\\qms_mvc_core\\controllers\\agentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:controllers\\agentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_code_latest\\qms_mvc_core\\qms_mvc_core\\views\\agent\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:views\\agent\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_code_latest\\qms_mvc_core\\qms_mvc_core\\databaseservice\\dl_qamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:databaseservice\\dl_qamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_code_latest\\qms_mvc_core\\qms_mvc_core\\models\\ztsignoffdataagentwise.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:models\\ztsignoffdataagentwise.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_code_latest\\qms_mvc_core\\qms_mvc_core\\views\\qamanager\\zttriggersignoff.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:views\\qamanager\\zttriggersignoff.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_code_latest\\qms_mvc_core\\qms_mvc_core\\views\\agent\\agentfeedback.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:views\\agent\\agentfeedback.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AgentController.cs",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Controllers\\AgentController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AgentController.cs",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Controllers\\AgentController.cs",
+              "RelativeToolTip": "Controllers\\AgentController.cs",
+              "ViewState": "AgIAAD8AAAAAAAAAAADgv0MAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T11:56:34.356Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Views\\Agent\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Agent\\Dashboard.cshtml",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Views\\Agent\\Dashboard.cshtml",
+              "RelativeToolTip": "Views\\Agent\\Dashboard.cshtml",
+              "ViewState": "AgIAADoAAAAAAAAAAAAhwEYAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-30T10:12:24.033Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "QAManagerController.cs",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Controllers\\QAManagerController.cs",
+              "RelativeDocumentMoniker": "Controllers\\QAManagerController.cs",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Controllers\\QAManagerController.cs",
+              "RelativeToolTip": "Controllers\\QAManagerController.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAArwDQAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T06:47:49.114Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DL_QaManager.cs",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\DataBaseService\\DL_QaManager.cs",
+              "RelativeDocumentMoniker": "DataBaseService\\DL_QaManager.cs",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\DataBaseService\\DL_QaManager.cs",
+              "RelativeToolTip": "DataBaseService\\DL_QaManager.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAArwC4AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T11:52:01.88Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ZtSignOffDataAgentWise.cs",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Models\\ZtSignOffDataAgentWise.cs",
+              "RelativeDocumentMoniker": "Models\\ZtSignOffDataAgentWise.cs",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Models\\ZtSignOffDataAgentWise.cs",
+              "RelativeToolTip": "Models\\ZtSignOffDataAgentWise.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T10:53:49.586Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AgentFeedBack.cshtml",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Views\\Agent\\AgentFeedBack.cshtml",
+              "RelativeDocumentMoniker": "Views\\Agent\\AgentFeedBack.cshtml",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Views\\Agent\\AgentFeedBack.cshtml",
+              "RelativeToolTip": "Views\\Agent\\AgentFeedBack.cshtml",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAhwIQAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-30T11:32:12.306Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ZtTriggerSignOff.cshtml",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Views\\QAManager\\ZtTriggerSignOff.cshtml",
+              "RelativeDocumentMoniker": "Views\\QAManager\\ZtTriggerSignOff.cshtml",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\QMS_MVC_CORE\\Views\\QAManager\\ZtTriggerSignOff.cshtml",
+              "RelativeToolTip": "Views\\QAManager\\ZtTriggerSignOff.cshtml",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAAAJUAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-28T08:24:30.085Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

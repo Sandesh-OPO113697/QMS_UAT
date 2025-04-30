@@ -4,5 +4,7 @@
     {
         public List<AgentFeedBackDetails> FeedbackList { get; set; }
         public List<AgentFeedBackDetails> DisputeList { get; set; }
+
+        public List<ZtSignOffDataAgentWise> ZtSignOffDataAgent { get; set; }
     }
 }

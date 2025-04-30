@@ -51,6 +51,105 @@
     </div>
 </div>
 
+@if (Model.ZtSignOffDataAgent != null && Model.ZtSignOffDataAgent.Any())
+{
+    <div id="popupModal" class="modal">
+        <div class="modal-content">
+            <h4>Sign-Off Details</h4>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Process</th>
+                        <th>Subprocess</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ZtSignOffDataAgent)
+                    {
+                        <tr>
+                            <td>@item.Process</td>
+                            <td>@item.SubProcessName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="btn-wrapper">
+                <button class="close-btn" onclick="closePopup()">Agent acknowledement</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            padding-top: 80px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 25px;
+            border-radius: 10px;
+            width: 60%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .btn-wrapper {
+            text-align: right;
+            margin-top: 15px;
+        }
+
+        .close-btn {
+            padding: 8px 16px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .close-btn:hover {
+                background-color: #0056b3;
+            }
+
+        
+    </style>
+
+    <script>
+        window.onload = function () {
+            document.getElementById("popupModal").style.display = "block";
+        }
+
+                      function closePopup() {
+            document.getElementById("popupModal").style.display = "none";
+
+            fetch('/QAManager/Agentacknowledements', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Server Response:', data);
+            })
+            .catch(error => {
+                console.error('AJAX Error:', error);
+            });
+        }
+
+
+    </script>
+}
+
+
+
 <div class="card shadow mb-4">
     <div class="card-header">
         <strong class="card-title"> Pending Dispute Acknowledgement</strong>

@@ -29,6 +29,127 @@ namespace QMS.DataBaseService
 
             _enc = dL_Encrpt;
         }
+
+
+        public async Task<int> UpdateAgentacknowledements()
+        {
+            string UserNameENC = await _enc.EncryptAsync(UserInfo.UserName);
+            int rowsAffected = 0;
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                using (SqlCommand cmd = new SqlCommand("usp_UpdateZtTriggerSignoff", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Agent", UserNameENC);
+                    await conn.OpenAsync();
+                    object result = await cmd.ExecuteNonQueryAsync();
+                    rowsAffected += Convert.ToInt32(result);
+                }
+            }
+            return rowsAffected;
+        }
+
+        public async Task<int> InsertZtSignOff(List<ZtSignOffSectionData> sections)
+        {
+            int rowsAffected = 0;
+
+            if (sections == null || sections.Count == 0)
+                return 0;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    var first = sections[0];
+                    string ProgramID = first.ProgramID;
+                    string SUBProgramID = first.SUBProgramID;
+                    string ExpiryDate = first.ExpiryDate.ToString();
+                    int insertedId;
+
+                    using (SqlCommand cmd = new SqlCommand("usp_ZtTriggerSignoff", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ProgramID", first.ProgramID);
+                        cmd.Parameters.AddWithValue("@SubProgramID", first.SUBProgramID);
+                        cmd.Parameters.AddWithValue("@ExpiryDate", first.ExpiryDate);
+                        cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+
+                        var outputIdParam = new SqlParameter("@InsertedId", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outputIdParam);
+
+                        await cmd.ExecuteNonQueryAsync();
+
+                        insertedId = (int)outputIdParam.Value;
+                    }
+
+                       DataTable dt2 = new DataTable();
+                       using (SqlCommand cmd3 = new SqlCommand("usp_GetZtuserMaapingAgent", conn))
+                        {
+                            cmd3.CommandType = CommandType.StoredProcedure;
+                            cmd3.CommandTimeout = 0;
+                            cmd3.Parameters.AddWithValue("@ProgramID", first.ProgramID);
+                            cmd3.Parameters.AddWithValue("@SubProgramID", first.SUBProgramID);
+                            SqlDataAdapter adpt = new SqlDataAdapter(cmd3);
+                            await Task.Run(() => adpt.Fill(dt2));
+                        }
+
+                    foreach (DataRow row in dt2.Rows)
+                    {
+                        using (SqlCommand insertCmd = new SqlCommand("usp_ZTP_ZtSignOffAgentMapping", conn))
+                        {
+                            String agentId = row["EMPID"].ToString();
+                            insertCmd.CommandType = CommandType.StoredProcedure;
+                            insertCmd.Parameters.AddWithValue("@AgentID", agentId);
+                            insertCmd.Parameters.AddWithValue("@ZtsignOffID", insertedId);
+                            insertCmd.Parameters.AddWithValue("@createdby", UserInfo.UserName);
+                            await insertCmd.ExecuteNonQueryAsync();
+                        }
+                    }
+
+                    foreach (var section in sections)
+                    {
+                        using (SqlCommand cmd2 = new SqlCommand("usp_ZTP_SignOffTrigger_Details", conn))
+                        {
+                            cmd2.CommandType = CommandType.StoredProcedure;
+                            cmd2.Parameters.AddWithValue("@ZtSignOffID", insertedId);
+                            cmd2.Parameters.AddWithValue("@ProgramID", section.ProgramID);
+                            cmd2.Parameters.AddWithValue("@SubProgramID", section.SUBProgramID);
+                            cmd2.Parameters.AddWithValue("@Parameter", section.Parameter ?? "");
+                            cmd2.Parameters.AddWithValue("@Process_1", section.Procedure1 ?? "");
+                            cmd2.Parameters.AddWithValue("@Process_2", section.Procedure2 ?? "");
+                            cmd2.Parameters.AddWithValue("@Process_3", section.Procedure3 ?? "");
+                            cmd2.Parameters.AddWithValue("@Process_4", section.Procedure4 ?? "");
+                            cmd2.Parameters.AddWithValue("@Process_5", section.Procedure5 ?? "");
+                            cmd2.Parameters.AddWithValue("@Process_6", section.Procedure6 ?? "");
+                            cmd2.Parameters.AddWithValue("@Process_7", section.Procedure7 ?? "");
+                            cmd2.Parameters.AddWithValue("@Process_8", section.Procedure8 ?? "");
+                            cmd2.Parameters.AddWithValue("@Process_9", section.Procedure9 ?? "");
+                            cmd2.Parameters.AddWithValue("@Process_10", section.Procedure10 ?? "");
+                            cmd2.Parameters.AddWithValue("@createdby", UserInfo.UserName);
+                            cmd2.CommandTimeout = 0;
+                            object result = await cmd2.ExecuteNonQueryAsync();
+                            rowsAffected += Convert.ToInt32(result);
+
+                            // rowsAffected += await cmd2.ExecuteNonQueryAsync();
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error inserting dynamic fields: " + ex.Message);
+            }
+
+            return rowsAffected;
+        }
+
+
         public async Task UploadAPR(string ProcessID , string Subprocess, IFormFile file)
         {
             int successCount = 0, duplicateCount = 0, invalidCount = 0;
