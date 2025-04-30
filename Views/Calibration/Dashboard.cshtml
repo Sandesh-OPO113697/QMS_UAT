@@ -26,20 +26,37 @@
                 </div>
             </div>
             <div class="row">
+
+                <div class="form-group col-md-6">
+                    <label for="FromDate">From Date</label>
+                    <input type="date" id="FromDate" class="custom-select">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="ToDate">To Date</label>
+                    <input type="date" id="Todate" class="custom-select">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="AgentID">Agent Name</label>
+                    <select name="AgentID" id="AgentID" class="custom-select" onchange="onAgentIDChange()">
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="TL_id">TL Name</label>
+                    <input type="text" placeholder="TL Name" class="custom-select" id="TL_id" readonly />
+                </div>
+
+
+
+            </div>
+            <div class="row">
                 <div class="form-group col-md-6">
                     <label for="TransactionID">Select Transaction</label> <span style="color:red">*</span>
                     <select id="TransactionID" class="form-control">
                         <option value="">Select Transaction</option>
-                        <option value="00f8038254bc6dad">00f8038254bc6dad</option>
-                        <option value="10a8048265bd7ebe">10a8048265bd7ebe</option>
-                        <option value="20b8058376ce8fcf">20b8058376ce8fcf</option>
-                        <option value="30c8068487df90d0">30c8068487df90d0</option>
-                        <option value="40d8078598e0a1e1">40d8078598e0a1e1</option>
-                        <option value="50e80886a9f1b2f2">50e80886a9f1b2f2</option>
-                        <option value="60f80987baf2c3f3">60f80987baf2c3f3</option>
-                        <option value="70g81088cb03d4g4">70g81088cb03d4g4</option>
-                        <option value="80h81189dc14e5h5">80h81189dc14e5h5</option>
-                        <option value="90i8128aed25f6i6">90i8128aed25f6i6</option>
+                       
                     </select>
                 </div>
 
@@ -54,6 +71,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 
@@ -113,6 +132,82 @@
 
 
 <script>
+
+        function onAgentIDChange() {
+
+             var fromDate = $("#FromDate").val();
+                var toDate = $("#Todate").val();
+                var agentId = $("#AgentID").val();
+
+
+                      if (!fromDate || !toDate ) {
+                                $("#FromDate").val("");
+                                $("#Todate").val("");
+                                alert("Invalid date selection. Dates have been cleared.");
+                                return;
+                            }
+                if (!agentId) {
+                    alert("Please select an Agent.");
+                    return;
+                }
+           var programId = document.getElementById("AgentID").value;
+             console.log("Agent ID .. " +programId );
+
+           if (programId == "") {
+               alert("Please Select Agent first");
+               return;
+           }
+           $.ajax({
+               type: "POST",
+               data: JSON.stringify({ id: programId }),
+
+               url: "/Monitor/GetTLName",
+               contentType: "application/json; charset=utf-8",
+               dataType: "json",
+               success: function (response) {
+                if (response.success) {
+                    $("#TL_id").val(response.tl_name);
+
+                } else {
+                    alert("Error fetching TL Name.");
+                    $("#RelListDiv").hide();
+                }
+               },
+               error: function (xhr, status, error) {
+                   console.error("Error occurred: " + error);
+               }
+           });
+
+
+
+           $.ajax({
+                    type: "POST",
+                    data: JSON.stringify({ fromDate: fromDate, toDate: toDate, agentId: agentId }),
+                    url: "/Calibration/GetRecListBydate",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.success) {
+                                var dropdown = $('#TransactionID');
+                                dropdown.empty();
+                                 dropdown.append('<option value="">Select TransactionID</option>');
+                                response.reclist.forEach(function (item) {
+                                    dropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                                });
+
+                         
+                        } else {
+                            alert("Error processing date range.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error occurred: " + error);
+                    }
+                });
+                GetSectionGried();
+
+       }
+
      function InsertSectionAudit() {
 
          var isValid = true;
@@ -384,20 +479,20 @@
 
         try {
 
-            // const agentResponse = await fetch("/UpdateManagement/getTlAndAgentList", {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json; charset=utf-8" },
-            //     body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })
-            // });
-            // const agentData = await agentResponse.json();
+            const agentResponse = await fetch("/UpdateManagement/getTlAndAgentList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })
+            });
+            const agentData = await agentResponse.json();
 
-            // const agentDropdown = $('#AgentID');
-            // agentDropdown.empty();
-            // agentDropdown.append('<option value="">Select Agent</option>');
+            const agentDropdown = $('#AgentID');
+            agentDropdown.empty();
+            agentDropdown.append('<option value="">Select Agent</option>');
 
-            // agentData.agentTlList.forEach(function (agent) {
-            //     agentDropdown.append('<option value="' + agent.empCode + '">' + agent.empCode + '</option>');
-            // });
+            agentData.agentTlList.forEach(function (agent) {
+                agentDropdown.append('<option value="' + agent.empCode + '">' + agent.empCode + '</option>');
+            });
 
             const qaResponse = await fetch("/Coaching/getQaManagertAnTlListList", {
                 method: "POST",

@@ -46,6 +46,22 @@ namespace QMS.Controllers
             }
         }
         [HttpPost]
+        public async Task<JsonResult> GetRecListBydate([FromBody] RecApiModel request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.AgentId) || string.IsNullOrEmpty(request.FromDate) || string.IsNullOrEmpty(request.ToDate))
+            {
+                return Json(new { success = false, message = "Invalid input data." });
+            }
+            else
+            {
+                var reclist = await dl_qcouch.GetRecListByAPi(request.FromDate, request.ToDate, request.AgentId);
+
+
+                return Json(new { success = true, message = "sucesss.", reclist = reclist });
+            }
+
+        }
+        [HttpPost]
         public async Task< IActionResult> SubmiteCalibration([FromBody] CalibratorModel model)
         {
              await dl_qcouch.SubmiteCalibrationDetails(model.ProgramId , model.SubProgram , model.transactionID , model.CalibratedComment ,  model.SelectedParticipants);

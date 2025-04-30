@@ -3,6 +3,13 @@ using QMS.Models;
 using System.Data.SqlClient;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Globalization;
+using System.Text;
+using NPOI.HSSF.Record;
+using NPOI.POIFS.Crypt.Dsig;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace QMS.DataBaseService
 {
@@ -12,12 +19,135 @@ namespace QMS.DataBaseService
         private readonly DL_Encrpt _enc;
         private readonly DLConnection _dlcon;
         private readonly HttpResponse response;
+  
 
-        public dl_Calibration(DL_Encrpt dL_Encrpt)
+        public dl_Calibration(DL_Encrpt dL_Encrpt , IConfiguration configuration)
         {
-
+            _con = configuration.GetConnectionString("Master_Con");
             _enc = dL_Encrpt;
         }
+        public async Task<List<SelectListItem>> GetRecListByAPi(string fromdate, string todate, string AgentID)
+        {
+            string responseBody = string.Empty;
+            string Account = UserInfo.AccountID;
+            string con = await _enc.DecryptAsync(_con);
+            List<SelectListItem> processList = new List<SelectListItem>(); // ✅ Defined here
+
+
+            string RecAPiList = string.Empty;
+            string StoreProcedure = "GetRecordingApi";
+            try
+            {
+                using (var connection = new SqlConnection(con))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(StoreProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Operations", "GetRecListAPi");
+                        command.Parameters.AddWithValue("@Account", Account);
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                RecAPiList = reader["RecApiList"].ToString();
+
+                            }
+                        }
+                    }
+                }
+
+
+                if (!string.IsNullOrEmpty(RecAPiList))
+                {
+
+                    string formattedFromDate = DateTime.ParseExact(fromdate, "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                                  .ToString("yyyyMMdd");
+
+                    string formattedToDate = DateTime.ParseExact(todate, "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                                                    .ToString("yyyyMMdd");
+                    var requestBody = new
+                    {
+                        agentID = AgentID,
+                        fromDate = formattedFromDate,
+                        todate = formattedToDate
+                    };
+
+                    string jsonPayload = JsonConvert.SerializeObject(requestBody);
+                    var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                    using (HttpClient httpClient = new HttpClient())
+                    {
+                        HttpResponseMessage response = await httpClient.PostAsync(RecAPiList, content);
+                        responseBody = await response.Content.ReadAsStringAsync();
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                        }
+                        else
+                        {
+                            throw new Exception($"API Error: {response.StatusCode}, Message: {responseBody}");
+                        }
+                        string data = responseBody;
+                        var callRecords = JsonConvert.DeserializeObject<List<CallRecord>>(data);
+
+                        if (callRecords != null)
+                        {
+                            using (var connection = new SqlConnection(UserInfo.Dnycon))
+                            {
+                                await connection.OpenAsync();
+
+                                foreach (var record in callRecords)
+                                {
+                                    using (var cmd = new SqlCommand("CheckConnIdExists", connection))
+                                    {
+                                        cmd.CommandType = CommandType.StoredProcedure;
+                                        cmd.Parameters.AddWithValue("@ConnId", record.CONNID);
+
+                                        var outputParam = new SqlParameter("@Exists", SqlDbType.Bit)
+                                        {
+                                            Direction = ParameterDirection.Output
+                                        };
+                                        cmd.Parameters.Add(outputParam);
+
+                                        await cmd.ExecuteNonQueryAsync();
+
+                                        bool exists = (bool)outputParam.Value;
+                                        if (!exists)
+                                        {
+                                            processList.Add(new SelectListItem
+                                            {
+                                                Value = record.CONNID,
+                                                Text = record.CONNID
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                    }
+
+
+                }
+                else
+                {
+                    Console.WriteLine("API URL is empty!");
+                }
+
+                return processList;
+               
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+
+            }
+        }
+
         public async Task<int> SubmiteSectionEvaluation(List<SectionAuditModel> model)
         {
             try

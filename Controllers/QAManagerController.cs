@@ -149,10 +149,19 @@ namespace QMS.Controllers
 
             return View(viewModel);
         }
-        public async Task<IActionResult> CallibrationDetails()
+      
+        public async Task<IActionResult> CallibrationDetailsTransactionId()
         {
 
-            DataTable dt = await dl_qa.CallibrationBypaticipates();
+            DataTable dt = await dl_qa.CallibrationBypaticipatesByUserID();
+          
+            return View(dt);
+        }
+
+        public async Task<IActionResult> CallibrationDetails(string transactionId)
+        {
+
+            DataTable dt = await dl_qa.CallibrationBypaticipates(transactionId);
             var model = TransformDataTableToViewModel(dt);
             return View(model);
         }

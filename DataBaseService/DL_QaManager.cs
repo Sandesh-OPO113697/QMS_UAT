@@ -550,7 +550,7 @@ namespace QMS.DataBaseService
             return list;
         }
 
-        public async Task<DataTable> CallibrationBypaticipates()
+        public async Task<DataTable> CallibrationBypaticipates(string transactionId)
         {
             DataTable dt = new DataTable();
             
@@ -566,7 +566,7 @@ namespace QMS.DataBaseService
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandTimeout = 0;
                       
-                        cmd.Parameters.AddWithValue("@username", UserInfo.UserName);
+                        cmd.Parameters.AddWithValue("@username", transactionId);
 
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
                         await Task.Run(() => adpt.Fill(dt));
@@ -575,6 +575,39 @@ namespace QMS.DataBaseService
 
 
                 
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
+        public async Task<DataTable> CallibrationBypaticipatesByUserID()
+        {
+            DataTable dt = new DataTable();
+
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("calibration", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "GetCallibrationByUser");
+                        cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+
             }
             catch (Exception ex)
             {

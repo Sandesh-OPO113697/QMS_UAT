@@ -148,7 +148,7 @@ namespace QMS.Controllers
                             return RedirectToAction("Dashboard", "Calibration");
 
                         case "19":
-                            return RedirectToAction("CallibrationDetails", "QAManager");
+                            return RedirectToAction("CallibrationDetailsTransactionId", "QAManager");
                         case "20":
                             return RedirectToAction("ManageModule");
                         case "21":
