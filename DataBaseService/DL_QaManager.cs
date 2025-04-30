@@ -550,6 +550,40 @@ namespace QMS.DataBaseService
             return list;
         }
 
+        public async Task<DataTable> CallibrationBypaticipates()
+        {
+            DataTable dt = new DataTable();
+            
+           
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("GetCalibrationDetailsByUser", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                      
+                        cmd.Parameters.AddWithValue("@username", UserInfo.UserName);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+                
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
+
         public async Task<List<ReviewDataModel>> GetCaoutingExtendedList()
         {
             DataTable dt = new DataTable();

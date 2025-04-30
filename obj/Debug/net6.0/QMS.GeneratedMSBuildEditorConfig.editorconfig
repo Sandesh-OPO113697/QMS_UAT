@@ -176,6 +176,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXFVwbG9hZEFQUi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/QAManager/CallibrationDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXENhbGxpYnJhdGlvbkRldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/QAManager/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXERhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

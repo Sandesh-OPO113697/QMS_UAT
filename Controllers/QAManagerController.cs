@@ -149,7 +149,55 @@ namespace QMS.Controllers
 
             return View(viewModel);
         }
+        public async Task<IActionResult> CallibrationDetails()
+        {
 
+            DataTable dt = await dl_qa.CallibrationBypaticipates();
+            var model = TransformDataTableToViewModel(dt);
+            return View(model);
+        }
+        private List<CalibrationRowViewModel> TransformDataTableToViewModel(DataTable dt)
+        {
+            var model = new List<CalibrationRowViewModel>();
+
+            if (dt.Rows.Count == 0)
+                return model;
+            var participantNames = dt.Columns.Cast<DataColumn>()
+                .Where(c => c.ColumnName.StartsWith("QA_rating", StringComparison.OrdinalIgnoreCase) && c.ColumnName != "QA_rating")
+                .Select(c => c.ColumnName.Replace("QA_rating", "").Trim())
+                .ToList();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                var rowVM = new CalibrationRowViewModel
+                {
+                    Category = row["category"].ToString(),
+                    Level = Convert.ToInt32(row["level"]),
+                    SectionName = row["SectionName"].ToString(),
+                };
+                foreach (var name in participantNames.Prepend("")) 
+                {
+                  string CreatedBy=  row[$"CreatedBy{name}"].ToString();
+                    var key = string.IsNullOrEmpty(name) ? "Master" : CreatedBy;
+
+                    rowVM.ParticipantData[key] = new CalibrationParticipantData
+                    {
+                        QA_rating = row[$"QA_rating{name}"].ToString(),
+                        Scorable = row[$"Scorable{name}"].ToString(),
+                        Weightage = row[$"Weightage{name}"].ToString(),
+                        Fatal = row[$"Fatal{name}"].ToString()
+                    };
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        int Count = 1 + Convert.ToInt32(name);
+                        rowVM.ParticipantData[key].Variance = row[$"r{Count.ToString()}Variance"].ToString();
+                    }
+                }
+                model.Add(rowVM);
+            }
+
+            return model;
+        }
         public async Task<IActionResult> EditAgentFeedBack(string TransactionID)
         {
           
