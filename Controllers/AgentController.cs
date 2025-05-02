@@ -93,6 +93,17 @@ namespace QMS.Controllers
                 {
                     Process = row.Field<string>("Process"),
                     SubProcessName = row.Field<string>("SubProcessName"),
+                    Process_1 = row.Field<string>("Process_1"),
+                    Process_2 = row.Field<string>("Process_2"),
+                    Process_3 = row.Field<string>("Process_3"),
+                    Process_4 = row.Field<string>("Process_4"),
+                    Process_5 = row.Field<string>("Process_5"),
+                    Process_6 = row.Field<string>("Process_6"),
+                    Process_7 = row.Field<string>("Process_7"),
+                    Process_8 = row.Field<string>("Process_8"),
+                    Process_9 = row.Field<string>("Process_9"),
+                    Process_10 = row.Field<string>("Process_10")
+
 
                 }).ToList();
 

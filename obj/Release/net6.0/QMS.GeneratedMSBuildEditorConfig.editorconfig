@@ -64,6 +64,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWdlbnRcRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/Calibration/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsaWJyYXRpb25cRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/Coaching/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29hY2hpbmdcRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -156,12 +160,28 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXERhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/Operation/MonitorCalibration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXE1vbml0b3JDYWxpYnJhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/Operation/OperationZtCase.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXE9wZXJhdGlvblp0Q2FzZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/Operation/Participants_Calibration_View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXFBhcnRpY2lwYW50c19DYWxpYnJhdGlvbl9WaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/Operation/UploadAPR.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXFVwbG9hZEFQUi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/QAManager/CallibrationDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXENhbGxpYnJhdGlvbkRldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/QAManager/CallibrationDetailsTransactionId.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXENhbGxpYnJhdGlvbkRldGFpbHNUcmFuc2FjdGlvbklkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/QMS_MVC_CORE/Views/QAManager/Dashboard.cshtml]
@@ -178,6 +198,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Projects/QMS_MVC_CORE/Views/QAManager/ZeroTolerance.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXFplcm9Ub2xlcmFuY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/QAManager/ZtTriggerSignOff.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXFp0VHJpZ2dlclNpZ25PZmYuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/QMS_MVC_CORE/Views/Sampling/DashBoard.cshtml]
