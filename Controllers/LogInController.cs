@@ -209,8 +209,11 @@ namespace QMS.Controllers
                 }
             }
         }
-        public async Task<ActionResult> Unauthorized()
+        [Route("Error")]
+        public async Task<ActionResult> Unauthorized( string message)
         {
+
+            ViewBag.ErrorMassge = "An unexpected error occurred. Please try again later.";
             return View();
         }
         public IActionResult DownloadAttachment(string fileName)

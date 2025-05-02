@@ -75,6 +75,37 @@ namespace QMS.DataBaseService
             }
             return dt;
         }
+
+
+
+        public async Task<DataTable> getZtSignOffData()
+        {
+            string UserNameENC = await _enc.EncryptAsync(UserInfo.UserName);
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("Usp_GetZtSignOffDataAgentWise", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@AgentID", UserNameENC);
+                       
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
+
         public async Task<DataTable> getAgentFeedbackSection( string TransactionID)
         {
             DataTable dt = new DataTable();

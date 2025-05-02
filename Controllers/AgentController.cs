@@ -71,6 +71,7 @@ namespace QMS.Controllers
 
                 DataTable dt1 = await dl_Agent.getMonitororIds();
                 DataTable dt2 = await dl_Agent.getDisputeMonitororIds();
+                DataTable dt3 = await dl_Agent.getZtSignOffData();
                 List<AgentFeedBackDetails> feedbackList = dt1.AsEnumerable().Select(row => new AgentFeedBackDetails
                 {
                     TransactionID = row.Field<string>("TransactionID"),
@@ -88,10 +89,19 @@ namespace QMS.Controllers
                 }).ToList();
 
 
+                List<ZtSignOffDataAgentWise> ZtSignOff = dt3.AsEnumerable().Select(row => new ZtSignOffDataAgentWise
+                {
+                    Process = row.Field<string>("Process"),
+                    SubProcessName = row.Field<string>("SubProcessName"),
+
+                }).ToList();
+
+
                 var viewModel = new AgentDashboardViewModel
                 {
                     FeedbackList = feedbackList,
-                    DisputeList = disputeList
+                    DisputeList = disputeList,
+                    ZtSignOffDataAgent= ZtSignOff
                 };
 
                 return View(viewModel);

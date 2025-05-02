@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using QMS.DataBaseService;
 using QMS.Encription;
+using QMS.Middleware;
 using QMS.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +46,8 @@ builder.Services.AddTransient<dl_Calibration>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+app.UseGlobalErrorHandling();
+
 //app.Use(async (context, next) =>
 //{
 //    ValidateJWTTocken(context);

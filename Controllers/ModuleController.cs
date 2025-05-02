@@ -207,7 +207,7 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "33":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("ZtTriggerSignOff", "QAManager");
                         case "34":
                             return RedirectToAction("ManageModule");
                         case "35":
