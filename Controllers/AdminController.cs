@@ -385,9 +385,19 @@ namespace QMS.Controllers
             {
                 Location_ID = UserInfo.LocationID;
             }
-                await _admin.InsertUserBulkUploadAsync(Location_ID, ProgramID, SUBProgramID, file);
-            TempData["ErrorMessages"] = "User Uploded Sucesssfully";
-            return RedirectToAction("UploadUsers");
+               int Result=  await _admin.InsertUserBulkUploadAsync(Location_ID, ProgramID, SUBProgramID, file);
+            if(Result==0)
+            {
+                TempData["ErrorMessages"] = "Mentioned role in XL File is Not Available in DataBase ";
+                return RedirectToAction("UploadUsers");
+            }
+            else
+            {
+                TempData["ErrorMessages"] = "User Uploded Sucesssfully";
+                return RedirectToAction("UploadUsers");
+
+            }
+                
         }
         [HttpPost]
         public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber, string email)

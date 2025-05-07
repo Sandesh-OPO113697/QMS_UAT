@@ -1382,7 +1382,7 @@ namespace QMS.DataBaseService
         }
 
 
-        public async Task InsertUserBulkUploadAsync(string Location_ID, string ProgramID, string SUBProgramID, IFormFile file)
+        public async Task<int> InsertUserBulkUploadAsync(string Location_ID, string ProgramID, string SUBProgramID, IFormFile file)
         {
             int successCount = 0, duplicateCount = 0, invalidCount = 0;
             string extension = Path.GetExtension(file.FileName);
@@ -1421,27 +1421,36 @@ namespace QMS.DataBaseService
                                 string NameENC     = await _enc.EncryptAsync(User + "_" + Name);
                                 string PassENC     = await _enc.EncryptAsync(Password);
 
-                                using (SqlCommand cmd = new SqlCommand("BulkUserCreate", conn))
+                                if(Role != "Account Level Admin" || Role != "QA Manager" || Role != "Monitor Supervsior" || Role != "Monitor" || Role != "Account Head" || Role != "HR" || Role != "MIS" || Role != "Leadership" || Role != "Agent" || Role != "Operation Manager" || Role != "SiteAdmin" )
                                 {
-                                    cmd.CommandType = CommandType.StoredProcedure;
-                                  
-
-                                    cmd.Parameters.AddWithValue("@Location", Location_ID);
-                                    cmd.Parameters.AddWithValue("@UserName", UserNameENC);
-                                    cmd.Parameters.AddWithValue("@Program", ProgramID);
-                                    cmd.Parameters.AddWithValue("@Password", PassENC);
-                                    cmd.Parameters.AddWithValue("@SubProcesname", SUBProgramID);
-                                    cmd.Parameters.AddWithValue("@Role", Role);
-                                    cmd.Parameters.AddWithValue("@AccountID", UserInfo.AccountID);
-                                    cmd.Parameters.AddWithValue("@UserNamedrp", USerID);
-                                    cmd.Parameters.AddWithValue("@Name", NameENC);
-                                    cmd.Parameters.AddWithValue("@Phone", PhoneNumber);
-                                    cmd.Parameters.AddWithValue("@Procesname", SUBProgramID);
-                                    cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
-                                    cmd.Parameters.AddWithValue("@email", email);
-                                    await cmd.ExecuteNonQueryAsync();
+                                    return 0;
                                 }
-                                successCount++;
+                                else
+                                {
+                                    using (SqlCommand cmd = new SqlCommand("BulkUserCreate", conn))
+                                    {
+                                        cmd.CommandType = CommandType.StoredProcedure;
+
+
+                                        cmd.Parameters.AddWithValue("@Location", Location_ID);
+                                        cmd.Parameters.AddWithValue("@UserName", UserNameENC);
+                                        cmd.Parameters.AddWithValue("@Program", ProgramID);
+                                        cmd.Parameters.AddWithValue("@Password", PassENC);
+                                        cmd.Parameters.AddWithValue("@SubProcesname", SUBProgramID);
+                                        cmd.Parameters.AddWithValue("@Role", Role);
+                                        cmd.Parameters.AddWithValue("@AccountID", UserInfo.AccountID);
+                                        cmd.Parameters.AddWithValue("@UserNamedrp", USerID);
+                                        cmd.Parameters.AddWithValue("@Name", NameENC);
+                                        cmd.Parameters.AddWithValue("@Phone", PhoneNumber);
+                                        cmd.Parameters.AddWithValue("@Procesname", SUBProgramID);
+                                        cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+                                        cmd.Parameters.AddWithValue("@email", email);
+                                        await cmd.ExecuteNonQueryAsync();
+                                    }
+                                    successCount++;
+                                    
+                                }
+                                    
                             }
 
 
@@ -1471,24 +1480,32 @@ namespace QMS.DataBaseService
                                 string UserNameENC = await _enc.EncryptAsync(User + "_" + USerID);
                                 string NameENC = await _enc.EncryptAsync(User + "_" + Name);
                                 string PassENC = await _enc.EncryptAsync(Password);
-
-                                using (SqlCommand cmd = new SqlCommand("BulkUserCreate", conn))
+                                if (Role != "Account Level Admin" && Role != "QA Manager" && Role != "Monitor Supervsior" && Role != "Monitor" &&
+     Role != "Account Head" && Role != "HR" && Role != "MIS" && Role != "Leadership" &&
+     Role != "Agent" && Role != "Operation Manager" && Role != "SiteAdmin")
                                 {
-                                    cmd.CommandType = CommandType.StoredProcedure;
-                                    cmd.Parameters.AddWithValue("@Location", Location_ID);
-                                    cmd.Parameters.AddWithValue("@UserName", UserNameENC);
-                                    cmd.Parameters.AddWithValue("@Program", ProgramID);
-                                    cmd.Parameters.AddWithValue("@Password", PassENC);
-                                    cmd.Parameters.AddWithValue("@SubProcesname", SUBProgramID);
-                                    cmd.Parameters.AddWithValue("@Role", Role);
-                                    cmd.Parameters.AddWithValue("@AccountID", UserInfo.AccountID);
-                                    cmd.Parameters.AddWithValue("@UserNamedrp", USerID);
-                                    cmd.Parameters.AddWithValue("@Name", NameENC);
-                                    cmd.Parameters.AddWithValue("@Phone", PhoneNumber);
-                                    cmd.Parameters.AddWithValue("@Procesname", SUBProgramID);
-                                    cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
-                                    cmd.Parameters.AddWithValue("@email", email);
-                                    await cmd.ExecuteNonQueryAsync();
+                                    return 0;
+                                }
+                                else
+                                {
+                                    using (SqlCommand cmd = new SqlCommand("BulkUserCreate", conn))
+                                    {
+                                        cmd.CommandType = CommandType.StoredProcedure;
+                                        cmd.Parameters.AddWithValue("@Location", Location_ID);
+                                        cmd.Parameters.AddWithValue("@UserName", UserNameENC);
+                                        cmd.Parameters.AddWithValue("@Program", ProgramID);
+                                        cmd.Parameters.AddWithValue("@Password", PassENC);
+                                        cmd.Parameters.AddWithValue("@SubProcesname", SUBProgramID);
+                                        cmd.Parameters.AddWithValue("@Role", Role);
+                                        cmd.Parameters.AddWithValue("@AccountID", UserInfo.AccountID);
+                                        cmd.Parameters.AddWithValue("@UserNamedrp", USerID);
+                                        cmd.Parameters.AddWithValue("@Name", NameENC);
+                                        cmd.Parameters.AddWithValue("@Phone", PhoneNumber);
+                                        cmd.Parameters.AddWithValue("@Procesname", SUBProgramID);
+                                        cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+                                        cmd.Parameters.AddWithValue("@email", email);
+                                        await cmd.ExecuteNonQueryAsync();
+                                    }
                                 }
                                 successCount++;
                             }
@@ -1505,6 +1522,7 @@ namespace QMS.DataBaseService
 
              
             }
+            return 1;
         }
 
 
