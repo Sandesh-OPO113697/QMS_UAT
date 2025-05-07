@@ -1,12 +1,186 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Projects\\QMS_MVC_CORE\\",
-  "Documents": [],
+  "WorkspaceRootPath": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_mvc_core\\databaseservice\\dl_admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:databaseservice\\dl_admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_mvc_core\\views\\monitor\\callmonitor.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:views\\monitor\\callmonitor.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_mvc_core\\views\\manageform\\createform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:views\\manageform\\createform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_mvc_core\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_mvc_core\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_mvc_core\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_mvc_core\\views\\admin\\createsubprocess.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:views\\admin\\createsubprocess.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_mvc_core\\controllers\\manageformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:controllers\\manageformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_mvc_core\\views\\admin\\createuser.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:views\\admin\\createuser.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms dev\\qms_mvc_core\\views\\module\\createsubprocess.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:views\\module\\createsubprocess.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-07T04:28:27.145Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-06T08:14:20.164Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CreateForm.cshtml",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Views\\ManageForm\\CreateForm.cshtml",
+              "RelativeDocumentMoniker": "Views\\ManageForm\\CreateForm.cshtml",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Views\\ManageForm\\CreateForm.cshtml",
+              "RelativeToolTip": "Views\\ManageForm\\CreateForm.cshtml",
+              "ViewState": "AgIAAI4BAAAAAAAAAIAwwNcBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-06T05:27:31.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CallMonitor.cshtml",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Views\\Monitor\\CallMonitor.cshtml",
+              "RelativeDocumentMoniker": "Views\\Monitor\\CallMonitor.cshtml",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Views\\Monitor\\CallMonitor.cshtml",
+              "RelativeToolTip": "Views\\Monitor\\CallMonitor.cshtml",
+              "ViewState": "AgIAABQFAAAAAAAAAADgvygFAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-06T04:44:49.64Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dl_Admin.cs",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\DataBaseService\\Dl_Admin.cs",
+              "RelativeDocumentMoniker": "DataBaseService\\Dl_Admin.cs",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\DataBaseService\\Dl_Admin.cs",
+              "RelativeToolTip": "DataBaseService\\Dl_Admin.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAQwCYAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-05T11:26:30.772Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "Controllers\\AdminController.cs",
+              "ViewState": "AgIAAN8BAAAAAAAAAAAiwO4BAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-05T11:07:11.993Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CreateSubProcess.cshtml",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Views\\Module\\CreateSubProcess.cshtml",
+              "RelativeDocumentMoniker": "Views\\Module\\CreateSubProcess.cshtml",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Views\\Module\\CreateSubProcess.cshtml",
+              "RelativeToolTip": "Views\\Module\\CreateSubProcess.cshtml",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAAAFYAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-05T11:06:21.974Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CreateSubProcess.cshtml",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Views\\Admin\\CreateSubProcess.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\CreateSubProcess.cshtml",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Views\\Admin\\CreateSubProcess.cshtml",
+              "RelativeToolTip": "Views\\Admin\\CreateSubProcess.cshtml",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAAAHYAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-05T11:01:33.582Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ManageFormController.cs",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Controllers\\ManageFormController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ManageFormController.cs",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Controllers\\ManageFormController.cs",
+              "RelativeToolTip": "Controllers\\ManageFormController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-06T05:29:01.088Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CreateUser.cshtml",
+              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Views\\Admin\\CreateUser.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\CreateUser.cshtml",
+              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_MVC_CORE\\Views\\Admin\\CreateUser.cshtml",
+              "RelativeToolTip": "Views\\Admin\\CreateUser.cshtml",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAEgAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-05T11:01:25.503Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

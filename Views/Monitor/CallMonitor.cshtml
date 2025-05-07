@@ -366,7 +366,7 @@
         <div class="row">
             <label><strong>Was there any Zero Tolerance Behaviour identified?</strong></label>
             <div class="form-check form-check-inline" style="margin-left: 75px;">
-                <input class="form-check-input" type="checkbox" id="yesCheckbox" name="zeroTolerance" value="Yes" checked>
+                <input class="form-check-input" type="checkbox" id="yesCheckbox" name="zeroTolerance" value="Yes">
                 <label class="form-check-label" for="yesCheckbox">Yes</label>
             </div>
             <div class="form-check form-check-inline" style="margin-left: 75px;">
@@ -1315,6 +1315,7 @@
     {
         let  SavendTime = new Date();
          document.getElementById("hiddenEndTime").value = SavendTime;
+          clearInterval(timerInterval);
          alert("Form Saved Sucessfully...!");
 
     }

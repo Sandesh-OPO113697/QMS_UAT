@@ -364,64 +364,76 @@ namespace QMS.Controllers
             return RedirectToAction("ProcessAssign");
         }
         [HttpPost]
-        public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber, string email )
+        public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber, string email, IFormFile file)
         {
             List<string> errorMessages = new List<string>();
 
-            if (string.IsNullOrEmpty(Location_ID) || Location_ID == "Select Location")
+
+            if (file == null || file.Length == 0)
             {
-                errorMessages.Add("Please select a valid location.");
+
+                if (string.IsNullOrEmpty(Location_ID) || Location_ID == "Select Location")
+                {
+                    errorMessages.Add("Please select a valid location.");
+                    TempData["ErrorMessages"] = errorMessages;
+                    return RedirectToAction("CreateUser");
+                }
+
+                if (string.IsNullOrEmpty(ProgramID) || ProgramID == "Select Process")
+                {
+                    errorMessages.Add("Please select a valid program.");
+                    TempData["ErrorMessages"] = errorMessages;
+                    return RedirectToAction("CreateUser");
+                }
+
+
+                if (string.IsNullOrEmpty(Role_ID) || Role_ID == "Select Role")
+                {
+                    errorMessages.Add("Please select a valid role.");
+                    TempData["ErrorMessages"] = errorMessages;
+                    return RedirectToAction("CreateUser");
+                }
+
+                if (string.IsNullOrEmpty(UserID) || UserID == "____")
+                {
+                    errorMessages.Add("User ID cannot be empty or the default value.");
+                    TempData["ErrorMessages"] = errorMessages;
+                    return RedirectToAction("CreateUser");
+                }
+
+                //if (string.IsNullOrEmpty(Password))
+                //{
+                //    errorMessages.Add("Password must be at least 6 characters long.");
+                //    TempData["ErrorMessages"] = errorMessages;
+                //    return RedirectToAction("CreateUser");
+                //}
+
+                if (string.IsNullOrEmpty(UserName))
+                {
+                    errorMessages.Add("User Name cannot be empty.");
+                    TempData["ErrorMessages"] = errorMessages;
+                    return RedirectToAction("CreateUser");
+                }
+
+                if (string.IsNullOrEmpty(PhoneNumber) || PhoneNumber.Length != 10)
+                {
+                    errorMessages.Add("Phone Number must be exactly 10 digits.");
+                    TempData["ErrorMessages"] = errorMessages;
+                    return RedirectToAction("CreateUser");
+                }
+
+                await _admin.InsertUserDetailsAsync(Location_ID, ProgramID, SUBProgramID, Role_ID, UserID, Password, UserName, PhoneNumber, email);
+                errorMessages.Add("User Is Created Sucessfully !");
                 TempData["ErrorMessages"] = errorMessages;
                 return RedirectToAction("CreateUser");
             }
-
-            if (string.IsNullOrEmpty(ProgramID) || ProgramID == "Select Process")
+            else
             {
-                errorMessages.Add("Please select a valid program.");
+                await _admin.InsertUserBulkUploadAsync(Location_ID, ProgramID, SUBProgramID,  file);
+                errorMessages.Add("User Is Created Sucessfully !");
                 TempData["ErrorMessages"] = errorMessages;
                 return RedirectToAction("CreateUser");
             }
-
-
-            if (string.IsNullOrEmpty(Role_ID) || Role_ID == "Select Role")
-            {
-                errorMessages.Add("Please select a valid role.");
-                TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateUser");
-            }
-
-            if (string.IsNullOrEmpty(UserID) || UserID == "____")
-            {
-                errorMessages.Add("User ID cannot be empty or the default value.");
-                TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateUser");
-            }
-
-            //if (string.IsNullOrEmpty(Password))
-            //{
-            //    errorMessages.Add("Password must be at least 6 characters long.");
-            //    TempData["ErrorMessages"] = errorMessages;
-            //    return RedirectToAction("CreateUser");
-            //}
-
-            if (string.IsNullOrEmpty(UserName))
-            {
-                errorMessages.Add("User Name cannot be empty.");
-                TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateUser");
-            }
-
-            if (string.IsNullOrEmpty(PhoneNumber) || PhoneNumber.Length != 10)
-            {
-                errorMessages.Add("Phone Number must be exactly 10 digits.");
-                TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateUser");
-            }
-
-            await _admin.InsertUserDetailsAsync(Location_ID, ProgramID, SUBProgramID, Role_ID, UserID, Password, UserName, PhoneNumber , email);
-            errorMessages.Add("User Is Created Sucessfully !");
-            TempData["ErrorMessages"] = errorMessages;
-            return RedirectToAction("CreateUser");
 
         }
 

@@ -68,7 +68,7 @@
         </div>
     </div>
 </div>
-<form action="@Url.Action("InsertUsers", "Admin")" method="post" onsubmit="return validateForm()">
+<form action="@Url.Action("InsertUsers", "Admin")" method="post" enctype="multipart/form-data"  onsubmit="return validateForm()">
     <div class="col-md-12 my-4">
         <div class="card shadow">
             <div class="card-body">
@@ -137,6 +137,18 @@
                                oninput="validatePhone(this)"
                                class="form-control" />
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="fileUpload">Bulk User Creation </label>  <small class="form-text text-muted">
+                              
+
+                                <a href="/SampleFile/UploadUser.xls" download>Download Sample File</a>
+                            </small>
+                            <input type="file" id="fileUpload" name="file" class="form-control" />
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
