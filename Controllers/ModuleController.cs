@@ -97,7 +97,7 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "6":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("WorkAllowcation", "Sampling", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
                         case "7":
                             return RedirectToAction("ManageModule");
                         case "8":

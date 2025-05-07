@@ -70,6 +70,51 @@ namespace QMS.DataBaseService
             return list;
         }
 
+        public async Task<List<CouchingPIP>> CouchingPIP()
+        {
+            DataTable dt = new DataTable();
+            List<CouchingPIP> list = new List<CouchingPIP>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("Coaching", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Operation", "getCouchingPIP");
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    CouchingPIP model = new CouchingPIP
+                    {
+                        AgentID = row["AgentID"]?.ToString(),
+                        Program = row["Program"]?.ToString(),
+                        SubProgram = row["SubProgram"]?.ToString(),
+                        QA_Manager = await _enc.DecryptAsync( row["QA_Manager"]?.ToString()),
+                        CreatedBy = row["CreatedBy"]?.ToString(),
+                        Createddate = row["Createddate"]?.ToString()
+                     
+                    };
+
+                    list.Add(model);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return list;
+        }
 
         public async Task<List<ZtHrCase>> ZtCaseHr()
         {

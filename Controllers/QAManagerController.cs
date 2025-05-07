@@ -274,6 +274,7 @@ namespace QMS.Controllers
             string processID = dt1.Rows[0]["ProgramID"].ToString();
             string SUBprocessID = dt1.Rows[0]["SubProgramID"].ToString();
             ViewBag.Agent_Comment = dt1.Rows[0]["Agent_Comment"].ToString();
+            ViewBag.Remarks = dt1.Rows[0]["Remarks"].ToString();
             var dataTable = await dl_qa.GetMonitporedSectionGriedAsync(Convert.ToInt32(processID), Convert.ToInt32(SUBprocessID) , TransactionID);
             var sectionList = dataTable.AsEnumerable().Select(row => new MonitoredSectionGridModel
             {

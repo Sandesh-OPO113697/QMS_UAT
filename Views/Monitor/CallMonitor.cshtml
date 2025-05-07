@@ -741,6 +741,22 @@
                         $row.find(".qa-rating").removeClass("border border-danger");
 
                     }
+
+                    if (qaRating === "Met") {
+                             if ( comments === "") {
+                                isValid = false;
+
+                                 $row.find("input[type='text']").addClass("border border-danger");
+                            } else {
+
+                                 $row.find("input[type='text']").removeClass("border border-danger");
+                            }
+
+                    } else {
+                        $row.find("input[type='text']").removeClass("border border-danger");
+
+                    }
+
                      if (fatal === "") {
                         isValid = false;
                          return;
@@ -751,14 +767,7 @@
 
                     }
 
-                     if ( comments === "") {
-                        isValid = false;
-
-                         $row.find("input[type='text']").addClass("border border-danger");
-                    } else {
-
-                         $row.find("input[type='text']").removeClass("border border-danger");
-                    }
+                     
 
                     gridData.push({
                         category: category,

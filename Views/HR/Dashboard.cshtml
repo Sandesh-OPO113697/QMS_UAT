@@ -119,4 +119,52 @@
     </div>
 
 
+
+
+    <div class="card-header">
+        <strong class="card-title">Couching PIP</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>AgentID</th>
+                    <th>Program</th>
+                    <th>SubProgram</th>
+                    <th>QA_Manager</th>
+                    <th>CreatedBy</th>
+                    <th>Createddate</th>
+                  
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.HRPIP != null && Model.HRPIP.Any())
+                {
+                    @foreach (var item in Model.HRPIP)
+                    {
+                        <tr>
+                            <td>@item.AgentID</td>
+                            <td>@item.Program</td>
+                            <td>@item.SubProgram</td>
+                            <td>@item.QA_Manager</td>
+                            <td>@item.CreatedBy</td>
+                            <td>@item.Createddate</td>
+                 
+
+                          
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No pending Zt Cases.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
 </div>

@@ -24,7 +24,12 @@
 <div class="col-md-12 my-4" id="agentListContainer" style="display:none">
     <div class="card shadow">
         <div class="card-body">
-            <h5 class="card-title"> Agent List </h5>
+            <div class="d-flex" >
+                <h5 class="card-title mb-0">Agent List</h5>
+                <button type="button" style="margin-left:50px; color:#555" class="btn-sm" id="selectAllAgents">Select All</button>
+            </div>
+
+           
         </div>
     </div>
 </div>
@@ -32,7 +37,10 @@
 <div class="col-md-12 my-4" id="tlListContainer" style="display:none">
     <div class="card shadow">
         <div class="card-body">
+            <div class="d-flex">
             <h5 class="card-title"> Team Leader List </h5>
+            <button type="button" style="margin-left:50px; color:#555" class="btn-sm" id="selectAllTL">Select All</button>
+            </div>
         </div>
     </div>
 </div>
@@ -110,6 +118,14 @@
     $(document).ready(function () {
         let uploadedMailData = null;
             let selectedFile = null;
+                $(document).on('click', '#selectAllAgents', function () {
+        $('#agentListContainer .card-body input[type="checkbox"]').prop('checked', true);
+    });
+     $(document).on('click', '#selectAllTL', function () {
+        $('#tlListContainer .card-body input[type="checkbox"]').prop('checked', true);
+    });
+
+    
 
         $('#fileUploader').on('change', function (e) {
             const file = e.target.files[0];

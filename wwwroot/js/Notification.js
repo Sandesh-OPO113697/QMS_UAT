@@ -75,9 +75,7 @@ function handlePDF(data) {
 
     const html = `
         <iframe src="${url}" width="100%" height="500px" style="border: 1px solid #ccc; border-radius: 6px;"></iframe>
-        <div style="margin-top: 10px; text-align: right;">
-            <a href="${url}" download="${data.attachmentFileName}" style="text-decoration: none; font-weight: 500; color: #007bff;">⬇️ Download PDF</a>
-        </div>
+       
     `;
     $('#mailModalAttachment').html(html);
    

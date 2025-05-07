@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ju2qiiOm/9Yqn+UNB0bR09yoxAYXyB9q8g9pQG0Y2RU=",
+  "Hash": "XAufASR0fwA2c7GCDUIfuZOa6FKAd6mjRQ6dvxYfnZo=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -2467,8 +2467,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "n8o01ehq7w",
-      "Integrity": "SVwHq7bCw6HK+5dmYsOphhapKEc0R2CrmTRP6O+lqNs=",
+      "Fingerprint": "j4s8ksd1t0",
+      "Integrity": "Y9Qffg6FSsMIpLcgklm51lkGGZMMowaABd4EKHFOmKY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Notification.js"
@@ -13315,6 +13315,51 @@
       ]
     },
     {
+      "Route": "js/Notification.j4s8ksd1t0.js",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5988"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Y9Qffg6FSsMIpLcgklm51lkGGZMMowaABd4EKHFOmKY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 May 2025 06:03:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "j4s8ksd1t0"
+        },
+        {
+          "Name": "label",
+          "Value": "js/Notification.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Y9Qffg6FSsMIpLcgklm51lkGGZMMowaABd4EKHFOmKY="
+        }
+      ]
+    },
+    {
       "Route": "js/Notification.js",
       "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
       "Selectors": [],
@@ -13325,7 +13370,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6212"
+          "Value": "5988"
         },
         {
           "Name": "Content-Type",
@@ -13333,11 +13378,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"SVwHq7bCw6HK+5dmYsOphhapKEc0R2CrmTRP6O+lqNs=\""
+          "Value": "\"Y9Qffg6FSsMIpLcgklm51lkGGZMMowaABd4EKHFOmKY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 19 Apr 2025 10:10:55 GMT"
+          "Value": "Wed, 07 May 2025 06:03:27 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -13347,52 +13392,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-SVwHq7bCw6HK+5dmYsOphhapKEc0R2CrmTRP6O+lqNs="
-        }
-      ]
-    },
-    {
-      "Route": "js/Notification.n8o01ehq7w.js",
-      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "6212"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"SVwHq7bCw6HK+5dmYsOphhapKEc0R2CrmTRP6O+lqNs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sat, 19 Apr 2025 10:10:55 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "n8o01ehq7w"
-        },
-        {
-          "Name": "label",
-          "Value": "js/Notification.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-SVwHq7bCw6HK+5dmYsOphhapKEc0R2CrmTRP6O+lqNs="
+          "Value": "sha256-Y9Qffg6FSsMIpLcgklm51lkGGZMMowaABd4EKHFOmKY="
         }
       ]
     },
@@ -18831,7 +18831,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 02 May 2025 06:29:50 GMT"
+          "Value": "Wed, 07 May 2025 07:42:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -18868,7 +18868,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 02 May 2025 06:29:50 GMT"
+          "Value": "Wed, 07 May 2025 07:42:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -18913,7 +18913,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 02 May 2025 06:29:50 GMT"
+          "Value": "Wed, 07 May 2025 07:42:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -18958,7 +18958,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 02 May 2025 06:29:50 GMT"
+          "Value": "Wed, 07 May 2025 07:42:25 GMT"
         },
         {
           "Name": "Cache-Control",

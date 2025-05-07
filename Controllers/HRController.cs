@@ -30,11 +30,13 @@ namespace QMS.Controllers
 
             List<ZtHrCase> ListHR = await dl_hr.ZtCaseHr();
             List<ZTcaseModel> ZTlistPanel = await dl_hr.ZtCasePanel();
+            List<CouchingPIP> HRPIP = await dl_hr.CouchingPIP();
 
             var viewModel = new ZtPanelHrCase
             {
                 ZTcaseHrList = ListHR,
-                PanelList = ZTlistPanel
+                PanelList = ZTlistPanel,
+                HRPIP= HRPIP
             };
 
             return View(viewModel);

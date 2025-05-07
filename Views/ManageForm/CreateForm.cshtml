@@ -378,7 +378,7 @@
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                    <label for="Field_Name">Predictive - CSAT</label><span style="color:red">*</span>
+                    <label for="Field_Name">Predictive - CSAT</label>
                     @Html.DropDownList("getPredictive", (List<SelectListItem>)ViewBag.getPredictiveList, "Select Predictive - CSAT", new { @class = "custom-select", id = "getPredictive", required = "required" })
 
                     <small class="text-danger d-none" id="nameError">Field Name is required.</small>
@@ -424,7 +424,7 @@
     <div class="card-header">
         <strong class="card-title">Upload Disposition List</strong> <small class="form-text text-muted">
             <a href="/SampleFile/dispo.xls" download>Download Sample File</a>
-        </small> <span style="color:red">*</span>
+        </small>
     </div>
     <div class="card-body">
         <form id="uploadForm" method="post" enctype="multipart/form-data">
@@ -443,7 +443,7 @@
     <div class="card-header">
         <strong class="card-title">Upload Category List</strong> <small class="form-text text-muted">
             <a href="/SampleFile/UploadCategory.xls" download>Download Sample File</a>
-        </small> <span style="color:red">*</span>
+        </small>
     </div>
     <div class="card-body">
         <form id="uploadForm" method="post" enctype="multipart/form-data">
@@ -582,10 +582,7 @@
     function UpLoadCategory()
 {
      var fileInput = document.getElementById("fileUploadCategory");
-    if (fileInput.files.length === 0) {
-        alert("Please select a file to upload.");
-        return;
-    }
+   
 
       let programID = $("#ProgramID").val();
     let subProgramID = $("#SUBProgramID").val();
@@ -615,10 +612,7 @@
     function UpLoadDispo()
     {
          var fileInput = document.getElementById("fileUpload");
-        if (fileInput.files.length === 0) {
-            alert("Please select a file to upload.");
-            return;
-        }
+        
 
           let programID = $("#ProgramID").val();
         let subProgramID = $("#SUBProgramID").val();
@@ -728,6 +722,7 @@
             } else {
 
             }
+
             if (!exists) {
                 var row = `<tr>
                   <td>${selectedValue}</td>
@@ -842,10 +837,10 @@
             ZT_Classification: ztClassificationValues.join(","),
             RatinfGried:RatinfGried.join(","),
             Zero_Tolerance: zeroTolerance,
-            ProgramID: programID, // Example static value, replace as needed
-            SubProgramID: subProgramID, // Example static value, replace as needed
+            ProgramID: programID, 
+            SubProgramID: subProgramID,
             IsActive: 1,
-            CreatedBy: "Admin", // Replace with actual user
+            CreatedBy: "Admin",
             UpdatedBy: "Admin",
             CreatedDate: new Date().toISOString()
         };
@@ -979,11 +974,11 @@
             return;
             isValid = false;
         }
-        if ($("#Predictive_CSAT tbody tr").length === 0) {
-            alert("Please add at least one Predictive - CSAT.");
-             return;
-            isValid = false;
-        }
+        // if ($("#Predictive_CSAT tbody tr").length === 0) {
+        //     alert("Please add at least one Predictive - CSAT.");
+        //      return;
+        //     isValid = false;
+        // }
         if ($("#ZT_Classificationtbl tbody tr").length === 0) {
             alert("Please add at least one ZT Classification.");
             return;
@@ -996,11 +991,11 @@
             isValid = false;
         }
 
-        if (!$("#yesCheckbox").is(":checked") && !$("#noCheckbox").is(":checked")) {
-            alert("Please select Zero Tolerance Behaviour.");
-             return;
-            isValid = false;
-        }
+        // if (!$("#yesCheckbox").is(":checked") && !$("#noCheckbox").is(":checked")) {
+        //     alert("Please select Zero Tolerance Behaviour.");
+        //      return;
+        //     isValid = false;
+        // }
 
 
         if (isValid) {
@@ -1134,7 +1129,7 @@
                                                     $("#ZT_Classification").show();
 
                                                      $("#RatingDropDawon").show();
-                                                    $("#Zero_tolerance_behaviour").show();
+                                                    //$("#Zero_tolerance_behaviour").show();
                                                     $("#Predictive_CSAT").show();
                                                       $("#Upload_Dispostition_List").show();
                                                        $("#Upload_Category_List").show();
