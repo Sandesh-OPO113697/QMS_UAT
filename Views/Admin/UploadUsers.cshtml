@@ -1,0 +1,141 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<form action="@Url.Action("InsertBuilkUsers", "Admin")" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+
+<div class="col-md-12 my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Upload Users </h5>
+                @if (TempData["ErrorMessages"] != null)
+                {
+                    
+                        <div class="alert alert-primary" id="NotificationDiv" runat="server" role="alert">
+                            <span class="fe fe-alert-circle fe-16 mr-2" id="Notif   ication" runat="server">
+                            @TempData["ErrorMessages"].ToString();
+                            </span>
+                        </div>
+                   
+
+                }
+            <div class="row">
+                <div class="form-group col-md-6">
+                        <label for="LocationDropDown">Location Name</label><span style="color:red">*</span>
+                    @Html.DropDownList(
+                             "Location_ID",
+                             (List<SelectListItem>)ViewBag.Locations,
+                             "Select Location",
+                             new { @class = "custom-select", id = "Location_ID", onchange = "onLocationChange()", required = "required" }
+                             )
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Program Name</label> <span style="color:red">*</span>
+                    <select name="ProgramID" id="ProgramID" class="custom-select" onchange="onProgramChange()" required>
+                        <option value="">Select Process</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" required>
+                        <option value="">Select Process</option>
+                    </select>
+                </div>
+              
+                    <div class="form-group col-md-6">
+                         
+                            <label for="fileUpload">Bulk User Creation </label>
+                            <small class="form-text text-muted">
+
+                            <a href="/SampleFile/BulKUploadUser.xls" download>Download Sample File</a>
+                            </small>
+                                <input type="file" id="fileUpload" name="file" class="custom-select" />
+                       
+                    </div>
+               
+            </div>
+            
+           
+        </div>
+    </div>
+</div>
+
+<div class="col-md-2 my-4">
+    <div class="card-body d-flex justify-content-center align-items-center">
+        <button type="submit" class="btn btn-primary">Create User</button>
+    </div>
+
+    
+
+</div>
+
+</form>
+<script>
+                         function onLocationChange() {
+
+        var Location = $('#Location_ID').val();
+
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: Location }),
+
+            url: "/Admin/GetProcessList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                var dropdown = $('#ProgramID');
+                dropdown.empty();
+                dropdown.append('<option value="">Select Process</option>');
+                response.proces.forEach(function (item) {
+                    dropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("HandleBackspace", "Admin")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                var newUsername = response.newUsername;
+                document.getElementById('txtUsername').value = newUsername;
+            },
+            error: function (xhr, status, error) {
+                console.error('Error: ' + error);
+            }
+        });
+    }
+                     function onProgramChange() {
+        var programId = document.getElementById("ProgramID").value;
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: programId }),
+
+            url: "/Admin/GetSUBProcessList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                var dropdown = $('#SUBProgramID');
+                dropdown.empty();
+                dropdown.append('<option value="">Select Process</option>');
+                response.proces.forEach(function (item) {
+                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
+    }
+                    </script>

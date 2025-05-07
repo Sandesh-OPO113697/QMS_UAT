@@ -298,18 +298,39 @@ namespace QMS.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber , string email)
+        public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber , string email )
         {
             List<string> errorMessages = new List<string>();
             string locationid = UserInfo.LocationID;
-            await _admin.InsertUserDetailsAsync(locationid, ProgramID, SUBProgramID, Role_ID, UserID, Password, UserName, PhoneNumber , email);
-            errorMessages.Add("User Is Created Sucessfully !");
-            TempData["ErrorMessages"] = errorMessages;
-            return RedirectToAction("CreateUser");
+           
+                await _admin.InsertUserDetailsAsync(locationid, ProgramID, SUBProgramID, Role_ID, UserID, Password, UserName, PhoneNumber, email);
+                errorMessages.Add("User Is Created Sucessfully !");
+                TempData["ErrorMessages"] = errorMessages;
+                return RedirectToAction("CreateUser");
+            
+               
 
         }
 
+        public async Task<ActionResult> UploadUsers()
+        {
+            string locationid = UserInfo.LocationID;
+            var data = await _admin.GetProcessListByLocation(locationid);
+            var Location = await _admin.GetLocationAsync();
+            var filteredLocation = Location.Where(loc => loc.Value == locationid).ToList();
+            var processList = data.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ProcessName"]}",
+            }).ToList();
+            ViewBag.ProcessList = processList;
+            DataTable dt = await _admin.GetUserListAsync();
+            ViewBag.Locations = filteredLocation;
 
+        
+         
+            return View();
+        }
         public async Task<IActionResult> ManageUsers()
         {
             string locationid = UserInfo.LocationID;

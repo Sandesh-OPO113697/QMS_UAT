@@ -379,7 +379,7 @@
             <div class="col-md-3">
                 <div class="form-group mb-3">
                     <label for="Field_Name">Predictive - CSAT</label>
-                    @Html.DropDownList("getPredictive", (List<SelectListItem>)ViewBag.getPredictiveList, "Select Predictive - CSAT", new { @class = "custom-select", id = "getPredictive", required = "required" })
+                    @Html.DropDownList("getPredictive", (List<SelectListItem>)ViewBag.getPredictiveList, "Select Predictive - CSAT", new { @class = "custom-select", id = "getPredictive" })
 
                     <small class="text-danger d-none" id="nameError">Field Name is required.</small>
                 </div>
@@ -424,32 +424,36 @@
     <div class="card-header">
         <strong class="card-title">Upload Disposition List</strong> <small class="form-text text-muted">
             <a href="/SampleFile/dispo.xls" download>Download Sample File</a>
+
         </small>
+
     </div>
     <div class="card-body">
         <form id="uploadForm" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-3">
-                    <input type="file" id="fileUpload" name="file" class="form-control" required />
+                    <input type="file" id="fileUpload" name="file" class="form-control"/>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-
-
 <div class="card shadow mb-4" id="Upload_Category_List" style="display:none">
     <div class="card-header">
         <strong class="card-title">Upload Category List</strong> <small class="form-text text-muted">
             <a href="/SampleFile/UploadCategory.xls" download>Download Sample File</a>
+<<<<<<< HEAD
         </small>
+=======
+        </small> <span style="color:green">*</span>
+>>>>>>> 5d5b38e3f3916c284a1883aa88d49cd66e9accb6
     </div>
     <div class="card-body">
         <form id="uploadForm" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-3">
-                    <input type="file" id="fileUploadCategory" name="file" class="form-control" required />
+                    <input type="file" id="fileUploadCategory" name="file" class="form-control"/>
                 </div>
             </div>
         </form>
@@ -569,7 +573,6 @@
         $("#RatingTable tbody").append(newRow);
     });
 
-    // Remove row when Remove button is clicked
     $(document).on("click", ".removeRating", function () {
         $(this).closest("tr").remove();
     });

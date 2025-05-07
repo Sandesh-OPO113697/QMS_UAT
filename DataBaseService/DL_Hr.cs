@@ -299,7 +299,7 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@HR_Comments", Comment);
                         cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
                         cmd.Parameters.AddWithValue("@UserName", Agentdec);
-                          cmd.ExecuteNonQueryAsync();
+                        await  cmd.ExecuteNonQueryAsync();
                       
 
                     }

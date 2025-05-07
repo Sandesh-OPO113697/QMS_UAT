@@ -767,7 +767,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 07 May 2025 07:42:25 GMT"
+          "Value": "Wed, 07 May 2025 09:09:21 GMT"
         }
       ],
       "EndpointProperties": [
@@ -812,7 +812,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 07 May 2025 07:42:25 GMT"
+          "Value": "Wed, 07 May 2025 09:09:21 GMT"
         }
       ],
       "EndpointProperties": [
@@ -983,6 +983,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-5p/HFcj7xvGzTH+WLq0l/o12q8fs3J+OjVp2l36mJkk="
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/BulKUploadUser.0bd9w9ezah.xls",
+      "AssetFile": "SampleFile/BulKUploadUser.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "18944"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 May 2025 09:04:14 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0bd9w9ezah"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc="
+        },
+        {
+          "Name": "label",
+          "Value": "SampleFile/BulKUploadUser.xls"
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/BulKUploadUser.xls",
+      "AssetFile": "SampleFile/BulKUploadUser.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "18944"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 May 2025 09:04:14 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc="
         }
       ]
     },

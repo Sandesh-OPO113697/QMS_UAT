@@ -26,7 +26,7 @@ namespace QMS.DataBaseService
             {
                 using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
                 {
-                    con.OpenAsync();
+                   await con.OpenAsync();
                     using (SqlCommand cmd = new SqlCommand("UpdateManagement", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;

@@ -34,7 +34,7 @@ namespace QMS.Controllers
         {
             try
             {
-                await _admin.DeactiveActiveProcess(id,Convert.ToBoolean(isActive));
+                await _admin.DeactiveActiveProcess(id, Convert.ToBoolean(isActive));
                 return Json(new { success = true });
             }
             catch (Exception ex)
@@ -67,7 +67,7 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause, IFormFile file , string TypeProcess, IFormFile files)
+        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID, int Number_Of_Pause, IFormFile file, string TypeProcess, IFormFile files)
         {
             try
             {
@@ -110,15 +110,15 @@ namespace QMS.Controllers
                 }
 
 
-                await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file, TypeProcess , files);
+                await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file, TypeProcess, files);
                 errorMessages.Add("Sub-Process Created Sucessfully !");
                 TempData["ErrorMessages"] = errorMessages;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
-            
+
             return RedirectToAction("CreateSubProcess");
 
         }
@@ -173,7 +173,7 @@ namespace QMS.Controllers
                 locationName = row["LocationName"],
                 processName = row["ProcessName"],
                 active_Status = row["Active_Status"]
-                
+
             }).ToList();
 
             return Json(processList);
@@ -183,11 +183,11 @@ namespace QMS.Controllers
 
             var Location = await _admin.GetLocationAsync();
             ViewBag.Locations = Location;
-           
+
             return View();
         }
 
-        
+
         public async Task<ActionResult> DashBoard()
         {
             DataTable dt = await _admin.GetProcessListAsync();
@@ -197,7 +197,7 @@ namespace QMS.Controllers
         [HttpPost]
         public async Task<List<SelectListItem>> GetRoleByRole([FromBody] DropDawnString request)
         {
-            string  RoleID = request.ID;
+            string RoleID = request.ID;
             string UserName = await _admin.GetUserNameByID(RoleID);
             var UserRoles = await _admin.GetRoleOnBasicName(UserName);
             return UserRoles;
@@ -244,10 +244,10 @@ namespace QMS.Controllers
         {
             var User = await _admin.GetRoleAsync();
             var Feature = await _admin.GetFeature();
-            
+
             ViewBag.UserList = User;
             ViewBag.Feature = Feature;
-          
+
             return View();
         }
 
@@ -268,9 +268,9 @@ namespace QMS.Controllers
             {
                 string userId = data.UserId;
                 string userName = data.UserName;
-                if(userName =="Select Role" || userName=="")
+                if (userName == "Select Role" || userName == "")
                 {
-                   
+
                     return Json(new { success = false, message = "Please Select Role" });
 
                 }
@@ -296,9 +296,9 @@ namespace QMS.Controllers
         {
             if (selectedFeatures != null && selectedSubFeatures != null)
             {
-                
+
             }
-            
+
             return RedirectToAction("FeatureMapping");
         }
 
@@ -326,6 +326,17 @@ namespace QMS.Controllers
             var RoleList = await _admin.GetRoleAndSubAsync(UserInfo.UserName);
             ViewBag.UserList = User;
             ViewBag.RoleList = RoleList;
+            return View();
+        }
+        public async Task<ActionResult> UploadUsers()
+        {
+
+            var Location = await _admin.GetLocationAsync();
+            var Role = await _admin.GetRoleAsync();
+            var prifix = await _admin.GetPrefixAsync();
+            DataTable dt = await _admin.GetUserListAsync();
+            ViewBag.Locations = Location;
+            ViewBag.Role = Role;
             return View();
         }
         public async Task<ActionResult> ProcessAssign()
@@ -364,9 +375,27 @@ namespace QMS.Controllers
             return RedirectToAction("ProcessAssign");
         }
         [HttpPost]
-        public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber, string email )
+        public async Task<ActionResult> InsertBuilkUsers(string Location_ID, string ProgramID, string SUBProgramID, IFormFile file)
+        {
+            if(UserInfo.UserType=="Admin")
+            {
+
+            }
+            else
+            {
+                Location_ID = UserInfo.LocationID;
+            }
+                await _admin.InsertUserBulkUploadAsync(Location_ID, ProgramID, SUBProgramID, file);
+            TempData["ErrorMessages"] = "User Uploded Sucesssfully";
+            return RedirectToAction("UploadUsers");
+        }
+        [HttpPost]
+        public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber, string email)
         {
             List<string> errorMessages = new List<string>();
+
+
+
 
             if (string.IsNullOrEmpty(Location_ID) || Location_ID == "Select Location")
             {
@@ -418,10 +447,13 @@ namespace QMS.Controllers
                 return RedirectToAction("CreateUser");
             }
 
-            await _admin.InsertUserDetailsAsync(Location_ID, ProgramID, SUBProgramID, Role_ID, UserID, Password, UserName, PhoneNumber , email);
+            await _admin.InsertUserDetailsAsync(Location_ID, ProgramID, SUBProgramID, Role_ID, UserID, Password, UserName, PhoneNumber, email);
             errorMessages.Add("User Is Created Sucessfully !");
             TempData["ErrorMessages"] = errorMessages;
             return RedirectToAction("CreateUser");
+
+
+
 
         }
 
@@ -445,11 +477,11 @@ namespace QMS.Controllers
                 var proces = await _admin.GetProcessName(id.Id);
                 return Json(new { success = true, proces });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return Json(new { success = false, proces =""});
+                return Json(new { success = false, proces = "" });
             }
-          
+
         }
         [HttpPost]
         public async Task<JsonResult> HandleBackspace()

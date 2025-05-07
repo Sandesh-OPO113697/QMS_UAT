@@ -49,6 +49,10 @@
       "PackagePath": "staticwebassets\\SampleFile\\AgentUpload.xls"
     },
     {
+      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\BulKUploadUser.xls",
+      "PackagePath": "staticwebassets\\SampleFile\\BulKUploadUser.xls"
+    },
+    {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadCategory.xls",
       "PackagePath": "staticwebassets\\SampleFile\\UploadCategory.xls"
     },

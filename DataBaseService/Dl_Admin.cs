@@ -44,7 +44,7 @@ namespace QMS.DataBaseService
                         object result = await cmd.ExecuteScalarAsync();
 
                         int ProcessIDTest = result != null ? Convert.ToInt32(result) : 0;
-                        UpdateAgent(SubProcessID, ProcessIDTest.ToString() , file);
+                       await UpdateAgent(SubProcessID, ProcessIDTest.ToString() , file);
                     }
                 }
             }
@@ -1379,6 +1379,132 @@ namespace QMS.DataBaseService
                 }
             }
             return dt;
+        }
+
+
+        public async Task InsertUserBulkUploadAsync(string Location_ID, string ProgramID, string SUBProgramID, IFormFile file)
+        {
+            int successCount = 0, duplicateCount = 0, invalidCount = 0;
+            string extension = Path.GetExtension(file.FileName);
+
+
+            string User = UserInfo.UserName.Substring(0, 3);
+
+
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (var stream = new MemoryStream())
+                {
+                    await file.CopyToAsync(stream);
+                    stream.Position = 0;
+                    if (extension == ".xlsx")  // Handle modern Excel files
+                    {
+                        using (var package = new ExcelPackage(stream))
+                        {
+                            ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                            int rowCount = worksheet.Dimension.Rows;
+
+                            for (int row = 2; row <= rowCount; row++)
+                            {
+
+                                string USerName    = worksheet.Cells[row, 1].Value?.ToString()?.Trim();
+                                string Password    = worksheet.Cells[row, 2].Value?.ToString()?.Trim()?.ToUpper();
+                                string Role        = worksheet.Cells[row, 3].Value?.ToString()?.Trim()?.ToUpper();
+                                string USerID      = worksheet.Cells[row, 4].Value?.ToString()?.Trim()?.ToUpper();
+                                string Name        = worksheet.Cells[row, 5].Value?.ToString()?.Trim()?.ToUpper();
+                                string PhoneNumber = worksheet.Cells[row, 6].Value?.ToString()?.Trim()?.ToUpper();
+                                string email       = worksheet.Cells[row, 7].Value?.ToString()?.Trim()?.ToUpper();
+
+                                string UserNameENC = await _enc.EncryptAsync(User + "_" + USerID);
+                                string NameENC     = await _enc.EncryptAsync(User + "_" + Name);
+                                string PassENC     = await _enc.EncryptAsync(Password);
+
+                                using (SqlCommand cmd = new SqlCommand("BulkUserCreate", conn))
+                                {
+                                    cmd.CommandType = CommandType.StoredProcedure;
+                                  
+
+                                    cmd.Parameters.AddWithValue("@Location", Location_ID);
+                                    cmd.Parameters.AddWithValue("@UserName", UserNameENC);
+                                    cmd.Parameters.AddWithValue("@Program", ProgramID);
+                                    cmd.Parameters.AddWithValue("@Password", PassENC);
+                                    cmd.Parameters.AddWithValue("@SubProcesname", SUBProgramID);
+                                    cmd.Parameters.AddWithValue("@Role", Role);
+                                    cmd.Parameters.AddWithValue("@AccountID", UserInfo.AccountID);
+                                    cmd.Parameters.AddWithValue("@UserNamedrp", USerID);
+                                    cmd.Parameters.AddWithValue("@Name", NameENC);
+                                    cmd.Parameters.AddWithValue("@Phone", PhoneNumber);
+                                    cmd.Parameters.AddWithValue("@Procesname", SUBProgramID);
+                                    cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+                                    cmd.Parameters.AddWithValue("@email", email);
+                                    await cmd.ExecuteNonQueryAsync();
+                                }
+                                successCount++;
+                            }
+
+
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            HSSFWorkbook hssfwb = new HSSFWorkbook(stream);
+                            ISheet sheet = hssfwb.GetSheetAt(0);
+                            int rowCount = sheet.PhysicalNumberOfRows;
+
+                            for (int row = 1; row < rowCount; row++)
+                            {
+                                IRow currentRow = sheet.GetRow(row);
+
+                                string USerName = currentRow.GetCell(0)?.ToString()?.Trim();
+                                string Password = currentRow.GetCell(1)?.ToString()?.Trim()?.ToUpper();
+                                string Role = currentRow.GetCell(2)?.ToString()?.Trim();
+                                string USerID = currentRow.GetCell(3)?.ToString()?.Trim();
+
+                                string Name = currentRow.GetCell(4)?.ToString()?.Trim();
+                                string PhoneNumber = currentRow.GetCell(5)?.ToString()?.Trim();
+                                string email = currentRow.GetCell(6)?.ToString()?.Trim();
+
+                                string UserNameENC = await _enc.EncryptAsync(User + "_" + USerID);
+                                string NameENC = await _enc.EncryptAsync(User + "_" + Name);
+                                string PassENC = await _enc.EncryptAsync(Password);
+
+                                using (SqlCommand cmd = new SqlCommand("BulkUserCreate", conn))
+                                {
+                                    cmd.CommandType = CommandType.StoredProcedure;
+                                    cmd.Parameters.AddWithValue("@Location", Location_ID);
+                                    cmd.Parameters.AddWithValue("@UserName", UserNameENC);
+                                    cmd.Parameters.AddWithValue("@Program", ProgramID);
+                                    cmd.Parameters.AddWithValue("@Password", PassENC);
+                                    cmd.Parameters.AddWithValue("@SubProcesname", SUBProgramID);
+                                    cmd.Parameters.AddWithValue("@Role", Role);
+                                    cmd.Parameters.AddWithValue("@AccountID", UserInfo.AccountID);
+                                    cmd.Parameters.AddWithValue("@UserNamedrp", USerID);
+                                    cmd.Parameters.AddWithValue("@Name", NameENC);
+                                    cmd.Parameters.AddWithValue("@Phone", PhoneNumber);
+                                    cmd.Parameters.AddWithValue("@Procesname", SUBProgramID);
+                                    cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+                                    cmd.Parameters.AddWithValue("@email", email);
+                                    await cmd.ExecuteNonQueryAsync();
+                                }
+                                successCount++;
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+
+                        }
+
+                    }
+
+
+                }
+
+             
+            }
         }
 
 

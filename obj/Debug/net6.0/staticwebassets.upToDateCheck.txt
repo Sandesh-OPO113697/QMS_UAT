@@ -181,6 +181,7 @@ wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
 wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
 wwwroot\SampleFile\AgentUpload.xls
 wwwroot\SampleFile\APRNEW.xls
+wwwroot\SampleFile\BulKUploadUser.xls
 wwwroot\SampleFile\dispo.xls
 wwwroot\SampleFile\UploadCategory.xls
 wwwroot\SampleFile\UploadMatrix.xls
