@@ -18,7 +18,7 @@
                     <th>Score</th> <!-- Only one column here -->
                     <th>Fatal</th>
                     <th>Comments Section</th>
-                
+
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +46,7 @@
                         <!-- This is the combined Score column -->
                         <td class="score-col" data-weightage="@item.Weightage" data-final-score="0">@item.Weightage</td>
 
-                      
+
                         <td>
                             <select class="qa-Fatal form-control">
                                 <option value="">Select Fatal</option>
@@ -97,7 +97,7 @@
     <div class="card shadow" style="border-radius: 10px; border: 1px solid #ddd;">
         <div class="card-body" style="padding: 20px;">
             <h5 class="card-title" style="font-weight: bold; color: #24294a;">Dispute Feedback </h5>
-          
+
 
             <div class="row">
                 <div class="form-group col-md-12">
@@ -117,8 +117,8 @@
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="AgentComent" style="font-weight: 600; color: #333;">Calibrated Comments</label> 
-                    <input type="text" id="Calibrated" placeholder="Enter your comments"  value="@ViewBag.Remarks" readonly
+                    <label for="AgentComent" style="font-weight: 600; color: #333;">Calibrated Comments</label>
+                    <input type="text" id="Calibrated" placeholder="Enter your comments" value="@ViewBag.Remarks" readonly
                            style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; color: #555;">
                 </div>
             </div>
@@ -130,7 +130,7 @@
                         Acknowledge
                     </button>
                 </div>
-              
+
             </div>
         </div>
     </div>
@@ -159,7 +159,7 @@
             var score = $row.find("td:eq(5)").text().trim();
             var comments = $row.find("input[type='text']").val().trim();
              var fatal = $row.find(".qa-Fatal").val();
-            
+
              console.log("fatal value " + fatal);
             if (category === "" && level === "" && sectionName === "") {
                 return;
@@ -265,7 +265,7 @@
         let validRating = ["Yes", "Met", "Meeting_expectations", "exceeding expectations", "Partially Met"];
         let scoreToApply = (validRating.includes(selectedValue) && matchedItem) ? matchedItem.score : 0;
 
-      
+
 
         scoreCell.text(scoreToApply);
         scoreCell.attr("data-final-score", scoreToApply);
@@ -301,7 +301,7 @@
     });
 
 
-     
+
         $.ajax({
             type: "POST",
             data: JSON.stringify({ id: '@ViewBag.TransactionID' }),

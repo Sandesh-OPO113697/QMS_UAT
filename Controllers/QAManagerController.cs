@@ -266,52 +266,60 @@ namespace QMS.Controllers
         }
         public async Task<IActionResult> EditAgentFeedBack(string TransactionID)
         {
-          
-            TempData["TransactionID_Dispute"] = TransactionID;
-          
-            ViewBag.TransactionID = TransactionID;
-            DataTable dt1 = await dl_Agent.getPrrocessAndSubProcess(TransactionID);
-            string processID = dt1.Rows[0]["ProgramID"].ToString();
-            string SUBprocessID = dt1.Rows[0]["SubProgramID"].ToString();
-            ViewBag.Agent_Comment = dt1.Rows[0]["Agent_Comment"].ToString();
-            ViewBag.Remarks = dt1.Rows[0]["Remarks"].ToString();
-            var dataTable = await dl_qa.GetMonitporedSectionGriedAsync(Convert.ToInt32(processID), Convert.ToInt32(SUBprocessID) , TransactionID);
-            var sectionList = dataTable.AsEnumerable().Select(row => new MonitoredSectionGridModel
+            try
             {
+                TempData["TransactionID_Dispute"] = TransactionID;
 
-                category = row.Field<string>("category"),
-                level = row.Field<string>("level"),
-                QA_rating = row.Field<string>("QA_rating"),
-                SectionName = row.Field<string>("SectionName"),
-                Scorable = row.Field<string>("Scorable"),
-                Weightage = row.Field<string>("Weightage"),
-                Commentssection = row.Field<string>("Commentssection"),
-                Fatal = row.Field<string>("Fatal")
+                ViewBag.TransactionID = TransactionID;
+                DataTable dt1 = await dl_Agent.getPrrocessAndSubProcess(TransactionID);
+                string processID = dt1.Rows[0]["ProgramID"].ToString();
+                string SUBprocessID = dt1.Rows[0]["SubProgramID"].ToString();
+                ViewBag.Agent_Comment = dt1.Rows[0]["Agent_Comment"].ToString();
+                ViewBag.Remarks = dt1.Rows[0]["Remarks"].ToString();
+                var dataTable = await dl_qa.GetMonitporedSectionGriedAsync(Convert.ToInt32(processID), Convert.ToInt32(SUBprocessID), TransactionID);
+                var sectionList = dataTable.AsEnumerable().Select(row => new MonitoredSectionGridModel
+                {
+
+                    category = row.Field<string>("category"),
+                    level = row.Field<string>("level"),
+                    QA_rating = row.Field<string>("QA_rating"),
+                    SectionName = row.Field<string>("SectionName"),
+                    Scorable = row.Field<string>("Scorable"),
+                    Weightage = row.Field<string>("Weightage"),
+                    Commentssection = row.Field<string>("Commentssection"),
+                    Fatal = row.Field<string>("Fatal")
 
 
-            }).ToList();
+                }).ToList();
 
 
 
-            DataTable DynamicFeild = await dl_FormBuilder.GetDynamicGriedAsync(Convert.ToInt32(processID), Convert.ToInt32(SUBprocessID));
 
-            List<SelectListItem> filteredRatingList = new List<SelectListItem>();
-            var Rating = DynamicFeild.Rows[0]["Rating"].ToString().Split(',').Select(s => s.Trim()).ToList();
-            DataSet ds = await dl_FormBuilder.GetSectionDropdownDataAsync();
-            DataTable ratingTableData = ds.Tables[1];
-            var ratingTable = ratingTableData.AsEnumerable().Select(row => new SelectListItem
+                DataTable DynamicFeild = await dl_FormBuilder.GetDynamicGriedAsync(Convert.ToInt32(processID), Convert.ToInt32(SUBprocessID));
+
+                List<SelectListItem> filteredRatingList = new List<SelectListItem>();
+                var Rating = DynamicFeild.Rows[0]["Rating"].ToString().Split(',').Select(s => s.Trim()).ToList();
+                DataSet ds = await dl_FormBuilder.GetSectionDropdownDataAsync();
+                DataTable ratingTableData = ds.Tables[1];
+                var ratingTable = ratingTableData.AsEnumerable().Select(row => new SelectListItem
+                {
+                    Value = row["Id"].ToString(),
+                    Text = $"{row["RatingName"]}"
+                }).ToList();
+                filteredRatingList = ratingTable.Where(item => Rating.Contains(item.Value)).ToList();
+                var viewModel = new AgentFeedBackSectionList
+                {
+                    sectionList = sectionList,
+                    filteredRatingList = filteredRatingList
+                };
+                return View(viewModel);
+            }
+            catch (Exception ex)
             {
-                Value = row["Id"].ToString(),
-                Text = $"{row["RatingName"]}"
-            }).ToList();
-            filteredRatingList = ratingTable.Where(item => Rating.Contains(item.Value)).ToList();
-            var viewModel = new AgentFeedBackSectionList
-            {
-                sectionList = sectionList,
-                filteredRatingList = filteredRatingList
-            };
-
-            return View(viewModel);
+                return View();
+            }
+            
+            
 
         }
         public async Task<IActionResult> ZeroTolerance(string TransactionID)

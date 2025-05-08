@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "hyTKXbNLhGsqplK4MlIdfSTmJIBj0oqq22rPGOQyxZ8=",
+  "Hash": "MC9EmRlA22Y3qDXtjizVuqSoYjLetaV+oKXThZ3iI8w=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -2467,8 +2467,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "n8o01ehq7w",
-      "Integrity": "SVwHq7bCw6HK+5dmYsOphhapKEc0R2CrmTRP6O+lqNs=",
+      "Fingerprint": "j4s8ksd1t0",
+      "Integrity": "Y9Qffg6FSsMIpLcgklm51lkGGZMMowaABd4EKHFOmKY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Notification.js"
@@ -3900,6 +3900,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\SampleFile\\APRNEW.xls"
+    },
+    {
+      "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\BulKUploadUser.xls",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "SampleFile/BulKUploadUser#[.{fingerprint}]?.xls",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "0bd9w9ezah",
+      "Integrity": "nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\SampleFile\\BulKUploadUser.xls"
     },
     {
       "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\dispo.xls",
@@ -13315,6 +13336,51 @@
       ]
     },
     {
+      "Route": "js/Notification.j4s8ksd1t0.js",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5988"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Y9Qffg6FSsMIpLcgklm51lkGGZMMowaABd4EKHFOmKY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 May 2025 06:03:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "j4s8ksd1t0"
+        },
+        {
+          "Name": "label",
+          "Value": "js/Notification.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Y9Qffg6FSsMIpLcgklm51lkGGZMMowaABd4EKHFOmKY="
+        }
+      ]
+    },
+    {
       "Route": "js/Notification.js",
       "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
       "Selectors": [],
@@ -13325,7 +13391,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6212"
+          "Value": "5988"
         },
         {
           "Name": "Content-Type",
@@ -13333,11 +13399,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"SVwHq7bCw6HK+5dmYsOphhapKEc0R2CrmTRP6O+lqNs=\""
+          "Value": "\"Y9Qffg6FSsMIpLcgklm51lkGGZMMowaABd4EKHFOmKY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 19 Apr 2025 10:10:55 GMT"
+          "Value": "Wed, 07 May 2025 06:03:27 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -13347,52 +13413,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-SVwHq7bCw6HK+5dmYsOphhapKEc0R2CrmTRP6O+lqNs="
-        }
-      ]
-    },
-    {
-      "Route": "js/Notification.n8o01ehq7w.js",
-      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "6212"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"SVwHq7bCw6HK+5dmYsOphhapKEc0R2CrmTRP6O+lqNs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sat, 19 Apr 2025 10:10:55 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "n8o01ehq7w"
-        },
-        {
-          "Name": "label",
-          "Value": "js/Notification.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-SVwHq7bCw6HK+5dmYsOphhapKEc0R2CrmTRP6O+lqNs="
+          "Value": "sha256-Y9Qffg6FSsMIpLcgklm51lkGGZMMowaABd4EKHFOmKY="
         }
       ]
     },
@@ -19133,6 +19154,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-wdi50pmPjhhe3KwrRSNvID+tLdsslsGEGffXxjCp0fc="
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/BulKUploadUser.0bd9w9ezah.xls",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\BulKUploadUser.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "18944"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 May 2025 09:04:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0bd9w9ezah"
+        },
+        {
+          "Name": "label",
+          "Value": "SampleFile/BulKUploadUser.xls"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc="
+        }
+      ]
+    },
+    {
+      "Route": "SampleFile/BulKUploadUser.xls",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\BulKUploadUser.xls",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "18944"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.ms-excel"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 07 May 2025 09:04:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc="
         }
       ]
     },

@@ -24,7 +24,15 @@ namespace QMS.Controllers
         [HttpPost]
         public async Task<IActionResult> BulkInsertcagetoryList(IFormFile file, string processID, string SubProcesID)
         {
-            await dl_FormBuilder.BuilkCategoryUpload(file, processID, SubProcesID);
+            if (file == null || file.Length == 0)
+            {
+              
+            }
+            else
+            {
+                await dl_FormBuilder.BuilkCategoryUpload(file, processID, SubProcesID);
+            }
+               
             return Ok();
         }
 

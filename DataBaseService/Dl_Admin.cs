@@ -1498,10 +1498,9 @@ namespace QMS.DataBaseService
                                         cmd.Parameters.AddWithValue("@SubProcesname", SUBProgramID);
                                         cmd.Parameters.AddWithValue("@Role", Role);
                                         cmd.Parameters.AddWithValue("@AccountID", UserInfo.AccountID);
-                                        cmd.Parameters.AddWithValue("@UserNamedrp", USerID);
+                                        cmd.Parameters.AddWithValue("@UserNamedrp", User + "_" + USerID);
                                         cmd.Parameters.AddWithValue("@Name", NameENC);
                                         cmd.Parameters.AddWithValue("@Phone", PhoneNumber);
-                                        cmd.Parameters.AddWithValue("@Procesname", SUBProgramID);
                                         cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
                                         cmd.Parameters.AddWithValue("@email", email);
                                         await cmd.ExecuteNonQueryAsync();
