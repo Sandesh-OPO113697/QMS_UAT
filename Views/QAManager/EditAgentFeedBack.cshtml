@@ -2,6 +2,12 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="col-md-12">
+
+    <div id="recordingContainer"></div>
+
+</div>
+
 <div class="card shadow mb-4" id="SectionGried" style="@(Model.sectionList.Any() ? "display:block" : "display:none")">
     <div class="card-header">
         <strong class="card-title">Form</strong>
@@ -86,12 +92,7 @@
         </table>
     </div>
 </div>
-<div class="col-md-12" style="display: flex; flex-direction: column; ">
-
-    <div id="recordingContainer"></div>
-
-</div>
-
+   
 
 <div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow" style="border-radius: 10px; border: 1px solid #ddd;">
@@ -102,7 +103,7 @@
             <div class="row">
                 <div class="form-group col-md-12">
                     <label for="QAComments" style="font-weight: 600; color: #333;">QA Comments</label> <span style="color:red">*</span>
-                    <input type="text" value="@ViewBag.QA_Comments" id="QA_Comments" required
+                    <input type="text" value="@ViewBag.Remarks" id="QA_Comments" required readonly
                            style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #f8f9fa; color: #555;">
                 </div>
             </div>
@@ -118,11 +119,11 @@
             <div class="row">
                 <div class="form-group col-md-12">
                     <label for="AgentComent" style="font-weight: 600; color: #333;">Calibrated Comments</label>
-                    <input type="text" id="Calibrated" placeholder="Enter your comments" value="@ViewBag.Remarks" readonly
+                    <input type="text" id="Calibrated" placeholder="Enter your comments"  
                            style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; color: #555;">
                 </div>
             </div>
-
+           
             <div class="row">
                 <div class="form-group col-md-2">
                     <button type="submit" onclick="submitDispute()"
@@ -315,13 +316,19 @@
                 container.innerHTML = "";
 
                 container.style.cssText = `
-                    background: url('/images/call_recording.jpg') center/cover no-repeat;
-                    min-height: 300px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: column;
-                    padding: 20px;
+                    background-image: url('/images/image.png');
+                background-size: 100% 185%; /* Stretches fully */
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 100%;
+                height: 300px; /* You can adjust this height */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                position: relative;
+                 
                 `;
 
                 if (!response.audioData) {
@@ -344,9 +351,8 @@
                     audioPlayer.src = audioUrl;
                     audioPlayer.style.cssText = `
                         width: 100%;
-                        max-width: 439px;
-                        margin: 5px auto;
-                        margin-top: 527px;
+                    max-width: 643px;
+                    margin-top: 197px;
                     `;
                     container.appendChild(audioPlayer);
                     audioPlayer.play().catch(console.error);

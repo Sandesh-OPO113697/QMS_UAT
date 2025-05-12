@@ -7,6 +7,11 @@
         public string SUBProgramID { get; set; }
         public string dispositionId { get; set; }
         public string SubDispositionID { get; set; }
+        public string Cat1 { get; set; }
+        public string Cat2 { get; set; }
+        public string Cat3 { get; set; }
+        public string Cat4 { get; set; }
+        public string Cat5 { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string AgentID { get; set; }

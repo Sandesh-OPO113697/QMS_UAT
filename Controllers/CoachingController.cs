@@ -212,5 +212,11 @@ namespace QMS.Controllers
 
             return View(coutingList);
         }
+        public async Task<IActionResult> getAndAgentListQuatile([FromBody] Process_SUbProcess id)
+        {
+            List<object> list = await dl_coching.GetTLAndAgentListUatile(id.ProcessID, id.SUBProcessID);
+
+            return Json(new { agentTlList = list });
+        }
     }
 }

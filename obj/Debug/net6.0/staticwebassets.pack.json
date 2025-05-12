@@ -29,6 +29,10 @@
       "PackagePath": "staticwebassets\\Images\\favicon.ico"
     },
     {
+      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\image.png",
+      "PackagePath": "staticwebassets\\Images\\image.png"
+    },
+    {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\mainLogo.png",
       "PackagePath": "staticwebassets\\Images\\mainLogo.png"
     },

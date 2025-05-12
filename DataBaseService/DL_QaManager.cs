@@ -87,16 +87,16 @@ namespace QMS.DataBaseService
                         insertedId = (int)outputIdParam.Value;
                     }
 
-                       DataTable dt2 = new DataTable();
-                       using (SqlCommand cmd3 = new SqlCommand("usp_GetZtuserMaapingAgent", conn))
-                        {
-                            cmd3.CommandType = CommandType.StoredProcedure;
-                            cmd3.CommandTimeout = 0;
-                            cmd3.Parameters.AddWithValue("@ProgramID", first.ProgramID);
-                            cmd3.Parameters.AddWithValue("@SubProgramID", first.SUBProgramID);
-                            SqlDataAdapter adpt = new SqlDataAdapter(cmd3);
-                            await Task.Run(() => adpt.Fill(dt2));
-                        }
+                    DataTable dt2 = new DataTable();
+                    using (SqlCommand cmd3 = new SqlCommand("usp_GetZtuserMaapingAgent", conn))
+                    {
+                        cmd3.CommandType = CommandType.StoredProcedure;
+                        cmd3.CommandTimeout = 0;
+                        cmd3.Parameters.AddWithValue("@ProgramID", first.ProgramID);
+                        cmd3.Parameters.AddWithValue("@SubProgramID", first.SUBProgramID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd3);
+                        await Task.Run(() => adpt.Fill(dt2));
+                    }
 
                     foreach (DataRow row in dt2.Rows)
                     {
@@ -150,11 +150,11 @@ namespace QMS.DataBaseService
         }
 
 
-        public async Task UploadAPR(string ProcessID , string Subprocess, IFormFile file)
+        public async Task UploadAPR(string ProcessID, string Subprocess, IFormFile file)
         {
             int successCount = 0, duplicateCount = 0, invalidCount = 0;
             string extension = Path.GetExtension(file.FileName);
-    
+
 
             using (var stream = new MemoryStream())
             {
@@ -180,7 +180,16 @@ namespace QMS.DataBaseService
                             string Sales_Conversion = worksheet.Cells[row, 7].Value?.ToString()?.Trim();
                             string Resolution = worksheet.Cells[row, 8].Value?.ToString()?.Trim();
 
-                             await InsertMatrixList(AgentID, C_SAT, NPS, FCR, ProcessID, Subprocess.ToString(), Repeat, AHT, Sales_Conversion, Resolution);
+                            string C_SAT_Q = worksheet.Cells[row, 9].Value?.ToString()?.Trim()?.ToUpper();
+                            string NPS_Q = worksheet.Cells[row, 10].Value?.ToString()?.Trim();
+                            string FCR_Q = worksheet.Cells[row, 11].Value?.ToString()?.Trim();
+
+                            string Repeat_Q = worksheet.Cells[row, 12].Value?.ToString()?.Trim();
+                            string AHT_Q = worksheet.Cells[row, 13].Value?.ToString()?.Trim();
+                            string Sales_Conversion_Q = worksheet.Cells[row, 14].Value?.ToString()?.Trim();
+                            string Resolution_Q = worksheet.Cells[row, 15].Value?.ToString()?.Trim();
+
+                            await InsertMatrixList(AgentID, C_SAT, NPS, FCR, ProcessID, Subprocess.ToString(), Repeat, AHT, Sales_Conversion, Resolution, C_SAT_Q, NPS_Q, FCR_Q, Repeat_Q, AHT_Q, Sales_Conversion_Q, Resolution_Q);
                             successCount++;
                         }
                     }
@@ -206,7 +215,17 @@ namespace QMS.DataBaseService
                         string Sales_Conversion = currentRow.GetCell(6)?.ToString()?.Trim();
                         string Resolution = currentRow.GetCell(7)?.ToString()?.Trim();
 
-                        await InsertMatrixList(AgentID, C_SAT, NPS, FCR, ProcessID, Subprocess.ToString(), Repeat, AHT, Sales_Conversion, Resolution);
+                        string C_SAT_Q = currentRow.GetCell(8)?.ToString()?.Trim()?.ToUpper();
+                        string NPS_Q = currentRow.GetCell(9)?.ToString()?.Trim();
+                        string FCR_Q = currentRow.GetCell(10)?.ToString()?.Trim();
+
+                        string Repeat_Q = currentRow.GetCell(11)?.ToString()?.Trim();
+                        string AHT_Q = currentRow.GetCell(12)?.ToString()?.Trim();
+                        string Sales_Conversion_Q = currentRow.GetCell(12)?.ToString()?.Trim();
+                        string Resolution_Q = currentRow.GetCell(14)?.ToString()?.Trim();
+
+
+                        await InsertMatrixList(AgentID, C_SAT, NPS, FCR, ProcessID, Subprocess.ToString(), Repeat, AHT, Sales_Conversion, Resolution, C_SAT_Q, NPS_Q, FCR_Q, Repeat_Q, AHT_Q, Sales_Conversion_Q, Resolution_Q);
                         successCount++;
                     }
                 }
@@ -215,14 +234,13 @@ namespace QMS.DataBaseService
                 }
             }
         }
-        public async Task InsertMatrixList(string AgentID, string  C_SAT, string  NPS, string FCR, string ProgramID, string SubProgramID, string  Repeat, string  AHT, string  Sales_Conversion, string  ResolutionT)
+        public async Task InsertMatrixList(string AgentID, string C_SAT, string NPS, string FCR, string ProgramID, string SubProgramID, string Repeat, string AHT, string Sales_Conversion, string ResolutionT, string C_SAT_Q, string NPS_Q, string FCR_Q, string Repeat_Q, string AHT_Q, string Sales_Conversion_Q, string Resolution_Q)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
                 {
                     await conn.OpenAsync();
-
                     using (SqlCommand cmd = new SqlCommand("UploadAPR", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -231,13 +249,19 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@SubProgramID", SubProgramID);
                         cmd.Parameters.AddWithValue("@AgentID", AgentID);
                         cmd.Parameters.AddWithValue("@C_SAT", C_SAT);
-                             cmd.Parameters.AddWithValue("@NPS", NPS);
+                        cmd.Parameters.AddWithValue("@NPS", NPS);
                         cmd.Parameters.AddWithValue("@FCR", FCR);
-
                         cmd.Parameters.AddWithValue("@Repeat", Repeat);
                         cmd.Parameters.AddWithValue("@AHT", AHT);
                         cmd.Parameters.AddWithValue("@Sales_Conversion", Sales_Conversion);
                         cmd.Parameters.AddWithValue("@ResolutionT", ResolutionT);
+                        cmd.Parameters.AddWithValue("@C_SAT_Q", C_SAT_Q);
+                        cmd.Parameters.AddWithValue("@NPS_Q", NPS_Q);
+                        cmd.Parameters.AddWithValue("@FCR_Q", FCR_Q);
+                        cmd.Parameters.AddWithValue("@Repeat_Q", Repeat_Q);
+                        cmd.Parameters.AddWithValue("@AHT_Q", AHT_Q);
+                        cmd.Parameters.AddWithValue("@Sales_Conversion_Q", Sales_Conversion_Q);
+                        cmd.Parameters.AddWithValue("@ResolutionT_Q", Resolution_Q);
                         cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
                         await cmd.ExecuteNonQueryAsync();
                     }
@@ -293,7 +317,7 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@CQScore", CQscore);
                         cmd.Parameters.AddWithValue("@Mode", "SubmiteQADispute");
                         cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
-                       await  cmd.ExecuteNonQueryAsync();
+                        await cmd.ExecuteNonQueryAsync();
 
                     }
                 }
@@ -399,7 +423,7 @@ namespace QMS.DataBaseService
             }
         }
 
-        public async Task<DataTable> GetMonitporedSectionGriedAsync(int processID, int SubprocessID , string TransactionID)
+        public async Task<DataTable> GetMonitporedSectionGriedAsync(int processID, int SubprocessID, string TransactionID)
         {
             DataTable dt = new DataTable();
             try
@@ -458,7 +482,7 @@ namespace QMS.DataBaseService
                         using (SqlCommand cmd = new SqlCommand("UpdateSectionEvaluation", conn))
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
-                       
+
                             cmd.Parameters.AddWithValue("@Category", section.category);
                             cmd.Parameters.AddWithValue("@Level", section.level);
                             cmd.Parameters.AddWithValue("@SectionName", section.sectionName);
@@ -674,8 +698,8 @@ namespace QMS.DataBaseService
         public async Task<DataTable> CallibrationBypaticipates(string transactionId)
         {
             DataTable dt = new DataTable();
-            
-           
+
+
             try
             {
                 using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
@@ -686,7 +710,7 @@ namespace QMS.DataBaseService
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandTimeout = 0;
-                      
+
                         cmd.Parameters.AddWithValue("@username", transactionId);
 
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
@@ -695,7 +719,7 @@ namespace QMS.DataBaseService
                 }
 
 
-                
+
             }
             catch (Exception ex)
             {
@@ -835,7 +859,7 @@ namespace QMS.DataBaseService
                         Actual_Performance = row["Actual_Performance"]?.ToString(),
                         ReviewDate = row["ReviewDate"]?.ToString(),
                         CreatedBy = row["CreatedBy"]?.ToString(),
-                  
+
                     };
 
                     list.Add(model);

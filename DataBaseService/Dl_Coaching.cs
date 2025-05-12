@@ -18,6 +18,48 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
             _dcl = dL;
         }
+
+        public async Task<List<object>> GetTLAndAgentListUatile(int ProcessID, int SubProcessID)
+        {
+
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("UpdateManagement", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "GetTlAndAgentListQuatile");
+                        cmd.Parameters.AddWithValue("@ProgramID", ProcessID);
+                        cmd.Parameters.AddWithValue("@SubProcessID", SubProcessID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        adpt.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            var list = new List<object>();
+            foreach (DataRow row in dt.Rows)
+            {
+                string empCode = row["EmpCode"].ToString();
+                list.Add(new
+                {
+                    EmpCode = empCode,
+                    EmpName = row["EmpName"].ToString(),
+                });
+            }
+
+            return list;
+
+        }
+
+
         public async Task<List<object>> GetTLAndAgentList(int ProcessID, int SubProcessID)
         {
 

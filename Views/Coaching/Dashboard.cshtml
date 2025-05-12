@@ -640,7 +640,7 @@
 
         try {
 
-            const agentResponse = await fetch("/UpdateManagement/getTlAndAgentList", {
+            const agentResponse = await fetch("/Coaching/getAndAgentListQuatile", {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=utf-8" },
                 body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })

@@ -294,6 +294,11 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@TransactionID", model.Transaction_ID);
                         cmd.Parameters.AddWithValue("@Category", model.dispositionId);
                         cmd.Parameters.AddWithValue("@Subcategory", model.SubDispositionID);
+                        cmd.Parameters.AddWithValue("@Cat1", model.Cat1);
+                        cmd.Parameters.AddWithValue("@Cat2", model.Cat2);
+                        cmd.Parameters.AddWithValue("@Cat3", model.Cat3);
+                        cmd.Parameters.AddWithValue("@Cat4", model.Cat4);
+                        cmd.Parameters.AddWithValue("@Cat5", model.Cat5);
                         cmd.Parameters.AddWithValue("@MonitorID",0);
                         cmd.Parameters.AddWithValue("@CQ_Score", model.CQ_Scrore);
                         cmd.Parameters.AddWithValue("@Agent_Name", model.AgentID);
@@ -512,6 +517,235 @@ namespace QMS.DataBaseService
             }
             return Adudit;
 
+        }
+        public async Task<List<SelectListItem>> GetCat1(string Process, string? SubProcess)
+        {
+            var Adudit = new List<SelectListItem>();
+            string StoreProcedure = "MonitoringDetails";
+            try
+            {
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(StoreProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Operations", "Getcat1");
+                        command.Parameters.AddWithValue("@Process", Process);
+                        command.Parameters.AddWithValue("@SubProcess", SubProcess);
+                        using (var reder = await command.ExecuteReaderAsync())
+                        {
+                            while (await reder.ReadAsync())
+                            {
+                                string TText = reder["Category1"].ToString();
+                                string TValue = reder["Category1"].ToString();
+                                Adudit.Add(new SelectListItem
+                                {
+                                    Text = TText,
+                                    Value = TValue
+                                });
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Adudit;
+
+        }
+        public async Task<List<SelectListItem>> GetCat2(string Process, string? SubProcess)
+        {
+            var Adudit = new List<SelectListItem>();
+            string StoreProcedure = "MonitoringDetails";
+            try
+            {
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(StoreProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Operations", "Getcat2");
+                        command.Parameters.AddWithValue("@Process", Process);
+                        command.Parameters.AddWithValue("@SubProcess", SubProcess);
+                        using (var reder = await command.ExecuteReaderAsync())
+                        {
+                            while (await reder.ReadAsync())
+                            {
+                                string TText = reder["Category2"].ToString();
+                                string TValue = reder["Category2"].ToString();
+                                Adudit.Add(new SelectListItem
+                                {
+                                    Text = TText,
+                                    Value = TValue
+                                });
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Adudit;
+
+        }
+        public async Task<List<SelectListItem>> GetCat3(string Process, string? SubProcess)
+        {
+            var Adudit = new List<SelectListItem>();
+            string StoreProcedure = "MonitoringDetails";
+            try
+            {
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(StoreProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Operations", "Getcat3");
+                        command.Parameters.AddWithValue("@Process", Process);
+                        command.Parameters.AddWithValue("@SubProcess", SubProcess);
+                        using (var reder = await command.ExecuteReaderAsync())
+                        {
+                            while (await reder.ReadAsync())
+                            {
+                                string TText = reder["Category3"].ToString();
+                                string TValue = reder["Category3"].ToString();
+                                Adudit.Add(new SelectListItem
+                                {
+                                    Text = TText,
+                                    Value = TValue
+                                });
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Adudit;
+
+        }
+        public async Task<List<SelectListItem>> GetCat4(string Process, string? SubProcess)
+        {
+            var Adudit = new List<SelectListItem>();
+            string StoreProcedure = "MonitoringDetails";
+            try
+            {
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(StoreProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Operations", "Getcat4");
+                        command.Parameters.AddWithValue("@Process", Process);
+                        command.Parameters.AddWithValue("@SubProcess", SubProcess);
+                        using (var reder = await command.ExecuteReaderAsync())
+                        {
+                            while (await reder.ReadAsync())
+                            {
+                                string TText = reder["Category4"].ToString();
+                                string TValue = reder["Category4"].ToString();
+                                Adudit.Add(new SelectListItem
+                                {
+                                    Text = TText,
+                                    Value = TValue
+                                });
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Adudit;
+
+        }
+        public async Task<List<SelectListItem>> GetCat5(string Process, string? SubProcess)
+        {
+            var Adudit = new List<SelectListItem>();
+            string StoreProcedure = "MonitoringDetails";
+            try
+            {
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(StoreProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Operations", "Getcat5");
+                        command.Parameters.AddWithValue("@Process", Process);
+                        command.Parameters.AddWithValue("@SubProcess", SubProcess);
+                        using (var reder = await command.ExecuteReaderAsync())
+                        {
+                            while (await reder.ReadAsync())
+                            {
+                                string TText = reder["Category5"].ToString();
+                                string TValue = reder["Category5"].ToString();
+                                Adudit.Add(new SelectListItem
+                                {
+                                    Text = TText,
+                                    Value = TValue
+                                });
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Adudit;
+
+        }
+        public async Task<string> GetcategoryorDispo(string Process, string? SubProcess)
+        {
+            string TText = "";
+            string StoreProcedure = "MonitoringDetails";
+            try
+            {
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand(StoreProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Operations", "GetTypeOfDispo");
+                        command.Parameters.AddWithValue("@Process", Process);
+                        command.Parameters.AddWithValue("@SubProcess", SubProcess);
+                        using (var reder = await command.ExecuteReaderAsync())
+                        {
+                            while (await reder.ReadAsync())
+                            {
+                                TText = reder["type"].ToString();
+
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return TText;
+            return "";
         }
 
         public async Task<string> GetProvcessType(string Process, string? SubProcess)

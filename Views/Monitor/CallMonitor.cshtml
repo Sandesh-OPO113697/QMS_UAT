@@ -7,8 +7,15 @@
         <div class="card-body">
             <h5 class="card-title">  </h5>
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-6" id="Audit_Type" style="display:none">
                     <label for="ProgramID">Audit Type</label>
+                    <input type="hidden" id="hiddenValue" >
+                    <input type="hidden" id="hiddencat1"  >
+                    <input type="hidden" id="hiddencat2"  >
+                    <input type="hidden" id="hiddencat3"  >
+                    <input type="hidden" id="hiddencat4" >
+                    <input type="hidden" id="hiddencat5" >
+
                     @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", onchange = "OnAuditChange()" })
                 </div>
 
@@ -30,6 +37,33 @@
                 <div class="form-group col-md-6" id="SUBDispoID" style="display:none">
                     <label for="SubDispositionID">Sub Disposition</label>
                     <select name="SubDispositionID" id="SubDispositionID" class="custom-select">
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6" id="Cat_1" style="display:none">
+                    <label for="Cat1">Category 1</label>
+                    <select name="Cat1" id="Cat1" class="custom-select">
+                    </select>
+                </div>
+                <div class="form-group col-md-6" id="Cat_2" style="display:none">
+                    <label for="Cat2">Category 2</label>
+                    <select name="Cat2" id="Cat2" class="custom-select">
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6" id="Cat_3" style="display:none">
+                    <label for="Cat3">Category 3</label>
+                    <select name="Cat3" id="Cat3" class="custom-select">
+                    </select>
+                </div>
+                <div class="form-group col-md-6" id="Cat_4" style="display:none">
+                    <label for="Cat4">Category 4</label>
+                    <select name="Cat4" id="Cat4" class="custom-select">
+                    </select>
+                </div>
+                <div class="form-group col-md-6" id="Cat_5" style="display:none">
+                    <label for="Cat5">SubCategory 5</label>
+                    <select name="Cat5" id="Cat5" class="custom-select">
                     </select>
                 </div>
 
@@ -633,30 +667,34 @@
 
         function toggleButton() {
             if (yesCheckbox.checked) {
-                btnLogZT.style.display = "block"; 
+                btnLogZT.style.display = "block";
                 $("#ZtClassfictions").show();
             } else {
-                btnLogZT.style.display = "none"; 
+                btnLogZT.style.display = "none";
                   $("#ZtClassfictions").hide();
             }
         }
 
 
         yesCheckbox.addEventListener("change", function () {
-            noCheckbox.checked = !yesCheckbox.checked; 
+            noCheckbox.checked = !yesCheckbox.checked;
+              $("#ZtClassfictions").show();
             toggleButton();
         });
 
         noCheckbox.addEventListener("change", function () {
-            yesCheckbox.checked = !noCheckbox.checked; 
+            yesCheckbox.checked = !noCheckbox.checked;
+                   $("#ZtClassfictions").hide();
             toggleButton();
+
+
         });
     });
 </script>
 <script>
 
     function InsertCallAudit() {
-      
+
         var selectedZTClassification = $("#ZTClassification").val();
         var zeroToleranceValue = $("input[name='zeroTolerance']:checked").val();
           var Transaction_ID = $("#Transaction_ID").val();
@@ -667,7 +705,7 @@
         var totalScoreValue = $("#totalScore").text().trim();
 
 
-      
+
         if (!zeroToleranceValue ) {
             alert("Please  selected  zero ToleranceValue .");
 
@@ -696,6 +734,11 @@
             SUBProgramID: $("#SUBProgramID").val(),
             dispositionId: $("#dispositionId").val(),
             SubDispositionID: $("#SubDispositionID").val(),
+             Cat1: $("#Cat1").val(),
+             Cat2: $("#Cat2").val(),
+             Cat3: $("#Cat3").val(),
+             Cat4: $("#Cat4").val(),
+             Cat5: $("#Cat5").val(),
             FromDate: $("#FromDate").val(),
             ToDate: $("#Todate").val(),
             AgentID: $("#AgentID").val(),
@@ -767,7 +810,7 @@
 
                     }
 
-                     
+
 
                     gridData.push({
                         category: category,
@@ -929,7 +972,7 @@
                      $("#LastReansaction").show();
 
 
-       
+
     }
     function Reload()
     {
@@ -938,7 +981,7 @@
 
     }
 
-       
+
       function GetCheckAndSubmite()
       {
           let pauseIcon = document.getElementById("pauseIcon");
@@ -959,13 +1002,64 @@
         var AuditType=$("#AuditID").val();
         if(AuditType==2)
         {
-            var dispositionId=  $("#dispositionId").val();
+
+         
+            if($('#hiddenValue').val()==="Disposition")
+            
+            {
+                 var dispositionId=  $("#dispositionId").val();
            var  SubDispositionID = $("#SubDispositionID").val();
             if (!dispositionId || !SubDispositionID ) {
             alert("Please select Disposition And SubDisposition before submitting.");
             return;
+            }
+            }
+            else{
+
+                 if($('#hiddencat1').val()==="YES")
+                 {
+                      if ( !$('#Cat1').val()) {
+                            alert('Category 1 is visible but not selected!');
+                           return;
+                        }
+                 }
+                  if($('#hiddencat2').val()==="YES")
+                 {
+                      if ( !$('#Cat2').val()) {
+                        alert('Category 2 is visible but not selected!');
+                          return;
+                    }
+
+                 }
+                  if($('#hiddencat3').val()==="YES")
+                 {
+                      if (!$('#Cat3').val()) {
+                            alert('Category 3 is visible but not selected!');
+                             return;
+                        }
+
+                 }
+                  if($('#hiddencat4').val()==="YES")
+                 {
+                      if ( !$('#Cat4').val()) {
+                            alert('Category 4 is visible but not selected!');
+                             return;
+                        }
+                 }
+                  if($('#hiddencat5').val()==="YES")
+                 {
+                      if ( !$('#Cat5').val()) {
+                            alert('SubCategory 5 is visible but not selected!');
+                            return;
+                        }
+
+                 }
+              
+
+            }
+
         }
-        }
+     
         let callAuditData = InsertCallAudit();
         let sectionAuditData = InsertSectionAudit();
         let rootCauseData = RootCauseEvaluation();
@@ -1045,13 +1139,13 @@
           Reload();
 
         }
-         
+
       }
 
 
     function SubMitedata() {
          GetCheckAndSubmite();
-        
+
     }
 </script>
 
@@ -1140,6 +1234,7 @@
 
 
     document.addEventListener("click", function (event) {
+
         let target = event.target;
         if (target.classList.contains("play-audio")) {
             document.querySelectorAll(".play-audio").forEach(el => el.style.color = "gray");
@@ -1462,24 +1557,188 @@
          $("#SectionGried").show();
            $("#rooutcause").show();
              $("#Predictivediv").show();
-             $("#ZtClassfictions").show();
+            // $("#ZtClassfictions").show();
              $("#Remarks").show();
              $("#Zerotollernce").show();
                $("#ButtonForAudit").show();
      }
     function OnAuditChange()
     {
-        var audit = $("#AuditID").val();
-        if(audit==2)
-        {
-           $("#DispoID").show();
-              $("#SUBDispoID").show();
+               var selectedValue = document.getElementById("SUBProgramID").value;
 
-        }
-        else{
-            $("#DispoID").hide();
-            $("#SUBDispoID").hide();
-        }
+    $.ajax({
+           type: "POST",
+           url: "/Monitor/GetDispositoin",
+           contentType: "application/json; charset=utf-8",
+           dataType: "json",
+           data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
+           success: function (response) {
+
+                      var dropdownCat1 = $('#Cat1');
+                    dropdownCat1.empty();
+                    dropdownCat1.append('<option value="">Select Category 1</option>');
+
+
+                      var dropdownCat2 = $('#Cat2');
+                    dropdownCat2.empty();
+                    dropdownCat2.append('<option value="">Select Category 2</option>');
+
+
+                      var dropdownCat3 = $('#Cat3');
+                    dropdownCat3.empty();
+                    dropdownCat3.append('<option value="">Select Category 3</option>');
+
+
+                      var dropdownCat4 = $('#Cat4');
+                    dropdownCat4.empty();
+                    dropdownCat4.append('<option value="">Select Category 4</option>');
+
+
+                      var dropdownCat5 = $('#Cat5');
+                    dropdownCat5.empty();
+                    dropdownCat5.append('<option value="">Select Category 5</option>');
+
+
+
+                     if (response.success && response.cat1) {
+                        response.cat1.forEach(function (item) {
+                            dropdownCat1.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                     }
+                     if (response.success && response.cat2) {
+                        response.cat2.forEach(function (item) {
+                            dropdownCat2.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                     }
+                     if (response.success && response.cat3) {
+                        response.cat3.forEach(function (item) {
+                            dropdownCat3.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                     }
+                     if (response.success && response.cat4) {
+                        response.cat4.forEach(function (item) {
+                            dropdownCat4.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                     }
+                     if (response.success && response.cat5) {
+                        response.cat5.forEach(function (item) {
+                            dropdownCat5.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                     }
+
+
+
+               var audit = $("#AuditID").val();
+                    if(audit==2)
+                    {
+                         if(response.typeOfDisposition==="Disposition")
+                           {
+                                     $("#SUBDispoID").show();
+                                      $("#DispoID").show();
+                                      $("#Cat_1").hide();
+                                      $("#Cat_2").hide();
+                                      $("#Cat_3").hide();
+                                      $("#Cat_4").hide();
+                                      $("#Cat_5").hide();
+                           }
+                           else{
+                                       $("#SUBDispoID").hide();
+                                        $("#DispoID").hide();
+                                          if (response.success && response.cat1) {
+
+                            let allEmpty = response.cat1.every(item => item.text.trim() === "" && item.value.trim() === "");
+
+                            if (allEmpty || response.cat1.length === 0) {
+                                $('#Cat_1').hide();
+                                  $('#hiddencat1').val("NO");
+                            } else {
+                                $('#Cat_1').show();
+                                  $('#hiddencat1').val("YES");
+                                response.cat1.forEach(function (item) {
+                                    dropdownCat1.append('<option value="' + item.value + '">' + item.text + '</option>');
+                                });
+                            }
+                        }
+                        if (response.success && response.cat2) {
+
+                            let allEmpty = response.cat2.every(item => item.text.trim() === "" && item.value.trim() === "");
+
+                            if (allEmpty || response.cat2.length === 0) {
+                                $('#Cat_2').hide();
+                                  $('#hiddencat2').val("NO");
+                            } else {
+                                $('#Cat_2').show();
+                                  $('#hiddencat2').val("YES");
+                                response.cat2.forEach(function (item) {
+                                    dropdownCat2.append('<option value="' + item.value + '">' + item.text + '</option>');
+                                });
+                            }
+                        }
+                        if (response.success && response.cat3) {
+
+                            let allEmpty = response.cat3.every(item => item.text.trim() === "" && item.value.trim() === "");
+
+                            if (allEmpty || response.cat3.length === 0) {
+                                $('#Cat_3').hide();
+                                  $('#hiddencat3').val("No");
+                            } else {
+                                $('#Cat_3').show();
+                                  $('#hiddencat3').val("YES");
+                                response.cat3.forEach(function (item) {
+                                    dropdownCat3.append('<option value="' + item.value + '">' + item.text + '</option>');
+                                });
+                            }
+                        }
+                        if (response.success && response.cat4) {
+
+                            let allEmpty = response.cat4.every(item => item.text.trim() === "" && item.value.trim() === "");
+
+                            if (allEmpty || response.cat4.length === 0) {
+                                $('#Cat_4').hide();
+                                  $('#hiddencat4').val("NO");
+                            } else {
+                                $('#Cat_4').show();
+                                  $('#hiddencat4').val("YES");
+                                response.cat4.forEach(function (item) {
+                                    dropdownCat4.append('<option value="' + item.value + '">' + item.text + '</option>');
+                                });
+                            }
+                        }
+                        if (response.success && response.cat5) {
+
+                            let allEmpty = response.cat5.every(item => item.text.trim() === "" && item.value.trim() === "");
+
+                            if (allEmpty || response.cat5.length === 0) {
+                                $('#Cat_5').hide();
+                                  $('#hiddencat5').val("No");
+                            } else {
+                                $('#Cat_5').show();
+                                  $('#hiddencat5').val("YES");
+                                response.cat5.forEach(function (item) {
+                                    dropdownCat5.append('<option value="' + item.value + '">' + item.text + '</option>');
+                                });
+                            }
+                        }
+
+                           }
+                    }
+                    else{
+                                    $("#DispoID").hide();
+                                    $("#SUBDispoID").hide();
+                                      $("#Cat_1").hide();
+                                      $("#Cat_2").hide();
+                                      $("#Cat_3").hide();
+                                      $("#Cat_4").hide();
+                                      $("#Cat_5").hide();
+                    }
+
+           },
+           error: function (xhr, status, error) {
+               console.error("Error occurred: " + error);
+           }
+       });
+
+
 
 
     }
@@ -1783,6 +2042,30 @@
                 data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
                 success: function (response) {
 
+                    $('#hiddenValue').val(response.typeOfDisposition);
+                    $("#Audit_Type").show();
+                      console.log(JSON.stringify(response.typeOfDisposition));
+                    // if(response.typeOfDisposition==="Disposition")
+                    // {
+                    //         $("#SUBDispoID").show();
+                    //            $("#DispoID").show();
+                    //            $("#Cat_1").hide();
+                    //            $("#Cat_2").hide();
+                    //            $("#Cat_3").hide();
+                    //            $("#Cat_4").hide();
+                    //            $("#Cat_5").hide();
+                    // }
+                    // else{
+                    //     $("#SUBDispoID").hide();
+                    //      $("#DispoID").hide();
+                    //        $("#Cat_1").show();
+                    //            $("#Cat_2").show();
+                    //            $("#Cat_3").show();
+                    //            $("#Cat_4").show();
+                    //            $("#Cat_5").show();
+
+                    // }
+
                     console.log(response.typeofprocess);
                     if(response.typeofprocess==="Non_Voice")
                     {
@@ -1794,18 +2077,15 @@
                          $("#NonVoice").hide();
                         $("#SerchRecoding").show();
                     }
-                  var dropdown = $('#dispositionId');
-                    dropdown.empty();
-                    dropdown.append('<option value="">Select Disposition</option>');
+                 
 
-                    console.log(JSON.stringify(response)); // Debugging
-
-                    // Ensure we use the correct response property
                     if (response.success && response.samplesize) {
                         response.samplesize.forEach(function (item) {
                             dropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
                         });
                      }
+
+                   
 
 
                       var dropdown = $('#AgentID');

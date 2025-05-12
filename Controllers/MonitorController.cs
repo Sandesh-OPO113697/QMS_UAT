@@ -229,8 +229,14 @@ namespace QMS.Controllers
 
            string typeofprocess = await dl_monitor.GetProvcessType(id.ProcessID.ToString(), id.SUBProcessID.ToString());
             List<SelectListItem> agentlist = await dl_monitor.GetAgentName(id.ProcessID.ToString(), id.SUBProcessID.ToString());
+            string typeOfDisposition = await dl_monitor.GetcategoryorDispo(id.ProcessID.ToString(), id.SUBProcessID.ToString());
 
-            return Json(new { success = true, samplesize = sampleSize, agentlist = agentlist  , typeofprocess =typeofprocess });
+            List<SelectListItem> cat1 = await dl_monitor.GetCat1(id.ProcessID.ToString(), id.SUBProcessID.ToString());
+            List<SelectListItem> cat2= await dl_monitor.GetCat2(id.ProcessID.ToString(), id.SUBProcessID.ToString());
+            List<SelectListItem> cat3 = await dl_monitor.GetCat3(id.ProcessID.ToString(), id.SUBProcessID.ToString());
+            List<SelectListItem> cat4 = await dl_monitor.GetCat4(id.ProcessID.ToString(), id.SUBProcessID.ToString());
+            List<SelectListItem> cat5 = await dl_monitor.GetCat5(id.ProcessID.ToString(), id.SUBProcessID.ToString());
+            return Json(new { success = true, samplesize = sampleSize, agentlist = agentlist  , typeofprocess =typeofprocess , typeOfDisposition= typeOfDisposition , cat1= cat1 , cat2= cat2 , cat3= cat3 , cat4= cat4 , cat5= cat5 });
 
         }
 
