@@ -302,7 +302,7 @@
         <table class="table table-bordered mt-3" id="rcaTable">
             <thead>
                 <tr>
-                 
+
                     <th>ID</th>
                     <th>Metric RCA</th>
                     <th>Controllable</th>
@@ -310,7 +310,7 @@
                     <th>RCA 2</th>
                     <th>RCA 3</th>
                     <th>Comments Section</th>
-                   
+
                     <th>Action</th>
                 </tr>
             </thead>
@@ -332,11 +332,11 @@
 
             <div class="col-md-3">
                 <div class="form-group mb-3">
-                   
+
                     <label for="Rating_ID">Rating</label><span style="color:red">*</span>
                     @Html.DropDownList("Rating_ID", (List<SelectListItem>)ViewBag.RatingMaste, "Select Rating", new { @class = "custom-select", id = "Rating_ID", required = "required" })
 
-              
+
                 </div>
             </div>
 
@@ -420,7 +420,7 @@
 
     </div>
 </div>
-<div class="card shadow mb-4" id="Upload_Dispostition_List" style="display:none" >
+<div class="card shadow mb-4" id="Upload_Dispostition_List" style="display:none">
     <div class="card-header">
         <strong class="card-title">Upload Disposition List</strong> <small class="form-text text-muted">
             <a href="/SampleFile/dispo.xls" download>Download Sample File</a>
@@ -432,7 +432,7 @@
         <form id="uploadForm" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-3">
-                    <input type="file" id="fileUpload" name="file" class="form-control"/>
+                    <input type="file" id="fileUpload" name="file" class="form-control" />
                 </div>
             </div>
         </form>
@@ -451,7 +451,7 @@
         <form id="uploadForm" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-3">
-                    <input type="file" id="fileUploadCategory" name="file" class="form-control"/>
+                    <input type="file" id="fileUploadCategory" name="file" class="form-control" />
                 </div>
             </div>
         </form>
@@ -521,15 +521,15 @@
                 <label class="form-check-label" for="noCheckbox">No</label>
             </div>
         </div>
-       
+
 
     </div>
 </div>
 
-<div class="card shadow mb-4" >
-    
+<div class="card shadow mb-4">
+
     <div class="card-body">
-        
+
         <div class="row">
             <button id="createform" style="margin-left:20px;" class="btn btn-primary mt-4">create Form</button>
         </div>
@@ -545,84 +545,54 @@
 <script>
 
 
-    $(document).ready(function () {
-    $("#ratingAdd").on("click", function () {
-        var selectedText = $("#Rating_ID option:selected").text();
-        var selectedValue = $("#Rating_ID").val();
-            $("#Rating_List").show();
+        $(document).ready(function () {
+        $("#ratingAdd").on("click", function () {
+            var selectedText = $("#Rating_ID option:selected").text();
+            var selectedValue = $("#Rating_ID").val();
+                $("#Rating_List").show();
 
-        if (selectedValue === "" || selectedValue === "Select Rating") {
-            alert("Please select a valid rating.");
-            return;
-        }
-
-        // Check if rating already exists in the table
-        var exists = false;
-        $("#RatingTable tbody tr").each(function () {
-            if ($(this).find("td:first").text() === selectedValue) {
-                exists = true;
-                return false; // Break loop
+            if (selectedValue === "" || selectedValue === "Select Rating") {
+                alert("Please select a valid rating.");
+                return;
             }
+
+            // Check if rating already exists in the table
+            var exists = false;
+            $("#RatingTable tbody tr").each(function () {
+                if ($(this).find("td:first").text() === selectedValue) {
+                    exists = true;
+                    return false; // Break loop
+                }
+            });
+
+            if (exists) {
+                alert("Rating already added.");
+                return;
+            }
+
+            // Create a new row with Remove button
+            var newRow = `<tr>
+                <td>${selectedValue}</td>
+                <td>${selectedText}</td>
+                <td><button class="btn btn-danger btn-sm removeRating">Remove</button></td>
+            </tr>`;
+
+            $("#RatingTable tbody").append(newRow);
         });
 
-        if (exists) {
-            alert("Rating already added.");
-            return;
-        }
-
-        // Create a new row with Remove button
-        var newRow = `<tr>
-            <td>${selectedValue}</td>
-            <td>${selectedText}</td>
-            <td><button class="btn btn-danger btn-sm removeRating">Remove</button></td>
-        </tr>`;
-
-        $("#RatingTable tbody").append(newRow);
+        $(document).on("click", ".removeRating", function () {
+            $(this).closest("tr").remove();
+        });
     });
 
-    $(document).on("click", ".removeRating", function () {
-        $(this).closest("tr").remove();
-    });
-});
 
-
-    </script>
+</script>
 <script>
 
-    function UpLoadCategory()
-{
-     var fileInput = document.getElementById("fileUploadCategory");
-   
-
-      let programID = $("#ProgramID").val();
-    let subProgramID = $("#SUBProgramID").val();
-    var formData = new FormData();
-    formData.append("file", fileInput.files[0]);
-    formData.append("processID", programID);
-    formData.append("SubProcesID", subProgramID);
-
-    fetch("/ManageForm/BulkInsertcagetoryList", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert("File uploaded successfully: " + data.fileName);
-        } else {
-
-        }
-    })
-    .catch(error => {
-
-    });
-}
-
-
-    function UpLoadDispo()
+        function UpLoadCategory()
     {
-         var fileInput = document.getElementById("fileUpload");
-        
+         var fileInput = document.getElementById("fileUploadCategory");
+
 
           let programID = $("#ProgramID").val();
         let subProgramID = $("#SUBProgramID").val();
@@ -631,7 +601,7 @@
         formData.append("processID", programID);
         formData.append("SubProcesID", subProgramID);
 
-        fetch("/ManageForm/BulkInsertDispostitionList", {
+        fetch("/ManageForm/BulkInsertcagetoryList", {
             method: "POST",
             body: formData
         })
@@ -640,14 +610,44 @@
             if (data.success) {
                 alert("File uploaded successfully: " + data.fileName);
             } else {
-               
+
             }
         })
         .catch(error => {
-           
+
         });
     }
-   
+
+
+        function UpLoadDispo()
+        {
+             var fileInput = document.getElementById("fileUpload");
+
+
+              let programID = $("#ProgramID").val();
+            let subProgramID = $("#SUBProgramID").val();
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            formData.append("processID", programID);
+            formData.append("SubProcesID", subProgramID);
+
+            fetch("/ManageForm/BulkInsertDispostitionList", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("File uploaded successfully: " + data.fileName);
+                } else {
+
+                }
+            })
+            .catch(error => {
+
+            });
+        }
+
 </script>
 
 <script>
@@ -743,7 +743,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                           
+
                             <td><button class="btn btn-danger btn-sm remove-row">Remove</button></td>
                            </tr>`;
 
@@ -796,7 +796,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            
+
 
                             <td><button class="btn btn-danger btn-sm remove-row">Remove</button></td>
                            </tr>`;
@@ -829,8 +829,8 @@
             var id = $(this).find("td:eq(0)").text().trim();
             RatinfGried.push(id);
         });
-  
-  
+
+
         $("#Predictive_CSAT tbody tr").each(function () {
             predictiveValues.push($(this).find("td:first").text().trim());
         });
@@ -847,7 +847,7 @@
             ZT_Classification: ztClassificationValues.join(","),
             RatinfGried:RatinfGried.join(","),
             Zero_Tolerance: zeroTolerance,
-            ProgramID: programID, 
+            ProgramID: programID,
             SubProgramID: subProgramID,
             IsActive: 1,
             CreatedBy: "Admin",
@@ -873,15 +873,23 @@
     }
 
     $(document).ready(function () {
-        $("#createform").click(function () {
-          var fileInput = $("#fileUpload")[0];
+            $("#createform").click(function () {
+                const fileUploadDispo = document.getElementById("fileUpload");
+                const fileUploadCategory = document.getElementById("fileUploadCategory");
 
-        if (!fileInput.files.length) {
-            alert("Please select a Disposition file to upload.");
-            return;
-        }
+                const dispoSelected = fileUploadDispo.files.length > 0;
+                const categorySelected = fileUploadCategory.files.length > 0;
 
-           
+                if (!dispoSelected && !categorySelected) {
+                        alert("Please select at least one file to upload.");
+                        return false;
+                    }
+                if (dispoSelected && categorySelected) {
+                    alert("Please select only one file from Disposition  and Category — not both.");
+                    return false;
+                }
+
+
 
                UpLoadDispo();
                UpLoadCategory();
@@ -893,11 +901,11 @@
     {
          var tableData = [];
 
- 
+
         $("#RatingTable tbody tr").each(function () {
             var row = {
-                id: $(this).find("td:eq(0)").text().trim(),   
-                rating: $(this).find("td:eq(1)").text().trim() 
+                id: $(this).find("td:eq(0)").text().trim(),
+                rating: $(this).find("td:eq(1)").text().trim()
             };
             tableData.push(row);
         });
@@ -1098,7 +1106,7 @@
                       $("#Zero_tolerance_behaviour").hide();
                             $("#Upload_Dispostition_List").hide();
                              $("#Upload_Category_List").hide();
-                      
+
                     alert("Select Valid Sub Program");
                      return ;
 
@@ -1131,7 +1139,7 @@
                                             if (response.data === 1) {
                                                  alert("This Form Is Already Replicated. Kindly Activate This Form.");
                                                  window.location.href = "/ManageForm/FormBuilder";
-                                                                                   
+
                                             } else {
                                                     $("#DynamicFeilds").show();
                                                     $("#Sectionfeild").show();
