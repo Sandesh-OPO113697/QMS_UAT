@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using QMS.DataBaseService;
 using QMS.Models;
 using System.Data;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace QMS.Controllers
@@ -68,7 +69,7 @@ namespace QMS.Controllers
         {
             try
             {
-
+                DataTable assment = await dl_Agent.GetAssesment();
                 DataTable dt1 = await dl_Agent.getMonitororIds();
                 DataTable dt2 = await dl_Agent.getDisputeMonitororIds();
                 DataTable dt3 = await dl_Agent.getZtSignOffData();
@@ -84,6 +85,15 @@ namespace QMS.Controllers
                 List<AgentFeedBackDetails> disputeList = dt2.AsEnumerable().Select(row => new AgentFeedBackDetails
                 {
                     TransactionID = row.Field<string>("TransactionID"),
+                    CreatedDate = row.Field<DateTime>("CreatedDate")
+
+                }).ToList();
+
+                List<AssesmentModel> assmentonl = assment.AsEnumerable().Select(row => new AssesmentModel
+                {
+                    TestID = row.Field<int>("TestID"),
+                    TestName = row.Field<string>("TestName"),
+                    TestCategory = row.Field<string>("TestCategory"),
                     CreatedDate = row.Field<DateTime>("CreatedDate")
 
                 }).ToList();
@@ -112,7 +122,8 @@ namespace QMS.Controllers
                 {
                     FeedbackList = feedbackList,
                     DisputeList = disputeList,
-                    ZtSignOffDataAgent= ZtSignOff
+                    ZtSignOffDataAgent= ZtSignOff,
+                    assmentonl= assmentonl
                 };
 
                 return View(viewModel);
@@ -123,7 +134,42 @@ namespace QMS.Controllers
             }
           
         }
+        [HttpPost]
+        public async Task< ActionResult> SubmitTest(AttemptTestViewModel model)
+        {
 
+            string TestName = model.TestName;
+           DataTable dt = await dl_Agent.Submiteassesment(model);
+
+            int totalQuestions = dt.Rows.Count;
+            int correctAnswers = dt.AsEnumerable()
+                                   .Count(row => Convert.ToBoolean(row["IsCorrect"]));
+            double scorePercentage = totalQuestions > 0
+                ? Math.Round((double)correctAnswers / totalQuestions * 100, 2)
+                : 0;
+
+            // Pass the result data to view using a view model
+            var resultViewModel = new TestResultViewModel
+            {
+                TotalQuestions = totalQuestions,
+                CorrectAnswers = correctAnswers,
+                ScorePercentage = scorePercentage
+            };
+
+            
+            return View(resultViewModel);
+        }
+
+        public async Task<IActionResult> AttempAssesment(int TestID)
+        {
+           var model = await dl_Agent.AttempTest(TestID);
+
+            return View(model);
+        }
+
+            
+           
+        
         public async Task<IActionResult> AgentFeedBack(string TransactionID)
         {
             TempData["TtransactionID"] = TransactionID;

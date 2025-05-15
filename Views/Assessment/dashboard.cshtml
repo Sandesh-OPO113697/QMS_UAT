@@ -1,0 +1,500 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}<style>
+     body, html {
+         height: 100%;
+         margin: 0;
+         padding: 0;
+     }
+
+     .main-wrapper {
+         height: 100vh;
+         overflow: hidden;
+     }
+
+     .scroll-section {
+         height: 100%;
+         overflow-y: auto;
+         padding: 20px;
+         background-color: #f8f9fc;
+         border: 1px solid #ddd;
+         border-radius: 8px;
+     }
+
+         .scroll-section h2, .scroll-section h3 {
+             margin-top: 0;
+         }
+
+     .form-group label {
+         font-weight: bold;
+     }
+
+     input[type="text"],
+     select {
+         width: 100%;
+         padding: 8px;
+         border-radius: 6px;
+         border: 1px solid #ccc;
+     }
+
+     #answerInputs > div {
+         margin-bottom: 10px;
+     }
+
+     button {
+         margin-top: 10px;
+     }
+
+     .btn-primary {
+         background-color: #4e73df;
+         border: none;
+     }
+</style>
+@* 
+    <h2>Create Question</h2>
+
+
+    <div class="card shadow mb-4">
+       
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="ProgramID">Program Name</label> <span style="color:red">*</span>
+                        @Html.DropDownList(
+                                 "ProgramID",
+                                 (List<SelectListItem>)ViewBag.ProcessList,
+                                 "Select Program",
+                                 new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" }
+                                 )
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                        <select name="SUBProgramID" id="SUBProgramID" class="custom-select"  required>
+                            <option value="">Select Process</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="Subjectlbl">Test Subject</label> <span style="color:red">*</span>
+                        <input type="text" id="subject" class="custom-select" />
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="lblCategory">Test Category</label> <span style="color:red">*</span>
+                        <select name="Category" id="Category" class="custom-select" required>
+                            <option value="">Select Sub Process</option>
+                            <option value="">Course Evaluation</option>
+                            <option value="Course_Evaluation">Course Evaluation</option>
+                            <option value="Quiz">Quiz</option>
+                            <option value="Feedback">Feedback</option>
+                            <option value="Poll">Poll</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="questionForm" onsubmit="event.preventDefault(); addQuestion();">
+        <div>
+            <label><strong>Question:</strong></label>
+            <input type="text" id="question" required />
+        </div>
+
+        <div>
+            <label><strong>Answer Type:</strong></label>
+            <select id="answerType" onchange="renderAnswerInputs()" required>
+                <option value="">--Select Type--</option>
+                <option value="textbox">Textbox</option>
+                <option value="radio">Radio</option>
+                <option value="checkbox">Checkbox</option>
+                <option value="multi-select">Multi Select</option>
+                <option value="dropdown">Dropdown</option>
+            </select>
+        </div>
+
+        <div id="answerInputs"></div>
+
+        <button type="submit">Add / Update Question</button>
+    </form>
+
+    <hr>
+
+    <h3>Added Questions</h3>
+    <div id="questionList"></div>
+    <br>
+    <button onclick="submitToServer()">Submit All Questions to DB</button>
+ *@
+
+<div class="container-fluid main-wrapper">
+    <div class="row h-100">
+        <!-- Left Column: Question Form -->
+        <div class="col-md-6 scroll-section">
+            <h2>Create Question</h2>
+
+            <!-- Program & Subprogram -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="ProgramID">Program Name <span style="color:red">*</span></label>
+                        @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.ProcessList, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="SUBProgramID">Sub Program Name <span style="color:red">*</span></label>
+                        <select name="SUBProgramID" id="SUBProgramID" class="custom-select" required>
+                            <option value="">Select Process</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subject & Category -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="subject">Test Subject <span style="color:red">*</span></label>
+                        <input type="text" id="subject" class="custom-select" required />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="Category">Test Category <span style="color:red">*</span></label>
+                        <select name="Category" id="Category" class="custom-select" required>
+                            <option value="">Select Category</option>
+                            <option value="Course_Evaluation">Course Evaluation</option>
+                            <option value="Quiz">Quiz</option>
+                            <option value="Feedback">Feedback</option>
+                            <option value="Poll">Poll</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Form -->
+            <form id="questionForm" onsubmit="event.preventDefault(); addQuestion();">
+                <div class="form-group">
+                    <label for="question"><strong>Question:</strong></label>
+                    <input type="text" id="question" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="answerType"><strong>Answer Type:</strong></label>
+                    <select id="answerType" class="form-control" onchange="renderAnswerInputs()" required>
+                        <option value="">--Select Type--</option>
+                        <option value="textbox">Textbox</option>
+                        <option value="radio">Radio</option>
+                        <option value="checkbox">Checkbox</option>
+                        <option value="multi-select">Multi Select</option>
+                        <option value="dropdown">Dropdown</option>
+                    </select>
+                </div>
+
+                <div id="answerInputs"></div>
+
+                <button type="submit"  class="btn btn-primary">Add / Update Question</button>
+            </form>
+        </div>
+
+        <!-- Right Column: Added Questions -->
+        <div class="col-md-6 scroll-section">
+            <h3>Added Questions</h3>
+            <div id="questionList"></div>
+            <br />
+            <button class="btn btn-success" onclick="submitToServer()">Create Assessment</button>
+        </div>
+    </div>
+</div>
+
+    <script>
+        let questions = [];
+        let editingIndex = -1;
+
+            function onProgramChange() {
+            var programId = document.getElementById("ProgramID").value;
+            if (programId === "") {
+                alert("Select Valid  Program");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                data: JSON.stringify({ id: programId }),
+
+                url: "/Admin/GetSUBProcessList",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    console.log(response.d);
+                    var dropdown = $('#SUBProgramID');
+                    dropdown.empty();
+                    dropdown.append('<option value="">Select Process</option>');
+                    response.proces.forEach(function (item) {
+                        dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                    });
+
+
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
+
+        }
+        function submitToServer() {
+                    var programId = document.getElementById("ProgramID").value;
+        var SUBProgramID = document.getElementById("SUBProgramID").value;
+
+                if(!programId && !SUBProgramID)
+                {   alert("Please Select Program And SubProgram");
+                     return;
+                }
+            if(SUBProgramID=="")
+            {   alert("Please Select SubProgram");
+                 return;
+            }
+            console.log(JSON.stringify(questions));
+            if (questions.length === 0) {
+                alert("No questions to submit.");
+                return;
+            }
+
+            fetch('/Assessment/SubmitQuestions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(questions)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert("Questions saved successfully.");
+                    questions = [];
+                    renderQuestionTable();
+                } else {
+                    alert("Error saving questions.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function renderAnswerInputs() {
+            const answerType = document.getElementById("answerType").value;
+            const container = document.getElementById("answerInputs");
+            container.innerHTML = "";
+
+            if (answerType === "textbox") {
+                container.innerHTML = `
+                    <label><strong>Answer:</strong></label>
+                    <input type="text" id="textboxAnswer" />
+                `;
+            } else if (answerType) {
+                container.innerHTML = `
+                    <label><strong>Options:</strong></label>
+                    <div id="optionsContainer"></div>
+                    <button type="button" class="add-btn" onclick="addOption()">➕ Add Option</button>
+                `;
+                // DO NOT call addOption here to avoid extra options on edit
+            }
+        }
+
+        function addOption(value = "", isChecked = false) {
+            const answerType = document.getElementById("answerType").value;
+            const optionsContainer = document.getElementById("optionsContainer");
+            if (!optionsContainer) return;
+
+            const optionIndex = optionsContainer.children.length;
+            // For dropdown, correct option should be radio because only one can be selected
+            let inputType = 'text';
+            if (answerType === 'radio' || answerType === 'dropdown') inputType = 'radio';
+            else if (answerType === 'checkbox' || answerType === 'multi-select') inputType = 'checkbox';
+
+            const div = document.createElement("div");
+            div.className = "option";
+            div.innerHTML = `
+            <input  type="text"  style="width:88%" value="${value}" placeholder="Option" />
+                <input type="${inputType}" name="correctOption" value="${optionIndex}" ${isChecked ? 'checked' : ''} />
+            <button type="button" class="remove-btn" onclick="this.parentElement.remove()" style="background-color: #ff4d4d; color: white; border: none; border-radius: 4px; padding: 4px 8px; font-size: 16px; cursor: pointer;">×</button>
+
+            `;
+            optionsContainer.appendChild(div);
+        }
+
+        function addQuestion() {
+
+                var category = document.getElementById("Category").value.trim();
+        var subject = document.getElementById("subject").value.trim();
+        var programId_2 = document.getElementById("ProgramID").value.trim();
+        var SUBProgramID_2 = document.getElementById("SUBProgramID").value.trim();
+
+        if (category === "") {
+            alert("Please select a category.");
+            return false;
+        }
+
+        if (subject === "") {
+            alert("Please enter a subject.");
+            return false;
+        }
+
+        if (programId_2 === "") {
+            alert("Please select a program.");
+            return false;
+        }
+
+        if (SUBProgramID_2 === "") {
+            alert("Please enter a SUBProgramID.");
+            return false;
+        }
+
+            const questionText = document.getElementById("question").value.trim();
+            const answerType = document.getElementById("answerType").value;
+            if (!questionText || !answerType) {
+                alert("Please enter question and select answer type");
+                return;
+            }
+
+            const correctAnswers = [];
+            const options = [];
+
+            if (answerType === "textbox") {
+                const val = document.getElementById("textboxAnswer").value.trim();
+                if (!val) {
+                    alert("Please enter the answer for textbox type");
+                    return;
+                }
+                options.push(val);
+            } else {
+                const allOptions = document.querySelectorAll("#optionsContainer .option");
+                if (allOptions.length === 0) {
+                    alert("Please add at least one option");
+                    return;
+                }
+                allOptions.forEach((optDiv, index) => {
+                    const val = optDiv.querySelector("input[type='text']").value.trim();
+                    if (!val) {
+                        alert("Option cannot be empty");
+                        throw new Error("Empty option");
+                    }
+                    const input = optDiv.querySelector("input[type='radio'], input[type='checkbox']");
+                    options.push(val);
+                    if (input && input.checked) {
+                        correctAnswers.push(index);
+                    }
+                });
+
+                if (correctAnswers.length === 0) {
+                    alert("Please select at least one correct answer");
+                    return;
+                }
+            }
+
+            const programId = document.getElementById("ProgramID").value;
+            const SUBProgramID = document.getElementById("SUBProgramID").value;
+
+            if (!programId || !SUBProgramID) {
+                alert("Please select Program and Sub Program");
+                return;
+            }
+
+            const data = {
+                question: questionText,
+                answerType: answerType,
+                options: options,
+                correctAnswers: correctAnswers,
+                programId: programId,
+                SUBProgramID: SUBProgramID,
+                category:category,
+                subject:subject
+            };
+
+            if (editingIndex >= 0) {
+                questions[editingIndex] = data;
+                editingIndex = -1;
+            } else {
+                questions.push(data);
+            }
+
+            document.getElementById("questionForm").reset();
+            document.getElementById("answerInputs").innerHTML = "";
+            renderQuestionTable();
+        }
+
+        function renderQuestionTable() {
+            const div = document.getElementById("questionList");
+            div.innerHTML = "";
+
+            questions.forEach((q, index) => {
+                let html = `<div class="question-item">
+                    <strong>Q${index + 1}:</strong> ${q.question}<br/>`;
+
+                if (q.answerType === "textbox") {
+                    html += `<div><strong>Answer:</strong> ${q.options[0]}</div>`;
+                } else {
+                    html += `<ul>`;
+                    q.options.forEach((opt, i) => {
+                        const isCorrect = q.correctAnswers.includes(i);
+                        html += `<li class="${isCorrect ? 'correct' : ''}">${opt} ${isCorrect ? '✅' : ''}</li>`;
+                    });
+                    html += `</ul>`;
+                }
+
+                html += `
+                   <button onclick="editQuestion(${index})" style="background-color: #4CAF50; color: white; border: none; border-radius: 4px; padding: 4px 10px; font-size: 14px; cursor: pointer; margin-right: 6px;">Edit</button>
+
+    <button onclick="deleteQuestion(${index})" style="background-color: #ff4d4d; color: white; border: none; border-radius: 4px; padding: 4px 10px; font-size: 14px; cursor: pointer;">Delete</button>
+
+                </div>`;
+
+                div.innerHTML += html;
+            });
+        }
+
+        function editQuestion(index) {
+            const q = questions[index];
+            document.getElementById("question").value = q.question;
+            document.getElementById("answerType").value = q.answerType;
+            renderAnswerInputs();
+
+            if (q.answerType === "textbox") {
+                document.getElementById("textboxAnswer").value = q.options[0];
+            } else {
+                // Clear existing options before adding from q.options
+                const optionsContainer = document.getElementById("optionsContainer");
+                optionsContainer.innerHTML = "";
+                q.options.forEach((opt, i) => {
+                    const isCorrect = q.correctAnswers.includes(i);
+                    addOption(opt, isCorrect);
+                });
+            }
+
+            editingIndex = index;
+        }
+
+        function deleteQuestion(index) {
+            if (confirm("Are you sure you want to delete this question?")) {
+                questions.splice(index, 1);
+                renderQuestionTable();
+            }
+        }
+    </script>
+

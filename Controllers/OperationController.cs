@@ -24,6 +24,37 @@ namespace QMS.Controllers
             this.dl_admin = dl_admin;
         }
         [HttpPost]
+        public async Task<ActionResult> SubmitTest(AttemptTestViewModel model)
+        {
+
+            string TestName = model.TestName;
+            DataTable dt = await dl_Agent.Submiteassesment(model);
+
+            int totalQuestions = dt.Rows.Count;
+            int correctAnswers = dt.AsEnumerable()
+                                   .Count(row => Convert.ToBoolean(row["IsCorrect"]));
+            double scorePercentage = totalQuestions > 0
+                ? Math.Round((double)correctAnswers / totalQuestions * 100, 2)
+                : 0;
+
+            // Pass the result data to view using a view model
+            var resultViewModel = new TestResultViewModel
+            {
+                TotalQuestions = totalQuestions,
+                CorrectAnswers = correctAnswers,
+                ScorePercentage = scorePercentage
+            };
+
+
+            return View(resultViewModel);
+        }
+        public async Task<IActionResult> AttempAssesment(int TestID)
+        {
+            var model = await dl_Agent.AttempTest(TestID);
+
+            return View(model);
+        }
+        [HttpPost]
         public async Task<ActionResult> UploadAPRDEtails(string SUBProgramID, string ProgramID, IFormFile files)
         {
             await dl_qa.UploadAPR(ProgramID, SUBProgramID, files);
@@ -34,20 +65,28 @@ namespace QMS.Controllers
         public async Task<IActionResult> Dashboard()
         {
 
+            DataTable assment = await dl_Agent.GetAssesment();
 
-           
             List<ZTcaseModel> ZTlist = await dl_Ops.ZtcaseShow();
 
             List<Calibration_ViewModel> Calibration = await dl_Ops.Participants_View();
 
+            List<AssesmentModel> assmentonl = assment.AsEnumerable().Select(row => new AssesmentModel
+            {
+                TestID = row.Field<int>("TestID"),
+                TestName = row.Field<string>("TestName"),
+                TestCategory = row.Field<string>("TestCategory"),
+                CreatedDate = row.Field<DateTime>("CreatedDate")
 
+            }).ToList();
 
 
             var viewModel = new OperationViewModel
             {
                 
                 ZTcaseList = ZTlist,
-                Calibration= Calibration
+                Calibration= Calibration,
+                  assmentonl = assmentonl
             };
 
             return View(viewModel);

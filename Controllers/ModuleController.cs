@@ -293,6 +293,15 @@ namespace QMS.Controllers
                         default:
                             return View();
                     }
+                case "5":
+                    switch (ModuleName)
+                    {
+                        case "Online assessments Create view edit and assign":
+                            return RedirectToAction("dashboard", "Assessment");
+                      
+                        default:
+                            return View();
+                    }
                 default:
                     return View();
             }

@@ -1,0 +1,145 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model AttemptTestViewModel
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f6f8;
+        color: #333;
+    }
+
+    .assessment-container {
+        max-width: 100%;
+        max-height: 100%;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .assessment-container h2 {
+            color: #1a237e;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+    .question-block {
+        margin-bottom: 30px;
+    }
+
+        .question-block strong {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .question-block label {
+            display: block;
+            margin: 5px 0;
+            font-weight: normal;
+        }
+
+        .question-block input[type="text"],
+        .question-block select {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .question-block input[type="radio"],
+        .question-block input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+    .submit-btn {
+        background-color: #1a73e8;
+        color: #fff;
+        border: none;
+        padding: 12px 25px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .submit-btn:hover {
+            background-color: #0f5bb5;
+        }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #e0e0e0;
+        margin: 25px 0;
+    }
+</style>
+
+
+<div class="assessment-container">
+    @using (Html.BeginForm("SubmitTest", "QAmanager", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.TestID)
+
+        <h2>@Model.TestName (@Model.TestCategory)</h2>
+        <hr />
+
+        @for (int i = 0; i < Model.Questions.Count; i++)
+        {
+            <div class="question-block">
+                <strong>Q@((i + 1)). @Model.Questions[i].QuestionText</strong>
+
+                @{
+                    var answerType = (Model.Questions[i].AnswerType ?? "").ToLower();
+                }
+
+                @if (answerType == "textbox")
+                {
+                    <input type="text" name="Questions[@i].SelectedOptionId" />
+                }
+                else if (answerType == "radiobutton" || answerType == "radio")
+                {
+                    foreach (var option in Model.Questions[i].Options)
+                    {
+                        <label>
+                            <input type="radio"
+                                   name="Questions[@i].SelectedOptionId"
+                                   value="@option.OptionId" />
+                            @option.OptionText
+                        </label>
+                    }
+                }
+                else if (answerType == "checkbox" || answerType == "multi-select")
+                {
+                    foreach (var option in Model.Questions[i].Options)
+                    {
+                        <label>
+                            <input type="checkbox"
+                                   name="Questions[@i].SelectedOptionIds"
+                                   value="@option.OptionId" />
+                            @option.OptionText
+                        </label>
+                    }
+                }
+                else if (answerType == "dropdown" || answerType == "drop waon" || answerType == "dropwaon")
+                {
+                    <select name="Questions[@i].SelectedOptionId">
+                        <option value="">-- Select --</option>
+                        @foreach (var option in Model.Questions[i].Options)
+                        {
+                            <option value="@option.OptionId">@option.OptionText</option>
+                        }
+                    </select>
+                }
+
+                @Html.HiddenFor(m => m.Questions[i].QuestionId)
+            </div>
+            <hr />
+        }
+
+        <button type="submit" class="submit-btn">Submit</button>
+    }
+</div>

@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model TestResultViewModel
+
+@{
+    ViewBag.Title = "Test Result";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .test-result-container {
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 30px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+        .test-result-container h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .test-result-container p {
+            font-size: 18px;
+            color: #34495e;
+            margin: 10px 0;
+        }
+
+            .test-result-container p strong {
+                color: #2c3e50;
+            }
+
+        .test-result-container .btn {
+            margin-top: 20px;
+            padding: 10px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+
+</style>
+
+<div class="test-result-container">
+    <h2>Test Result Summary</h2>
+
+    <p><strong>Total Questions:</strong> @Model.TotalQuestions</p>
+    <p><strong>Correct Answers:</strong> @Model.CorrectAnswers</p>
+    <p><strong>Score:</strong> @Model.ScorePercentage%</p>
+
+    <a href="@Url.Action("Dashboard", "QAManager")" class="btn btn-primary">
+        Go to Dashboard
+    </a>
+</div>

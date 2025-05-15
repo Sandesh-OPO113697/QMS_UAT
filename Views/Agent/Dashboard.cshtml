@@ -50,7 +50,56 @@
         </table>
     </div>
 </div>
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title"> Online assessment</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>Test Category</th>
+                    <th>Date</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.assmentonl != null && Model.assmentonl.Any())
+                {
+                    @foreach (var item in Model.assmentonl)
+                    {
 
+                        <tr>
+                            <td>
+                                @item.TestName
+                            </td>
+                            <td>
+                                @item.TestCategory
+                            </td>
+                            <td>
+                                @item.CreatedDate
+
+                            </td>
+                            <td>
+                                <a href="/Agent/AttempAssesment?TestID=@item.TestID" class="btn btn-primary btn-sm">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2" class="text-center">No pending feedback.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 @if (Model.ZtSignOffDataAgent != null && Model.ZtSignOffDataAgent.Any())
 {
     <div id="popupModal" class="modal">
@@ -103,6 +152,7 @@
         </div>
     </div>
 
+    
     <style>
 
         .table-responsive-wrapper {

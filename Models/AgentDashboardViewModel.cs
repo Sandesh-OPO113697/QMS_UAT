@@ -6,5 +6,6 @@
         public List<AgentFeedBackDetails> DisputeList { get; set; }
 
         public List<ZtSignOffDataAgentWise> ZtSignOffDataAgent { get; set; }
+        public List<AssesmentModel> assmentonl { get; set; }
     }
 }
