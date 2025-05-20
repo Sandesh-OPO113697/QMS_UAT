@@ -1,0 +1,71 @@
+﻿@model List<Assesmentmonitor>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var now = DateTime.Now;
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Process</th>
+            <th>Sub Program</th>
+            <th>Test Name</th>
+            <th>Test Category</th>
+            <th>Date</th>
+            <th>Expiry Type</th>
+            <th>Expiry</th>
+            <th>View</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                bool isExpired = false;
+                DateTime expiryDateTime = DateTime.MinValue;
+
+                if (item.expiryType == "date")
+                {
+                    expiryDateTime = item.expiryDate;
+                    if (expiryDateTime < now)
+                    {
+                        isExpired = true;
+                    }
+                }
+                else if (item.expiryType == "hours")
+                {
+                    expiryDateTime = item.CreatedDate.AddHours(item.expiryHours);
+                    if (expiryDateTime < now)
+                    {
+                        isExpired = true;
+                    }
+                }
+
+                var rowClass = isExpired ? "table-danger" : "";
+
+                <tr class="@rowClass">
+                     <td>@item.Process</td>
+                    <td>@item.SubProcessName</td>
+                    <td>@item.TestName</td>
+                    <td>@item.TestCategory</td>
+                    <td>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@item.expiryType</td>
+                    <td>@expiryDateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>
+                        <a href="/Monitor/Testdetails?TestID=@item.TestID" class="btn btn-primary btn-sm">
+                            View
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">No assessment data found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

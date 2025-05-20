@@ -4,7 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+@{
+    var now = DateTime.Now;
+}
 
 <div class="card shadow mb-4">
     <div class="card-header">
@@ -70,8 +72,6 @@
 
 
 </div>
-
-
 <div class="card shadow mb-4">
     <div class="card-header">
         <strong class="card-title"> Online assessment</strong>
@@ -89,33 +89,44 @@
             <tbody>
                 @if (Model.assmentonl != null && Model.assmentonl.Any())
                 {
-                    @foreach (var item in Model.assmentonl)
+                    foreach (var item in Model.assmentonl)
                     {
+                        bool isExpired = false;
 
-                        <tr>
-                            <td>
-                                @item.TestName
-                            </td>
-                            <td>
-                                @item.TestCategory
-                            </td>
-                            <td>
-                                @item.CreatedDate
+                        if (item.expiryType == "date")
+                        {
+                            if (item.expiryDate < now)
+                            {
+                                isExpired = true;
+                            }
+                        }
+                        else if (item.expiryType == "hours")
+                        {
+                            var expiryDateTime = item.CreatedDate.AddHours(item.expiryHours);
+                            if (expiryDateTime < now)
+                            {
+                                isExpired = true;
+                            }
+                        }
 
-                            </td>
+                        var rowClass = isExpired ? "table-danger" : "";
+
+                        <tr class="@rowClass">
+                            <td>@item.TestName</td>
+                            <td>@item.TestCategory</td>
+                            <td>@item.CreatedDate</td>
                             <td>
-                                <a href="/Operation/AttempAssesment?TestID=@item.TestID" class="btn btn-primary btn-sm">
+                                <a href="/QAManager/AttempAssesment?TestID=@item.TestID" class="btn btn-primary btn-sm">
                                     View
                                 </a>
                             </td>
                         </tr>
                     }
-
                 }
                 else
                 {
                     <tr>
-                        <td colspan="2" class="text-center">No pending feedback.</td>
+                        <td colspan="4" class="text-center">No pending feedback.</td>
                     </tr>
                 }
             </tbody>

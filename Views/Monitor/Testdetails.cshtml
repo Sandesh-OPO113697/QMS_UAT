@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var now = DateTime.Now;
+}
+
+
+@model List<TestResultViewModel22>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Test Name</th>
+            <th>User Name</th>
+            <th>Score Percentage</th>
+            <th>Created Date</th>
+            <th>Expiry Date</th>
+            <th>Attempt Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TestName</td>
+                <td>@item.UserName</td>
+                <td>@item.ScorePercentage</td>
+                <td>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td>@(item.ExpiryDate.HasValue ? item.ExpiryDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")</td>
+                <td>@item.AttemptDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,10 +1,11 @@
 ﻿namespace QMS.Models
 {
-    public class AssesmentModel
+    public class Assesmentmonitor
     {
-        
-            public int TestID { get; set; }
+        public int TestID { get; set; }
         public string TestName { get; set; }
+        public string Process { get; set; }
+        public string SubProcessName { get; set; }
         public string TestCategory { get; set; }
         public DateTime CreatedDate { get; set; }
         public string expiryType { get; set; }

@@ -185,7 +185,24 @@
                     </div>
                 </div>
             </div>
+            <label for="expiryType">Select Expiry:</label>
+            <select id="expiryType" class="form-control" onchange="handleExpiryChange()">
+                <option value="">-- Select --</option>
+                <option value="date">Date</option>
+                <option value="hours">Hours</option>
+            </select>
 
+            <!-- Date Picker -->
+            <div id="dateInputDiv" style="display:none; margin-top: 10px;">
+                <label for="expiryDate">Expiry Date:</label>
+                <input type="date" id="expiryDate" class="form-control" oninput="checkFormCompletion()" />
+            </div>
+
+            <!-- Hours Input -->
+            <div id="hoursInputDiv" style="display:none; margin-top: 10px;">
+                <label for="expiryHours">Expiry in Hours:</label>
+                <input type="number" id="expiryHours" class="form-control" min="1" oninput="checkFormCompletion()" />
+            </div>
             <!-- Question Form -->
             <form id="questionForm" onsubmit="event.preventDefault(); addQuestion();">
                 <div class="form-group">
@@ -215,8 +232,14 @@
         <div class="col-md-6 scroll-section">
             <h3>Added Questions</h3>
             <div id="questionList"></div>
+
+            <!-- Expiry Selection -->
+           
+
             <br />
-            <button class="btn btn-success" onclick="submitToServer()">Create Assessment</button>
+            <button id="createAssessmentBtn" class="btn btn-success" onclick="submitToServer()" disabled>
+                Create Assessment
+            </button>
         </div>
     </div>
 </div>
@@ -256,6 +279,32 @@
             });
 
         }
+          function handleExpiryChange() {
+        const type = document.getElementById("expiryType").value;
+        document.getElementById("dateInputDiv").style.display = (type === "date") ? "block" : "none";
+        document.getElementById("hoursInputDiv").style.display = (type === "hours") ? "block" : "none";
+
+        // Clear both inputs when switching
+        document.getElementById("expiryDate").value = "";
+        document.getElementById("expiryHours").value = "";
+
+        checkFormCompletion(); // Check if form is complete after change
+    }
+
+    function checkFormCompletion() {
+        const type = document.getElementById("expiryType").value;
+        const dateValue = document.getElementById("expiryDate").value;
+        const hoursValue = document.getElementById("expiryHours").value;
+        const button = document.getElementById("createAssessmentBtn");
+
+        if ((type === "date" && dateValue) || (type === "hours" && hoursValue)) {
+            button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+    }
+
+
         function submitToServer() {
                     var programId = document.getElementById("ProgramID").value;
         var SUBProgramID = document.getElementById("SUBProgramID").value;
@@ -273,6 +322,8 @@
                 alert("No questions to submit.");
                 return;
             }
+
+
 
             fetch('/Assessment/SubmitQuestions', {
                 method: 'POST',
@@ -345,7 +396,9 @@
         var subject = document.getElementById("subject").value.trim();
         var programId_2 = document.getElementById("ProgramID").value.trim();
         var SUBProgramID_2 = document.getElementById("SUBProgramID").value.trim();
-
+        const type = document.getElementById("expiryType").value;
+        const dateValue = document.getElementById("expiryDate").value;
+        const hoursValue = document.getElementById("expiryHours").value;
         if (category === "") {
             alert("Please select a category.");
             return false;
@@ -424,7 +477,10 @@
                 programId: programId,
                 SUBProgramID: SUBProgramID,
                 category:category,
-                subject:subject
+                subject:subject,
+                expiryType:type,
+                expiryDate:dateValue,
+                expiryHours:hoursValue
             };
 
             if (editingIndex >= 0) {

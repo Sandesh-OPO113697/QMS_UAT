@@ -13,6 +13,9 @@ namespace QMS.DataBaseService
             string category = questions[0].category.ToString();
             string ProgramID = questions[0].programId.ToString();
             string SubProgramId = questions[0].SUBProgramID.ToString();
+            string expiryType = questions[0].expiryType.ToString();
+            string expiryDate = questions[0].expiryDate.ToString();
+            string expiryHours = questions[0].expiryHours.ToString();
             try
             {
                 using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
@@ -25,6 +28,9 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@SubProgramId", SubProgramId);
                         cmd.Parameters.AddWithValue("@TestName", Testname);
                         cmd.Parameters.AddWithValue("@Category", category);
+                        cmd.Parameters.AddWithValue("@expiryType", expiryType);
+                        cmd.Parameters.AddWithValue("@expiryDate", expiryDate);
+                        cmd.Parameters.AddWithValue("@expiryHours", expiryHours);
                         SqlParameter outputIdParam = new SqlParameter("@TestID", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output

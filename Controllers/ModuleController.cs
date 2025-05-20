@@ -173,7 +173,7 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "25":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("Assesmanetdashboard", "Monitor");
                         case "26":
                             return RedirectToAction("ManageModule");
                         case "27":

@@ -94,7 +94,10 @@ namespace QMS.Controllers
                     TestID = row.Field<int>("TestID"),
                     TestName = row.Field<string>("TestName"),
                     TestCategory = row.Field<string>("TestCategory"),
-                    CreatedDate = row.Field<DateTime>("CreatedDate")
+                    CreatedDate = row.Field<DateTime>("CreatedDate"),
+                    expiryType = row.Field<string>("expiryType"),
+                    expiryDate = row.Field<DateTime>("expiryDate"),
+                    expiryHours = row.Field<int>("expiryHours")
 
                 }).ToList();
 

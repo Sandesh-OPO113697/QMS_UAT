@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Org.BouncyCastle.Asn1.X509;
 using QMS.DataBaseService;
 using QMS.Models;
 using System.Data;
@@ -13,14 +14,67 @@ namespace QMS.Controllers
         private readonly Dl_Admin _admin;
         private readonly Dl_formBuilder dl_FormBuilder;
         private readonly dl_Monitoring dl_monitor;
-        public MonitorController(Dl_formBuilder adl, DlSampling dl, Dl_Admin adam, dl_Monitoring dmmonoi)
+        private readonly DL_Agent dlagent;
+        public MonitorController(Dl_formBuilder adl, DlSampling dl, Dl_Admin adam, dl_Monitoring dmmonoi, DL_Agent dlagent)
         {
             dlSampling = dl;
             _admin = adam;
             dl_FormBuilder = adl;
             dl_monitor = dmmonoi;
+            this.dlagent = dlagent;
         }
-      
+
+        public async Task<IActionResult> Testdetails(int TestID)
+        {
+
+            DataTable assment = await dl_monitor.TestviewDetails(TestID);
+            var list = assment.AsEnumerable().Select(row => new TestResultViewModel22
+            {
+                TestName = row.Field<string>("TestName"),
+                UserName = row.Field<string>("UserName"),
+                ScorePercentage = row.Field<string>("ScorePercentage"),
+                CreatedDate = row.Field<DateTime>("CreatedDate"),
+                ExpiryDate = row.Field<DateTime?>("ExpiryDate"),
+                AttemptDate = row.Field<DateTime>("AttemptDate")
+            }).ToList();
+            return View(list);
+        }
+
+
+        public async Task<IActionResult> Assesmanetdashboard()
+        {
+            try
+            {
+                DataTable assment = await dl_monitor.GetAssesment();
+
+                List<Assesmentmonitor> assmentonl = assment.AsEnumerable().Select(row => new Assesmentmonitor
+                {
+                    TestID = row.Field<int>("TestID"),
+                    TestName = row.Field<string>("TestName"),
+                    Process = row.Field<string>("Process"),
+                    SubProcessName = row.Field<string>("SubProcessName"),
+                    TestCategory = row.Field<string>("TestCategory"),
+                    CreatedDate = row.Field<DateTime>("CreatedDate"),
+
+                  
+                    expiryType = row["expiryType"] != DBNull.Value ? row.Field<string>("expiryType") : string.Empty,
+
+                    // Handle nullable DateTime
+                    expiryDate = row["expiryDate"] != DBNull.Value ? row.Field<DateTime>("expiryDate") : DateTime.MinValue,
+
+                    // Handle nullable int
+                    expiryHours = row["expiryHours"] != DBNull.Value ? row.Field<int>("expiryHours") : 0
+
+                }).ToList();
+
+                return View(assmentonl);
+            }
+            catch (Exception ex)
+            {
+                // You can optionally log the exception here
+                return View();
+            }
+        }
 
         [HttpPost]
         [Route("save-voice-message")]

@@ -198,30 +198,38 @@ namespace QMS.DataBaseService
         public async Task InsertSubProcessDetailsAsync(string Location_ID, string ProgramID, string SubProcess, int Number_Of_Pause, IFormFile file, string TypeProcess, IFormFile files)
         {
             int SubProgramID = 0;
-            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            try
             {
-                await conn.OpenAsync();
-
-                using (SqlCommand cmd = new SqlCommand("CreateSubProcess", conn))
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandTimeout = 0;
-                    cmd.Parameters.AddWithValue("@Location", Location_ID);
-                    cmd.Parameters.AddWithValue("@Procesname", ProgramID);
-                    cmd.Parameters.AddWithValue("@Subprogram", SubProcess.ToUpper());
-                    cmd.Parameters.AddWithValue("@Number_Of_Pause", Number_Of_Pause);
-                    cmd.Parameters.AddWithValue("@TypeProcess", TypeProcess);
-                    cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+                    await conn.OpenAsync();
 
-                    SqlParameter outpouparameter = new SqlParameter("@InserTedID", SqlDbType.Int)
+                    using (SqlCommand cmd = new SqlCommand("CreateSubProcess", conn))
                     {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(outpouparameter);
-                    await cmd.ExecuteNonQueryAsync();
-                    SubProgramID = (outpouparameter.Value != DBNull.Value) ? Convert.ToInt32(outpouparameter.Value) : 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Location", Location_ID);
+                        cmd.Parameters.AddWithValue("@Procesname", ProgramID);
+                        cmd.Parameters.AddWithValue("@Subprogram", SubProcess.ToUpper());
+                        cmd.Parameters.AddWithValue("@Number_Of_Pause", Number_Of_Pause);
+                        cmd.Parameters.AddWithValue("@TypeProcess", TypeProcess);
+                        cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+
+                        SqlParameter outpouparameter = new SqlParameter("@InserTedID", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outpouparameter);
+                        await cmd.ExecuteNonQueryAsync();
+                        SubProgramID = (outpouparameter.Value != DBNull.Value) ? Convert.ToInt32(outpouparameter.Value) : 0;
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+
+            }
+            
 
             if (SubProgramID != 0)
             {
