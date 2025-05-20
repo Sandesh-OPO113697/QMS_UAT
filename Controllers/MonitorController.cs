@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Org.BouncyCastle.Asn1.X509;
 using QMS.DataBaseService;
 using QMS.Models;
+using System.ComponentModel;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -28,6 +29,8 @@ namespace QMS.Controllers
         {
 
             DataTable assment = await dl_monitor.TestviewDetails(TestID);
+
+            DataTable Pening = await dl_monitor.PendingTestviewDetails(TestID);
             var list = assment.AsEnumerable().Select(row => new TestResultViewModel22
             {
                 TestName = row.Field<string>("TestName"),
@@ -37,7 +40,22 @@ namespace QMS.Controllers
                 ExpiryDate = row.Field<DateTime?>("ExpiryDate"),
                 AttemptDate = row.Field<DateTime>("AttemptDate")
             }).ToList();
-            return View(list);
+
+
+            var Peninglist = Pening.AsEnumerable().Select(row => new PendingAssesment
+            {
+                
+                UserName = row.Field<string>("UserName"),
+                Role = row.Field<string>("Role_Name")
+
+            }).ToList();
+            var model = new AssessmentPageViewModel
+            {
+                CompletedAssessments = list,
+                PendingAssessments = Peninglist
+            };
+
+            return View(model);
         }
 
 

@@ -14,6 +14,7 @@ using Org.BouncyCastle.Asn1.X509;
 using Microsoft.Extensions.Logging;
 using NPOI.SS.Formula.Functions;
 using Org.BouncyCastle.Tsp;
+using NPOI.POIFS.Crypt.Dsig;
 
 namespace QMS.DataBaseService
 {
@@ -29,7 +30,72 @@ namespace QMS.DataBaseService
 
             _enc = dL_Encrpt;
         }
+        public async Task SubmiteAgentSurvey(PerformanceData data)
+        {
 
+
+            var AgentID = data.AgentID;
+            var ProcessID = data.ProgramID;
+            var subProgram = data.SUBProgramID;
+            
+            try
+            {
+                foreach (var perfId in data.SelectedPerformance)
+                {
+                    using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                    {
+                        await con.OpenAsync();
+                        using (SqlCommand cmd = new SqlCommand("AgentSurveyDetails", con))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Operation", "SubmiteAgentTrasnacation");
+                            cmd.Parameters.AddWithValue("@AgentID", AgentID);
+                            cmd.Parameters.AddWithValue("@ProcessID", ProcessID);
+                            cmd.Parameters.AddWithValue("@subProgram", subProgram);
+                            cmd.Parameters.AddWithValue("@TrasnsactionID", perfId);
+                            cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+                            await cmd.ExecuteNonQueryAsync();
+
+
+                        }
+                    }
+                }
+               
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+          
+        }
+        public async Task<DataTable> GetTransactionIDByUser(string AgentID)
+        {
+
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("AgentSurveyDetails", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "GetTransactionID");
+                        cmd.Parameters.AddWithValue("@AgentID", AgentID);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        adpt.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return dt;
+        }
 
         public async Task<int> UpdateAgentacknowledements()
         {

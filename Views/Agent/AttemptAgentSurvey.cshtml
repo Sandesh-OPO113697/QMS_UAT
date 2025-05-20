@@ -1,0 +1,98 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model FeedbackViewModel
+
+<style>
+    .question-text {
+        font-size: 20px;
+        font-weight: 600;
+        padding: 10px 0;
+    }
+
+    .smiley-label {
+        margin: 0 20px;
+        cursor: pointer;
+    }
+
+        .smiley-label img {
+            width: 70px;
+            height: 70px;
+        }
+
+    .transaction-id {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333;
+    }
+</style>
+
+<div class="card shadow mb-4">
+    
+    <div class="card-body">
+
+        @using (Html.BeginForm("SubmitFeedbackAgentSurvey", "Agent", FormMethod.Post))
+        {
+            @Html.HiddenFor(m => m.MonitoringId)
+            @Html.HiddenFor(m => m.AgentId)
+
+            <div class="transaction-id">
+                Monitoring  ID  :   @Model.MonitoringId
+            </div>
+
+            <table class="table">
+                @for (int i = 0; i < Model.Questions.Count; i++)
+                {
+                    <tr>
+                        <td class="question-text">@Model.Questions[i].QuestionText</td>
+                        <td>
+                            <label class="smiley-label">
+                                <input type="radio" name="Questions[@i].Rating" value="3" required />
+                                <img src="~/images/smiley-face.png" title="Happy" />
+                            </label>
+                            <label class="smiley-label">
+                                <input type="radio" name="Questions[@i].Rating" value="2" />
+                                <img src="~/images/icons8-neutral-face-48.png" title="Neutral" />
+                            </label>
+                            <label class="smiley-label">
+                                <input type="radio" name="Questions[@i].Rating" value="1" />
+                                <img src="~/images/icons8-sad-48.png" title="Not Satisfied" />
+                            </label>
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+
+                           
+
+                            @Html.HiddenFor(m => m.Questions[i].QuestionId)
+                            @Html.HiddenFor(m => m.Questions[i].QuestionText)
+                        </td>
+                    </tr>
+
+                   
+
+
+                   
+                }
+
+                <tr>
+                    <td>Agent Comments</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" id="AgentComment" name="AgentComment" required
+                               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #f8f9fa; color: #555;" />
+                    </td>
+                </tr>
+            </table>
+
+            <button type="submit" class="btn btn-success btn-lg">Submit Feedback</button>
+        }
+    </div>
+</div>
+
+
+

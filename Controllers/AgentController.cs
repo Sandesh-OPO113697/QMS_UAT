@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 using QMS.DataBaseService;
 using QMS.Models;
 using System.Data;
@@ -18,6 +19,12 @@ namespace QMS.Controllers
             this.dl_FormBuilder = dl_FormBuilder;
         }
         [HttpPost]
+        public async Task< ActionResult> SubmitFeedbackAgentSurvey(FeedbackViewModel model)
+        {
+            await dl_Agent.SubmiteAgentSurvey(model);
+            return RedirectToAction("Dashboard");
+        }
+            [HttpPost]
         public async Task< IActionResult> SubmitFeedback(string comment)
         {
             if (string.IsNullOrEmpty(comment))
@@ -69,11 +76,21 @@ namespace QMS.Controllers
         {
             try
             {
+                DataTable survey = await dl_Agent.GetAgentSurveyDashboard();
                 DataTable assment = await dl_Agent.GetAssesment();
                 DataTable dt1 = await dl_Agent.getMonitororIds();
                 DataTable dt2 = await dl_Agent.getDisputeMonitororIds();
                 DataTable dt3 = await dl_Agent.getZtSignOffData();
                 List<AgentFeedBackDetails> feedbackList = dt1.AsEnumerable().Select(row => new AgentFeedBackDetails
+                {
+                    TransactionID = row.Field<string>("TransactionID"),
+                    CreatedDate = row.Field<DateTime>("CreatedDate")
+
+
+                }).ToList();
+
+
+                List<AgentFeedBackDetails> agentsurvey = survey.AsEnumerable().Select(row => new AgentFeedBackDetails
                 {
                     TransactionID = row.Field<string>("TransactionID"),
                     CreatedDate = row.Field<DateTime>("CreatedDate")
@@ -126,7 +143,8 @@ namespace QMS.Controllers
                     FeedbackList = feedbackList,
                     DisputeList = disputeList,
                     ZtSignOffDataAgent= ZtSignOff,
-                    assmentonl= assmentonl
+                    assmentonl= assmentonl,
+                    agentsurvey= agentsurvey
                 };
 
                 return View(viewModel);
@@ -170,9 +188,26 @@ namespace QMS.Controllers
             return View(model);
         }
 
-            
-           
-        
+
+        public async Task<IActionResult> AttemptAgentSurvey(string TransactionID)
+        {
+            var model = new FeedbackViewModel
+            {
+                MonitoringId = TransactionID,
+                AgentId = "agentId",
+                Questions = new List<FeedbackQuestion>
+            {
+                new FeedbackQuestion { QuestionId = 1, QuestionText = "1. How would you rate the Quality of your feedback /Coaching experience?" },
+                new FeedbackQuestion { QuestionId = 2, QuestionText = "2. Was your QA/TL knowledgeable and able to provide directions on improving performance?" },
+                new FeedbackQuestion { QuestionId = 3, QuestionText = "3. Was the QA/TL provide feedback/coaching in a polite and a friendly manner?" },
+                new FeedbackQuestion { QuestionId = 4, QuestionText = "4. Was the QA/TL able to demonstrate the change that is expected?" }
+            }
+            };
+
+            return View(model);
+            return View();
+        }
+
         public async Task<IActionResult> AgentFeedBack(string TransactionID)
         {
             TempData["TtransactionID"] = TransactionID;

@@ -53,6 +53,58 @@
         </table>
     </div>
 </div>
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title"> Pending Agent Survey Acknowledgement</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Date</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.agentsurvey != null && Model.agentsurvey.Any())
+                {
+                    @foreach (var item in Model.agentsurvey)
+                    {
+                        
+
+                        <tr>
+                            <td>
+                                @item.TransactionID
+                            </td>
+                            <td>
+                            @item.CreatedDate 
+                             
+                            </td>
+                            <td>
+                                <a href="/Agent/AttemptAgentSurvey?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2" class="text-center">No agent Survey .</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
 <div class="card shadow mb-4">
     <div class="card-header">
         <strong class="card-title"> Online assessment</strong>
@@ -107,7 +159,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="4" class="text-center">No pending feedback.</td>
+                        <td colspan="4" class="text-center">No pending Online assessment.</td>
                     </tr>
                 }
             </tbody>

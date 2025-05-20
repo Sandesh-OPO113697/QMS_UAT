@@ -4,30 +4,61 @@
 }
 
 
-@model List<TestResultViewModel22>
+@model AssessmentPageViewModel
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Test Name</th>
-            <th>User Name</th>
-            <th>Score Percentage</th>
-            <th>Created Date</th>
-            <th>Expiry Date</th>
-            <th>Attempt Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.TestName</td>
-                <td>@item.UserName</td>
-                <td>@item.ScorePercentage</td>
-                <td>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                <td>@(item.ExpiryDate.HasValue ? item.ExpiryDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")</td>
-                <td>@item.AttemptDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Completed Assessments</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>User Name</th>
+                    <th>Score Percentage</th>
+                    <th>Created Date</th>
+                    <th>Expiry Date</th>
+                    <th>Attempt Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CompletedAssessments)
+                {
+                    <tr>
+                        <td>@item.TestName</td>
+                        <td>@item.UserName</td>
+                        <td>@item.ScorePercentage</td>
+                        <td>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>@(item.ExpiryDate.HasValue ? item.ExpiryDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")</td>
+                        <td>@item.AttemptDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Pending Assessments</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PendingAssessments)
+                {
+                    <tr>
+                        <td>@item.UserName</td>
+                        <td>@item.Role</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

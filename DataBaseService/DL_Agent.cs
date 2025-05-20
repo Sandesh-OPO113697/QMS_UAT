@@ -23,6 +23,45 @@ namespace QMS.DataBaseService
             _enc = dL_Encrpt;
             _dcl = dL;
         }
+
+        public async Task SubmiteAgentSurvey(FeedbackViewModel model)
+        {
+            var transactionID = model.MonitoringId;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    foreach (var question in model.Questions)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("AgentSurveyDetails", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.CommandTimeout = 0;
+
+                    
+                            cmd.Parameters.AddWithValue("@Operation", "SubmiteSgentSurvey");
+                            cmd.Parameters.AddWithValue("@AgentComment", model.AgentComment);
+                            cmd.Parameters.AddWithValue("@TrasnsactionID", model.MonitoringId);
+                            cmd.Parameters.AddWithValue("@AgentId", UserInfo.UserName);
+                            cmd.Parameters.AddWithValue("@QuestionId", question.QuestionId);
+                            cmd.Parameters.AddWithValue("@QuestionText", question.QuestionText ?? string.Empty);
+                            cmd.Parameters.AddWithValue("@Rating", question.Rating);
+
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Optionally log the error
+                throw;
+            }
+        }
+
         public async Task<DataTable> GetAssesment()
         {
             DataTable dt = new DataTable();
@@ -48,42 +87,31 @@ namespace QMS.DataBaseService
             }
             return dt;
         }
-        //public async Task Submiteassesment(AttemptTestViewModel model)
-        //{
-        //    string userId = UserInfo.UserName; 
-        //    string connStr = UserInfo.Dnycon;
+        public async Task<DataTable> GetAgentSurveyDashboard()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("AgentSurveyDetails", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@AgentID", UserInfo.UserName);
+                        cmd.Parameters.AddWithValue("@Operation", "GetAgentDashboard");
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
 
-        //    using (SqlConnection conn = new SqlConnection(connStr))
-        //    {
-        //        await conn.OpenAsync();
-
-        //        foreach (var question in model.Questions)
-        //        {
-        //            if (question.SelectedOptionId.HasValue)
-        //            {
-        //                using (SqlCommand cmd = new SqlCommand("SaveUserAnswer", conn))
-        //                {
-        //                    cmd.CommandType = CommandType.StoredProcedure;
-        //                    cmd.Parameters.AddWithValue("@UserId", userId);
-        //                    cmd.Parameters.AddWithValue("@QuestionId", question.QuestionId);
-        //                    cmd.Parameters.AddWithValue("@SelectedOptionId", question.SelectedOptionId.Value);
-
-        //                    await cmd.ExecuteNonQueryAsync();
-        //                }
-        //            }
-        //        }
-
-        //        using (SqlCommand calcCmd = new SqlCommand("SubmitTest", conn))
-        //        {
-        //            calcCmd.CommandType = CommandType.StoredProcedure;
-        //            calcCmd.Parameters.AddWithValue("@UserId", userId);
-        //            calcCmd.Parameters.AddWithValue("@TestID", model.TestID);
-
-        //            await calcCmd.ExecuteNonQueryAsync();
-        //        }
-        //    }
-        //}
-
+            }
+            return dt;
+        }
         public async Task<DataTable> Submiteassesment(AttemptTestViewModel model)
         {
             string userId = UserInfo.UserName;

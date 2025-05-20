@@ -29,6 +29,14 @@
       "PackagePath": "staticwebassets\\Images\\favicon.ico"
     },
     {
+      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-neutral-face-48.png",
+      "PackagePath": "staticwebassets\\Images\\icons8-neutral-face-48.png"
+    },
+    {
+      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-sad-48.png",
+      "PackagePath": "staticwebassets\\Images\\icons8-sad-48.png"
+    },
+    {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\image.png",
       "PackagePath": "staticwebassets\\Images\\image.png"
     },
@@ -39,6 +47,10 @@
     {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\nagalogo.png",
       "PackagePath": "staticwebassets\\Images\\nagalogo.png"
+    },
+    {
+      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\smiley-face.png",
+      "PackagePath": "staticwebassets\\Images\\smiley-face.png"
     },
     {
       "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\user.png",

@@ -55,6 +55,32 @@ namespace QMS.DataBaseService
             }
             return dt;
         }
+
+        public async Task<DataTable> PendingTestviewDetails(int TestID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("GetPendingAssessmentResultByTestID", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@testID", TestID);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
         public async Task<DataTable> GetAssesment()
         {
             DataTable dt = new DataTable();

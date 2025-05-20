@@ -1574,6 +1574,34 @@
            data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
            success: function (response) {
 
+                      var dropdown = $('#dispositionId');
+                    dropdown.empty();
+                    dropdown.append('<option value="">Select Disposition</option>');
+
+                    if (response.success && response.samplesize) {
+                        response.samplesize.forEach(function (item) {
+                            dropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                     }
+
+
+                      var dropdown = $('#AgentID');
+                    dropdown.empty();
+                    dropdown.append('<option value="">Select Agent Name</option>');
+
+                    console.log(JSON.stringify(response)); // Debugging
+
+                    // Ensure we use the correct response property
+                    if (response.success && response.agentlist) {
+                        response.agentlist.forEach(function (item) {
+                            dropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                     }
+
+
+
+
+
                       var dropdownCat1 = $('#Cat1');
                     dropdownCat1.empty();
                     dropdownCat1.append('<option value="">Select Category 1</option>');

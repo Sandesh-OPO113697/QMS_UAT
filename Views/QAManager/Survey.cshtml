@@ -1,0 +1,227 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="col-md-12 my-4" id="AuditDiv">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Program</label> <span style="color:red">*</span>
+                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()" required>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="AgentID">Select Agent</label> <span style="color:red">*</span>
+                    <select name="AgentID" id="AgentID" class="custom-select" onchange="onAgentChange()" required>
+                        <option value="">Select Agent</option>
+                    </select>
+                </div>
+               
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-md-12 my-4" >
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+
+            <div id="performance-list" style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px;">
+          
+            </div>
+
+            <button id="submitBtn"
+                    style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;">
+                Submit
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+        
+
+    async function onSubProgramChange() {
+        const selectedValue = $('#SUBProgramID').val();
+        if (selectedValue === '') {
+            alert('Please select a valid Sub Program Name.');
+            return;
+        }
+
+        const programId = $('#ProgramID').val();
+
+        try {
+
+            const agentResponse = await fetch("/Coaching/getAndAgentListQuatile", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })
+            });
+            const agentData = await agentResponse.json();
+
+            const agentDropdown = $('#AgentID');
+            agentDropdown.empty();
+            agentDropdown.append('<option value="">Select Agent</option>');
+
+            agentData.agentTlList.forEach(function (agent) {
+                agentDropdown.append('<option value="' + agent.empCode + '">' + agent.empCode + '</option>');
+            });
+
+
+           
+
+
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
+    async function onProgramChange() {
+        const programId = $('#ProgramID').val();
+        if (programId === "") {
+            alert("Please Select Program first");
+            return;
+        }
+
+        try {
+            const response = await fetch("/Admin/GetSUBProcessList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ id: programId })
+            });
+            const data = await response.json();
+
+            const dropdown = $('#SUBProgramID');
+            dropdown.empty();
+            dropdown.append('<option value="">Select Sub Process</option>');
+
+            data.proces.forEach(function (item) {
+                dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+            });
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
+
+
+
+        document.getElementById("submitBtn").addEventListener("click", async () => {
+        const selectedItems = [];
+        const checkboxes = document.querySelectorAll("#performance-list input[type='checkbox']:checked");
+
+        checkboxes.forEach(cb => {
+            selectedItems.push(cb.value);
+        });
+
+        if (selectedItems.length === 0) {
+            alert("Please select at least one item.");
+            return;
+        }
+
+        const dataToSend = {
+            ProgramID: $('#ProgramID').val(),
+            SUBProgramID: $('#SUBProgramID').val(),
+            AgentID: $('#AgentID').val(),
+            SelectedPerformance: selectedItems
+        };
+
+        try {
+            const response = await fetch("/QAManager/SavePerformance", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify(dataToSend)
+            });
+
+            const result = await response.json();
+            alert("Saved Successfully: " );
+            location.reload();
+        } catch (error) {
+            console.error("Saving failed:", error);
+            alert("Failed to save data.");
+        }
+    });
+
+
+        async function onAgentChange() {
+        const AgentID = $('#AgentID').val();
+
+        console.log("Agent ID: " + AgentID);
+        if (AgentID === "") {
+            alert("Please Select Agent first");
+            return;
+        }
+
+        try {
+            const responsePer = await fetch("/QAManager/TransactionID", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ id: AgentID })
+            });
+
+            const text = await responsePer.text();
+            console.log("Raw Response Text:", text);
+
+            const json = JSON.parse(text);  // <-- Parse the JSON
+
+            const container = document.getElementById("performance-list");
+            container.innerHTML = ""; // Clear previous content if any
+
+               if (json.performance && Array.isArray(json.performance)) {
+        json.performance.forEach((item, index) => {
+            const div = document.createElement("div");
+            div.style.display = "flex";
+            div.style.alignItems = "center";
+            div.style.gap = "8px";
+            div.style.marginBottom = "10px";
+            div.style.padding = "6px 10px";
+            div.style.border = "1px solid #ddd";
+            div.style.borderRadius = "6px";
+            div.style.backgroundColor = "#f9f9f9";
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = `perf-${index}`;
+            checkbox.value = item;
+            checkbox.style.transform = "scale(1.2)";
+            checkbox.style.cursor = "pointer";
+
+            const label = document.createElement("label");
+            label.htmlFor = `perf-${index}`;
+            label.innerText = item;
+            label.style.fontSize = "14px";
+            label.style.color = "#333";
+            label.style.cursor = "pointer";
+
+            div.appendChild(checkbox);
+            div.appendChild(label);
+            container.appendChild(div);
+        });
+    } else {
+        console.warn("No 'performance' array in response.");
+    }
+
+
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
+
+         
+
+
+</script>

@@ -211,7 +211,7 @@ namespace QMS.Controllers
                         case "34":
                             return RedirectToAction("ManageModule");
                         case "35":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("Survey", "QAManager");
                         case "36":
                             return RedirectToAction("ManageModule");
                         case "37":

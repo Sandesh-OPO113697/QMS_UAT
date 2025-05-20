@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NPOI.SS.Formula.Functions;
 using Org.BouncyCastle.Asn1.Ocsp;
 using Org.BouncyCastle.Bcpg.Sig;
 using QMS.DataBaseService;
@@ -24,8 +25,51 @@ namespace QMS.Controllers
             this.dl_FormBuilder = dl_FormBuilder;
             _dlamin = dlamin;
         }
+        [HttpPost]
+        public async Task<IActionResult> SavePerformance([FromBody] PerformanceData data)
+        {
+           await   dl_qa.SubmiteAgentSurvey(data);
+            return Ok(new { status = "success" });
+        }
+        public async Task<IActionResult> TransactionID([FromBody] DropDawnString id)
+        {
+            try
+            {
 
+                DataTable dt = await dl_qa.GetTransactionIDByUser(id.ID);
+                var performanceList = new List<string>();
 
+                if (dt.Rows.Count > 0)
+                {
+                    var row = dt.Rows[0];
+
+                        performanceList = new List<string>
+                        {
+                            Convert.ToString(row["TransactionID"])
+                
+                        };
+                }
+                return Json(new { performance = performanceList });
+            }
+            catch (Exception ex)
+            {
+                return Json(new {test=""});
+            }
+        }
+
+        public async Task<IActionResult> Survey()
+        {
+            DataTable dt = await _dlamin.GetProcessListAsync();
+            var processList = dt.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ProcessName"]}",
+            }).ToList();
+            ViewBag.Process = processList;
+           
+
+            return View();
+        }
         public async Task<IActionResult> ZtTriggerSignOff()
         {
             string locationid = UserInfo.LocationID;
