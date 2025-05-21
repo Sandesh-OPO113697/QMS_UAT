@@ -3,7 +3,7 @@
 }
 
 @model FeedbackViewModel
-
+@* 
 <style>
     .question-text {
         font-size: 20px;
@@ -27,7 +27,62 @@
         margin-bottom: 20px;
         color: #333;
     }
+</style> *@
+<style>
+  /*   .emoji-rating {
+        font-size: 32px;
+    }
+
+    .emoji {
+        cursor: pointer;
+        margin: 0 10px;
+        transition: transform 0.2s, text-shadow 0.2s;
+    }
+
+        .emoji.selected {
+            transform: scale(1.3);
+        }
+
+        .emoji.green-shadow.selected {
+            text-shadow: 0 0 30px green;
+        }
+
+        .emoji.yellow-shadow.selected {
+            text-shadow: 0 0 20px orange;
+        }
+
+        .emoji.red-shadow.selected {
+            text-shadow: 0 0 30px red;
+        } */
+
+
+    .emoji {
+        cursor: pointer;
+        margin: 0 10px;
+        transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
+        display: inline-block;
+        border-radius: 50%;
+    }
+
+        .emoji.selected {
+            transform: scale(1.2);
+        }
+
+        .emoji.green-shadow.selected {
+            box-shadow: 0 0 10px 2px green;
+        }
+
+        .emoji.yellow-shadow.selected {
+            box-shadow: 0 0 10px 2px orange;
+        }
+
+        .emoji.red-shadow.selected {
+            box-shadow: 0 0 10px 2px red;
+        }
+
 </style>
+
+
 
 <div class="card shadow mb-4">
     
@@ -45,7 +100,7 @@
             <table class="table">
                 @for (int i = 0; i < Model.Questions.Count; i++)
                 {
-                    <tr>
+                   @*  <tr>
                         <td class="question-text">@Model.Questions[i].QuestionText</td>
                         <td>
                             <label class="smiley-label">
@@ -70,8 +125,51 @@
                             @Html.HiddenFor(m => m.Questions[i].QuestionId)
                             @Html.HiddenFor(m => m.Questions[i].QuestionText)
                         </td>
-                    </tr>
+                    </tr> *@
+                    <tr>
+                        <td class="question-text">@Model.Questions[i].QuestionText</td>
+                        <td>
+                           @*  <div class="emoji-rating" data-index="@i">
+                                <span class="emoji green-shadow" data-value="3" title="Happy">😊</span>
+                                <span class="emoji yellow-shadow" data-value="2" title="Neutral">😐</span>
+                                <span class="emoji red-shadow" data-value="1" title="Sad">😞</span>
 
+                                <input type="hidden" name="Questions[@i].Rating" class="rating-input" required />
+                            </div>
+ *@
+                            <div class="emoji-rating" data-index="@i">
+                                <span class="emoji green-shadow" data-value="3" title="Happy">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                                        <line x1="9" y1="9" x2="9.01" y2="9" />
+                                        <line x1="15" y1="9" x2="15.01" y2="9" />
+                                    </svg>
+                                </span>
+                                <span class="emoji yellow-shadow" data-value="2" title="Neutral">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="orange" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <line x1="9" y1="15" x2="15" y2="15" />
+                                        <line x1="9" y1="9" x2="9.01" y2="9" />
+                                        <line x1="15" y1="9" x2="15.01" y2="9" />
+                                    </svg>
+                                </span>
+                                <span class="emoji red-shadow" data-value="1" title="Sad">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <path d="M16 14s-1.5-2-4-2-4 2-4 2" />
+                                        <line x1="9" y1="9" x2="9.01" y2="9" />
+                                        <line x1="15" y1="9" x2="15.01" y2="9" />
+                                    </svg>
+                                </span>
+
+                                <input type="hidden" name="Questions[@i].Rating" class="rating-input" required />
+                            </div>
+
+                            @Html.HiddenFor(m => m.Questions[i].QuestionId)
+                            @Html.HiddenFor(m => m.Questions[i].QuestionText)
+                        </td>
+                    </tr>
                    
 
 
@@ -94,5 +192,34 @@
     </div>
 </div>
 
+@* 
 
+<script>
+    document.querySelectorAll('.emoji-rating').forEach(group => {
+        group.querySelectorAll('.emoji').forEach(emoji => {
+            emoji.addEventListener('click', () => {
+                // Remove 'selected' class from all in group
+                group.querySelectorAll('.emoji').forEach(e => e.classList.remove('selected'));
 
+                // Add 'selected' to clicked one
+                emoji.classList.add('selected');
+
+                // Update hidden input value
+                group.querySelector('.rating-input').value = emoji.getAttribute('data-value');
+            });
+        });
+    });
+</script>
+ *@
+
+<script>
+    document.querySelectorAll('.emoji-rating').forEach(group => {
+        group.querySelectorAll('.emoji').forEach(emoji => {
+            emoji.addEventListener('click', () => {
+                group.querySelectorAll('.emoji').forEach(e => e.classList.remove('selected'));
+                emoji.classList.add('selected');
+                group.querySelector('.rating-input').value = emoji.getAttribute('data-value');
+            });
+        });
+    });
+</script>

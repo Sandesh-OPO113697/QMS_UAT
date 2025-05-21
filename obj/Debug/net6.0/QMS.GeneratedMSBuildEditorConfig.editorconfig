@@ -192,6 +192,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9uaXRvclxUZXN0ZGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/Notpad/Notpad.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90cGFkXE5vdHBhZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/Notpad/UseNotpad.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90cGFkXFVzZU5vdHBhZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/Operation/AttempAssesment.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXEF0dGVtcEFzc2VzbWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

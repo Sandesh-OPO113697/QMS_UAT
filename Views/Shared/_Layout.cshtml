@@ -5,6 +5,9 @@
 @{
     var mySessionValue = HttpContextAccessor.HttpContext.Session.GetString("UserType");
 
+
+    var NotePadAcesss = HttpContextAccessor.HttpContext.Session.GetString("NotePadAcess");
+
     var serializedData = HttpContextAccessor.HttpContext.Session.GetString("RoleFeatures");
     var roleFeatureList = !string.IsNullOrEmpty(serializedData)
                             ? JsonConvert.DeserializeObject<List<dynamic>>(serializedData)
@@ -145,6 +148,20 @@
                             </li>
                     }
 
+                    @if (NotePadAcesss == "Yes")
+                    {
+                        <li class="nav-item dropdown" id="Upload2" runat="server">
+                            <a href="#charts3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-pie-chart fe-16"></i>
+                                <span class="ml-3 item-text">Notepad</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="charts3">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="@Url.Action("UseNotpad", "Notpad")"><span class="ml-1 item-text">Use NotePad</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
                     @if ((mySessionValue == "Admin") || (mySessionValue == "SiteAdmin"))
                     {
                             <li class="nav-item dropdown" id="Upload" runat="server">
@@ -238,6 +255,10 @@
                                 {
                                             <li class="nav-item">
                                                 <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Module")"><span class="ml-1 item-text">Assign Feature </span></a>
+                                            </li>
+                                                  
+                                            <li class="nav-item">
+                                                <a class="nav-link pl-3" href="@Url.Action("Notpad", "Notpad")"><span class="ml-1 item-text">Assign Notepad Access</span></a>
                                             </li>
                                 }
 

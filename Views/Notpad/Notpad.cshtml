@@ -1,0 +1,191 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title"> Select process</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="ProgramID">Program Name</label> <span style="color:red">*</span>
+                    @Html.DropDownList(
+                             "ProgramID",
+                             (List<SelectListItem>)ViewBag.ProcessList,
+                             "Select Program",
+                             new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" }
+                             )
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()" required>
+                        <option value="">Select Process</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="AgentID">Select Agent</label> <span style="color:red">*</span>
+                <div id="checkbox-container"></div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="module-list">NotPad Access</label>
+                    <div id="module-list" class="border p-2" style="max-height: 300px; overflow-y: auto;">
+
+                        <div id="checkbox-container2">
+                            <!-- Hardcoded checkbox for Notepad Access -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="notepadAccess" name="modules" value="NotepadAccess">
+                                <label class="form-check-label" for="notepadAccess">Notepad Access</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-2 my-4">
+            <div class="card-body d-flex justify-content-center align-items-center">
+                <button class="btn btn-primary" type="button" onclick="submitData()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+    <script>
+
+
+        function onProgramChange() {
+            var programId = document.getElementById("ProgramID").value;
+            $.ajax({
+                type: "POST",
+                data: JSON.stringify({ id: programId }),
+
+                url: "/Admin/GetSUBProcessList",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    var dropdown = $('#SUBProgramID');
+                    dropdown.empty();
+                    dropdown.append('<option value="">Select Process</option>');
+                    response.proces.forEach(function (item) {
+                        dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
+
+        }
+
+
+
+                            function onSubProgramChange() {
+                var ProcessID = $("#ProgramID").val();
+                var SUBProgramID = $("#SUBProgramID").val();
+
+                var requestData = {
+                    ProcessID: ProcessID,
+                    SUBProgramID: SUBProgramID
+                };
+
+                $.ajax({
+                    url: '/Notpad/GetUsersByProgram',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(requestData),
+                    success: function (data) {
+                        var container = $("#checkbox-container");
+                        container.empty();
+
+                        let anySelected = false;
+
+                        data.forEach(function (user) {
+                            if (user.selected) {
+                                anySelected = true;
+                            }
+
+                            var isChecked = user.selected ? 'checked' : '';
+                            container.append(`
+                                <div class="form-check mb-1">
+                                    <input class="form-check-input" type="checkbox" id="user_${user.value}" name="users" value="${user.value}" ${isChecked} />
+                                    <label class="form-check-label" for="user_${user.value}">${user.text}</label>
+                                </div>
+                            `);
+                        });
+
+                        // Set the "Notepad Access" checkbox in checkbox-container2
+                        if (anySelected) {
+                            $("#notepadAccess").prop("checked", true);
+                        } else {
+                            $("#notepadAccess").prop("checked", false);
+                        }
+                    },
+                    error: function () {
+                        alert("Error fetching agents.");
+                    }
+                });
+            }
+
+
+
+
+
+                    function submitData() {
+                const selectedAgents = [];
+                $("#checkbox-container input[type='checkbox']:checked").each(function () {
+                    selectedAgents.push($(this).val());
+                });
+
+                    const processName = $("#ProgramID").val();
+                    const subProcessName = $("#SUBProgramID").val();
+                   const notepadAccessChecked = $("#notepadAccess").is(":checked");
+
+                if (selectedAgents.length === 0) {
+                    alert("Please select at least one agent.");
+                    return;
+                }
+
+                const postData = {
+                    ProcessName: processName,
+                    SubProcessName: subProcessName,
+                    AgentIds: selectedAgents,
+                    NotepadAccess: notepadAccessChecked
+                };
+
+                $.ajax({
+                    url: '/Notpad/InsertAgentMapping',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(postData),
+                    success: function (response) {
+                        alert("Data saved successfully!");
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Error saving data.");
+                    }
+                });
+            }
+
+
+    </script>

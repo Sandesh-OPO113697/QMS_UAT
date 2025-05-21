@@ -151,6 +151,16 @@ namespace QMS.Controllers
             {
                 await _login.AssignRoleToUser(Username, HttpContext);
                 int IsValid = await _login.CheckAccountUserAsync(Username, Password);
+                int NotePadAcess = await _login.IsNotePadAcess(Username);
+
+                if (NotePadAcess == 1)
+                {
+                    HttpContext.Session.SetString("NotePadAcess", "Yes");
+                }
+                else
+                {
+                    HttpContext.Session.SetString("NotePadAcess", "NO");
+                }
                 if (IsValid == 1)
                 {
                     if (UserInfo.UserType == "Admin")

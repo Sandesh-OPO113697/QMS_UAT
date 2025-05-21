@@ -463,7 +463,46 @@ namespace QMS.DataBaseService
             }
         }
 
+        public async Task<int> IsNotePadAcess(string UserID)
+        {
 
+            string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
+            try
+            {
+                string User = UserID;
+
+                using (SqlConnection cc = new SqlConnection(Dycon))
+                {
+                    await cc.OpenAsync();
+                    DataTable dt = new DataTable();
+                    SqlCommand cmd = new SqlCommand("IsNotePadAcess", cc);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Empcode", User);
+
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    await Task.Run(() => adpt.Fill(dt));
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+
+                        return 0;
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
         public async Task<int> CheckAccountUserAsync(string UserID, string Password)
         {
             string reset = "";
