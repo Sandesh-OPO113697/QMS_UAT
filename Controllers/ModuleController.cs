@@ -235,7 +235,10 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "40":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("Datasource", "OutlierManagement");
+                        case "41":
+                            return RedirectToAction("Identification", "OutlierManagement");
+
                         default:
                             return View();
                     }

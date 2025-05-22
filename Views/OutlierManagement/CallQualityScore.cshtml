@@ -1,0 +1,155 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="col-md-12 my-4" >
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Program</label> <span style="color:red">*</span>
+                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()" required>
+                    </select>
+                </div>
+               
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<button onclick="exportToExcel()" style="
+    margin-bottom: 15px;
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 17px;
+">
+    Export to Excel
+</button>
+
+<!-- Grid -->
+<div id="gridContainer" style="
+    margin-top: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+margin-left: 14px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+"></div>
+<script src="~/js/xlsx.full.min.js"></script>
+
+<script>
+    const gridContainer = document.getElementById('gridContainer');
+      
+        function renderGrid(data) {
+        if (!data || data.length === 0) {
+            gridContainer.innerHTML = '<p style="padding:15px; text-align:center;">No data available</p>';
+            return;
+        }
+
+        const columns = Object.keys(data[0]);
+
+        let html = '<table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">';
+        html += '<thead><tr>';
+        columns.forEach(col => {
+            html += `<th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2; text-align: left;">${col}</th>`;
+        });
+        html += '</tr></thead>';
+
+        html += '<tbody>';
+        data.forEach(row => {
+            html += '<tr>';
+            columns.forEach(col => {
+                html += `<td style="border: 1px solid #ddd; padding: 8px;">${row[col]}</td>`;
+            });
+            html += '</tr>';
+        });
+        html += '</tbody></table>';
+
+        gridContainer.innerHTML = html;
+    }
+    async function onSubProgramChange() {
+        const selectedValue = $('#SUBProgramID').val();
+        if (selectedValue === '') {
+            alert('Please select a valid Sub Program Name.');
+            return;
+        }
+
+        const programId = $('#ProgramID').val();
+        try {
+
+            const dttableresponce = await fetch("/OutlierManagement/getCallQalityDash", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })
+            });
+            const dt = await dttableresponce.json();
+
+            renderGrid(dt.datatable);
+
+
+
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+
+
+       
+    }
+
+    async function onProgramChange() {
+        const programId = $('#ProgramID').val();
+        if (programId === "") {
+            alert("Please Select Program first");
+            return;
+        }
+
+        try {
+            const response = await fetch("/Admin/GetSUBProcessList", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+                body: JSON.stringify({ id: programId })
+            });
+            const data = await response.json();
+
+            const dropdown = $('#SUBProgramID');
+            dropdown.empty();
+            dropdown.append('<option value="">Select Sub Process</option>');
+
+            data.proces.forEach(function (item) {
+                dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+            });
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+
+
+
+    function exportToExcel() {
+        const table = gridContainer.querySelector('table');
+        if (!table) {
+            alert("No data to export.");
+            return;
+        }
+
+        const workbook = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+        XLSX.writeFile(workbook, "CallQualityData.xlsx");
+    }
+
+
+
+
+</script>

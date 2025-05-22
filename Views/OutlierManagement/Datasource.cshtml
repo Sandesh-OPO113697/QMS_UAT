@@ -1,0 +1,57 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <style>
+   
+
+    .container {
+        display: flex;
+        gap: 20px; /* space between buttons */
+    }
+
+    .btn {
+        padding: 15px 30px;
+        font-size: 18px;
+        color: #fff;
+        background-color: #6c757d;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        text-decoration: none;
+        white-space: nowrap; /* prevent line breaks */
+    }
+
+        .btn:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+
+    
+    </style>
+
+
+    
+
+
+    <div class="col-md-12 my-4" style="margin-left:20px;" >
+        <div class="card shadow" style="border-radius: 10px; border: 1px solid #ddd;">
+        <div class="card-body" style="padding: 20px; ">
+                <h5 class="card-title" style="font-weight: bold; color: #24294a;">Outlier Management</h5>
+
+            <div class="container">
+                <a href="@Url.Action("CallQualityScore", "OutlierManagement")" class="btn">Call quality overall score</a>
+                <a href="@Url.Action("AgentPerformance", "OutlierManagement")" class="btn">Agent performance on metrics</a>
+                <a href="@Url.Action("TransformationAudits", "OutlierManagement")" class="btn">Transformation audits</a>
+              
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+
+

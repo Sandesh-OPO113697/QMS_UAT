@@ -42,6 +42,7 @@ builder.Services.AddTransient<dl_Supervisor>();
 builder.Services.AddTransient<dl_Assesment>();
 builder.Services.AddTransient<dl_Calibration>();
 builder.Services.AddTransient<DL_Notpad>();
+builder.Services.AddTransient<Dl_Outline>();
 
 
 builder.Services.AddControllersWithViews();
