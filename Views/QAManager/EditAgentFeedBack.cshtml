@@ -2,7 +2,8 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="col-md-12">
+<div class="col-md-12" style="margin-bottom: 58px;
+    border-radius: 19px">
 
     <div id="recordingContainer"></div>
 
@@ -10,7 +11,7 @@
 
 <div class="card shadow mb-4" id="SectionGried" style="@(Model.sectionList.Any() ? "display:block" : "display:none")">
     <div class="card-header">
-        <strong class="card-title">Form</strong>
+        <strong class="card-title"> Section </strong>
     </div>
     <div class="card-body">
         <table id="sectionGrid" class="table table-bordered">
@@ -21,7 +22,7 @@
                     <th>Section Name</th>
                     <th>QA Rating</th>
                     <th>Scorable</th>
-                    <th>Score</th> <!-- Only one column here -->
+                    <th>Score</th> 
                     <th>Fatal</th>
                     <th>Comments Section</th>
 

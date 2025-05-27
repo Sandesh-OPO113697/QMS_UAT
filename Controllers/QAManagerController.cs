@@ -41,13 +41,10 @@ namespace QMS.Controllers
 
                 if (dt.Rows.Count > 0)
                 {
-                    var row = dt.Rows[0];
-
-                        performanceList = new List<string>
-                        {
-                            Convert.ToString(row["TransactionID"])
-                
-                        };
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        performanceList.Add(Convert.ToString(row["TransactionID"]));
+                    }
                 }
                 return Json(new { performance = performanceList });
             }

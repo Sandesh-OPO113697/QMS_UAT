@@ -68,6 +68,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWdlbnRcQXR0ZW1wQXNzZXNtZW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/Agent/AttemptAgentSurvey.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWdlbnRcQXR0ZW1wdEFnZW50U3VydmV5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/Agent/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWdlbnRcRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -188,6 +192,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9uaXRvclxUZXN0ZGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/Notpad/Notpad.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90cGFkXE5vdHBhZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/Notpad/UseNotpad.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90cGFkXFVzZU5vdHBhZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/Operation/AttempAssesment.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXEF0dGVtcEFzc2VzbWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -214,6 +226,38 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Projects/QMS_MVC_CORE/Views/Operation/UploadAPR.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BlcmF0aW9uXFVwbG9hZEFQUi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/OutlierManagement/AgentPerformance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3V0bGllck1hbmFnZW1lbnRcQWdlbnRQZXJmb3JtYW5jZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/OutlierManagement/AgentPerformanceLowestScore.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3V0bGllck1hbmFnZW1lbnRcQWdlbnRQZXJmb3JtYW5jZUxvd2VzdFNjb3JlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/OutlierManagement/CallQualityScore.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3V0bGllck1hbmFnZW1lbnRcQ2FsbFF1YWxpdHlTY29yZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/OutlierManagement/Datasource.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3V0bGllck1hbmFnZW1lbnRcRGF0YXNvdXJjZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/OutlierManagement/Identification.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3V0bGllck1hbmFnZW1lbnRcSWRlbnRpZmljYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/OutlierManagement/Lowest_Quartile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3V0bGllck1hbmFnZW1lbnRcTG93ZXN0X1F1YXJ0aWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/OutlierManagement/TransformationAudits.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3V0bGllck1hbmFnZW1lbnRcVHJhbnNmb3JtYXRpb25BdWRpdHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/QMS_MVC_CORE/Views/OutlierManagement/TransformationAuditsIdentification.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3V0bGllck1hbmFnZW1lbnRcVHJhbnNmb3JtYXRpb25BdWRpdHNJZGVudGlmaWNhdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/QMS_MVC_CORE/Views/QAManager/AttempAssesment.cshtml]

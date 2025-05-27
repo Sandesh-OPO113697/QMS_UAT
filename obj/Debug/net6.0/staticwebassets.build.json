@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "NTgdy0yTXj9X3qDqv2KhGBOyIiuJKh78RqE3sMm04f0=",
+  "Hash": "mOTZnBq4hsckq66yC9HaDL7Evop9JI0fAyjSu7h1g5w=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -4000,8 +4000,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "0bd9w9ezah",
-      "Integrity": "nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc=",
+      "Fingerprint": "7aqq3pm4i8",
+      "Integrity": "j07A1Y0/RQMCuE+a+W4yu4COvS6mPWGTOO8scXyC3vA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\SampleFile\\BulKUploadUser.xls"
@@ -19264,7 +19264,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 22 May 2025 09:07:12 GMT"
+          "Value": "Tue, 27 May 2025 05:34:12 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -19301,7 +19301,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 22 May 2025 09:07:12 GMT"
+          "Value": "Tue, 27 May 2025 05:34:12 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -19346,7 +19346,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 22 May 2025 09:07:12 GMT"
+          "Value": "Tue, 27 May 2025 05:34:12 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -19391,7 +19391,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 22 May 2025 09:07:12 GMT"
+          "Value": "Tue, 27 May 2025 05:34:12 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -19570,7 +19570,7 @@
       ]
     },
     {
-      "Route": "SampleFile/BulKUploadUser.0bd9w9ezah.xls",
+      "Route": "SampleFile/BulKUploadUser.7aqq3pm4i8.xls",
       "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\BulKUploadUser.xls",
       "Selectors": [],
       "ResponseHeaders": [
@@ -19580,7 +19580,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "18944"
+          "Value": "21504"
         },
         {
           "Name": "Content-Type",
@@ -19588,11 +19588,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc=\""
+          "Value": "\"j07A1Y0/RQMCuE+a+W4yu4COvS6mPWGTOO8scXyC3vA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 07 May 2025 09:04:14 GMT"
+          "Value": "Thu, 08 May 2025 11:42:18 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -19602,7 +19602,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "0bd9w9ezah"
+          "Value": "7aqq3pm4i8"
         },
         {
           "Name": "label",
@@ -19610,7 +19610,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc="
+          "Value": "sha256-j07A1Y0/RQMCuE+a+W4yu4COvS6mPWGTOO8scXyC3vA="
         }
       ]
     },
@@ -19625,7 +19625,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "18944"
+          "Value": "21504"
         },
         {
           "Name": "Content-Type",
@@ -19633,11 +19633,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc=\""
+          "Value": "\"j07A1Y0/RQMCuE+a+W4yu4COvS6mPWGTOO8scXyC3vA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 07 May 2025 09:04:14 GMT"
+          "Value": "Thu, 08 May 2025 11:42:18 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -19647,7 +19647,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc="
+          "Value": "sha256-j07A1Y0/RQMCuE+a+W4yu4COvS6mPWGTOO8scXyC3vA="
         }
       ]
     },

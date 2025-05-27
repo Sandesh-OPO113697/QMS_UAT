@@ -80,10 +80,13 @@ wwwroot\fonts\feather.woff
 wwwroot\Images\1point1-small-logo.png
 wwwroot\Images\Call_Recording.jpg
 wwwroot\Images\favicon.ico
+wwwroot\Images\icons8-neutral-face-48.png
+wwwroot\Images\icons8-sad-48.png
 wwwroot\Images\image.png
 wwwroot\Images\mainLogo.png
 wwwroot\Images\nagalogo.png
 wwwroot\Images\QMSLOGO.webp
+wwwroot\Images\smiley-face.png
 wwwroot\Images\Tick.png
 wwwroot\Images\user.png
 wwwroot\js\apexcharts.custom.js

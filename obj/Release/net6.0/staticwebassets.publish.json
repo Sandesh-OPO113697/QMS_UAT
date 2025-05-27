@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "7HbE3Sp6ftjdWgWj74FXs3XHkbnrbIlFpJojZxmmGkU=",
+  "Hash": "9N5DzJKdidSoheERN2QplcHYp/AO+fylZdAwvXBwSkc=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -1781,6 +1781,48 @@
       "OriginalItemSpec": "wwwroot\\Images\\favicon.ico"
     },
     {
+      "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-neutral-face-48.png",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "Images/icons8-neutral-face-48#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "2nd5msk8by",
+      "Integrity": "TtrzckV4XeVEubqGxI7w+ysH0993fGzsvcJBvF9GhBA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\icons8-neutral-face-48.png"
+    },
+    {
+      "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-sad-48.png",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "Images/icons8-sad-48#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "78zpmn2tk9",
+      "Integrity": "l3DOv5YYFIwbKyk+S0jqyKpnL1VrzzBpvjgQh5O21bw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\icons8-sad-48.png"
+    },
+    {
       "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\image.png",
       "SourceId": "QMS",
       "SourceType": "Discovered",
@@ -1863,6 +1905,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\QMSLOGO.webp"
+    },
+    {
+      "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\smiley-face.png",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "Images/smiley-face#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "w6gys0g06w",
+      "Integrity": "iN0SqqkWzu6yF4umygbzijKlJtjNdtuREnbJx5LQNd8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\smiley-face.png"
     },
     {
       "Identity": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\Tick.png",
@@ -3937,8 +4000,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "0bd9w9ezah",
-      "Integrity": "nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc=",
+      "Fingerprint": "7aqq3pm4i8",
+      "Integrity": "j07A1Y0/RQMCuE+a+W4yu4COvS6mPWGTOO8scXyC3vA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\SampleFile\\BulKUploadUser.xls"
@@ -10733,6 +10796,170 @@
       ]
     },
     {
+      "Route": "Images/icons8-neutral-face-48.2nd5msk8by.png",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-neutral-face-48.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2246"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"TtrzckV4XeVEubqGxI7w+ysH0993fGzsvcJBvF9GhBA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 08:18:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "2nd5msk8by"
+        },
+        {
+          "Name": "label",
+          "Value": "Images/icons8-neutral-face-48.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-TtrzckV4XeVEubqGxI7w+ysH0993fGzsvcJBvF9GhBA="
+        }
+      ]
+    },
+    {
+      "Route": "Images/icons8-neutral-face-48.png",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-neutral-face-48.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2246"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"TtrzckV4XeVEubqGxI7w+ysH0993fGzsvcJBvF9GhBA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 08:18:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-TtrzckV4XeVEubqGxI7w+ysH0993fGzsvcJBvF9GhBA="
+        }
+      ]
+    },
+    {
+      "Route": "Images/icons8-sad-48.78zpmn2tk9.png",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-sad-48.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1216"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"l3DOv5YYFIwbKyk+S0jqyKpnL1VrzzBpvjgQh5O21bw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 08:17:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "78zpmn2tk9"
+        },
+        {
+          "Name": "label",
+          "Value": "Images/icons8-sad-48.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-l3DOv5YYFIwbKyk+S0jqyKpnL1VrzzBpvjgQh5O21bw="
+        }
+      ]
+    },
+    {
+      "Route": "Images/icons8-sad-48.png",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-sad-48.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1216"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"l3DOv5YYFIwbKyk+S0jqyKpnL1VrzzBpvjgQh5O21bw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 08:17:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-l3DOv5YYFIwbKyk+S0jqyKpnL1VrzzBpvjgQh5O21bw="
+        }
+      ]
+    },
+    {
       "Route": "Images/image.iz8su1tlmv.png",
       "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\image.png",
       "Selectors": [],
@@ -11057,6 +11284,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-9y2BRZfSkbNImCf5RCZbL6EQiQ1Q0IZDV3Pc4c4T0kg="
+        }
+      ]
+    },
+    {
+      "Route": "Images/smiley-face.png",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\smiley-face.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2492"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"iN0SqqkWzu6yF4umygbzijKlJtjNdtuREnbJx5LQNd8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 08:12:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-iN0SqqkWzu6yF4umygbzijKlJtjNdtuREnbJx5LQNd8="
+        }
+      ]
+    },
+    {
+      "Route": "Images/smiley-face.w6gys0g06w.png",
+      "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\smiley-face.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2492"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"iN0SqqkWzu6yF4umygbzijKlJtjNdtuREnbJx5LQNd8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 08:12:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "w6gys0g06w"
+        },
+        {
+          "Name": "label",
+          "Value": "Images/smiley-face.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-iN0SqqkWzu6yF4umygbzijKlJtjNdtuREnbJx5LQNd8="
         }
       ]
     },
@@ -19261,7 +19570,7 @@
       ]
     },
     {
-      "Route": "SampleFile/BulKUploadUser.0bd9w9ezah.xls",
+      "Route": "SampleFile/BulKUploadUser.7aqq3pm4i8.xls",
       "AssetFile": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\BulKUploadUser.xls",
       "Selectors": [],
       "ResponseHeaders": [
@@ -19271,7 +19580,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "18944"
+          "Value": "21504"
         },
         {
           "Name": "Content-Type",
@@ -19279,11 +19588,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc=\""
+          "Value": "\"j07A1Y0/RQMCuE+a+W4yu4COvS6mPWGTOO8scXyC3vA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 07 May 2025 09:04:14 GMT"
+          "Value": "Thu, 08 May 2025 11:42:18 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -19293,7 +19602,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "0bd9w9ezah"
+          "Value": "7aqq3pm4i8"
         },
         {
           "Name": "label",
@@ -19301,7 +19610,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc="
+          "Value": "sha256-j07A1Y0/RQMCuE+a+W4yu4COvS6mPWGTOO8scXyC3vA="
         }
       ]
     },
@@ -19316,7 +19625,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "18944"
+          "Value": "21504"
         },
         {
           "Name": "Content-Type",
@@ -19324,11 +19633,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc=\""
+          "Value": "\"j07A1Y0/RQMCuE+a+W4yu4COvS6mPWGTOO8scXyC3vA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 07 May 2025 09:04:14 GMT"
+          "Value": "Thu, 08 May 2025 11:42:18 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -19338,7 +19647,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-nC/ODpdG++k24ZYyvyrvLrZkws8lzg9UNhAvq81ANGc="
+          "Value": "sha256-j07A1Y0/RQMCuE+a+W4yu4COvS6mPWGTOO8scXyC3vA="
         }
       ]
     },
