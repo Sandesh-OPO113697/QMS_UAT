@@ -8,6 +8,7 @@ using QMS.Models;
 using System;
 using System.Data;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace QMS.Controllers
 {
@@ -239,6 +240,9 @@ namespace QMS.Controllers
                 List<DisputeCallfeedbackModel> List = await dl_qa.DisputeAgentFeedback();
                 List<ZTcaseModel> ZTlist = await dl_qa.ZtcaseShow();
                 List<ReviewDataModel> coutingList = await dl_qa.GetCaoutingList();
+
+                List<AgentToQASurveyModel> AgentToQASurveylist = await dl_qa.AgentToQASurveylist();
+
                 List<AssesmentModel> assmentonl = assment.AsEnumerable().Select(row => new AssesmentModel
                 {
                     TestID = row.Field<int>("TestID"),
@@ -256,7 +260,8 @@ namespace QMS.Controllers
                     DisputeList = List,
                     ZTcaseList = ZTlist,
                     ReviewDataModel = coutingList,
-                    assmentonl = assmentonl
+                    assmentonl = assmentonl,
+                    AgentToQASurvey= AgentToQASurveylist
                 };
 
                 return View(viewModel);
@@ -267,6 +272,8 @@ namespace QMS.Controllers
             }
            
         }
+
+
         [HttpPost]
         public async Task<ActionResult> SubmitTest(AttemptTestViewModel model)
         {
@@ -497,6 +504,43 @@ namespace QMS.Controllers
                 string TransactionID = TempData["TtransactionDisputeID"].ToString();
                 await dl_qa.SubmiteQaManagerReject(comment, ZTHistory, TransactionID);
                 return Json(new { success = true, message = "QA Manager Reject Successfully...." });
+            }
+
+        }
+
+
+      
+
+
+        public async Task<IActionResult> AgentSurveyView(string TransactionID)
+        {
+            TempData["TtransactionID"] = TransactionID;
+            try
+            {
+                List<AgentToQASurveyModel> AgentToQASurveylists = await dl_qa.AgentToQASurveylistView(TransactionID);
+
+                ViewBag.Transaction_ID = TransactionID;
+
+                if (AgentToQASurveylists?.Any() == true)
+                {
+                    ViewBag.AgentComment = AgentToQASurveylists.First().AgentComment;
+                }
+                else
+                {
+                    ViewBag.AgentComment = "No comments available."; 
+                }
+
+                var viewModel = new DisputeFeedbackViewModel
+                {
+                 
+                    AgentToQASurvey = AgentToQASurveylists
+                };
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                return View();
             }
 
         }

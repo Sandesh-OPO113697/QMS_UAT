@@ -51,6 +51,52 @@
         </table>
     </div>
 
+
+
+    <div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">Agent To QA Survey</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                       <th>Transaction_ID</th>
+                       <th>AgentID</th>
+                       
+                </tr>
+            </thead>
+            <tbody>
+                    @if (Model.AgentToQASurvey != null && Model.AgentToQASurvey.Any())
+                {
+                        @foreach (var item in Model.AgentToQASurvey)
+                    {
+                        <tr>
+                            <td>@item.Transaction_ID</td>
+                            <td>@item.AgentID</td>
+                             
+                                <td>
+                                    <a href="/QAManager/AgentSurveyView?TransactionID=@item.Transaction_ID" class="btn btn-primary btn-sm">
+                                        View
+                                    </a>
+                                </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No pending feedback.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+
+
+
     <div class="card shadow mb-4">
         <div class="card-header">
             <strong class="card-title"> Online assessment</strong>

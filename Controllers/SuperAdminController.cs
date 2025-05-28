@@ -21,7 +21,10 @@ namespace QMS.Controllers
 
         public async Task<ActionResult> InsertAccount(string AccountName ,string AccountPrefix , string AuthenticationType, string RecApiList, string RecApiConnID)
         {
+            string AccountNames = AccountName.Replace(" ", "");  
+
             string prefix = AccountPrefix?.ToUpper();
+
             if (string.IsNullOrEmpty(prefix))
             {
                 TempData["Validation"] = "Account prefix cannot be empty.";
@@ -41,7 +44,7 @@ namespace QMS.Controllers
                 TempData["Validation"] = "Account prefix must contain only alphanumeric characters.";
                 return RedirectToAction("CreateAccount");
             }
-            if (string.IsNullOrEmpty(AccountName) || AuthenticationType =="" || AuthenticationType == null)
+            if (string.IsNullOrEmpty(AccountNames) || AuthenticationType =="" || AuthenticationType == null)
             {
                 TempData["Validation"] = "Account name and AuthenticationType cannot be empty.";
                 return RedirectToAction("CreateAccount");
@@ -57,7 +60,7 @@ namespace QMS.Controllers
                 return RedirectToAction("CreateAccount");
             }
 
-            bool Result = await _super.ExecuteQueryToCheckPrefixAsync(AccountPrefix , AccountName);
+            bool Result = await _super.ExecuteQueryToCheckPrefixAsync(AccountPrefix , AccountNames);
             if(Result==true)
             {
                 TempData["Validation"] = "Prrfix Or Account Name Is Already Available Please try anather ";
@@ -65,8 +68,8 @@ namespace QMS.Controllers
             }
             else
             {
-                await _super.InsertAccountAsync(AccountName, AccountPrefix, AuthenticationType ,  RecApiList, RecApiConnID);
-                await _super.CreateAccountByScriptAsync(AccountName);
+                await _super.InsertAccountAsync(AccountNames, AccountPrefix, AuthenticationType ,  RecApiList, RecApiConnID);
+                await _super.CreateAccountByScriptAsync(AccountNames);
                 TempData["Validation"] = "Account Is Created Sucessfully !.";
                 return RedirectToAction("CreateAccount");
 

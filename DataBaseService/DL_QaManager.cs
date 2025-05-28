@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using NPOI.SS.Formula.Functions;
 using Org.BouncyCastle.Tsp;
 using NPOI.POIFS.Crypt.Dsig;
+using System.Transactions;
 
 namespace QMS.DataBaseService
 {
@@ -448,15 +449,48 @@ namespace QMS.DataBaseService
 
             }
             string Email = dt2.Rows[0]["Email"].ToString();
-            await SendEmailAsync(Email, "Your Score Is Recalculated");
+            await SendEmailAsync(Email, "Your Score Is Recalculated", TransactionID);
         }
-        public async Task<bool> SendEmailAsync(string recipientEmails, string Massage)
+        public async Task<bool> SendEmailAsync(string recipientEmails, string Massage,string TransactionID)
         {
             string mailHost = "192.168.0.122";
             int mailPort = 587;
             string mailUserId = "reports@1point1.in";
             string mailPassword = "Pass@1234";
             string mailFrom = "reports@1point1.in";
+            string Process = "";
+            string Agent_Name = "";
+            string Audit_Type = "";
+            string Agent_Comment = "";
+            string CQ_Score = "";
+            string DisputerName = "";
+            string Remarks = "";
+            string TLname = "";
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("usp_GetCallAuditDetailsByTransactionID", conn))
+                {
+                    DataTable dt2 = new DataTable();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+                    cmd.Parameters.AddWithValue("@Mode", "GetAgentDispute");
+                    cmd.Parameters.AddWithValue("@ID", TransactionID);
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    await Task.Run(() => adpt.Fill(dt2));
+
+                    Process = dt2.Rows[0]["Process"].ToString();
+                    Agent_Name = dt2.Rows[0]["Agent_Name"].ToString();
+                    Audit_Type = dt2.Rows[0]["Audit_Type"].ToString();
+                    Agent_Comment = dt2.Rows[0]["Agent_Comment"].ToString();
+                    CQ_Score = dt2.Rows[0]["CQ_Score"].ToString();
+                    DisputerName = dt2.Rows[0]["Createby"].ToString();
+                    Remarks = dt2.Rows[0]["Remarks"].ToString();
+                    TLname = dt2.Rows[0]["TLName"].ToString();
+                }
+
+
+            }
 
             try
             {
@@ -466,10 +500,26 @@ namespace QMS.DataBaseService
                 // Add recipient
                 emailMessage.To.Add(new MailboxAddress("", recipientEmails));
 
-                emailMessage.Subject = "Dispute feedBack Massage";
+                emailMessage.Subject = "Dispute calibrated reply";
                 var bodyBuilder = new BodyBuilder
                 {
-                    TextBody = $"Dear Agent,\n\nAgent Dispute is: {Massage}\n\nRegards,\nApplication Team"
+                    TextBody = $@"
+                                    Dear {Agent_Name},
+                                    
+                                    The Super-Auditor replies the dispute.
+                                    
+                                    Details:-
+                                    Transaction ID       :  {TransactionID}
+                                    Agent Name           :  {Agent_Name}
+                                    Process              :  {Process}
+                                    Auditor              :  {Audit_Type}
+                                    Audit Score          :  {CQ_Score}
+                                    Overall Comments     :  {Remarks}
+                                    
+                              
+                                    
+                                    Regards,
+                                    Your  Quality Team"
                 };
                 emailMessage.Body = bodyBuilder.ToMessageBody();
 
@@ -688,6 +738,109 @@ namespace QMS.DataBaseService
                         TransactionDate = row["TransactionDate"]?.ToString(),
                         ZTClassification = row["ZTClassification"]?.ToString(),
                         TransactionID = row["TransactionID"]?.ToString(),
+                    };
+
+                    list.Add(model);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return list;
+        }
+
+
+        public async Task<List<AgentToQASurveyModel>> AgentToQASurveylist()
+        {
+            DataTable dt = new DataTable();
+            List<AgentToQASurveyModel> list = new List<AgentToQASurveyModel>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("GetAgentSurveyResponses", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                       
+                        cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    AgentToQASurveyModel model = new AgentToQASurveyModel
+                    {
+
+
+                        Transaction_ID = row["Transaction_ID"]?.ToString(),
+                        AgentID = row["AgentID"]?.ToString(),
+                      
+                      
+                    };
+
+                    list.Add(model);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return list;
+        }
+
+
+
+        public async Task<List<AgentToQASurveyModel>> AgentToQASurveylistView(string TransactionID)
+        {
+            DataTable dt = new DataTable();
+            List<AgentToQASurveyModel> list = new List<AgentToQASurveyModel>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("GetAgentSurveyResponsesview", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+
+                        cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+              
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    AgentToQASurveyModel model = new AgentToQASurveyModel
+                    {
+
+
+                        Transaction_ID = row["Transaction_ID"]?.ToString(),
+                        AgentID = row["AgentID"]?.ToString(),
+                        QuestionText = row["QuestionText"]?.ToString(),
+                        Rating = row["Rating"]?.ToString(),
+                        AgentComment = row["AgentComment"]?.ToString(),
+                        AgentReponseDate = row["AgentReponseDate"]?.ToString()
+
+                       
+
                     };
 
                     list.Add(model);

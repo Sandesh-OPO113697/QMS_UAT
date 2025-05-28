@@ -1,771 +1,771 @@
 {
   "Files": [
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\QMS.bundle.scp.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\QMS.bundle.scp.css",
       "PackagePath": "staticwebassets\\QMS.i1s19o2acm.bundle.scp.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Calculator.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Calculator.css",
       "PackagePath": "staticwebassets\\Calculator.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\1point1-small-logo.png",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\1point1-small-logo.png",
       "PackagePath": "staticwebassets\\Images\\1point1-small-logo.png"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\Call_Recording.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\Call_Recording.jpg",
       "PackagePath": "staticwebassets\\Images\\Call_Recording.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\QMSLOGO.webp",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\QMSLOGO.webp",
       "PackagePath": "staticwebassets\\Images\\QMSLOGO.webp"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\Tick.png",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\Tick.png",
       "PackagePath": "staticwebassets\\Images\\Tick.png"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\favicon.ico",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\favicon.ico",
       "PackagePath": "staticwebassets\\Images\\favicon.ico"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-neutral-face-48.png",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-neutral-face-48.png",
       "PackagePath": "staticwebassets\\Images\\icons8-neutral-face-48.png"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-sad-48.png",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\icons8-sad-48.png",
       "PackagePath": "staticwebassets\\Images\\icons8-sad-48.png"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\image.png",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\image.png",
       "PackagePath": "staticwebassets\\Images\\image.png"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\mainLogo.png",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\mainLogo.png",
       "PackagePath": "staticwebassets\\Images\\mainLogo.png"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\nagalogo.png",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\nagalogo.png",
       "PackagePath": "staticwebassets\\Images\\nagalogo.png"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\smiley-face.png",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\smiley-face.png",
       "PackagePath": "staticwebassets\\Images\\smiley-face.png"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\Images\\user.png",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\Images\\user.png",
       "PackagePath": "staticwebassets\\Images\\user.png"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\APRNEW.xls",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\SampleFile\\APRNEW.xls",
       "PackagePath": "staticwebassets\\SampleFile\\APRNEW.xls"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\AgentUpload.xls",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\SampleFile\\AgentUpload.xls",
       "PackagePath": "staticwebassets\\SampleFile\\AgentUpload.xls"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\BulKUploadUser.xls",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\SampleFile\\BulKUploadUser.xls",
       "PackagePath": "staticwebassets\\SampleFile\\BulKUploadUser.xls"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadCategory.xls",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadCategory.xls",
       "PackagePath": "staticwebassets\\SampleFile\\UploadCategory.xls"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadMatrix.xls",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\SampleFile\\UploadMatrix.xls",
       "PackagePath": "staticwebassets\\SampleFile\\UploadMatrix.xls"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\SampleFile\\dispo.xls",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\SampleFile\\dispo.xls",
       "PackagePath": "staticwebassets\\SampleFile\\dispo.xls"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.min.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.min.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.rtl.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.min.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.rtl.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-grid.rtl.min.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.min.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.min.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.rtl.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.rtl.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.min.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.rtl.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-reboot.rtl.min.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.min.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.min.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.rtl.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.rtl.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.min.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.rtl.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap-utilities.rtl.min.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.rtl.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.rtl.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.min.css",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.rtl.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\BOOT\\css\\bootstrap.rtl.min.css.map",
       "PackagePath": "staticwebassets\\assets\\BOOT\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-1.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-1.jpg",
       "PackagePath": "staticwebassets\\assets\\avatars\\face-1.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-2.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-2.jpg",
       "PackagePath": "staticwebassets\\assets\\avatars\\face-2.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-3.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-3.jpg",
       "PackagePath": "staticwebassets\\assets\\avatars\\face-3.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-4.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-4.jpg",
       "PackagePath": "staticwebassets\\assets\\avatars\\face-4.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-5.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-5.jpg",
       "PackagePath": "staticwebassets\\assets\\avatars\\face-5.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-6.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-6.jpg",
       "PackagePath": "staticwebassets\\assets\\avatars\\face-6.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-7.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-7.jpg",
       "PackagePath": "staticwebassets\\assets\\avatars\\face-7.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-8.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\avatars\\face-8.jpg",
       "PackagePath": "staticwebassets\\assets\\avatars\\face-8.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\images\\logo.svg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\images\\logo.svg",
       "PackagePath": "staticwebassets\\assets\\images\\logo.svg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\images\\qrcode.svg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\images\\qrcode.svg",
       "PackagePath": "staticwebassets\\assets\\images\\qrcode.svg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\products\\p1.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\products\\p1.jpg",
       "PackagePath": "staticwebassets\\assets\\products\\p1.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\products\\p2.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\products\\p2.jpg",
       "PackagePath": "staticwebassets\\assets\\products\\p2.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\products\\p3.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\products\\p3.jpg",
       "PackagePath": "staticwebassets\\assets\\products\\p3.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\assets\\products\\p4.jpg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\assets\\products\\p4.jpg",
       "PackagePath": "staticwebassets\\assets\\products\\p4.jpg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\apexcharts.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\apexcharts.css",
       "PackagePath": "staticwebassets\\css\\apexcharts.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\app-dark.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\app-dark.css",
       "PackagePath": "staticwebassets\\css\\app-dark.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\app-light.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\app-light.css",
       "PackagePath": "staticwebassets\\css\\app-light.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\app-rtl.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\app-rtl.css",
       "PackagePath": "staticwebassets\\css\\app-rtl.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap-datepicker.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap-datepicker.css",
       "PackagePath": "staticwebassets\\css\\bootstrap-datepicker.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap.css",
       "PackagePath": "staticwebassets\\css\\bootstrap.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap.css.map",
       "PackagePath": "staticwebassets\\css\\bootstrap.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\css\\bootstrap.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap.scss",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\bootstrap.scss",
       "PackagePath": "staticwebassets\\css\\bootstrap.scss"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\dataTables.bootstrap4.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\dataTables.bootstrap4.css",
       "PackagePath": "staticwebassets\\css\\dataTables.bootstrap4.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\daterangepicker.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\daterangepicker.css",
       "PackagePath": "staticwebassets\\css\\daterangepicker.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\dropzone.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\dropzone.css",
       "PackagePath": "staticwebassets\\css\\dropzone.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\dropzone.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\dropzone.min.css",
       "PackagePath": "staticwebassets\\css\\dropzone.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\feather.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\feather.css",
       "PackagePath": "staticwebassets\\css\\feather.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\fullcalendar.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\fullcalendar.css",
       "PackagePath": "staticwebassets\\css\\fullcalendar.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\jquery.steps.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\jquery.steps.css",
       "PackagePath": "staticwebassets\\css\\jquery.steps.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\jquery.timepicker.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\jquery.timepicker.css",
       "PackagePath": "staticwebassets\\css\\jquery.timepicker.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\perfect-scrollbar.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\perfect-scrollbar.css",
       "PackagePath": "staticwebassets\\css\\perfect-scrollbar.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\quill.snow.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\quill.snow.css",
       "PackagePath": "staticwebassets\\css\\quill.snow.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\select2-bootstrap4.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\select2-bootstrap4.css",
       "PackagePath": "staticwebassets\\css\\select2-bootstrap4.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\select2.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\select2.css",
       "PackagePath": "staticwebassets\\css\\select2.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\simplebar.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\simplebar.css",
       "PackagePath": "staticwebassets\\css\\simplebar.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\site.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\css\\uppy.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\css\\uppy.min.css",
       "PackagePath": "staticwebassets\\css\\uppy.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\data\\contacts.json",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\data\\contacts.json",
       "PackagePath": "staticwebassets\\data\\contacts.json"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\data\\eu.topo.json",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\data\\eu.topo.json",
       "PackagePath": "staticwebassets\\data\\eu.topo.json"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\favicon.ico",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\fonts\\feather.eot",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\fonts\\feather.eot",
       "PackagePath": "staticwebassets\\fonts\\feather.eot"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\fonts\\feather.svg",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\fonts\\feather.svg",
       "PackagePath": "staticwebassets\\fonts\\feather.svg"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\fonts\\feather.ttf",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\fonts\\feather.ttf",
       "PackagePath": "staticwebassets\\fonts\\feather.ttf"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\fonts\\feather.woff",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\fonts\\feather.woff",
       "PackagePath": "staticwebassets\\fonts\\feather.woff"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Chart.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\Chart.min.js",
       "PackagePath": "staticwebassets\\js\\Chart.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\FetureMap.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\FetureMap.js",
       "PackagePath": "staticwebassets\\js\\FetureMap.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\Notification.js",
       "PackagePath": "staticwebassets\\js\\Notification.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\apexcharts.custom.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\apexcharts.custom.js",
       "PackagePath": "staticwebassets\\js\\apexcharts.custom.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\apexcharts.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\apexcharts.min.js",
       "PackagePath": "staticwebassets\\js\\apexcharts.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\apps.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\apps.js",
       "PackagePath": "staticwebassets\\js\\apps.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\bootstrap-datepicker.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\bootstrap-datepicker.min.js",
       "PackagePath": "staticwebassets\\js\\bootstrap-datepicker.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\bootstrap.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\bootstrap.min.js",
       "PackagePath": "staticwebassets\\js\\bootstrap.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\config.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\config.js",
       "PackagePath": "staticwebassets\\js\\config.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\d3.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\d3.min.js",
       "PackagePath": "staticwebassets\\js\\d3.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\dataTables.bootstrap4.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\dataTables.bootstrap4.min.js",
       "PackagePath": "staticwebassets\\js\\dataTables.bootstrap4.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\datamaps-zoomto.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\datamaps-zoomto.js",
       "PackagePath": "staticwebassets\\js\\datamaps-zoomto.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\datamaps.all.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\datamaps.all.min.js",
       "PackagePath": "staticwebassets\\js\\datamaps.all.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\datamaps.custom.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\datamaps.custom.js",
       "PackagePath": "staticwebassets\\js\\datamaps.custom.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\daterangepicker.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\daterangepicker.js",
       "PackagePath": "staticwebassets\\js\\daterangepicker.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\dropzone.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\dropzone.min.js",
       "PackagePath": "staticwebassets\\js\\dropzone.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\fullcalendar.custom.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\fullcalendar.custom.js",
       "PackagePath": "staticwebassets\\js\\fullcalendar.custom.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\fullcalendar.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\fullcalendar.js",
       "PackagePath": "staticwebassets\\js\\fullcalendar.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\gauge.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\gauge.min.js",
       "PackagePath": "staticwebassets\\js\\gauge.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\jquery.dataTables.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\jquery.dataTables.min.js",
       "PackagePath": "staticwebassets\\js\\jquery.dataTables.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\jquery.mask.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\jquery.mask.min.js",
       "PackagePath": "staticwebassets\\js\\jquery.mask.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\jquery.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\jquery.min.js",
       "PackagePath": "staticwebassets\\js\\jquery.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\jquery.sparkline.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\jquery.sparkline.min.js",
       "PackagePath": "staticwebassets\\js\\jquery.sparkline.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\jquery.steps.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\jquery.steps.min.js",
       "PackagePath": "staticwebassets\\js\\jquery.steps.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\jquery.stickOnScroll.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\jquery.stickOnScroll.js",
       "PackagePath": "staticwebassets\\js\\jquery.stickOnScroll.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\jquery.timepicker.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\jquery.timepicker.js",
       "PackagePath": "staticwebassets\\js\\jquery.timepicker.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\jquery.validate.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\jquery.validate.min.js",
       "PackagePath": "staticwebassets\\js\\jquery.validate.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\moment.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\moment.min.js",
       "PackagePath": "staticwebassets\\js\\moment.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\perfect-scrollbar.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\perfect-scrollbar.min.js",
       "PackagePath": "staticwebassets\\js\\perfect-scrollbar.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\popper.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\popper.min.js",
       "PackagePath": "staticwebassets\\js\\popper.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\quill.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\quill.min.js",
       "PackagePath": "staticwebassets\\js\\quill.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\select2.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\select2.min.js",
       "PackagePath": "staticwebassets\\js\\select2.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\simplebar.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\simplebar.min.js",
       "PackagePath": "staticwebassets\\js\\simplebar.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\tinycolor-min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\tinycolor-min.js",
       "PackagePath": "staticwebassets\\js\\tinycolor-min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\topojson.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\topojson.min.js",
       "PackagePath": "staticwebassets\\js\\topojson.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\uppy.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\uppy.min.js",
       "PackagePath": "staticwebassets\\js\\uppy.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\js\\xlsx.full.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\js\\xlsx.full.min.js",
       "PackagePath": "staticwebassets\\js\\xlsx.full.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery\\LICENSE.txt",
       "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
-      "Id": "D:\\Projects\\QMS_MVC_CORE\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "Id": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS DEV\\QMS_CODE_LATEST\\QMS_MVC_CORE\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {

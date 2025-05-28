@@ -15,6 +15,11 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Drawing;
 using Org.BouncyCastle.Utilities;
+using MailKit.Security;
+using MimeKit;
+using System.Net;
+using System.Diagnostics;
+using System.Transactions;
 
 namespace QMS.DataBaseService
 {
@@ -390,8 +395,31 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@InsertDate", DateTime.Now);
                         cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
                         await    cmd.ExecuteNonQueryAsync();
-                        return 1;
 
+
+                       
+
+                       
+
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("AgentSurvey", conn))
+                    {
+                        DataTable dt2 = new DataTable();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Mode", "GetAgentmasterEmailID");
+                        cmd.Parameters.AddWithValue("@UserName", model.AgentID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt2));
+
+                        string Email = dt2.Rows[0]["EmailID"].ToString();
+
+                        string AgentName  = dt2.Rows[0]["EmpCode"].ToString();
+
+                        await SendEmailAsync(Email,AgentName, model.Transaction_ID, model.AuditID, model.ProgramID, UserInfo.UserName, model.CQ_Scrore,model.Remarks);
+
+                        return 1;
                     }
                 }
 
@@ -401,6 +429,94 @@ namespace QMS.DataBaseService
                 return 0;
             }
         }
+
+        public async Task<bool> SendEmailAsync(string recipientEmails, string AgentName, string Transaction_ID, string AuditID, string ProgramID, string UserName, string CQ_Scrore, string Remarks)
+        {
+            String Audit_Type = "";
+            string Process = "";
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("GetMailDetails", conn))
+                {
+                    DataTable dt2 = new DataTable();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+                    cmd.Parameters.AddWithValue("@Operation", "GetAuditIDType");
+                    cmd.Parameters.AddWithValue("@ID", AuditID);
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    await Task.Run(() => adpt.Fill(dt2));
+
+                    Audit_Type = dt2.Rows[0]["Audit_Type"].ToString();
+                }
+
+                using (SqlCommand cmd = new SqlCommand("GetMailDetails", conn))
+                {
+                    DataTable dt2 = new DataTable();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+                    cmd.Parameters.AddWithValue("@Operation", "GetEvalProcess");
+                    cmd.Parameters.AddWithValue("@ID", ProgramID);
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    await Task.Run(() => adpt.Fill(dt2));
+
+                    Process = dt2.Rows[0]["Process"].ToString();
+                }
+            }
+        
+
+            string mailHost = "192.168.0.122";
+            int mailPort = 587;
+            string mailUserId = "reports@1point1.in";
+            string mailPassword = "Pass@1234";
+            string mailFrom = "reports@1point1.in";
+            string Massage = "One of your recent customer interactions has been audited by the Quality Team.";
+            try
+            {
+                var emailMessage = new MimeMessage();
+                emailMessage.From.Add(new MailboxAddress("QMS_EMAIL", mailFrom));
+
+                // Add recipient
+                emailMessage.To.Add(new MailboxAddress("", recipientEmails));
+
+                emailMessage.Subject = "Monitor audits the transaction";
+                var bodyBuilder = new BodyBuilder
+                {
+                     TextBody = $@"
+                           Dear {AgentName},
+                           
+                           One of your recent customer interactions has been audited by the Quality Team.
+                           Details:-
+                           Audited Transaction ID:    {Transaction_ID}
+                           Interaction Type:          {Audit_Type}
+                           Process:                   {Process}
+                           Auditor:                   {UserName}
+                           Audit Score:               {CQ_Scrore}
+                           
+                           Overall Comments:
+                           {Remarks}
+                           
+                           Regards,  
+                           Your Quality Team"
+                                           };
+                emailMessage.Body = bodyBuilder.ToMessageBody();
+
+                using var client = new MailKit.Net.Smtp.SmtpClient();
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+
+                await client.ConnectAsync(mailHost, mailPort, SecureSocketOptions.StartTls);
+                await client.AuthenticateAsync(mailUserId, mailPassword);
+                await client.SendAsync(emailMessage);
+                await client.DisconnectAsync(true);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public async Task<DataSet> GetRCAVAluesDroppdawn()
         {
             DataSet dt = new DataSet();

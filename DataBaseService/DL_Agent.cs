@@ -8,6 +8,9 @@ using System.Net;
 using MailKit.Security;
 using MimeKit;
 using static System.Net.WebRequestMethods;
+using System.Diagnostics;
+using System.Transactions;
+using System;
 
 namespace QMS.DataBaseService
 {
@@ -497,7 +500,7 @@ namespace QMS.DataBaseService
 
             List<string> emailids = dt.AsEnumerable().Select(row => row["Emails"].ToString()).ToList();
             string message = "This Agent Is Dispiute this Feedback Treansaction ID : " + TransactionID +" Agent Name : " + UserInfo.UserName;
-            bool isSent =  await SendEmailAsync(emailids, message);
+            bool isSent =  await SendEmailAsync(emailids, message, TransactionID);
             try
             {
                 using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
@@ -521,13 +524,49 @@ namespace QMS.DataBaseService
             }
 
         }
-        public async Task<bool> SendEmailAsync(List<string> recipientEmails, string Massage)
+        public async Task<bool> SendEmailAsync(List<string> recipientEmails, string Massage,string TransactionID)
         {
             string mailHost = "192.168.0.122";
             int mailPort = 587;
             string mailUserId = "reports@1point1.in";
             string mailPassword = "Pass@1234";
             string mailFrom = "reports@1point1.in";
+            string Process = "";
+            string Agent_Name = "";
+            string Audit_Type = "";
+            string Agent_Comment = "";
+            string CQ_Score = "";
+            string DisputerName = "";
+            string Remarks = "";
+            string TLname  = "";
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand("usp_GetCallAuditDetailsByTransactionID", conn))
+                {
+                    DataTable dt2 = new DataTable();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+                    cmd.Parameters.AddWithValue("@Mode", "GetAgentDispute");
+                    cmd.Parameters.AddWithValue("@ID", TransactionID);
+                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                    await Task.Run(() => adpt.Fill(dt2));
+
+                    Process = dt2.Rows[0]["Process"].ToString();
+                    Agent_Name = dt2.Rows[0]["Agent_Name"].ToString();
+                    Audit_Type = dt2.Rows[0]["Audit_Type"].ToString();
+                    Agent_Comment = dt2.Rows[0]["Agent_Comment"].ToString();
+                    CQ_Score = dt2.Rows[0]["CQ_Score"].ToString();
+                    DisputerName = dt2.Rows[0]["Createby"].ToString();
+                    Remarks = dt2.Rows[0]["Remarks"].ToString();
+                    TLname = dt2.Rows[0]["TLName"].ToString();
+                }
+
+               
+            }
+
+
+
 
             try
             {
@@ -543,7 +582,29 @@ namespace QMS.DataBaseService
                 emailMessage.Subject = "Dispute feedBack Massage";
                 var bodyBuilder = new BodyBuilder
                 {
-                    TextBody = $"Dear TL/Manager,\n\nAgent Dispute is: {Massage}\n\nRegards,\nApplication Team"
+                    //TextBody = $"Dear TL/Manager,\n\nAgent Dispute is: {Massage}\n\nRegards,\nApplication Team"
+
+                    TextBody = $@"
+                                    Dear {TLname},
+                                    
+                                    You have received a dispute for the below-mentioned interaction.
+                                    
+                                    Details:-
+                                    Transaction ID       :  {TransactionID}
+                                    Agent Name           :  {Agent_Name}
+                                    Process              :  {Process}
+                                    Auditor              :  {Audit_Type}
+                                    Audit Score          :  {CQ_Score}
+                                    Overall Comments     :  {Remarks}
+                                    Disputer Name        :  {DisputerName}
+                                    Comments on Request for Re-evaluation:
+                                    {Agent_Comment}
+                                    
+                                    Regards,
+                                    Your QMS Team"
+
+
+
                 };
                 emailMessage.Body = bodyBuilder.ToMessageBody();
 

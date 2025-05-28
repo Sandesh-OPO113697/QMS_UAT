@@ -94,7 +94,7 @@
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label for="AccountName">Enter Account Name  </label> <span style="color:red">*</span>
-                            <input type="text" required id="AccountName" name="AccountName" class="form-control" placeholder="Account Name" />
+                            <input type="text" required id="AccountName" name="AccountName" class="form-control" placeholder="Account Name" onkeypress="return isCharOnly(event)"/>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -143,6 +143,20 @@
 
 
 <script src="~/js/jquery.min.js"></script>
+
+<script>
+    function isCharOnly(evt) {
+        var charCode = evt.which || evt.keyCode;
+        // Allow: a-z (65-90, 97-122), space (32), backspace (8)
+        if ((charCode >= 65 && charCode <= 90) ||
+            (charCode >= 97 && charCode <= 122) ||
+            charCode === 32 ||
+            charCode === 8) {
+            return true;
+        }
+        return false;
+    }
+</script>
 <script>
     function validateForm() {
         const prefix = document.getElementById("AccountPrefix").value.trim();
