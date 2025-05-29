@@ -14,16 +14,18 @@ namespace QMS.DataBaseService
         private readonly string _con;
         private readonly DL_Encrpt _enc;
         private readonly HttpContext _httpContext;
-
-        public DLConnection(IConfiguration configuration, DL_Encrpt dL_Encrpt, IHttpContextAccessor httpContextAccessor)
+        private readonly UserInfoManager _userInfoManager;
+        public DLConnection(IConfiguration configuration, DL_Encrpt dL_Encrpt, IHttpContextAccessor httpContextAccessor, UserInfoManager userInfoManager)
         {
             _con = configuration.GetConnectionString("Master_Con");
             _enc = dL_Encrpt;
             _httpContext = httpContextAccessor.HttpContext; // Save full context
+            _userInfoManager = userInfoManager;
         }
 
         public async Task<string> GetDynStrByAccountAsync(string AccountID)
         {
+           
             string query = "Get_Accountdetails";
             string connString = string.Empty;
 
@@ -54,7 +56,8 @@ namespace QMS.DataBaseService
                                                    accountUserId,
                                                    accountDbPassword);
                         _httpContext.Session.SetString("DnyconSession", connString);
-                        UserInfo.Dnycon = connString;
+                        _userInfoManager.Dnycon = connString;
+
                     }
                 }
             }
@@ -105,7 +108,7 @@ namespace QMS.DataBaseService
                                 accountDbPassword
                             );
                             _httpContext.Session.SetString("DnyconSession", connString);
-                            UserInfo.Dnycon = connString;
+                            _userInfoManager.Dnycon = connString;
                         }
                     }
                 }

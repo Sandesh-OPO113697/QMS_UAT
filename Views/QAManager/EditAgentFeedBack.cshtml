@@ -22,10 +22,9 @@
                     <th>Section Name</th>
                     <th>QA Rating</th>
                     <th>Scorable</th>
-                    <th>Score</th> 
-                    <th>Fatal</th>
+                    <th>Score</th>
                     <th>Comments Section</th>
-
+                    <th>Fatal</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,11 +36,13 @@
                         <td>@item.SectionName</td>
 
                         <td>
+                           
+
                             <select class="qa-rating form-control">
                                 <option value="">Select Rating</option>
                                 @foreach (var rating in Model.filteredRatingList)
                                 {
-                                    <option value="@rating.Value" selected="@(rating.Text == item.QA_rating.ToString() ? "selected" : null)">
+                                    <option value="@rating.Value" selected="@(rating.Text == item.QA_rating?.ToString() ? "selected" : null)">
                                         @rating.Text
                                     </option>
                                 }
@@ -49,41 +50,24 @@
                         </td>
 
                         <td class="scorable">@item.Scorable</td>
+                        <td class="score-col" data-original-score="@item.Weightage">@item.Weightage</td>
 
-                        <!-- This is the combined Score column -->
-                        <td class="score-col" data-weightage="@item.Weightage" data-final-score="0">@item.Weightage</td>
-
+               
+                        <td>
+                            <input type="text" class="form-control" id="Comments_Section" placeholder="Enter Comments Section" value="@item.Commentssection" />
+                        </td>
 
                         <td>
-                            <select class="qa-Fatal form-control">
+                            <select class="fatal-select form-control">
                                 <option value="">Select Fatal</option>
-                                @if (item.Fatal.Trim() == "Yes")
-                                {
-                                    <option value="Yes" selected>Yes</option>
-                                }
-                                else
-                                {
-                                    <option value="Yes">Yes</option>
-                                }
-                                @if (item.Fatal.Trim() == "No")
-                                {
-                                    <option value="No" selected>No</option>
-                                }
-                                else
-                                {
-                                    <option value="No">No</option>
-                                }
+                                <option value="Yes" selected="@(item.Fatal?.Trim() == "Yes" ? "selected" : null)">Yes</option>
+                                <option value="No" selected="@(item.Fatal?.Trim() == "No" ? "selected" : null)">No</option>
                             </select>
                         </td>
-
-                        <td>
-                            <input type="text" class="form-control" placeholder="Enter Comments" value="@item.Commentssection">
-                        </td>
-
-
                     </tr>
                 }
 
+                <!-- Footer Row -->
                 <tr>
                     <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
                     <td id="totalScore" class="font-weight-bold">0</td>
@@ -91,6 +75,7 @@
                 </tr>
             </tbody>
         </table>
+
     </div>
 </div>
    
@@ -150,51 +135,52 @@
     function InsertSectionAudit() {
         var isValid = true;
         var gridData = [];
+    $("#sectionGrid tbody tr:not(:last-child)").each(function () {
+        var $row = $(this);
+        var category = $row.find("td:eq(0)").text().trim();
+        var level = $row.find("td:eq(1)").text().trim();
+        var sectionName = $row.find("td:eq(2)").text().trim();
+        var qaRating = $row.find(".qa-rating").val();
+        var scorable = $row.find("td:eq(4)").text().trim();
+        var score = $row.find("td:eq(5)").text().trim();
+        var comments = $row.find("#Comments_Section").val().trim(); // updated here
+        var fatal = $row.find(".fatal-select").val(); // fixed class
 
-        $("#sectionGrid tbody tr:not(:last-child)").each(function () {
-            var $row = $(this);
-            var category = $row.find("td:eq(0)").text().trim();
-            var level = $row.find("td:eq(1)").text().trim();
-            var sectionName = $row.find("td:eq(2)").text().trim();
-            var qaRating = $row.find(".qa-rating").val();
-            var scorable = $row.find("td:eq(4)").text().trim();
-            var score = $row.find("td:eq(5)").text().trim();
-            var comments = $row.find("input[type='text']").val().trim();
-             var fatal = $row.find(".qa-Fatal").val();
+        console.log("fatal value: " + fatal);
 
-             console.log("fatal value " + fatal);
-            if (category === "" && level === "" && sectionName === "") {
-                return;
-            }
+        if (category === "" && level === "" && sectionName === "") {
+            return;
+        }
 
-            if (qaRating === "") {
-                isValid = false;
-                $row.find(".qa-rating").addClass("border border-danger");
-            } else {
-                $row.find(".qa-rating").removeClass("border border-danger");
-            }
+        if (qaRating === "") {
+            isValid = false;
+            $row.find(".qa-rating").addClass("border border-danger");
+        } else {
+            $row.find(".qa-rating").removeClass("border border-danger");
+        }
 
-            if (comments === "") {
-                isValid = false;
-                $row.find("input[type='text']").addClass("border border-danger");
-            } else {
-                $row.find("input[type='text']").removeClass("border border-danger");
-            }
+        if (comments === "") {
+            isValid = false;
+            $row.find("#Comments_Section").addClass("border border-danger");
+        } else {
+            $row.find("#Comments_Section").removeClass("border border-danger");
+        }
 
-            gridData.push({
-                category: category,
-                level: level,
-                sectionName: sectionName,
-                qaRating: qaRating,
-                scorable: scorable,
-                score: score,
-                comments: comments,
-                Transaction_ID: "",
-                ProgramID: "",
-                SUBProgramID: "",
-                fatal:fatal
-            });
+        gridData.push({
+            category: category,
+            level: level,
+            sectionName: sectionName,
+            qaRating: qaRating,
+            scorable: scorable,
+            score: score,
+            comments: comments,
+            Transaction_ID: "",
+            ProgramID: "",
+            SUBProgramID: "",
+            fatal: fatal
         });
+    });
+
 
         if (!isValid) {
             alert("Please select QA Rating and enter Comments In Section ");
@@ -226,83 +212,70 @@
             });
         });
     }
+             function bindEventHandlers() {
+        $(".fatal-select").on("change", function () {
+            calculateTotalScore();
+        });
 
-    $(document).ready(function () {
-        initializeSectionData();
+        $(".qa-rating").on("change", function () {
+            var $row = $(this).closest("tr");
+            var selectedValue = ($(this).val() || "").toLowerCase().trim();
+            var scoreCell = $row.find(".score-col");
 
-                 function calculateTotalScore() {
+            // Always get original score from data attribute (do NOT change this attribute anywhere else)
+            var originalScore = parseInt(scoreCell.attr("data-original-score")) || 0;
+      
+            const validValues = [
+                "1",
+       
+                "6",
+                "7",
+                "12"
+            ];
+        
+            if (validValues.includes(selectedValue)) {
+              
+                scoreCell.text(originalScore); // valid: show original score
+            } else {
+              
+                scoreCell.text(0); // invalid: show zero
+            }
+
+            calculateTotalScore();
+        });
+
+        // Initial calculation on page load
+        calculateTotalScore();
+    }
+
+    function calculateTotalScore() {
+        let isFatal = false;
         let total = 0;
-
+        
         $("#sectionGrid tbody tr").each(function () {
-            var scorable = $(this).find(".scorable").text().trim();
-            var finalScore = parseInt($(this).find(".score-col").attr("data-final-score")) || 0;
+            var scorable = $(this).find(".scorable").text().trim().toLowerCase();
+            var score = parseInt($(this).find(".score-col").text()) || 0;
+            var fatalValue = $(this).find(".fatal-select").val();
 
-            if (scorable === "Yes") {
-                total += finalScore;
+            if (fatalValue === "Yes") {
+                isFatal = true;
+            }
+
+            if (scorable === "yes") {
+                total += score;
             }
         });
 
-        $("#totalScore").text(total);
+        $("#totalScore").text(isFatal ? "0" : total);
     }
 
-    calculateTotalScore();
+    $(document).ready(function () {
+        bindEventHandlers();
+        initializeSectionData();
 
-    $(".qa-rating").change(function () {
-        var $row = $(this).closest("tr");
-        var selectedValue = $(this).find("option:selected").text().trim();
-
-        var category = $row.find("td:eq(0)").text().trim();
-        var level = $row.find("td:eq(1)").text().trim();
-        var sectionName = $row.find("td:eq(2)").text().trim();
-
-        var scoreCell = $row.find(".score-col");
-        var baseWeight = parseInt(scoreCell.attr("data-weightage")) || 0;
-
-        let matchedItem = sectionData.find(x =>
-            x.category === category &&
-            x.level === level &&
-            x.sectionName === sectionName
-        );
-
-        let validRating = ["Yes", "Met", "Meeting_expectations", "exceeding expectations", "Partially Met"];
-        let scoreToApply = (validRating.includes(selectedValue) && matchedItem) ? matchedItem.score : 0;
-
-
-
-        scoreCell.text(scoreToApply);
-        scoreCell.attr("data-final-score", scoreToApply);
-
-        calculateTotalScore();
-    });
-
-    $(".qa-Fatal").change(function () {
-        var $row = $(this).closest("tr");
-        var scoreCell = $row.find(".score-col");
-
-        var selectedValue = $(this).val().trim();
-        var baseWeight = parseInt(scoreCell.attr("data-weightage")) || 0;
-        var currentRating = $row.find(".qa-rating option:selected").text().trim();
-
-        let matchedItem = sectionData.find(x =>
-            x.category === $row.find("td:eq(0)").text().trim() &&
-            x.level === $row.find("td:eq(1)").text().trim() &&
-            x.sectionName === $row.find("td:eq(2)").text().trim()
-        );
-
-        let validRating = ["Yes", "Met", "Meeting_expectations", "exceeding expectations", "Partially Met"];
-        let scoreToApply = ( matchedItem)? matchedItem.score : 0;
-
-        if (selectedValue === "Yes") {
-            scoreToApply = 0;
-        }
-
-        scoreCell.text(scoreToApply);
-        scoreCell.attr("data-final-score", scoreToApply);
-
-        calculateTotalScore();
-    });
-
-
+               
+    
+       bindEventHandlers();
 
         $.ajax({
             type: "POST",

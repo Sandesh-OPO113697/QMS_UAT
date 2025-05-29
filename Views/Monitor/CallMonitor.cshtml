@@ -7,14 +7,15 @@
         <div class="card-body">
             <h5 class="card-title">  </h5>
             <div class="row">
-                <div class="form-group col-md-6" id="Audit_Type" style="display:none">
+                <div class="form-group col-md-6" id="Audit_Type" style="display:none"> <span style="background-color:red">*</span>
                     <label for="ProgramID">Audit Type</label>
-                    <input type="hidden" id="hiddenValue" >
-                    <input type="hidden" id="hiddencat1"  >
-                    <input type="hidden" id="hiddencat2"  >
-                    <input type="hidden" id="hiddencat3"  >
-                    <input type="hidden" id="hiddencat4" >
-                    <input type="hidden" id="hiddencat5" >
+                    <input type="hidden" id="hiddenValue">
+                    <input type="hidden" id="hiddencat1">
+                    <input type="hidden" id="hiddencat2">
+                    <input type="hidden" id="hiddencat3">
+                    <input type="hidden" id="hiddencat4">
+                    <input type="hidden" id="hiddencat5">
+                    <input type="hidden" id="Predictivecstahident">
 
                     @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", onchange = "OnAuditChange()" })
                 </div>
@@ -1003,9 +1004,9 @@
         if(AuditType==2)
         {
 
-         
+
             if($('#hiddenValue').val()==="Disposition")
-            
+
             {
                  var dispositionId=  $("#dispositionId").val();
            var  SubDispositionID = $("#SubDispositionID").val();
@@ -1054,12 +1055,12 @@
                         }
 
                  }
-              
+
 
             }
 
         }
-     
+
         let callAuditData = InsertCallAudit();
         let sectionAuditData = InsertSectionAudit();
         let rootCauseData = RootCauseEvaluation();
@@ -1114,19 +1115,21 @@
             }
         });
 
-          $.ajax({
+
+              if ($('#Predictivecstahident').val() === "yes") {
+       
+
+        $.ajax({
             type: "POST",
-                url: "/Monitor/InsertPridictiveCoauseAudit",
+            url: "/Monitor/InsertPridictiveCoauseAudit",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(predictiveData),
             dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    alert("Call Evaluation  submitted successfully!");
-
-
+                    alert("Call Evaluation submitted successfully!");
                 } else {
-                    alert("Failed to submit  Evaluation data.");
+                    alert("Failed to submit Evaluation data.");
                 }
             },
             error: function (xhr, status, error) {
@@ -1134,6 +1137,11 @@
                 alert("An error occurred while submitting data.");
             }
         });
+
+    } else {
+        
+    }
+
 
          clearValues();
           Reload();
@@ -1558,7 +1566,16 @@
 
          $("#SectionGried").show();
            $("#rooutcause").show();
-             $("#Predictivediv").show();
+                if($('#Predictivecstahident').val()==="yes")
+                    { $("#Predictivediv").show();
+
+
+                    }
+                    else
+                    {  $("#Predictivediv").hide();
+
+                    }
+
             // $("#ZtClassfictions").show();
              $("#Remarks").show();
              $("#Zerotollernce").show();
@@ -1684,8 +1701,10 @@
                             } else {
                                 $('#Cat_1').show();
                                   $('#hiddencat1').val("YES");
+                                   dropdownCat1.empty();
+                                     dropdownCat1.append('<option value="">Select Category 1</option>');
                                 response.cat1.forEach(function (item) {
-                                     dropdownCat1.empty();
+
                                     dropdownCat1.append('<option value="' + item.value + '">' + item.text + '</option>');
                                 });
                             }
@@ -1700,8 +1719,10 @@
                             } else {
                                 $('#Cat_2').show();
                                   $('#hiddencat2').val("YES");
-                                response.cat2.forEach(function (item) {
                                      dropdownCat2.empty();
+                                       dropdownCat2.append('<option value="">Select Category 2</option>');
+                                response.cat2.forEach(function (item) {
+
                                     dropdownCat2.append('<option value="' + item.value + '">' + item.text + '</option>');
                                 });
                             }
@@ -1716,8 +1737,10 @@
                             } else {
                                 $('#Cat_3').show();
                                   $('#hiddencat3').val("YES");
+                                    dropdownCat3.empty();
+                                      dropdownCat3.append('<option value="">Select Category 3</option>');
                                 response.cat3.forEach(function (item) {
-                                     dropdownCat3.empty();
+
                                     dropdownCat3.append('<option value="' + item.value + '">' + item.text + '</option>');
                                 });
                             }
@@ -1732,8 +1755,10 @@
                             } else {
                                 $('#Cat_4').show();
                                   $('#hiddencat4').val("YES");
+                                   dropdownCat4.empty();
+                                     dropdownCat4.append('<option value="">Select Category 4</option>');
                                 response.cat4.forEach(function (item) {
-                                     dropdownCat4.empty();
+
                                     dropdownCat4.append('<option value="' + item.value + '">' + item.text + '</option>');
                                 });
                             }
@@ -1748,8 +1773,10 @@
                             } else {
                                 $('#Cat_5').show();
                                   $('#hiddencat5').val("YES");
+                                    dropdownCat5.empty();
+                                      dropdownCat5.append('<option value="">Select Category 5</option>');
                                 response.cat5.forEach(function (item) {
-                                     dropdownCat5.empty();
+
                                     dropdownCat5.append('<option value="' + item.value + '">' + item.text + '</option>');
                                 });
                             }
@@ -2024,9 +2051,14 @@
                       populateGrid(response.sectionGrid, response.filteredRatingList);
 
                             if (response?.filteredPredictiveList?.length > 0) {
+
                                  populateTable("#predictiveAnalysisTable", response.filteredPredictiveList, "Predictive");
+                                  $('#Predictivecstahident').val("yes");
                             } else {
                                 console.error("filteredPredictiveList is empty.");
+                                 $('#Predictivecstahident').val("bo");
+
+                                    $("#Predictivediv").hide();
                             }
 
 
@@ -2112,7 +2144,7 @@
                          $("#NonVoice").hide();
                         $("#SerchRecoding").show();
                     }
-                 
+
 
                     if (response.success && response.samplesize) {
                         response.samplesize.forEach(function (item) {
@@ -2120,7 +2152,7 @@
                         });
                      }
 
-                   
+
 
 
                       var dropdown = $('#AgentID');

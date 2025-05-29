@@ -27,13 +27,16 @@ namespace QMS.DataBaseService
         private readonly DL_Encrpt _enc;
         private readonly DLConnection _dlcon;
         private readonly HttpContext _httpContext;
+        private readonly UserInfoManager _userInfoManager;
 
-        public D_Login(IConfiguration configuration, DL_Encrpt dL_Encrpt, DLConnection conn, IHttpContextAccessor httpContextAccessor)
+      
+        public D_Login(IConfiguration configuration, DL_Encrpt dL_Encrpt, DLConnection conn, IHttpContextAccessor httpContextAccessor , UserInfoManager userInfoManager)
         {
             _con = configuration.GetConnectionString("Master_Con");
             _enc = dL_Encrpt;
             _dlcon = conn;
             _httpContext = httpContextAccessor.HttpContext; // Save full context
+            _userInfoManager = userInfoManager;
         }
         public async Task<int> SaveEmailPhoneOTP(string emailOTP, string phoneOTP, string email, string phone, string username)
         {
@@ -506,6 +509,7 @@ namespace QMS.DataBaseService
         }
         public async Task<int> CheckAccountUserAsync(string UserID, string Password)
         {
+           
             string reset = "";
             string Dycon = await _dlcon.GetDynStrByUserIDAsync(UserID);
             try
@@ -528,25 +532,18 @@ namespace QMS.DataBaseService
                     {
 
                         string decryptedName = await _enc.DecryptAsync(dt.Rows[0]["Name"].ToString());
-                        string decryptedUserType = dt.Rows[0]["usertype"].ToString();
+                        string decryptedUserType= dt.Rows[0]["usertype"].ToString();
                         string decryptedIsActive = dt.Rows[0]["isactive"].ToString();
                         string decryptedLocationId = dt.Rows[0]["Location"].ToString();
                         string decryptedAccountId = dt.Rows[0]["Account_id"].ToString();
 
-                        // Store in session
-                        _httpContext.Session.SetString("UserTypeSession", decryptedUserType);
-                        _httpContext.Session.SetString("UserNameSession", decryptedName);
 
-                        // Optional: Set all values in session (recommended for web apps)
-                        _httpContext.Session.SetString("IsActiveSession", decryptedIsActive);
-                        _httpContext.Session.SetString("LocationIDSession", decryptedLocationId);
-                        _httpContext.Session.SetString("AccountIDSession", decryptedAccountId);
 
-                        UserInfo.UserName = await _enc.DecryptAsync(dt.Rows[0]["Name"].ToString());
-                        UserInfo.UserType = dt.Rows[0]["usertype"].ToString();
-                        UserInfo.IsActive = dt.Rows[0]["isactive"].ToString();
-                        UserInfo.LocationID = dt.Rows[0]["Location"].ToString();
-                        UserInfo.AccountID = dt.Rows[0]["Account_id"].ToString();
+                        _userInfoManager.UserType = decryptedUserType;
+                        _userInfoManager.UserName = decryptedName;
+                        _userInfoManager.IsActive = dt.Rows[0]["isactive"].ToString();
+                        _userInfoManager.LocationID = dt.Rows[0]["Location"].ToString();
+                        _userInfoManager.AccountID = dt.Rows[0]["Account_id"].ToString();
                         reset = dt.Rows[0]["flag"].ToString();
                         //string token = JWTHelper.CreateJWTToken(UserID, UserInfo.UserType);
                         //if (token != null)
@@ -576,7 +573,9 @@ namespace QMS.DataBaseService
                     }
                     else
                     {
-                        UserInfo.UserType = "failed";
+                       
+                        _userInfoManager.UserType = "failed";
+
                         return 0;
                     }
                 }
@@ -593,6 +592,7 @@ namespace QMS.DataBaseService
 
         public async Task<int> CheckSuperAdminIsValid(string UserID, string Password)
         {
+            
             try
             {
                 string encryptedUserID = await _enc.EncryptAsync(UserID);
@@ -616,10 +616,9 @@ namespace QMS.DataBaseService
 
                         _httpContext.Session.SetString("UserTypeSession", decryptedUserType);
                         _httpContext.Session.SetString("UserNameSession", decryptedName);
+                        _userInfoManager.UserType = decryptedUserType;
+                        _userInfoManager.UserName = decryptedName;
 
-                        UserInfo.UserName = await _enc.DecryptAsync(dt.Rows[0]["Name"].ToString());
-                        UserInfo.UserType = await _enc.DecryptAsync(dt.Rows[0]["usertype"].ToString());
-                      
                         return 1;
                     }
 
@@ -637,6 +636,7 @@ namespace QMS.DataBaseService
 
         public async Task<int> CheckUserLogInAsync(string UserID, string Password)
         {
+           
             string encryptedUserID = await _enc.EncryptAsync(UserID);
             string encryptedPassword = await _enc.EncryptAsync(Password);
             string Conn = await _enc.DecryptAsync(_con);
@@ -655,13 +655,16 @@ namespace QMS.DataBaseService
                     await cc.CloseAsync();
                     if (dt.Rows.Count > 0)
                     {
-                        UserInfo.UserType = await _enc.DecryptAsync(dt.Rows[0]["usertype"].ToString());
-                     
+                        _userInfoManager.UserType = dt.Rows[0]["usertype"].ToString();
+
                         return 1;
                     }
                     else
                     {
-                        UserInfo.UserType = "Account_User";
+                        _userInfoManager.UserType = "Account_User";
+                  
+                       
+                      
                         return 0;
                     }
 

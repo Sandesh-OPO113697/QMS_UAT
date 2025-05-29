@@ -20,6 +20,7 @@ using MimeKit;
 using System.Net;
 using System.Diagnostics;
 using System.Transactions;
+using NPOI.SS.Formula.Functions;
 
 namespace QMS.DataBaseService
 {
@@ -28,12 +29,14 @@ namespace QMS.DataBaseService
 
         private readonly string _con;
         private readonly DL_Encrpt _enc;
+        private readonly Dl_Admin _admin;
         private readonly DLConnection _dcl;
-        public dl_Monitoring(IConfiguration configuration, DL_Encrpt dL_Encrpt, DLConnection dL)
+        public dl_Monitoring(IConfiguration configuration, DL_Encrpt dL_Encrpt, DLConnection dL , Dl_Admin adam)
         {
             _con = configuration.GetConnectionString("Master_Con");
             _enc = dL_Encrpt;
             _dcl = dL;
+            _admin = adam;
         }
         public async Task<DataTable> TestviewDetails(int TestID)
         {
@@ -450,20 +453,21 @@ namespace QMS.DataBaseService
                     Audit_Type = dt2.Rows[0]["Audit_Type"].ToString();
                 }
 
-                using (SqlCommand cmd = new SqlCommand("GetMailDetails", conn))
-                {
-                    DataTable dt2 = new DataTable();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandTimeout = 0;
-                    cmd.Parameters.AddWithValue("@Operation", "GetEvalProcess");
-                    cmd.Parameters.AddWithValue("@ID", ProgramID);
-                    SqlDataAdapter adpt = new SqlDataAdapter(cmd);
-                    await Task.Run(() => adpt.Fill(dt2));
-
-                    Process = dt2.Rows[0]["Process"].ToString();
-                }
+              
             }
-        
+
+            DataTable dt = await _admin.GetProcessListAsync();
+
+
+            var processList = dt.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ProcessName"]}",
+            }).ToList();
+            var processNameItem = processList
+      .FirstOrDefault(x => x.Value == ProgramID.ToString());
+
+            var processName = processNameItem?.Text;
 
             string mailHost = "192.168.0.122";
             int mailPort = 587;
@@ -489,7 +493,7 @@ namespace QMS.DataBaseService
                            Details:-
                            Audited Transaction ID:    {Transaction_ID}
                            Interaction Type:          {Audit_Type}
-                           Process:                   {Process}
+                           Process:                   {processName}
                            Auditor:                   {UserName}
                            Audit Score:               {CQ_Scrore}
                            

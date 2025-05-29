@@ -43,7 +43,7 @@ builder.Services.AddTransient<dl_Calibration>();
 builder.Services.AddTransient<DL_Notpad>();
 builder.Services.AddTransient<Dl_Outline>();
 
-
+builder.Services.AddScoped<UserInfoManager>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -55,7 +55,8 @@ app.UseGlobalErrorHandling();
 //    await next.Invoke(); 
 //});
 
-
+var accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
+UserInfo.Configure(accessor);
 void ValidateJWTTocken(HttpContext context)
 {
     string token = context.Request.Cookies["Token"];
