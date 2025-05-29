@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.VisualBasic;
 using QMS.Encription;
 using QMS.Models;
 using System.Data;
@@ -12,11 +13,13 @@ namespace QMS.DataBaseService
     {
         private readonly string _con;
         private readonly DL_Encrpt _enc;
+        private readonly HttpContext _httpContext;
 
-        public DLConnection(IConfiguration configuration, DL_Encrpt dL_Encrpt)
+        public DLConnection(IConfiguration configuration, DL_Encrpt dL_Encrpt, IHttpContextAccessor httpContextAccessor)
         {
             _con = configuration.GetConnectionString("Master_Con");
             _enc = dL_Encrpt;
+            _httpContext = httpContextAccessor.HttpContext; // Save full context
         }
 
         public async Task<string> GetDynStrByAccountAsync(string AccountID)
@@ -50,6 +53,7 @@ namespace QMS.DataBaseService
                                                    accountDbName,
                                                    accountUserId,
                                                    accountDbPassword);
+                        _httpContext.Session.SetString("DnyconSession", connString);
                         UserInfo.Dnycon = connString;
                     }
                 }
@@ -100,6 +104,7 @@ namespace QMS.DataBaseService
                                 accountUserId,
                                 accountDbPassword
                             );
+                            _httpContext.Session.SetString("DnyconSession", connString);
                             UserInfo.Dnycon = connString;
                         }
                     }

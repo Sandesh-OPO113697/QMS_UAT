@@ -19,9 +19,9 @@ namespace QMS.Controllers
             _super = dl;
         }
 
-        public async Task<ActionResult> InsertAccount(string AccountName ,string AccountPrefix , string AuthenticationType, string RecApiList, string RecApiConnID)
+        public async Task<ActionResult> InsertAccount(string AccountName, string AccountPrefix, string AuthenticationType, string RecApiList, string RecApiConnID)
         {
-            string AccountNames = AccountName.Replace(" ", "");  
+            string AccountNames = AccountName.Replace(" ", "");
 
             string prefix = AccountPrefix?.ToUpper();
 
@@ -37,14 +37,14 @@ namespace QMS.Controllers
             }
             if (!string.IsNullOrEmpty(prefix) && System.Text.RegularExpressions.Regex.IsMatch(prefix, @"^[A-Z]+$"))
             {
-               
+
             }
             else
             {
                 TempData["Validation"] = "Account prefix must contain only alphanumeric characters.";
                 return RedirectToAction("CreateAccount");
             }
-            if (string.IsNullOrEmpty(AccountNames) || AuthenticationType =="" || AuthenticationType == null)
+            if (string.IsNullOrEmpty(AccountName) || AuthenticationType == "" || AuthenticationType == null)
             {
                 TempData["Validation"] = "Account name and AuthenticationType cannot be empty.";
                 return RedirectToAction("CreateAccount");
@@ -60,15 +60,15 @@ namespace QMS.Controllers
                 return RedirectToAction("CreateAccount");
             }
 
-            bool Result = await _super.ExecuteQueryToCheckPrefixAsync(AccountPrefix , AccountNames);
-            if(Result==true)
+            bool Result = await _super.ExecuteQueryToCheckPrefixAsync(AccountPrefix, AccountName);
+            if (Result == true)
             {
                 TempData["Validation"] = "Prrfix Or Account Name Is Already Available Please try anather ";
                 return RedirectToAction("CreateAccount");
             }
             else
             {
-                await _super.InsertAccountAsync(AccountNames, AccountPrefix, AuthenticationType ,  RecApiList, RecApiConnID);
+                await _super.InsertAccountAsync(AccountName ,AccountNames, AccountPrefix, AuthenticationType, RecApiList, RecApiConnID);
                 await _super.CreateAccountByScriptAsync(AccountNames);
                 TempData["Validation"] = "Account Is Created Sucessfully !.";
                 return RedirectToAction("CreateAccount");

@@ -3,11 +3,9 @@
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
+  
     var mySessionValue = HttpContextAccessor.HttpContext.Session.GetString("UserType");
-
-
     var NotePadAcesss = HttpContextAccessor.HttpContext.Session.GetString("NotePadAcess");
-
     var serializedData = HttpContextAccessor.HttpContext.Session.GetString("RoleFeatures");
     var roleFeatureList = !string.IsNullOrEmpty(serializedData)
                             ? JsonConvert.DeserializeObject<List<dynamic>>(serializedData)
@@ -20,6 +18,22 @@
 
 
 }
+@{
+    var userName = Context.Session.GetString("UserNameSession");
+    var userType = Context.Session.GetString("UserTypeSession");
+    var isActive = Context.Session.GetString("IsActiveSession");
+    var locationId = Context.Session.GetString("LocationIDSession");
+    var accountId = Context.Session.GetString("AccountIDSession");
+    var dyncon = Context.Session.GetString("DnyconSession");
+
+    UserInfo.UserName = userName;
+    UserInfo.UserType = userType;
+    UserInfo.IsActive = isActive;
+    UserInfo.LocationID = locationId;
+    UserInfo.AccountID = accountId;
+    UserInfo.Dnycon = dyncon;
+}
+
 <!doctype html>
 <html lang="en">
 <head>

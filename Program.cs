@@ -21,8 +21,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<DLConnection>();
 builder.Services.AddTransient<D_Login>();
 builder.Services.AddTransient<Dl_Admin>();

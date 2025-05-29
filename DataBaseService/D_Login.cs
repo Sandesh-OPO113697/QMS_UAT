@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using AuthenticationException = MailKit.Security.AuthenticationException;
 using System.Drawing.Imaging;
+using System.Net.Http;
 
 
 namespace QMS.DataBaseService
@@ -25,14 +26,14 @@ namespace QMS.DataBaseService
         private readonly string _con;
         private readonly DL_Encrpt _enc;
         private readonly DLConnection _dlcon;
-        private readonly HttpResponse response;
-        public D_Login(IConfiguration configuration, DL_Encrpt dL_Encrpt, DLConnection conn , IHttpContextAccessor httpContextAccessor)
+        private readonly HttpContext _httpContext;
+
+        public D_Login(IConfiguration configuration, DL_Encrpt dL_Encrpt, DLConnection conn, IHttpContextAccessor httpContextAccessor)
         {
             _con = configuration.GetConnectionString("Master_Con");
             _enc = dL_Encrpt;
             _dlcon = conn;
-            this.response = httpContextAccessor.HttpContext?.Response;
-
+            _httpContext = httpContextAccessor.HttpContext; // Save full context
         }
         public async Task<int> SaveEmailPhoneOTP(string emailOTP, string phoneOTP, string email, string phone, string username)
         {
@@ -525,6 +526,22 @@ namespace QMS.DataBaseService
 
                     if (dt.Rows.Count > 0)
                     {
+
+                        string decryptedName = await _enc.DecryptAsync(dt.Rows[0]["Name"].ToString());
+                        string decryptedUserType = dt.Rows[0]["usertype"].ToString();
+                        string decryptedIsActive = dt.Rows[0]["isactive"].ToString();
+                        string decryptedLocationId = dt.Rows[0]["Location"].ToString();
+                        string decryptedAccountId = dt.Rows[0]["Account_id"].ToString();
+
+                        // Store in session
+                        _httpContext.Session.SetString("UserTypeSession", decryptedUserType);
+                        _httpContext.Session.SetString("UserNameSession", decryptedName);
+
+                        // Optional: Set all values in session (recommended for web apps)
+                        _httpContext.Session.SetString("IsActiveSession", decryptedIsActive);
+                        _httpContext.Session.SetString("LocationIDSession", decryptedLocationId);
+                        _httpContext.Session.SetString("AccountIDSession", decryptedAccountId);
+
                         UserInfo.UserName = await _enc.DecryptAsync(dt.Rows[0]["Name"].ToString());
                         UserInfo.UserType = dt.Rows[0]["usertype"].ToString();
                         UserInfo.IsActive = dt.Rows[0]["isactive"].ToString();
@@ -594,6 +611,12 @@ namespace QMS.DataBaseService
                     await con.CloseAsync();
                     if (dt.Rows.Count > 0)
                     {
+                        string decryptedName = await _enc.DecryptAsync(dt.Rows[0]["Name"].ToString());
+                        string decryptedUserType = await _enc.DecryptAsync(dt.Rows[0]["usertype"].ToString());
+
+                        _httpContext.Session.SetString("UserTypeSession", decryptedUserType);
+                        _httpContext.Session.SetString("UserNameSession", decryptedName);
+
                         UserInfo.UserName = await _enc.DecryptAsync(dt.Rows[0]["Name"].ToString());
                         UserInfo.UserType = await _enc.DecryptAsync(dt.Rows[0]["usertype"].ToString());
                       
