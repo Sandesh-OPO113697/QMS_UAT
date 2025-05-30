@@ -166,7 +166,7 @@
         const userName = document.getElementById("txtUsername").value.trim();
 
         if (userName.length <= 9) {
-            alert("Username must be more than 9 characters.");
+            alert("User ID must be more than 9 characters.");
             return false;
         }
 
@@ -343,8 +343,28 @@
 
    
     function restrictBackspace(event) {
+      
         if (event.target.value === "____" && event.inputType === "deleteContentBackward") {
             event.target.value = "____"; 
+        }
+
+
+        var textbox = document.getElementById('txtUsername');
+        var length = textbox.value.length;
+        if (length < 4) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("HandleBackspace", "Admin")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    var newUsername = response.newUsername;
+                    document.getElementById('txtUsername').value = newUsername;
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error: ' + error);
+                }
+            });
         }
     }
 
