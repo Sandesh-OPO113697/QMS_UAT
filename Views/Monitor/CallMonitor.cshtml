@@ -7,18 +7,7 @@
         <div class="card-body">
             <h5 class="card-title">  </h5>
             <div class="row">
-                <div class="form-group col-md-6" id="Audit_Type" style="display:none"> <span style="background-color:red">*</span>
-                    <label for="ProgramID">Audit Type</label>
-                    <input type="hidden" id="hiddenValue">
-                    <input type="hidden" id="hiddencat1">
-                    <input type="hidden" id="hiddencat2">
-                    <input type="hidden" id="hiddencat3">
-                    <input type="hidden" id="hiddencat4">
-                    <input type="hidden" id="hiddencat5">
-                    <input type="hidden" id="Predictivecstahident">
-
-                    @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", onchange = "OnAuditChange()" })
-                </div>
+               
 
                 <div class="form-group col-md-6">
                     <label for="ProgramID">Select Program</label>
@@ -29,7 +18,18 @@
                     <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()">
                     </select>
                 </div>
+                <div class="form-group col-md-6" id="Audit_Type" style="display:none">
+                    <label for="ProgramID">Audit Type</label> <span style="background-color:red">*</span>
+                    <input type="hidden" id="hiddenValue">
+                    <input type="hidden" id="hiddencat1">
+                    <input type="hidden" id="hiddencat2">
+                    <input type="hidden" id="hiddencat3">
+                    <input type="hidden" id="hiddencat4">
+                    <input type="hidden" id="hiddencat5">
+                    <input type="hidden" id="Predictivecstahident">
 
+                    @Html.DropDownList("AuditID", (List<SelectListItem>)ViewBag.AuditTypeList, "Select AditType", new { @class = "custom-select", id = "AuditID", onchange = "OnAuditChange()" })
+                </div>
                 <div class="form-group col-md-6" id="DispoID" style="display:none">
                     <label for="dispositionId">Disposition</label>
                     <select name="dispositionId" id="dispositionId" class="custom-select" onchange="onDispositionChange()">

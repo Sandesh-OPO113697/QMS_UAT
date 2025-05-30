@@ -1,0 +1,454 @@
+﻿﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .field-item {
+        border: 1px solid #ccc;
+        padding: 5px;
+        margin: 5px;
+        background-color: #f8f9fa;
+        cursor: grab;
+        user-select: none;
+    }
+
+    #FormulaBuilder {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    /* Max height for drop area */
+    #dropArea {
+        min-height: 500px; /* you can increase this height as per your layout */
+        background-color: #e9ecef;
+        overflow-y: auto;
+    }
+
+        #dropArea .field-item {
+            cursor: default;
+        }
+
+    .border {
+        border: 1px solid #ddd !important;
+    }
+</style>
+
+
+
+
+
+<div class="col-md-12 my-4" id="AuditDiv">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Program</label> <span style="color:red">*</span>
+                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()" required>
+                    </select>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 my-4" id="Template" style="display:none">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Template</h5>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <button type="button" class="btn btn-primary" onclick="showFormulaBuilder()">Create Template</button>
+                </div>
+                <div class="form-group col-md-12" id="templateList">
+                    <!-- List will be appended here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row mt-4" id="FormulaBuilder" style="display:none;">
+    <!-- Tabs Div -->
+    <div class="col-md-6 border p-3">
+        <ul class="nav nav-tabs" id="tabMenu">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#callAudit">Call Audit</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#survey">Survey</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#assessment">Assessment</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#APR">APR</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#COUCHING">COUCHING</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#OutlierManagement">OutlierManagement</a></li>
+            <!-- Add other tabs as needed -->
+        </ul>
+        <div class="tab-content mt-2">
+            <div class="tab-pane container active" id="callAudit">
+                <div class="field-item" draggable="true">Audit_Type</div>
+                <div class="field-item" draggable="true">ProgramID</div>
+                <div class="field-item" draggable="true">SubProgramID</div>
+                <div class="field-item" draggable="true">TransactionID</div>
+                <div class="field-item" draggable="true">MonitorID</div>
+                <div class="field-item" draggable="true">CQ_Score</div>
+                <div class="field-item" draggable="true">Agent_Name</div>
+                <div class="field-item" draggable="true">TransactionDate</div>
+                <div class="field-item" draggable="true">ZeroToleranceBehaviour</div>
+                <div class="field-item" draggable="true">TLName</div>
+                <div class="field-item" draggable="true">ZeroToleranceBehaviour</div>
+                <div class="field-item" draggable="true">ZTClassification</div>
+                <div class="field-item" draggable="true">Agent_Dispute</div>
+                <div class="field-item" draggable="true">QA_Comments</div>
+                <div class="field-item" draggable="true">CalibratedComment</div>
+                <div class="field-item" draggable="true">Agent_Comment</div>
+                <div class="field-item" draggable="true">Remarks</div>
+            </div>
+            <div class="tab-pane container fade" id="survey">
+                <div class="field-item" draggable="true">AgentId</div>
+                <div class="field-item" draggable="true">Rating</div>
+                <div class="field-item" draggable="true">AgentComment</div>
+            </div>
+            <div class="tab-pane container fade" id="assessment">
+                <div class="field-item" draggable="true">TestName</div>
+                <div class="field-item" draggable="true">Score</div>
+                <div class="field-item" draggable="true">AnsweredDate</div>
+            </div>
+            <div class="tab-pane container fade" id="COUCHING">
+                <div class="field-item" draggable="true">IsClosed</div>
+                <div class="field-item" draggable="true">IsExtended</div>
+                <div class="field-item" draggable="true">PIP</div>
+                <div class="field-item" draggable="true">Createddate</div>
+            </div>
+            <div class="tab-pane container fade" id="APR">
+                <div class="field-item" draggable="true">C-SAT</div>
+                <div class="field-item" draggable="true">NPS</div>
+                <div class="field-item" draggable="true">FCR</div>
+                <div class="field-item" draggable="true">Repeat</div>
+                <div class="field-item" draggable="true">AHT</div>
+                <div class="field-item" draggable="true">Sales Conversion</div>
+
+            </div>
+            <div class="tab-pane container fade" id="OutlierManagement">
+
+                <div class="field-item" draggable="true">Highest_Defect_count</div>
+
+
+
+            </div>
+            <!-- Add more tab panes -->
+        </div>
+    </div>
+
+    <!-- Drop Area -->
+    <div class="col-md-6 border p-3" id="dropArea" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <h5>Drop Fields Here</h5>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="col-md-12 mt-3">
+        <button type="button" class="btn btn-success" onclick="showFormulaPopup()">Submit</button>
+
+    </div>
+</div>
+
+<!-- Formula Name Modal -->
+<div class="modal fade" id="formulaModal" tabindex="-1" role="dialog" aria-labelledby="formulaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formulaModalLabel">Enter Template Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="formulaName" class="form-control" placeholder="Enter Template name..." />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="submitFormula()">Save Template</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="formulaResult" style="
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+"></div>
+
+<script src="~/js/xlsx.full.min.js"></script>
+
+<script>
+
+      function showFormulaBuilder() {
+         document.getElementById("FormulaBuilder").style.display = "flex";
+     }
+       function showFormulaPopup() {
+         const selectedFields = document.querySelectorAll("#dropArea .field-item");
+         if (selectedFields.length === 0) {
+             alert("Please drag and drop at least one field.");
+             return;
+         }
+         $('#formulaModal').modal('show');
+     }
+
+     function allowDrop(ev) {
+         ev.preventDefault();
+     }
+
+     function drop(ev) {
+         ev.preventDefault();
+
+         // Ensure the drop target is only the main container, not a child
+         const dropTarget = document.getElementById("dropArea");
+         if (ev.target !== dropTarget) return;
+
+         const data = ev.dataTransfer.getData("text/plain");
+         const original = document.getElementById(data);
+
+         // Prevent duplicate entries
+         if (!Array.from(dropTarget.children).some(child => child.innerText === original.innerText)) {
+             const clone = original.cloneNode(true);
+             clone.setAttribute("draggable", "false");
+             dropTarget.appendChild(clone);
+         }
+     }
+
+     // Set up drag for all field items
+     document.querySelectorAll(".field-item").forEach((item, index) => {
+         const id = `field-${item.innerText.trim().replace(/\s+/g, '-')}-${index}`;
+         item.setAttribute("id", id);
+         item.addEventListener("dragstart", function (ev) {
+             ev.dataTransfer.setData("text/plain", ev.target.id);
+         });
+     });
+
+         async function submitFormula() {
+         const formulaName = document.getElementById("formulaName").value.trim();
+         if (!formulaName) {
+             alert("Please enter a formula name.");
+             return;
+         }
+
+         const Subprogram1 = $('#SUBProgramID').val();
+         const programId1 = $('#ProgramID').val();
+
+         const status = await fetch("/Report/CheckFormulaisCrated", {
+             method: "POST",
+             headers: { "Content-Type": "application/json; charset=utf-8" },
+             body: JSON.stringify({ subprogram: Subprogram1, programId: programId1, formulaName: formulaName })
+         });
+
+         const resultoftemplate = await status.json();
+         const istemplatecreated = resultoftemplate.status;
+
+         if (istemplatecreated === "created") {
+             alert("Template name already available, try another!");
+             return;
+         }
+
+         const selectedFields = [];
+         document.querySelectorAll("#dropArea .field-item").forEach(field => {
+             selectedFields.push(field.innerText);
+         });
+
+         console.log(JSON.stringify(selectedFields));
+
+         $.ajax({
+             url: '@Url.Action("SaveFormulaFields", "Report")',
+             method: 'POST',
+             data: JSON.stringify({
+                 formulaName: formulaName,
+                 fields: selectedFields,
+                 programId: programId1,
+                 subprogram: Subprogram1
+             }),
+             contentType: 'application/json',
+             success: function (response) {
+                 alert("Formula saved successfully!");
+                 $('#formulaModal').modal('hide');
+                 document.getElementById("formulaName").value = "";
+                 document.getElementById("dropArea").innerHTML = "";
+                 location.reload();
+             },
+             error: function () {
+                 alert("Error saving formula.");
+             }
+         });
+     }
+
+     async function onSubProgramChange() {
+         const selectedValue = $('#SUBProgramID').val();
+         if (selectedValue === '') {
+             alert('Please select a valid Sub Program Name.');
+             return;
+         }
+
+         const programId = $('#ProgramID').val();
+          fetchTemplates();
+
+
+
+     }
+             async function fetchTemplates() {
+         const selectedValue = $('#SUBProgramID').val();
+         const programId = $('#ProgramID').val();
+
+         const response = await fetch("/Report/getFormulas", {
+             method: "POST",
+             headers: { "Content-Type": "application/json; charset=utf-8" },
+             body: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: programId })
+         });
+
+         const result = await response.json();
+         console.log(JSON.stringify(result));
+
+         const list = result.agentTlList;
+         console.log(list);
+
+         if (list && list.length > 0) {
+             let html = `<div class="d-flex flex-wrap gap-2">`;
+
+             list.forEach(item => {
+                 html += `<button type="button" style="margin-left:10px" class="btn btn-outline-primary" onclick="loadFormula('${item.formulaName}')">${item.formulaName}</button>`;
+             });
+
+             html += `</div>`;
+
+             document.getElementById("Template").style.display = "block";
+             document.getElementById("templateList").innerHTML = html;
+         } else {
+              document.getElementById("Template").style.display = "block";
+             document.getElementById("templateList").innerHTML = html;
+         }
+     }
+         async function loadFormula(formulaName) {
+         const SubprogramID = $('#SUBProgramID').val();
+         const ProgramID = $('#ProgramID').val();
+
+         if (!ProgramID || ProgramID === "0") {
+             alert("Please select a Program.");
+             return;
+         }
+
+         if (!SubprogramID || SubprogramID === "0") {
+             alert("Please select a Subprogram.");
+             return;
+         }
+
+         try {
+             const response = await fetch('/Report/GetFormulaFields', {
+                 method: 'POST',
+                 headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                 body: JSON.stringify({
+                     formulaName: formulaName,
+                     subprogram: SubprogramID,
+                     programId: ProgramID,
+                     agentname: "agentname"
+                 })
+             });
+
+             if (!response.ok) {
+                 const errorText = await response.text();
+                 console.error("Server error response:", errorText);
+                 alert("Server returned an error. Check console.");
+                 return;
+             }
+
+             const result = await response.json();
+             console.log(JSON.stringify(result));
+
+             const reportData = result.report;
+
+             if (reportData && reportData.length > 0) {
+                 // Show table on page
+                 renderTable(reportData);
+
+                 // Export to Excel
+                 const ws = XLSX.utils.json_to_sheet(reportData);
+                 const wb = XLSX.utils.book_new();
+                 XLSX.utils.book_append_sheet(wb, ws, "Formula Data");
+                 XLSX.writeFile(wb, `Formula_${formulaName}.xlsx`);
+             } else {
+                 alert("No fields found for this formula.");
+                 document.getElementById("formulaResult").innerHTML = ""; // Clear previous table if any
+             }
+         } catch (error) {
+             console.error("Error loading formula:", error);
+             alert("An error occurred while loading the formula.");
+         }
+     }
+
+         function renderTable(data) {
+         let html = '<table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">';
+         html += '<thead><tr>';
+
+         // Create headers with styles
+         const keys = Object.keys(data[0]);
+         keys.forEach(key => {
+             html += `<th style="border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4; text-align: left;">${key}</th>`;
+         });
+         html += '</tr></thead><tbody>';
+
+         // Create rows with styles
+         data.forEach(row => {
+             html += '<tr>';
+             keys.forEach(key => {
+                 html += `<td style="border: 1px solid #ddd; padding: 8px;">${row[key]}</td>`;
+             });
+             html += '</tr>';
+         });
+
+         html += '</tbody></table>';
+
+         document.getElementById("formulaResult").innerHTML = html;
+     }
+
+
+     async function onProgramChange() {
+         const programId = $('#ProgramID').val();
+         if (programId === "") {
+             alert("Please Select Program first");
+             return;
+         }
+
+         try {
+             const response = await fetch("/Admin/GetSUBProcessList", {
+                 method: "POST",
+                 headers: { "Content-Type": "application/json; charset=utf-8" },
+                 body: JSON.stringify({ id: programId })
+             });
+             const data = await response.json();
+
+             const dropdown = $('#SUBProgramID');
+             dropdown.empty();
+             dropdown.append('<option value="">Select Sub Process</option>');
+
+             data.proces.forEach(function (item) {
+                 dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+             });
+         } catch (error) {
+             console.error("Error occurred:", error);
+         }
+     }
+
+
+
+
+
+
+
+
+
+</script>

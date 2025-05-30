@@ -304,6 +304,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUFNYW5hZ2VyXFp0VHJpZ2dlclNpZ25PZmYuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_MVC_CORE/Views/Report/CreateFormula.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XENyZWF0ZUZvcm11bGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_MVC_CORE/Views/Sampling/DashBoard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FtcGxpbmdcRGFzaEJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
