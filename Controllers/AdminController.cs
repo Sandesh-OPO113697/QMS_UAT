@@ -186,7 +186,24 @@ namespace QMS.Controllers
 
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> Getdashboad([FromBody] DashboardFilterModel model)
+        {
+            DataTable dt = await _admin.GetMonitorDashboard(model);
 
+            var rows = new List<Dictionary<string, object>>();
+            foreach (DataRow row in dt.Rows)
+            {
+                var dict = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    dict[col.ColumnName] = row[col];
+                }
+                rows.Add(dict);
+            }
+
+            return Json(rows); // returns an array of rows, each as dictionary
+        }
 
         public async Task<ActionResult> DashBoard()
         {
