@@ -38,11 +38,22 @@
     <link rel="stylesheet" href="~/css/jquery.timepicker.css">
     <link rel="stylesheet" href="~/css/quill.snow.css">
     <link rel="stylesheet" href="~/css/daterangepicker.css">
-    <link rel="stylesheet" href="~/css/app-light.css" id="lightTheme">
+   
 
-    <link rel="stylesheet" href="~/css/app-dark.css" id="darkTheme" disabled>
+    <link rel="stylesheet" href="~/css/app-dark.css" id="darkTheme" >
+ @*    <link rel="stylesheet" href="~/css/app-light.css" id="lightTheme" disabled> *@
+    <style>
+        .hover-orange {
+            color: white;
+            transition: color 0.3s ease;
+        }
+
+            .hover-orange:hover {
+                color: #FF581C;
+            }
+    </style>
 </head>
-<body class="vertical  light  ">
+<body class="vertical  dark  " style="background-color:#1F2233">
     <div class="wrapper">
         <nav class="topnav navbar navbar-light">
             <button type="button" class="navbar-toggler text-muted mt-2 p-0 mr-3 collapseSidebar" onclick="toggleImage()">
@@ -50,11 +61,11 @@
             </button>
 
             <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link text-muted my-2" href="#" id="modeSwitcher" data-mode="light">
+               @*  <li class="nav-item">
+                    <a class="nav-link text-muted my-2" href="#" id="modeSwitcher" data-mode="dark">
                         <i class="fe fe-sun fe-16"></i>
                     </a>
-                </li>
+                </li> *@
                 <li class="nav-item">
                     <a class="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-shortcut">
                         <span class="fe fe-grid fe-16"></span>
@@ -83,7 +94,7 @@
                 </li>
             </ul>
         </nav>
-        <aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar>
+        <aside class="sidebar-left border-right" id="leftSidebar" data-simplebar >
             <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
                 <i class="fe fe-x"><span class="sr-only"></span></i>
             </a>
@@ -115,16 +126,16 @@
                             <li id="Create" runat="server" class="nav-item dropdown">
                                 <a href="#ui-elements" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                     <i class="fe fe-box fe-16"></i>
-                                    <span class="ml-3 item-text">Create</span>
+                                <span class="ml-3 item-text hover-orange">Create</span>
                                 </a>
                                 <ul class="collapse list-unstyled pl-4 w-100" id="ui-elements">
                                     <li class="nav-item">
                                         <a class="nav-link pl-3" href="@Url.Action("CreateAccount", "SuperAdmin")">
-                                            <span class="ml-1 item-text">Account</span>
+                                            <span class="ml-1 item-text hover-orange">Account</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link pl-3" href="@Url.Action("CreateUser", "SuperAdmin")"><span class="ml-1 item-text">Users</span></a>
+                                        <a class="nav-link pl-3" href="@Url.Action("CreateUser", "SuperAdmin")"><span class="ml-1 item-text hover-orange">Users</span></a>
                                     </li>
 
                                 </ul>
@@ -133,14 +144,14 @@
                             <li id="Reports" runat="server" class="nav-item dropdown">
                                 <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                     <i class="fe fe-credit-card fe-16"></i>
-                                    <span class="ml-3 item-text">Reports</span>
+                                    <span class="ml-3 item-text hover-orange">Reports</span>
                                 </a>
                                 <ul class="collapse list-unstyled pl-4 w-100" id="forms">
                                     <li class="nav-item">
-                                        <a class="nav-link pl-3" href="./form_elements.html"><span class="ml-1 item-text">Dump Report</span></a>
+                                        <a class="nav-link pl-3" href="./form_elements.html"><span class="ml-1 item-text hover-orange">Dump Report</span></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link pl-3" href="./form_advanced.html"><span class="ml-1 item-text">Row Dump </span></a>
+                                        <a class="nav-link pl-3" href="./form_advanced.html"><span class="ml-1 item-text hover-orange">Row Dump </span></a>
                                     </li>
 
                                 </ul>
@@ -152,11 +163,11 @@
                         <li class="nav-item dropdown" id="Upload2" runat="server">
                             <a href="#charts3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                 <i class="fe fe-pie-chart fe-16"></i>
-                                <span class="ml-3 item-text">Notepad</span>
+                                <span class="ml-3 item-text hover-orange">Notepad</span>
                             </a>
                             <ul class="collapse list-unstyled pl-4 w-100" id="charts3">
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="@Url.Action("UseNotpad", "Notpad")"><span class="ml-1 item-text">Use NotePad</span></a>
+                                    <a class="nav-link pl-3" href="@Url.Action("UseNotpad", "Notpad")"><span class="ml-1 item-text hover-orange">Use NotePad</span></a>
                                 </li>
                             </ul>
                         </li>
@@ -166,28 +177,28 @@
                             <li class="nav-item dropdown" id="Upload" runat="server">
                                 <a href="#charts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                     <i class="fe fe-pie-chart fe-16"></i>
-                                    <span class="ml-3 item-text">Program</span>
+                                    <span class="ml-3 item-text hover-orange">Program</span>
                                 </a>
                                 <ul class="collapse list-unstyled pl-4 w-100" id="charts">
 
                                 @if (mySessionValue == "Admin")
                                 {
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("CreateProcess", "Admin")"><span class="ml-1 item-text">Process Create</span></a>
+                                        <a class="nav-link pl-3" href="@Url.Action("CreateProcess", "Admin")"><span class="ml-1 item-text hover-orange">Process Create</span></a>
                                             </li>
 
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("CreateSubProcess", "Admin")"><span class="ml-1 item-text">Sub-Process</span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("CreateSubProcess", "Admin")"><span class="ml-1 item-text hover-orange">Sub-Process</span></a>
                                             </li>
                                 }
                                 else if (mySessionValue == "SiteAdmin")
                                 {
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("CreateProcessBySiteAdmin", "Module")"><span class="ml-1 item-text">Process Create</span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("CreateProcessBySiteAdmin", "Module")"><span class="ml-1 item-text hover-orange">Process Create</span></a>
                                             </li>
 
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("CreateSubProcess", "Module")"><span class="ml-1 item-text">Sub-Process</span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("CreateSubProcess", "Module")"><span class="ml-1 item-text hover-orange">Sub-Process</span></a>
                                             </li>
                                 }
 
@@ -198,38 +209,38 @@
                             <li id="table" class="nav-item dropdown" runat="server">
                                 <a href="#tables" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                     <i class="fe fe-grid fe-16"></i>
-                                    <span class="ml-3 item-text">User</span>
+                                    <span class="ml-3 item-text hover-orange">User</span>
                                 </a>
                                 <ul class="collapse list-unstyled pl-4 w-100" id="tables">
                                 @if (mySessionValue == "Admin")
                                 {
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("CreateUser", "Admin")"><span class="ml-1 item-text">Create</span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("CreateUser", "Admin")"><span class="ml-1 item-text hover-orange">Create</span></a>
                                             </li>
 
                                                 <li class="nav-item">
-                                                    <a class="nav-link pl-3" href="@Url.Action("UploadUsers", "Admin")"><span class="ml-1 item-text">Uplode Users</span></a>
+                                                    <a class="nav-link pl-3" href="@Url.Action("UploadUsers", "Admin")"><span class="ml-1 item-text hover-orange">Uplode Users</span></a>
                                                 </li>
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("ProcessAssign", "Admin")"><span class="ml-1 item-text">Assign Process</span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("ProcessAssign", "Admin")"><span class="ml-1 item-text hover-orange">Assign Process</span></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Admin")"><span class="ml-1 item-text">Manage Role</span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Admin")"><span class="ml-1 item-text hover-orange">Manage Role</span></a>
                                             </li>
                                 }
                                 else if (mySessionValue == "SiteAdmin")
                                 {
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("CreateUser", "Module")"><span class="ml-1 item-text">Create</span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("CreateUser", "Module")"><span class="ml-1 item-text hover-orange">Create</span></a>
                                             </li>
                                     <li class="nav-item">
-                                        <a class="nav-link pl-3" href="@Url.Action("UploadUsers", "Module")"><span class="ml-1 item-text">Uplode Users</span></a>
+                                        <a class="nav-link pl-3" href="@Url.Action("UploadUsers", "Module")"><span class="ml-1 item-text hover-orange">Uplode Users</span></a>
                                     </li>
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("ProcessAssign", "Module")"><span class="ml-1 item-text">Assign Process</span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("ProcessAssign", "Module")"><span class="ml-1 item-text hover-orange">Assign Process</span></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Module")"><span class="ml-1 item-text">Manage Role</span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Module")"><span class="ml-1 item-text hover-orange">Manage Role</span></a>
                                             </li>
                                 }
 
@@ -240,27 +251,27 @@
                             <li class="nav-item dropdown" id="ViewUser" runat="server">
                                 <a href="#pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                     <i class="fe fe-file fe-16"></i>
-                                    <span class="ml-3 item-text"> Feature</span>
+                                    <span class="ml-3 item-text hover-orange"> Feature</span>
                                 </a>
                                 <ul class="collapse list-unstyled pl-4 w-100 w-100" id="pages">
                                 @if (mySessionValue == "Admin")
                                 {
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Admin")"><span class="ml-1 item-text">Assign Feature </span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Admin")"><span class="ml-1 item-text hover-orange">Assign Feature </span></a>
                                             </li>
 
                                 }
                                 else if (mySessionValue == "SiteAdmin")
                                 {
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Module")"><span class="ml-1 item-text">Assign Feature </span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Module")"><span class="ml-1 item-text hover-orange">Assign Feature </span></a>
                                             </li>
                                                   
                                             <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("Notpad", "Notpad")"><span class="ml-1 item-text">Assign Notepad Access</span></a>
+                                                <a class="nav-link pl-3" href="@Url.Action("Notpad", "Notpad")"><span class="ml-1 item-text hover-orange">Assign Notepad Access</span></a>
                                             </li>
                                     <li class="nav-item">
-                                        <a class="nav-link pl-3" href="@Url.Action("CreateFormula", "Report")"><span class="ml-1 item-text">Create Template</span></a>
+                                        <a class="nav-link pl-3" href="@Url.Action("CreateFormula", "Report")"><span class="ml-1 item-text hover-orange">Create Template</span></a>
                                     </li>
                                 }
 
@@ -278,7 +289,7 @@
                                 <li class="nav-item dropdown">
                                     <a href="#role-@role.RoleId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                         <i class="fe fe-users fe-16"></i>
-                                        <span class="ml-3 item-text">@role.RoleName</span>
+                                        <span class="ml-3 item-text hover-orange">@role.RoleName</span>
                                     </a>
                                     <ul class="collapse list-unstyled pl-4 w-100" id="role-@role.RoleId">
 
@@ -289,7 +300,7 @@
                                                         <li>
 
                                                             <a class="nav-link pl-3" href="/Module/Modules?roleid=@role.RoleId&ModuleName=@module.ModuleName">
-                                                                <span class="ml-1">@module.ModuleName</span>
+                                                    <span class="ml-1 hover-orange">@module.ModuleName</span>
                                                             </a>
                                                         </li>
                                         }
@@ -301,7 +312,7 @@
                                                 <li class="nav-item dropdown">
                                                     <a href="#feature-@feature.FeatureId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                                         <i class="fe fe-cogs fe-16"></i>
-                                                        <span class="ml-3 item-text">@feature.FeatureName</span>
+                                                        <span class="ml-3 item-text hover-orange">@feature.FeatureName</span>
                                                     </a>
                                                     <ul class="collapse list-unstyled pl-4 w-100" id="feature-@feature.FeatureId">
                                                 @foreach (var subFeature in feature.SubFeatures)
@@ -309,7 +320,7 @@
                                                                 <li>
                                                                     <a class="nav-link pl-3" href="/Module/FetureSubFeture?RoleName=@role.RoleName&Featureid=@feature.FeatureId&SubFeatureid=@subFeature.SubFeatureId">
                                                                         <span style="content: '• '; display: inline-block; margin-right: 5px;">•</span>
-                                                                        <span class="ml-1">@subFeature.SubFeatureName</span>
+                                                            <span class="ml-1 hover-orange">@subFeature.SubFeatureName</span>
                                                                     </a>
 
                                                                 </li>
@@ -362,6 +373,37 @@
     <script src='~/js/dropzone.min.js'></script>
     <script src='~/js/uppy.min.js'></script>
     <script src='~/js/quill.min.js'></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const darkTheme = document.getElementById('darkTheme');
+            const lightTheme = document.getElementById('lightTheme');
+            const modeSwitcher = document.getElementById('modeSwitcher');
+
+            // Default mode set to 'dark'
+            let currentMode = 'dark';
+
+            modeSwitcher.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                if (currentMode === 'dark') {
+                    // Switch to light mode
+                    darkTheme.disabled = true;
+                    lightTheme.disabled = false;
+                    currentMode = 'light';
+                    modeSwitcher.setAttribute('data-mode', 'dark');
+                    modeSwitcher.innerHTML = '<i class="fe fe-moon fe-16"></i>';
+                } else {
+                    // Switch back to dark mode
+                    darkTheme.disabled = false;
+                    lightTheme.disabled = true;
+                    currentMode = 'dark';
+                    modeSwitcher.setAttribute('data-mode', 'light');
+                    modeSwitcher.innerHTML = '<i class="fe fe-sun fe-16"></i>';
+                }
+            });
+        });
+    </script>
+
     <script>
         function toggleImage() {
             const img = document.querySelector('#logoImage');

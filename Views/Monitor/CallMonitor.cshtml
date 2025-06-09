@@ -263,15 +263,15 @@
 
                     <div class="col-md-12">
                         <div class="form-group mb-3 d-flex align-items-center justify-content-start gap-4"
-                             style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa;">
+                             style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #1F2233;">
 
-                            <button id="StartAudit" class="btn btn-primary" onclick="startAudit()"
+                            <button id="StartAudit" class="btn" style="background-color: #FF581C;border:white"  ; onclick="startAudit()"
                                     style="padding: 10px 20px; font-size: 16px;">
                                 Start Audit
                             </button>
 
                             <button id="pauseButton" onclick="togglePause()"
-                                    style="display: flex; align-items: center; justify-content: center;margin-left:20px; width: 50px; height: 50px; border: none; border-radius: 50%; background: linear-gradient(135deg, #007bff, #0056b3); color: white; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;"
+                                    style="display: flex; align-items: center; justify-content: center;margin-left:20px; width: 50px; height: 50px; border: none; border-radius: 50%; background: linear-gradient(135deg, #FF581C,white ); color: white; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;"
                                     disabled>
                                 <i id="pauseIcon" class="fe fe-24 fe-play"></i>
                             </button>
@@ -472,7 +472,7 @@
                 </div>
                 <input type="hidden" id="hiddenEndTime">
             </div>
-            <div class="col-md-2" style="flex: 1;">
+            <div class="col-md-6" style="flex: 1;">
                 <div class="form-group mb-3">
                     <button id="btnVoicefeed" class="btn btn-primary mt-4">Record voice Feedback</button>
                 </div>
@@ -482,7 +482,8 @@
     </div>
 </div>
 <div id="voiceModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: white; padding: 20px; box-shadow: 0px 0px 10px gray; border-radius: 10px; z-index: 1000;">
+        background-color: #1F2233;
+ padding: 20px; box-shadow: 0px 0px 10px gray; border-radius: 10px; z-index: 1000;">
 
     <h4>Record Your Voice Message</h4>
 
@@ -500,7 +501,7 @@
 
     <audio id="audioPlayback" controls style="display: none; margin-top: 10px;"></audio>
 
-    <button id="saveRecording" style="background-color: blue; color: white; border: none; padding: 10px;
+    <button id="saveRecording" style="background-color: gray; color: white; border: none; padding: 10px;
         margin: 5px; cursor: pointer; border-radius: 5px;" disabled>
         Save
     </button>
@@ -1296,7 +1297,7 @@
 
                                                     let container = document.getElementById("recordingContainer");
                                                     container.innerHTML = ""; // Clear previous content
-                                                    let imagePath = '/images/call_recording.jpg';
+                                                    let imagePath = '/images/call_recording.png';
                                                     console.log("Image Path:", imagePath); // Debugging
 
                                                     container.style.backgroundImage = `url('${imagePath}')`;
@@ -1308,7 +1309,7 @@
                                                     container.style.alignItems = "center";
                                                     container.style.justifyContent = "center";
                                                     container.style.flexDirection = "column"; // Stack elements vertically
-                                                    container.style.padding = "20px";
+                                                    container.style.margin-top="-137px";
                                                     if (!response.audioData) {
                                                         console.error("No audio data received.");
                                                         return;

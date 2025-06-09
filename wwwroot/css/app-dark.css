@@ -61,14 +61,15 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
 
 body {
-  margin: 0;
-  font-family: "Overpass", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #ced4da;
-  text-align: left;
-  background-color: #212529; }
+    margin: 0;
+    font-family: "Overpass", sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #ced4da;
+    text-align: left;
+    background-color: #1F2233;
+}
 
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important; }
@@ -1826,18 +1827,21 @@ fieldset:disabled a.btn {
   pointer-events: none; }
 
 .btn-primary {
-  color: #ffffff;
-  background-color: #1b68ff;
-  border-color: #1b68ff; }
-  .btn-primary:hover {
     color: #ffffff;
-    background-color: #0052f4;
-    border-color: #004ee7; }
-  .btn-primary:focus, .btn-primary.focus {
-    color: #ffffff;
-    background-color: #0052f4;
-    border-color: #004ee7;
-    box-shadow: 0 0 0 0.2rem rgba(61, 127, 255, 0.5); }
+   
+    border-color: #FF581C;
+}
+    .btn-primary:hover {
+        color: #ffffff;
+        background-color: #FF581C;
+        border-color: #FF581C;
+    }
+    .btn-primary:focus, .btn-primary.focus {
+        color: #ffffff;
+        background-color: #FF581C;
+        border-color: #FF581C;
+        box-shadow: 0 0 0 0.2rem rgba(61, 127, 255, 0.5);
+    }
   .btn-primary.disabled, .btn-primary:disabled {
     color: #ffffff;
     background-color: #1b68ff;
@@ -2034,8 +2038,9 @@ fieldset:disabled a.btn {
       box-shadow: 0 0 0 0.2rem rgba(66, 70, 73, 0.5); }
 
 .btn-outline-primary {
-  color: #1b68ff;
-  border-color: #1b68ff; }
+    color: #FF581C;
+    border-color: #FF581C;
+}
   .btn-outline-primary:hover {
     color: #ffffff;
     background-color: #1b68ff;
@@ -2654,10 +2659,11 @@ input[type="button"].btn-block {
   width: 1rem;
   height: 1.15625rem;
   opacity: 0; }
-  .custom-control-input:checked ~ .custom-control-label::before {
-    color: #ffffff;
-    border-color: #1b68ff;
-    background-color: #1b68ff; }
+    .custom-control-input:checked ~ .custom-control-label::before {
+        color: #ffffff;
+        border-color: #FF581C;
+        background-color: #FF581C;
+    }
   .custom-control-input:focus ~ .custom-control-label::before {
     box-shadow: 0 0 0 0.2rem rgba(27, 104, 255, 0.25); }
   .custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
@@ -2762,10 +2768,11 @@ input[type="button"].btn-block {
   border: 1px solid #6c757d;
   border-radius: 0.25rem;
   appearance: none; }
-  .custom-select:focus {
-    border-color: #9bbcff;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(27, 104, 255, 0.25); }
+    .custom-select:focus {
+        border-color: #FF581C;
+        outline: 0;
+       
+    }
     .custom-select:focus::-ms-value {
       color: #ced4da;
       background-color: #343a40; }
@@ -5624,7 +5631,9 @@ button.bg-dark:focus {
 
 .ml-3,
 .mx-3 {
-  margin-left: 1rem !important; }
+  margin-left: 1rem !important;
+
+}
 
 .m-4 {
   margin: 1.5rem !important; }
@@ -7377,28 +7386,40 @@ button:focus {
 
 /* dropdown */
 .dropdown-toggle::after {
-  display: inline-block;
-  font-family: "feather";
-  content: "\e92e";
-  font-size: 0.75rem; }
+    display: inline-block;
+    font-family: "feather";
+    content: "\e92e";
+    font-size: 0.75rem;
+   
+}
 
 .dropdown-toggle.more-vertical::after {
-  content: "\e9a5"; }
+    content: "\e9a5";
+    color: #FF581C;
+}
 
 .dropdown-toggle.more-horizontal::after {
-  content: "\e9a4"; }
+    content: "\e9a4";
+    color: #FF581C;
+}
 
 /* navbar */
 .navbar-nav .nav-link {
-  padding: 0.5rem; }
+    padding: 0.5rem;
+    color: #FF581C;
+}
 
 .navbar-nav .dropdown .dropdown-toggle:hover:after {
-  content: "\e930"; }
+    color: #FF581C;
+    content: "\e930";
+}
 
 .navbar-nav .dropdown-menu .nav-item .dropdown-toggle::after {
-  content: "\e930";
-  position: absolute;
-  right: .5rem; }
+    content: "\e930";
+    position: absolute;
+    right: .5rem;
+    color: #FF581C;
+}
 
 .navbar-nav .dropdown-menu .nav-item > .dropdown-menu {
   top: 0;

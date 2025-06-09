@@ -24,8 +24,17 @@
 
     <style>
         .background-radial-gradient {
-            background-color: hsl(218, 41%, 15%);
-            background-image: radial-gradient(650px circle at 0% 0%, hsl(218, 41%, 35%) 15%, hsl(218, 41%, 30%) 35%, hsl(218, 41%, 20%) 75%, hsl(218, 41%, 19%) 80%, transparent 100%), radial-gradient(1250px circle at 100% 100%, hsl(218, 41%, 45%) 15%, hsl(218, 41%, 30%) 35%, hsl(218, 41%, 20%) 75%, hsl(218, 41%, 19%) 80%, transparent 100%);
+            background-image: url('images/login.png');
+            background-size: 100% 100%; /* or any specific size like 500px 300px */
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .body {
+            background-image: url('images/login.png');
+            background-size: cover; /* or use 'contain', or specific size like 600px 400px */
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
         .container {
@@ -36,11 +45,10 @@
         }
 
         .screen {
-            background: linear-gradient(90deg, #5D54A4, #7C78B8);
             position: relative;
             height: 600px;
-            width: 360px;
-            box-shadow: 0px 0px 24px #5C5696;
+            width: 400px;
+            padding: 34px;
         }
 
         .screen__content {
@@ -65,41 +73,6 @@
             position: absolute;
         }
 
-        .screen__background__shape1 {
-            height: 520px;
-            width: 520px;
-            background: #FFF;
-            top: -50px;
-            right: 120px;
-            border-radius: 0 72px 0 0;
-        }
-
-        .screen__background__shape2 {
-            height: 220px;
-            width: 220px;
-            background: #6C63AC;
-            top: -172px;
-            right: 0;
-            border-radius: 32px;
-        }
-
-        .screen__background__shape3 {
-            height: 540px;
-            width: 190px;
-            background: linear-gradient(270deg, #5D54A4, #6A679E);
-            top: -24px;
-            right: 0;
-            border-radius: 32px;
-        }
-
-        .screen__background__shape4 {
-            height: 400px;
-            width: 200px;
-            background: #7E7BB9;
-            top: 420px;
-            right: 50px;
-            border-radius: 60px;
-        }
 
         .login {
             padding: 30px;
@@ -107,28 +80,26 @@
         }
 
         .custom-alert {
-            
-            margin-top:-50px;
-            color: darkblue;
-            
+            margin-top: -50px;
+            color: #ff581c;
             border-radius: 5px;
             margin: 15px 0;
             font-size: 16px;
             border-radius: 5px;
             margin: 15px 0;
-            margin-left: 82px;
-            margin-top: -45px;
-
+            margin-left: 107px;
+            margin-top: -102px;
+            position: absolute;
         }
 
         .login__field {
-            padding: 20px 0px;
+            padding: 13px 0px;
             position: relative;
         }
 
         .login__icon {
             position: absolute;
-            top: 30px;
+            top: 68px;
             left: 10px;
             color: #7875B5;
         }
@@ -183,7 +154,7 @@
         }
 
         .social-login {
-            position: absolute;
+            margin-top: 12px;
             height: 140px;
             width: 100%;
             text-align: center;
@@ -218,25 +189,6 @@
 
 
 
-        #radius-shape-1 {
-            height: 220px;
-            width: 220px;
-            top: -60px;
-            left: -130px;
-            background: radial-gradient(#44006b, #ad1fff);
-            overflow: hidden;
-        }
-
-        #radius-shape-2 {
-            border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
-            bottom: -60px;
-            right: -110px;
-            width: 200px;
-            height: 250px;
-            background: radial-gradient(#44006b, #ad1fff);
-            overflow: hidden;
-        }
-
         .bg-glass {
             background-color: #ffffff !important;
             backdrop-filter: saturate(200%) blur(25px);
@@ -244,7 +196,7 @@
 
         .button-2 {
             font-weight: bold;
-            background-color: #635283;
+            background-color: #FF581C;
             border-radius: 8px;
             border-width: 0;
             color: #fff;
@@ -268,21 +220,22 @@
 
             .button-2:hover {
                 background-color: #fff;
-                color: #635283;
+                color: #1F2233;
             }
     </style>
 </head>
 <body>
 
     <section class="background-radial-gradient overflow-hidden">
-        <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true" style="margin-top:45px;">
-            <div class="modal-dialog" style="max-width: 380px; margin: auto;">
-                <div class="modal-content" style="border-radius: 12px;margin-left: 215px;width: 351; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
-                    <div class="modal-header" style="background-color: #635283; color: white; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+
+        <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
                         <h5 class="modal-title" id="resetPasswordModalLabel">Reset Password</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" style="padding: 20px;">
+                    <div class="modal-body">
                         <div id="resetStep1">
                             <div class="mb-3">
                                 <label for="resetUsername" class="form-label" style="font-weight: 300;">Username</label>
@@ -327,7 +280,7 @@
                                 <label for="resetUsername3" class="form-label" style="font-weight: 300;">Username</label>
                                 <input type="text" readonly class="form-control" id="resetUsername3" placeholder="Enter your username" style="border-radius: 8px;">
                             </div>
-                          
+
                             <div class="mb-3">
                                 <label for="newPassword3" class="form-label" style="font-weight: 300;">New Password</label>
                                 <input type="password" class="form-control" id="newPassword3" placeholder="Enter new password" style="border-radius: 8px;">
@@ -336,22 +289,95 @@
                                 <label for="confirmPassword3" class="form-label" style="font-weight: 300;">Confirm Password</label>
                                 <input type="password" class="form-control" id="confirmPassword3" placeholder="Confirm new password" style="border-radius: 8px;">
                             </div>
-                            <button type="button" class="button-2  form-control" onclick="verifyAndResetPasswordWithoutOTP()" style="border-radius: 8px; border: none;">Reset Password</button>
+                            <button type="button" class="button-2  form-control" onclick="verifyAndResetPasswordWithoutOTP()" style="border-radius: 8px; border: none;background-color:#FF581C">Reset Password</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+        @* <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModal" aria-hidden="true" style="margin-top:45px;">
+            <div class="modal-dialog" style="max-width: 380px; margin: auto;">
+                <div class="modal-content" style="border-radius: 12px;margin-left: 215px;width: 351; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
+                    <div class="modal-header" style="background-color: #1F2233; color: white; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                        <h5 class="modal-title" id="resetPasswordModalLabel">Reset Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;background-color: #1F2233;">
+                        <div id="resetStep1">
+                            <div class="mb-3">
+                                <label for="resetUsername" class="form-label" style="font-weight: 300;">Username</label>
+                                <input type="text" readonly class="form-control" id="resetUsername" placeholder="Enter your username" style="border-radius: 8px;">
+                            </div>
+                            <div class="mb-3">
+                                <label for="resetEmail" class="form-label" style="font-weight: 300;">Email</label>
+                                <input type="email" readonly class="form-control" id="resetEmail" placeholder="Enter your email" style="border-radius: 8px;">
+                            </div>
+                            <div class="mb-3">
+                                <label for="resetPhone" class="form-label" style="font-weight: 300;">Phone</label>
+                                <input type="text" readonly class="form-control" id="resetPhone" placeholder="Enter your phone number" style="border-radius: 8px;">
+                            </div>
+                            <button type="button" class="button-2  form-control" onclick="sendResetOTP()" style="border-radius: 8px; border: none;">Send OTP</button>
+                        </div>
+                        <div id="resetStep2" style="display: none;">
+                            <div class="mb-3">
+                                <label for="resetUsername" class="form-label" style="font-weight: 300;">Username</label>
+                                <input type="text" readonly class="form-control" id="resetUsername2" placeholder="Enter your username" style="border-radius: 8px;">
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailOTP" class="form-label" style="font-weight: 300;">Email OTP</label>
+                                <input type="text" class="form-control" id="emailOTP" placeholder="Enter Email OTP" style="border-radius: 8px;">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phoneOTP" class="form-label" style="font-weight: 300;">Phone OTP</label>
+                                <input type="text" class="form-control" id="phoneOTP" placeholder="Enter Phone OTP" style="border-radius: 8px;">
+                            </div>
+                            <div class="mb-3">
+                                <label for="newPassword" class="form-label" style="font-weight: 300;">New Password</label>
+                                <input type="password" class="form-control" id="newPassword" placeholder="Enter new password" style="border-radius: 8px;">
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label" style="font-weight: 300;">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password" style="border-radius: 8px;">
+                            </div>
+                            <button type="button" class="button-2  form-control" onclick="verifyAndResetPassword()" style="border-radius: 8px; border: none;">Reset Password</button>
+                        </div>
+
+                        <div id="resetStep3" style="display: none;">
+                            <div class="mb-3">
+                                <label for="resetUsername3" class="form-label" style="font-weight: 300;">Username</label>
+                                <input type="text" readonly class="form-control" id="resetUsername3" placeholder="Enter your username" style="border-radius: 8px;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="newPassword3" class="form-label" style="font-weight: 300;">New Password</label>
+                                <input type="password" class="form-control" id="newPassword3" placeholder="Enter new password" style="border-radius: 8px;">
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword3" class="form-label" style="font-weight: 300;">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword3" placeholder="Confirm new password" style="border-radius: 8px;">
+                            </div>
+                            <button type="button" class="button-2  form-control" onclick="verifyAndResetPasswordWithoutOTP()" style="border-radius: 8px; border: none;background-color:#FF581C">Reset Password</button>
                         </div>
 
                     </div>
                 </div>
             </div>
-        </div>
+        </div> *@
 
         <div class="container   text-center text-lg-start" style="min-width:inherit;max-width:815px;">
             <div class="row gx-lg-5 align-items-center mb-5">
                 <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
                     <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
                         <br />
-                        <span style="color: hsl(218, 81%, 75%)">Quality Management System</span>
+                        <span style="color:  hsl(218, 81%, 95%)">Q360</span>
                     </h1>
-                    <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+                    <p class="mb-4 opacity-70" style="color:  hsl(218, 81%, 95%)">
 
                         The QMS Log Form project focuses on documenting and managing quality-related issues and actions, ensuring continuous improvement in processes and products. It promotes accountability and traceability in maintaining high standards of quality.
                     </p>
@@ -359,58 +385,66 @@
 
                 <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
                     <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
-                    <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
-                  
+                    @*  <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div> *@
+
                     <br />
                     <br />
                     <br />
-                  
-                    <div class="container" style="min-height:inherit;">
-                        <div style="border-radius: 20px;" class="screen">
+
+                    <div class="container" style="width: 500px;margin-top: -75px;">
+                        <div style="border-radius: 40px;background-color:transparent; " class="screen">
                             <div class="screen__content">
-                               
-                                @using (Html.BeginForm("LogIn", "Login", FormMethod.Post, new { @class = "login" }))
+                                <p style="text-align:center"><img src="Images/logo.png" style="width: 50%;" /></p>
+                                <h3 style="color: white;text-align: center;font-family: auto;font-size: 42px;">
+                                    Welcome Back !
+                                </h3>
+                                @using (Html.BeginForm("LogIn", "Login", FormMethod.Post, new { @class = "" }))
                                 {
-                                    @if (TempData["LoginMessage"] != null)
-                                    {
-                                        <div class="custom-alert" style="width:100px;">
-                                            @TempData["LoginMessage"]
-                                        </div>
-                                    }
+
                                     <div class="login__field">
-                                        <i class="login__icon fas fa-user"></i>
+                                        <label style="padding:10px;color:white">Username</label>
+                                        <i class="login__icon fas fa-user" style="color:#FF581C"></i>
+
                                         @Html.TextBox("Username", null, new { @class = "form-control", placeholder = "Enter Username", style = "text-align:center" })
 
                                     </div>
                                     <div class="login__field">
-                                        <i class="login__icon fas fa-lock"></i>
+                                        <label style="padding:10px;color:white">Password</label>
+                                        <i class="login__icon fas fa-lock" style="color:#FF581C"></i>
 
                                         @Html.Password("Password", null, new { @class = "form-control", placeholder = "Enter Password", style = "text-align:center" })
                                     </div>
                                     <br />
                                     <br />
-                                    <button type="submit" class="button-2  form-control" ID="lnkSubmit">LOGIN</button>
-                                    <button type="submit" class="button-2  form-control" ID="ResetPass" onclick="ResetPassword()"  style="display:none">Reset Password</button>
+                                    <button type="submit" class="button-2  form-control" ID="lnkSubmit" style="background-color:#FF581C">LOGIN</button>
+                                    <button type="submit" class="button-2  form-control" ID="ResetPass" onclick="ResetPassword()" style="display:none">Reset Password</button>
 
                                 }
-                                <div class="text-center"style="margin-top:-20px; margin-left:100px;">
+                                <div class="text-center" style="margin-top: 5px;margin-left: 193px;">
                                     <a href="#" id="resetPasswordLink" class="text-light" data-bs-toggle="modal" data-bs-target="#resetPasswordModal"> Forgot Password?</a>
 
                                 </div>
+
+                                @if (TempData["LoginMessage"] != null)
+                                {
+                                    <div class="custom-alert" style="width:100px;">
+                                        @TempData["LoginMessage"]
+                                    </div>
+                                }
                                 <div class="social-login">
-                                    <img src="Images/nagalogo.png" style="width: 50%;" />
+
                                     <div class="social-icons">
-                                        <a href="#" class="social-login__icon fab fa-instagram"></a>
-                                        <a href="#" class="social-login__icon fab fa-facebook"></a>
-                                        <a href="#" class="social-login__icon fab fa-twitter"></a>
+                                        <a href="#" class="social-login__icon fab fa-instagram" style="color:#FF581C"></a>
+                                        <a href="#" class="social-login__icon fab fa-facebook" style="color:#FF581C"></a>
+                                        <a href="#" class="social-login__icon fab fa-twitter" style="color:#FF581C"></a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="screen__background">
-                                <span class="screen__background__shape screen__background__shape4"></span>
+                            <div class="screen__background" style="background-color: rgb(245 245 245 / 15%);border-radius: 12px;">
+                                @* <span class="screen__background__shape screen__background__shape4"></span>
                                 <span class="screen__background__shape screen__background__shape3"></span>
                                 <span class="screen__background__shape screen__background__shape2"></span>
-                                <span class="screen__background__shape screen__background__shape1"></span>
+                                <span class="screen__background__shape screen__background__shape1"></span> *@
                             </div>
 
                         </div>
@@ -420,8 +454,11 @@
 
             </div>
         </div>
-     
+
     </section>
+
+
+
     <script src="~/js/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -437,7 +474,7 @@
                     alert("Please enter your username first.");
                     return;
                 } else {
-             
+
 
                     $.ajax({
                         url: '/LogIn/CheckUsername',
@@ -447,7 +484,7 @@
                             console.log(JSON.stringify(response));
                             if (response.success) {
                                   var userData = response.data[0];
-                             
+
                              $('#resetUsername2').val(loginUsername);
                                 $('#resetUsername').val(loginUsername);
                                 $('#resetEmail').val(userData.Email);  // Access Email
@@ -487,7 +524,7 @@
         });
 
         function openResetPasswordModal2() {
-          
+
             // var modal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
             // modal.show();
 
@@ -508,13 +545,14 @@
                             if (response.success) {
                                   var userData = response.data[0];
 
-                         
+
                                 $('#resetUsername3').val(loginUsername);
                                            document.getElementById("resetStep1").style.display = "none";
                                                  document.getElementById("resetStep2").style.display = "none";
                                                   document.getElementById("resetStep3").style.display = "block";
                                 var modal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
                                 modal.show();
+
                             } else {
                                 alert("Username not found or error occurred: " + (response.error || ""));
                                 console.log("Server response:", response);
@@ -602,7 +640,7 @@
         }
         function verifyAndResetPasswordWithoutOTP() {
             let username = document.getElementById('resetUsername3').value;
-         
+
             let newPassword = document.getElementById('newPassword3').value;
             let confirmPassword = document.getElementById('confirmPassword3').value;
 
@@ -639,12 +677,12 @@
         }
 
         function openResetPasswordModal() {
-            
+
             document.getElementById('lnkSubmit').style.display = 'none';
             document.getElementById('ResetPass').style.display = 'block';
 
         }
-       
+
     </script>
 </body>
 </html>
