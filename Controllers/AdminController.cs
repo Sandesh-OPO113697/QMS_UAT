@@ -191,6 +191,15 @@ namespace QMS.Controllers
         public async Task<ActionResult> DashBoard()
         {
             DataTable dt = await _admin.GetProcessListAsync();
+
+            var processList = dt.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ProcessName"]}",
+            }).ToList();
+            ViewBag.Process = processList;
+
+
             return View(dt);
         }
 
