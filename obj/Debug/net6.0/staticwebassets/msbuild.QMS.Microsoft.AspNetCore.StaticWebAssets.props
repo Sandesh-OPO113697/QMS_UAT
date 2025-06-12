@@ -876,8 +876,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>vlgpwq3eei</Fingerprint>
-      <Integrity>rWeqJOZnyhan61XmgNqeelbyUZtBdOQ9QLBFD/O5AZI=</Integrity>
+      <Fingerprint>lv15i1tjcn</Fingerprint>
+      <Integrity>P+GYyJSgb5GK69+nyLbWt/SDFa1XpzEzkdvfvjtQRzw=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\app-dark.css'))</OriginalItemSpec>

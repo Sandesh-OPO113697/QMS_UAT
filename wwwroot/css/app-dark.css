@@ -2213,7 +2213,7 @@ pre {
 }
 
 .form-control:disabled, .form-control[readonly] {
-    background-color: #25273e;
+    background-color: #181b25;
     opacity: 1;
 }
 

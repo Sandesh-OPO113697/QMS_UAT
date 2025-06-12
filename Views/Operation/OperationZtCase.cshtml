@@ -6,7 +6,7 @@
 <div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow" style="border-radius: 10px; border: 1px solid #ddd;">
         <div class="card-body" style="padding: 20px;">
-            <h5 class="card-title" style="font-weight: bold; color: #24294a;">Operational Manager View</h5>
+            <h5 class="card-title" style="font-weight: bold; color: white;">Operational Manager View</h5>
 
 
             <div class="row">
@@ -85,12 +85,12 @@
                     <div id="recordingContainer" data-transaction-id="@ViewBag.TransactionID"></div>
 
                 </div>
-                <div class="form-group col-md-12">
-                    <label for="QAComments" style="font-weight: 600; color: #24294a; font-size: 16px; display: block; margin-bottom: 8px;">
+                <div class="form-group col-md-12" style="margin-top: 15px;">
+                    <label for="QAComments" style="font-weight: 600; color: white; font-size: 16px; display: block; margin-bottom: 8px;">
                         Voice Feedback
                     </label>
 
-                    <div style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #f8f9fa; text-align: center;">
+                    <div style="padding: 10px; border-radius: 8px; text-align: center;">
                         @if (!string.IsNullOrEmpty(ViewBag.AudioData))
                         {
                             <audio controls style="width: 100%; max-width: 400px;">
@@ -107,7 +107,7 @@
             </div>
            
 
-            <div class="row">
+            <div class="row" style="margin-top: 15px;">
                 <div class="form-group col-md-2">
                     <button type="submit" onclick="submitApprove()"
                             style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
@@ -160,6 +160,8 @@
                 align-items: center;
                 padding: 20px;
                 position: relative;
+                border-radius: 19px;
+                
                 `;
 
                 if (!response.audioData) {

@@ -81,6 +81,25 @@ namespace QMS.Controllers
                 DataTable dt1 = await dl_Agent.getMonitororIds();
                 DataTable dt2 = await dl_Agent.getDisputeMonitororIds();
                 DataTable dt3 = await dl_Agent.getZtSignOffData();
+                DataTable dt4 = await dl_Agent.GetPerformaceMatrix();
+                DataTable dt5 = await dl_Agent.GetMTD();
+                MonthlySummary tempdata = new MonthlySummary
+                {
+                    Call_MTD = Convert.ToInt32(dt5.Rows[0]["Call_MTD"]),
+                    AuditMTD = Convert.ToInt32(dt5.Rows[0]["AuditMTD"])
+                };
+                var performanceData = new List<PerformanceMetric>();
+                foreach (DataRow row in dt4.Rows)
+                {
+                    performanceData.Add(new PerformanceMetric
+                    {
+                        AgentID = row["AgentID"].ToString(),
+                        Matrix = row["Matrix"].ToString(),
+                        Target = Convert.ToInt32(row["Target"]),
+                        Actual_Performance = Convert.ToInt32(row["Actual_Performance"])
+                    });
+                }
+
                 List<AgentFeedBackDetails> feedbackList = dt1.AsEnumerable().Select(row => new AgentFeedBackDetails
                 {
                     TransactionID = row.Field<string>("TransactionID"),
@@ -144,7 +163,9 @@ namespace QMS.Controllers
                     DisputeList = disputeList,
                     ZtSignOffDataAgent= ZtSignOff,
                     assmentonl= assmentonl,
-                    agentsurvey= agentsurvey
+                    agentsurvey= agentsurvey,
+                    performanceMatrix = performanceData,
+                    monthlyData = tempdata
                 };
 
                 return View(viewModel);

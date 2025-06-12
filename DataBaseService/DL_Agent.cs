@@ -335,6 +335,60 @@ namespace QMS.DataBaseService
             return dt;
         }
 
+        public async Task<DataTable> GetPerformaceMatrix()
+        {
+           
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("GetAgentPerformance", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@AgentID", UserInfo.UserName);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
+        public async Task<DataTable> GetMTD()
+        {
+
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("GetAgentMTD", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@AgentID", UserInfo.UserName);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
 
         public async Task<DataTable> getAgentFeedbackSection( string TransactionID)
         {
