@@ -94,6 +94,7 @@ wwwroot\Images\QMSLOGO.webp
 wwwroot\Images\smiley-face.png
 wwwroot\Images\Tick.png
 wwwroot\Images\user.png
+wwwroot\Images\xsadsadsad.png
 wwwroot\js\apexcharts.custom.js
 wwwroot\js\apexcharts.min.js
 wwwroot\js\apps.js

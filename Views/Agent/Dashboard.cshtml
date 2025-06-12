@@ -1,4 +1,4 @@
-﻿@{
+﻿@* @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model AgentDashboardViewModel
@@ -246,7 +246,7 @@
         }
 
         .modal-content {
-            background-color: #fff;
+            background-color: #1f2233;
             margin: auto;
             padding: 25px;
             border-radius: 10px;
@@ -264,7 +264,7 @@
 
         .close-btn {
             padding: 8px 16px;
-            background-color: #007bff;
+            background-color: #FF581C;
             border: none;
             color: white;
             font-weight: bold;
@@ -273,7 +273,8 @@
         }
 
             .close-btn:hover {
-                background-color: #0056b3;
+                background-color: #FF581C;
+                color:wheat;
             }
 
     </style>
@@ -349,8 +350,330 @@
     </div>
 </div>
 
+ *@
 
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model AgentDashboardViewModel
+@{
+    var now = DateTime.Now;
+}
 
+<style>
+    .accordion-body {
+        display: none;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+    }
+
+    .accordion-header {
+        cursor: pointer;
+    }
+
+        .accordion-header:hover {
+            background-color: #1f2233;
+        }
+
+    .table-responsive-wrapper {
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 400px;
+        margin-top: 15px;
+        border: 1px solid #ddd;
+    }
+
+    .table {
+        min-width: 800px;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1050;
+        padding-top: 80px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(128, 128, 128, 0.6);
+    }
+
+    .modal-content {
+        background-color: #1f2233;
+        margin: auto;
+        padding: 25px;
+        border-radius: 10px;
+        width: 80%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 5px 15px rgba(128, 128, 128, 0.6);
+        animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .btn-wrapper {
+        text-align: right;
+        margin-top: 15px;
+    }
+
+    .close-btn {
+        padding: 8px 16px;
+        background-color: #FF581C;
+        border: none;
+        color: white;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .close-btn:hover {
+            background-color: #FF581C;
+            color: wheat;
+        }
+</style>
+
+<!-- Accordion Section: Feedback -->
+<div class="card shadow mb-4">
+    <div class="card-header accordion-header">
+        <strong class="card-title">Pending Feedback Acknowledgement</strong>
+    </div>
+    <div class="card-body accordion-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Date</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.FeedbackList != null && Model.FeedbackList.Any())
+                {
+                    foreach (var item in Model.FeedbackList)
+                    {
+                        bool isOlderThan24Hours = (DateTime.Now - item.CreatedDate).TotalHours > 24;
+                        <tr>
+                            <td class="@(isOlderThan24Hours ? "text-danger" : "")">@item.TransactionID</td>
+                            <td>@item.CreatedDate</td>
+                            <td>
+                                <a href="/Agent/AgentFeedBack?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">View</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">No pending feedback.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Accordion Section: Agent Survey -->
+<div class="card shadow mb-4">
+    <div class="card-header accordion-header">
+        <strong class="card-title">Pending Agent Survey Acknowledgement</strong>
+    </div>
+    <div class="card-body accordion-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Date</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.agentsurvey != null && Model.agentsurvey.Any())
+                {
+                    foreach (var item in Model.agentsurvey)
+                    {
+                        <tr>
+                            <td>@item.TransactionID</td>
+                            <td>@item.CreatedDate</td>
+                            <td>
+                                <a href="/Agent/AttemptAgentSurvey?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">View</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">No agent survey.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Accordion Section: Online Assessment -->
+<div class="card shadow mb-4">
+    <div class="card-header accordion-header">
+        <strong class="card-title">Online Assessment</strong>
+    </div>
+    <div class="card-body accordion-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>Test Category</th>
+                    <th>Date</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.assmentonl != null && Model.assmentonl.Any())
+                {
+                    foreach (var item in Model.assmentonl)
+                    {
+                        bool isExpired = item.expiryType == "date" ? item.expiryDate < now :
+                        item.expiryType == "hours" ? item.CreatedDate.AddHours(item.expiryHours) < now :
+                        false;
+                        string rowClass = isExpired ? "table-danger" : "";
+
+                        <tr class="@rowClass">
+                            <td>@item.TestName</td>
+                            <td>@item.TestCategory</td>
+                            <td>@item.CreatedDate</td>
+                            <td>
+                                <a href="/QAManager/AttempAssesment?TestID=@item.TestID" class="btn btn-primary btn-sm">View</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center">No pending online assessments.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Section: Sign-Off Details -->
+@if (Model.ZtSignOffDataAgent != null && Model.ZtSignOffDataAgent.Any())
+{
+    <div id="popupModal" class="modal">
+        <div class="modal-content">
+            <h4>Sign-Off Details</h4>
+            <div class="table-responsive-wrapper">
+                <table class="table table-bordered table-striped">
+                    <thead style="color:#ffff; background-color:#525452">
+                        <tr>
+                            <th>Process</th>
+                            <th>Subprocess</th>
+                            @for (int i = 1; i <= 10; i++)
+                            {
+                                <th>Procedure @i</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ZtSignOffDataAgent)
+                        {
+                            <tr>
+                                <td>@item.Process</td>
+                                <td>@item.SubProcessName</td>
+                                <td>@item.Process_1</td>
+                                <td>@item.Process_2</td>
+                                <td>@item.Process_3</td>
+                                <td>@item.Process_4</td>
+                                <td>@item.Process_5</td>
+                                <td>@item.Process_6</td>
+                                <td>@item.Process_7</td>
+                                <td>@item.Process_8</td>
+                                <td>@item.Process_9</td>
+                                <td>@item.Process_10</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="btn-wrapper">
+                <button class="close-btn" onclick="closePopup()">Agent Acknowledgement</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Accordion Section: Disputes -->
+<div class="card shadow mb-4">
+    <div class="card-header accordion-header">
+        <strong class="card-title">Pending Dispute Acknowledgement</strong>
+    </div>
+    <div class="card-body accordion-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Date</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.DisputeList != null && Model.DisputeList.Any())
+                {
+                    foreach (var item in Model.DisputeList)
+                    {
+                        bool isOlderThan24Hours = (DateTime.Now - item.CreatedDate).TotalHours > 24;
+                        <tr>
+                            <td class="@(isOlderThan24Hours ? "text-danger" : "")">@item.TransactionID</td>
+                            <td>@item.CreatedDate</td>
+                            <td>
+                                <a href="/Agent/AgentDisputeFeedBack?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">View</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">No pending disputes.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- JavaScript for accordion and popup -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const headers = document.querySelectorAll('.accordion-header');
+        headers.forEach(header => {
+            header.addEventListener('click', function () {
+                const body = this.nextElementSibling;
+                if (body.style.display === "none" || body.style.display === "") {
+                    body.style.display = "block";
+                } else {
+                    body.style.display = "none";
+                }
+            });
+        });
+
+        const popup = document.getElementById("popupModal");
+        if (popup) {
+            popup.style.display = "block";
+        }
+    });
+
+    function closePopup() {
+        document.getElementById("popupModal").style.display = "none";
+        fetch('/QAManager/Agentacknowledements', {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => console.log('Server Response:', data))
+            .catch(error => console.error('AJAX Error:', error));
+    }
+</script>
 
 <script src="~/js/jquery.min.js"></script>
 @await Html.PartialAsync("_MailModal")

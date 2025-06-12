@@ -29,7 +29,7 @@ namespace QMS.Controllers
         [HttpPost]
         public async Task<IActionResult> SavePerformance([FromBody] PerformanceData data)
         {
-           await   dl_qa.SubmiteAgentSurvey(data);
+            await dl_qa.SubmiteAgentSurvey(data);
             return Ok(new { status = "success" });
         }
         public async Task<IActionResult> TransactionID([FromBody] DropDawnString id)
@@ -51,7 +51,7 @@ namespace QMS.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new {test=""});
+                return Json(new { test = "" });
             }
         }
 
@@ -64,7 +64,7 @@ namespace QMS.Controllers
                 Text = $"{row["ProcessName"]}",
             }).ToList();
             ViewBag.Process = processList;
-           
+
 
             return View();
         }
@@ -78,20 +78,20 @@ namespace QMS.Controllers
                 Text = $"{row["ProcessName"]}",
             }).ToList();
             ViewBag.ProcessList = processList;
-          
+
             string Userid = UserInfo.UserName;
             string LocationID = UserInfo.LocationID;
-           
+
             return View();
 
-            
+
         }
 
 
         [HttpPost]
         public async Task<JsonResult> Agentacknowledements()
         {
-          
+
             int result = await dl_qa.UpdateAgentacknowledements();
             return Json(new { success = true, message = "Agent acknowledements successfully!!!" });
         }
@@ -116,7 +116,7 @@ namespace QMS.Controllers
             }
             catch (Exception ex)
             {
-               
+
                 return Json(new { success = false, message = "An error occurred: " + ex.Message });
             }
         }
@@ -145,9 +145,9 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SubmiteCochingComment(string AgentID, string ReviewDate, string Comment , string NumberOFReview)
+        public async Task<IActionResult> SubmiteCochingComment(string AgentID, string ReviewDate, string Comment, string NumberOFReview)
         {
-            await dl_qa.SubmiteCochingComment(AgentID , ReviewDate , Comment , NumberOFReview);
+            await dl_qa.SubmiteCochingComment(AgentID, ReviewDate, Comment, NumberOFReview);
             return RedirectToAction("Dashboard");
 
         }
@@ -172,9 +172,9 @@ namespace QMS.Controllers
 
 
         public async Task<IActionResult> SubmiteCoaching(string AgentID)
-            {
+        {
             List<ReviewDataModel> coutingList = await dl_qa.GetCaoutingList();
-            
+
             var data = coutingList.FirstOrDefault(x => x.AgentID == AgentID);
             var comment1 = data.Comment1;
             var comment2 = data.Comment2;
@@ -225,23 +225,286 @@ namespace QMS.Controllers
                 ViewBag.ReviewDate = "Null";
 
             }
-                List<MatrixAllDetails> ListCoutingMatrix = await dl_qa.GetMatrixList(AgentID);
+            List<MatrixAllDetails> ListCoutingMatrix = await dl_qa.GetMatrixList(AgentID);
 
-            return View( ListCoutingMatrix);
-            
+            return View(ListCoutingMatrix);
+
         }
+        [HttpPost]
+        public async Task<IActionResult> Getdashboad([FromBody] DashboardFilterModel model)
+        {
+            try
+            {
+              
+                DataTable dt = await dl_qa.GetQADashboard(model);
+                DataTable dt2 = await dl_qa.GetQAManotorDashboard(model);
+                DataTable dt3 = await dl_qa.GetTrasactionDashboard(model);
+
+                var rows = dt.AsEnumerable()
+                             .Select(row => dt.Columns.Cast<DataColumn>()
+                                 .ToDictionary(col => col.ColumnName, col => row[col]))
+                             .ToList();
+
+                var Monitoerows = dt2.AsEnumerable()
+                                      .Select(row => dt2.Columns.Cast<DataColumn>()
+                                          .ToDictionary(col => col.ColumnName, col => row[col]))
+                                      .ToList();
+
+                var TransactionAudit = dt3.AsEnumerable()
+                                          .Select(row => dt3.Columns.Cast<DataColumn>()
+                                              .ToDictionary(col => col.ColumnName, col => row[col]))
+                                          .ToList();
+
+    
+                List<DisputeCallfeedbackModel> disputeList = await dl_qa.DisputeAgentFeedback();
+
+                IEnumerable<DisputeCallfeedbackModel> baseList;
+
+           
+                if (model.Program == "ALL")
+                {
+                    baseList = disputeList;
+                }
+                else if (model.SubProgram == "ALL")
+                {
+                    baseList = disputeList.Where(x => x.Process == model.Program);
+                }
+                else
+                {
+                    baseList = disputeList.Where(x => x.Process == model.Program && x.SubProcessName == model.SubProgram);
+                }
+
+                DateTime today = DateTime.Today;
+                List<Dictionary<string, object>> baseListTransaction = new();
+
+     
+                switch (model.Filter?.ToLower())
+                {
+                    case "day":
+                        baseList = baseList.Where(x => x.CreatedDate.Date == today);
+
+                        baseListTransaction = TransactionAudit
+                            .Where(x =>
+                                x.ContainsKey("CreatedDate") &&
+                                x["CreatedDate"] != null &&
+                                DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
+                                createdDate.Date == today)
+                            .ToList();
+                        break;
+
+                    case "week":
+                        DateTime startOfWeek = today.AddDays(-(int)today.DayOfWeek + (int)DayOfWeek.Monday);
+                        DateTime endOfWeek = startOfWeek.AddDays(6);
+
+                        baseList = baseList.Where(x =>
+                            x.CreatedDate.Date >= startOfWeek && x.CreatedDate.Date <= endOfWeek);
+
+                        baseListTransaction = TransactionAudit
+                            .Where(x =>
+                                x.ContainsKey("CreatedDate") &&
+                                x["CreatedDate"] != null &&
+                                DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
+                                createdDate.Date >= startOfWeek && createdDate.Date <= endOfWeek)
+                            .ToList();
+                        break;
+
+                    case "month":
+                        int month = today.Month;
+                        int year = today.Year;
+
+                        baseList = baseList.Where(x =>
+                            x.CreatedDate.Month == month && x.CreatedDate.Year == year);
+
+                        baseListTransaction = TransactionAudit
+                            .Where(x =>
+                                x.ContainsKey("CreatedDate") &&
+                                x["CreatedDate"] != null &&
+                                DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
+                                createdDate.Month == month && createdDate.Year == year)
+                            .ToList();
+                        break;
+
+                    default:
+
+                        baseListTransaction = TransactionAudit;
+                        break;
+                }
+
+                int pendingCount = baseList.Count();
+                int closedCount = baseList.Count(x => x.AgentDispute == "2");
+
+                return Json(new
+                {
+                    dashboardData = rows,
+                    pendingCount = pendingCount,
+                    closedCount = closedCount,
+                    baseList = baseList,
+                    monitoerows = Monitoerows,
+                    baseListTransaction = baseListTransaction
+                });
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> Getdashboad([FromBody] DashboardFilterModel model)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = await dl_qa.GetQADashboard(model);
+        //        DataTable dt2 = await dl_qa.GetQAManotorDashboard(model);
+        //        DataTable dt3 = await dl_qa.GetTrasactionDashboard(model);
+        //        var rows = new List<Dictionary<string, object>>();
+        //        var TransactionAudit = new List<Dictionary<string, object>>();
+        //        var Monitoerows = new List<Dictionary<string, object>>();
+        //        foreach (DataRow row in dt3.Rows)
+        //        {
+        //            var dict = new Dictionary<string, object>();
+        //            foreach (DataColumn col in dt3.Columns)
+        //            {
+        //                dict[col.ColumnName] = row[col];
+        //            }
+        //            TransactionAudit.Add(dict);
+        //        }
+
+        //        foreach (DataRow row in dt.Rows)
+        //        {
+        //            var dict = new Dictionary<string, object>();
+        //            foreach (DataColumn col in dt.Columns)
+        //            {
+        //                dict[col.ColumnName] = row[col];
+        //            }
+        //            rows.Add(dict);
+        //        }
+
+        //        foreach (DataRow row in dt2.Rows)
+        //        {
+        //            var dict = new Dictionary<string, object>();
+        //            foreach (DataColumn col in dt2.Columns)
+        //            {
+        //                dict[col.ColumnName] = row[col];
+        //            }
+        //            Monitoerows.Add(dict);
+        //        }
+
+        //        int pendingcount = 0;
+        //        int clodescount = 0;
+
+        //        var filter = model.Filter;
+        //        List<DisputeCallfeedbackModel> List = await dl_qa.DisputeAgentFeedback();
+
+
+        //        IEnumerable<DisputeCallfeedbackModel> baseList;
+        //        List<Dictionary<string, object>> baseListTransaction;
+
+        //        if (model.Program == "ALL")
+        //        {
+        //            baseList = List;
+
+
+
+        //        }
+        //        else if (model.SubProgram == "ALL")
+        //        {
+        //            baseList = List.Where(x => x.Process == model.Program);
+        //        }
+        //        else
+        //        {
+        //            baseList = List.Where(x => x.Process == model.Program && x.SubProcessName == model.SubProgram);
+        //        }
+
+        //        DateTime today = DateTime.Today;
+
+        //        if (filter == "day")
+        //        {
+        //            baseList = baseList.Where(x => x.CreatedDate.Date == today);
+        //            baseListTransaction = TransactionAudit
+        //                                 .Where(x =>
+        //                                     x.ContainsKey("CreatedDate") &&
+        //                                     x["CreatedDate"] != null &&
+        //                                     DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
+        //                                     createdDate.Date == today)
+        //                                 .ToList();
+        //        }
+        //        else if (filter == "week")
+        //        {
+        //            DateTime startOfWeek = today.AddDays(-(int)today.DayOfWeek + (int)DayOfWeek.Monday);
+        //            DateTime endOfWeek = startOfWeek.AddDays(6);
+        //            baseList = baseList.Where(x => x.CreatedDate.Date >= startOfWeek && x.CreatedDate.Date <= endOfWeek);
+        //            baseListTransaction = TransactionAudit
+        //                                  .Where(x =>
+        //                                      x.ContainsKey("CreatedDate") &&
+        //                                      x["CreatedDate"] != null &&
+        //                                      DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
+        //                                      createdDate.Date >= startOfWeek && createdDate.Date <= endOfWeek)
+        //                                  .ToList();
+        //        }
+        //        else if (filter == "month")
+        //        {
+        //            int month = today.Month;
+        //            int year = today.Year;
+        //            baseList = baseList.Where(x => x.CreatedDate.Month == month && x.CreatedDate.Year == year);
+        //            baseListTransaction = TransactionAudit
+        //             .Where(x =>
+        //                 x.ContainsKey("CreatedDate") &&
+        //                 x["CreatedDate"] != null &&
+        //                 DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
+        //                 createdDate.Month == month && createdDate.Year == year)
+        //             .ToList();
+        //        }
+
+        //        pendingcount = baseList.Count();
+        //        clodescount = baseList.Where(x => x.AgentDispute == "2").Count();
+
+
+        //        return Json(new
+        //        {
+        //            dashboardData = rows,
+        //            pendingCount = pendingcount,
+        //            closedCount = clodescount,
+        //            baseList = baseList,
+        //            monitoerows = Monitoerows,
+        //            baseListTransaction=baseListTransaction
+        //        });
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        return Ok();
+        //    }
+
+        //}
+
 
         public async Task<IActionResult> Dashboard()
         {
 
             try
             {
+                DataTable dt = await _dlamin.GetProcessListAsync();
+
+                var processList = dt.AsEnumerable().Select(row => new SelectListItem
+                {
+                    Value = row["ID"].ToString(),
+                    Text = $"{row["ProcessName"]}",
+                }).ToList();
+                processList.Insert(0, new SelectListItem
+                {
+                    Value = "ALL", // or "" depending on your requirement
+                    Text = "ALL"
+                });
+                ViewBag.Process = processList;
+
                 DataTable assment = await dl_Agent.GetAssesment();
                 List<DisputeCallfeedbackModel> List = await dl_qa.DisputeAgentFeedback();
                 List<ZTcaseModel> ZTlist = await dl_qa.ZtcaseShow();
                 List<ReviewDataModel> coutingList = await dl_qa.GetCaoutingList();
 
                 List<AgentToQASurveyModel> AgentToQASurveylist = await dl_qa.AgentToQASurveylist();
+                List<UpdateListManagement> UpdateList = await dl_qa.Updatemanagement();
 
                 List<AssesmentModel> assmentonl = assment.AsEnumerable().Select(row => new AssesmentModel
                 {
@@ -251,7 +514,7 @@ namespace QMS.Controllers
                     CreatedDate = row.Field<DateTime>("CreatedDate"),
                     expiryType = row.Field<string>("expiryType"),
                     expiryDate = row.Field<DateTime>("expiryDate"),
-                     expiryHours = row.Field<int>("expiryHours")
+                    expiryHours = row.Field<int>("expiryHours")
 
                 }).ToList();
 
@@ -261,16 +524,18 @@ namespace QMS.Controllers
                     ZTcaseList = ZTlist,
                     ReviewDataModel = coutingList,
                     assmentonl = assmentonl,
-                    AgentToQASurvey= AgentToQASurveylist
+                    AgentToQASurvey = AgentToQASurveylist,
+
+                    updateList = UpdateList
                 };
 
                 return View(viewModel);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return View();
             }
-           
+
         }
 
 
@@ -311,7 +576,7 @@ namespace QMS.Controllers
         {
 
             DataTable dt = await dl_qa.CallibrationBypaticipatesByUserID();
-          
+
             return View(dt);
         }
 
@@ -341,9 +606,9 @@ namespace QMS.Controllers
                     Level = Convert.ToInt32(row["level"]),
                     SectionName = row["SectionName"].ToString(),
                 };
-                foreach (var name in participantNames.Prepend("")) 
+                foreach (var name in participantNames.Prepend(""))
                 {
-                  string CreatedBy=  row[$"CreatedBy{name}"].ToString();
+                    string CreatedBy = row[$"CreatedBy{name}"].ToString();
                     var key = string.IsNullOrEmpty(name) ? "Master" : CreatedBy;
 
                     rowVM.ParticipantData[key] = new CalibrationParticipantData
@@ -418,8 +683,8 @@ namespace QMS.Controllers
             {
                 return View();
             }
-            
-            
+
+
 
         }
         public async Task<IActionResult> ZeroTolerance(string TransactionID)
@@ -441,11 +706,11 @@ namespace QMS.Controllers
                     }
                 }
             }
-            catch(Exception ec)
+            catch (Exception ec)
             {
 
             }
-           
+
 
 
 
@@ -509,7 +774,7 @@ namespace QMS.Controllers
         }
 
 
-      
+
 
 
         public async Task<IActionResult> AgentSurveyView(string TransactionID)
@@ -527,12 +792,12 @@ namespace QMS.Controllers
                 }
                 else
                 {
-                    ViewBag.AgentComment = "No comments available."; 
+                    ViewBag.AgentComment = "No comments available.";
                 }
 
                 var viewModel = new DisputeFeedbackViewModel
                 {
-                 
+
                     AgentToQASurvey = AgentToQASurveylists
                 };
 

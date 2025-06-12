@@ -80,7 +80,7 @@
                         Voice Feedback
                     </label>
 
-                    <div style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #f8f9fa; text-align: center;">
+                    <div style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #24294a; text-align: center;">
                         @if (!string.IsNullOrEmpty(ViewBag.AudioData))
                         {
                             <audio controls style="width: 100%; max-width: 400px;">
@@ -100,14 +100,14 @@
             <div class="row">
                 <div class="form-group col-md-2">
                     <button type="submit" onclick="submitApprove()"
-                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: solid 1px white; border-radius: 5px; font-weight: 600; cursor: pointer;">
                         Approve
                     </button>
                 </div>
 
                 <div class="form-group col-md-2">
                     <button type="submit" onclick="submitReject()"
-                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: solid 1px white; border-radius: 5px; font-weight: 600; cursor: pointer;">
                         Reject
                     </button>
                 </div>
@@ -150,6 +150,7 @@
                 align-items: center;
                 padding: 20px;
                 position: relative;
+                  border-radius: 14px;
                 `;
 
                 if (!response.audioData) {

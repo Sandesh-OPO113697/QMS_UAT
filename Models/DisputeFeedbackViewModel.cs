@@ -8,5 +8,6 @@
         public List<AssesmentModel> assmentonl { get; set; }
 
         public List<AgentToQASurveyModel> AgentToQASurvey { get; set; }
+        public List<UpdateListManagement> updateList { get; set; }
     }
 }

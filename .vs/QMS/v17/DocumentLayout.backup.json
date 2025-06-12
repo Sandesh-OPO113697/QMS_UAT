@@ -1,122 +1,12 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|c:\\users\\opo113177\\desktop\\qms_mvc_core\\views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|c:\\users\\opo113177\\desktop\\qms_mvc_core\\wwwroot\\js\\apexcharts.custom.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:wwwroot\\js\\apexcharts.custom.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|c:\\users\\opo113177\\desktop\\qms_mvc_core\\wwwroot\\js\\apexcharts.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:wwwroot\\js\\apexcharts.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|c:\\users\\opo113177\\desktop\\qms_mvc_core\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|c:\\users\\opo113177\\desktop\\qms_mvc_core\\databaseservice\\dl_admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:databaseservice\\dl_admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|c:\\users\\opo113177\\desktop\\qms_mvc_core\\models\\dashboardfiltermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:models\\dashboardfiltermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "WorkspaceRootPath": "D:\\QMS_FIANAL\\QMS_NEW_DESIGN\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 5,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "apexcharts.custom.js",
-              "DocumentMoniker": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\wwwroot\\js\\apexcharts.custom.js",
-              "RelativeDocumentMoniker": "wwwroot\\js\\apexcharts.custom.js",
-              "ToolTip": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\wwwroot\\js\\apexcharts.custom.js",
-              "RelativeToolTip": "wwwroot\\js\\apexcharts.custom.js",
-              "ViewState": "AgIAAGkIAAAAAAAAAAAUwJAIAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-06-09T12:45:45.054Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "apexcharts.min.js",
-              "DocumentMoniker": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\wwwroot\\js\\apexcharts.min.js",
-              "RelativeDocumentMoniker": "wwwroot\\js\\apexcharts.min.js",
-              "ToolTip": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\wwwroot\\js\\apexcharts.min.js",
-              "RelativeToolTip": "wwwroot\\js\\apexcharts.min.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAABsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-06-09T12:45:42.011Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Dl_Admin.cs",
-              "DocumentMoniker": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\DataBaseService\\Dl_Admin.cs",
-              "RelativeDocumentMoniker": "DataBaseService\\Dl_Admin.cs",
-              "ToolTip": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\DataBaseService\\Dl_Admin.cs",
-              "RelativeToolTip": "DataBaseService\\Dl_Admin.cs",
-              "ViewState": "AgIAAHkCAAAAAAAAAAAgwH0CAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T12:30:16.994Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "DashboardFilterModel.cs",
-              "DocumentMoniker": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\Models\\DashboardFilterModel.cs",
-              "RelativeDocumentMoniker": "Models\\DashboardFilterModel.cs",
-              "ToolTip": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\Models\\DashboardFilterModel.cs",
-              "RelativeToolTip": "Models\\DashboardFilterModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T12:27:02.121Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AdminController.cs",
-              "DocumentMoniker": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\Controllers\\AdminController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
-              "ToolTip": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\Controllers\\AdminController.cs",
-              "RelativeToolTip": "Controllers\\AdminController.cs",
-              "ViewState": "AgIAAKEAAAAAAAAAAAAAAM4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T10:14:16.949Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DashBoard.cshtml",
-              "DocumentMoniker": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\Views\\Admin\\DashBoard.cshtml",
-              "RelativeDocumentMoniker": "Views\\Admin\\DashBoard.cshtml",
-              "ToolTip": "C:\\Users\\opo113177\\Desktop\\QMS_MVC_CORE\\Views\\Admin\\DashBoard.cshtml*",
-              "RelativeToolTip": "Views\\Admin\\DashBoard.cshtml*",
-              "ViewState": "AgIAAE8AAAAAAAAAAAAkwFIAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-09T10:05:02.408Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

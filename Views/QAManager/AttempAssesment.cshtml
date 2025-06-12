@@ -15,14 +15,17 @@
         max-height: 100%;
         margin: 40px auto;
         padding: 30px;
-        background-color: #fff;
-        border-radius: 10px;
+       border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        background-color: #1f2233;
+        color: white;
     }
 
         .assessment-container h2 {
             color: #1a237e;
             font-size: 26px;
+            background-color: #1f2233;
+            color: white;
             margin-bottom: 10px;
         }
 
@@ -49,6 +52,7 @@
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 6px;
+            color: #ccc; background-color: #484953;
         }
 
         .question-block input[type="radio"],
@@ -57,7 +61,7 @@
         }
 
     .submit-btn {
-        background-color: #1a73e8;
+        background-color: #FF581C;
         color: #fff;
         border: none;
         padding: 12px 25px;
@@ -68,7 +72,8 @@
     }
 
         .submit-btn:hover {
-            background-color: #0f5bb5;
+            background-color: #FF581C;
+            color:white;
         }
 
     hr {
@@ -84,7 +89,7 @@
     {
         @Html.HiddenFor(m => m.TestID)
 
-        <h2>@Model.TestName (@Model.TestCategory)</h2>
+        <h2 style="background-color:#1f2233">@Model.TestName (@Model.TestCategory)</h2>
         <hr />
 
         @for (int i = 0; i < Model.Questions.Count; i++)

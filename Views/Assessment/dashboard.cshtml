@@ -50,93 +50,7 @@
          border: none;
      }
 </style>
-@* 
-    <h2>Create Question</h2>
 
-
-    <div class="card shadow mb-4">
-       
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label for="ProgramID">Program Name</label> <span style="color:red">*</span>
-                        @Html.DropDownList(
-                                 "ProgramID",
-                                 (List<SelectListItem>)ViewBag.ProcessList,
-                                 "Select Program",
-                                 new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" }
-                                 )
-                    </div>
-
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label for="SUBProgramID">Sub Program Name</label> <span style="color:red">*</span>
-                        <select name="SUBProgramID" id="SUBProgramID" class="custom-select"  required>
-                            <option value="">Select Process</option>
-                        </select>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label for="Subjectlbl">Test Subject</label> <span style="color:red">*</span>
-                        <input type="text" id="subject" class="custom-select" />
-                    </div>
-
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label for="lblCategory">Test Category</label> <span style="color:red">*</span>
-                        <select name="Category" id="Category" class="custom-select" required>
-                            <option value="">Select Sub Process</option>
-                            <option value="">Course Evaluation</option>
-                            <option value="Course_Evaluation">Course Evaluation</option>
-                            <option value="Quiz">Quiz</option>
-                            <option value="Feedback">Feedback</option>
-                            <option value="Poll">Poll</option>
-                        </select>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <form id="questionForm" onsubmit="event.preventDefault(); addQuestion();">
-        <div>
-            <label><strong>Question:</strong></label>
-            <input type="text" id="question" required />
-        </div>
-
-        <div>
-            <label><strong>Answer Type:</strong></label>
-            <select id="answerType" onchange="renderAnswerInputs()" required>
-                <option value="">--Select Type--</option>
-                <option value="textbox">Textbox</option>
-                <option value="radio">Radio</option>
-                <option value="checkbox">Checkbox</option>
-                <option value="multi-select">Multi Select</option>
-                <option value="dropdown">Dropdown</option>
-            </select>
-        </div>
-
-        <div id="answerInputs"></div>
-
-        <button type="submit">Add / Update Question</button>
-    </form>
-
-    <hr>
-
-    <h3>Added Questions</h3>
-    <div id="questionList"></div>
-    <br>
-    <button onclick="submitToServer()">Submit All Questions to DB</button>
- *@
 
 <div class="container-fluid main-wrapper">
     <div class="row h-100">
@@ -237,7 +151,8 @@
            
 
             <br />
-            <button id="createAssessmentBtn" class="btn" style="background-color:#dee2e6" onclick="submitToServer()" disabled>
+            <button id="createAssessmentBtn" class="btn" style="    background-color: #1f2233;
+    border: solid 1px white;" onclick="submitToServer()" disabled>
                 Create Assessment
             </button>
         </div>

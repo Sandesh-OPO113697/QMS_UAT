@@ -35,6 +35,7 @@ namespace QMS.DataBaseService
                 cmd.Parameters.AddWithValue("@AttachmentFileName", (object)attachmentFileName ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Notified", notified);
                 cmd.Parameters.AddWithValue("@AttachmentBase64", (object)attachmentBase64 ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
                 await conn.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
             }

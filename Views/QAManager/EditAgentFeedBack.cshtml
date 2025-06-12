@@ -83,37 +83,37 @@
 <div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow" style="border-radius: 10px; border: 1px solid #ddd;">
         <div class="card-body" style="padding: 20px;">
-            <h5 class="card-title" style="font-weight: bold; color: #24294a;">Dispute Feedback </h5>
+            <h5 class="card-title" style="font-weight: bold; color: #ced2d1;">Dispute Feedback </h5>
 
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="QAComments" style="font-weight: 600; color: #333;">QA Comments</label> <span style="color:red">*</span>
+                    <label for="QAComments" style="font-weight: 600; color: #ffffff;">QA Comments</label> <span style="color:red">*</span>
                     <input type="text" value="@ViewBag.Remarks" id="QA_Comments" required readonly
-                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #f8f9fa; color: #555;">
+                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #2a2c4a; color: #ccc;">
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="AgentComent" style="font-weight: 600; color: #333;">Agent Comments</label>
+                    <label for="AgentComent" style="font-weight: 600; color: #ffffff;">Agent Comments</label>
                     <input type="text" id="AgentComent" readonly value="@ViewBag.Agent_Comment"
-                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; color: #555;">
+                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #2a2c4a;color: #ccc;">
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="AgentComent" style="font-weight: 600; color: #333;">Calibrated Comments</label>
+                    <label for="AgentComent" style="font-weight: 600; color: #ffffff;">Calibrated Comments</label>
                     <input type="text" id="Calibrated" placeholder="Enter your comments"  
-                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; color: #555;">
+                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;background-color: #2a2c4a;  color: #ccc;">
                 </div>
             </div>
            
             <div class="row">
                 <div class="form-group col-md-2">
                     <button type="submit" onclick="submitDispute()"
-                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                            style="background-color: #24294a; color: white;border:white;border: solid white 1px; padding: 10px 15px; border-radius: 5px; font-weight: 600; cursor: pointer;">
                         Acknowledge
                     </button>
                 </div>
@@ -302,6 +302,7 @@
                 align-items: center;
                 padding: 20px;
                 position: relative;
+                    border-radius: 12px;
                  
                 `;
 

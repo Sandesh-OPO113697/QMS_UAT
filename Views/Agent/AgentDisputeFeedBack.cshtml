@@ -59,14 +59,14 @@
 <div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow" style="border-radius: 10px; border: 1px solid #ddd;">
         <div class="card-body" style="padding: 20px;">
-            <h5 class="card-title" style="font-weight: bold; color: #24294a;">Feedback Acknowledgement</h5>
+            <h5 class="card-title" style="font-weight: bold; color: #f8f9fa;">Feedback Acknowledgement</h5>
             <div class="row" style="margin-top: 15px;">
                 <div class="form-group col-md-12">
-                    <label for="QAComments" style="font-weight: 600; color: #24294a; font-size: 16px; display: block; margin-bottom: 8px;">
+                    <label for="QAComments" style="font-weight: 600; color: #f8f9fa; font-size: 16px; display: block; margin-bottom: 8px;">
                         Voice Feedback
                     </label>
 
-                    <div style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #f8f9fa; text-align: center;">
+                    <div style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #2a2c4a; text-align: center;">
                         @if (!string.IsNullOrEmpty(ViewBag.AudioData))
                         {
                             <audio controls style="width: 100%; max-width: 400px;">
@@ -84,33 +84,33 @@
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="QAComments" style="font-weight: 600; color: #333;">QA Comments</label>
+                    <label for="QAComments" style="font-weight: 600; color: #f8f9fa;">QA Comments</label>
                     <input type="text" value="@ViewBag.QA_Comments" readonly
-                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #f8f9fa; color: #555;">
+                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #2a2c4a; color: white;">
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="Calibrated" style="font-weight: 600; color: #333;">Calibrated Comments</label>
+                    <label for="Calibrated" style="font-weight: 600; color: #f8f9fa;">Calibrated Comments</label>
                     <input type="text" value="@ViewBag.Calibrated" readonly
-                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #f8f9fa; color: #555;">
+                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #2a2c4a; color: white;">
                 </div>
             </div>
 
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="AgentComent" style="font-weight: 600; color: #333;">Agent Comments</label> <span style="color:red">*</span>
+                    <label for="AgentComent" style="font-weight: 600; color: #f8f9fa;">Agent Comments</label> <span style="color:red">*</span>
                     <input type="text" id="AgentComent" placeholder="Enter your comments" required
-                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; color: #555;">
+                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; color: white; background-color:#2a2c4a">
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-2">
                     <button type="submit" onclick="submitAgentComment()"
-                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: solid 1px white; border-radius: 5px; font-weight: 600; cursor: pointer;">
                         Acknowledge
                     </button>
                 </div>

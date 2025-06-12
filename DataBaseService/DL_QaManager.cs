@@ -675,12 +675,17 @@ namespace QMS.DataBaseService
 
                         while (await reader.ReadAsync())
                         {
+                            
                             auditDetailsList.Add(new DisputeCallfeedbackModel
                             {
+                                Process = reader["Process"].ToString(),
+                                SubProcessName = reader["SubProcessName"].ToString(),
                                 TransactionID = reader["TransactionID"].ToString(),
                                 AgentID = reader["AgentID"].ToString(),
                                 TLName = reader["TLName"].ToString(),
-                                MonitorBy = reader["MonitorBy"].ToString()
+                                MonitorBy = reader["MonitorBy"].ToString(),
+                                AgentDispute = reader["AgentDispute"].ToString(),
+                                CreatedDate = Convert.ToDateTime(reader["CreatedDate"].ToString())
                             });
                         }
 
@@ -697,7 +702,101 @@ namespace QMS.DataBaseService
 
         }
 
+        public async Task<DataTable> GetQADashboard(DashboardFilterModel id)
+        {
+            string query = "usp_QADASH";
+            var dataTable = new DataTable();
 
+            using (var connection = new SqlConnection(UserInfo.Dnycon))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ViewType", id.Filter ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@ProgramID", id.Program ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@SubProgramID", id.SubProgram ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Username", UserInfo.UserName);
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        dataTable.Load(reader);
+                    }
+                }
+            }
+
+            return dataTable;
+        }
+        public async Task<DataTable> GetQAManotorDashboard(DashboardFilterModel id)
+        {
+            string query = "GetList_all_Monitor";
+            var dataTable = new DataTable();
+            try
+            {
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await connection.OpenAsync();
+
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@ViewType", id.Filter ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@ProgramID", id.Program ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@SubProgramID", id.SubProgram ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Username", UserInfo.UserName);
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            dataTable.Load(reader);
+                        }
+                    }
+                }
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+           
+
+            return dataTable;
+        }
+
+        public async Task<DataTable> GetTrasactionDashboard(DashboardFilterModel id)
+        {
+            string query = "GetTransaformationHygiene_audits";
+            var dataTable = new DataTable();
+            try
+            {
+                using (var connection = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await connection.OpenAsync();
+
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@ViewType", id.Filter ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@ProgramID", id.Program ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@SubProgramID", id.SubProgram ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Username", UserInfo.UserName);
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            dataTable.Load(reader);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+            return dataTable;
+        }
         public async Task<List<ZTcaseModel>> ZtcaseShow()
         {
             DataTable dt = new DataTable();
@@ -798,6 +897,55 @@ namespace QMS.DataBaseService
 
             return list;
         }
+
+        public async Task<List<UpdateListManagement>> Updatemanagement()
+        {
+            DataTable dt = new DataTable();
+            List<UpdateListManagement> list = new List<UpdateListManagement>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("getUpdateManagementList", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+
+                        cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
+
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    UpdateListManagement model = new UpdateListManagement
+                    {
+
+
+                        UserCode = row["UserCode"]?.ToString(),
+                        Subject = row["Subject"]?.ToString(),
+                        createdby = row["createdby"]?.ToString(),
+
+
+                    };
+
+                    list.Add(model);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return list;
+        }
+
 
 
 

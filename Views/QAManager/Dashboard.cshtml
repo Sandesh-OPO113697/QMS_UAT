@@ -8,100 +8,186 @@
     var now = DateTime.Now;
 }
 
-<div class="card shadow mb-4">
-    <div class="card-header">
-        <strong class="card-title">Pending Feedback Dispute</strong>
-    </div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Transaction ID</th>
-                    <th>AgentID</th>
-                    <th>TL Name</th>
-                    <th>Monitor By</th>
-                    <th>View</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.DisputeList != null && Model.DisputeList.Any())
-                {
-                    @foreach (var item in Model.DisputeList)
-                    {
-                        <tr>
-                            <td>@item.TransactionID</td>
-                            <td>@item.AgentID</td>
-                            <td>@item.TLName</td>
-                            <td>@item.MonitorBy</td>
-                            <td>
-                                <a href="/QAManager/EditAgentFeedBack?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
-                                    View
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="5" class="text-center">No pending feedback.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
 
 
 
-    <div class="card shadow mb-4">
-    <div class="card-header">
-        <strong class="card-title">Agent To QA Survey</strong>
-    </div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                       <th>Transaction_ID</th>
-                       <th>AgentID</th>
-                       
-                </tr>
-            </thead>
-            <tbody>
-                    @if (Model.AgentToQASurvey != null && Model.AgentToQASurvey.Any())
-                {
-                        @foreach (var item in Model.AgentToQASurvey)
-                    {
-                        <tr>
-                            <td>@item.Transaction_ID</td>
-                            <td>@item.AgentID</td>
-                             
-                                <td>
-                                    <a href="/QAManager/AgentSurveyView?TransactionID=@item.Transaction_ID" class="btn btn-primary btn-sm">
-                                        View
-                                    </a>
-                                </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="5" class="text-center">No pending feedback.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    </div>
-
-
-
-
-    <div class="card shadow mb-4">
-        <div class="card-header">
-            <strong class="card-title"> Online assessment</strong>
-        </div>
+<div class="col-md-12 my-4" id="AuditDiv">
+    <div class="card shadow">
         <div class="card-body">
+            <h5 class="card-title">  </h5>
+            <div class="row">
+
+
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Program</label>
+                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select">
+                    </select>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="ViewType">Data View</label>
+                    <select name="ViewType" id="ViewType" class="custom-select">
+                        <option value="">--Select Data View--</option>
+                        <option value="day">Day</option>
+                        <option value="month">Month</option>
+                        <option value="week">Week</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group mb-3">
+                        <button id="SaveForm" class="btn btn-primary mt-4" onclick="GetDashBoard(this)">Search</button>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" id="dashboardContainer"></div>
+
+
+<div id="pendingClosedGraphContainer" class="row my-4"></div>
+
+<div class="container">
+    <div class="card shadow mb-4">
+        <div class="card-header accordion-header" data-target="#auditContent" onclick="toggleAccordion('auditContent')" style="cursor:pointer;">
+            <strong class="card-title">List all Monitor role Individuals</strong>
+        </div>
+        <div class="card-body collapse" id="auditContent" style="display: none;">
+            <canvas id="auditChart" width="600" height="300"></canvas>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header accordion-header" data-target="#monitorContent" onclick="toggleAccordion('monitorContent')" style="cursor:pointer;">
+            <strong class="card-title">List all Monitor</strong>
+        </div>
+        <div class="card-body collapse" id="monitorContent" style="display: none;">
+            <canvas id="monitorChart" width="1336" height="1002" style="display: block;height: 527px;width: 891px;" class="chartjs-render-monitor"></canvas>
+        </div>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="accordion w-100" id="accordion1">
+            <div class="card shadow">
+                <div class="card-header" id="heading1">
+                    <a role="button" href="#collapse1" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                        <strong>
+                            Pending Feedback Dispute
+                        </strong>
+                    </a>
+                </div>
+                <div id="collapse1" class="collapse" aria-labelledby="heading1" data-parent="#accordion1">
+                    <div class="card-body">
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction ID</th>
+                                        <th>AgentID</th>
+                                        <th>TL Name</th>
+                                        <th>Monitor By</th>
+                                        <th>View</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pendingFeedbackTableBody">
+                                    <tr>
+                                        <td colspan="5" class="text-center">Loading...</td>
+                                    </tr>
+                                </tbody>
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Agent To QA Survey -->
+    <div class="card shadow mb-4">
+        <div class="card-header accordion-header" data-target="#qaSurveyGrid" style="cursor:pointer;">
+            <strong class="card-title">Agent To QA Survey</strong>
+        </div>
+        <div class="card-body collapse" id="qaSurveyGrid">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Transaction_ID</th>
+                        <th>AgentID</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.AgentToQASurvey != null && Model.AgentToQASurvey.Any())
+                    {
+                        @foreach (var item in Model.AgentToQASurvey)
+                        {
+                            <tr>
+                                <td>@item.Transaction_ID</td>
+                                <td>@item.AgentID</td>
+                                <td>
+                                    <a href="/QAManager/AgentSurveyView?TransactionID=@item.Transaction_ID" class="btn btn-primary btn-sm">View</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="3" class="text-center">No pending feedback.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Update Management -->
+    <div class="card shadow mb-4">
+        <div class="card-header accordion-header" data-target="#updateManagementGrid" style="cursor:pointer;">
+            <strong class="card-title">Update Management</strong>
+        </div>
+        <div class="card-body collapse" id="updateManagementGrid">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Agent ID</th>
+                        <th>Subject</th>
+                        <th>Created BY</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.updateList != null && Model.updateList.Any())
+                    {
+                        @foreach (var item in Model.updateList)
+                        {
+                            <tr>
+                                <td>@item.UserCode</td>
+                                <td>@item.Subject</td>
+                                <td>@item.createdby</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="3" class="text-center">No pending feedback.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Online Assessment -->
+    <div class="card shadow mb-4">
+        <div class="card-header accordion-header" data-target="#onlineAssessmentGrid" style="cursor:pointer;">
+            <strong class="card-title">Online Assessment</strong>
+        </div>
+        <div class="card-body collapse" id="onlineAssessmentGrid">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -118,20 +204,13 @@
                         {
                             bool isExpired = false;
 
-                            if (item.expiryType == "date")
+                            if (item.expiryType == "date" && item.expiryDate < now)
                             {
-                                if (item.expiryDate < now)
-                                {
-                                    isExpired = true;
-                                }
+                                isExpired = true;
                             }
-                            else if (item.expiryType == "hours")
+                            else if (item.expiryType == "hours" && item.CreatedDate.AddHours(item.expiryHours) < now)
                             {
-                                var expiryDateTime = item.CreatedDate.AddHours(item.expiryHours);
-                                if (expiryDateTime < now)
-                                {
-                                    isExpired = true;
-                                }
+                                isExpired = true;
                             }
 
                             var rowClass = isExpired ? "table-danger" : "";
@@ -141,184 +220,184 @@
                                 <td>@item.TestCategory</td>
                                 <td>@item.CreatedDate</td>
                                 <td>
-                                    <a href="/QAManager/AttempAssesment?TestID=@item.TestID" class="btn btn-primary btn-sm">
-                                        View
-                                    </a>
+                                    <a href="/QAManager/AttempAssesment?TestID=@item.TestID" class="btn btn-primary btn-sm">View</a>
                                 </td>
                             </tr>
                         }
                     }
                     else
                     {
-                        <tr>
-                            <td colspan="4" class="text-center">No pending feedback.</td>
-                        </tr>
+                        <tr><td colspan="4" class="text-center">No pending feedback.</td></tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="card-header">
-        <strong class="card-title">ZT Cases QA Manager View</strong>
-    </div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ProgramID</th>
-                    <th>SubProgramID</th>
-                    <th>AgentName</th>
-                    <th>EmployeeID</th>
-                    <th>AgentSupervsor</th>
-                    <th>ZTRaisedBy</th>
-                    <th>ZTRaisedDate</th>
-                    <th>TransactionDate</th>
-                    <th>ZTClassification</th>
-                    <th>TransactionID</th>
-                    <th>View</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.ZTcaseList != null && Model.ZTcaseList.Any())
-                {
-                    @foreach (var item in Model.ZTcaseList)
-                    {
+
+    <!-- ZT Cases QA Manager View -->
+    <div class="card shadow mb-4">
+        <div class="card-header accordion-header" data-target="#ztCasesGrid" style="cursor:pointer;">
+            <strong class="card-title">ZT Cases QA Manager View</strong>
+        </div>
+        <div class="card-body collapse" id="ztCasesGrid">
+            <div style="overflow-x: auto; width: 100%;">
+                <table class="table table-bordered" style="min-width: 1000px;">
+                    <thead>
                         <tr>
-                            <td>@item.ProgramID</td>
-                            <td>@item.SubProgramID</td>
-                            <td>@item.AgentName</td>
-                            <td>@item.EmployeeID</td>
-                            <td>@item.AgentSupervsor</td>
-                            <td>@item.ZTRaisedBy</td>
-                            <td>@item.ZTRaisedDate</td>
-                            <td>@item.TransactionDate</td>
-                            <td>@item.ZTClassification</td>
-                            <td>@item.TransactionID</td>
-                          
-                            <td>
-                                <a href="/QAManager/ZeroTolerance?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
-                                    View
-                                </a>
-                            </td>
+                            <th>ProgramID</th>
+                            <th>SubProgramID</th>
+                            <th>AgentName</th>
+                            <th>AgentSupervisor</th>
+                            <th>ZTRaisedBy</th>
+                            <th>ZTRaisedDate</th>
+                            <th>TransactionDate</th>
+                            <th>ZTClassification</th>
+                            <th>TransactionID</th>
+                            <th>View</th>
                         </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="5" class="text-center">No pending Zt Cases.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-
-</div>
-
-
-
-
-
-<div class="card shadow mb-4">
-    <div class="card-header">
-        <strong class="card-title">Coaching </strong>
-        <div>
-            <span class="badge badge-success" style="background-color: #d4edda; color: #155724; padding: 5px 10px; border-radius: 5px;">On-Going</span>
-            <span class="badge badge-warning" style="background-color: #fff3cd; color: #856404; padding: 5px 10px; border-radius: 5px;">Extended</span>
-            <span class="badge badge-danger" style="background-color: #f8d7da; color: #721c24; padding: 5px 10px; border-radius: 5px;">PIP</span>
+                    </thead>
+                    <tbody>
+                        @if (Model.ZTcaseList != null && Model.ZTcaseList.Any())
+                        {
+                            @foreach (var item in Model.ZTcaseList)
+                            {
+                                <tr>
+                                    <td>@item.ProgramID</td>
+                                    <td>@item.SubProgramID</td>
+                                    <td>@item.AgentName</td>
+                                    <td>@item.AgentSupervsor</td>
+                                    <td>@item.ZTRaisedBy</td>
+                                    <td>@item.ZTRaisedDate</td>
+                                    <td>@item.TransactionDate</td>
+                                    <td>@item.ZTClassification</td>
+                                    <td>@item.TransactionID</td>
+                                    <td>
+                                        <a href="/QAManager/ZeroTolerance?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">View</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="11" class="text-center">No pending ZT Cases.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>AgentID</th>
-                    <th>Process</th>
-                    <th>SubProcess</th>
-                    <th>1st Review</th>
-                    <th>Comment 1</th>
-                    <th>2nd Review</th>
-                    <th>Comment 2</th>
-                    <th>3rd Review</th>
-                    <th>Comment 3</th>
-                    <th>4th Review</th>
-                    <th>Comment 4</th>
-                    <th>5th Review</th>
-                    <th>Comment 5</th>
-                    <th>6th Review</th>
-                    <th>Comment 6</th>
-                    <th>View</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.ReviewDataModel != null && Model.ReviewDataModel.Any())
-                {
-                    @foreach (var item in Model.ReviewDataModel)
-                    {
-                        string rowClass = "";
-                        if (item.CoachingStatus == "PIP")
-                        {
-                            rowClass = "table-danger"; // Red
-                        }
-                        else if (item.CoachingStatus == "Closed")
-                        {
-                            rowClass = "table-success"; // Green
-                        }
-                        else if (item.CoachingStatus == "Extended")
-                        {
-                            rowClass = "table-warning"; // Yellow
-                        }
-                        else if (item.CoachingStatus == "NotExtended")
-                        {
-                            rowClass = "table-success"; // Yellow
-                        }
-                        <tr class="@rowClass">
-                            <td>@item.AgentID</td>
-                            <td>@item.ProcessName</td>
-                            <td>@item.SubProcess</td>
-                            <td>@item.FirstReview</td>
-                            <td>@item.Comment1</td>
-                            <td>@item.SecondReview</td>
-                            <td>@item.Comment2</td>
+    <!-- Coaching Section -->
+    <div class="card shadow mb-4">
+        <div class="card-header accordion-header" data-target="#coachingGrid" style="cursor:pointer;">
+            <strong class="card-title">Coaching</strong>
+            <div>
+                <span class="badge badge-success" style="background-color: #d4edda; color: #155724; padding: 5px 10px; border-radius: 5px;">On-Going</span>
+                <span class="badge badge-warning" style="background-color: #fff3cd; color: #856404; padding: 5px 10px; border-radius: 5px;">Extended</span>
+                <span class="badge badge-danger" style="background-color: #f8d7da; color: #721c24; padding: 5px 10px; border-radius: 5px;">PIP</span>
+            </div>
+        </div>
 
-                            <td>@item.ThirdReview</td>
-
-                            <td>@item.Comment3</td>
-
-                            <td>@item.FourthReview</td>
-
-                            <td>@item.Comment4</td>
-
-                            <td>@item.FifthReview</td>
-
-                            <td>@item.Comment5</td>
-                            <td>@item.SixReview</td>
-                            <td>@item.Comment6</td>
-                            <td>
-                                <a href="/QAManager/SubmiteCoaching?AgentID=@item.AgentID" class="btn btn-primary btn-sm">
-                                    View
-                                </a>
-                            </td>
+        <div class="card-body collapse" id="coachingGrid">
+            <div style="overflow-x: auto; width: 100%;">
+                <table class="table table-bordered" style="min-width: 1200px;">
+                    <thead>
+                        <tr>
+                            <th>AgentID</th>
+                            <th>Process</th>
+                            <th>SubProcess</th>
+                            <th>1st Review</th>
+                            <th>Comment 1</th>
+                            <th>2nd Review</th>
+                            <th>Comment 2</th>
+                            <th>3rd Review</th>
+                            <th>Comment 3</th>
+                            <th>4th Review</th>
+                            <th>Comment 4</th>
+                            <th>5th Review</th>
+                            <th>Comment 5</th>
+                            <th>6th Review</th>
+                            <th>Comment 6</th>
+                            <th>View</th>
                         </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="5" class="text-center">No pending feedback.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @if (Model.ReviewDataModel != null && Model.ReviewDataModel.Any())
+                        {
+                            @foreach (var item in Model.ReviewDataModel)
+                            {
+                                string rowClass = "";
+                                if (item.CoachingStatus == "PIP")
+                                {
+                                    rowClass = "table-danger";
+                                }
+                                else if (item.CoachingStatus == "Closed")
+                                {
+                                    rowClass = "table-success";
+                                }
+                                else if (item.CoachingStatus == "Extended")
+                                {
+                                    rowClass = "table-warning";
+                                }
+                                else if (item.CoachingStatus == "NotExtended")
+                                {
+                                    rowClass = "table-success";
+                                }
+                                <tr class="@rowClass">
+                                    <td style="color:black">@item.AgentID</td>
+                                    <td style="color:black" >@item.ProcessName</td>
+                                    <td style="color:black" >@item.SubProcess</td>
+                                    <td style="color:black" >@item.FirstReview</td>
+                                    <td style="color:black" >@item.Comment1</td>
+                                    <td style="color:black" >@item.SecondReview</td>
+                                    <td style="color:black" >@item.Comment2</td>
+                                    <td style="color:black" >@item.ThirdReview</td>
+                                    <td style="color:black" >@item.Comment3</td>
+                                    <td style="color:black" >@item.FourthReview</td>
+                                    <td style="color:black" >@item.Comment4</td>
+                                    <td style="color:black" >@item.FifthReview</td>
+                                    <td style="color:black" >@item.Comment5</td>
+                                    <td style="color:black" >@item.SixReview</td>
+                                    <td style="color:black" >@item.Comment6</td>
+                                    <td >
+                                        <a href="/QAManager/SubmiteCoaching?AgentID=@item.AgentID" style="color:black;background-color: #FF581C"  class="btn btn-primary btn-sm">View</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="16" class="text-center">No pending feedback.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 
-    
-
 
 </div>
+
+<!-- jQuery Script to handle accordion toggle -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.accordion-header').click(function () {
+            const target = $(this).data('target');
+            $(target).slideToggle();
+        });
+    });
+      
+</script>
+
+
+
+
+
+
 
 
 
@@ -327,3 +406,436 @@
 <script src="~/js/xlsx.full.min.js"></script>
 
 <script src="~/js/notification.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+           function GetDashBoard(event) {
+        var Program = $("#ProgramID").val();
+        var SubProgram = $("#SUBProgramID").val();
+        var filter = $("#ViewType").val();
+        if(filter =="")
+            {
+                    Swal.fire({
+              title: "Select Data View!",
+              icon: "info",
+          draggable: true
+        });
+
+        }
+        $.ajax({
+            url: "/QAManager/Getdashboad",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
+            success: function (response) {
+                $('#dashboardContainer').empty();
+
+                let data = response.dashboardData;
+                let pendingCount = response.pendingCount;
+                let closedCount = response.closedCount;
+                    let baseList = response.baseList;
+                console.log(response.baseListTransaction);
+                    const baseListTransaction = response.baseListTransaction;
+
+    // Labels (x-axis)
+    const labels = baseListTransaction.map(item => item.Createby);
+
+    // Datasets
+    const target1 = baseListTransaction.map(item => Number(item.Per_QA_Daily_Target_Audit1));
+    const actual1 = baseListTransaction.map(item => Number(item.NumberOfCalls_Audit1));
+    const target2 = baseListTransaction.map(item => Number(item.Per_QA_Daily_Target_Audit2));
+    const actual2 = baseListTransaction.map(item => Number(item.NumberOfCalls_Audit2));
+
+    const ctx = document.getElementById('auditChart').getContext('2d');
+
+    const auditChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Transaformation Target',
+            data: target1,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+               barThickness: 19
+          },
+          {
+            label: 'Transaformation Actual',
+            data: actual1,
+            backgroundColor: 'rgba(54, 162, 235, 1)',
+               barThickness: 19
+          },
+          {
+            label: 'Hygiene Target',
+            data: target2,
+            backgroundColor: 'rgba(255, 159, 64, 0.6)',
+               barThickness: 19
+          },
+          {
+            label: 'Hygiene Actual',
+            data: actual2,
+            backgroundColor: 'rgba(255, 159, 64, 1)',
+               barThickness: 19
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+        let monitordash = response.monitoerows;
+
+    console.log(JSON.stringify(monitordash));
+
+    // Flatten it if it contains nested arrays
+    let flatMonitorDash = monitordash.flat();
+
+    if (Array.isArray(flatMonitorDash) && flatMonitorDash.length > 0) {
+        const teams = flatMonitorDash.map(item => item.Team);
+        const targets = flatMonitorDash.map(item => item.Target);
+        const actuals = flatMonitorDash.map(item => item.Actual);
+        const scores = flatMonitorDash.map(item => item.Score);
+
+        const ctx = document.getElementById('monitorChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: teams,
+                datasets: [
+                    {
+                        label: 'Target',
+                        data: targets,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        barThickness: 19
+                    },
+                    {
+                        label: 'Actual',
+                        data: actuals,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        barThickness: 19
+                    },
+                    {
+                        label: 'Score',
+                        data: scores,
+                        backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                        barThickness: 19
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Team Performance Overview'
+                    }
+                }
+            }
+        });
+    }
+
+
+        let tableBodyHtml = '';
+
+        if (!Array.isArray(baseList) || baseList.length === 0) {
+            tableBodyHtml = '<tr><td colspan="5" class="text-center">No pending feedback.</td></tr>';
+        } else {
+            baseList.forEach(function(item) {
+                tableBodyHtml += `
+                    <tr>
+                        <td>${item.transactionID}</td>
+                        <td>${item.agentID}</td>
+                        <td>${item.tlName}</td>
+                        <td>${item.monitorBy}</td>
+                        <td>
+                            <a href="/QAManager/EditAgentFeedBack?TransactionID=${item.transactionID}"
+                                class="btn btn-primary btn-sm" style="border:white" title="View">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        $('#pendingFeedbackTableBody').html(tableBodyHtml);
+                if (!Array.isArray(data) || data.length === 0) {
+                    $('#dashboardContainer').html('<p>No data found</p>');
+                    return;
+                }
+
+                data.forEach(function (item, index) {
+                    let callQuality = parseFloat((item["Call Quality"] || "0").replace('%', ''));
+                    let monitoring = parseFloat((item["Monitoring"] || "0").replace('%', ''));
+                    let feedback = parseFloat((item["Feedback"] || "0").replace('%', ''));
+
+                    let callChartId = `callQualityChart_${index}`;
+                    let monitoringChartId = `monitoringChart_${index}`;
+                    let feedbackChartId = `feedbackChart_${index}`;
+
+                    let cardsHtml = `
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body text-center">
+                                       <div  style="color: white" id="${callChartId}"></div>
+                                    <div class="mt-3"><strong>Date:</strong> ${item["Period"]}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body text-center">
+                                    <div  style="color: white" id="${monitoringChartId}"></div>
+                                    <div class="mt-3"><strong>Monitoring:</strong> ${item["Monitoring"]}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body text-center" style="color: white">
+                                    <div style="color: white"  id="${feedbackChartId}"></div>
+                                    <div class="mt-3"><strong>Feedback:</strong> ${item["Feedback"]}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    $('#dashboardContainer').append(cardsHtml);
+
+
+        $('#pendingFeedbackTableBody').html(tableBodyHtml);
+
+                      function renderRadialChart(chartId, value, label, isCallQuality) {
+        const strokeRadialOptions = {
+            chart: {
+                height: 185,
+                type: "radialBar",
+                offsetY: -10
+            },
+            plotOptions: {
+                radialBar: {
+                    startAngle: -135,
+                    endAngle: 125,
+                    track: {
+                        background: "#e7e7e7"
+                    },
+                    dataLabels: {
+                        name: {
+                            fontSize: "12px",
+                            color: "white",
+                            offsetY: 90,
+                            fontFamily: "Arial, sans-serif",
+                            fontWeight: 400
+                        },
+                        value: {
+                            offsetY: 56,
+                            fontSize: "20px",
+                            fontWeight: 700,
+                            color: "white",
+                            fontFamily: "Arial, sans-serif",
+                            formatter: function (val) {
+                                return val + "%";
+                            }
+                        }
+                    }
+                }
+            },
+            fill: {
+                type: "gradient",
+                gradient: {
+                    shade: "light",
+                    type: "horizontal",
+                    shadeIntensity: 0.3,
+                    inverseColors: false,
+                    opacityFrom: 0.3,
+                    opacityTo: 1,
+                    stops: [0, 100]
+                }
+            },
+            stroke: {
+                dashArray: 0
+            },
+            labels: ["Metric"]
+        };
+
+        let options = JSON.parse(JSON.stringify(strokeRadialOptions));
+        options.series = [value];
+        options.labels = [label];
+
+        // 🌈 Dynamic color logic for gradient and base
+        if (value > 85) {
+            options.colors = ['#03F93D']; // green
+            options.fill.gradient.gradientToColors = ['#027c25']; // darker green
+        } else if (value >= 80 && value <= 84.9) {
+            options.colors = ['#F9E103']; // yellow
+            options.fill.gradient.gradientToColors = ['#b89c00']; // darker yellow
+        } else {
+            options.colors = ['#F95103']; // red
+            options.fill.gradient.gradientToColors = ['#7e2601']; // darker red
+        }
+
+        let chart = new ApexCharts(document.querySelector("#" + chartId), options);
+        chart.render();
+    }
+
+                    renderRadialChart(callChartId, callQuality, "Call Quality", true);
+                    renderRadialChart(monitoringChartId, monitoring, "Monitoring", false);
+                    renderRadialChart(feedbackChartId, feedback, "Feedback", false);
+                });
+
+                // Render Pending vs Closed Dispute Graph in separate container
+                renderPendingClosedChart(pendingCount, closedCount);
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", error);
+                $('#dashboardContainer').html('<p>No Data available on dashboard</p>');
+            }
+        });
+        }
+
+
+
+            function renderPendingClosedChart(pending, closed) {
+            $('#pendingClosedGraphContainer').empty();
+
+            let total = pending + closed;
+            let pendingPercent = total === 0 ? 0 : (pending / total) * 100;
+            let closedPercent = total === 0 ? 0 : (closed / total) * 100;
+
+            let pendingCard = `
+                <div class="col-md-6 my-2">
+                    <div class="card shadow text-center text-white pending-card"
+                         style="height: 200px; display: flex; align-items: center; justify-content: center;  cursor: pointer;">
+                        <div>
+                            <h5>Pending Disputes</h5>
+                            <div id="pendingRadial" style="width:140px; margin:0 auto;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            let closedCard = `
+                <div class="col-md-6 my-2">
+                    <div class="card shadow text-center text-white"
+                         style="height: 200px; display: flex; align-items: center; justify-content: center;">
+                        <div>
+                            <h5>Closed Disputes</h5>
+                            <div id="closedRadial" style="width:140px; margin:0 auto;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            $('#pendingClosedGraphContainer').append(pendingCard);
+            $('#pendingClosedGraphContainer').append(closedCard);
+
+            // Toggle accordion when pending card is clicked
+            $('.pending-card').click(function() {
+                $('#collapse1').collapse('toggle');
+                $('html, body').animate({
+                    scrollTop: $('#collapse1').offset().top - 100 // Optional smooth scroll
+                }, 500);
+            });
+
+            // Radial Progress for Pending
+            var pendingOptions = {
+                series: [pendingPercent],
+                chart: { height: 150, type: 'radialBar' },
+                plotOptions: {
+                    radialBar: {
+                        hollow: { size: '60%' },
+                        track: { strokeWidth: '80%' },
+                        dataLabels: {
+                            show: true,
+                            name: { show: false },
+                            value: {
+                                show: true,
+                                fontSize: '22px',
+                                color: '#fff',
+                                offsetY: 5,
+                                formatter: function() { return pending; }
+                            }
+                        }
+                    }
+                },
+                colors: ['#FFA500'],
+                labels: ['Pending']
+            };
+
+            var pendingChart = new ApexCharts(document.querySelector("#pendingRadial"), pendingOptions);
+            pendingChart.render();
+
+            // Radial Progress for Closed
+            var closedOptions = {
+                series: [closedPercent],
+                chart: { height: 150, type: 'radialBar' },
+                plotOptions: {
+                    radialBar: {
+                        hollow: { size: '60%' },
+                        track: { strokeWidth: '80%' },
+                        dataLabels: {
+                            show: true,
+                            name: { show: false },
+                            value: {
+                                show: true,
+                                fontSize: '22px',
+                                color: '#fff',
+                                offsetY: 5,
+                                formatter: function() { return closed; }
+                            }
+                        }
+                    }
+                },
+                colors: ['#008000'],
+                labels: ['Closed']
+            };
+
+            var closedChart = new ApexCharts(document.querySelector("#closedRadial"), closedOptions);
+            closedChart.render();
+        }
+
+         function onProgramChange() {
+            var programId = document.getElementById("ProgramID").value;
+
+
+            if (programId == "") {
+                alert("Please Select Program first");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                data: JSON.stringify({ id: programId }),
+
+                url: "/Admin/GetSUBProcessList",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    var dropdown = $('#SUBProgramID');
+                    dropdown.empty();
+                    dropdown.append('<option value="">Select Sub Process</option>');
+                     dropdown.append('<option value="ALL">' + "ALL" + '</option>');
+                    response.proces.forEach(function (item) {
+                        dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
+
+
+
+
+        }
+
+</script>

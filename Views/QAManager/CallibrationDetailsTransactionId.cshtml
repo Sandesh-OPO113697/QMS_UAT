@@ -95,7 +95,7 @@
                         <td>
                             <table class="table table-sm  mb-0">
                                 <thead class="thead-light">
-                                    <tr>
+                                    <tr style="background-color: #2a2c4a;color: white;">
                                         <th>Participant</th>
                                         <th>Is Attempt</th>
                                     </tr>
@@ -103,9 +103,9 @@
                                 <tbody>
                                     @foreach (var row in group)
                                     {
-                                        <tr>
-                                            <td>@row["Participants"]</td>
-                                            <td>@row["IsAttempt"]</td>
+                                        <tr >
+                                            <td style="background-color: #2a2c4a;color: white;" >@row["Participants"]</td>
+                                            <td style="background-color: #2a2c4a;color: white;" >@row["IsAttempt"]</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -114,7 +114,7 @@
                         <td class="align-middle text-center">
                             <form asp-action="CallibrationDetails" method="post">
                                 <input type="hidden" name="transactionId" value="@transactionId" />
-                                <button type="submit" class="btn btn-sm btn-primary">View</button>
+                                <button type="submit" class="btn btn-sm btn-primary" style="background-color:#FF581C;color:wheat">View</button>
                             </form>
                         </td>
                     </tr>

@@ -56,7 +56,7 @@
     max-height: 100%; /* Needed for vertical scroll to trigger */
     scrollbar-width: none;
     -ms-overflow-style: none;
-    background-color: #1F2233
+    
 }
 
 .simplebar-content-wrapper::-webkit-scrollbar,

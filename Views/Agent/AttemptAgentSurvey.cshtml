@@ -100,44 +100,12 @@
             <table class="table">
                 @for (int i = 0; i < Model.Questions.Count; i++)
                 {
-                   @*  <tr>
-                        <td class="question-text">@Model.Questions[i].QuestionText</td>
-                        <td>
-                            <label class="smiley-label">
-                                <input type="radio" name="Questions[@i].Rating" value="3" required />
-                                <img src="~/images/smiley-face.png" title="Happy" />
-                            </label>
-                            <label class="smiley-label">
-                                <input type="radio" name="Questions[@i].Rating" value="2" />
-                                <img src="~/images/icons8-neutral-face-48.png" title="Neutral" />
-                            </label>
-                            <label class="smiley-label">
-                                <input type="radio" name="Questions[@i].Rating" value="1" />
-                                <img src="~/images/icons8-sad-48.png" title="Not Satisfied" />
-                            </label>
-                            <br />
-                            <br />
-                            <br />
-                            <br />
-
-                           
-
-                            @Html.HiddenFor(m => m.Questions[i].QuestionId)
-                            @Html.HiddenFor(m => m.Questions[i].QuestionText)
-                        </td>
-                    </tr> *@
+                   
                     <tr>
                         <td class="question-text">@Model.Questions[i].QuestionText</td>
                         <td>
-                           @*  <div class="emoji-rating" data-index="@i">
-                                <span class="emoji green-shadow" data-value="3" title="Happy">😊</span>
-                                <span class="emoji yellow-shadow" data-value="2" title="Neutral">😐</span>
-                                <span class="emoji red-shadow" data-value="1" title="Sad">😞</span>
-
-                                <input type="hidden" name="Questions[@i].Rating" class="rating-input" required />
-                            </div>
- *@
-                            <div class="emoji-rating" data-index="@i">
+                         
+                       <div class="emoji-rating" data-index="@i">
                                 <span class="emoji green-shadow" data-value="3" title="Happy">
                                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10" />
@@ -182,12 +150,12 @@
                 <tr>
                     <td>
                         <input type="text" id="AgentComment" name="AgentComment" required
-                               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #f8f9fa; color: #555;" />
+                               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #2a2c4a; color: white;" />
                     </td>
                 </tr>
             </table>
 
-            <button type="submit" class="btn btn-success btn-lg">Submit Feedback</button>
+            <button type="submit" class="btn btn-success btn-lg" style="background-color:#FF581C;color:white">Submit Feedback</button>
         }
     </div>
 </div>
