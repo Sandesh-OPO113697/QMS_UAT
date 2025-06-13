@@ -109,7 +109,12 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    alert(response.message);
+                
+                        Swal.fire({
+                      title: response.message,
+                      icon: "success",
+                      draggable: true
+                    });
                 },
                 error: function (xhr, status, error) {
                     console.error("Error occurred: " + error);

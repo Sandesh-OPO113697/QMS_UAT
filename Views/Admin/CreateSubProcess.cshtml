@@ -376,19 +376,36 @@
 
             // Validation checks
             if (subProcess === "") {
-                alert("Please enter SubProcess.");
+               
+                    Swal.fire({
+                      text: "Please enter SubProcess.",
+                      icon: "question"
+                    });
                 return false;
             }
             if (programName === "") {
-                alert("Please enter Program Name.");
+                
+                  Swal.fire({
+                      text: "Please enter Program Name.",
+                      icon: "question"
+                    });
                 return false;
             }
             if (numberOfPause === "") {
-                alert("Please enter Number Of Pause.");
+             
+
+                  Swal.fire({
+                      text: "Please enter Number Of Pause.",
+                      icon: "question"
+                    });
                 return false;
             }
             if (fileUpload === "") {
-                alert("Please upload the Agent List file.");
+              
+                 Swal.fire({
+                      text: "Please upload the Agent List file.",
+                      icon: "question"
+                    });
                 return false;
             }
 
@@ -424,7 +441,11 @@
             });
 
             if (selectedEmpCodes.length === 0) {
-                alert("No agents selected.");
+               
+                Swal.fire({
+                      text: " No agents selected.",
+                      icon: "question"
+                    });
                 return;
             }
 
@@ -438,8 +459,11 @@
                             contentType: "application/json",
                             success: function (response) {
                                                if (response.success) {
-                                        alert("Agents removed successfully!");
-
+                                     
+                                         Swal.fire({
+                                          text: " gents removed successfully!",
+                                          icon: "success"
+                                        });
                                         // Refresh the table with updated data
                                         var tbody = $("#agentTable tbody");
                                         tbody.empty(); // Clear table before appending new data
@@ -491,7 +515,11 @@
 
             // Validation: Ensure all fields are filled
             if (!empName || !empCode || !tlName || !tlCode || !qaName || !batchID) {
-                alert("All fields are required!");
+              
+                                      Swal.fire({
+                                          text: " All fields are required!",
+                                          icon: "question"
+                                        });
                 return;
             }
 
@@ -586,6 +614,7 @@
                 data: JSON.stringify({ agents: agentData }),  // Wrap inside an object
                 success: function (response) {
                     alert("Agent List  Edited  successfully!");
+
                     $("#AgentListEdit").hide();
 
                 },

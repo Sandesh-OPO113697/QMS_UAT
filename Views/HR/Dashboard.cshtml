@@ -1,130 +1,180 @@
 ﻿@model ZtPanelHrCase
-
+@using Newtonsoft.Json
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
+<div class="col-md-12 my-4" id="AuditDiv">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">  </h5>
+            <div class="row">
 
+
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Program</label>
+                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select">
+                    </select>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="ViewType">Data View</label>
+                    <select name="ViewType" id="ViewType" class="custom-select">
+                        <option value="">--Select Data View--</option>
+                        <option value="day">Day</option>
+                        <option value="month">Month</option>
+                        <option value="week">Week</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group mb-3">
+                        <button id="SaveForm" class="btn btn-primary mt-4" onclick="GetDashBoard(this)">Search</button>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
 <div class="card shadow mb-4">
-    <div class="card-header">
+    <div class="card-header" style="cursor: pointer;" data-toggle="collapse" data-target="#ztCaseTable23" aria-expanded="false" aria-controls="ztCaseTable23">
         <strong class="card-title">Pending Zt Case Panel</strong>
     </div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ProgramID</th>
-                    <th>SubProgramID</th>
-                    <th>AgentName</th>
-                    <th>EmployeeID</th>
-                    <th>AgentSupervsor</th>
-                    <th>ZTRaisedBy</th>
-                    <th>ZTRaisedDate</th>
-                    <th>TransactionDate</th>
-                    <th>ZTClassification</th>
-                    <th>TransactionID</th>
-                    <th>View</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.PanelList != null && Model.PanelList.Any())
-                {
-                    @foreach (var item in Model.PanelList)
+    <div id="ztCaseTable23" class="card-body collapse">
+        <!-- Horizontal scroll wrapper -->
+        <div style="overflow-x: auto;">
+            <table class="table table-bordered" style="min-width: 1200px;">
+                <thead>
+                    <tr>
+                        <th>ProgramID</th>
+                        <th>SubProgramID</th>
+                        <th>AgentName</th>
+                        <th>EmployeeID</th>
+                        <th>AgentSupervsor</th>
+                        <th>ZTRaisedBy</th>
+                        <th>ZTRaisedDate</th>
+                        <th>TransactionDate</th>
+                        <th>ZTClassification</th>
+                        <th>TransactionID</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                @* <tbody>
+                    @if (Model.PanelList != null && Model.PanelList.Any())
+                    {
+                        @foreach (var item in Model.PanelList)
+                        {
+                            <tr>
+                                <td>@item.ProgramID</td>
+                                <td>@item.SubProgramID</td>
+                                <td>@item.AgentName</td>
+                                <td>@item.EmployeeID</td>
+                                <td>@item.AgentSupervsor</td>
+                                <td>@item.ZTRaisedBy</td>
+                                <td>@item.ZTRaisedDate</td>
+                                <td>@item.TransactionDate</td>
+                                <td>@item.ZTClassification</td>
+                                <td>@item.TransactionID</td>
+                                <td>
+                                    <a href="/HR/PanelCases?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td>@item.ProgramID</td>
-                            <td>@item.SubProgramID</td>
-                            <td>@item.AgentName</td>
-                            <td>@item.EmployeeID</td>
-                            <td>@item.AgentSupervsor</td>
-                            <td>@item.ZTRaisedBy</td>
-                            <td>@item.ZTRaisedDate</td>
-                            <td>@item.TransactionDate</td>
-                            <td>@item.ZTClassification</td>
-                            <td>@item.TransactionID</td>
-
-                            <td>
-                                <a href="/HR/PanelCases?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
-                                    View
-                                </a>
-                            </td>
+                            <td colspan="11" class="text-center">No pending Zt Cases.</td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="5" class="text-center">No pending Zt Cases.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                </tbody> *@
+                <tbody id="ztCasePanelTableBody">
+                    <!-- filled by JS -->
+                </tbody>
+            </table>
+        </div>
     </div>
+</div>
 
-
-    <div class="card-header">
+<div class="card shadow mb-4">
+    <div class="card-header" style="cursor: pointer;" data-toggle="collapse" data-target="#ztCasssseTable23" aria-expanded="false" aria-controls="ztCasssseTable23">
         <strong class="card-title">Pending Zt Case HR</strong>
     </div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ProgramID</th>
-                    <th>SubProgramID</th>
-                    <th>AgentName</th>
-                    <th>EmployeeID</th>
-                    <th>AgentSupervsor</th>
-                    <th>ZTRaisedBy</th>
-                    <th>ZTRaisedDate</th>
-                    <th>TransactionDate</th>
-                    <th>ZTClassification</th>
-                    <th>TransactionID</th>
-                    <th>View</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.ZTcaseHrList != null && Model.ZTcaseHrList.Any())
-                {
-                    @foreach (var item in Model.ZTcaseHrList)
+    <div id="ztCasssseTable23" class="card-body collapse">
+        <!-- Added wrapper div for horizontal scrolling -->
+        <div style="overflow-x: auto;">
+            <table class="table table-bordered" style="min-width: 1200px;">
+                <!-- optional: set min-width -->
+                <thead>
+                    <tr>
+                        <th>ProgramID</th>
+                        <th>SubProgramID</th>
+                        <th>AgentName</th>
+                        <th>EmployeeID</th>
+                        <th>AgentSupervsor</th>
+                        <th>ZTRaisedBy</th>
+                        <th>ZTRaisedDate</th>
+                        <th>TransactionDate</th>
+                        <th>ZTClassification</th>
+                        <th>TransactionID</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+            @*     <tbody>
+                    @if (Model.ZTcaseHrList != null && Model.ZTcaseHrList.Any())
+                    {
+                        @foreach (var item in Model.ZTcaseHrList)
+                        {
+                            <tr>
+                                <td>@item.ProgramID</td>
+                                <td>@item.SubProgramID</td>
+                                <td>@item.AgentName</td>
+                                <td>@item.EmployeeID</td>
+                                <td>@item.AgentSupervsor</td>
+                                <td>@item.ZTRaisedBy</td>
+                                <td>@item.ZTRaisedDate</td>
+                                <td>@item.TransactionDate</td>
+                                <td>@item.ZTClassification</td>
+                                <td>@item.TransactionID</td>
+                                <td>
+                                    <a href="/HR/HrZtCases?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td>@item.ProgramID</td>
-                            <td>@item.SubProgramID</td>
-                            <td>@item.AgentName</td>
-                            <td>@item.EmployeeID</td>
-                            <td>@item.AgentSupervsor</td>
-                            <td>@item.ZTRaisedBy</td>
-                            <td>@item.ZTRaisedDate</td>
-                            <td>@item.TransactionDate</td>
-                            <td>@item.ZTClassification</td>
-                            <td>@item.TransactionID</td>
-
-                            <td>
-                                <a href="/HR/HrZtCases?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
-                                    View
-                                </a>
-                            </td>
+                            <td colspan="11" class="text-center">No pending Zt Cases.</td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="5" class="text-center">No pending Zt Cases.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                </tbody> *@
+                <tbody id="ztCaseHRTableBody">
+                    <!-- filled by JS -->
+                </tbody>
+
+            </table>
+        </div>
     </div>
+</div>
 
-
-
-
-    <div class="card-header">
+<div class="card shadow mb-4">
+    <div class="card-header" style="cursor: pointer;" data-toggle="collapse" data-target="#ztCassssesssTable23" aria-expanded="false" aria-controls="ztCassssesssTable23">
         <strong class="card-title">Couching PIP</strong>
     </div>
-    <div class="card-body">
+    <div id="ztCassssesssTable23" class="card-body collapse">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -134,11 +184,11 @@
                     <th>QA_Manager</th>
                     <th>CreatedBy</th>
                     <th>Createddate</th>
-                  
+
 
                 </tr>
             </thead>
-            <tbody>
+           @*  <tbody>
                 @if (Model.HRPIP != null && Model.HRPIP.Any())
                 {
                     @foreach (var item in Model.HRPIP)
@@ -150,9 +200,9 @@
                             <td>@item.QA_Manager</td>
                             <td>@item.CreatedBy</td>
                             <td>@item.Createddate</td>
-                 
 
-                          
+
+
                         </tr>
                     }
                 }
@@ -162,9 +212,170 @@
                         <td colspan="5" class="text-center">No pending Zt Cases.</td>
                     </tr>
                 }
+            </tbody> *@
+            <tbody id="couchingPIPTableBody">
+                <!-- filled by JS -->
             </tbody>
         </table>
     </div>
 
 
 </div>
+
+
+<script>
+
+        function GetDashBoard(event) {
+        var programVal = $("#ProgramID").val();
+        var programText = $("#ProgramID option:selected").text();
+
+        var subProgramVal = $("#SUBProgramID").val();
+        var subProgramText = $("#SUBProgramID option:selected").text();
+
+        var filterVal = $("#ViewType").val();
+        var filterText = $("#ViewType option:selected").text();
+
+        console.log("Program:", programVal, "-", programText);
+        console.log("SubProgram:", subProgramVal, "-", subProgramText);
+        console.log("Filter:", filterVal, "-", filterText);
+
+        // ❌ FIXED: This was an assignment (=), not a comparison (== or ===)
+        if (filterVal === "") {
+            Swal.fire({
+                title: "Select All Fields!",
+                icon: "info",
+                draggable: true
+            });
+            return; // 🔁 prevent sending an invalid request
+        }
+
+        $.ajax({
+            url: "/HR/Getdashboad", // ✅ Make sure this matches your controller route
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                Program: programText,
+                SubProgram: subProgramText,
+                filter: filterVal  // ✅ use filterVal, not filterText
+            }),
+                success: function (response) {
+        console.log("Dashboard response:", response);
+
+        // ZT Case Panel
+        const panelData = response.baseListZTcaseModel || [];
+        const $panelTable = $("#ztCasePanelTableBody");
+        $panelTable.empty();
+        if (panelData.length > 0) {
+            panelData.forEach(item => {
+                $panelTable.append(`
+                    <tr>
+                        <td>${item.programID}</td>
+                        <td>${item.subProgramID}</td>
+                        <td>${item.agentName}</td>
+                        <td>${item.employeeID}</td>
+                        <td>${item.agentSupervsor}</td>
+                        <td>${item.ztRaisedBy}</td>
+                        <td>${item.ztRaisedDate}</td>
+                        <td>${item.transactionDate}</td>
+                        <td>${item.ztClassification}</td>
+                        <td>${item.transactionID}</td>
+                        <td>
+                            <a href="/HR/PanelCases?TransactionID=${item.transactionID}" class="btn btn-primary btn-sm">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                `);
+            });
+        } else {
+            $panelTable.append('<tr><td colspan="11" class="text-center">No pending Zt Cases.</td></tr>');
+        }
+
+        // ZT Case HR
+        const hrData = response.baseListZtHrCase || [];
+        const $hrTable = $("#ztCaseHRTableBody");
+        $hrTable.empty();
+        if (hrData.length > 0) {
+            hrData.forEach(item => {
+                $hrTable.append(`
+                    <tr>
+                        <td>${item.programID}</td>
+                        <td>${item.subProgramID}</td>
+                        <td>${item.agentName}</td>
+                        <td>${item.employeeID}</td>
+                        <td>${item.agentSupervsor}</td>
+                        <td>${item.ztRaisedBy}</td>
+                        <td>${item.ztRaisedDate}</td>
+                        <td>${item.transactionDate}</td>
+                        <td>${item.ztClassification}</td>
+                        <td>${item.transactionID}</td>
+                        <td>
+                            <a href="/HR/HrZtCases?TransactionID=${item.transactionID}" class="btn btn-primary btn-sm">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                `);
+            });
+        } else {
+            $hrTable.append('<tr><td colspan="11" class="text-center">No pending Zt Cases.</td></tr>');
+        }
+
+        // Coaching PIP
+        const pipData = response.baseListCouchingPIP || [];
+        const $pipTable = $("#couchingPIPTableBody");
+        $pipTable.empty();
+        if (pipData.length > 0) {
+            pipData.forEach(item => {
+                $pipTable.append(`
+                    <tr>
+                        <td>${item.agentID}</td>
+                        <td>${item.program}</td>
+                        <td>${item.subProgram}</td>
+                        <td>${item.qA_Manager}</td>
+                        <td>${item.createdBy}</td>
+                        <td>${item.createddate}</td>
+                    </tr>
+                `);
+            });
+        } else {
+            $pipTable.append('<tr><td colspan="6" class="text-center">No pending Zt Cases.</td></tr>');
+        }
+    }
+    ,
+            error: function (xhr, status, error) {
+                console.error("AJAX error:", error);
+            }
+        });
+    }
+
+
+        function onProgramChange() {
+          var programId = document.getElementById("ProgramID").value;
+          if (programId == "") {
+              alert("Please Select Program first");
+              return;
+          }
+          $.ajax({
+              type: "POST",
+              data: JSON.stringify({ id: programId }),
+
+              url: "/Admin/GetSUBProcessList",
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function (response) {
+
+                  var dropdown = $('#SUBProgramID');
+                  dropdown.empty();
+                  dropdown.append('<option value="">Select Sub Process</option>');
+                   dropdown.append('<option value="ALL">' + "ALL" + '</option>');
+                  response.proces.forEach(function (item) {
+                      dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                  });
+              },
+              error: function (xhr, status, error) {
+                  console.error("Error occurred: " + error);
+              }
+          });
+      }
+</script>

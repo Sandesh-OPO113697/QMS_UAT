@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Sample Size</label>
-                    <input type="text" id="SamplingSize" class="custom-select" readonly />
+                    <input type="text" id="SamplingSize" class="form-control" readonly />
                 </div>
 
             </div>
@@ -48,17 +48,17 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Agent HC</label> <span style="color:red">*</span>
-                    <input type="number" required id="Agent" required class="custom-select" oninput="syncValue()" />
+                    <input type="number" required id="Agent" required class="form-control" oninput="syncValue()" />
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">QA HC</label> <span style="color:red">*</span>
-                    <input type="text" required id="qa" class="custom-select" />
+                    <input type="text" required id="qa" class="form-control" />
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Ops TL HC</label> <span style="color:red">*</span>
-                    <input type="text" required id="tl" class="custom-select" />
+                    <input type="text" required id="tl" class="form-control" />
                 </div>
 
                 <div class="form-group col-md-6">
@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">No Of Working Days</label> <span style="color:red">*</span>
-                    <input type="number" id="NoOfWorking" class="custom-select" onkeyup="handleWCChange(this)" />
+                    <input type="number" id="NoOfWorking" class="form-control" onkeyup="handleWCChange(this)" />
                 </div>
             </div>
         </div>
@@ -97,25 +97,25 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Active Head count</label> <span style="color:red">*</span>
-                    <input type="number" required id="R_G_Active_Head_count" class="custom-select" onkeyup="handleHCChange(this)" />
+                    <input type="number" required id="R_G_Active_Head_count" class="form-control" onkeyup="handleHCChange(this)" />
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Audit sampling/Month</label> <span style="color:red">*</span>
-                    <input type="text" required id="R_G_Audit_sampling_Month" class="custom-select" readonly />
+                    <input type="text" required id="R_G_Audit_sampling_Month" class="form-control" readonly />
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">#Of QA</label> <span style="color:red">*</span>
-                    <input type="text" required id="R_G_of-qa" class="custom-select" onkeyup="handleQAInputChange(this)" />
+                    <input type="text" required id="R_G_of-qa" class="form-control" onkeyup="handleQAInputChange(this)" />
                 </div>
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Per QA Monthly  target</label> <span style="color:red">*</span>
-                    <input type="text" required  id="R_G_Per_QA_Monthly_target" class="custom-select" readonly />
+                    <input type="text" required id="R_G_Per_QA_Monthly_target" class="form-control" readonly />
                 </div>
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Per QA Daily Traget</label> <span style="color:red">*</span>
-                    <input type="text" required  id="R_G_Per_QA_Daily_Traget" class="custom-select" readonly />
+                    <input type="text" required id="R_G_Per_QA_Daily_Traget" class="form-control" readonly />
                 </div>
             </div>
         </div>
@@ -129,29 +129,29 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Active Head count</label> <span style="color:red">*</span>
-                    <input type="number" required id="t_Audit_Active_Head_count" class="custom-select" onkeyup="handleHCChange(this)" />
+                    <input type="number" required id="t_Audit_Active_Head_count" class="form-control" onkeyup="handleHCChange(this)" />
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Audit sampling/Month</label> <span style="color:red">*</span>
-                    <input type="text" required id="t_Audit_Audit_sampling_Month" class="custom-select" readonly />
+                    <input type="text" required id="t_Audit_Audit_sampling_Month" class="form-control" readonly />
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">#Of QA</label> <span style="color:red">*</span>
-                    <input type="text" required id="t_Audit_of-qa" class="custom-select" onkeyup="handleQAInputChange(this)" />
+                    <input type="text" required id="t_Audit_of-qa" class="form-control" onkeyup="handleQAInputChange(this)" />
                 </div>
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Target (Manual)</label> <span style="color:red">*</span>
-                    <input type="text" required  id="t_Audit_Target_Manual" class="custom-select" />
+                    <input type="text" required id="t_Audit_Target_Manual" class="form-control" />
                 </div>
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Per QA Monthly  target</label> <span style="color:red">*</span>
-                    <input type="text" required id="t_Audit_Per_QA_Monthly_target" class="custom-select" readonly />
+                    <input type="text" required id="t_Audit_Per_QA_Monthly_target" class="form-control" readonly />
                 </div>
                 <div class="form-group col-md-6">
                     <label for="SamplingSize">Per QA Daily Traget</label> <span style="color:red">*</span>
-                    <input type="text" required  id="t_Audit_Per_QA_Daily_Traget" class="custom-select" readonly />
+                    <input type="text" required id="t_Audit_Per_QA_Daily_Traget" class="form-control" readonly />
                 </div>
             </div>
         </div>

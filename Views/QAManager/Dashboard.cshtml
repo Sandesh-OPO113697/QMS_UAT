@@ -56,21 +56,21 @@
 <div id="pendingClosedGraphContainer" class="row my-4"></div>
 
 <div class="container">
-    <div class="card shadow mb-4">
-        <div class="card-header accordion-header" data-target="#auditContent" onclick="toggleAccordion('auditContent')" style="cursor:pointer;">
+    <div class="mb-4">
+        <div class="card-header accordion-header card shadow" data-target="#auditContent" onclick="toggleAccordion('auditContent')" style="cursor:pointer;">
             <strong class="card-title">List all Monitor role Individuals</strong>
         </div>
         <div class="card-body collapse" id="auditContent" style="display: none;">
-            <canvas id="auditChart" width="600" height="300"></canvas>
+            <canvas id="auditChart" width="1336" height="600"></canvas>
         </div>
     </div>
 
-    <div class="card shadow mb-4">
-        <div class="card-header accordion-header" data-target="#monitorContent" onclick="toggleAccordion('monitorContent')" style="cursor:pointer;">
+    <div class= "mb-4">
+        <div class="card-header accordion-header card shadow" data-target="#monitorContent" onclick="toggleAccordion('monitorContent')" style="cursor:pointer;">
             <strong class="card-title">List all Monitor</strong>
         </div>
         <div class="card-body collapse" id="monitorContent" style="display: none;">
-            <canvas id="monitorChart" width="1336" height="1002" style="display: block;height: 527px;width: 891px;" class="chartjs-render-monitor"></canvas>
+            <canvas id="monitorChart" width="1336" height="600" ></canvas>
         </div>
     </div>
     <div class="card shadow mb-4">
@@ -449,46 +449,72 @@
 
     const ctx = document.getElementById('auditChart').getContext('2d');
 
-    const auditChart = new Chart(ctx, {
+      const auditChart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: labels,
         datasets: [
           {
-            label: 'Transaformation Target',
+            label: 'Transformation Target',
             data: target1,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-               barThickness: 19
+            backgroundColor: '#1E90FF', // Dodger Blue
+            barThickness: 30,
+            borderRadius: 22,
           },
           {
-            label: 'Transaformation Actual',
+            label: 'Transformation Actual',
             data: actual1,
-            backgroundColor: 'rgba(54, 162, 235, 1)',
-               barThickness: 19
+            backgroundColor: '#007BFF', // Strong Blue
+            barThickness: 30,
+            borderRadius: 22,
           },
           {
             label: 'Hygiene Target',
             data: target2,
-            backgroundColor: 'rgba(255, 159, 64, 0.6)',
-               barThickness: 19
+            backgroundColor: '#FFA500', // Orange
+            barThickness: 30,
+            borderRadius: 22,
           },
           {
             label: 'Hygiene Actual',
             data: actual2,
-            backgroundColor: 'rgba(255, 159, 64, 1)',
-               barThickness: 19
+            backgroundColor: '#FF4500', // Orange Red
+            barThickness: 30,
+            borderRadius: 22,
           }
         ]
       },
       options: {
         responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#ffffff' // White text for legend labels
+            }
+          }
+        },
         scales: {
           y: {
-            beginAtZero: true
+            beginAtZero: true,
+            ticks: {
+              color: '#ffffff' // White text on Y axis
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)' // Faint white grid lines
+            }
+          },
+          x: {
+            ticks: {
+              color: '#ffffff' // White text on X axis
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)' // Faint white grid lines
+            }
           }
         }
       }
     });
+
 
         let monitordash = response.monitoerows;
 
@@ -504,44 +530,67 @@
         const scores = flatMonitorDash.map(item => item.Score);
 
         const ctx = document.getElementById('monitorChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: teams,
-                datasets: [
-                    {
-                        label: 'Target',
-                        data: targets,
-                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                        barThickness: 19
-                    },
-                    {
-                        label: 'Actual',
-                        data: actuals,
-                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                        barThickness: 19
-                    },
-                    {
-                        label: 'Score',
-                        data: scores,
-                        backgroundColor: 'rgba(255, 159, 64, 0.6)',
-                        barThickness: 19
+          new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: teams,
+            datasets: [
+                {
+                    label: 'Target',
+                    data: targets,
+                    backgroundColor: '#4e79a7', // Muted Blue
+                    barThickness: 19
+                },
+                {
+                    label: 'Actual',
+                    data: actuals,
+                    backgroundColor: '#59a14f', // Soft Green
+                    barThickness: 19
+                },
+                {
+                    label: 'Score',
+                    data: scores,
+                    backgroundColor: '#f28e2c', // Warm Orange
+                    barThickness: 19
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        color: '#ffffff' // white text for legend
                     }
-                ]
+                },
+                title: {
+                    display: true,
+                    text: 'Team Performance Overview',
+                    color: '#ffffff' // white title
+                }
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top'
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff' // white labels
                     },
-                    title: {
-                        display: true,
-                        text: 'Team Performance Overview'
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)' // light grid lines
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#ffffff'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
                     }
                 }
             }
-        });
+        }
+    });
+
     }
 
 

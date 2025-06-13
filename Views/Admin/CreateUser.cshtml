@@ -156,7 +156,23 @@
 </form>
 
 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#SuperAdminTable').DataTable({
+            "paging": true,
+            "pageLength": 5, // Number of rows per page
+            "lengthChange": false, // Hide rows-per-page dropdown
+            "searching": false, // Optional: disable search
+            "ordering": false, // Optional: disable column sorting
+        });
+    });
+</script>
 
 <script>
 
@@ -166,7 +182,12 @@
         const userName = document.getElementById("txtUsername").value.trim();
 
         if (userName.length <= 9) {
-            alert("User ID must be more than 9 characters.");
+           
+                Swal.fire({
+    
+      text: "User ID must be more than 9 characters.",
+      icon: "question"
+    });
             return false;
         }
 
@@ -179,7 +200,12 @@
         input.value = input.value.replace(/\D/g, '');
         if (input.value.length > 10) {
             input.value = input.value.substring(0, 10);
-            alert("Phone number can only be 10 digits.");
+          
+                Swal.fire({
+     
+      text: "Phone number can only be 10 digits.",
+      icon: "question"
+    });
         }
     }
     function restrictBackspace(event) {

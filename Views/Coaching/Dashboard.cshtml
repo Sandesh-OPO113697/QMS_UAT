@@ -5,113 +5,94 @@
 @model List<ReviewDataModel>
 
 
-
-
-
 <div class="card shadow mb-4">
     <div class="card-header">
         <strong class="card-title">Coaching </strong>
         <div>
-            <span class="badge badge-success" style="background-color: #d4edda; color: #155724; padding: 5px 10px; border-radius: 5px;">On-Going</span>
-            <span class="badge badge-warning" style="background-color: #fff3cd; color: #856404; padding: 5px 10px; border-radius: 5px;">Extended</span>
-            <span class="badge badge-danger" style="background-color: #f8d7da; color: #721c24; padding: 5px 10px; border-radius: 5px;">PIP</span>
+            <span class="badge badge-success" style=" color: #155724; padding: 5px 10px; border-radius: 5px;">On-Going</span>
+            <span class="badge badge-warning" style=" color: #856404; padding: 5px 10px; border-radius: 5px;">Extended</span>
+            <span class="badge badge-danger" style=" color: #721c24; padding: 5px 10px; border-radius: 5px;">PIP</span>
         </div>
     </div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>AgentID</th>
-                    <th>Process</th>
-                    <th>SubProcess</th>
-                    <th>1st Review</th>
-                    <th>Comment 1</th>
-                    <th>2nd Review</th>
-                    <th>Comment 2</th>
-                    <th>3rd Review</th>
-                    <th>Comment 3</th>
-                    <th>4th Review</th>
-                    <th>Comment 4</th>
-                    <th>5th Review</th>
-                    <th>Comment 5</th>
-                    <th>6th Review</th>
-                    <th>Comment 6</th>
-                    <th>View</th>
-
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach (var item in Model)
-                {
-                    string rowClass = "";
-                    if (item.CoachingStatus == "PIP")
-                    {
-                        rowClass = "table-danger"; // Red
-                    }
-                    else if (item.CoachingStatus == "Closed")
-                    {
-                        rowClass = "table-success"; // Green
-                    }
-                    else if (item.CoachingStatus == "Extended")
-                    {
-                        rowClass = "table-warning"; // Yellow
-                    }
-                    else if (item.CoachingStatus == "NotExtended")
-                    {
-                        rowClass = "table-success"; // Yellow
-                    }
-                    bool showViewButton = rowClass != "table-danger" &&  !string.IsNullOrEmpty(item.AgentID?.ToString()) &&
-                    !string.IsNullOrEmpty(item.ProcessName) &&
-                    !string.IsNullOrEmpty(item.SubProcess) &&
-                    !string.IsNullOrEmpty(item.FirstReview?.ToString()) &&
-                    !string.IsNullOrEmpty(item.Comment1) &&
-                    !string.IsNullOrEmpty(item.SecondReview?.ToString()) &&
-                    !string.IsNullOrEmpty(item.Comment2) &&
-                    !string.IsNullOrEmpty(item.ThirdReview?.ToString()) &&
-                    !string.IsNullOrEmpty(item.Comment3) &&
-                    !string.IsNullOrEmpty(item.FourthReview?.ToString()) &&
-                    !string.IsNullOrEmpty(item.Comment4);
-                    <tr class="@rowClass">
-                        <td>@item.AgentID</td>
-                        <td>@item.ProcessName</td>
-                        <td>@item.SubProcess</td>
-                        <td>@item.FirstReview</td>
-                        <td>@item.Comment1</td>
-                        <td>@item.SecondReview</td>
-                        <td>@item.Comment2</td>
-
-                        <td>@item.ThirdReview</td>
-
-                        <td>@item.Comment3</td>
-
-                        <td>@item.FourthReview</td>
-
-                        <td>@item.Comment4</td>
-
-                        <td>@item.FifthReview</td>
-
-                        <td>@item.Comment5</td>
-                        <td>@item.SixReview</td>
-                        <td>@item.Comment6</td>
-                        <td>
-                            @if (showViewButton)
-                            {
-                            <button onclick="viewAgent(this)" class="btn btn-primary"
-                                    data-agentid="@item.AgentID"
-                                    data-process="@item.ProcessName"
-                                    data-subprocess="@item.SubProcess">
-                                View
-                            </button>
-                            }
-                        </td>
+    <div class="card-body" style="padding: 0;">
+        <div style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-bordered mb-0">
+                <thead>
+                    <tr>
+                        <th>AgentID</th>
+                        <th>Process</th>
+                        <th>SubProcess</th>
+                        <th>1st Review</th>
+                        <th>Comment 1</th>
+                        <th>2nd Review</th>
+                        <th>Comment 2</th>
+                        <th>3rd Review</th>
+                        <th>Comment 3</th>
+                        <th>4th Review</th>
+                        <th>Comment 4</th>
+                        <th>5th Review</th>
+                        <th>Comment 5</th>
+                        <th>6th Review</th>
+                        <th>Comment 6</th>
+                        <th>View</th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        string textClass = "";
+                        if (item.CoachingStatus == "PIP") textClass = "text-danger";         // Red
+                        else if (item.CoachingStatus == "Closed") textClass = "text-success"; // Green
+                        else if (item.CoachingStatus == "Extended") textClass = "text-warning"; // Yellow
+                        else if (item.CoachingStatus == "NotExtended") textClass = "text-info";  // Cyan for visibility
 
-            </tbody>
-        </table>
+                        bool showViewButton = item.CoachingStatus != "PIP" &&
+                        !string.IsNullOrEmpty(item.AgentID?.ToString()) &&
+                        !string.IsNullOrEmpty(item.ProcessName) &&
+                        !string.IsNullOrEmpty(item.SubProcess) &&
+                        !string.IsNullOrEmpty(item.FirstReview?.ToString()) &&
+                        !string.IsNullOrEmpty(item.Comment1) &&
+                        !string.IsNullOrEmpty(item.SecondReview?.ToString()) &&
+                        !string.IsNullOrEmpty(item.Comment2) &&
+                        !string.IsNullOrEmpty(item.ThirdReview?.ToString()) &&
+                        !string.IsNullOrEmpty(item.Comment3) &&
+                        !string.IsNullOrEmpty(item.FourthReview?.ToString()) &&
+                        !string.IsNullOrEmpty(item.Comment4);
+
+                        <tr class="@textClass">
+                            <td>@item.AgentID</td>
+                            <td>@item.ProcessName</td>
+                            <td>@item.SubProcess</td>
+                            <td>@item.FirstReview</td>
+                            <td>@item.Comment1</td>
+                            <td>@item.SecondReview</td>
+                            <td>@item.Comment2</td>
+                            <td>@item.ThirdReview</td>
+                            <td>@item.Comment3</td>
+                            <td>@item.FourthReview</td>
+                            <td>@item.Comment4</td>
+                            <td>@item.FifthReview</td>
+                            <td>@item.Comment5</td>
+                            <td>@item.SixReview</td>
+                            <td>@item.Comment6</td>
+                            <td>
+                                @if (showViewButton)
+                                {
+                                    <button onclick="viewAgent(this)" class="btn btn-primary"
+                                            data-agentid="@item.AgentID"
+                                            data-process="@item.ProcessName"
+                                            data-subprocess="@item.SubProcess">
+                                        View
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
     </div>
-
 </div>
 
 <div class="col-md-12 my-4" id="AuditDiv">

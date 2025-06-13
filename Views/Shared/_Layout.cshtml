@@ -342,9 +342,16 @@
 
             </nav>
         </aside>
-        <main role="main" class="main-content">
+      @*   <main role="main" class="main-content">
             @RenderBody()
+        </main> *@
+        <main role="main" class="main-content" style="max-height: 100vh; overflow-y: auto;">
+            @RenderBody()
+            <div style="margin-bottom:90px;">
+
+            </div>
         </main>
+
     </div>
 
 
@@ -376,6 +383,11 @@
     <script src='~/js/dropzone.min.js'></script>
     <script src='~/js/uppy.min.js'></script>
     <script src='~/js/quill.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const darkTheme = document.getElementById('darkTheme');

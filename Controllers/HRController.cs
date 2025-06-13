@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using QMS.DataBaseService;
 using QMS.Models;
 using System;
@@ -13,12 +14,14 @@ namespace QMS.Controllers
         private readonly DL_Hr dl_hr;
         private readonly DL_Agent dl_Agent;
         private readonly DL_QaManager dl_qa;
-        public HRController(DL_Hr dl_HRs, DL_QaManager dl_qas, DL_Agent adla)
+        private readonly Dl_Admin _dlamin;
+        public HRController(DL_Hr dl_HRs, DL_QaManager dl_qas, DL_Agent adla  , Dl_Admin a)
         {
 
             dl_hr = dl_HRs;
             dl_qa = dl_qas;
             dl_Agent = adla;
+            _dlamin = a;
 
         }
 
@@ -26,7 +29,19 @@ namespace QMS.Controllers
 
         public async Task<IActionResult> Dashboard()
         {
+            DataTable dt = await _dlamin.GetProcessListAsync();
 
+            var processList = dt.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ProcessName"]}",
+            }).ToList();
+            processList.Insert(0, new SelectListItem
+            {
+                Value = "ALL", // or "" depending on your requirement
+                Text = "ALL"
+            });
+            ViewBag.Process = processList;
 
             List<ZtHrCase> ListHR = await dl_hr.ZtCaseHr();
             List<ZTcaseModel> ZTlistPanel = await dl_hr.ZtCasePanel();
@@ -43,6 +58,130 @@ namespace QMS.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> Getdashboad([FromBody] DashboardFilterModel model)
+        {
+            try
+            {
+
+                List<ZtHrCase> ListHR = await dl_hr.ZtCaseHr();
+                List<ZTcaseModel> ZTlistPanel = await dl_hr.ZtCasePanel();
+                List<CouchingPIP> HRPIP = await dl_hr.CouchingPIP();
+
+
+
+               
+
+                IEnumerable<ZtHrCase> baseListZtHrCase;
+                IEnumerable<ZTcaseModel> baseListZTcaseModel;
+                IEnumerable<CouchingPIP> baseListCouchingPIP;
+
+
+                if (model.Program == "ALL")
+                {
+                    baseListZtHrCase = ListHR;
+                    baseListZTcaseModel = ZTlistPanel;
+                    baseListCouchingPIP = HRPIP;
+                }
+                else if (model.SubProgram == "ALL")
+                {
+                    baseListZtHrCase = ListHR.Where(x => x.ProgramID == model.Program);
+                    baseListZTcaseModel = ZTlistPanel.Where(x => x.ProgramID == model.Program);
+                    baseListCouchingPIP = HRPIP.Where(x => x.Program == model.Program);
+                }
+                else
+                {
+                   
+                    baseListZtHrCase = ListHR.Where(x => x.ProgramID == model.Program && x.SubProgramID == model.SubProgram);
+                    baseListZTcaseModel = ZTlistPanel.Where(x => x.ProgramID == model.Program && x.SubProgramID == model.SubProgram );
+                    baseListCouchingPIP = HRPIP.Where(x => x.Program == model.Program && x.SubProgram == model.SubProgram );
+                }
+
+                DateTime today = DateTime.Today;
+                List<Dictionary<string, object>> baseListTransaction = new();
+
+
+                switch (model.Filter?.ToLower())
+                {
+                    case "day":
+
+                        baseListZtHrCase = baseListZtHrCase
+                            .Where(x => DateTime.TryParse(x.TransactionDate, out var date) && date.Date == today)
+                            .ToList();
+                        baseListZTcaseModel = baseListZTcaseModel
+                            .Where(x => DateTime.TryParse(x.TransactionDate, out var date) && date.Date == today)
+                            .ToList();
+                        baseListCouchingPIP = baseListCouchingPIP
+                            .Where(x => DateTime.TryParse(x.Createddate, out var date) && date.Date == today)
+                            .ToList();
+
+
+                        break;
+
+                    case "week":
+                        var startOfWeek = today.AddDays(-(int)today.DayOfWeek); // Sunday
+                        var endOfWeek = startOfWeek.AddDays(6);
+
+                        baseListZtHrCase = baseListZtHrCase
+                            .Where(x => DateTime.TryParse(x.TransactionDate, out var date) &&
+                                        date.Date >= startOfWeek && date.Date <= endOfWeek)
+                            .ToList();
+
+                        baseListZTcaseModel = baseListZTcaseModel
+                            .Where(x => DateTime.TryParse(x.ZTRaisedDate, out var date) &&
+                                        date.Date >= startOfWeek && date.Date <= endOfWeek)
+                            .ToList();
+
+                        baseListCouchingPIP = baseListCouchingPIP
+                            .Where(x => DateTime.TryParse(x.Createddate, out var date) &&
+                                        date.Date >= startOfWeek && date.Date <= endOfWeek)
+                            .ToList();
+                        break;
+
+                    case "month":
+                        var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
+                        var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
+                        baseListZtHrCase = baseListZtHrCase
+                            .Where(x => DateTime.TryParse(x.TransactionDate, out var date) &&
+                                        date.Date >= firstDayOfMonth && date.Date <= lastDayOfMonth)
+                            .ToList();
+
+                        baseListZTcaseModel = baseListZTcaseModel
+                            .Where(x => DateTime.TryParse(x.ZTRaisedDate, out var date) &&
+                                        date.Date >= firstDayOfMonth && date.Date <= lastDayOfMonth)
+                            .ToList();
+
+                        baseListCouchingPIP = baseListCouchingPIP
+                            .Where(x => DateTime.TryParse(x.Createddate, out var date) &&
+                                        date.Date >= firstDayOfMonth && date.Date <= lastDayOfMonth)
+                            .ToList();
+                        break;
+
+                    default:
+
+                        baseListTransaction = baseListTransaction ;
+                        ;
+                        break;
+                }
+
+              
+                return Json(new
+                {
+
+                    baseListCouchingPIP = baseListCouchingPIP,
+                    baseListZtHrCase = baseListZtHrCase,
+                    baseListZTcaseModel = baseListZTcaseModel,
+                 
+                   
+                });
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
 
         public async Task<IActionResult> HrZtCases(string TransactionID)
         {
