@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kJdrtkhkl+AMWAgGTm3SatSM/YY2ibkJ2ZGgcM4SnnM=",
+  "Hash": "1cL3w6IS8aNjcpJM5bUYmlgz/CoriEbeE6hiNJMN/CY=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -1081,8 +1081,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "vlgpwq3eei",
-      "Integrity": "rWeqJOZnyhan61XmgNqeelbyUZtBdOQ9QLBFD/O5AZI=",
+      "Fingerprint": "9b7li2oglb",
+      "Integrity": "RTKgzyZOktQPkF0qgvQx2GeZYF/4219J/JBYf9NsdN8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\app-dark.css"
@@ -8155,6 +8155,51 @@
       ]
     },
     {
+      "Route": "css/app-dark.9b7li2oglb.css",
+      "AssetFile": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\Test2\\wwwroot\\css\\app-dark.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "363722"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"RTKgzyZOktQPkF0qgvQx2GeZYF/4219J/JBYf9NsdN8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 13 Jun 2025 10:57:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "9b7li2oglb"
+        },
+        {
+          "Name": "label",
+          "Value": "css/app-dark.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-RTKgzyZOktQPkF0qgvQx2GeZYF/4219J/JBYf9NsdN8="
+        }
+      ]
+    },
+    {
       "Route": "css/app-dark.css",
       "AssetFile": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\Test2\\wwwroot\\css\\app-dark.css",
       "Selectors": [],
@@ -8165,7 +8210,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "363754"
+          "Value": "363722"
         },
         {
           "Name": "Content-Type",
@@ -8173,11 +8218,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"rWeqJOZnyhan61XmgNqeelbyUZtBdOQ9QLBFD/O5AZI=\""
+          "Value": "\"RTKgzyZOktQPkF0qgvQx2GeZYF/4219J/JBYf9NsdN8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 12 Jun 2025 08:19:00 GMT"
+          "Value": "Fri, 13 Jun 2025 10:57:49 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8187,52 +8232,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-rWeqJOZnyhan61XmgNqeelbyUZtBdOQ9QLBFD/O5AZI="
-        }
-      ]
-    },
-    {
-      "Route": "css/app-dark.vlgpwq3eei.css",
-      "AssetFile": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\Test2\\wwwroot\\css\\app-dark.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "363754"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"rWeqJOZnyhan61XmgNqeelbyUZtBdOQ9QLBFD/O5AZI=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Jun 2025 08:19:00 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "vlgpwq3eei"
-        },
-        {
-          "Name": "label",
-          "Value": "css/app-dark.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-rWeqJOZnyhan61XmgNqeelbyUZtBdOQ9QLBFD/O5AZI="
+          "Value": "sha256-RTKgzyZOktQPkF0qgvQx2GeZYF/4219J/JBYf9NsdN8="
         }
       ]
     },
@@ -19985,7 +19985,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 12 Jun 2025 08:18:59 GMT"
+          "Value": "Fri, 13 Jun 2025 12:07:16 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -20022,7 +20022,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 12 Jun 2025 08:18:59 GMT"
+          "Value": "Fri, 13 Jun 2025 12:07:16 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -20067,7 +20067,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 12 Jun 2025 08:18:59 GMT"
+          "Value": "Fri, 13 Jun 2025 12:07:29 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -20112,7 +20112,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 12 Jun 2025 08:18:59 GMT"
+          "Value": "Fri, 13 Jun 2025 12:07:29 GMT"
         },
         {
           "Name": "Cache-Control",

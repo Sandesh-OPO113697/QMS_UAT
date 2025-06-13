@@ -7,76 +7,73 @@
 @{
     var now = DateTime.Now;
 }
-
 <div class="card shadow mb-4">
-    <div class="card-header">
+    <div class="card-header" style="cursor: pointer;" data-toggle="collapse" data-target="#ztCaseTable" aria-expanded="false" aria-controls="ztCaseTable">
         <strong class="card-title">Pending ZT Case View</strong>
     </div>
-    
 
-
-    <div class="card-header">
-        <strong class="card-title">ZT Cases</strong>
-    </div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ProgramIDrrrr</th>
-                    <th>SubProgramID</th>
-                    <th>AgentName</th>
-                    <th>EmployeeID</th>
-                    <th>AgentSupervsor</th>
-                    <th>ZTRaisedBy</th>
-                    <th>ZTRaisedDate</th>
-                    <th>TransactionDate</th>
-                    <th>ZTClassification</th>
-                    <th>TransactionID</th>
-                    <th>View</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.ZTcaseList != null && Model.ZTcaseList.Any())
-                {
-                    @foreach (var item in Model.ZTcaseList)
-                    {
+    <div id="ztCaseTable" class="collapse">
+        <div class="card-body">
+            <div style="overflow-x: auto; width: 100%;">
+                <table class="table table-bordered" style="min-width: 1200px;">
+                    <thead>
                         <tr>
-                            <td>@item.ProgramID</td>
-                            <td>@item.SubProgramID</td>
-                            <td>@item.AgentName</td>
-                            <td>@item.EmployeeID</td>
-                            <td>@item.AgentSupervsor</td>
-                            <td>@item.ZTRaisedBy</td>
-                            <td>@item.ZTRaisedDate</td>
-                            <td>@item.TransactionDate</td>
-                            <td>@item.ZTClassification</td>
-                            <td>@item.TransactionID</td>
-
-                            <td>
-                                <a href="/Operation/OperationZtCase?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
-                                    View
-                                </a>
-                            </td>
+                            <th>ProgramIDrrrr</th>
+                            <th>SubProgramID</th>
+                            <th>AgentName</th>
+                            <th>EmployeeID</th>
+                            <th>AgentSupervsor</th>
+                            <th>ZTRaisedBy</th>
+                            <th>ZTRaisedDate</th>
+                            <th>TransactionDate</th>
+                            <th>ZTClassification</th>
+                            <th>TransactionID</th>
+                            <th>View</th>
                         </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="5" class="text-center">No pending Zt Cases.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @if (Model.ZTcaseList != null && Model.ZTcaseList.Any())
+                        {
+                            @foreach (var item in Model.ZTcaseList)
+                            {
+                                <tr>
+                                    <td>@item.ProgramID</td>
+                                    <td>@item.SubProgramID</td>
+                                    <td>@item.AgentName</td>
+                                    <td>@item.EmployeeID</td>
+                                    <td>@item.AgentSupervsor</td>
+                                    <td>@item.ZTRaisedBy</td>
+                                    <td>@item.ZTRaisedDate</td>
+                                    <td>@item.TransactionDate</td>
+                                    <td>@item.ZTClassification</td>
+                                    <td>@item.TransactionID</td>
+                                    <td>
+                                        <a href="/Operation/OperationZtCase?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="11" class="text-center">No pending Zt Cases.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-
 </div>
+
+
 <div class="card shadow mb-4">
-    <div class="card-header">
+    <div class="card-header" style="cursor: pointer;" data-toggle="collapse" data-target="#ASS" aria-expanded="false" aria-controls="ASS">
         <strong class="card-title"> Online assessment</strong>
     </div>
-    <div class="card-body">
+    <div class="card-body collapse" id="ASS">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -135,13 +132,11 @@
 </div>
 
 <div class="card shadow mb-4">
-  
-
-
-    <div class="card-header">
+ 
+    <div class="card-header" style="cursor: pointer;" data-toggle="collapse" data-target="#Calibration" aria-expanded="false" aria-controls="Calibration">
         <strong class="card-title">Calibration Pending</strong>
     </div>
-    <div class="card-body">
+    <div class="card-body collapse" id="Calibration">
         <table class="table table-bordered">
             <thead>
                 <tr>

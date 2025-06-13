@@ -83,7 +83,7 @@
 
 <div class="row mt-4" id="FormulaBuilder" style="display:none;">
     <!-- Tabs Div -->
-    <div class="col-md-6 border p-3">
+    <div class="col-md-6 border p-3" style="border-radius:10px;margin-top: 15px;">
         <ul class="nav nav-tabs" id="tabMenu">
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#callAudit">Call Audit</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#survey">Survey</a></li>
@@ -93,8 +93,8 @@
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#OutlierManagement">OutlierManagement</a></li>
             <!-- Add other tabs as needed -->
         </ul>
-        <div class="tab-content mt-2">
-            <div class="tab-pane container active" id="callAudit">
+        <div class="tab-content mt-2" style="color:white">
+            <div class="tab-pane container active" id="callAudit" >
                 <div class="field-item" draggable="true">Audit_Type</div>
                 <div class="field-item" draggable="true">ProgramID</div>
                 <div class="field-item" draggable="true">SubProgramID</div>
@@ -150,7 +150,7 @@
     </div>
 
     <!-- Drop Area -->
-    <div class="col-md-6 border p-3" id="dropArea" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div class="col-md-6 border p-3" style="color:white" id="dropArea" ondrop="drop(event)" ondragover="allowDrop(event)">
         <h5>Drop Fields Here</h5>
     </div>
 
@@ -185,7 +185,7 @@
     width: 100%;
     overflow-x: auto;
     margin-top: 10px;
-    border: 1px solid #ddd;
+ 
     padding: 10px;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
@@ -193,19 +193,15 @@
 
 <script src="~/js/xlsx.full.min.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 <script>
 
       function showFormulaBuilder() {
          document.getElementById("FormulaBuilder").style.display = "flex";
      }
-       function showFormulaPopup() {
-         const selectedFields = document.querySelectorAll("#dropArea .field-item");
-         if (selectedFields.length === 0) {
-             alert("Please drag and drop at least one field.");
-             return;
-         }
-         $('#formulaModal').modal('show');
-     }
+       
 
      function allowDrop(ev) {
          ev.preventDefault();
@@ -280,7 +276,13 @@
              }),
              contentType: 'application/json',
              success: function (response) {
-                 alert("Formula saved successfully!");
+                
+                 Swal.fire({
+                      title: "Formula saved successfully!!",
+                      icon: "success",
+                      draggable: true
+                    });
+
                  $('#formulaModal').modal('hide');
                  document.getElementById("formulaName").value = "";
                  document.getElementById("dropArea").innerHTML = "";
@@ -385,7 +387,12 @@
                  XLSX.utils.book_append_sheet(wb, ws, "Formula Data");
                  XLSX.writeFile(wb, `Formula_${formulaName}.xlsx`);
              } else {
-                 alert("No fields found for this formula.");
+                
+                     Swal.fire({
+                          title: "No fields found for this formula!",
+                          icon: "success",
+                          draggable: true
+                        });
                  document.getElementById("formulaResult").innerHTML = ""; // Clear previous table if any
              }
          } catch (error) {
@@ -401,7 +408,7 @@
          // Create headers with styles
          const keys = Object.keys(data[0]);
          keys.forEach(key => {
-             html += `<th style="border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4; text-align: left;">${key}</th>`;
+             html += `<th style="border: 1px solid #ddd; padding: 8px; color: white; text-align: left;">${key}</th>`;
          });
          html += '</tr></thead><tbody>';
 
@@ -409,7 +416,7 @@
          data.forEach(row => {
              html += '<tr>';
              keys.forEach(key => {
-                 html += `<td style="border: 1px solid #ddd; padding: 8px;">${row[key]}</td>`;
+                 html += `<td style="border: 1px solid #ddd;color: white; padding: 8px;">${row[key]}</td>`;
              });
              html += '</tr>';
          });
@@ -450,7 +457,18 @@
 
 
 
+    function showFormulaPopup() {
+        const selectedFields = document.querySelectorAll("#dropArea .field-item");
+        if (selectedFields.length === 0) {
+            alert("Please drag and drop at least one field.");
+            return;
+        }
 
+            var modal = new bootstrap.Modal(document.getElementById('formulaModal'));
+    modal.show();
+
+
+    }
 
 
 

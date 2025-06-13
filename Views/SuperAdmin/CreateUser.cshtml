@@ -115,7 +115,13 @@
         const userName = document.getElementById("txtAdmin").value.trim();
 
     if (userName.length <= 9) {
-        alert("User ID must be more than 9 characters.");
+            Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "User ID must be more than 9 characters."
+     
+    });
+       
         return false;
     }
 
@@ -130,7 +136,13 @@
         input.value = input.value.replace(/\D/g, '');
         if (input.value.length > 10) {
             input.value = input.value.substring(0, 10);
-            alert("Phone number can only be 10 digits.");
+         
+                Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Phone number can only be 10 digits."
+ 
+    });
         }
     }
     function ShowUserCreation() {

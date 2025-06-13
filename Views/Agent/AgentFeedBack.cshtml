@@ -58,7 +58,7 @@
 </div>
 
 <div class="col-md-12 my-4" id="AuditDiv">
-    <div class="card shadow" style="border-radius: 10px; border: 1px solid #ddd;">
+    <div class="card shadow" style="border-radius: 10px;">
         <div class="card-body" style="padding: 20px;">
             <h5 class="card-title" style="font-weight: bold; color: #eaebf1;">Feedback Acknowledgement</h5>
             <div class="row" style="margin-top: 15px;">
@@ -67,7 +67,7 @@
                         Voice Feedback
                     </label>
 
-                    <div style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #2a2c4a; text-align: center;">
+                    <div style="padding: 10px; border-radius: 8px;  text-align: center;">
                         @if (!string.IsNullOrEmpty(ViewBag.AudioData))
                         {
                             <audio controls style="width: 100%; max-width: 400px;">
@@ -87,7 +87,7 @@
                 <div class="form-group col-md-12">
                     <label for="QAComments" style="font-weight: 600; color: white;">QA Comments</label>
                     <input type="text" value="@ViewBag.QA_Comments" readonly
-                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; background-color: #2a2c4a; color:white;">
+                           style="width: 100%; padding: 8px;border: 0.3px solid #ccc; border-radius: 5px; background-color: #171b28; color:white;">
                 </div>
             </div>
 
@@ -95,20 +95,20 @@
                 <div class="form-group col-md-12">
                     <label for="AgentComent" style="font-weight: 600; color: white;">Agent Comments</label> <span style="color:red">*</span>
                     <input type="text" id="AgentComent" placeholder="Enter your comments" required
-                           style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;background-color: #2a2c4a;  color: white;">
+                           style="width: 100%; padding: 8px;border: 0.3px solid #ccc;  border-radius: 5px;background-color: #171b28;  color: white;">
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-2">
                     <button type="submit" onclick="submitAgentComment()"
-                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: solid 1px white; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                            style=" background-color: rgba(86, 86, 166, .25);color: #fff; padding: 10px 15px; border: solid 0.5px white; border-radius: 5px; font-weight: 600; cursor: pointer;">
                         Acknowledge
                     </button>
                 </div>
                 <div class="form-group col-md-2">
                     <button type="submit" onclick="submitFeedbackDispute()"
-                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: solid 1px white; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                            style=" background-color: rgba(86, 86, 166, .25);color: #fff; padding: 10px 15px; border: solid 0.6px white; border-radius: 5px; font-weight: 600; cursor: pointer;">
                         Dispute
                     </button>
                 </div>

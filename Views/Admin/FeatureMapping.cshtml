@@ -191,7 +191,12 @@
                             isChecked: isChecked
                         }),
                         success: function () {
-                            alert('Feature successfully assigned.');
+                                Swal.fire({
+                                  title: "Feature successfully assigned.",
+                                  icon: "success",
+                                  draggable: true
+                                });
+
                         },
                         error: function () {
                             alert('Error updating feature module: ' + checkboxValue);
@@ -246,7 +251,12 @@
                 data: JSON.stringify(data),
                 success: function (response) {
                     if (response.success) {
-                        alert('Features submitted successfully!');
+                      
+                            Swal.fire({
+                              title: "Features submitted successfully!!",
+                              icon: "success",
+                              draggable: true
+                            });
                         console.log('Response:', response);
                         location.reload();
                     } else {

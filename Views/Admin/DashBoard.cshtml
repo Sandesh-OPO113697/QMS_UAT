@@ -99,11 +99,11 @@
 <div id="accordion1" class="col-12 my-4">
     <div class="card shadow">
         <div class="card-header" id="heading1">
-            <a role="button" href="#collapse2" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+            <a role="button" href="#collsdsapse2" data-toggle="collapse" data-target="#collsdsapse2" aria-expanded="false" aria-controls="collsdsapse2">
                 <strong>Agent Performance Chart</strong>
             </a>
         </div>
-        <div id="collapse2" class="collapse" aria-labelledby="heading1" data-parent="#accordion1">
+        <div id="collsdsapse2" class="collapse" aria-labelledby="heading1" data-parent="#accordion1">
             <div id="columnCharts">
             </div>
         </div>
@@ -450,7 +450,7 @@
                    }
 
                    // Expand the accordion if collapsed
-                   $("#collapse211").collapse('show');
+                  
 
                    // Prepare data for ApexCharts
                    var categories = [];
@@ -551,7 +551,7 @@
                    }
 
                    // Expand the accordion section before showing the chart
-                   $("#collapse211").collapse('show');
+                
 
                    // Prepare chart data
                    var categories = [];
@@ -698,7 +698,7 @@
          $(document).ready(function () {
            let uploadedMailData = null;
                let selectedFile = null;
-                   $(document).on('click', '#selectAllAgents', function () {
+                  GetAllAgnetCQPerformance $(document).on('click', '#selectAllAgents', function () {
            $('#agentListContainer .card-body input[type="checkbox"]').prop('checked', true);
               GetAllAgnetCQPerformance();
        });
@@ -707,7 +707,7 @@
        });
     });
 
-           function GetAllAgnetCQPerformance(event) {
+       function GetAllAgnetCQPerformance(event) {
            var Program = $("#ProgramID").val();
            var SubProgram = $("#SUBProgramID").val();
 
@@ -715,7 +715,7 @@
            console.log("SubProgram: " + SubProgram);
 
            $.ajax({
-               url: "/Admin/GetAllAgnetCQPerformance",
+               url: "/Admin/",
                type: "POST",
                contentType: "application/json",
                data: JSON.stringify({ Program: Program, SubProgram: SubProgram }),

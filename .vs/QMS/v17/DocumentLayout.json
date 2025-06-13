@@ -1,54 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\Test2\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms new design\\test2\\views\\hr\\panelcases.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:views\\hr\\panelcases.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|d:\\qms development mvc uat and dev code\\qms new design\\test2\\views\\supervisor\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{08A8DE0A-D8E1-6486-719D-3D48BC155EDB}|QMS.csproj|solutionrelative:views\\supervisor\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PanelCases.cshtml",
-              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\Test2\\Views\\HR\\PanelCases.cshtml",
-              "RelativeDocumentMoniker": "Views\\HR\\PanelCases.cshtml",
-              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\Test2\\Views\\HR\\PanelCases.cshtml",
-              "RelativeToolTip": "Views\\HR\\PanelCases.cshtml",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAADAAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-13T07:28:15.24Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DashBoard.cshtml",
-              "DocumentMoniker": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\Test2\\Views\\Supervisor\\DashBoard.cshtml",
-              "RelativeDocumentMoniker": "Views\\Supervisor\\DashBoard.cshtml",
-              "ToolTip": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\Test2\\Views\\Supervisor\\DashBoard.cshtml",
-              "RelativeToolTip": "Views\\Supervisor\\DashBoard.cshtml",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAAADMAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-13T05:21:55.76Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

@@ -154,7 +154,13 @@
             charCode === 32 || charCode === 8) {
             return true;
         } else {
-            alert("Only letters and spaces are allowed!");
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Only letters and spaces are allowed!"
+     
+                });
+          
             return false;
         }
     }
@@ -165,7 +171,13 @@
 
         if (!regex.test(pasteData)) {
             evt.preventDefault();
-            alert("Pasting numeric or special characters is not allowed!");
+             Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Pasting numeric or special characters is not allowed!"
+
+                });
+         
         }
     }
 </script>
@@ -175,7 +187,13 @@
         const regex = /^[A-Za-z]{3}$/;
 
         if (!regex.test(prefix)) {
-            alert("Account Prefix must be exactly 3 alphabetic characters.");
+          
+                Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Account Prefix must be exactly 3 alphabetic characters."
+     
+    });
             document.getElementById("AccountPrefix").focus();
             return false;
         }
@@ -232,7 +250,13 @@
         var accountId = document.getElementById('accountId').value;
 
         if (!accountId) {
-            alert("Account ID is missing.");
+                            Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Account ID is missing."
+   
+                });
+          
             return;
         }
         var updatedUsers = [];
