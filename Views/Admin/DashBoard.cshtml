@@ -22,14 +22,14 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="SUBProgramID">Sub Program Name</label>
-                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select">
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()">
                     </select>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="ViewType">Data View</label>
-                    <select name="ViewType" id="ViewType" class="custom-select">
-                        <option value="day">--Select Data View--</option>
+                    <select name="ViewType" id="ViewType" class="custom-select" stye="background-color: #33363b; color: white">
+                        <option value="">--Select Data View--</option>
                         <option value="day">Day</option>
                         <option value="month">Month</option>
                         <option value="week">Week</option>
@@ -38,7 +38,7 @@
 
                 <div class="col-md-2">
                     <div class="form-group mb-3">
-                        <button id="SaveForm" class="btn btn-primary mt-4" onclick="GetDashBoard(this)">Search</button>
+                        <button id="SaveForm" class="btn btn-primary mt-4" onclick="GetDashBoard(this); GetMonitoring(event);GetFeedback(event);">Search</button>
                     </div>
 
                 </div>
@@ -48,6 +48,102 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+<div id="accordion11" class="col-12 my-4">
+    <div class="card shadow">
+        <div class="card-header" id="heading11">
+            <a role="button" href="#collapse21" data-toggle="collapse" data-target="#collapse21" aria-expanded="false" aria-controls="collapse21">
+                <strong>Monitor View</strong>
+            </a>
+        </div>
+        <div id="collapse21" class="collapse" aria-labelledby="heading11" data-parent="#accordion11">
+            <div class="row" id="dashboardContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="col-md-12 my-4">
+    @* <a href="javascript:void(0);" id="toggleAgentList" class="btn btn-primary mb-3">Agent List</a> *@
+    <div class="card-header" style="background-color:#33363b" id="heading11">
+        <a href="javascript:void(0);" id="toggleAgentList">
+            <strong>Agent List</strong>
+        </a>
+    </div>
+    <div class="col-md-12 my-4" id="agentListContainer" style="display:none">
+        <div class="card shadow">
+            <div class="card-body">
+
+                <div class="d-flex">
+                    <h5 class="card-title mb-0">Agent List</h5>
+                    <button type="button" style="margin-left:50px; color:#555" class="btn-sm" id="selectAllAgents">Select All</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="accordion1" class="col-12 my-4">
+    <div class="card shadow">
+        <div class="card-header" id="heading1">
+            <a role="button" href="#collapse2" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                <strong>Agent Performance Chart</strong>
+            </a>
+        </div>
+        <div id="collapse2" class="collapse" aria-labelledby="heading1" data-parent="#accordion1">
+            <div id="columnCharts">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="accordion111" class="col-12 my-4">
+    <div class="card shadow">
+        <div class="card-header" id="heading111">
+            <a role="button" href="#collapse211" data-toggle="collapse" data-target="#collapse211" aria-expanded="false" aria-controls="collapse211">
+                <strong>Monitoring View</strong>
+            </a>
+        </div>
+        <div id="collapse211" class="collapse" aria-labelledby="heading111" data-parent="#accordion111">
+            <div class="row" id="Monitoring">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="accordion1112" class="col-12 my-4">
+    <div class="card shadow">
+        <div class="card-header" id="heading1112">
+            <a role="button" href="#collapse2112" data-toggle="collapse" data-target="#collapse2112" aria-expanded="false" aria-controls="collapse2112">
+                <strong>Feedback View</strong>
+            </a>
+        </div>
+        <div id="collapse2112" class="collapse" aria-labelledby="heading1112" data-parent="#accordion1112">
+            <div class="row" id="Feedback">
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 <div class="col-md-12 my-4">
@@ -80,136 +176,675 @@
         </div>
     </div>
 </div>
-<div class="row" id="dashboardContainer"></div>
 
 
 <script src="~/js/jquery.min.js"></script>
 @await Html.PartialAsync("_MailModal")
 <script src="~/js/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="css/app-light.css" id="lightTheme">
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="~/js/notification.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
 <script>
-        function GetDashBoard(event) {
-        var Program = $("#ProgramID").val();
-        var SubProgram = $("#SUBProgramID").val();
-        var filter =  $("#ViewType").val();
-        
+    $(document).ready(function () {
+        $('#toggleAgentList').on('click', function () {
+            $('#agentListContainer').slideToggle(); // Smooth show/hide
+        });
+    });
+</script>
 
-        console.log("Program: " + Program);
-        console.log("SubProgram: " + SubProgram);
-        console.log("Filter: " + filter);
+<script>
+       //     function GetDashBoard(event) {
+       //     var Program = $("#ProgramID").val();
+       //     var SubProgram = $("#SUBProgramID").val();
+       //     var filter =  $("#ViewType").val();
 
-                  $.ajax({
-        url: "/Admin/Getdashboad",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
-        success: function (response) {
-            $('#dashboardContainer').empty();
 
-            let data = typeof response === 'string' ? JSON.parse(response) : response;
+       //     console.log("Program: " + Program);
+       //     console.log("SubProgram: " + SubProgram);
+       //     console.log("Filter: " + filter);
 
-            if (!Array.isArray(data) || data.length === 0) {
-                $('#dashboardContainer').html('<p>No data found</p>');
-                return;
-            }
+       //     $.ajax({
+       //     url: "/Admin/Getdashboad",
+       //     type: "POST",
+       //     contentType: "application/json",
+       //     data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
+       //     success: function (response) {
+       //         $('#dashboardContainer').empty();
 
-            data.forEach(function (item, index) {
-                let callQuality = parseFloat((item["Call Quality"] || "0").replace('%', ''));
-                let monitoring = parseFloat((item["Monitoring"] || "0").replace('%', ''));
-                let feedback = parseFloat((item["Feedback"] || "0").replace('%', ''));
+       //         let data = typeof response === 'string' ? JSON.parse(response) : response;
 
-                // Unique chart IDs
-                let callChartId = `callQualityChart_${index}`;
-                let monitoringChartId = `monitoringChart_${index}`;
-                let feedbackChartId = `feedbackChart_${index}`;
+       //         if (!Array.isArray(data) || data.length === 0) {
+       //             $('#dashboardContainer').html('<p>No data found</p>');
+       //             return;
+       //         }
 
-                // Generate three cards with separate chart IDs
-                let cardsHtml = `
-                    <div class="col-md-4 my-4">
-                        <div class="card shadow">
-                            <div class="card-body text-center">
-                                <div id="${callChartId}"></div>
-                                <div class="mt-3"><strong>Date:</strong> ${item["Period"]}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 my-4">
-                        <div class="card shadow">
-                            <div class="card-body text-center">
-                                <div id="${monitoringChartId}"></div>
-                                <div class="mt-3"><strong>Monitoring:</strong> ${item["Monitoring"]}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 my-4">
-                        <div class="card shadow">
-                            <div class="card-body text-center">
-                                <div id="${feedbackChartId}"></div>
-                                <div class="mt-3"><strong>Feedback:</strong> ${item["Feedback"]}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+       //         data.forEach(function (item, index) {
+       //             let callQuality = parseFloat((item["Call Quality"] || "0").replace('%', ''));
+       //             let monitoring = parseFloat((item["Monitoring"] || "0").replace('%', ''));
+       //             let feedback = parseFloat((item["Feedback"] || "0").replace('%', ''));
 
-                $('#dashboardContainer').append(cardsHtml);
+       //             // Unique chart IDs
+       //             let callChartId = `callQualityChart_${index}`;
+       //             let monitoringChartId = `monitoringChart_${index}`;
+       //             let feedbackChartId = `feedbackChart_${index}`;
 
-                // Function to clone options and render chart
-                function renderRadialChart(chartId, value, label) {
-                    let options = JSON.parse(JSON.stringify(strokeRadialOptions));
-                    options.series = [value];
-                    options.labels = [label];
+       //             // Generate three cards with separate chart IDs
+       //             let cardsHtml = `
+       //                 <div class="col-md-4 my-4">
+       //                     <div class="card shadow">
+       //                         <div class="card-body text-center">
+       //                             <div id="${callChartId}"></div>
+       //                             <div class="mt-3"><strong>Date:</strong> ${item["Period"]}</div>
+       //                         </div>
+       //                     </div>
+       //                 </div>
+       //                 <div class="col-md-4 my-4">
+       //                     <div class="card shadow">
+       //                         <div class="card-body text-center">
+       //                             <div id="${monitoringChartId}"></div>
+       //                             <div class="mt-3"><strong>Monitoring:</strong> ${item["Monitoring"]}</div>
+       //                         </div>
+       //                     </div>
+       //                 </div>
+       //                 <div class="col-md-4 my-4">
+       //                     <div class="card shadow">
+       //                         <div class="card-body text-center">
+       //                             <div id="${feedbackChartId}"></div>
+       //                             <div class="mt-3"><strong>Feedback:</strong> ${item["Feedback"]}</div>
+       //                         </div>
+       //                     </div>
+       //                 </div>
+       //             `;
 
-                    let chart = new ApexCharts(document.querySelector("#" + chartId), options);
-                    chart.render();
-                }
+       //             $('#dashboardContainer').append(cardsHtml);
 
-                renderRadialChart(callChartId, callQuality, "Call Quality");
-                renderRadialChart(monitoringChartId, monitoring, "Monitoring");
-                renderRadialChart(feedbackChartId, feedback, "Feedback");
-            });
-        },
-        error: function (xhr, status, error) {
-            console.error("AJAX Error:", error);
-            $('#dashboardContainer').html('<p>Error loading dashboard</p>');
-        }
+       //             // Function to clone options and render chart
+       //             function renderRadialChart(chartId, value, label) {
+       //                 let options = JSON.parse(JSON.stringify(strokeRadialOptions));
+       //                 options.series = [value];
+       //                 options.labels = [label];
+
+       //                 let chart = new ApexCharts(document.querySelector("#" + chartId), options);
+       //                 chart.render();
+       //             }
+
+       //             renderRadialChart(callChartId, callQuality, "Call Quality");
+       //             renderRadialChart(monitoringChartId, monitoring, "Monitoring");
+       //             renderRadialChart(feedbackChartId, feedback, "Feedback");
+       //         });
+       //     },
+       //     error: function (xhr, status, error) {
+       //         console.error("AJAX Error:", error);
+       //         $('#dashboardContainer').html('<p>Error loading dashboard</p>');
+       //     }
+       // });
+
+       // }
+
+
+
+               function GetDashBoard(event) {
+           var Program = $("#ProgramID").val();
+           var SubProgram = $("#SUBProgramID").val();
+           var filter = $("#ViewType").val();
+
+           console.log("Program: " + Program);
+           console.log("SubProgram: " + SubProgram);
+           console.log("Filter: " + filter);
+
+           $.ajax({
+               url: "/Admin/Getdashboad",
+               type: "POST",
+               contentType: "application/json",
+               data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
+               success: function (response) {
+                   $('#dashboardContainer').empty();
+
+                   let data = typeof response === 'string' ? JSON.parse(response) : response;
+
+                   if (!Array.isArray(data) || data.length === 0) {
+                       $('#dashboardContainer').html('<p>No data found</p>');
+                       return;
+                   }
+
+                   data.forEach(function (item, index) {
+                       let callQuality = parseFloat((item["Call Quality"] || "0").replace('%', ''));
+                       let monitoring = parseFloat((item["Monitoring"] || "0").replace('%', ''));
+                       let feedback = parseFloat((item["Feedback"] || "0").replace('%', ''));
+
+                       let callChartId = `callQualityChart_${index}`;
+                       let monitoringChartId = `monitoringChart_${index}`;
+                       let feedbackChartId = `feedbackChart_${index}`;
+
+                       let cardsHtml = `
+                           <div class="col-md-4 my-4">
+                               <div class="card shadow">
+                                   <div class="card-body text-center">
+                                       <div id="${callChartId}"></div>
+                                       <div class="mt-3"><strong>Date:</strong> ${item["Period"]}</div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="col-md-4 my-4">
+                               <div class="card shadow">
+                                   <div class="card-body text-center">
+                                       <div id="${monitoringChartId}"></div>
+                                       <div class="mt-3"><strong>Monitoring:</strong> ${item["Monitoring"]}</div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="col-md-4 my-4">
+                               <div class="card shadow">
+                                   <div class="card-body text-center">
+                                       <div id="${feedbackChartId}"></div>
+                                       <div class="mt-3"><strong>Feedback:</strong> ${item["Feedback"]}</div>
+                                   </div>
+                               </div>
+                           </div>
+                       `;
+
+                       $('#dashboardContainer').append(cardsHtml);
+
+                       // ⬇️ Inline function with attractive color & white % text
+                       function renderRadialChart(chartId, value, label) {
+                           let color = "#808080";
+
+                           if (label === "Call Quality") {
+                               if (value > 85) color = "#00c851";       // Green
+                               else if (value >= 80) color = "#ffbb33"; // Amber
+                               else color = "#ff4444";                  // Red
+                           } else if (label === "Monitoring") {
+                               if (value > 100) color = "#00c851";
+                               else if (value >= 90) color = "#ffbb33";
+                               else color = "#ff4444";
+                           } else if (label === "Feedback") {
+                               if (value > 90) color = "#00c851";
+                               else if (value >= 85) color = "#ffbb33";
+                               else color = "#ff4444";
+                           }
+
+                           let options = {
+                               chart: {
+                                   type: 'radialBar',
+                                   height: 200
+                               },
+                               plotOptions: {
+                                   radialBar: {
+                                       hollow: {
+                                           size: '65%',
+                                       },
+                                       dataLabels: {
+                                           name: {
+                                               show: true,
+                                               fontSize: '16px',
+                                               color: '#fff'
+                                           },
+                                           value: {
+                                               show: true,
+                                               fontSize: '20px',
+                                               fontWeight: 600,
+                                               color: '#fff',
+                                               formatter: function (val) {
+                                                   return val.toFixed(1) + '%';
+                                               }
+                                           }
+                                       }
+                                   }
+                               },
+                               fill: {
+                                   colors: [color]
+                               },
+                               labels: [label],
+                               series: [value]
+                           };
+
+                           let chart = new ApexCharts(document.querySelector("#" + chartId), options);
+                           chart.render();
+                       }
+
+                       renderRadialChart(callChartId, callQuality, "Call Quality");
+                       renderRadialChart(monitoringChartId, monitoring, "Monitoring");
+                       renderRadialChart(feedbackChartId, feedback, "Feedback");
+                   });
+               },
+               error: function (xhr, status, error) {
+                   console.error("AJAX Error:", error);
+                   $('#dashboardContainer').html('<p>Error loading dashboard</p>');
+               }
+           });
+       }
+
+
+
+
+
+                     function GetMonitoring(event) {
+           var Program = $("#ProgramID").val();
+           var SubProgram = $("#SUBProgramID").val();
+           var filter = $("#ViewType").val();
+
+           console.log("Program: " + Program);
+           console.log("SubProgram: " + SubProgram);
+           console.log("Filter: " + filter);
+
+           $.ajax({
+               url: "/Admin/GetMonitoring",
+               type: "POST",
+               contentType: "application/json",
+               data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
+               success: function (response) {
+                   console.log("Dashboard Data Loaded", response);
+
+                   if (!Array.isArray(response) || response.length === 0) {
+                       $("#Monitoring").html("<div class='text-danger'>No data found.</div>");
+                       return;
+                   }
+
+                   // Expand the accordion if collapsed
+                   $("#collapse211").collapse('show');
+
+                   // Prepare data for ApexCharts
+                   var categories = [];
+                   var targetData = [];
+                   var actualData = [];
+                   var pendingData = [];
+
+                   response.forEach(function (item) {
+                       categories.push(item.SubProcessName);
+                       targetData.push(parseInt(item.Target));
+                       actualData.push(parseInt(item.Actual));
+                       pendingData.push(parseInt(item.Pending));
+                   });
+
+                   // Clear previous chart
+                   $("#Monitoring").empty();
+                   $("#Monitoring").append('<div id="monitoringChart" class="col-12"></div>');
+
+                   setTimeout(function () {
+                       var options = {
+                           chart: {
+                               type: 'bar',
+                               height: 400,
+                               stacked: false
+                           },
+                           title: {
+                               text: 'Monitoring - ' + response[0].Process,
+                               align: 'center'
+                           },
+                           plotOptions: {
+                               bar: {
+                                   columnWidth: '10%' // Bar thickness here
+                               }
+                           },
+                           series: [
+                               {
+                                   name: 'Target',
+                                   data: targetData
+                               },
+                               {
+                                   name: 'Actual',
+                                   data: actualData
+                               },
+                               {
+                                   name: 'Pending',
+                                   data: pendingData
+                               }
+                           ],
+                           xaxis: {
+                               categories: categories,
+                               title: {
+                                   text: 'SubProcess'
+                               }
+                           },
+                           yaxis: {
+                               title: {
+                                   text: 'Count'
+                               }
+                           },
+                           colors: ['#00E396', '#008FFB', '#FF4560']
+                       };
+
+                       var chart = new ApexCharts(document.querySelector("#monitoringChart"), options);
+                       chart.render();
+                   }, 300); // slight delay ensures div is visible
+               },
+               error: function (xhr, status, error) {
+                   console.error("Error loading monitoring data:", error);
+                   $("#Monitoring").html("<div class='text-danger'>Error loading chart data.</div>");
+               }
+           });
+       }
+
+
+
+
+
+           function GetFeedback(event) {
+           var Program = $("#ProgramID").val();
+           var SubProgram = $("#SUBProgramID").val();
+           var filter = $("#ViewType").val();
+
+           console.log("Program: " + Program);
+           console.log("SubProgram: " + SubProgram);
+           console.log("Filter: " + filter);
+
+           $.ajax({
+               url: "/Admin/GetMonitoring",
+               type: "POST",
+               contentType: "application/json",
+               data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
+               success: function (response) {
+                   console.log("Dashboard Data Loaded", response);
+
+                   if (!Array.isArray(response) || response.length === 0) {
+                       $("#Feedback").html("<div class='text-danger'>No data found.</div>");
+                       return;
+                   }
+
+                   // Expand the accordion section before showing the chart
+                   $("#collapse211").collapse('show');
+
+                   // Prepare chart data
+                   var categories = [];
+                   var targetData = [];
+                   var actualData = [];
+                   var pendingData = [];
+
+                   response.forEach(function (item) {
+                       categories.push(item.SubProcessName);
+                       targetData.push(parseInt(item.Target));
+                       actualData.push(parseInt(item.Actual));
+                       pendingData.push(parseInt(item.Pending));
+                   });
+
+                   // Clear and create chart container
+                      $("#Feedback").empty().append('<div id="Feedbackchart" class="col-12"></div>');
+
+                   // Render chart
+                   setTimeout(function () {
+                       var options = {
+                           chart: {
+                               type: 'bar',
+                               height: 400,
+                               stacked: false
+                           },
+                           title: {
+                               text: 'Monitoring - ' + response[0].Process,
+                               align: 'center'
+                           },
+                              plotOptions: {
+                                  bar: {
+                                      columnWidth: '10%' // Bar thickness here
+                                  }
+                              },
+
+                           series: [
+                               { name: 'Target', data: targetData },
+                               { name: 'Actual', data: actualData },
+                               { name: 'Pending', data: pendingData }
+                           ],
+                           xaxis: {
+                               categories: categories,
+                               title: { text: 'SubProcess' }
+                           },
+                           yaxis: {
+                               title: { text: 'Count' }
+                           },
+                           colors: ['#00E396', '#008FFB', '#FF4560']
+                       };
+
+                       var chart = new ApexCharts(document.querySelector("#Feedbackchart"), options);
+                       chart.render();
+                   }, 300); // Delay to ensure div is visible
+               },
+               error: function (xhr, status, error) {
+                   console.error("Error loading monitoring data:", error);
+                   $("#Feedback").html("<div class='text-danger'>Error loading chart data.</div>");
+               }
+           });
+       }
+
+
+
+
+        function onProgramChange() {
+           var programId = document.getElementById("ProgramID").value;
+
+
+           if (programId == "") {
+               alert("Please Select Program first");
+               return;
+           }
+           $.ajax({
+               type: "POST",
+               data: JSON.stringify({ id: programId }),
+
+               url: "/Admin/GetSUBProcessList",
+               contentType: "application/json; charset=utf-8",
+               dataType: "json",
+               success: function (response) {
+
+                   var dropdown = $('#SUBProgramID');
+                   dropdown.empty();
+                   dropdown.append('<option value="">Select Sub Process</option>');
+                   response.proces.forEach(function (item) {
+                       dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                   });
+               },
+               error: function (xhr, status, error) {
+                   console.error("Error occurred: " + error);
+               }
+           });
+
+       }
+
+
+        function onSubProgramChange() {
+           const selectedValue = $('#SUBProgramID').val();
+           if (selectedValue === '') {
+               alert('Please select a valid Sub Program Name.');
+               return;
+           }
+
+           $.ajax({
+               type: "POST",
+               url: "/UpdateManagement/getTlAndAgentList",
+               contentType: "application/json; charset=utf-8",
+               dataType: "json",
+               data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
+               success: function (response) {
+                   const data = response.agentTlList;
+                   $("#agentListContainer, #tlListContainer").show();
+                   $("#agentListContainer .card-body").find("div.checkbox-wrapper").remove();
+                   $("#tlListContainer .card-body").find("div.checkbox-wrapper").remove();
+
+                   let uniqueTLs = {};
+
+                   data.forEach(function (row, index) {
+                       $('#agentListContainer .card-body').append(
+                           `<div class="checkbox-wrapper" style="margin-bottom: 6px; display: flex; align-items: center;">
+                               <input type="checkbox" id="agent_${index}" value="${row.empCode}" data-email="${row.empemails}" style="margin-right: 8px; transform: scale(1.2);" />
+                               <label for="agent_${index}" style="font-size: 15px;margin-top: 12px;margin-left: 13px; font-weight: 500;">${row.empName}</label>
+                                                      </div>`
+                       );
+
+                       if (!uniqueTLs[row.tL_Code]) {
+                           uniqueTLs[row.tL_Code] = row.tL_Name;
+                           $('#tlListContainer .card-body').append(
+                               `<div class="checkbox-wrapper" style="margin-bottom: 6px; display: flex; align-items: center;">
+                                   <input type="checkbox" id="tl_${row.tL_Code}" value="${row.tL_Code}" data-email="${row.tlemail}" style="margin-right: 8px; transform: scale(1.2);" />
+                                   <label for="tl_${row.tL_Code}" style="font-size: 15px;margin-top: 12px;margin-left: 13px; font-weight: 500;">${row.tL_Name}</label>
+                                                                </div>`
+                           );
+                       }
+                   });
+               },
+               error: function (xhr, status, error) {
+                   console.error("Error occurred: " + error);
+               }
+           });
+       }
+
+
+         $(document).ready(function () {
+           let uploadedMailData = null;
+               let selectedFile = null;
+                   $(document).on('click', '#selectAllAgents', function () {
+           $('#agentListContainer .card-body input[type="checkbox"]').prop('checked', true);
+              GetAllAgnetCQPerformance();
+       });
+        $(document).on('click', '#selectAllTL', function () {
+           $('#tlListContainer .card-body input[type="checkbox"]').prop('checked', true);
+       });
     });
 
-    }
+           function GetAllAgnetCQPerformance(event) {
+           var Program = $("#ProgramID").val();
+           var SubProgram = $("#SUBProgramID").val();
 
-     function onProgramChange() {
-        var programId = document.getElementById("ProgramID").value;
+           console.log("Program: " + Program);
+           console.log("SubProgram: " + SubProgram);
+
+           $.ajax({
+               url: "/Admin/GetAllAgnetCQPerformance",
+               type: "POST",
+               contentType: "application/json",
+               data: JSON.stringify({ Program: Program, SubProgram: SubProgram }),
+               success: function (response) {
+                   console.log("Dashboard Data Loaded", response);
+
+                   if (!Array.isArray(response) || response.length === 0) {
+                       console.warn("No data to display");
+                       return;
+                   }
+
+                   const empNames = response.map(item => item.EmpName);
+                   const scores = response.map(item => item.Percentage_Score);
+
+                   // Destroy previous chart if exists
+                   if (typeof columnChart !== 'undefined') {
+                       columnChart.destroy();
+                   }
+
+                   // Updated chart options using your existing style
+                   var dynamicChartOptions = {
+                       series: [{
+                           name: 'Performance %',
+                           data: scores
+                       }],
+                       chart: {
+                           type: "bar",
+                           height: 350,
+                           stacked: false,
+                           toolbar: {
+                               show: false
+                           },
+                           background: "transparent"
+                       },
+                       dataLabels: {
+                           enabled: false
+                       },
+                       theme: {
+                           mode: colors.chartTheme
+                       },
+                       plotOptions: {
+                           bar: {
+                               horizontal: false,
+                               columnWidth: "40%",
+                               radius: 30,
+                               enableShades: false,
+                               endingShape: "rounded"
+                           }
+                       },
+                       xaxis: {
+                           categories: empNames,
+                           labels: {
+                               show: true,
+                               style: {
+                                   colors: colors.mutedColor,
+                                   cssClass: "text-muted",
+                                   fontFamily: base.defaultFontFamily
+                               }
+                           },
+                           axisBorder: {
+                               show: false
+                           },
+                           title: {
+                               text: 'Employee Name'
+                           }
+                       },
+                       yaxis: {
+                           max: 100,
+                           title: {
+                               text: 'Percentage Score'
+                           },
+                           labels: {
+                               show: true,
+                               offsetX: -10,
+                               style: {
+                                   colors: colors.mutedColor,
+                                   cssClass: "text-muted",
+                                   fontFamily: base.defaultFontFamily
+                               }
+                           }
+                       },
+                       fill: {
+                           opacity: 1,
+                           colors: [base.primaryColor, extend.primaryColorLighter]
+                       },
+                       grid: {
+                           show: true,
+                           borderColor: colors.borderColor,
+                           xaxis: {
+                               lines: {
+                                   show: false
+                               }
+                           },
+                           yaxis: {
+                               lines: {
+                                   show: true
+                               }
+                           },
+                           padding: {
+                               left: 0,
+                               right: 0
+                           }
+                       },
+                       title: {
+                           text: 'Agent Performance',
+                           align: 'center'
+                       },
+                       responsive: [{
+                           breakpoint: 480,
+                           options: {
+                               legend: {
+                                   position: "bottom",
+                                   offsetX: -10,
+                                   offsetY: 0
+                               }
+                           }
+                       }]
+                   };
+
+                   columnChart = new ApexCharts(document.querySelector("#columnCharts"), dynamicChartOptions);
+                   columnChart.render();
+               },
+               error: function (xhr, status, error) {
+                   console.error("Error loading dashboard: ", error);
+               }
+           });
+       }
 
 
-        if (programId == "") {
-            alert("Please Select Program first");
-            return;
-        }
-        $.ajax({
-            type: "POST",
-            data: JSON.stringify({ id: programId }),
 
-            url: "/Admin/GetSUBProcessList",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-
-                var dropdown = $('#SUBProgramID');
-                dropdown.empty();
-                dropdown.append('<option value="">Select Sub Process</option>');
-                response.proces.forEach(function (item) {
-                    dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error("Error occurred: " + error);
-            }
-        });
-
-
-
-
-    }
 
 </script>

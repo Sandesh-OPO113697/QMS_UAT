@@ -89,6 +89,7 @@ wwwroot\Images\image.png
 wwwroot\Images\Login.png
 wwwroot\Images\logo.png
 wwwroot\Images\mainLogo.png
+wwwroot\Images\man.gif
 wwwroot\Images\nagalogo.png
 wwwroot\Images\QMSLOGO.webp
 wwwroot\Images\smiley-face.png

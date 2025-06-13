@@ -37,43 +37,42 @@
         <strong class="card-title">Coaching </strong>
     </div>
     <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>AgentID</th>
-                    <th>Process</th>
-                    <th>SubProcess</th>
-                    <th>1st Review</th>
-                    <th>Comment 1</th>
-                    <th>2nd Review</th>
-                    <th>Comment 2</th>
-                    <th>3rd Review</th>
-                    <th>Comment 3</th>
-                    <th>4th Review</th>
-                    <th>Comment 4</th>
-                    <th>5th Review</th>
-                    <th>Comment 5</th>
-                    <th>6th Review</th>
-                    <th>Comment 6</th>
-                    <th>View</th>
-
-                </tr>
-            </thead>
-            <tbody>
-              
+        <div style="overflow-x: auto;">
+            <table class="table table-bordered" style="min-width: 1000px;">
+                <thead>
+                    <tr>
+                        <th>AgentID</th>
+                        <th>Process</th>
+                        <th>SubProcess</th>
+                        <th>1st Review</th>
+                        <th>Comment 1</th>
+                        <th>2nd Review</th>
+                        <th>Comment 2</th>
+                        <th>3rd Review</th>
+                        <th>Comment 3</th>
+                        <th>4th Review</th>
+                        <th>Comment 4</th>
+                        <th>5th Review</th>
+                        <th>Comment 5</th>
+                        <th>6th Review</th>
+                        <th>Comment 6</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
                     @foreach (var item in Model)
                     {
-                    bool showViewButton = !string.IsNullOrEmpty(item.AgentID?.ToString()) &&
-                    !string.IsNullOrEmpty(item.ProcessName) &&
-                    !string.IsNullOrEmpty(item.SubProcess) &&
-                    !string.IsNullOrEmpty(item.FirstReview?.ToString()) &&
-                    !string.IsNullOrEmpty(item.Comment1) &&
-                    !string.IsNullOrEmpty(item.SecondReview?.ToString()) &&
-                    !string.IsNullOrEmpty(item.Comment2) &&
-                    !string.IsNullOrEmpty(item.ThirdReview?.ToString()) &&
-                    !string.IsNullOrEmpty(item.Comment3) &&
-                    !string.IsNullOrEmpty(item.FourthReview?.ToString()) &&
-                    !string.IsNullOrEmpty(item.Comment4);
+                        bool showViewButton = !string.IsNullOrEmpty(item.AgentID?.ToString()) &&
+                        !string.IsNullOrEmpty(item.ProcessName) &&
+                        !string.IsNullOrEmpty(item.SubProcess) &&
+                        !string.IsNullOrEmpty(item.FirstReview?.ToString()) &&
+                        !string.IsNullOrEmpty(item.Comment1) &&
+                        !string.IsNullOrEmpty(item.SecondReview?.ToString()) &&
+                        !string.IsNullOrEmpty(item.Comment2) &&
+                        !string.IsNullOrEmpty(item.ThirdReview?.ToString()) &&
+                        !string.IsNullOrEmpty(item.Comment3) &&
+                        !string.IsNullOrEmpty(item.FourthReview?.ToString()) &&
+                        !string.IsNullOrEmpty(item.Comment4);
                         <tr>
                             <td>@item.AgentID</td>
                             <td>@item.ProcessName</td>
@@ -82,39 +81,33 @@
                             <td>@item.Comment1</td>
                             <td>@item.SecondReview</td>
                             <td>@item.Comment2</td>
-
                             <td>@item.ThirdReview</td>
-
                             <td>@item.Comment3</td>
-
                             <td>@item.FourthReview</td>
-
                             <td>@item.Comment4</td>
-
                             <td>@item.FifthReview</td>
-
                             <td>@item.Comment5</td>
                             <td>@item.SixReview</td>
                             <td>@item.Comment6</td>
                             <td>
-                            @if (showViewButton)
-                            {
-                                <button onclick="viewAgent(this)"
-                                        data-agentid="@item.AgentID"
-                                        data-process="@item.ProcessName"
-                                        data-subprocess="@item.SubProcess"
-                                        style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
-                                    View
-                                </button>
-                            }
-                            
+                                @if (showViewButton)
+                                {
+                                    <button onclick="viewAgent(this)"
+                                            data-agentid="@item.AgentID"
+                                            data-process="@item.ProcessName"
+                                            data-subprocess="@item.SubProcess"
+                                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                                        View
+                                    </button>
+                                }
                             </td>
                         </tr>
                     }
-               
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
+
 
 
 
@@ -129,7 +122,7 @@
             <p><strong>Agent Name  :  </strong> <span id="AgentName"></span></></p>
             <p><strong>Coaching Plan Initiated Date  :  </strong><span id="DateCouching"></span></p>
 
-            <table style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+            <table style="width: 100%; border-collapse: collapse; background:#080b04; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
                 <thead>
                     <tr>
                         <th style="padding: 10px 15px; border: 1px solid #ddd; background-color: #24294a; color: white; text-align: left;">Review Number</th>
@@ -188,11 +181,12 @@
         let selectedAgentID = "";
     let selectedProcess = "";
     let selectedSubProcess = "";
-    async function ExtendCoauting() {
+       async function ExtendCoauting() {
 
-          console.log("Extend Coaching for Agent:", selectedAgentID);
-    console.log("Process:", selectedProcess);
-    console.log("SubProcess:", selectedSubProcess);
+        console.log("Extend Coaching for Agent:", selectedAgentID);
+        console.log("Process:", selectedProcess);
+        console.log("SubProcess:", selectedSubProcess);
+
         const ProgramID = selectedProcess;
         const SUBProgramID = selectedSubProcess;
         const AgentID = selectedAgentID;
@@ -211,20 +205,38 @@
             });
 
             const agentData = await agentResponse.json();
-            alert("Coaching  Extend ");
+
+            // SweetAlert2 for success
+            Swal.fire({
+                title: 'Success!',
+                text: 'Coaching Extended Successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
             console.log(agentData);
             clearAllFields();
         } catch (error) {
             console.error("Error extending coaching:", error);
+
+            // Optional: SweetAlert2 for error
+            Swal.fire({
+                title: 'Error!',
+                text: 'There was a problem extending the coaching session.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
     }
 
 
-      async function HRPIP() {
 
-          console.log("Extend Coaching for Agent:", selectedAgentID);
-    console.log("Process:", selectedProcess);
-    console.log("SubProcess:", selectedSubProcess);
+          async function HRPIP() {
+
+        console.log("Extend Coaching for Agent:", selectedAgentID);
+        console.log("Process:", selectedProcess);
+        console.log("SubProcess:", selectedSubProcess);
+
         const ProgramID = selectedProcess;
         const SUBProgramID = selectedSubProcess;
         const AgentID = selectedAgentID;
@@ -243,13 +255,30 @@
             });
 
             const agentData = await agentResponse.json();
-            alert("HR PIP Applied ");
+
+            // SweetAlert2 for success
+            Swal.fire({
+                title: 'Success!',
+                text: 'HR PIP Applied Successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
             console.log(agentData);
             clearAllFields();
         } catch (error) {
-            console.error("Error extending coaching:", error);
+            console.error("Error applying HR PIP:", error);
+
+            // Optional: SweetAlert2 for error
+            Swal.fire({
+                title: 'Error!',
+                text: 'There was a problem applying HR PIP.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
     }
+
 
      async function closedCoauting() {
         const ProgramID = $('#ProgramID').val();
@@ -270,11 +299,22 @@
             });
 
             const agentData = await agentResponse.json();
-               alert("Coaching  Close  ");
+               Swal.fire({
+            title: 'Success!',
+            text: 'Coaching Closed Successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
             console.log(agentData);
              clearAllFields();
         } catch (error) {
             console.error("Error extending coaching:", error);
+             Swal.fire({
+            title: 'Error!',
+            text: 'There was a problem closing the coaching session.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
         }
     }
 

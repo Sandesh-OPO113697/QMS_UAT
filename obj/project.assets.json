@@ -7922,23 +7922,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\OPO113697\\.nuget\\packages\\": {},
+    "C:\\Users\\opo113177\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\QMS_FIANAL\\QMS_NEW_DESIGN\\QMS.csproj",
+      "projectUniqueName": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\Test2\\QMS.csproj",
       "projectName": "QMS",
-      "projectPath": "D:\\QMS_FIANAL\\QMS_NEW_DESIGN\\QMS.csproj",
-      "packagesPath": "C:\\Users\\OPO113697\\.nuget\\packages\\",
-      "outputPath": "D:\\QMS_FIANAL\\QMS_NEW_DESIGN\\obj\\",
+      "projectPath": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\Test2\\QMS.csproj",
+      "packagesPath": "C:\\Users\\opo113177\\.nuget\\packages\\",
+      "outputPath": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\Test2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\OPO113697\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\opo113177\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
