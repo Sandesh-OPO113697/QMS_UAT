@@ -1,4 +1,6 @@
-﻿function handleModalClose() {
+﻿
+
+function handleModalClose() {
     $.ajax({
         url: '/LogIn/NotificationClosed',
         type: 'GET',

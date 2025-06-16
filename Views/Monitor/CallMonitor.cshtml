@@ -149,12 +149,12 @@
 
                 <div class="form-group col-md-6">
                     <label for="FromDate">From Date</label>
-                    <input type="date" id="FromDate"  class="custom-select" style="color:white">
+                    <input type="date" id="FromDate" class="form-control" style="color:white">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="ToDate">To Date</label>
-                    <input type="date" id="Todate" class="custom-select">
+                    <input type="date" id="Todate" class="form-control">
                 </div>
 
                 <div class="form-group col-md-6">
@@ -165,7 +165,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="TL_id">TL Name</label>
-                    <input type="text" placeholder="TL Name" class="custom-select" id="TL_id" readonly />
+                    <input type="text" placeholder="TL Name" class="form-control" id="TL_id" readonly />
                 </div>
 
                 <div class="form-group col-md-6">
@@ -592,7 +592,7 @@
 <div id="voiceModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
     background: white; padding: 20px; box-shadow: 0px 0px 10px gray; border-radius: 10px; z-index: 1000;">
 
-    <h4>Record Your Voice Message</h4>
+    <h4 style="color: #121621;">Record Your Voice Message</h4>
 
     <button id="startRecording" style="background-color: gray; color: white; border: none; padding: 10px;
         margin: 5px; cursor: pointer; border-radius: 5px;">
@@ -702,7 +702,9 @@
         icon: 'success',
         title: 'Saved!',
         text: 'Form saved successfully!',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
+            timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
     });
                      document.getElementById("voiceModal").style.display = "none";
                 },
@@ -711,7 +713,9 @@
                      Swal.fire({
                     icon: 'error',
                     title: 'Submission Error',
-                    text: 'An error occurred while submitting root cause data.'
+                    text: 'An error occurred while submitting root cause data.',
+                        timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                 });
                 }
             });
@@ -1107,7 +1111,9 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Resume Required',
-                text: 'Please resume before submitting the audit.'
+                text: 'Please resume before submitting the audit.',
+                    timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
             });
             return;
         }
@@ -1121,7 +1127,9 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Missing Call',
-                text: 'Please select a call for audit first.'
+                text: 'Please select a call for audit first.',
+                    timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
             });
             return false;
         }
@@ -1136,7 +1144,9 @@
                     Swal.fire({
                         icon: 'warning',
                         title: 'Missing Fields',
-                        text: 'Please select Disposition and SubDisposition before submitting.'
+                        text: 'Please select Disposition and SubDisposition before submitting.',
+                            timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                     });
                     return;
                 }
@@ -1145,7 +1155,9 @@
                     Swal.fire({
                         icon: 'warning',
                         title: 'Missing Category 1',
-                        text: 'Category 1 is visible but not selected!'
+                        text: 'Category 1 is visible but not selected!',
+                            timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                     });
                     return;
                 }
@@ -1154,7 +1166,9 @@
                     Swal.fire({
                         icon: 'warning',
                         title: 'Missing Category 2',
-                        text: 'Category 2 is visible but not selected!'
+                        text: 'Category 2 is visible but not selected!',
+                            timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                     });
                     return;
                 }
@@ -1163,7 +1177,9 @@
                     Swal.fire({
                         icon: 'warning',
                         title: 'Missing Category 3',
-                        text: 'Category 3 is visible but not selected!'
+                        text: 'Category 3 is visible but not selected!',
+                            timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                     });
                     return;
                 }
@@ -1172,7 +1188,9 @@
                     Swal.fire({
                         icon: 'warning',
                         title: 'Missing Category 4',
-                        text: 'Category 4 is visible but not selected!'
+                        text: 'Category 4 is visible but not selected!',
+                            timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                     });
                     return;
                 }
@@ -1181,7 +1199,9 @@
                     Swal.fire({
                         icon: 'warning',
                         title: 'Missing Category 5',
-                        text: 'SubCategory 5 is visible but not selected!'
+                        text: 'SubCategory 5 is visible but not selected!',
+                            timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                     });
                     return;
                 }
@@ -1202,7 +1222,9 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Incomplete Submission',
-                text: 'Please fill all required fields before submitting.'
+                    timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true,
+                text: 'Please fill all required fields before submitting.',
             });
             return;
         } else {
@@ -1237,7 +1259,9 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Submission Error',
-                        text: 'An error occurred while submitting root cause data.'
+                        text: 'An error occurred while submitting root cause data.',
+                            timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                     });
                 }
             });
@@ -1254,13 +1278,17 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Success!',
-                                text: 'Call Evaluation submitted successfully!'
+                                text: 'Call Evaluation submitted successfully!',
+                                    timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                             });
                         } else {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Submission Failed',
-                                text: 'Failed to submit Evaluation data.'
+                                text: 'Failed to submit Evaluation data.',
+                                    timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                             });
                         }
                     },
@@ -1269,7 +1297,9 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'An error occurred while submitting data.'
+                            text: 'An error occurred while submitting data.',
+                                timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                         });
                     }
                 });
@@ -1566,7 +1596,9 @@
             icon: 'success',
             title: 'Saved!',
             text: 'Form saved successfully!',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
+                timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
         });
     }
 
@@ -1581,7 +1613,9 @@
                     icon: 'warning',
                     title: 'Pause Limit Reached',
                     text: `Now you cannot take a pause because you have reached the pause limit: ${pauseLimit}`,
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                        timer: 4000, // 4000ms = 4 seconds
+    timerProgressBar: true
                 });
                 return;
             }

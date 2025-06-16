@@ -62,14 +62,14 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="ProgramID">Program Name <span style="color:red">*</span></label>
+                        <label style="color:white" for="ProgramID">Program Name <span style="color:red">*</span></label>
                         @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.ProcessList, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()", required = "required" })
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="SUBProgramID">Sub Program Name <span style="color:red">*</span></label>
+                        <label style="color:white"   for="SUBProgramID">Sub Program Name <span style="color:red">*</span></label>
                         <select name="SUBProgramID" id="SUBProgramID" class="custom-select" required>
                             <option value="">Select Process</option>
                         </select>
@@ -81,14 +81,14 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="subject">Test Subject <span style="color:red">*</span></label>
+                        <label   style="color:white"  for="subject">Test Subject <span style="color:red">*</span></label>
                         <input type="text" id="subject" class="custom-select" required />
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="Category">Test Category <span style="color:red">*</span></label>
+                        <label   style="color:white" for="Category">Test Category <span style="color:red">*</span></label>
                         <select name="Category" id="Category" class="custom-select" required>
                             <option value="">Select Category</option>
                             <option value="Course_Evaluation">Course Evaluation</option>
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <label for="expiryType">Select Expiry:</label>
+            <label style="color:white"  for="expiryType">Select Expiry:</label>
             <select id="expiryType" class="form-control" onchange="handleExpiryChange()">
                 <option value="">-- Select --</option>
                 <option value="date">Date</option>
@@ -145,7 +145,7 @@
         <!-- Right Column: Added Questions -->
         <div class="col-md-6 scroll-section">
             <h3>Added Questions</h3>
-            <div id="questionList"></div>
+            <div style="color:white" id="questionList"></div>
 
             <!-- Expiry Selection -->
            

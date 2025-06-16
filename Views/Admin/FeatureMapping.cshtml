@@ -8,7 +8,7 @@
 
 @if (TempData["RoleCreate"] != null)
 {
-    <div class="alert alert-primary" role="alert">
+    <div class="alert" role="alert">
         <span class="fe fe-alert-circle fe-16 mr-2">
 
         </span>
@@ -194,7 +194,9 @@
                                 Swal.fire({
                                   title: "Feature successfully assigned.",
                                   icon: "success",
-                                  draggable: true
+                                  draggable: true,
+                                      timer: 4000, // 4000ms = 4 seconds
+                                      timerProgressBar: true
                                 });
 
                         },
@@ -255,7 +257,9 @@
                             Swal.fire({
                               title: "Features submitted successfully!!",
                               icon: "success",
-                              draggable: true
+                              draggable: true,
+                                  timer: 4000, // 4000ms = 4 seconds
+                                timerProgressBar: true
                             });
                         console.log('Response:', response);
                         location.reload();
