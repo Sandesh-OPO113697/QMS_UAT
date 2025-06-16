@@ -41,7 +41,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="~/css/app-dark.css" id="darkTheme" >
- @*    <link rel="stylesheet" href="~/css/app-light.css" id="lightTheme" disabled> *@
+@*     <link rel="stylesheet" href="~/css/app-light.css" id="lightTheme" disabled> *@
     <style>
         .hover-orange {
             color: white;
@@ -394,30 +394,15 @@
             const lightTheme = document.getElementById('lightTheme');
             const modeSwitcher = document.getElementById('modeSwitcher');
 
-            // Default mode set to 'dark'
-            let currentMode = 'dark';
+            // Always enable dark theme
+            if (darkTheme) darkTheme.disabled = false;
+            if (lightTheme) lightTheme.disabled = true;
 
-            modeSwitcher.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                if (currentMode === 'dark') {
-                    // Switch to light mode
-                    darkTheme.disabled = true;
-                    lightTheme.disabled = false;
-                    currentMode = 'light';
-                    modeSwitcher.setAttribute('data-mode', 'dark');
-                    modeSwitcher.innerHTML = '<i class="fe fe-moon fe-16"></i>';
-                } else {
-                    // Switch back to dark mode
-                    darkTheme.disabled = false;
-                    lightTheme.disabled = true;
-                    currentMode = 'dark';
-                    modeSwitcher.setAttribute('data-mode', 'light');
-                    modeSwitcher.innerHTML = '<i class="fe fe-sun fe-16"></i>';
-                }
-            });
+            // Optionally hide the switch (if not needed anymore)
+            if (modeSwitcher) modeSwitcher.style.display = 'none';
         });
     </script>
+
 
     <script>
         function toggleImage() {

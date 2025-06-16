@@ -35,7 +35,7 @@ var base = {
     },
     curentTheme = localStorage.getItem("mode"),
     dark = document.querySelector("#darkTheme"),
-    light = document.querySelector("#lightTheme"),
+    light = document.querySelector("#darkTheme"),
     switcher = document.querySelector("#modeSwitcher");
 
 function modeSwitch() {

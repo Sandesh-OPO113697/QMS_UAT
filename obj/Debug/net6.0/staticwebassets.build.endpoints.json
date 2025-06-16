@@ -1669,7 +1669,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 16 Jun 2025 06:21:28 GMT"
+          "Value": "Mon, 16 Jun 2025 06:28:46 GMT"
         }
       ],
       "EndpointProperties": [
@@ -1714,7 +1714,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 16 Jun 2025 06:21:28 GMT"
+          "Value": "Mon, 16 Jun 2025 06:28:46 GMT"
         }
       ],
       "EndpointProperties": [
@@ -9269,51 +9269,6 @@
       ]
     },
     {
-      "Route": "js/config.4eeyz3xlff.js",
-      "AssetFile": "js/config.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2251"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"pEP/lLuEyxKkuUWHzFAi7sc1MlmVd5w5pZ0vmhjQddQ=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 10 Jun 2025 04:37:32 GMT"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "4eeyz3xlff"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-pEP/lLuEyxKkuUWHzFAi7sc1MlmVd5w5pZ0vmhjQddQ="
-        },
-        {
-          "Name": "label",
-          "Value": "js/config.js"
-        }
-      ]
-    },
-    {
       "Route": "js/config.js",
       "AssetFile": "js/config.js",
       "Selectors": [],
@@ -9328,7 +9283,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2251"
+          "Value": "2250"
         },
         {
           "Name": "Content-Type",
@@ -9336,17 +9291,62 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"pEP/lLuEyxKkuUWHzFAi7sc1MlmVd5w5pZ0vmhjQddQ=\""
+          "Value": "\"nFYEtR5+Im+x43GVCWJNcEn9MXSqblCij5MBMEMl+HM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 10 Jun 2025 04:37:32 GMT"
+          "Value": "Mon, 16 Jun 2025 06:26:46 GMT"
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-pEP/lLuEyxKkuUWHzFAi7sc1MlmVd5w5pZ0vmhjQddQ="
+          "Value": "sha256-nFYEtR5+Im+x43GVCWJNcEn9MXSqblCij5MBMEMl+HM="
+        }
+      ]
+    },
+    {
+      "Route": "js/config.k8vt6c76ah.js",
+      "AssetFile": "js/config.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2250"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nFYEtR5+Im+x43GVCWJNcEn9MXSqblCij5MBMEMl+HM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 16 Jun 2025 06:26:46 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "k8vt6c76ah"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-nFYEtR5+Im+x43GVCWJNcEn9MXSqblCij5MBMEMl+HM="
+        },
+        {
+          "Name": "label",
+          "Value": "js/config.js"
         }
       ]
     },

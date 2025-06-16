@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "o9HPGqI0Hyr4zHR8AUdc9fJZeb2pVEz2rQUpJ98Xa7Q=",
+  "Hash": "NCos71EAjmGMCYCBXhUoIhpmZs5kFcRt6WjoNWa9m6o=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -2257,8 +2257,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "4eeyz3xlff",
-      "Integrity": "pEP/lLuEyxKkuUWHzFAi7sc1MlmVd5w5pZ0vmhjQddQ=",
+      "Fingerprint": "k8vt6c76ah",
+      "Integrity": "nFYEtR5+Im+x43GVCWJNcEn9MXSqblCij5MBMEMl+HM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\config.js"
@@ -12747,51 +12747,6 @@
       ]
     },
     {
-      "Route": "js/config.4eeyz3xlff.js",
-      "AssetFile": "D:\\QMS_FIANAL\\QMS_NEW_DESIGN\\wwwroot\\js\\config.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2251"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"pEP/lLuEyxKkuUWHzFAi7sc1MlmVd5w5pZ0vmhjQddQ=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 10 Jun 2025 04:37:32 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "4eeyz3xlff"
-        },
-        {
-          "Name": "label",
-          "Value": "js/config.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-pEP/lLuEyxKkuUWHzFAi7sc1MlmVd5w5pZ0vmhjQddQ="
-        }
-      ]
-    },
-    {
       "Route": "js/config.js",
       "AssetFile": "D:\\QMS_FIANAL\\QMS_NEW_DESIGN\\wwwroot\\js\\config.js",
       "Selectors": [],
@@ -12802,7 +12757,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2251"
+          "Value": "2250"
         },
         {
           "Name": "Content-Type",
@@ -12810,11 +12765,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"pEP/lLuEyxKkuUWHzFAi7sc1MlmVd5w5pZ0vmhjQddQ=\""
+          "Value": "\"nFYEtR5+Im+x43GVCWJNcEn9MXSqblCij5MBMEMl+HM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 10 Jun 2025 04:37:32 GMT"
+          "Value": "Mon, 16 Jun 2025 06:26:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -12824,7 +12779,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-pEP/lLuEyxKkuUWHzFAi7sc1MlmVd5w5pZ0vmhjQddQ="
+          "Value": "sha256-nFYEtR5+Im+x43GVCWJNcEn9MXSqblCij5MBMEMl+HM="
+        }
+      ]
+    },
+    {
+      "Route": "js/config.k8vt6c76ah.js",
+      "AssetFile": "D:\\QMS_FIANAL\\QMS_NEW_DESIGN\\wwwroot\\js\\config.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2250"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nFYEtR5+Im+x43GVCWJNcEn9MXSqblCij5MBMEMl+HM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 16 Jun 2025 06:26:46 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "k8vt6c76ah"
+        },
+        {
+          "Name": "label",
+          "Value": "js/config.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-nFYEtR5+Im+x43GVCWJNcEn9MXSqblCij5MBMEMl+HM="
         }
       ]
     },
@@ -19985,7 +19985,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 16 Jun 2025 06:21:28 GMT"
+          "Value": "Mon, 16 Jun 2025 06:28:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -20022,7 +20022,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 16 Jun 2025 06:21:28 GMT"
+          "Value": "Mon, 16 Jun 2025 06:28:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -20067,7 +20067,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 16 Jun 2025 06:21:28 GMT"
+          "Value": "Mon, 16 Jun 2025 06:28:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -20112,7 +20112,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 16 Jun 2025 06:21:28 GMT"
+          "Value": "Mon, 16 Jun 2025 06:28:46 GMT"
         },
         {
           "Name": "Cache-Control",
