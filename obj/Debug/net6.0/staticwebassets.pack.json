@@ -65,6 +65,10 @@
       "PackagePath": "staticwebassets\\Images\\mainLogo.png"
     },
     {
+      "Id": "D:\\QMS_FIANAL\\QMS_NEW_DESIGN\\wwwroot\\Images\\man.gif",
+      "PackagePath": "staticwebassets\\Images\\man.gif"
+    },
+    {
       "Id": "D:\\QMS_FIANAL\\QMS_NEW_DESIGN\\wwwroot\\Images\\nagalogo.png",
       "PackagePath": "staticwebassets\\Images\\nagalogo.png"
     },

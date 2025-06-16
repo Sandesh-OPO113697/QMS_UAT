@@ -2,6 +2,70 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .audit-panel {
+        background: #1a1d2d;
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 4px 7px rgb(0 0 2.3);
+        padding: 24px;
+       
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .button-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .circle-btn {
+        width: 64px;
+        height: 64px;
+        background: radial-gradient(circle at 30% 30%, #eee, #bbb);
+        border-radius: 50%;
+        box-shadow: inset -3px -3px 8px #fff, inset 3px 3px 8px #aaa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+        .circle-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .circle-btn svg {
+            width: 28px;
+            height: 28px;
+            fill: #333;
+        }
+
+    .info-boxes {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .info-box {
+        background: linear-gradient(to bottom right, #ababab, #ffffff);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 31px;
+        padding: 7px;
+        text-align: center;
+        font-weight: 500;
+        color: #222;
+        font-size: 14px;
+    }
+
+  
+
+    }
+</style>
 <div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow">
         <div class="card-body">
@@ -19,7 +83,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-6" id="Audit_Type" style="display:none">
-                    <label for="ProgramID">Audit Type</label> <span style="background-color:red">*</span>
+                    <label for="ProgramID">Audit Type</label> <span style="color:red">*</span>
                     <input type="hidden" id="hiddenValue">
                     <input type="hidden" id="hiddencat1">
                     <input type="hidden" id="hiddencat2">
@@ -85,7 +149,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="FromDate">From Date</label>
-                    <input type="date" id="FromDate" class="custom-select">
+                    <input type="date" id="FromDate"  class="custom-select" style="color:white">
                 </div>
 
                 <div class="form-group col-md-6">
@@ -228,7 +292,7 @@
     <div class="col-md-6 my-4" style=" display: flex; flex-direction: column;">
         <div class="card shadow">
             <div class="container-fluid">
-                <div class="row justify-content-center">
+                <div class="row justify-content-center" >
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -262,33 +326,77 @@
                 <div>
 
                     <div class="col-md-12">
-                        <div class="form-group mb-3 d-flex align-items-center justify-content-start gap-4"
-                             style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa;">
+                        @* <div class="form-group mb-3 d-flex align-items-center justify-content-start gap-4" *@
+                        @*      style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa;"> *@
 
-                            <button id="StartAudit" class="btn btn-primary" onclick="startAudit()"
-                                    style="padding: 10px 20px; font-size: 16px;">
-                                Start Audit
-                            </button>
+                        @*     <button id="StartAudit" class="btn btn-primary" onclick="startAudit()" *@
+                        @*             style="padding: 10px 20px; font-size: 16px;"> *@
+                        @*         Start Audit *@
+                        @*     </button> *@
 
-                            <button id="pauseButton" onclick="togglePause()"
-                                    style="display: flex; align-items: center; justify-content: center;margin-left:20px; width: 50px; height: 50px; border: none; border-radius: 50%; background: linear-gradient(135deg, #007bff, #0056b3); color: white; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;"
-                                    disabled>
-                                <i id="pauseIcon" class="fe fe-24 fe-play"></i>
-                            </button>
+                        @*     <button id="pauseButton" onclick="togglePause()" *@
+                        @*             style="display: flex; align-items: center; justify-content: center;margin-left:20px; width: 50px; height: 50px; border: none; border-radius: 50%; background: linear-gradient(135deg, #007bff, #0056b3); color: white; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;" *@
+                        @*             disabled> *@
+                        @*         <i id="pauseIcon" class="fe fe-24 fe-play"></i> *@
+                        @*     </button> *@
 
-                            <span id="timer" style="font-size: 20px; font-weight: bold; min-width: 70px; text-align: center;">
-                                00:00
-                            </span>
+                        @*     <span id="timer" style="font-size: 20px; font-weight: bold; min-width: 70px; text-align: center;"> *@
+                        @*         00:00 *@
+                        @*     </span> *@
 
-                            <span id="pauseCount" style="font-size: 16px; font-weight: bold; min-width: 90px;">
-                                Pauses: 0
-                            </span>
-                            <span id="pauseLimit" style="font-size: 16px; font-weight: bold; min-width: 100px;">
-                                Limit Of Pauses:
-                            </span>
+                        @*     <span id="pauseCount" style="font-size: 16px; font-weight: bold; min-width: 90px;"> *@
+                        @*         Pauses: 0 *@
+                        @*     </span> *@
+                        @*     <span id="pauseLimit" style="font-size: 16px; font-weight: bold; min-width: 100px;"> *@
+                        @*         Limit Of Pauses: *@
+                        @*     </span> *@
 
 
+                        @* </div> *@
+
+
+
+                        <div class="audit-panel">
+                            <div class="button-row">
+                                <!-- Start Button -->
+                                <div class="circle-btn" id="StartAudit" onclick="startAudit()" title="Start" role="button" tabindex="0">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M8 5v14l11-7z"></path>
+                                    </svg>
+                                </div>
+
+                                <!-- Pause Button -->
+                              
+
+                                <div class="circle-btn" id="pauseButton" onclick="togglePause()" title="Pause" role="button" tabindex="0">
+                                    <svg viewBox="0 0 24 24" id="pauseIcon" aria-hidden="true">
+                                        <path d="M6 5h4v14H6zm8 0h4v14h-4z" />
+                                    </svg>
+                                </div>
+
+                                <!-- Stop Button -->
+                                <div class="circle-btn" title="Stop">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M6 6h12v12H6z" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <!-- Info Section -->
+                            <div class="info-boxes">
+                                <div class="info-box">⏱ <span id="timer" style="font-size: 20px; font-weight: bold; min-width: 70px; text-align: center;"> 
+                              00:00 
+                           </span> </div>
+                                <div class="info-box">⏸ <span id="pauseCount" style="font-size: 16px; font-weight: bold; min-width: 90px;"> 
+                                Pauses: 0 
+                            </span></div>
+                                <div class="info-box">🔁 <span id="pauseLimit" style="font-size: 16px; font-weight: bold; min-width: 100px;"> 
+                               Limit: 
+                           </span> </div>
+                                <div class="info-box">⚙️ Status: Running</div>
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -432,7 +540,7 @@
 
 <div class="card shadow mb-4" id="Remarks" style="display:none">
     <div class="card-header">
-        <strong class="card-title">Remarks</strong>
+      
 
     </div>
     <div class="card-body">
@@ -511,7 +619,7 @@
     </button>
 
 </div>
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
     document.getElementById("btnVoicefeed").addEventListener("click", function () {
         document.getElementById("voiceModal").style.display = "block";
@@ -590,12 +698,21 @@
                     AudioData: base64Audio  // Send Base64 string instead of array
                 }),
                 success: function (response) {
-                    alert("Voice message saved successfully!");
+                     Swal.fire({
+        icon: 'success',
+        title: 'Saved!',
+        text: 'Form saved successfully!',
+        confirmButtonText: 'OK'
+    });
                      document.getElementById("voiceModal").style.display = "none";
                 },
                 error: function (error) {
                     console.error("Error saving voice message:", error);
-                    alert("Failed to save voice message!");
+                     Swal.fire({
+                    icon: 'error',
+                    title: 'Submission Error',
+                    text: 'An error occurred while submitting root cause data.'
+                });
                 }
             });
         };
@@ -983,82 +1100,92 @@
     }
 
 
-      function GetCheckAndSubmite()
-      {
-          let pauseIcon = document.getElementById("pauseIcon");
+          function GetCheckAndSubmite() {
+        let pauseIcon = document.getElementById("pauseIcon");
 
-                if (pauseIcon.classList.contains("fe-pause")) {
-                    alert("Please resume before  Submite the audit.");
-                    return;
-                }
-         var Transaction_ID = $("#Transaction_ID").val();
+        if (pauseIcon.classList.contains("fe-pause")) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Resume Required',
+                text: 'Please resume before submitting the audit.'
+            });
+            return;
+        }
+
+        var Transaction_ID = $("#Transaction_ID").val();
         var Transaction_ID2 = $("#Transaction_ID2").val();
-
         var finalTransactionID = Transaction_ID || Transaction_ID2;
-         var CcID =finalTransactionID;
-         if (!CcID) {
-            alert("Please Select Call For  Audit First .");
+        var CcID = finalTransactionID;
+
+        if (!CcID) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Missing Call',
+                text: 'Please select a call for audit first.'
+            });
             return false;
         }
-        var AuditType=$("#AuditID").val();
-        if(AuditType==2)
-        {
 
+        var AuditType = $("#AuditID").val();
 
-            if($('#hiddenValue').val()==="Disposition")
+        if (AuditType == 2) {
+            if ($('#hiddenValue').val() === "Disposition") {
+                var dispositionId = $("#dispositionId").val();
+                var SubDispositionID = $("#SubDispositionID").val();
+                if (!dispositionId || !SubDispositionID) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Missing Fields',
+                        text: 'Please select Disposition and SubDisposition before submitting.'
+                    });
+                    return;
+                }
+            } else {
+                if ($('#hiddencat1').val() === "YES" && !$('#Cat1').val()) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Missing Category 1',
+                        text: 'Category 1 is visible but not selected!'
+                    });
+                    return;
+                }
 
-            {
-                 var dispositionId=  $("#dispositionId").val();
-           var  SubDispositionID = $("#SubDispositionID").val();
-            if (!dispositionId || !SubDispositionID ) {
-            alert("Please select Disposition And SubDisposition before submitting.");
-            return;
+                if ($('#hiddencat2').val() === "YES" && !$('#Cat2').val()) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Missing Category 2',
+                        text: 'Category 2 is visible but not selected!'
+                    });
+                    return;
+                }
+
+                if ($('#hiddencat3').val() === "YES" && !$('#Cat3').val()) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Missing Category 3',
+                        text: 'Category 3 is visible but not selected!'
+                    });
+                    return;
+                }
+
+                if ($('#hiddencat4').val() === "YES" && !$('#Cat4').val()) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Missing Category 4',
+                        text: 'Category 4 is visible but not selected!'
+                    });
+                    return;
+                }
+
+                if ($('#hiddencat5').val() === "YES" && !$('#Cat5').val()) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Missing Category 5',
+                        text: 'SubCategory 5 is visible but not selected!'
+                    });
+                    return;
+                }
             }
-            }
-            else{
-
-                 if($('#hiddencat1').val()==="YES")
-                 {
-                      if ( !$('#Cat1').val()) {
-                            alert('Category 1 is visible but not selected!');
-                           return;
-                        }
-                 }
-                  if($('#hiddencat2').val()==="YES")
-                 {
-                      if ( !$('#Cat2').val()) {
-                        alert('Category 2 is visible but not selected!');
-                          return;
-                    }
-
-                 }
-                  if($('#hiddencat3').val()==="YES")
-                 {
-                      if (!$('#Cat3').val()) {
-                            alert('Category 3 is visible but not selected!');
-                             return;
-                        }
-
-                 }
-                  if($('#hiddencat4').val()==="YES")
-                 {
-                      if ( !$('#Cat4').val()) {
-                            alert('Category 4 is visible but not selected!');
-                             return;
-                        }
-                 }
-                  if($('#hiddencat5').val()==="YES")
-                 {
-                      if ( !$('#Cat5').val()) {
-                            alert('SubCategory 5 is visible but not selected!');
-                            return;
-                        }
-
-                 }
-
-
-            }
-
         }
 
         let callAuditData = InsertCallAudit();
@@ -1066,89 +1193,93 @@
         let rootCauseData = RootCauseEvaluation();
         let predictiveData = InsertPredictiveEvaluation();
 
-        console.log("Call Audiut");
-
-        console.log(JSON.stringify(callAuditData));
-          console.log("Section");
-        console.log(JSON.stringify(sectionAuditData));
-          console.log("Roout Cause");
-        console.log(JSON.stringify(rootCauseData));
-          console.log("Pridictive");
-        console.log(JSON.stringify(predictiveData));
-
-
-
+        console.log("Call Audit", JSON.stringify(callAuditData));
+        console.log("Section", JSON.stringify(sectionAuditData));
+        console.log("Root Cause", JSON.stringify(rootCauseData));
+        console.log("Predictive", JSON.stringify(predictiveData));
 
         if (!callAuditData || !sectionAuditData || !rootCauseData || !predictiveData) {
-            alert("Please fill all required fields before submitting.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Incomplete Submission',
+                text: 'Please fill all required fields before submitting.'
+            });
             return;
-        }
-        else{
+        } else {
             endAudit();
-        $.ajax({
-            url: "/Monitor/FormMinitoringAuditr",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(callAuditData),
-            success: function () { }
-        });
 
-        $.ajax({
-            url: "/Monitor/InsertSectionAudit",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(sectionAuditData),
-            success: function () {  }
-        });
+            $.ajax({
+                url: "/Monitor/FormMinitoringAuditr",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(callAuditData),
+                success: function () { }
+            });
 
-       $.ajax({
-         url: "/Monitor/InsertRouutCoauseAudit",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(rootCauseData),
-            success: function (response) {
+            $.ajax({
+                url: "/Monitor/InsertSectionAudit",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(sectionAuditData),
+                success: function () { }
+            });
 
-            },
-            error: function (xhr, status, error) {
-                console.error("Error:", error);
-
-            }
-        });
-
-
-              if ($('#Predictivecstahident').val() === "yes") {
-
-
-        $.ajax({
-            type: "POST",
-            url: "/Monitor/InsertPridictiveCoauseAudit",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(predictiveData),
-            dataType: "json",
-            success: function (response) {
-                if (response.success) {
-                    alert("Call Evaluation submitted successfully!");
-                } else {
-                    alert("Failed to submit Evaluation data.");
+            $.ajax({
+                url: "/Monitor/InsertRouutCoauseAudit",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(rootCauseData),
+                success: function (response) {
+                    // handle if needed
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Submission Error',
+                        text: 'An error occurred while submitting root cause data.'
+                    });
                 }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error occurred: " + error);
-                alert("An error occurred while submitting data.");
+            });
+
+            if ($('#Predictivecstahident').val() === "yes") {
+                $.ajax({
+                    type: "POST",
+                    url: "/Monitor/InsertPridictiveCoauseAudit",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(predictiveData),
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Call Evaluation submitted successfully!'
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Submission Failed',
+                                text: 'Failed to submit Evaluation data.'
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error occurred: " + error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred while submitting data.'
+                        });
+                    }
+                });
             }
-        });
 
-    } else {
-
+            clearValues();
+            Reload();
+        }
     }
 
-
-         clearValues();
-          Reload();
-
-        }
-
-      }
 
 
     function SubMitedata() {
@@ -1296,7 +1427,7 @@
 
                                                     let container = document.getElementById("recordingContainer");
                                                     container.innerHTML = ""; // Clear previous content
-                                                    let imagePath = '/images/call_recording.jpg';
+                                                    let imagePath = '/images/man.gif';
                                                     console.log("Image Path:", imagePath); // Debugging
 
                                                     container.style.backgroundImage = `url('${imagePath}')`;
@@ -1309,6 +1440,7 @@
                                                     container.style.justifyContent = "center";
                                                     container.style.flexDirection = "column"; // Stack elements vertically
                                                     container.style.padding = "20px";
+                                                    container.style.borderRadius = "19px";
                                                     if (!response.audioData) {
                                                         console.error("No audio data received.");
                                                         return;
@@ -1339,7 +1471,7 @@
                                                     audioPlayer.style.width = "100%";
                                                     audioPlayer.style.maxWidth = "439px";
                                                     audioPlayer.style.margin = "5px auto";
-                                                    audioPlayer.style.marginTop = "527px";
+                                                    audioPlayer.style.marginTop = "449px";
                                                     audioPlayer.autoplay = true;
                                                     container.appendChild(audioPlayer);
                                                     audioPlayer.play().catch(error => {
@@ -1425,25 +1557,35 @@
         }, 1000);
     }
 
-    function SaveEndTime()
-    {
-        let  SavendTime = new Date();
-         document.getElementById("hiddenEndTime").value = SavendTime;
-          clearInterval(timerInterval);
-         alert("Form Saved Sucessfully...!");
+     function SaveEndTime() {
+        let SavendTime = new Date();
+        document.getElementById("hiddenEndTime").value = SavendTime;
+        clearInterval(timerInterval);
 
+        Swal.fire({
+            icon: 'success',
+            title: 'Saved!',
+            text: 'Form saved successfully!',
+            confirmButtonText: 'OK'
+        });
     }
 
-    function togglePause() {
+
+       function togglePause() {
         let pauseButton = document.getElementById("pauseButton");
         let pauseIcon = document.getElementById("pauseIcon");
 
         if (timerInterval) {
-               if (pauseCount >= pauseLimit)
-               {
-                   alert("Now You Can Not Take a pause Because You Have Reached the Pause Limit: " + pauseLimit);
-                   return;
-               }
+            if (pauseCount >= pauseLimit) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Pause Limit Reached',
+                    text: `Now you cannot take a pause because you have reached the pause limit: ${pauseLimit}`,
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
             clearInterval(timerInterval);
             timerInterval = null;
             pauseTime = new Date();
@@ -1454,31 +1596,15 @@
 
             document.getElementById("pauseCount").innerText = `Pauses: ${pauseCount}`;
 
-             pauseTimeout = setTimeout(() => {
-            resumeTimer();
-        }, 30000);
-
+            pauseTimeout = setTimeout(() => {
+                resumeTimer();
+            }, 30000);
         } else {
-            // Resuming
-
-
-            // resumeTime = new Date();
-            // let pauseDuration = (resumeTime - pauseTime) / 1000;
-            // totalPauseDuration += pauseDuration;
-
-            // auditLogs.push({ type: "Resume", time: resumeTime, pauseDuration });
-
-            // timerInterval = setInterval(() => {
-            //     elapsedSeconds++;
-            //     updateTimerDisplay();
-            // }, 1000);
-
-            // pauseIcon.classList.replace("fe-pause", "fe-play");
-
-             clearTimeout(pauseTimeout);
-             resumeTimer();
+            clearTimeout(pauseTimeout);
+            resumeTimer();
         }
     }
+
         function resumeTimer() {
         resumeTime = new Date();
         let pauseDuration = (resumeTime - pauseTime) / 1000;

@@ -24,6 +24,60 @@ namespace QMS.DataBaseService
         }
 
 
+        public async Task<DataTable> GetAllAgnetCQPerformance(DashboardFilterModel id)
+        {
+            string query = "GetAgentWiseCQPercentage";
+            var dataTable = new DataTable();
+
+            using (var connection = new SqlConnection(UserInfo.Dnycon))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@ProgramID", id.Program ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@SubProgramID", id.SubProgram ?? (object)DBNull.Value);
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        dataTable.Load(reader);
+                    }
+                }
+            }
+
+            return dataTable;
+        }
+
+
+
+        public async Task<DataTable> GetMonitoringDashboard(DashboardFilterModel id)
+        {
+            string query = "GetMonitoringSummary";
+            var dataTable = new DataTable();
+
+            using (var connection = new SqlConnection(UserInfo.Dnycon))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ViewType", id.Filter ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@ProgramID", id.Program ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@SubProgramID", id.SubProgram ?? (object)DBNull.Value);
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        dataTable.Load(reader);
+                    }
+                }
+            }
+
+            return dataTable;
+        }
+
         public async Task UpdateSubProcesssBT(string SubProcessID, string SubProcess, string ProgramID22, int? Number_Of_Pause, IFormFile file)
         {
             try
