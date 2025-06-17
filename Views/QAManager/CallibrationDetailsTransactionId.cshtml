@@ -72,54 +72,56 @@
     }
 </style>
 
-
 <div class="card shadow mb-4">
     <div class="card-header">
         <strong class="card-title">Pending Feedback Dispute</strong>
     </div>
     <div class="card-body">
-        <table class="table table-bordered" style="color:#333">
-            <thead >
-                <tr>
-                    <th style="width: 30%; font:bold;color:black">Transaction ID</th>
-                    <th style="width: 50%;font:bold;color:black">Participants</th>
-                    <th style="width: 20%;font:bold ;color:black">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var group in groupedData)
-                {
-                    var transactionId = group.Key;
+        <!-- Scroll wrapper added below -->
+        <div style="overflow-x: auto;">
+            <table class="table table-bordered" style="color:#333; min-width: 800px;">
+                <thead>
                     <tr>
-                        <td class="align-middle">@transactionId</td>
-                        <td>
-                            <table class="table table-sm  mb-0">
-                                <thead class="thead-light">
-                                    <tr style="background-color: #2a2c4a;color: white;">
-                                        <th>Participant</th>
-                                        <th>Is Attempt</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var row in group)
-                                    {
-                                        <tr >
-                                            <td style="background-color: #2a2c4a;color: white;" >@row["Participants"]</td>
-                                            <td style="background-color: #2a2c4a;color: white;" >@row["IsAttempt"]</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </td>
-                        <td class="align-middle text-center">
-                            <form asp-action="CallibrationDetails" method="post">
-                                <input type="hidden" name="transactionId" value="@transactionId" />
-                                <button type="submit" class="btn btn-sm btn-primary" style="background-color:#FF581C;color:wheat">View</button>
-                            </form>
-                        </td>
+                        <th style="width: 30%; font-weight:bold; color:black">Transaction ID</th>
+                        <th style="width: 50%; font-weight:bold; color:black">Participants</th>
+                        <th style="width: 20%; font-weight:bold; color:black">Action</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var group in groupedData)
+                    {
+                        var transactionId = group.Key;
+                        <tr>
+                            <td class="align-middle" style="color:white">@transactionId</td>
+                            <td>
+                                <table class="table table-sm mb-0">
+                                    <thead class="thead-light">
+                                        <tr style="background-color: #2a2c4a; color: white;">
+                                            <th>Participant</th>
+                                            <th>Is Attempt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var row in group)
+                                        {
+                                            <tr>
+                                                <td style="background-color: #2a2c4a; color: white;">@row["Participants"]</td>
+                                                <td style="background-color: #2a2c4a; color: white;">@row["IsAttempt"]</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="align-middle text-center">
+                                <form asp-action="CallibrationDetails" method="post">
+                                    <input type="hidden" name="transactionId" value="@transactionId" />
+                                    <button type="submit" class="btn btn-sm btn-primary" style="background-color:#FF581C; color:wheat">View</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div> <!-- scroll wrapper end -->
     </div>
 </div>

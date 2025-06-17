@@ -239,7 +239,10 @@
         }
 
         $('#mailModalAttachment').html(html);
-        $('#mailModal').modal('show');
+        // $('#mailModal').modal('show');
+            const modal = new bootstrap.Modal(document.getElementById('mailModal'));
+    modal.show();
+
     };
 
 

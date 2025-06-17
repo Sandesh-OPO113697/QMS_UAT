@@ -7,7 +7,7 @@
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: #f4f6f8;
-        color: #333;
+       
     }
 
     .assessment-container {
@@ -101,7 +101,7 @@
                 {
                     foreach (var option in Model.Questions[i].Options)
                     {
-                        <label>
+                        <label style="color:white">
                             <input type="radio"
                                    name="Questions[@i].SelectedOptionId"
                                    value="@option.OptionId" />
@@ -113,7 +113,7 @@
                 {
                     foreach (var option in Model.Questions[i].Options)
                     {
-                        <label>
+                        <label style="color:white">
                             <input type="checkbox"
                                    name="Questions[@i].SelectedOptionIds"
                                    value="@option.OptionId" />

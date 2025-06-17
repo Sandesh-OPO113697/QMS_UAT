@@ -3,7 +3,7 @@
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>\\192.168.0.45\Apps\QMS_Development\QMS_Final_DEsign\QMS_Dev</_PublishTargetUrl>
-    <History>True|2025-06-16T08:59:21.4631746Z||;True|2025-06-16T14:19:16.7669022+05:30||;True|2025-06-16T14:14:31.1625485+05:30||;</History>
+    <History>True|2025-06-17T07:08:47.4313212Z||;True|2025-06-17T10:02:35.1350241+05:30||;True|2025-06-16T14:29:21.4631746+05:30||;True|2025-06-16T14:19:16.7669022+05:30||;True|2025-06-16T14:14:31.1625485+05:30||;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>

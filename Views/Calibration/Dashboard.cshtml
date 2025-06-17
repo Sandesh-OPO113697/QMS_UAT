@@ -29,12 +29,12 @@
 
                 <div class="form-group col-md-6">
                     <label for="FromDate">From Date</label>
-                    <input type="date" id="FromDate" class="custom-select">
+                    <input type="date" id="FromDate" class="form-control">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="ToDate">To Date</label>
-                    <input type="date" id="Todate" class="custom-select">
+                    <input type="date" id="Todate" class="form-control">
                 </div>
 
                 <div class="form-group col-md-6">
@@ -45,7 +45,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="TL_id">TL Name</label>
-                    <input type="text" placeholder="TL Name" class="custom-select" id="TL_id" readonly />
+                    <input type="text" placeholder="TL Name" class="form-control" id="TL_id" readonly />
                 </div>
 
 
@@ -62,7 +62,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="Participants">Select Participants</label> <span style="color:red">*</span>
-                    <select name="Participants" id="Participants" class="custom-select" style="color:     black;" onchange="GetSectionGried()" multiple>
+                    <select name="Participants" id="Participants" class="custom-select" style="color: white;" onchange="GetSectionGried()" multiple>
                         <option value="">Select Participants</option>
                     </select>
                 </div>
@@ -288,7 +288,7 @@
                    var transactionID = document.getElementById("TransactionID").value;
                var programId = document.getElementById("ProgramID").value;
                    var CalibratedComment = document.getElementById("Master_Comments").value;
-               let selectedParticipants = $('#Participants').select2('val');
+               let selectedParticipants = $('#Participants').val();
                   if (!SubProgram || !transactionID || !programId || !CalibratedComment || !selectedParticipants || selectedParticipants.length === 0) {
 
                     alert("Please fill all the required fields, including selecting participants.");
