@@ -389,6 +389,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
     <script>
               // Always apply dark theme
         document.addEventListener('DOMContentLoaded', function() {
@@ -409,66 +411,6 @@
 
 
 
-    <script>
-        function toggleImage() {
-            const img = document.querySelector('#logoImage');
-            if (img.src.includes('mainLogo.png')) {
-                img.src = '@Url.Content("~/Images/favicon.ico")';
-            } else {
-                img.src = '@Url.Content("~/Images/mainLogo.png")';
-            }
-        }
-        // document.getElementById('leftSidebar').addEventListener('mouseenter', function () {
 
-        //     const img = document.querySelector('#logoImage');
-        //     img.src = '@Url.Content("~/Images/mainLogo.png")';
-        // });
-
-        // document.getElementById('leftSidebar').addEventListener('mouseleave', function () {
-
-        //     const img = document.querySelector('#logoImage');
-        //     img.src = '@Url.Content("~/Images/favicon.ico")';;
-        // });
-    </script>
-    <script>
-
-        Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
-        Chart.defaults.global.defaultFontColor = colors.mutedColor;
-    </script>
-
-    <script>
-        var uptarg = document.getElementById('drag-drop-area');
-        if (uptarg) {
-            var uppy = Uppy.Core().use(Uppy.Dashboard,
-                {
-                    inline: true,
-                    target: uptarg,
-                    proudlyDisplayPoweredByUppy: false,
-                    theme: 'dark',
-                    width: 770,
-                    height: 210,
-                    plugins: ['Webcam']
-                }).use(Uppy.Tus,
-                    {
-                        endpoint: 'https://master.tus.io/files/'
-                    });
-            uppy.on('complete', (result) => {
-                console.log('Upload complete! We’ve uploaded these files:', result.successful)
-            });
-        }
-    </script>
-    <script src="js/apps.js"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'UA-56159088-1');
-    </script>
 </body>
 </html>

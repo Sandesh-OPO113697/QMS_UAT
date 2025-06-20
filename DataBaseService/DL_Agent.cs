@@ -90,6 +90,32 @@ namespace QMS.DataBaseService
             }
             return dt;
         }
+
+        public async Task<DataTable> GetLastUpdate()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("GetLastUpdate", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@User", UserInfo.UserName);
+                 
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
         public async Task<DataTable> GetAgentSurveyDashboard()
         {
             DataTable dt = new DataTable();
@@ -704,6 +730,31 @@ namespace QMS.DataBaseService
 
             }
             return dt;
+        }
+
+        public async Task ActiveUpdate(int updateid)
+        {
+          
+           try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("AgentSurvey", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@UpdateID", updateid);
+                        cmd.Parameters.AddWithValue("@Mode", "ActiveUpdate");
+                       await  cmd.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
 

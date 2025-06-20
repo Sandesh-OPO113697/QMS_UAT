@@ -6,6 +6,7 @@ using QMS.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace QMS.Controllers
 {
@@ -72,6 +73,12 @@ namespace QMS.Controllers
 
 
         }
+        public async Task< ActionResult> LastUpdate(int UpdateID)
+        {
+            await dl_Agent.ActiveUpdate(UpdateID);
+            return Ok();
+        }
+
         public async Task<IActionResult> Dashboard()
         {
             try
@@ -83,20 +90,35 @@ namespace QMS.Controllers
                 DataTable dt3 = await dl_Agent.getZtSignOffData();
                 DataTable dt4 = await dl_Agent.GetPerformaceMatrix();
                 DataTable dt5 = await dl_Agent.GetMTD();
+                DataTable dt6 = await dl_Agent.GetLastUpdate();
                 MonthlySummary tempdata = new MonthlySummary
                 {
                     Call_MTD = Convert.ToInt32(dt5.Rows[0]["Call_MTD"]),
                     AuditMTD = Convert.ToInt32(dt5.Rows[0]["AuditMTD"])
                 };
                 var performanceData = new List<PerformanceMetric>();
+
+                var lastUpdate = new List<LastUpdate>();
                 foreach (DataRow row in dt4.Rows)
                 {
                     performanceData.Add(new PerformanceMetric
                     {
+
                         AgentID = row["AgentID"].ToString(),
                         Matrix = row["Matrix"].ToString(),
                         Target = Convert.ToInt32(row["Target"]),
                         Actual_Performance = Convert.ToInt32(row["Actual_Performance"])
+                    });
+                }
+                foreach (DataRow row in dt6.Rows)
+                {
+                    lastUpdate.Add(new LastUpdate
+                    {
+                        Id = Convert.ToInt32(row["Id"]),
+                        UserCode = row["UserCode"].ToString(),
+                        Subject = row["Subject"].ToString(),
+                    
+                        Body =row["Body"].ToString()
                     });
                 }
 
@@ -165,7 +187,8 @@ namespace QMS.Controllers
                     assmentonl= assmentonl,
                     agentsurvey= agentsurvey,
                     performanceMatrix = performanceData,
-                    monthlyData = tempdata
+                    monthlyData = tempdata,
+                    lastUpdate= lastUpdate
                 };
 
                 return View(viewModel);

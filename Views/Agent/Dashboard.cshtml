@@ -109,9 +109,31 @@
         height: 400px !important;
     }
 </style>
-<div class="dashboard">
-   
-    <canvas id="performanceChart"></canvas>
+<div class="dashboard card shadow mb-4">
+
+    <div class="card-header accordion-header">
+        <strong class="card-title">Agent Performance</strong>
+    </div>
+    <table style="width: 100%; margin-top: 30px; border-collapse: collapse; color: #e0e0e0; font-family: Arial;">
+        <thead style="background-color: #333;">
+            <tr>
+                <th style="padding: 10px; border: 1px solid #555;">Matrix</th>
+                <th style="padding: 10px; border: 1px solid #555;">Target</th>
+                <th style="padding: 10px; border: 1px solid #555;">Actual Performance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.performanceMatrix)
+            {
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #555;">@item.Matrix</td>
+                    <td style="padding: 10px; border: 1px solid #555;">@item.Target</td>
+                    <td style="padding: 10px; border: 1px solid #555;">@item.Actual_Performance</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </div>
 
 <div class="card shadow mb-4">
@@ -119,7 +141,7 @@
 
     <!-- Calls MTD Circle Gauge -->
     <div style="background-color:#2b2b3c;border-radius:12px;padding:30px;text-align:center;width:345px;box-shadow:0 6px 20px rgba(0,0,0,0.4);transition:transform 0.3s ease;">
-        <div style="font-size:18px;margin-bottom:20px;color:#ccc;">Calls MTD</div>
+        <div style="font-size:18px;margin-bottom:20px;color:#ccc;">Calls Quality</div>
         @{
             var callPercent = @Model.monthlyData.Call_MTD;
             var callStroke = callPercent > 85 ? "#00e676" : (callPercent >= 80 ? "#ffca28" : "#ff5252");
@@ -139,7 +161,7 @@
 
     <!-- Audits MTD Circle Gauge -->
     <div style="background-color:#2b2b3c;border-radius:12px;padding:30px;text-align:center;width:345px;box-shadow:0 6px 20px rgba(0,0,0,0.4);transition:transform 0.3s ease;">
-        <div style="font-size:18px;margin-bottom:20px;color:#ccc;">Audits MTD</div>
+        <div style="font-size:18px;margin-bottom:20px;color:#ccc;"># Of  Audits</div>
         @{
             var auditPercent = @Model.monthlyData.AuditMTD;
             var auditStroke = auditPercent > 85 ? "#00e676" : (auditPercent >= 80 ? "#ffca28" : "#ff5252");
@@ -264,7 +286,7 @@
                         false;
                         string rowClass = isExpired ? "table-danger" : "";
 
-                        <tr class="@rowClass">
+                        <tr style="background-color:@(isExpired ? "#ec011a" : "transparent")">
                             <td>@item.TestName</td>
                             <td>@item.TestCategory</td>
                             <td>@item.CreatedDate</td>
@@ -370,6 +392,51 @@
         </table>
     </div>
 </div>
+
+
+
+<!-- Accordion Section: Disputes -->
+<div class="card shadow mb-4">
+    <div class="card-header accordion-header">
+        <strong class="card-title">Last Update</strong>
+    </div>
+    <div class="card-body accordion-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>UserCode</th>
+                    <th>Subject</th>
+                    <th>Body</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.lastUpdate != null && Model.lastUpdate.Any())
+                {
+                    foreach (var item in Model.lastUpdate)
+                    {
+                       
+                        <tr>
+                            <td >@item.Subject</td>
+                            <td>@item.Subject</td>
+                            <td>@item.Body</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm view-update" data-id="@item.Id">View</button>
+
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">No pending disputes.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 <style>
     body {
         background-color: #1e1e2f;
@@ -426,7 +493,7 @@
     new Chart(monthlyCtx, {
       type: 'bar',
       data: {
-        labels: ['Calls MTD', 'Audits MTD'],
+        labels: ['Calls Quality', '# of Audits'],
         datasets: [{
           label: 'Monthly Totals',
           data: [@Model.monthlyData.Call_MTD, @Model.monthlyData.AuditMTD],
@@ -462,86 +529,6 @@
       }
     });
 </script>
-<script>
-     const labels = @Html.Raw(JsonConvert.SerializeObject(Model.performanceMatrix.Select(m => m.Matrix)));
-    const targetData = @Html.Raw(JsonConvert.SerializeObject(Model.performanceMatrix.Select(m => m.Target)));
-    const actualData = @Html.Raw(JsonConvert.SerializeObject(Model.performanceMatrix.Select(m => m.Actual_Performance)));
-
-
-    const ctx = document.getElementById('performanceChart').getContext('2d');
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Target',
-                    data: targetData,
-                    backgroundColor: '#4bc0c0',
-                    borderRadius: 6,
-                    barThickness: 30
-                },
-                {
-                    label: 'Actual',
-                    data: actualData,
-                    backgroundColor: '#ff9f40',
-                    borderRadius: 6,
-                    barThickness: 30
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                    labels: {
-                        color: '#e0e0e0',
-                        font: { size: 14 }
-                    }
-                },
-                title: {
-                    display: true,
-                    text: 'Target vs Actual Performance',
-                    color: '#ffffff',
-                    font: { size: 20 }
-                },
-                tooltip: {
-                    backgroundColor: '#333',
-                    titleColor: '#fff',
-                    bodyColor: '#fff'
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: '#d0d0d0',
-                        font: { size: 13 }
-                    },
-                    grid: {
-                        color: '#444'
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    max: 120,
-                    ticks: {
-                        color: '#d0d0d0'
-                    },
-                    grid: {
-                        color: '#444'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Score',
-                        color: '#ccc'
-                    }
-                }
-            }
-        }
-    });
-</script>
 
 <!-- JavaScript for accordion and popup -->
 <script>
@@ -574,9 +561,186 @@
             .catch(error => console.error('AJAX Error:', error));
     }
 </script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<script src="~/js/jquery.min.js"></script>
 @await Html.PartialAsync("_MailModal")
 <script src="~/js/xlsx.full.min.js"></script>
 
 <script src="~/js/notification.js"></script>
+
+<script>
+
+    function handlePDF(data) {
+        const cleanedBase64 = data.fileBase64.replace(/\s/g, '');
+        const byteCharacters = atob(cleanedBase64);
+        const byteArray = new Uint8Array(byteCharacters.length);
+
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteArray[i] = byteCharacters.charCodeAt(i);
+        }
+
+        const file = new Blob([byteArray], { type: 'application/pdf' });
+        const url = URL.createObjectURL(file); // Create a URL for the Blob
+
+        const html = `
+            <iframe src="${url}" width="100%" height="500px" style="border: 1px solid #ccc; border-radius: 6px;"></iframe>
+
+        `;
+        $('#mailModalAttachment').html(html);
+       
+        showRestrictedModal();
+    }
+
+    // Example function to handle Image
+    function handleImage(data) {
+        const byteCharacters = atob(data.fileBase64);
+        const byteArray = new Uint8Array(byteCharacters.length);
+
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteArray[i] = byteCharacters.charCodeAt(i);
+        }
+
+        const file = new Blob([byteArray], { type: `image/${data.attachmentFileName.split('.').pop().toLowerCase()}` });
+        const url = URL.createObjectURL(file);
+
+        const html = `<img src="${url}" alt="Attachment Image" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 0 8px rgba(0,0,0,0.1);">`;
+        $('#mailModalAttachment').html(html);
+          $('#mailModal').modal('show');
+        showRestrictedModal();
+    }
+
+    // Example function to handle Spreadsheet
+    function handleSpreadsheet(data) {
+        const byteCharacters = atob(data.fileBase64);
+        const byteArray = new Uint8Array(byteCharacters.length);
+
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteArray[i] = byteCharacters.charCodeAt(i);
+        }
+
+        const file = new Blob([byteArray], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const result = e.target.result;
+            const workbook = XLSX.read(result, { type: 'binary' });
+            const sheetName = workbook.SheetNames[0];
+            let rawHtml = XLSX.utils.sheet_to_html(workbook.Sheets[sheetName]);
+
+            rawHtml = rawHtml
+                .replace(/<table[^>]*>/, `<table style="width: 100%; border-collapse: collapse; font-family: 'Segoe UI', sans-serif; font-size: 14px; margin-top: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); overflow-x: auto;">`)
+                .replace(/<thead>/, `<thead style="background-color: #f1f5f9;">`)
+                .replace(/<th[^>]*>/g, `<th style="background-color: #e8f0fe; border: 1px solid #d0d7de; padding: 12px 14px; text-align: left; font-weight: 600; color: #333; white-space: nowrap; border-bottom: 2px solid #d0d7de;">`)
+                .replace(/<td[^>]*>/g, `<td style="border: 1px solid #e0e0e0; padding: 10px 12px; color: #444; background-color: #ffffff;">`);
+
+            const html = `
+                <div style="max-height: 500px; overflow-x: auto; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 10px; background-color: #fefefe; box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);">
+                    <style>
+                        #mailModalAttachment table tr:nth-child(even) td {
+                            background-color: #f9f9f9;
+                        }
+                        #mailModalAttachment table tr:hover td {
+                            background-color: #eef6ff;
+                            transition: background-color 0.3s;
+                        }
+                    </style>
+                    ${rawHtml}
+                </div>`;
+
+            $('#mailModalAttachment').html(html);
+
+            showRestrictedModal();
+
+
+        };
+
+        reader.readAsBinaryString(file);
+    }
+        function showRestrictedModal() {
+                console.log("Modal element exists?", $('#mailModal').length > 0);
+    console.log("Attempting to show modal...");
+
+       const $modal = $('#mailModal');
+
+    if ($modal.length === 0) {
+        console.error("Modal not found in DOM.");
+        return;
+    }
+
+    // Reset state if it's stuck
+    $modal.removeClass('fade').removeClass('show').hide();
+
+    $modal.modal({
+        backdrop: 'static',
+        keyboard: false
+    }).modal('show');
+    }
+    // Example function to handle Unknown files
+    function handleUnknownFile() {
+        $('#mailModalAttachment').html(`<p style="color:red;">Cannot preview this file type.</p>`);
+
+        showRestrictedModal();
+    }
+
+        $(document).on('click', '.view-update', function () {
+        var updateId = $(this).data('id');
+
+        // First AJAX: Get LastUpdate details
+        $.ajax({
+            url: '/Agent/LastUpdate',
+            method: 'GET',
+            data: { UpdateID: updateId },
+            success: function (response) {
+                console.log('Success:', response);
+
+              
+                $.ajax({
+                    url: '/LogIn/GetNotification',
+                    type: 'GET',
+                    success: function (data) {
+
+                        if (!data || !data.fileBase64 || !data.attachmentFileName) {
+                         
+                            $('#mailModal').modal('hide');
+                            return;
+                        }
+                      
+                        $('#mailModalSubject').text(data.subject);
+                        $('#mailModalBody').html(data.body);
+
+                        const fileExtension = data.attachmentFileName.split('.').pop().toLowerCase();
+                        console.log('File Extension:', fileExtension);
+
+                        if (fileExtension === 'pdf') {
+                            console.log("PDF file detected.");
+                            handlePDF(data);
+                        } else if (["jpg", "jpeg", "png", "gif", "bmp", "webp"].includes(fileExtension)) {
+                            console.log("Image file detected.");
+                            handleImage(data);
+                        } else if (["xlsx", "xls", "csv"].includes(fileExtension)) {
+                            console.log("Spreadsheet file detected.");
+                            handleSpreadsheet(data);
+                        } else {
+                            console.log("Unknown file type.");
+                            handleUnknownFile();
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error("Error loading notification:", xhr);
+                        $('#mailModalAttachment').html(`<p style="color:red;">Error loading notification.</p>`);
+                        $('#mailModal').modal('hide');
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', error);
+                alert('Failed to load update.');
+            }
+        });
+    });
+
+</script>
+
+
+       

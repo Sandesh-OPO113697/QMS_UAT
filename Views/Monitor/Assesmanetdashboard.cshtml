@@ -49,7 +49,7 @@
 
                 var rowClass = isExpired ? "table-danger" : "";
 
-                <tr class="@rowClass">
+                        <tr style="background-color:@(isExpired ? "#ec011a" : "transparent")">
                      <td>@item.Process</td>
                     <td>@item.SubProcessName</td>
                     <td>@item.TestName</td>

@@ -56,23 +56,8 @@
 <div id="pendingClosedGraphContainer" class="row my-4"></div>
 
 <div class="container">
-    <div class="mb-4">
-        <div class="card-header accordion-header card shadow" data-target="#auditContent" onclick="toggleAccordion('auditContent')" style="cursor:pointer;">
-            <strong class="card-title">List all Monitor role Individuals</strong>
-        </div>
-        <div class="card-body collapse" id="auditContent" style="display: none;">
-            <canvas id="auditChart" width="1336" height="600"></canvas>
-        </div>
-    </div>
 
-    <div class= "mb-4">
-        <div class="card-header accordion-header card shadow" data-target="#monitorContent" onclick="toggleAccordion('monitorContent')" style="cursor:pointer;">
-            <strong class="card-title">List all Monitor</strong>
-        </div>
-        <div class="card-body collapse" id="monitorContent" style="display: none;">
-            <canvas id="monitorChart" width="1336" height="600" ></canvas>
-        </div>
-    </div>
+
     <div class="card shadow mb-4">
         <div class="accordion w-100" id="accordion1">
             <div class="card shadow">
@@ -110,18 +95,97 @@
             </div>
         </div>
     </div>
+    <div class="card shadow mb-4">
+        <!-- Accordion 1 -->
+        <div class="accordion w-100" id="accordionData1">
+            <div class="card shadow">
+                <div class="card-header" id="headingData1">
+                    <a role="button" href="#collapseData1" data-toggle="collapse" data-target="#collapseData1" aria-expanded="false" aria-controls="collapseData1">
+                        <strong>List all Monitor role Individuals</strong>
+                    </a>
+                </div>
+                <div id="collapseData1" class="collapse" aria-labelledby="headingData1" data-parent="#accordionData1">
+                    <div class="card-body">
+                        <table  id="m1" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="2" class="text-center font-weight-bold">Monitoring</td>
+                                    <td colspan="2" class="text-center font-weight-bold">Feedback</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>Target</th>
+                                    <th>Actual</th>
+                                    <th>Target</th>
+                                    <th>Actual</th>
+                                    <th>CQ Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="agentPerformanceTableBody">
+                                <tr>
+                                    <td colspan="6" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="card shadow mb-4">
+        <!-- Accordion 2 -->
+        <div class="accordion w-100" id="accordionData2">
+            <div class="card shadow">
+                <div class="card-header" id="headingData2">
+                    <a role="button" href="#collapseData2" data-toggle="collapse" data-target="#collapseData2" aria-expanded="false" aria-controls="collapseData2">
+                        <strong>List all Monitor role Individuals</strong>
+                    </a>
+                </div>
+                <div id="collapseData2" class="collapse" aria-labelledby="headingData2" data-parent="#accordionData2">
+                    <div class="card-body">
+                        <table id="m9" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="2" class="text-center font-weight-bold">Transformation Audits</td>
+                                    <td colspan="2" class="text-center font-weight-bold">Hygiene & Risk Audits</td>
+                               
+                                </tr>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>Target</th>
+                                    <th>Actual</th>
+                                    <th>Target</th>
+                                    <th>Actual</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody id="agentPerformanceTableBodyTransaction">
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Agent To QA Survey -->
     <div class="card shadow mb-4">
         <div class="card-header accordion-header" data-target="#qaSurveyGrid" style="cursor:pointer;">
             <strong class="card-title">Agent To QA Survey</strong>
         </div>
         <div class="card-body collapse" id="qaSurveyGrid">
-            <table class="table table-bordered">
+            <table id="m3" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Transaction_ID</th>
                         <th>AgentID</th>
                         <th>Action</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -140,7 +204,7 @@
                     }
                     else
                     {
-                        <tr><td colspan="3" class="text-center">No pending feedback.</td></tr>
+                       
                     }
                 </tbody>
             </table>
@@ -153,7 +217,7 @@
             <strong class="card-title">Update Management</strong>
         </div>
         <div class="card-body collapse" id="updateManagementGrid">
-            <table class="table table-bordered">
+            <table id="updateTable" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Agent ID</th>
@@ -175,7 +239,7 @@
                     }
                     else
                     {
-                        <tr><td colspan="3" class="text-center">No pending feedback.</td></tr>
+                       
                     }
                 </tbody>
             </table>
@@ -188,7 +252,7 @@
             <strong class="card-title">Online Assessment</strong>
         </div>
         <div class="card-body collapse" id="onlineAssessmentGrid">
-            <table class="table table-bordered">
+            <table id="assessmentTable" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Test Name</th>
@@ -213,9 +277,9 @@
                                 isExpired = true;
                             }
 
-                            var rowClass = isExpired ? "table-danger" : "";
+                            var rowClass = isExpired ? "#ec011a" : "";
 
-                            <tr class="@rowClass">
+                            <tr style="background-color:@(isExpired ? "#ec011a" : "transparent")">
                                 <td>@item.TestName</td>
                                 <td>@item.TestCategory</td>
                                 <td>@item.CreatedDate</td>
@@ -241,7 +305,7 @@
         </div>
         <div class="card-body collapse" id="ztCasesGrid">
             <div style="overflow-x: auto; width: 100%;">
-                <table class="table table-bordered" style="min-width: 1000px;">
+                <table id="zt" class="table table-bordered" style="min-width: 1000px;">
                     <thead>
                         <tr>
                             <th>ProgramID</th>
@@ -300,7 +364,7 @@
 
         <div class="card-body collapse" id="coachingGrid">
             <div style="overflow-x: auto; width: 100%;">
-                <table class="table table-bordered" style="min-width: 1200px;">
+                <table id="co" class="table table-bordered" style="min-width: 1200px;">
                     <thead>
                         <tr>
                             <th>AgentID</th>
@@ -345,21 +409,21 @@
                                 }
                                 <tr class="@rowClass">
                                     <td style="color:black">@item.AgentID</td>
-                                    <td style="color:black" >@item.ProcessName</td>
-                                    <td style="color:black" >@item.SubProcess</td>
-                                    <td style="color:black" >@item.FirstReview</td>
-                                    <td style="color:black" >@item.Comment1</td>
-                                    <td style="color:black" >@item.SecondReview</td>
-                                    <td style="color:black" >@item.Comment2</td>
-                                    <td style="color:black" >@item.ThirdReview</td>
-                                    <td style="color:black" >@item.Comment3</td>
-                                    <td style="color:black" >@item.FourthReview</td>
-                                    <td style="color:black" >@item.Comment4</td>
-                                    <td style="color:black" >@item.FifthReview</td>
-                                    <td style="color:black" >@item.Comment5</td>
-                                    <td style="color:black" >@item.SixReview</td>
-                                    <td style="color:black" >@item.Comment6</td>
-                                    <td >
+                                    <td style="color:black">@item.ProcessName</td>
+                                    <td style="color:black">@item.SubProcess</td>
+                                    <td style="color:black">@item.FirstReview</td>
+                                    <td style="color:black">@item.Comment1</td>
+                                    <td style="color:black">@item.SecondReview</td>
+                                    <td style="color:black">@item.Comment2</td>
+                                    <td style="color:black">@item.ThirdReview</td>
+                                    <td style="color:black">@item.Comment3</td>
+                                    <td style="color:black">@item.FourthReview</td>
+                                    <td style="color:black">@item.Comment4</td>
+                                    <td style="color:black">@item.FifthReview</td>
+                                    <td style="color:black">@item.Comment5</td>
+                                    <td style="color:black">@item.SixReview</td>
+                                    <td style="color:black">@item.Comment6</td>
+                                    <td>
                                         <a href="/QAManager/SubmiteCoaching?AgentID=@item.AgentID" style="color:black; background-color: rgba(86, 86, 166, .25);" class="btn btn-primary btn-sm">View</a>
                                     </td>
                                 </tr>
@@ -389,8 +453,36 @@
             const target = $(this).data('target');
             $(target).slideToggle();
         });
+             initDataTableIfDataExists('#m3');
+    initDataTableIfDataExists('#updateTable');
+    initDataTableIfDataExists('#assessmentTable');
+    initDataTableIfDataExists('#zt');
+    initDataTableIfDataExists('#co');
+    initDataTableIfDataExists('#m9');
     });
-      
+          $("#pendingClosedGraphContainer").on("click", function () {
+        $("#collapse1").slideToggle();
+    });
+           function initDataTableIfDataExists(selector) {
+        if ($(selector).find('tbody tr').length > 0) {
+            $(selector).DataTable({
+                paging: true,
+                pageLength: 5,
+                lengthChange: false,
+                searching: false,
+                ordering: false
+            });
+        }
+    }
+
+    // Initialize only if data exists
+    initDataTableIfDataExists('#m3');
+    initDataTableIfDataExists('#updateTable');
+    initDataTableIfDataExists('#assessmentTable');
+    initDataTableIfDataExists('#zt');
+    initDataTableIfDataExists('#co');
+    initDataTableIfDataExists('#m9');
+
 </script>
 
 
@@ -408,8 +500,10 @@
 <script src="~/js/notification.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script>
+  
+
            function GetDashBoard(event) {
         var Program = $("#ProgramID").val();
         var SubProgram = $("#SUBProgramID").val();
@@ -436,164 +530,59 @@
                 let closedCount = response.closedCount;
                     let baseList = response.baseList;
                 console.log(response.baseListTransaction);
-                    const baseListTransaction = response.baseListTransaction;
 
-    // Labels (x-axis)
-    const labels = baseListTransaction.map(item => item.Createby);
+        const tableBody23 = document.getElementById("agentPerformanceTableBodyTransaction");
+               tableBody23.innerHTML = "";
+               
+               console.log(JSON.stringify(response.baseListTransaction));
 
-    // Datasets
-    const target1 = baseListTransaction.map(item => Number(item.Per_QA_Daily_Target_Audit1));
-    const actual1 = baseListTransaction.map(item => Number(item.NumberOfCalls_Audit1));
-    const target2 = baseListTransaction.map(item => Number(item.Per_QA_Daily_Target_Audit2));
-    const actual2 = baseListTransaction.map(item => Number(item.NumberOfCalls_Audit2));
+       response.baseListTransaction.forEach(row => {
+           const tr23 = document.createElement("tr");
+           tr23.innerHTML = `
+               <td>${row.UserName}</td>
 
-    const ctx = document.getElementById('auditChart').getContext('2d');
+               <td>${row.Target}</td>
+               <td>${row.Transaformation}</td>
+                   <td>${row.Target}</td>
+               <td>${row.Hygiene}</td>
+             
 
-      const auditChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Transformation Target',
-            data: target1,
-            backgroundColor: '#1E90FF', // Dodger Blue
-            barThickness: 30,
-            borderRadius: 22,
-          },
-          {
-            label: 'Transformation Actual',
-            data: actual1,
-            backgroundColor: '#007BFF', // Strong Blue
-            barThickness: 30,
-            borderRadius: 22,
-          },
-          {
-            label: 'Hygiene Target',
-            data: target2,
-            backgroundColor: '#FFA500', // Orange
-            barThickness: 30,
-            borderRadius: 22,
-          },
-          {
-            label: 'Hygiene Actual',
-            data: actual2,
-            backgroundColor: '#FF4500', // Orange Red
-            barThickness: 30,
-            borderRadius: 22,
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            labels: {
-              color: '#ffffff' // White text for legend labels
-            }
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              color: '#ffffff' // White text on Y axis
-            },
-            grid: {
-              color: 'rgba(255, 255, 255, 0.1)' // Faint white grid lines
-            }
-          },
-          x: {
-            ticks: {
-              color: '#ffffff' // White text on X axis
-            },
-            grid: {
-              color: 'rgba(255, 255, 255, 0.1)' // Faint white grid lines
-            }
-          }
-        }
-      }
-    });
-
-
+           `;
+           tableBody23.appendChild(tr23);
+       });
+ 
         let monitordash = response.monitoerows;
 
     console.log(JSON.stringify(monitordash));
+             const tableBody = document.getElementById("agentPerformanceTableBody");
+            tableBody.innerHTML = "";
 
-    // Flatten it if it contains nested arrays
-    let flatMonitorDash = monitordash.flat();
 
-    if (Array.isArray(flatMonitorDash) && flatMonitorDash.length > 0) {
-        const teams = flatMonitorDash.map(item => item.Team);
-        const targets = flatMonitorDash.map(item => item.Target);
-        const actuals = flatMonitorDash.map(item => item.Actual);
-        const scores = flatMonitorDash.map(item => item.Score);
 
-        const ctx = document.getElementById('monitorChart').getContext('2d');
-          new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: teams,
-            datasets: [
-                {
-                    label: 'Target',
-                    data: targets,
-                    backgroundColor: '#4e79a7', // Muted Blue
-                    barThickness: 19
-                },
-                {
-                    label: 'Actual',
-                    data: actuals,
-                    backgroundColor: '#59a14f', // Soft Green
-                    barThickness: 19
-                },
-                {
-                    label: 'Score',
-                    data: scores,
-                    backgroundColor: '#f28e2c', // Warm Orange
-                    barThickness: 19
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                    labels: {
-                        color: '#ffffff' // white text for legend
-                    }
-                },
-                title: {
-                    display: true,
-                    text: 'Team Performance Overview',
-                    color: '#ffffff' // white title
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: '#ffffff' // white labels
-                    },
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.1)' // light grid lines
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: '#ffffff'
-                    },
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.1)'
-                    }
-                }
-            }
-        }
+    monitordash.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${row.UserName}</td>
+
+            <td>${row.Target}</td>
+            <td>${row.Actual}</td>
+                <td>${row.Target}</td>
+            <td>${row.AgentAckno}</td>
+            <td>${row.CQScore}</td>
+        `;
+        tableBody.appendChild(tr);
     });
-
-    }
-
-
+    const tableId1 = '#m1';
+       if ($.fn.DataTable.isDataTable(tableId1)) {
+            $(tableId1).DataTable().clear().destroy();
+        }
+    $(tableId1).DataTable({
+              paging: true,
+              pageLength: 5,
+              lengthChange: false,
+              searching: false,
+              ordering: false
+          });
         let tableBodyHtml = '';
 
         if (!Array.isArray(baseList) || baseList.length === 0) {
@@ -774,7 +763,7 @@
 
             let closedCard = `
                 <div class="col-md-6 my-2">
-                    <div class="card shadow text-center text-white"
+                    <div class="card shadow text-center text-white closed-card"
                          style="height: 200px; display: flex; align-items: center; justify-content: center;">
                         <div>
                             <h5>Closed Disputes</h5>
@@ -788,13 +777,7 @@
             $('#pendingClosedGraphContainer').append(closedCard);
 
             // Toggle accordion when pending card is clicked
-            $('.pending-card').click(function() {
-                $('#collapse1').collapse('toggle');
-                $('html, body').animate({
-                    scrollTop: $('#collapse1').offset().top - 100 // Optional smooth scroll
-                }, 500);
-            });
-
+            
             // Radial Progress for Pending
             var pendingOptions = {
                 series: [pendingPercent],
@@ -878,7 +861,7 @@
                     });
                 },
                 error: function (xhr, status, error) {
-                    console.error("Error occurred: " + error);
+                   
                 }
             });
 

@@ -730,7 +730,8 @@ namespace QMS.DataBaseService
         }
         public async Task<DataTable> GetQAManotorDashboard(DashboardFilterModel id)
         {
-            string query = "GetList_all_Monitor";
+            // string query = "GetList_all_Monitor";
+            string query = "Get_CallAudit_Performance";
             var dataTable = new DataTable();
             try
             {
@@ -741,7 +742,7 @@ namespace QMS.DataBaseService
                     using (var command = new SqlCommand(query, connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@ViewType", id.Filter ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@operation", id.Filter ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ProgramID", id.Program ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@SubProgramID", id.SubProgram ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Username", UserInfo.UserName);
@@ -765,7 +766,7 @@ namespace QMS.DataBaseService
 
         public async Task<DataTable> GetTrasactionDashboard(DashboardFilterModel id)
         {
-            string query = "GetTransaformationHygiene_audits";
+            string query = "Get_Transaformation_Hygiene";
             var dataTable = new DataTable();
             try
             {
@@ -776,7 +777,7 @@ namespace QMS.DataBaseService
                     using (var command = new SqlCommand(query, connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@ViewType", id.Filter ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@operation", id.Filter ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ProgramID", id.Program ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@SubProgramID", id.SubProgram ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Username", UserInfo.UserName);

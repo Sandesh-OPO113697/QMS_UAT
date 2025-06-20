@@ -283,13 +283,13 @@ namespace QMS.Controllers
                     case "day":
                         baseList = baseList.Where(x => x.CreatedDate.Date == today);
 
-                        baseListTransaction = TransactionAudit
-                            .Where(x =>
-                                x.ContainsKey("CreatedDate") &&
-                                x["CreatedDate"] != null &&
-                                DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
-                                createdDate.Date == today)
-                            .ToList();
+                        //baseListTransaction = TransactionAudit
+                        //    .Where(x =>
+                        //        x.ContainsKey("CreatedDate") &&
+                        //        x["CreatedDate"] != null &&
+                        //        DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
+                        //        createdDate.Date == today)
+                        //    .ToList();
                         break;
 
                     case "week":
@@ -299,13 +299,13 @@ namespace QMS.Controllers
                         baseList = baseList.Where(x =>
                             x.CreatedDate.Date >= startOfWeek && x.CreatedDate.Date <= endOfWeek);
 
-                        baseListTransaction = TransactionAudit
-                            .Where(x =>
-                                x.ContainsKey("CreatedDate") &&
-                                x["CreatedDate"] != null &&
-                                DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
-                                createdDate.Date >= startOfWeek && createdDate.Date <= endOfWeek)
-                            .ToList();
+                        //baseListTransaction = TransactionAudit
+                        //    .Where(x =>
+                        //        x.ContainsKey("CreatedDate") &&
+                        //        x["CreatedDate"] != null &&
+                        //        DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
+                        //        createdDate.Date >= startOfWeek && createdDate.Date <= endOfWeek)
+                        //    .ToList();
                         break;
 
                     case "month":
@@ -315,13 +315,13 @@ namespace QMS.Controllers
                         baseList = baseList.Where(x =>
                             x.CreatedDate.Month == month && x.CreatedDate.Year == year);
 
-                        baseListTransaction = TransactionAudit
-                            .Where(x =>
-                                x.ContainsKey("CreatedDate") &&
-                                x["CreatedDate"] != null &&
-                                DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
-                                createdDate.Month == month && createdDate.Year == year)
-                            .ToList();
+                        //baseListTransaction = TransactionAudit
+                        //    .Where(x =>
+                        //        x.ContainsKey("CreatedDate") &&
+                        //        x["CreatedDate"] != null &&
+                        //        DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
+                        //        createdDate.Month == month && createdDate.Year == year)
+                        //    .ToList();
                         break;
 
                     default:
@@ -340,7 +340,7 @@ namespace QMS.Controllers
                     closedCount = closedCount,
                     baseList = baseList,
                     monitoerows = Monitoerows,
-                    baseListTransaction = baseListTransaction
+                    baseListTransaction = TransactionAudit
                 });
             }
             catch (Exception ex)
@@ -349,135 +349,6 @@ namespace QMS.Controllers
                 return StatusCode(500, "An error occurred while processing the request.");
             }
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> Getdashboad([FromBody] DashboardFilterModel model)
-        //{
-        //    try
-        //    {
-        //        DataTable dt = await dl_qa.GetQADashboard(model);
-        //        DataTable dt2 = await dl_qa.GetQAManotorDashboard(model);
-        //        DataTable dt3 = await dl_qa.GetTrasactionDashboard(model);
-        //        var rows = new List<Dictionary<string, object>>();
-        //        var TransactionAudit = new List<Dictionary<string, object>>();
-        //        var Monitoerows = new List<Dictionary<string, object>>();
-        //        foreach (DataRow row in dt3.Rows)
-        //        {
-        //            var dict = new Dictionary<string, object>();
-        //            foreach (DataColumn col in dt3.Columns)
-        //            {
-        //                dict[col.ColumnName] = row[col];
-        //            }
-        //            TransactionAudit.Add(dict);
-        //        }
-
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            var dict = new Dictionary<string, object>();
-        //            foreach (DataColumn col in dt.Columns)
-        //            {
-        //                dict[col.ColumnName] = row[col];
-        //            }
-        //            rows.Add(dict);
-        //        }
-
-        //        foreach (DataRow row in dt2.Rows)
-        //        {
-        //            var dict = new Dictionary<string, object>();
-        //            foreach (DataColumn col in dt2.Columns)
-        //            {
-        //                dict[col.ColumnName] = row[col];
-        //            }
-        //            Monitoerows.Add(dict);
-        //        }
-
-        //        int pendingcount = 0;
-        //        int clodescount = 0;
-
-        //        var filter = model.Filter;
-        //        List<DisputeCallfeedbackModel> List = await dl_qa.DisputeAgentFeedback();
-
-
-        //        IEnumerable<DisputeCallfeedbackModel> baseList;
-        //        List<Dictionary<string, object>> baseListTransaction;
-
-        //        if (model.Program == "ALL")
-        //        {
-        //            baseList = List;
-
-
-
-        //        }
-        //        else if (model.SubProgram == "ALL")
-        //        {
-        //            baseList = List.Where(x => x.Process == model.Program);
-        //        }
-        //        else
-        //        {
-        //            baseList = List.Where(x => x.Process == model.Program && x.SubProcessName == model.SubProgram);
-        //        }
-
-        //        DateTime today = DateTime.Today;
-
-        //        if (filter == "day")
-        //        {
-        //            baseList = baseList.Where(x => x.CreatedDate.Date == today);
-        //            baseListTransaction = TransactionAudit
-        //                                 .Where(x =>
-        //                                     x.ContainsKey("CreatedDate") &&
-        //                                     x["CreatedDate"] != null &&
-        //                                     DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
-        //                                     createdDate.Date == today)
-        //                                 .ToList();
-        //        }
-        //        else if (filter == "week")
-        //        {
-        //            DateTime startOfWeek = today.AddDays(-(int)today.DayOfWeek + (int)DayOfWeek.Monday);
-        //            DateTime endOfWeek = startOfWeek.AddDays(6);
-        //            baseList = baseList.Where(x => x.CreatedDate.Date >= startOfWeek && x.CreatedDate.Date <= endOfWeek);
-        //            baseListTransaction = TransactionAudit
-        //                                  .Where(x =>
-        //                                      x.ContainsKey("CreatedDate") &&
-        //                                      x["CreatedDate"] != null &&
-        //                                      DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
-        //                                      createdDate.Date >= startOfWeek && createdDate.Date <= endOfWeek)
-        //                                  .ToList();
-        //        }
-        //        else if (filter == "month")
-        //        {
-        //            int month = today.Month;
-        //            int year = today.Year;
-        //            baseList = baseList.Where(x => x.CreatedDate.Month == month && x.CreatedDate.Year == year);
-        //            baseListTransaction = TransactionAudit
-        //             .Where(x =>
-        //                 x.ContainsKey("CreatedDate") &&
-        //                 x["CreatedDate"] != null &&
-        //                 DateTime.TryParse(x["CreatedDate"].ToString(), out var createdDate) &&
-        //                 createdDate.Month == month && createdDate.Year == year)
-        //             .ToList();
-        //        }
-
-        //        pendingcount = baseList.Count();
-        //        clodescount = baseList.Where(x => x.AgentDispute == "2").Count();
-
-
-        //        return Json(new
-        //        {
-        //            dashboardData = rows,
-        //            pendingCount = pendingcount,
-        //            closedCount = clodescount,
-        //            baseList = baseList,
-        //            monitoerows = Monitoerows,
-        //            baseListTransaction=baseListTransaction
-        //        });
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        return Ok();
-        //    }
-
-        //}
-
 
         public async Task<IActionResult> Dashboard()
         {
