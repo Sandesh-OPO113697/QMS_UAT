@@ -174,6 +174,58 @@ namespace QMS.DataBaseService
 
             }
         }
+        public async Task<DataTable> GetFeedbackDashboard(DashboardFilterModel id)
+        {
+            string query = "GetFeedbackgSummary";
+            var dataTable = new DataTable();
+
+            using (var connection = new SqlConnection(UserInfo.Dnycon))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ViewType", id.Filter ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@ProgramID", id.Program ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@SubProgramID", id.SubProgram ?? (object)DBNull.Value);
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        dataTable.Load(reader);
+                    }
+                }
+            }
+
+            return dataTable;
+        }
+
+        public async Task<DataTable> GetUpdateviewDashboard(DashboardFilterModel id)
+        {
+            string query = "Updateview";
+            var dataTable = new DataTable();
+
+            using (var connection = new SqlConnection(UserInfo.Dnycon))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@processID", id.Program ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@SubProcessID", id.SubProgram ?? (object)DBNull.Value);
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        dataTable.Load(reader);
+                    }
+                }
+            }
+
+            return dataTable;
+        }
+
         public async Task DeactiveActiveSubProcess(int id, bool isActive)
         {
             string status = isActive ? "1" : "0";

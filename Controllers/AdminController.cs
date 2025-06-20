@@ -18,6 +18,42 @@ namespace QMS.Controllers
         {
             _admin = adl;
         }
+        [HttpPost]
+        public async Task<IActionResult> GetFeedback([FromBody] DashboardFilterModel model)
+        {
+            DataTable dt = await _admin.GetFeedbackDashboard(model);
+
+            var rows = new List<Dictionary<string, object>>();
+            foreach (DataRow row in dt.Rows)
+            {
+                var dict = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    dict[col.ColumnName] = row[col];
+                }
+                rows.Add(dict);
+            }
+
+            return Json(rows);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetUpdateview([FromBody] DashboardFilterModel model)
+        {
+            DataTable dt = await _admin.GetUpdateviewDashboard(model);
+
+            var rows = new List<Dictionary<string, object>>();
+            foreach (DataRow row in dt.Rows)
+            {
+                var dict = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    dict[col.ColumnName] = row[col];
+                }
+                rows.Add(dict);
+            }
+
+            return Json(rows);
+        }
         public async Task<JsonResult> ActiveDeActiveSubProcess(int id, int isActive)
         {
             try

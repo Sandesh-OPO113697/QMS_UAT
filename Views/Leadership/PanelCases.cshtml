@@ -1,0 +1,266 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-md-12 my-4" id="AuditDiv">
+    <div class="card shadow">
+        <div class="card-body" style="padding: 20px;">
+            <h5 class="card-title" style="font-weight: bold; color: white;">Panel View</h5>
+
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="Program">Program</label>
+                    <input type="text" class="form-control" id="Program" value="@ViewBag.ProgramID" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="SubProgram">SubProgram</label>
+                    <input type="text" class="form-control" id="SubProgram" value="@ViewBag.SubProgramID" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="AgentName">Agent Name</label>
+                    <input type="text" class="form-control" id="AgentName" value="@ViewBag.AgentName" readonly>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="EmployeeID">Employee ID</label>
+                    <input type="text" class="form-control" id="EmployeeID" value="@ViewBag.EmployeeID" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="AgentSupervsor">Agent Supervisor</label>
+                    <input type="text" class="form-control" id="AgentSupervsor" value="@ViewBag.AgentSupervsor" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="Raiseddate">Raised Date</label>
+                    <input type="text" class="form-control" id="Raiseddate" value="@ViewBag.ZTRaisedDate" readonly>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="Transactiondate">Transaction Date</label>
+                    <input type="text" class="form-control" id="Transactiondate" value="@ViewBag.TransactionDate" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="ZTClasification">ZT Classification</label>
+                    <input type="text" class="form-control" id="ZTClasification" value="@ViewBag.ZTClassification" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="ZTHistory">ZT History</label>
+                    <input type="text" class="form-control" id="ZTHistory" value="@ViewBag.Zt_History" readonly>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="QAComments">QA Comments</label>
+                    <input type="text" class="form-control" id="QAComments" value="@ViewBag.SubProgramID" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="QAManagerComments">QA Manager Comments</label>
+                    <input type="text" class="form-control" id="QAManagerComments" value="@ViewBag.QA_Manager_Comments" readonly>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="form-group col-md-4">
+                    <label for="QAManagerComments">Operation Manager Comments</label>
+                    <input type="text" class="form-control" id="OperationManagerComments" value="@ViewBag.Ops_Manager_Comments" readonly>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="PanelComments">Panel Comments</label> <span style="color:red">*</span>
+                    <input type="text" class="form-control" id="PanelComments" required placeholder="Enter your comments">
+                </div>
+
+            </div>
+
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-md-12">
+
+                    <div id="recordingContainer" data-transaction-id="@ViewBag.TransactionID"></div>
+
+                </div>
+                <div class="form-group col-md-12" style="margin-top:15px">
+                    <label for="QAComments" style="font-weight: 600; color: white; font-size: 16px; display: block; margin-bottom: 8px;">
+                        Voice Feedback
+                    </label>
+
+                    <div style="padding: 10px;  text-align: center;">
+                        @if (!string.IsNullOrEmpty(ViewBag.AudioData))
+                        {
+                            <audio controls style="width: 100%; max-width: 400px;">
+                                <source src="@ViewBag.AudioData" type="audio/wav">
+                                Your browser does not support the audio element.
+                            </audio>
+                        }
+                        else
+                        {
+                            <p style="color: #777; font-style: italic;">No audio available.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <button type="submit" onclick="submitApprove()"
+                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                        Approve Exception
+                    </button>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <button type="submit" onclick="submitReject()"
+                            style="background-color: #24294a; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">
+                        Reject
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/js/jquery.min.js"></script>
+<script>
+
+        $(document).ready(function () {
+            const transactionId = $("#recordingContainer").data("transaction-id");
+       $.ajax({
+            type: "POST",
+             data: JSON.stringify({ id: transactionId }),
+            url: "/Monitor/GetRecording",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (!response.success) return;
+
+                let container = document.getElementById("recordingContainer");
+                container.innerHTML = "";
+
+                container.style.cssText = `
+                    background-image: url('/images/image.png');
+                background-size: 100% 185%; /* Stretches fully */
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 100%;
+                height: 300px; /* You can adjust this height */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                position: relative;
+                    border-radius: 15px;
+                `;
+
+                if (!response.audioData) {
+                    console.error("No audio data received.");
+                    return;
+                }
+
+                try {
+                    let byteCharacters = atob(response.audioData);
+                    let byteNumbers = new Uint8Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+
+                    let blob = new Blob([byteNumbers], { type: "audio/mpeg" });
+                    let audioUrl = URL.createObjectURL(blob);
+
+                    let audioPlayer = document.createElement("audio");
+                    audioPlayer.controls = true;
+                    audioPlayer.src = audioUrl;
+                    audioPlayer.style.cssText = `
+                         width: 100%;
+                    max-width: 643px;
+                    margin-top: 197px;
+                    `;
+                    container.appendChild(audioPlayer);
+                    audioPlayer.play().catch(console.error);
+                } catch (e) {
+                    console.error("Invalid Base64 audio data:", e);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+    });
+
+</script>
+<script>
+            function submitApprove() {
+        var PanelComments = $("#PanelComments").val();
+
+        if (PanelComments.trim() === "") {
+            alert("Please enter a comment.");
+            return;
+        }
+
+        $.ajax({
+            url: '/HR/SubmiPanelCommentsStatusApprove',
+            type: 'POST',
+            data: {
+                comment: PanelComments
+            },
+            success: function (response) {
+                alert(response.message);
+                $("#OperationManagerComments").val("");
+
+                if (response.success) {
+                    window.location.href = '/HR/Dashboard';
+                }
+            },
+            error: function () {
+                alert("Error submitting the comment.");
+            }
+        });
+    }
+
+
+       function submitReject() {
+        var PanelComments = $("#PanelComments").val();
+
+        if (PanelComments.trim() === "") {
+            alert("Please enter a comment.");
+            return;
+        }
+
+        $.ajax({
+            url: '/HR/SubmitPanelCommentsStatusReject',
+            type: 'POST',
+            data: {
+                comment: PanelComments
+            },
+            success: function (response) {
+                alert(response.message);
+                $("#OperationManagerComments").val("");
+
+                if (response.success) {
+                    window.location.href = '/HR/Dashboard';
+                }
+            },
+            error: function () {
+                alert("Error submitting the comment.");
+            }
+        });
+    }
+
+
+</script>
