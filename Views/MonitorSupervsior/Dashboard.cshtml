@@ -6,7 +6,10 @@
 
 @{
     var now = DateTime.Now;
-}   
+}
+
+
+
 
 <div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow">
@@ -49,6 +52,9 @@
                     <label for="weekInput">Select Week</label>
                     <input type="week" id="weekInput" class="form-control" />
                 </div>
+
+
+
                 <div class="col-md-2">
                     <div class="form-group mb-3">
                         <button id="SaveForm" class="btn btn-primary mt-4" onclick="GetDashBoard(this)">Search</button>
@@ -93,7 +99,7 @@
                                     <th>Actual</th>
                                     <th>Target</th>
                                     <th>Actual</th>
-                                    <th>CQ Score</th>
+                                    <th>Call Quality Score</th>
                                 </tr>
                             </thead>
                             <tbody id="agentPerformanceTableBody">
@@ -107,6 +113,8 @@
             </div>
         </div>
     </div>
+
+
     <div class="card shadow mb-4">
         <div class="accordion w-100" id="accordion1">
             <div class="card shadow">
@@ -123,12 +131,6 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                      @*   <th>Transaction ID</th>
-                                        <th>AgentID</th>
-                                        <th>TL Name</th>
-                                        <th>Monitor By</th>
-                                        <th>View</th> *@
-
                                         <th style="display:none">Transaction ID</th>
                                         <th>Agent Name</th>
                                         <th style="display:none">TL Name</th>
@@ -137,7 +139,6 @@
                                         <th>Pending</th>
                                         <th>Close</th>
                                         <th>View</th>
-
                                     </tr>
                                 </thead>
                                 <tbody id="pendingFeedbackTableBody">
@@ -145,8 +146,6 @@
                                         <td colspan="5" class="text-center">Loading...</td>
                                     </tr>
                                 </tbody>
-
-
                             </table>
                         </div>
                     </div>
@@ -154,85 +153,9 @@
             </div>
         </div>
     </div>
-   
-        <div class="card shadow mb-4">
-        <!-- Accordion 2 -->
-        <div class="accordion w-100" id="accordionData2">
-            <div class="card shadow">
-                <div class="card-header" id="headingData2">
-                    <a role="button" href="#collapseData2" data-toggle="collapse" data-target="#collapseData2" aria-expanded="false" aria-controls="collapseData2">
-                        <strong>List all Monitor role Individuals</strong>
-                    </a>
-                </div>
-                <div id="collapseData2" class="collapse" aria-labelledby="headingData2" data-parent="#accordionData2">
-                    <div class="card-body">
-                        <table id="m9" class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <td></td>
-                                    <td colspan="2" class="text-center font-weight-bold">Transformation Audits</td>
-                                    <td colspan="2" class="text-center font-weight-bold">Hygiene & Risk Audits</td>
-                               
-                                </tr>
-                                <tr>
-                                    <th>Team List (Based on Hierarchy)</th>
-                                    <th>Target</th>
-                                    <th>Actual</th>
-                                    <th>Target</th>
-                                    <th>Actual</th>
-                                
-                                </tr>
-                            </thead>
-                            <tbody id="agentPerformanceTableBodyTransaction">
-                               
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
-    <!-- Agent To QA Survey -->
-    <div class="card shadow mb-4" style="display:none">
-        <div class="card-header accordion-header" data-target="#qaSurveyGrid" style="cursor:pointer;">
-            <strong class="card-title">Agent To QA Survey</strong>
-        </div>
-        <div class="card-body collapse" id="qaSurveyGrid">
-            <table id="m3" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Transaction_ID</th>
-                        <th>AgentID</th>
-                        <th>Action</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.AgentToQASurvey != null && Model.AgentToQASurvey.Any())
-                    {
-                        @foreach (var item in Model.AgentToQASurvey)
-                        {
-                            <tr>
-                                <td>@item.Transaction_ID</td>
-                                <td>@item.AgentID</td>
-                                <td>
-                                    <a href="/QAManager/AgentSurveyView?TransactionID=@item.Transaction_ID" class="btn btn-primary btn-sm">View</a>
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                       
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
 
-    <!-- Update Management -->
     <div class="card shadow mb-4">
         <div class="card-header accordion-header" data-target="#updateManagementGrid" style="cursor:pointer;">
             <strong class="card-title">Update</strong>
@@ -260,15 +183,147 @@
                     }
                     else
                     {
-                       
+
                     }
                 </tbody>
             </table>
         </div>
     </div>
 
+
+    <div class="card shadow mb-4" >
+    <div class="card-header accordion-header" data-target="#ztCasesGrid" style="cursor:pointer;">
+        <strong class="card-title">ZT Pending </strong>
+    </div>
+    <div class="card-body collapse" id="ztCasesGrid">
+        <div style="overflow-x: auto; width: 100%;">
+            <table id="zt" class="table table-bordered" style="min-width: 1000px;">
+                <thead>
+                    <tr>
+                        <th>ProgramID</th>
+                        <th>SubProgramID</th>
+                        <th>AgentName</th>
+                        <th stye="display:none">AgentSupervisor</th>
+                        <th>Raied on</th>
+                        <th>ZTRaisedDate</th>
+                        <th stye="display:none">TransactionDate</th>
+                        <th stye="display:none">ZTClassification</th>
+                        <th stye="display:none">TransactionID</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ZTcaseList != null && Model.ZTcaseList.Any())
+                    {
+                        @foreach (var item in Model.ZTcaseList)
+                        {
+                            <tr>
+                                <td>@item.ProgramID</td>
+                                <td>@item.SubProgramID</td>
+                                <td>@item.AgentName</td>
+                                <td stye="display:none">@item.AgentSupervsor</td>
+                                <td>@item.ZTRaisedBy</td>
+                                <td>@item.ZTRaisedDate</td>
+                                <td stye="display:none">@item.TransactionDate</td>
+                                <td stye="display:none"> @item.ZTClassification</td>
+                                <td stye="display:none">@item.TransactionID</td>
+                                <td>
+                                    <a href="/QAManager/ZeroTolerance?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">View</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+   
+    <div class="card shadow mb-4" style="display:none">
+        <!-- Accordion 2 -->
+        <div class="accordion w-100" id="accordionData2">
+            <div class="card shadow">
+                <div class="card-header" id="headingData2">
+                    <a role="button" href="#collapseData2" data-toggle="collapse" data-target="#collapseData2" aria-expanded="false" aria-controls="collapseData2">
+                        <strong>List all Monitor role Inidividuals</strong>
+                    </a>
+                </div>
+                <div id="collapseData2" class="collapse" aria-labelledby="headingData2" data-parent="#accordionData2">
+                    <div class="card-body">
+                        <table id="m9" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="2" class="text-center font-weight-bold">Transformation Audits</td>
+                                    <td colspan="2" class="text-center font-weight-bold">Hygiene & Risk Audits</td>
+
+                                </tr>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>Target</th>
+                                    <th>Actual</th>
+                                    <th>Target</th>
+                                    <th>Actual</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="agentPerformanceTableBodyTransaction">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Agent To QA Survey -->
+    <div class="card shadow mb-4" style="display:none">
+        <div class="card-header accordion-header" data-target="#qaSurveyGrid" style="cursor:pointer;">
+            <strong class="card-title">Agent To QA Survey</strong>
+        </div>
+        <div class="card-body collapse" id="qaSurveyGrid">
+            <table id="m3" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Transaction_ID</th>
+                        <th>AgentID</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.AgentToQASurvey != null && Model.AgentToQASurvey.Any())
+                    {
+                        @foreach (var item in Model.AgentToQASurvey)
+                        {
+                            <tr>
+                                <td>@item.Transaction_ID</td>
+                                <td>@item.AgentID</td>
+                                <td>
+                                    <a href="/QAManager/AgentSurveyView?TransactionID=@item.Transaction_ID" class="btn btn-primary btn-sm">View</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Update Management -->
+   
+
     <!-- Online Assessment -->
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-4" style="display:none">
         <div class="card-header accordion-header" data-target="#onlineAssessmentGrid" style="cursor:pointer;">
             <strong class="card-title">Online Assessment</strong>
         </div>
@@ -312,7 +367,7 @@
                     }
                     else
                     {
-                       
+
                     }
                 </tbody>
             </table>
@@ -320,7 +375,7 @@
     </div>
 
     <!-- ZT Cases QA Manager View -->
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-4" style="display:none">
         <div class="card-header accordion-header" data-target="#ztCasesGrid" style="cursor:pointer;">
             <strong class="card-title">ZT Pending</strong>
         </div>
@@ -329,15 +384,15 @@
                 <table id="zt" class="table table-bordered" style="min-width: 1000px;">
                     <thead>
                         <tr>
-                            <th style="display:none">ProgramID</th>
-                            <th style="display:none">SubProgramID</th>
-                            <th >AgentName</th>
-                            <th>AgentSupervisor</th>
+                            <th>ProgramID</th>
+                            <th>SubProgramID</th>
+                            <th>AgentName</th>
+                            <th stye="display:none">AgentSupervisor</th>
                             <th>Raied on</th>
                             <th>ZTRaisedDate</th>
-                            <th style="display:none">TransactionDate</th>
-                            <th style="display:none">ZTClassification</th>
-                            <th>TransactionID</th>
+                            <th stye="display:none">TransactionDate</th>
+                            <th stye="display:none">ZTClassification</th>
+                            <th stye="display:none">TransactionID</th>
                             <th>View</th>
                         </tr>
                     </thead>
@@ -347,15 +402,15 @@
                             @foreach (var item in Model.ZTcaseList)
                             {
                                 <tr>
-                                    <td style="display:none">@item.ProgramID</td>
-                                    <td style="display:none">@item.SubProgramID</td>
-                                    <td >@item.AgentName</td>
-                                    <td>@item.AgentSupervsor</td>
+                                    <td>@item.ProgramID</td>
+                                    <td>@item.SubProgramID</td>
+                                    <td>@item.AgentName</td>
+                                    <td stye="display:none">@item.AgentSupervsor</td>
                                     <td>@item.ZTRaisedBy</td>
-                                    <td>@item.ZTRaisedDate</td>
-                                    <td style="display:none">@item.TransactionDate</td>
-                                    <td style="display:none">@item.ZTClassification</td>
-                                    <td>@item.TransactionID</td>
+                                    <td >@item.ZTRaisedDate</td>
+                                    <td stye="display:none">@item.TransactionDate</td>
+                                    <td stye="display:none"> @item.ZTClassification</td>
+                                    <td stye="display:none">@item.TransactionID</td>
                                     <td>
                                         <a href="/QAManager/ZeroTolerance?TransactionID=@item.TransactionID" class="btn btn-primary btn-sm">View</a>
                                     </td>
@@ -364,7 +419,7 @@
                         }
                         else
                         {
-                          
+
                         }
                     </tbody>
                 </table>
@@ -456,16 +511,14 @@
                         }
                         else
                         {
-                            
-                            
+
+
                         }
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
-
 
 </div>
 
@@ -526,7 +579,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script>
-  
+
 
            function GetDashBoard(event) {
         var Program = $("#ProgramID").val();
@@ -557,7 +610,7 @@
 
         const tableBody23 = document.getElementById("agentPerformanceTableBodyTransaction");
                tableBody23.innerHTML = "";
-               
+
                console.log(JSON.stringify(response.baseListTransaction));
 
        response.baseListTransaction.forEach(row => {
@@ -569,12 +622,12 @@
                <td>${row.Transaformation}</td>
                    <td>${row.Target}</td>
                <td>${row.Hygiene}</td>
-             
+
 
            `;
            tableBody23.appendChild(tr23);
        });
- 
+
         let monitordash = response.monitoerows;
 
     console.log(JSON.stringify(monitordash));
@@ -615,13 +668,14 @@
             baseList.forEach(function(item) {
                 tableBodyHtml += `
                     <tr>
-                         <td  style="display:none">${item.transactionID}</td>
+                        <td  style="display:none">${item.transactionID}</td>
                         <td>${item.agentID}</td>
                         <td style="display:none">${item.tlName}</td>
                         <td>${item.monitorBy}</td>
                           <td>${item.monitorBy}</td>
                              <td>${item.Pending}</td>
                             <td>${item.Close}</td>
+                             
                         <td>
                             <a href="/QAManager/EditAgentFeedBack?TransactionID=${item.transactionID}"
                                 class="btn btn-primary btn-sm" style="border:white" title="View">
@@ -804,7 +858,7 @@
             $('#pendingClosedGraphContainer').append(closedCard);
 
             // Toggle accordion when pending card is clicked
-            
+
             // Radial Progress for Pending
             var pendingOptions = {
                 series: [pendingPercent],
@@ -888,7 +942,7 @@
                     });
                 },
                 error: function (xhr, status, error) {
-                   
+
                 }
             });
 
@@ -896,6 +950,7 @@
 
 
         }
+
 
           document.getElementById('ViewType').addEventListener('change', function () {
         // Hide all pickers first

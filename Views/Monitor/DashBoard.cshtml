@@ -1,0 +1,1236 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+
+<style>
+    table td, table th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .circle {
+        font-size: 1.5em;
+    }
+
+    #Monitoring {
+        padding: 15px;
+    }
+
+</style>
+
+<div class="col-md-12 my-4" id="AuditDiv">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">  </h5>
+            <div class="row">
+
+                <div class="form-group col-md-6">
+                    <label for="ProgramID">Select Program</label>
+                    @Html.DropDownList("ProgramID", (List<SelectListItem>)ViewBag.Process, "Select Program", new { @class = "custom-select", id = "ProgramID", onchange = "onProgramChange()" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SUBProgramID">Sub Program Name</label>
+                    <select name="SUBProgramID" id="SUBProgramID" class="custom-select" onchange="onSubProgramChange()">
+                    </select>
+                </div>
+
+             @*    <div class="form-group col-md-4">
+                    <label for="ViewType">Data View</label>
+                    <select name="ViewType" id="ViewType" class="custom-select" stye="background-color: #33363b; color: white">
+                        <option value="">--Select Data View--</option>
+                        <option value="day">Day</option>
+                        <option value="month">Month</option>
+                        <option value="week">Week</option>
+                    </select>
+                </div> *@
+
+
+                <div class="form-group col-md-4">
+                    <label for="ViewType">Data View</label>
+                    <select name="ViewType" id="ViewType" class="custom-select" style="background-color: #33363b; color: white">
+                        <option value="">--Select Data View--</option>
+                        <option value="day">Day</option>
+                        <option value="month">Month</option>
+                        <option value="week">Week</option>
+                    </select>
+                </div>
+
+                <!-- Calendar Inputs -->
+                <div class="form-group col-md-4" id="dayPicker" style="display:none;">
+                    <label for="dayInput">Select Day</label>
+                    <input type="date" id="dayInput" class="form-control" />
+                </div>
+
+                <div class="form-group col-md-4" id="monthPicker" style="display:none;">
+                    <label for="monthInput">Select Month</label>
+                    <input type="month" id="monthInput" class="form-control" />
+                </div>
+
+                <div class="form-group col-md-4" id="weekPicker" style="display:none;">
+                    <label for="weekInput">Select Week</label>
+                    <input type="week" id="weekInput" class="form-control" />
+                </div>
+
+
+
+                <div class="col-md-2">
+                    <div class="form-group mb-3">
+                        <button id="SaveForm" class="btn btn-primary mt-4" onclick="GetDashBoard(this); GetMonitoring(event);GetFeedback(event);GetUpdateview(event);">Search</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="accordion11" class="col-12 my-4">
+    <div class="card shadow">
+        <div class="card-header" id="heading11">
+            <a role="button" href="#collapse21" data-toggle="collapse" data-target="#collapse21" aria-expanded="false" aria-controls="collapse21">
+                <strong>Monitor View</strong>
+            </a>
+        </div>
+        <div id="collapse21" class="collapse" aria-labelledby="heading11" data-parent="#accordion11">
+            <div class="row" id="dashboardContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="accordion111" class="col-12 my-4">
+    <div class="card shadow">
+        <div class="card-header" id="heading111">
+            <a role="button" href="#collapse211" data-toggle="collapse" data-target="#collapse211" aria-expanded="false" aria-controls="collapse211">
+                <strong>Monitoring View</strong>
+            </a>
+        </div>
+        <div id="collapse211" class="collapse" aria-labelledby="heading111" data-parent="#accordion111">
+            <div class="row" id="Monitoring">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="accordion1112" class="col-12 my-4">
+    <div class="card shadow">
+        <div class="card-header" id="heading1112">
+            <a role="button" href="#collapse2112" data-toggle="collapse" data-target="#collapse2112" aria-expanded="false" aria-controls="collapse2112">
+                <strong>Feedback View</strong>
+            </a>
+        </div>
+        <div id="collapse2112" class="collapse" aria-labelledby="heading1112" data-parent="#accordion1112">
+            <div class="row" id="Feedback">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="accordion111231" class="col-12 my-4">
+    <div class="card shadow">
+        <div class="card-header" id="heading111231">
+            <a role="button" href="#collapse211231" data-toggle="collapse" data-target="#collapse211231" aria-expanded="false" aria-controls="collapse211231">
+                <strong>Last 5 Update View</strong>
+            </a>
+        </div>
+        <div id="collapse211231" class="collapse" aria-labelledby="heading11123" data-parent="#accordion111231">
+            <div class="row" id="Updateview">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 my-4">
+    @* <a href="javascript:void(0);" id="toggleAgentList" class="btn btn-primary mb-3">Agent List</a> *@
+    <div class="card-header" style="background-color:#1F2233" id="heading11">
+        <a href="javascript:void(0);" id="toggleAgentList">
+            <strong>TL List</strong>
+        </a>
+    </div>
+    <div class="col-md-12 my-4" id="agentListContainer" style="display:none">
+        <div class="card shadow">
+            <div class="card-body">
+
+                <div class="d-flex">
+
+                    <button type="button" style=" color:white; background-color:#1F2233; border-radius:4px;" class="btn-sm" id="selectAllAgents">
+                         Select All
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+   
+</div>
+<div class="col-md-12 my-4">
+    @* <a href="javascript:void(0);" id="toggleAgentList" class="btn btn-primary mb-3">Agent List</a> *@
+    <div class="card-header" style="background-color:#1F2233" id="heading11">
+        <a href="javascript:void(0);" id="toggleAgentList1">
+            <strong>Agent List</strong>
+        </a>
+    </div>
+
+<div class="col-md-12 my-4" id="agentListContainer1">
+    <div class="card shadow">
+        <div class="card-body">
+
+                <div class="d-flex">
+
+                    <button type="button" style=" color:white; background-color:#1F2233; border-radius:4px;" class="btn-sm" id="selectAllAgents1">
+                        Select All
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="accordion1" class="col-12 my-4">
+    <div class="card shadow">
+        <div class="card-header" id="heading1">
+            <a role="button" href="#collapse2" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                <strong>CQ Performance</strong>
+            </a>
+        </div>
+        <div id="collapse2" class="collapse" aria-labelledby="heading1" data-parent="#accordion1">
+            <div id="columnCharts">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="col-md-12 my-4" style="display:none">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <table id="SuperAdminTable" class="table table-bordered table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Location Name</th>
+                        <th>Process Name</th>
+                        <th>Active Status</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow row in Model.Rows)
+                    {
+                        <tr>
+                            <td>@row["ID"]</td>
+                            <td>@row["LocationName"]</td>
+                            <td>@row["ProcessName"]</td>
+                            <td>@(row["Active_Status"].ToString() == "1" ? "Yes" : "No")</td>
+                            <td>@row["Created_Date"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="~/js/jquery.min.js"></script>
+@await Html.PartialAsync("_MailModal")
+<script src="~/js/xlsx.full.min.js"></script>
+
+<script src="~/js/notification.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#toggleAgentList').on('click', function () {
+            $('#agentListContainer').slideToggle(); // Smooth show/hide
+              GetAllAgnetCQPerformance();
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#toggleAgentList1').on('click', function () {
+            $('#agentListContainer1').slideToggle(); // Smooth show/hide
+              GetAllAgnetCQPerformance();
+        });
+    });
+</script>
+
+
+
+
+<script>
+
+           // function GetDashBoard(event) {
+           //     var Program = $("#ProgramID").val();
+           //     var SubProgram = $("#SUBProgramID").val();
+           //     var filter = $("#ViewType").val();
+
+           //     console.log("Program: " + Program);
+           //     console.log("SubProgram: " + SubProgram);
+           //     console.log("Filter: " + filter);
+
+           //     $.ajax({
+           //         url: "/Admin/Getdashboad",
+           //         type: "POST",
+           //         contentType: "application/json",
+           //         data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
+           //         success: function (response) {
+           //             $('#dashboardContainer').empty();
+
+           //             let data = typeof response === 'string' ? JSON.parse(response) : response;
+
+           //             if (!Array.isArray(data) || data.length === 0) {
+           //                 $('#dashboardContainer').html('<p>No data found</p>');
+           //                 return;
+           //             }
+
+           //             data.forEach(function (item, index) {
+           //                 let callQuality = parseFloat((item["Call Quality"] || "0").replace('%', ''));
+           //                 let monitoring = parseFloat((item["Monitoring"] || "0").replace('%', ''));
+           //                 let feedback = parseFloat((item["Feedback"] || "0").replace('%', ''));
+
+           //                 let callChartId = `callQualityChart_${index}`;
+           //                 let monitoringChartId = `monitoringChart_${index}`;
+           //                 let feedbackChartId = `feedbackChart_${index}`;
+
+           //                 let cardsHtml = `
+           //                     <div class="col-md-4 my-4">
+           //                         <div class="card shadow">
+           //                             <div class="card-body text-center">
+           //                                 <div id="${callChartId}"></div>
+           //                                 <div class="mt-3"><strong>Date:</strong> ${item["Period"]}</div>
+           //                             </div>
+           //                         </div>
+           //                     </div>
+           //                     <div class="col-md-4 my-4">
+           //                         <div class="card shadow">
+           //                             <div class="card-body text-center">
+           //                                 <div id="${monitoringChartId}"></div>
+           //                                 <div class="mt-3"><strong>Monitoring:</strong> ${item["Monitoring"]}</div>
+           //                             </div>
+           //                         </div>
+           //                     </div>
+           //                     <div class="col-md-4 my-4">
+           //                         <div class="card shadow">
+           //                             <div class="card-body text-center">
+           //                                 <div id="${feedbackChartId}"></div>
+           //                                 <div class="mt-3"><strong>Feedback:</strong> ${item["Feedback"]}</div>
+           //                             </div>
+           //                         </div>
+           //                     </div>
+           //                 `;
+
+           //                 $('#dashboardContainer').append(cardsHtml);
+
+           //                 // ?? Inline function with attractive color & white % text
+           //                 function renderRadialChart(chartId, value, label) {
+           //                     let color = "#808080";
+
+           //                     if (label === "Call Quality") {
+           //                         if (value > 85) color = "#00c851";       // Green
+           //                         else if (value >= 80) color = "#ffbb33"; // Amber
+           //                         else color = "#ff4444";                  // Red
+           //                     } else if (label === "Monitoring") {
+           //                         if (value > 100) color = "#00c851";
+           //                         else if (value >= 90) color = "#ffbb33";
+           //                         else color = "#ff4444";
+           //                     } else if (label === "Feedback") {
+           //                         if (value > 90) color = "#00c851";
+           //                         else if (value >= 85) color = "#ffbb33";
+           //                         else color = "#ff4444";
+           //                     }
+
+           //                     let options = {
+           //                         chart: {
+           //                             type: 'radialBar',
+           //                             height: 200
+           //                         },
+           //                         plotOptions: {
+           //                             radialBar: {
+           //                                 hollow: {
+           //                                     size: '65%',
+           //                                 },
+           //                                 dataLabels: {
+           //                                     name: {
+           //                                         show: true,
+           //                                         fontSize: '16px',
+           //                                         color: '#fff'
+           //                                     },
+           //                                     value: {
+           //                                         show: true,
+           //                                         fontSize: '20px',
+           //                                         fontWeight: 600,
+           //                                         color: '#fff',
+           //                                         formatter: function (val) {
+           //                                             return val.toFixed(1) + '%';
+           //                                         }
+           //                                     }
+           //                                 }
+           //                             }
+           //                         },
+           //                         fill: {
+           //                             colors: [color]
+           //                         },
+           //                         labels: [label],
+           //                         series: [value]
+           //                     };
+
+           //                     let chart = new ApexCharts(document.querySelector("#" + chartId), options);
+           //                     chart.render();
+           //                 }
+
+           //                 renderRadialChart(callChartId, callQuality, "Call Quality");
+           //                 renderRadialChart(monitoringChartId, monitoring, "Monitoring");
+           //                 renderRadialChart(feedbackChartId, feedback, "Feedback");
+           //             });
+           //         },
+           //         error: function (xhr, status, error) {
+           //             console.error("AJAX Error:", error);
+           //             $('#dashboardContainer').html('<p>Error loading dashboard</p>');
+           //         }
+           //     });
+           // }
+
+
+               function GetDashBoard(event) {
+        var Program = $("#ProgramID").val();
+        var SubProgram = $("#SUBProgramID").val();
+        var filter = $("#ViewType").val();
+
+         // Get selected input value based on the filter
+    var selectedDate = null;
+
+    if (filter === "day") {
+        selectedDate = $("#dayInput").val();
+    } else if (filter === "month") {
+        selectedDate = $("#monthInput").val();
+    } else if (filter === "week") {
+        selectedDate = $("#weekInput").val();
+    }
+
+         console.log("Selected Date: " + selectedDate);
+
+        console.log("Program: " + Program);
+        console.log("SubProgram: " + SubProgram);
+        console.log("Filter: " + filter);
+
+        $.ajax({
+            url: "/Monitor/Getdashboad",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter,selectedDate:selectedDate }),
+            success: function (response) {
+                $('#dashboardContainer').empty();
+
+                let data = typeof response === 'string' ? JSON.parse(response) : response;
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    $('#dashboardContainer').html('<p>No data found</p>');
+                    return;
+                }
+
+                data.forEach(function (item, index) {
+                    let callQuality = parseFloat((item["Call Quality"] || "0").replace('%', ''));
+                    let monitoring = parseFloat((item["Monitoring"] || "0").replace('%', ''));
+                    let feedback = parseFloat((item["Feedback"] || "0").replace('%', ''));
+
+                    let callChartId = `callQualityChart_${index}`;
+                    let monitoringChartId = `monitoringChart_${index}`;
+                    let feedbackChartId = `feedbackChart_${index}`;
+
+                    let cardsHtml = `
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body text-center">
+                                    <div id="${callChartId}"></div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body text-center">
+                                    <div id="${monitoringChartId}"></div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body text-center">
+                                    <div id="${feedbackChartId}"></div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    $('#dashboardContainer').append(cardsHtml);
+
+                    // Function to render radial chart based on label and value
+                    function renderRadialChart(chartId, value, label) {
+                        let color = "#808080"; // Default gray
+
+                        if (label === "Call Quality") {
+                            if (value > 85) color = "#00c851";        // Green
+                            else if (value >= 80) color = "#ffbb33";  // Amber
+                            else color = "#ff4444";                   // Red
+                        } else if (label === "Monitoring") {
+                            if (value >= 100) color = "#00c851";       // Green
+                           else if (value >= 90 && value <= 99.9) color = "#ffbb33";  // Amber
+                            else color = "#ff4444";                   // Red
+                             
+                        } else if (label === "Feedback") {
+                            if (value > 90) color = "#00c851";        // Green
+                            else if (value >= 85) color = "#ffbb33";  // Amber
+                            else color = "#ff4444";                   // Red
+                        }
+
+                        let options = {
+                            chart: {
+                                type: 'radialBar',
+                                height: 200
+                            },
+                            plotOptions: {
+                                radialBar: {
+                                    hollow: {
+                                        size: '65%',
+                                    },
+                                    dataLabels: {
+                                        name: {
+                                            show: true,
+                                            fontSize: '16px',
+                                            color: '#fff'
+                                        },
+                                        value: {
+                                            show: true,
+                                            fontSize: '20px',
+                                            fontWeight: 600,
+                                            color: '#fff',
+                                            formatter: function (val) {
+                                                return val.toFixed(1) + '%';
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            fill: {
+                                colors: [color]
+                            },
+                            labels: [label],
+                            series: [value]
+                        };
+
+                        let chart = new ApexCharts(document.querySelector("#" + chartId), options);
+                        chart.render();
+                    }
+
+                    renderRadialChart(callChartId, callQuality, "Call Quality");
+                    renderRadialChart(monitoringChartId, monitoring, "Monitoring");
+                    renderRadialChart(feedbackChartId, feedback, "Feedback");
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", error);
+                $('#dashboardContainer').html('<p>Error loading dashboard</p>');
+            }
+        });
+    }
+
+      function GetMonitoring(event) {
+            var Program = $("#ProgramID").val();
+            var SubProgram = $("#SUBProgramID").val();
+            var filter = $("#ViewType").val();
+
+            console.log("Program: " + Program);
+            console.log("SubProgram: " + SubProgram);
+            console.log("Filter: " + filter);
+
+            $.ajax({
+                url: "/Admin/GetMonitoring",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
+                success: function (response) {
+                    console.log("Dashboard Data Loaded", response);
+
+                    if (!Array.isArray(response) || response.length === 0) {
+                        $("#Monitoring").html("<div class='text-danger'>No data found.</div>");
+                        return;
+                    }
+
+                    // Build table
+                   var html = `
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                             <th>Process</th>
+                            <th>Sub Process</th>
+                            <th>Target</th>
+                            <th>Actual</th>
+                            <th>Pending</th>
+                            <th>Performance</th>
+
+                        </tr>
+                    </thead>
+                        <tbody>
+    `;
+
+
+                    response.forEach(function (item) {
+                        var target = parseInt(item.Target);
+                        var actual = parseInt(item.Actual);
+                        var pending = parseInt(item.Pending);
+                        var percentage = (target > 0) ? (actual / target) * 100 : 0;
+                        var statusCircle = '';
+
+                        // Conditional formatting based on percentage
+                        if (percentage > 100) {
+                            statusCircle = "<span style='color:green;'>&#9679;</span>"; // Green
+                        } else if (percentage >= 90 && percentage <= 100) {
+                            statusCircle = "<span style='color:orange;'>&#9679;</span>"; // Amber
+                        } else {
+                            statusCircle = "<span style='color:red;'>&#9679;</span>"; // Red
+                        }
+
+                        html += `
+                            <tr>
+                               <td>${item.Process}</td>
+                                <td>${item.SubProcessName}</td>
+                                <td>${target}</td>
+                                <td>${actual}</td>
+                                <td>${pending}</td>
+                                <td>${percentage.toFixed(2)}%</td>
+
+                            </tr>
+                        `;
+                    });
+
+                        html += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+                    // Render the table
+                    $("#Monitoring").html(html);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading monitoring data:", error);
+                    $("#Monitoring").html("<div class='text-danger'>Error loading chart data.</div>");
+                }
+            });
+        }
+
+
+
+
+
+
+
+               function GetFeedback(event) {
+                  var Program = $("#ProgramID").val();
+                var SubProgram = $("#SUBProgramID").val();
+                var filter = $("#ViewType").val();
+
+                console.log("Program: " + Program);
+                console.log("SubProgram: " + SubProgram);
+                console.log("Filter: " + filter);
+
+                $.ajax({
+                        url: "/Admin/GetFeedback",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
+                    success: function (response) {
+                        console.log("Dashboard Data Loaded", response);
+
+                        if (!Array.isArray(response) || response.length === 0) {
+                                $("#Feedback").html("<div class='text-danger'>No data found.</div>");
+                            return;
+                        }
+
+                        // Build table
+                       var html = `
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                              <th>Process</th>
+                                <th>Sub Process</th>
+                                <th>Target</th>
+                                <th>Actual</th>
+                                <th>Pending</th>
+                                <th>Performance</th>
+
+                            </tr>
+                        </thead>
+                            <tbody>
+        `;
+
+
+                        response.forEach(function (item) {
+                            var target = parseInt(item.Target);
+                            var actual = parseInt(item.Actual);
+                            var pending = parseInt(item.Pending);
+                            var percentage = (target > 0) ? (actual / target) * 100 : 0;
+                            var statusCircle = '';
+
+                            // Conditional formatting based on percentage
+                            if (percentage > 100) {
+                                statusCircle = "<span style='color:green;'>&#9679;</span>"; // Green
+                            } else if (percentage >= 90 && percentage <= 100) {
+                                statusCircle = "<span style='color:orange;'>&#9679;</span>"; // Amber
+                            } else {
+                                statusCircle = "<span style='color:red;'>&#9679;</span>"; // Red
+                            }
+
+                            html += `
+                                <tr>
+                                  <td>${item.Process}</td>
+                                    <td>${item.SubProcessName}</td>
+                                    <td>${target}</td>
+                                    <td>${actual}</td>
+                                    <td>${pending}</td>
+                                    <td>${percentage.toFixed(2)}%</td>
+
+                                </tr>
+                            `;
+                        });
+
+                            html += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+                        // Render the table
+                            $("#Feedback").html(html);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error loading monitoring data:", error);
+                            $("#Feedback").html("<div class='text-danger'>Error loading chart data.</div>");
+                    }
+                });
+           }
+
+
+
+
+
+
+               function GetUpdateview(event) {
+            var Program = $("#ProgramID").val();
+            var SubProgram = $("#SUBProgramID").val();
+            var filter = $("#ViewType").val();
+
+            console.log("Program: " + Program);
+            console.log("SubProgram: " + SubProgram);
+            console.log("Filter: " + filter);
+
+            $.ajax({
+                url: "/Admin/GetUpdateview",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
+                success: function (response) {
+                    console.log("Dashboard Data Loaded data DataView ", response);
+
+                    if (!Array.isArray(response) || response.length === 0) {
+                        $("#Updateview").html("<div class='text-danger'>No data found.</div>");
+                        return;
+                    }
+
+                    // Build table
+                    var html = `
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Updated ID</th>
+                                            <th>Subject</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                    `;
+
+                    response.forEach(function (item) {
+                        html += `
+                            <tr>
+                                <td>${item.EmpName}</td>
+                                <td>${item.Subject}</td>
+                            </tr>
+                        `;
+                    });
+
+                    html += `
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+
+                    // Render the table
+                    $("#Updateview").html(html);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading Update data:", error);
+                    $("#Updateview").html("<div class='text-danger'>Error loading chart data.</div>");
+                }
+            });
+        }
+
+
+
+            function onProgramChange() {
+               var programId = document.getElementById("ProgramID").value;
+
+
+               if (programId == "") {
+                   alert("Please Select Program first");
+                   return;
+               }
+               $.ajax({
+                   type: "POST",
+                   data: JSON.stringify({ id: programId }),
+
+                   url: "/Admin/GetSUBProcessList",
+                   contentType: "application/json; charset=utf-8",
+                   dataType: "json",
+                   success: function (response) {
+
+                       var dropdown = $('#SUBProgramID');
+                       dropdown.empty();
+                       dropdown.append('<option value="">Select Sub Process</option>');
+                       response.proces.forEach(function (item) {
+                           dropdown.append('<option value="' + item.value + '">' + item.text.split(',')[0] + '</option>');
+                       });
+                   },
+                   error: function (xhr, status, error) {
+                       console.error("Error occurred: " + error);
+                   }
+               });
+
+           }
+
+
+            function onSubProgramChange() {
+               const selectedValue = $('#SUBProgramID').val();
+               if (selectedValue === '') {
+                   alert('Please select a valid Sub Program Name.');
+                   return;
+               }
+
+               $.ajax({
+                   type: "POST",
+                   url: "/UpdateManagement/TLList",
+                   contentType: "application/json; charset=utf-8",
+                   dataType: "json",
+                   data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
+                   success: function (response) {
+                       const data = response.agentTlList;
+                       $("#agentListContainer, #tlListContainer").show();
+                       $("#agentListContainer .card-body").find("div.checkbox-wrapper").remove();
+                       $("#tlListContainer .card-body").find("div.checkbox-wrapper").remove();
+
+                       let uniqueTLs = {};
+
+                       data.forEach(function (row, index) {
+                           $('#agentListContainer .card-body').append(
+                               `<div class="checkbox-wrapper" style="margin-bottom: 6px; display: flex; align-items: center;">
+                                   <input type="checkbox" id="agent_${index}" value="${row.empCode}" data-email="${row.empemails}" style="margin-right: 8px; transform: scale(1.2);" />
+                                   <label for="agent_${index}" style="font-size: 15px;margin-top: 12px;margin-left: 13px; font-weight: 500;">${row.empName}</label>
+                                                          </div>`
+                           );
+
+                           if (!uniqueTLs[row.tL_Code]) {
+                               uniqueTLs[row.tL_Code] = row.tL_Name;
+                               $('#tlListContainer .card-body').append(
+                                   `<div class="checkbox-wrapper" style="margin-bottom: 6px; display: flex; align-items: center;">
+                                       <input type="checkbox" id="tl_${row.tL_Code}" value="${row.tL_Code}" data-email="${row.tlemail}" style="margin-right: 8px; transform: scale(1.2);" />
+                                       <label for="tl_${row.tL_Code}" style="font-size: 15px;margin-top: 12px;margin-left: 13px; font-weight: 500;">${row.tL_Name}</label>
+                                                                    </div>`
+                               );
+                           }
+                       });
+                   },
+                   error: function (xhr, status, error) {
+                       console.error("Error occurred: " + error);
+                   }
+               });
+           }
+
+
+
+        // // // // // //     $(document).ready(function () {
+        // // // // // //     let uploadedMailData = null;
+        // // // // // //     let selectedFile = null;
+
+        // // // // // //     $(document).on('click', '#selectAllAgents', function () {
+        // // // // // //         let checkboxes = $('#agentListContainer .card-body input[type="checkbox"]');
+        // // // // // //         let allChecked = checkboxes.length === checkboxes.filter(':checked').length;
+
+        // // // // // //         checkboxes.prop('checked', !allChecked);
+
+
+        // // // // // //         if (!allChecked) {
+        // // // // // //             $(this).text('Unselect All');
+        // // // // // //             GetAllAgnetCQPerformance();
+        // // // // // //         } else {
+        // // // // // //             $(this).text('Select All');
+        // // // // // //         }
+        // // // // // //     });
+        // // // // // // });
+
+
+
+               // Handle individual checkbox click
+    $(document).on('click', '#agentListContainer .card-body input[type="checkbox"]', function () {
+        let checkboxes = $('#agentListContainer .card-body input[type="checkbox"]');
+        let allChecked = checkboxes.length === checkboxes.filter(':checked').length;
+
+        // Update button text depending on selection
+        $('#selectAllAgents').text(allChecked ? 'Unselect All' : 'Select All');
+
+        // Collect selected agent values
+        let selectedAgents = checkboxes.filter(':checked').map(function () {
+            return $(this).val();
+        }).get();
+          console.log("selevct all agentTlList all  ",selectedAgents);
+        // Call the performance function
+        GetAllAgnetCQPerformance();
+        bindthecheckAgentcheckboxlist(selectedAgents)
+        console.log("Selected Agents (Individual Click):", selectedAgents);
+    });
+
+
+
+
+
+
+
+
+               function GetAllAgnetCQPerformance(event) {
+            var Program = $("#ProgramID").val();
+            var SubProgram = $("#SUBProgramID").val();
+
+            console.log("Program: " + Program);
+            console.log("SubProgram: " + SubProgram);
+
+            $.ajax({
+                url: "/Admin/GetAllAgnetCQPerformance",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ Program: Program, SubProgram: SubProgram }),
+                success: function (response) {
+                    console.log("Dashboard Data Loaded", response);
+
+                    if (!Array.isArray(response) || response.length === 0) {
+                        console.warn("No data to display");
+                        return;
+                    }
+
+                    const empNames = response.map(item => item.EmpName);
+                    const scores = response.map(item => item.Percentage_Score);
+
+                    // Destroy previous chart if exists
+                    if (typeof columnChart !== 'undefined') {
+                        columnChart.destroy();
+                    }
+
+                    var dynamicChartOptions = {
+                        series: [{
+                            name: 'Performance %',
+                            data: scores
+                        }],
+                        chart: {
+                            type: "bar",
+                            height: 400,
+                            toolbar: {
+                                show: false
+                            },
+                            animations: {
+                                enabled: true,
+                                easing: 'easeOutBounce',
+                                speed: 1000,
+                                animateGradually: {
+                                    enabled: true,
+                                    delay: 200
+                                },
+                                dynamicAnimation: {
+                                    enabled: true,
+                                    speed: 300
+                                }
+                            },
+                            background: "#1F2233"
+                        },
+                        dataLabels: {
+                            enabled: true,
+                            formatter: function (val) {
+                                return val + " %";
+                            },
+                            style: {
+                                colors: ["#ffffff"], // Change to "#000000" for light background
+                                fontSize: '13px',
+                                fontWeight: 'bold'
+                            },
+                            offsetY: -6
+                        },
+                        theme: {
+                            mode: "light"
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                columnWidth: "35%",
+                                borderRadius: 10
+                            }
+                        },
+                        xaxis: {
+                            categories: empNames,
+                            title: {
+                                text: 'Employee Name',
+                                style: {
+                                    color: "#f0eee9"
+                                }
+                            },
+                            labels: {
+                                style: {
+                                    fontSize: "12px",
+                                    fontWeight: 500,
+                                    colors: "#f0eee9",
+                                    fontFamily: "Segoe UI, sans-serif"
+                                }
+                            },
+                            axisBorder: {
+                                show: false
+                            },
+                            axisTicks: {
+                                show: false
+                            }
+                        },
+                        yaxis: {
+                            max: 100,
+                            title: {
+                                text: 'Percentage Score',
+                                style: {
+                                    color: "#f0eee9"
+                                }
+                            },
+                            labels: {
+                                style: {
+                                    fontSize: "12px",
+                                    fontWeight: 500,
+                                    colors: "#f0eee9",
+                                    fontFamily: "Segoe UI, sans-serif"
+                                }
+                            }
+                        },
+                        fill: {
+                            opacity: 1,
+                            colors: ["#145e78"]
+                        },
+                        grid: {
+                            borderColor: "#1F2233",
+                            strokeDashArray: 4,
+                            xaxis: {
+                                lines: {
+                                    show: false
+                                }
+                            },
+                            yaxis: {
+                                lines: {
+                                    show: true
+                                }
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 10,
+                                left: 0,
+                                right: 0
+                            }
+                        },
+                        title: {
+                            text: 'CQ Performance',
+                            align: 'center',
+                            style: {
+                                fontSize: '18px',
+                                fontWeight: 'bold',
+                                color: '#f0eee9'
+                            }
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function (val) {
+                                    return val + " %";
+                                }
+                            }
+                        },
+                        responsive: [{
+                            breakpoint: 480,
+                            options: {
+                                chart: {
+                                    height: 300
+                                },
+                                plotOptions: {
+                                    bar: {
+                                        columnWidth: "60%"
+                                    }
+                                },
+                                xaxis: {
+                                    labels: {
+                                        style: {
+                                            fontSize: "10px"
+                                        }
+                                    }
+                                }
+                            }
+                        }]
+                    };
+
+                    columnChart = new ApexCharts(document.querySelector("#columnCharts"), dynamicChartOptions);
+                    columnChart.render();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading dashboard: ", error);
+                }
+            });
+        }
+
+
+
+         document.getElementById('ViewType').addEventListener('change', function () {
+        // Hide all pickers first
+        document.getElementById('dayPicker').style.display = 'none';
+        document.getElementById('monthPicker').style.display = 'none';
+        document.getElementById('weekPicker').style.display = 'none';
+
+        // Show the selected picker
+        const value = this.value;
+        if (value === 'day') {
+            document.getElementById('dayPicker').style.display = 'block';
+        } else if (value === 'month') {
+            document.getElementById('monthPicker').style.display = 'block';
+        } else if (value === 'week') {
+            document.getElementById('weekPicker').style.display = 'block';
+        }
+    });
+
+
+
+    //////////////////////////////////////////
+    //     function bindthecheckAgentcheckboxlist(selectedAgents) {
+    //     $.ajax({
+    //         url: '/UpdateManagement/AgentList', // replace with your actual controller route
+    //         type: 'POST',
+    //         contentType: 'application/json',
+    //         data: JSON.stringify({
+    //             agentTlList: selectedAgents // backend expects { agentTlList: [...] }   
+    //         }),
+    //         success: function (response) {
+    //             let agentList = response.agentTlList;
+    //             let container = $('#agentListContainer1 .card-body');
+    //             container.empty(); // Clear existing checkboxes
+    //            console.log("Agent list ", agentList);
+
+    //             if (!agentList || agentList.length === 0) {
+    //                 container.append('<p>No agents found.</p>');
+    //                 return;
+    //             }
+
+    //             agentList.forEach(function (agent) {
+    //                 // Replace AgentID and AgentName with your actual property names from the backend
+    //                 let agentId = agent.AgentID || agent.id || agent.agentId;
+    //                 let agentName = agent.EmpName || agent.name || agent.EmpName;
+
+    //                 let isChecked = selectedAgents.includes(agentId);
+
+    //                 let checkboxHtml = `
+    //                     <div class="form-check">
+    //                         <input type="checkbox" class="form-check-input"
+    //                                value="${agentId}" id="agent_${agentId}" ${isChecked ? 'checked' : ''}>
+    //                         <label class="form-check-label" for="agent_${agentId}">${EmpName}</label>
+    //                     </div>`;
+    //                 container.append(checkboxHtml);
+    //             });
+
+    //             $('#agentListContainer1').show(); // Show container after binding
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error("Error loading agent list:", error);
+    //         }
+    //     });
+    // }
+
+
+        function bindthecheckAgentcheckboxlist(selectedAgents) {
+        $.ajax({
+            url: '/UpdateManagement/AgentList',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ agentTlList: selectedAgents }),
+            success: function (response) {
+                let agentList = response.agentTlList;
+                let container = $('#agentListContainer1 .card-body');
+                container.empty();
+
+                console.log("Agent list ", agentList);
+
+                if (!agentList || agentList.length === 0) {
+                    container.append('<p>No agents found.</p>');
+                    return;
+                }
+
+                agentList.forEach(function (agent) {
+                    let agentId = agent.empCode;
+                    let agentName = agent.empName;
+                    let isChecked = selectedAgents.includes(agentId);
+
+                    let checkboxHtml = `
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input"
+                                   value="${agentId}" id="agent_${agentId}" ${isChecked ? 'checked' : ''}>
+                            <label class="form-check-label" for="agent_${agentId}">${agentName}</label>
+                        </div>`;
+                    container.append(checkboxHtml);
+                });
+
+                $('#agentListContainer1').show();
+            },
+            error: function (xhr, status, error) {
+                console.error("Error loading agent list:", error);
+            }
+        });
+    }
+
+
+
+    ////////////////////////////
+
+</script>

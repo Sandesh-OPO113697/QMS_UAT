@@ -1049,7 +1049,8 @@ namespace QMS.DataBaseService
                         Comment5 = row["Comment 5"]?.ToString(),
                         SixReview = row["6th Review"]?.ToString(),
                         Comment6 = row["Comment 6"]?.ToString(),
-                        CoachingStatus = row["CoachingStatus"]?.ToString()
+                        CoachingStatus = row["CoachingStatus"]?.ToString(),
+                        Initieated = row["CreatedBy"]?.ToString()
                     };
 
                     list.Add(model);

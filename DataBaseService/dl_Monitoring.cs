@@ -38,6 +38,35 @@ namespace QMS.DataBaseService
             _dcl = dL;
             _admin = adam;
         }
+
+
+        public async Task<DataTable> GetMonitorDashboard(SearchDashboard id)
+        {
+            string query = "usp_GetCallAuditSummary";
+            var dataTable = new DataTable();
+
+            using (var connection = new SqlConnection(UserInfo.Dnycon))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ViewType", id.Filter ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@ProgramID", id.Program ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@SubProgramID", id.SubProgram ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Select", id.selectedDate ?? (object)DBNull.Value);
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        dataTable.Load(reader);
+                    }
+                }
+            }
+
+            return dataTable;
+        }
+
+
         public async Task<DataTable> TestviewDetails(int TestID)
         {
             DataTable dt = new DataTable();
@@ -165,7 +194,6 @@ namespace QMS.DataBaseService
                 return null;
             }
         }
-
 
         private List<AuditRecord> ProcessLogs(List<AuditEntry> logs)
         {

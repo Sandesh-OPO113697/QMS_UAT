@@ -64,5 +64,37 @@ namespace QMS.Controllers
        
             return Json(new { agentTlList  = list });
         }
+
+        public async Task<IActionResult> TLList([FromBody] Process_SUbProcess id)
+        {
+            List<object> list = await dl_udm.GetTLList(id.ProcessID, id.SUBProcessID);
+
+            return Json(new { agentTlList = list });
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AgentList([FromBody] AgentRequest request)
+        {
+            try
+            {
+                if (request?.agentTlList == null || !request.agentTlList.Any())
+                {
+                    return Json(new { agentTlList = new List<object>() });
+                }
+
+                // Call the data access method (pass the full request object)
+                List<object> list = await dl_udm.GetAgentList(request);
+
+                return Json(new { agentTlList = list });
+            }
+            catch (Exception ex)
+            {
+                // Optional: use logging here (e.g., ILogger)
+                return StatusCode(500, new { error = "Internal server error", details = ex.Message });
+            }
+        }
+
+
     }
 }

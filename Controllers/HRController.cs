@@ -139,24 +139,24 @@ namespace QMS.Controllers
                         break;
 
                     case "month":
-                        var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
-                        var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+                        //var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
+                        //var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
 
-                        baseListZtHrCase = baseListZtHrCase
-                            .Where(x => DateTime.TryParse(x.TransactionDate, out var date) &&
-                                        date.Date >= firstDayOfMonth && date.Date <= lastDayOfMonth)
-                            .ToList();
+                        //baseListZtHrCase = baseListZtHrCase
+                        //    .Where(x => DateTime.TryParse(x.TransactionDate, out var date) &&
+                        //                date.Date >= firstDayOfMonth && date.Date <= lastDayOfMonth)
+                        //    .ToList();
 
-                        baseListZTcaseModel = baseListZTcaseModel
-                            .Where(x => DateTime.TryParse(x.ZTRaisedDate, out var date) &&
-                                        date.Date >= firstDayOfMonth && date.Date <= lastDayOfMonth)
-                            .ToList();
+                        //baseListZTcaseModel = baseListZTcaseModel
+                        //    .Where(x => DateTime.TryParse(x.ZTRaisedDate, out var date) &&
+                        //                date.Date >= firstDayOfMonth && date.Date <= lastDayOfMonth)
+                        //    .ToList();
 
-                        baseListCouchingPIP = baseListCouchingPIP
-                            .Where(x => DateTime.TryParse(x.Createddate, out var date) &&
-                                        date.Date >= firstDayOfMonth && date.Date <= lastDayOfMonth)
-                            .ToList();
-                        break;
+                        //baseListCouchingPIP = baseListCouchingPIP
+                        //    .Where(x => DateTime.TryParse(x.Createddate, out var date) &&
+                        //                date.Date >= firstDayOfMonth && date.Date <= lastDayOfMonth)
+                        //    .ToList();
+                        //break;
 
                     default:
 

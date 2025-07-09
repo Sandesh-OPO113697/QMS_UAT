@@ -185,9 +185,16 @@ namespace QMS.Controllers
                     }
                     else if (UserInfo.UserType == "Monitor Supervsior")
                     {
-                        HttpContext.Session.SetString("UserType", "QA Manager");
-                        return RedirectToAction("Dashboard", "Admin");
+                        HttpContext.Session.SetString("UserType", "Monitor Supervsior");
+                        return RedirectToAction("Dashboard", "MonitorSupervsior");
                     }
+
+                    else if (UserInfo.UserType == "Monitor")
+                    {
+                        HttpContext.Session.SetString("UserType", "QA Manage");
+                        return RedirectToAction("Dashboard", "Monitor");
+                    }
+
                     else if (UserInfo.UserType == "Operation Manager")
                     {
                         HttpContext.Session.SetString("UserType", "AccountUser");

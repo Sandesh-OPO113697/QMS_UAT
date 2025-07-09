@@ -86,8 +86,6 @@ namespace QMS.DataBaseService
                 return false;
             }
 
-
-
         }
         public async Task<List<object>> GetTLAndAgentList(int ProcessID ,  int SubProcessID)
         {
@@ -137,6 +135,118 @@ namespace QMS.DataBaseService
             return list;
 
         }
+
+
+
+        public async Task<List<object>> GetTLList(int ProcessID, int SubProcessID)
+        {
+
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("UpdateManagement", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Operation", "GetTlList");
+                        cmd.Parameters.AddWithValue("@ProgramID", ProcessID);
+                        cmd.Parameters.AddWithValue("@SubProcessID", SubProcessID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        adpt.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            var list = new List<object>();
+            foreach (DataRow row in dt.Rows)
+            {
+                string empCode = row["TL_Code"].ToString();
+                string tlCode = row["TL_Code"].ToString();
+
+                // Fetch emails using a new method (assuming it returns a tuple or dictionary)
+                var emails = await GetEmailsByEmpAndTl(empCode, tlCode);
+
+                list.Add(new
+                {
+                    EmpCode = empCode,
+                    EmpName = row["TL_Code"].ToString(),
+                    TL_Code = tlCode,
+                    //TL_Name = row["TL_Name"].ToString(),
+                    //empemails = emails.EmpEmail,
+                    //tlemail = emails.TLEmail
+                });
+            }
+
+            return list;
+
+        }
+
+
+
+
+        public async Task<List<object>> GetAgentList(AgentRequest request)
+        {
+            DataTable dt = new DataTable();
+            var resultList = new List<object>();
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await con.OpenAsync();
+
+                    foreach (string agentId in request.agentTlList)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("UpdateManagement", con))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Operation", "GetAgentList");
+                            cmd.Parameters.AddWithValue("@EmpCode", agentId); // Assuming this param is expected
+
+                            SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                            DataTable tempDt = new DataTable();
+                            adpt.Fill(tempDt);
+
+                            foreach (DataRow row in tempDt.Rows)
+                            {
+                                string empCode = row["EmpName"]?.ToString();
+                                string tlCode = row["EmpName"]?.ToString();
+
+                                // Optional: Fetch emails
+                                // var emails = await GetEmailsByEmpAndTl(empCode, tlCode);
+
+                                resultList.Add(new
+                                {
+                                    EmpCode = empCode,
+                                    EmpName = row["EmpName"]?.ToString(),
+                                    TL_Code = tlCode,
+                                    TL_Name = row["EmpName"]?.ToString()
+
+                                    // Uncomment if email support is ready
+                                    // EmpEmail = emails.EmpEmail,
+                                    // TLEmail = emails.TLEmail
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle/log error (optionally throw)
+                Console.WriteLine("Error in GetAgentList: " + ex.Message);
+            }
+
+            return resultList;
+        }
+
+
 
         public async Task<(string EmpEmail, string TLEmail)> GetEmailsByEmpAndTl(string empCode, string tlCode)
         {

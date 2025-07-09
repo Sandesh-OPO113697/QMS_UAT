@@ -32,6 +32,21 @@
                     </select>
                 </div>
 
+                <div class="form-group col-md-4" id="dayPicker" style="display:none;">
+                    <label for="dayInput">Select Day</label>
+                    <input type="date" id="dayInput" class="form-control" />
+                </div>
+
+                <div class="form-group col-md-4" id="monthPicker" style="display:none;">
+                    <label for="monthInput">Select Month</label>
+                    <input type="month" id="monthInput" class="form-control" />
+                </div>
+
+                <div class="form-group col-md-4" id="weekPicker" style="display:none;">
+                    <label for="weekInput">Select Week</label>
+                    <input type="week" id="weekInput" class="form-control" />
+                </div>
+
                 <div class="col-md-2">
                     <div class="form-group mb-3">
                         <button id="SaveForm" class="btn btn-primary mt-4" onclick="GetDashBoard(this);GetDashBoardMonitoring(event);">Search</button>
@@ -64,7 +79,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-header" style="cursor: pointer;" data-toggle="collapse" data-target="#ztCaseTable23" aria-expanded="false" aria-controls="ztCaseTable23">
-        <strong class="card-title">Pending Zt Case Panel</strong>
+        <strong class="card-title">ZT Pending</strong>
     </div>
     <div id="ztCaseTable23" class="card-body collapse">
         <!-- Horizontal scroll wrapper -->
@@ -77,11 +92,11 @@
                         <th>AgentName</th>
                         <th>EmployeeID</th>
                         <th>AgentSupervsor</th>
-                        <th>ZTRaisedBy</th>
-                        <th>ZTRaisedDate</th>
-                        <th>TransactionDate</th>
-                        <th>ZTClassification</th>
-                        <th>TransactionID</th>
+                        <th>Raied on</th>
+                        <th style="display:none">ZTRaisedDate</th>
+                        <th style="display:none">TransactionDate</th>
+                        <th style="display:none">ZTClassification</th>
+                        <th style="display:none">TransactionID</th>
                         <th>View</th>
                     </tr>
                 </thead>
@@ -140,11 +155,11 @@
                         <th>AgentName</th>
                         <th>EmployeeID</th>
                         <th>AgentSupervsor</th>
-                        <th>ZTRaisedBy</th>
-                        <th>ZTRaisedDate</th>
-                        <th>TransactionDate</th>
-                        <th>ZTClassification</th>
-                        <th>TransactionID</th>
+                        <th>Raied on</th>
+                        <th style="display:none">ZTRaisedDate</th>
+                        <th style="display:none">TransactionDate</th>
+                        <th style="display:none">ZTClassification</th>
+                        <th style="display:none">TransactionID</th>
                         <th>View</th>
                     </tr>
                 </thead>
@@ -294,10 +309,10 @@
                         <td>${item.employeeID}</td>
                         <td>${item.agentSupervsor}</td>
                         <td>${item.ztRaisedBy}</td>
-                        <td>${item.ztRaisedDate}</td>
-                        <td>${item.transactionDate}</td>
-                        <td>${item.ztClassification}</td>
-                        <td>${item.transactionID}</td>
+                        <td style="display:none>${item.ztRaisedDate}</td>
+                        <td style="display:none>${item.transactionDate}</td>
+                        <td style="display:none>${item.ztClassification}</td>
+                        <td style="display:none>${item.transactionID}</td>
                         <td>
                             <a href="/Leadership/PanelCases?TransactionID=${item.transactionID}" class="btn btn-primary btn-sm">
                                 View
@@ -324,10 +339,10 @@
                         <td>${item.employeeID}</td>
                         <td>${item.agentSupervsor}</td>
                         <td>${item.ztRaisedBy}</td>
-                        <td>${item.ztRaisedDate}</td>
-                        <td>${item.transactionDate}</td>
-                        <td>${item.ztClassification}</td>
-                        <td>${item.transactionID}</td>
+                        <td style="display:none>${item.ztRaisedDate}</td>
+                        <td style="display:none>${item.transactionDate}</td>
+                        <td style="display:none>${item.ztClassification}</td>
+                        <td style="display:none>${item.transactionID}</td>
                         <td>
                             <a href="/HR/HrZtCases?TransactionID=${item.transactionID}" class="btn btn-primary btn-sm">
                                 View
@@ -402,137 +417,305 @@
 
 
 
+       // function GetDashBoardMonitoring(event) {
+       //     var Program = $("#ProgramID").val();
+       //     var SubProgram = $("#SUBProgramID").val();
+       //     var filter = $("#ViewType").val();
+
+       //     console.log("Program: " + Program);
+       //     console.log("SubProgram: " + SubProgram);
+       //     console.log("Filter: " + filter);
+
+       //     $.ajax({
+       //         url: "/Admin/Getdashboad",
+       //         type: "POST",
+       //         contentType: "application/json",
+       //         data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
+       //         success: function (response) {
+       //             $('#dashboardContainer').empty();
+
+       //             let data = typeof response === 'string' ? JSON.parse(response) : response;
+
+       //             if (!Array.isArray(data) || data.length === 0) {
+       //                 $('#dashboardContainer').html('<p>No data found</p>');
+       //                 return;
+       //             }
+
+       //             data.forEach(function (item, index) {
+       //                 let callQuality = parseFloat((item["Call Quality"] || "0").replace('%', ''));
+       //                 let monitoring = parseFloat((item["Monitoring"] || "0").replace('%', ''));
+       //                 let feedback = parseFloat((item["Feedback"] || "0").replace('%', ''));
+
+       //                 let callChartId = `callQualityChart_${index}`;
+       //                 let monitoringChartId = `monitoringChart_${index}`;
+       //                 let feedbackChartId = `feedbackChart_${index}`;
+
+       //                 let cardsHtml = `
+       //                     <div class="col-md-4 my-4">
+       //                         <div class="card shadow">
+       //                             <div class="card-body text-center">
+       //                                 <div id="${callChartId}"></div>
+       //                                 <div class="mt-3"><strong>Date:</strong> ${item["Period"]}</div>
+       //                             </div>
+       //                         </div>
+       //                     </div>
+       //                     <div class="col-md-4 my-4">
+       //                         <div class="card shadow">
+       //                             <div class="card-body text-center">
+       //                                 <div id="${monitoringChartId}"></div>
+       //                                 <div class="mt-3"><strong>Monitoring:</strong> ${item["Monitoring"]}</div>
+       //                             </div>
+       //                         </div>
+       //                     </div>
+       //                     <div class="col-md-4 my-4">
+       //                         <div class="card shadow">
+       //                             <div class="card-body text-center">
+       //                                 <div id="${feedbackChartId}"></div>
+       //                                 <div class="mt-3"><strong>Feedback:</strong> ${item["Feedback"]}</div>
+       //                             </div>
+       //                         </div>
+       //                     </div>
+       //                 `;
+
+       //                 $('#dashboardContainer').append(cardsHtml);
+
+       //                 // ?? Inline function with attractive color & white % text
+       //                 function renderRadialChart(chartId, value, label) {
+       //                     let color = "#808080";
+
+       //                     if (label === "Call Quality") {
+       //                         if (value > 85) color = "#00c851";       // Green
+       //                         else if (value >= 80) color = "#ffbb33"; // Amber
+       //                         else color = "#ff4444";                  // Red
+       //                     } else if (label === "Monitoring") {
+       //                         if (value > 100) color = "#00c851";
+       //                         else if (value >= 90) color = "#ffbb33";
+       //                         else color = "#ff4444";
+       //                     } else if (label === "Feedback") {
+       //                         if (value > 90) color = "#00c851";
+       //                         else if (value >= 85) color = "#ffbb33";
+       //                         else color = "#ff4444";
+       //                     }
+
+       //                     let options = {
+       //                         chart: {
+       //                             type: 'radialBar',
+       //                             height: 200
+       //                         },
+       //                         plotOptions: {
+       //                             radialBar: {
+       //                                 hollow: {
+       //                                     size: '65%',
+       //                                 },
+       //                                 dataLabels: {
+       //                                     name: {
+       //                                         show: true,
+       //                                         fontSize: '16px',
+       //                                         color: '#fff'
+       //                                     },
+       //                                     value: {
+       //                                         show: true,
+       //                                         fontSize: '20px',
+       //                                         fontWeight: 600,
+       //                                         color: '#fff',
+       //                                         formatter: function (val) {
+       //                                             return val.toFixed(1) + '%';
+       //                                         }
+       //                                     }
+       //                                 }
+       //                             }
+       //                         },
+       //                         fill: {
+       //                             colors: [color]
+       //                         },
+       //                         labels: [label],
+       //                         series: [value]
+       //                     };
+
+       //                     let chart = new ApexCharts(document.querySelector("#" + chartId), options);
+       //                     chart.render();
+       //                 }
+
+       //                 renderRadialChart(callChartId, callQuality, "Call Quality");
+       //                 renderRadialChart(monitoringChartId, monitoring, "Monitoring");
+       //                 renderRadialChart(feedbackChartId, feedback, "Feedback");
+       //             });
+       //         },
+       //         error: function (xhr, status, error) {
+       //             console.error("AJAX Error:", error);
+       //             $('#dashboardContainer').html('<p>Error loading dashboard</p>');
+       //         }
+       //     });
+       // }
+
+
        function GetDashBoardMonitoring(event) {
-           var Program = $("#ProgramID").val();
-           var SubProgram = $("#SUBProgramID").val();
-           var filter = $("#ViewType").val();
+        var Program = $("#ProgramID").val();
+        var SubProgram = $("#SUBProgramID").val();
+        var filter = $("#ViewType").val();
 
-           console.log("Program: " + Program);
-           console.log("SubProgram: " + SubProgram);
-           console.log("Filter: " + filter);
+         // Get selected input value based on the filter
+    var selectedDate = null;
 
-           $.ajax({
-               url: "/Admin/Getdashboad",
-               type: "POST",
-               contentType: "application/json",
-               data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
-               success: function (response) {
-                   $('#dashboardContainer').empty();
+    if (filter === "day") {
+        selectedDate = $("#dayInput").val();
+    } else if (filter === "month") {
+        selectedDate = $("#monthInput").val();
+    } else if (filter === "week") {
+        selectedDate = $("#weekInput").val();
+    }
 
-                   let data = typeof response === 'string' ? JSON.parse(response) : response;
+         console.log("Selected Date: " + selectedDate);
 
-                   if (!Array.isArray(data) || data.length === 0) {
-                       $('#dashboardContainer').html('<p>No data found</p>');
-                       return;
-                   }
+        console.log("Program: " + Program);
+        console.log("SubProgram: " + SubProgram);
+        console.log("Filter: " + filter);
 
-                   data.forEach(function (item, index) {
-                       let callQuality = parseFloat((item["Call Quality"] || "0").replace('%', ''));
-                       let monitoring = parseFloat((item["Monitoring"] || "0").replace('%', ''));
-                       let feedback = parseFloat((item["Feedback"] || "0").replace('%', ''));
+        $.ajax({
+            url: "/Monitor/Getdashboad",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter,selectedDate:selectedDate }),
+            success: function (response) {
+                $('#dashboardContainer').empty();
 
-                       let callChartId = `callQualityChart_${index}`;
-                       let monitoringChartId = `monitoringChart_${index}`;
-                       let feedbackChartId = `feedbackChart_${index}`;
+                let data = typeof response === 'string' ? JSON.parse(response) : response;
 
-                       let cardsHtml = `
-                           <div class="col-md-4 my-4">
-                               <div class="card shadow">
-                                   <div class="card-body text-center">
-                                       <div id="${callChartId}"></div>
-                                       <div class="mt-3"><strong>Date:</strong> ${item["Period"]}</div>
-                                   </div>
-                               </div>
-                           </div>
-                           <div class="col-md-4 my-4">
-                               <div class="card shadow">
-                                   <div class="card-body text-center">
-                                       <div id="${monitoringChartId}"></div>
-                                       <div class="mt-3"><strong>Monitoring:</strong> ${item["Monitoring"]}</div>
-                                   </div>
-                               </div>
-                           </div>
-                           <div class="col-md-4 my-4">
-                               <div class="card shadow">
-                                   <div class="card-body text-center">
-                                       <div id="${feedbackChartId}"></div>
-                                       <div class="mt-3"><strong>Feedback:</strong> ${item["Feedback"]}</div>
-                                   </div>
-                               </div>
-                           </div>
-                       `;
+                if (!Array.isArray(data) || data.length === 0) {
+                    $('#dashboardContainer').html('<p>No data found</p>');
+                    return;
+                }
 
-                       $('#dashboardContainer').append(cardsHtml);
+                data.forEach(function (item, index) {
+                    let callQuality = parseFloat((item["Call Quality"] || "0").replace('%', ''));
+                    let monitoring = parseFloat((item["Monitoring"] || "0").replace('%', ''));
+                    let feedback = parseFloat((item["Feedback"] || "0").replace('%', ''));
 
-                       // ?? Inline function with attractive color & white % text
-                       function renderRadialChart(chartId, value, label) {
-                           let color = "#808080";
+                    let callChartId = `callQualityChart_${index}`;
+                    let monitoringChartId = `monitoringChart_${index}`;
+                    let feedbackChartId = `feedbackChart_${index}`;
 
-                           if (label === "Call Quality") {
-                               if (value > 85) color = "#00c851";       // Green
-                               else if (value >= 80) color = "#ffbb33"; // Amber
-                               else color = "#ff4444";                  // Red
-                           } else if (label === "Monitoring") {
-                               if (value > 100) color = "#00c851";
-                               else if (value >= 90) color = "#ffbb33";
-                               else color = "#ff4444";
-                           } else if (label === "Feedback") {
-                               if (value > 90) color = "#00c851";
-                               else if (value >= 85) color = "#ffbb33";
-                               else color = "#ff4444";
-                           }
+                    let cardsHtml = `
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body text-center">
+                                    <div id="${callChartId}"></div>
 
-                           let options = {
-                               chart: {
-                                   type: 'radialBar',
-                                   height: 200
-                               },
-                               plotOptions: {
-                                   radialBar: {
-                                       hollow: {
-                                           size: '65%',
-                                       },
-                                       dataLabels: {
-                                           name: {
-                                               show: true,
-                                               fontSize: '16px',
-                                               color: '#fff'
-                                           },
-                                           value: {
-                                               show: true,
-                                               fontSize: '20px',
-                                               fontWeight: 600,
-                                               color: '#fff',
-                                               formatter: function (val) {
-                                                   return val.toFixed(1) + '%';
-                                               }
-                                           }
-                                       }
-                                   }
-                               },
-                               fill: {
-                                   colors: [color]
-                               },
-                               labels: [label],
-                               series: [value]
-                           };
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body text-center">
+                                    <div id="${monitoringChartId}"></div>
 
-                           let chart = new ApexCharts(document.querySelector("#" + chartId), options);
-                           chart.render();
-                       }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body text-center">
+                                    <div id="${feedbackChartId}"></div>
 
-                       renderRadialChart(callChartId, callQuality, "Call Quality");
-                       renderRadialChart(monitoringChartId, monitoring, "Monitoring");
-                       renderRadialChart(feedbackChartId, feedback, "Feedback");
-                   });
-               },
-               error: function (xhr, status, error) {
-                   console.error("AJAX Error:", error);
-                   $('#dashboardContainer').html('<p>Error loading dashboard</p>');
-               }
-           });
-       }
+                                </div>
+                            </div>
+                        </div>
+                    `;
 
+                    $('#dashboardContainer').append(cardsHtml);
+
+                    // Function to render radial chart based on label and value
+                    function renderRadialChart(chartId, value, label) {
+                        let color = "#808080"; // Default gray
+
+                        if (label === "Call Quality") {
+                            if (value > 85) color = "#00c851";        // Green
+                            else if (value >= 80) color = "#ffbb33";  // Amber
+                            else color = "#ff4444";                   // Red
+                        } else if (label === "Monitoring") {
+                            if (value >= 100) color = "#00c851";       // Green
+                           else if (value >= 90 && value <= 99.9) color = "#ffbb33";  // Amber
+                            else color = "#ff4444";                   // Red
+
+                        } else if (label === "Feedback") {
+                            if (value > 90) color = "#00c851";        // Green
+                            else if (value >= 85) color = "#ffbb33";  // Amber
+                            else color = "#ff4444";                   // Red
+                        }
+
+                        let options = {
+                            chart: {
+                                type: 'radialBar',
+                                height: 200
+                            },
+                            plotOptions: {
+                                radialBar: {
+                                    hollow: {
+                                        size: '65%',
+                                    },
+                                    dataLabels: {
+                                        name: {
+                                            show: true,
+                                            fontSize: '16px',
+                                            color: '#fff'
+                                        },
+                                        value: {
+                                            show: true,
+                                            fontSize: '20px',
+                                            fontWeight: 600,
+                                            color: '#fff',
+                                            formatter: function (val) {
+                                                return val.toFixed(1) + '%';
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            fill: {
+                                colors: [color]
+                            },
+                            labels: [label],
+                            series: [value]
+                        };
+
+                        let chart = new ApexCharts(document.querySelector("#" + chartId), options);
+                        chart.render();
+                    }
+
+                    renderRadialChart(callChartId, callQuality, "Call Quality");
+                    renderRadialChart(monitoringChartId, monitoring, "Monitoring");
+                    renderRadialChart(feedbackChartId, feedback, "Feedback");
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", error);
+                $('#dashboardContainer').html('<p>Error loading dashboard</p>');
+            }
+        });
+    }
+
+
+
+
+
+
+
+          document.getElementById('ViewType').addEventListener('change', function () {
+        // Hide all pickers first
+        document.getElementById('dayPicker').style.display = 'none';
+        document.getElementById('monthPicker').style.display = 'none';
+        document.getElementById('weekPicker').style.display = 'none';
+
+        // Show the selected picker
+        const value = this.value;
+        if (value === 'day') {
+            document.getElementById('dayPicker').style.display = 'block';
+        } else if (value === 'month') {
+            document.getElementById('monthPicker').style.display = 'block';
+        } else if (value === 'week') {
+            document.getElementById('weekPicker').style.display = 'block';
+        }
+    });
 
 </script>
 

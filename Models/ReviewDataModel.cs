@@ -24,5 +24,7 @@
         public string SixReview { get; set; }
         public string Comment6 { get; set; }
         public string CoachingStatus { get; set; }
+
+        public string Initieated { get; set; }
     }
 }

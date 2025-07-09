@@ -118,8 +118,8 @@
         <thead style="background-color: #333;">
             <tr>
                 <th style="padding: 10px; border: 1px solid #555;">Matrix</th>
-                <th style="padding: 10px; border: 1px solid #555;">Target</th>
-                <th style="padding: 10px; border: 1px solid #555;">Actual Performance</th>
+                <th style="padding: 10px; border: 1px solid #555;">Target/Goal</th>
+                <th style="padding: 10px; border: 1px solid #555;">Actual Performance(MTD)</th>
             </tr>
         </thead>
         <tbody>
@@ -136,52 +136,6 @@
 
 </div>
 
-<div class="card shadow mb-4">
-<div style="font-family:'Segoe UI',sans-serif;padding:40px;color:#ffffff;display:flex;justify-content:center;gap:40px;margin-top:40px;">
-
-    <!-- Calls MTD Circle Gauge -->
-    <div style="background-color:#2b2b3c;border-radius:12px;padding:30px;text-align:center;width:345px;box-shadow:0 6px 20px rgba(0,0,0,0.4);transition:transform 0.3s ease;">
-        <div style="font-size:18px;margin-bottom:20px;color:#ccc;">Calls Quality</div>
-        @{
-            var callPercent = @Model.monthlyData.Call_MTD;
-            var callStroke = callPercent > 85 ? "#00e676" : (callPercent >= 80 ? "#ffca28" : "#ff5252");
-            var callDash = 440 * (callPercent / 100.0);
-        }
-        <svg width="160" height="160" viewBox="0 0 160 160">
-            <circle cx="80" cy="80" r="70" stroke="#555" stroke-width="20" fill="none" />
-            <circle cx="80" cy="80" r="70" stroke="@callStroke" stroke-width="20" fill="none"
-                    stroke-dasharray="440" stroke-dashoffset="@((440 - callDash).ToString("F0"))"
-                    transform="rotate(-90 80 80)" stroke-linecap="round" />
-            <text x="80" y="90" text-anchor="middle" fill="@callStroke" font-size="24" font-weight="bold">
-                @Model.monthlyData.Call_MTD
-            </text>
-            <text x="80" y="115" text-anchor="middle" fill="#ccc" font-size="14">@callPercent%</text>
-        </svg>
-    </div>
-
-    <!-- Audits MTD Circle Gauge -->
-    <div style="background-color:#2b2b3c;border-radius:12px;padding:30px;text-align:center;width:345px;box-shadow:0 6px 20px rgba(0,0,0,0.4);transition:transform 0.3s ease;">
-        <div style="font-size:18px;margin-bottom:20px;color:#ccc;"># Of  Audits</div>
-        @{
-            var auditPercent = @Model.monthlyData.AuditMTD;
-            var auditStroke = auditPercent > 85 ? "#00e676" : (auditPercent >= 80 ? "#ffca28" : "#ff5252");
-            var auditDash = 440 * (auditPercent / 100.0);
-        }
-        <svg width="160" height="160" viewBox="0 0 160 160">
-            <circle cx="80" cy="80" r="70" stroke="#555" stroke-width="20" fill="none" />
-            <circle cx="80" cy="80" r="70" stroke="@auditStroke" stroke-width="20" fill="none"
-                    stroke-dasharray="440" stroke-dashoffset="@((440 - auditDash).ToString("F0"))"
-                    transform="rotate(-90 80 80)" stroke-linecap="round" />
-            <text x="80" y="90" text-anchor="middle" fill="@auditStroke" font-size="24" font-weight="bold">
-                @Model.monthlyData.AuditMTD
-            </text>
-            <text x="80" y="115" text-anchor="middle" fill="#ccc" font-size="14">@auditPercent%</text>
-        </svg>
-    </div>
-
-</div>
-
-</div>
 
 <div class="card shadow mb-4">
     <div class="card-header accordion-header">
@@ -191,7 +145,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Transaction ID</th>
+                    <th>Monitoring ID</th>
                     <th>Date</th>
                     <th>View</th>
                 </tr>
@@ -225,13 +179,13 @@
 <!-- Accordion Section: Agent Survey -->
 <div class="card shadow mb-4">
     <div class="card-header accordion-header">
-        <strong class="card-title">Pending Agent Survey Acknowledgement</strong>
+        <strong class="card-title"> Agent Survey </strong>
     </div>
     <div class="card-body accordion-body">
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Transaction ID</th>
+                    <th>Monitoring ID</th>
                     <th>Date</th>
                     <th>View</th>
                 </tr>
@@ -270,9 +224,9 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Test Name</th>
+                    <th>Assigned Test</th>
                     <th>Test Category</th>
-                    <th>Date</th>
+                    <th>To be Completed by Date</th>
                     <th>View</th>
                 </tr>
             </thead>
@@ -305,6 +259,55 @@
             </tbody>
         </table>
     </div>
+</div>
+
+
+
+<div class="card shadow mb-4">
+    <div style="font-family:'Segoe UI',sans-serif;padding:40px;color:#ffffff;display:flex;justify-content:center;gap:40px;margin-top:40px;">
+
+        <!-- Calls MTD Circle Gauge -->
+        <div style="background-color:#2b2b3c;border-radius:12px;padding:30px;text-align:center;width:345px;box-shadow:0 6px 20px rgba(0,0,0,0.4);transition:transform 0.3s ease;">
+            <div style="font-size:18px;margin-bottom:20px;color:#ccc;">Calls Quality</div>
+            @{
+                var callPercent = @Model.monthlyData.Call_MTD;
+                var callStroke = callPercent > 85 ? "#00e676" : (callPercent >= 80 ? "#ffca28" : "#ff5252");
+                var callDash = 440 * (callPercent / 100.0);
+            }
+            <svg width="160" height="160" viewBox="0 0 160 160">
+                <circle cx="80" cy="80" r="70" stroke="#555" stroke-width="20" fill="none" />
+                <circle cx="80" cy="80" r="70" stroke="@callStroke" stroke-width="20" fill="none"
+                        stroke-dasharray="440" stroke-dashoffset="@((440 - callDash).ToString("F0"))"
+                        transform="rotate(-90 80 80)" stroke-linecap="round" />
+                <text x="80" y="90" text-anchor="middle" fill="@callStroke" font-size="24" font-weight="bold">
+                    @Model.monthlyData.Call_MTD
+                </text>
+                <text x="80" y="115" text-anchor="middle" fill="#ccc" font-size="14">@callPercent%</text>
+            </svg>
+        </div>
+
+        <!-- Audits MTD Circle Gauge -->
+        <div style="background-color:#2b2b3c;border-radius:12px;padding:30px;text-align:center;width:345px;box-shadow:0 6px 20px rgba(0,0,0,0.4);transition:transform 0.3s ease;">
+            <div style="font-size:18px;margin-bottom:20px;color:#ccc;"># Of  Audits</div>
+            @{
+                var auditPercent = @Model.monthlyData.AuditMTD;
+                var auditStroke = auditPercent > 85 ? "#00e676" : (auditPercent >= 80 ? "#ffca28" : "#ff5252");
+                var auditDash = 440 * (auditPercent / 100.0);
+            }
+            <svg width="160" height="160" viewBox="0 0 160 160">
+                <circle cx="80" cy="80" r="70" stroke="#555" stroke-width="20" fill="none" />
+                <circle cx="80" cy="80" r="70" stroke="@auditStroke" stroke-width="20" fill="none"
+                        stroke-dasharray="440" stroke-dashoffset="@((440 - auditDash).ToString("F0"))"
+                        transform="rotate(-90 80 80)" stroke-linecap="round" />
+                <text x="80" y="90" text-anchor="middle" fill="@auditStroke" font-size="24" font-weight="bold">
+                    @Model.monthlyData.AuditMTD
+                </text>
+                <text x="80" y="115" text-anchor="middle" fill="#ccc" font-size="14">@auditPercent%</text>
+            </svg>
+        </div>
+
+    </div>
+
 </div>
 
 <!-- Modal Section: Sign-Off Details -->
@@ -362,7 +365,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Transaction ID</th>
+                    <th>Monitoring ID</th>
                     <th>Date</th>
                     <th>View</th>
                 </tr>
