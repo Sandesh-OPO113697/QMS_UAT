@@ -180,12 +180,18 @@ namespace QMS.Controllers
                 Text = $"{row["ProcessName"]}",
             }).ToList();
             ViewBag.ProcessList = processList;
-            var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+
+
+            var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync(processId, subProcessId);
+
+
             var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
             {
                 Value = row["ID"].ToString(),
                 Text = $"{row["Metric_RCA"]}",
             }).ToList();
+
+
             ViewBag.Routw_causeList = Routw_causeList;
             var getPredictive = await dl_FormBuilder.GetgetPredictive_Analysis();
             var getPredictiveList = getPredictive.AsEnumerable().Select(row => new SelectListItem
@@ -231,6 +237,8 @@ namespace QMS.Controllers
         }
         public async Task<IActionResult> CheckIsFormvaialableOrNot([FromBody] Process_SUbProcess id)
         {
+           
+
             int Result = await dl_FormBuilder.CheckIsFormCreatedInData(id);
             return Json(new { success = false, message = "Failed to Insert the field.", data = Result });
         }
@@ -246,8 +254,26 @@ namespace QMS.Controllers
         }
         public async Task<IActionResult> CheckIsFormCreated([FromBody] Process_SUbProcess id)
         {
-            int Result = await dl_FormBuilder.CheckIsFormCreatedInData(id);
-            return Json(new { success = false, message = "Failed to Insert the field.", data = Result });
+            var rootCause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync(id.ProcessID, id.SUBProcessID);
+
+            var rootCauseList = rootCause.AsEnumerable().Select(row => new
+            {
+                Value = row["ID"].ToString(),
+                Text = row["Metric_RCA"].ToString()
+            }).ToList();
+
+            int result = await dl_FormBuilder.CheckIsFormCreatedInData(id);
+
+            return Json(new
+            {
+                success = true,
+                message = "Data retrieved successfully.",
+                data = result,
+                rcaList = rootCauseList
+            });
+
+            // int Result = await dl_FormBuilder.CheckIsFormCreatedInData(id);
+            // return Json(new { success = false, message = "Failed to Insert the field.", data = Result });
         }
 
         [HttpPost]
@@ -282,10 +308,14 @@ namespace QMS.Controllers
         {
             object result;
 
+            //Rahul
+            int proces = 0; int Subprocess = 0;
+
             switch (type.ToLower())
             {
                 case "rootcause":
-                    var rootCauseData = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+                    var rootCauseData = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync(proces, Subprocess);
+
                     var rootCauseList = rootCauseData.AsEnumerable().Select(row => new SelectListItem
                     {
                         Value = row["ID"].ToString(),
@@ -529,7 +559,8 @@ namespace QMS.Controllers
 
                     var Rating = DynamicFeild.Rows[0]["Rating"].ToString().Split(',').Select(s => s.Trim()).ToList();
 
-                    var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+                    var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync(id.ProcessID, id.SUBProcessID);
+
                     var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
                     {
                         Value = row["ID"].ToString(),
@@ -656,7 +687,7 @@ namespace QMS.Controllers
                     var Predictive_Analysis = DynamicFeild.Rows[0]["Predictive_Analysis"].ToString().Split(',').Select(s => s.Trim()).ToList();
                     var ZT_Classification = DynamicFeild.Rows[0]["ZT_Classification"].ToString().Split(',').Select(s => s.Trim()).ToList();
                     var Rating = DynamicFeild.Rows[0]["Rating"].ToString().Split(',').Select(s => s.Trim()).ToList();
-                    var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+                    var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync(id.ProcessID, id.SUBProcessID);
                     var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
                     {
                         Value = row["ID"].ToString(),
@@ -733,7 +764,7 @@ namespace QMS.Controllers
                 Text = $"{row["ProcessName"]}",
             }).ToList();
             ViewBag.ProcessList = processList;
-            var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+            var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync(Convert.ToInt32(programId), Convert.ToInt32(subProgramId));
             var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
             {
                 Value = row["ID"].ToString(),
@@ -821,13 +852,19 @@ namespace QMS.Controllers
             //    Text = $"{row["fields_Value"]}",
             //}).ToList();
             //ViewBag.DynamicFields = DynamicFields;
-            var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync();
+
+            //Rahul
+            int proces = 0; int Subprocess = 0;
+
+           var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync(proces, Subprocess);
+
             var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
             {
                 Value = row["ID"].ToString(),
                 Text = $"{row["Metric_RCA"]}",
             }).ToList();
             ViewBag.Routw_causeList = Routw_causeList;
+
             var getPredictive = await dl_FormBuilder.GetgetPredictive_Analysis();
             var getPredictiveList = getPredictive.AsEnumerable().Select(row => new SelectListItem
             {

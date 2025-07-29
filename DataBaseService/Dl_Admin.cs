@@ -1040,83 +1040,93 @@ namespace QMS.DataBaseService
         }
         public async Task RemoveRoleAccess(string User, string UserName)
         {
-            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            try
             {
-                string processNameQuery = "sp_admin";
-                using (SqlCommand cmd = new SqlCommand(processNameQuery, con))
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@id", User);
-                    cmd.Parameters.AddWithValue("@UserName", UserName);
-                    cmd.Parameters.AddWithValue("@Mode", "RemoveRoleAcess");
+                    string processNameQuery = "sp_admin";
+                    using (SqlCommand cmd = new SqlCommand(processNameQuery, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@id", User);
+                        cmd.Parameters.AddWithValue("@UserName", UserName);
+                        cmd.Parameters.AddWithValue("@Mode", "RemoveRoleAcess");
 
-                    await con.OpenAsync();
-                    var result = await cmd.ExecuteScalarAsync();
+                        await con.OpenAsync();
+                        var result = await cmd.ExecuteScalarAsync();
 
+                    }
                 }
             }
+            catch(Exception ex)
+            { }
         }
 
         public async Task AssignRole(string User, string UserName, List<string> Selectedroled)
         {
-            await RemoveRoleAccess(User, UserName);
-            using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
+            try
             {
-                await con.OpenAsync();
-
-                foreach (string selectedProcess in Selectedroled)
+                await RemoveRoleAccess(User, UserName);
+                using (SqlConnection con = new SqlConnection(UserInfo.Dnycon))
                 {
-                    string[] ids = selectedProcess.Split('-');
-                    string processID = ids[0];
+                    await con.OpenAsync();
 
-
-                    string processNameQuery = "sp_admin";
-                    string processName = string.Empty;
-                    using (SqlCommand cmd = new SqlCommand(processNameQuery, con))
+                    foreach (string selectedProcess in Selectedroled)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@id", processID);
-                        cmd.Parameters.AddWithValue("@Mode", "AssignRole");
-                        var result = await cmd.ExecuteScalarAsync();
-                        processName = result?.ToString();
-                    }
+                        string[] ids = selectedProcess.Split('-');
+                        string processID = ids[0];
 
-                    if (!string.IsNullOrEmpty(processName))
-                    {
-                        string checkExistenceQuery = "sp_admin";
-                        int existingCount = 0;
-                        using (SqlCommand cmd = new SqlCommand(checkExistenceQuery, con))
+
+                        string processNameQuery = "sp_admin";
+                        string processName = string.Empty;
+                        using (SqlCommand cmd = new SqlCommand(processNameQuery, con))
                         {
-
-
-
                             cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.AddWithValue("@Mode", "User_Role_Mapping_Count");
-                            cmd.Parameters.AddWithValue("@id", User);
-                            cmd.Parameters.AddWithValue("@status", processID);
-
-
-                            var countResult = await cmd.ExecuteScalarAsync();
-                            existingCount = Convert.ToInt32(countResult);
+                            cmd.Parameters.AddWithValue("@id", processID);
+                            cmd.Parameters.AddWithValue("@Mode", "AssignRole");
+                            var result = await cmd.ExecuteScalarAsync();
+                            processName = result?.ToString();
                         }
 
-                        if (existingCount == 0)
+                        if (!string.IsNullOrEmpty(processName))
                         {
-                            string insertQuery = "InsertUserRoleMapping";
-                            using (SqlCommand cmd = new SqlCommand(insertQuery, con))
+                            string checkExistenceQuery = "sp_admin";
+                            int existingCount = 0;
+                            using (SqlCommand cmd = new SqlCommand(checkExistenceQuery, con))
                             {
+
+
+
                                 cmd.CommandType = CommandType.StoredProcedure;
-                                cmd.Parameters.AddWithValue("@Role_id", processID);
-                                cmd.Parameters.AddWithValue("@Role_Name", processName);
-                                cmd.Parameters.AddWithValue("@User_id", User);
-                                cmd.Parameters.AddWithValue("@UserName", UserName);
-                                cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
-                                await cmd.ExecuteNonQueryAsync();
+                                cmd.Parameters.AddWithValue("@Mode", "User_Role_Mapping_Count");
+                                cmd.Parameters.AddWithValue("@id", User);
+                                cmd.Parameters.AddWithValue("@status", processID);
+
+
+                                var countResult = await cmd.ExecuteScalarAsync();
+                                existingCount = Convert.ToInt32(countResult);
+                            }
+
+                            if (existingCount == 0)
+                            {
+                                string insertQuery = "InsertUserRoleMapping";
+                                using (SqlCommand cmd = new SqlCommand(insertQuery, con))
+                                {
+                                    cmd.CommandType = CommandType.StoredProcedure;
+                                    cmd.Parameters.AddWithValue("@Role_id", processID);
+                                    cmd.Parameters.AddWithValue("@Role_Name", processName);
+                                    cmd.Parameters.AddWithValue("@User_id", User);
+                                    cmd.Parameters.AddWithValue("@UserName", UserName);
+                                    cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
+                                    await cmd.ExecuteNonQueryAsync();
+                                }
                             }
                         }
                     }
                 }
             }
+            catch(Exception ex)
+            { }
         }
 
 
@@ -1350,6 +1360,11 @@ namespace QMS.DataBaseService
             DL_Encrpt encrypter = new DL_Encrpt();
             foreach (DataRow row in dt.Rows)
             {
+                //if (row["ID"] != DBNull.Value)
+                //{
+                //    row["ID"] = await _enc.DecryptAsync(row["ID"].ToString());
+                //}
+
                 if (row["Name"] != DBNull.Value)
                 {
                     row["Name"] = await _enc.DecryptAsync(row["Name"].ToString());

@@ -88,6 +88,36 @@ namespace QMS.DataBaseService
         }
 
 
+        public async Task<DataTable> getMatrixDetails(int processID, int SubprocessID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("GetMatrix", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+
+                        cmd.Parameters.AddWithValue("@processID", processID);
+                        cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+
 
         public async Task InsertCategoryUpload(string cagetory1, string cagetory2, string cagetory3, string cagetory4, string cagetory5, string processID, string SubProcesID)
         {
@@ -823,7 +853,7 @@ namespace QMS.DataBaseService
             }
             return dt;
         }
-        public async Task<DataTable> GetRoot_Cause_AnalysisAsync()
+        public async Task<DataTable> GetRoot_Cause_AnalysisAsync(int ProcessId , int subProcessId)
         {
             DataTable dt = new DataTable();
             try
@@ -838,6 +868,8 @@ namespace QMS.DataBaseService
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandTimeout = 0;
                         cmd.Parameters.AddWithValue("@Operation" , "getRouteCause");
+                        cmd.Parameters.AddWithValue("@processID", ProcessId);
+                        cmd.Parameters.AddWithValue("@SubprocessID", subProcessId);
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
                         await Task.Run(() => adpt.Fill(dt));
                     }

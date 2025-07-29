@@ -191,13 +191,29 @@
                             isChecked: isChecked
                         }),
                         success: function () {
-                                Swal.fire({
-                                  title: "Feature successfully assigned.",
-                                  icon: "success",
-                                  draggable: true,
-                                      timer: 4000, // 4000ms = 4 seconds
-                                      timerProgressBar: true
-                                });
+                                // Swal.fire({
+                                //   title: "Feature successfully assigned.",
+                                //   icon: "success",
+                                //   draggable: true,
+                                //       timer: 10000, // 4000ms = 4 seconds
+                                //       timerProgressBar: true
+                                // });
+
+                                    Swal.fire({
+        title: "Feature successfully assigned.",
+        icon: "success",
+        showConfirmButton: true,       // Show OK button
+        confirmButtonText: "OK",       // Label the button as OK
+        timer: 10000,                  // Auto-close after 10 seconds
+        timerProgressBar: true         // Show progress bar
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // This block runs when OK is clicked manually
+            console.log("Popup closed with OK");
+            // You can add any logic here if needed
+        }
+    });
+
 
                         },
                         error: function () {
@@ -254,15 +270,31 @@
                 success: function (response) {
                     if (response.success) {
                       
-                            Swal.fire({
-                              title: "Features submitted successfully!!",
-                              icon: "success",
-                              draggable: true,
-                                  timer: 4000, // 4000ms = 4 seconds
-                                timerProgressBar: true
-                            });
+                            // Swal.fire({
+                            //   title: "Features submitted successfully!!",
+                            //   icon: "success",
+                            //   draggable: true,
+                            //       timer: 4000, // 4000ms = 4 seconds
+                            //     timerProgressBar: true
+                            // });
+                                Swal.fire({
+        title: "Feature successfully assigned.",
+        icon: "success",
+        showConfirmButton: true,       // Show OK button
+        confirmButtonText: "OK",       // Label the button as OK
+        timer: 10000,                  // Auto-close after 10 seconds
+        timerProgressBar: true         // Show progress bar
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // This block runs when OK is clicked manually
+            console.log("Popup closed with OK");
+            // You can add any logic here if needed
+        }
+    });
+
+
                         console.log('Response:', response);
-                        location.reload();
+                       // location.reload();
                     } else {
                         alert('Failed to submit features. ' + response.message);
                     }

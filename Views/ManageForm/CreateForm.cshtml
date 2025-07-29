@@ -274,7 +274,7 @@
     <div class="card-body">
         <div class="row">
 
-            <div class="col-md-3">
+           @*  <div class="col-md-3">
                 <div class="form-group mb-3">
                     <label for="Field_Name">Metric RCA</label><span style="color:red">*</span>
 
@@ -282,6 +282,14 @@
 
                     <small class="text-danger d-none" id="nameError">Field Name is required.</small>
                 </div>
+            </div> *@
+
+            <div class="form-group mb-3">
+                <label for="Field_Name">Metric RCA</label><span style="color:red">*</span>
+                <select id="Field_Name" class="custom-select" required="required">
+                    <option value="">Select Metric RCA</option>
+                </select>
+                <small class="text-danger d-none" id="nameError">Field Name is required.</small>
             </div>
 
             <div class="col-md-2">
@@ -1092,84 +1100,169 @@
         });
 
     }
-    function onSubProgramChange() {
-           var subProgramId = document.getElementById("SUBProgramID").value;
-              var programId = document.getElementById("ProgramID").value;
+    // function onSubProgramChange() {
+    //        var subProgramId = document.getElementById("SUBProgramID").value;
+    //           var programId = document.getElementById("ProgramID").value;
 
 
-                if (subProgramId === "") {
-                    $("#Sectionfeild").hide();
-                    $("#Staticfeild").hide();
-                    $("#DynamicFeilds").hide();
-                    $("#Predictive_CSAT").hide();
-                     $("#ZT_Classification").hide();
-                      $("#Zero_tolerance_behaviour").hide();
-                            $("#Upload_Dispostition_List").hide();
-                             $("#Upload_Category_List").hide();
+    //             if (subProgramId === "") {
+    //                 $("#Sectionfeild").hide();
+    //                 $("#Staticfeild").hide();
+    //                 $("#DynamicFeilds").hide();
+    //                 $("#Predictive_CSAT").hide();
+    //                  $("#ZT_Classification").hide();
+    //                   $("#Zero_tolerance_behaviour").hide();
+    //                         $("#Upload_Dispostition_List").hide();
+    //                          $("#Upload_Category_List").hide();
 
-                    alert("Select Valid Sub Program");
-                     return ;
+    //                 alert("Select Valid Sub Program");
+    //                  return ;
 
+    //             } else {
+
+
+    //             }
+    //                    $.ajax({
+    //             type: "POST",
+    //             data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+    //             url: "/ManageForm/CheckIsFormCreated",
+    //             contentType: "application/json; charset=utf-8",
+    //             dataType: "json",
+    //             success: function (response) {
+
+    //                  if (response.data === 1) {
+
+    //                         window.location.href = `/ManageForm/EditForm?programId=${programId}&subProgramId=${subProgramId}`;
+    //                     } else {
+
+
+    //                             $.ajax({
+    //                                 type: "POST",
+    //                                 data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+    //                                 url: "/ManageForm/CheckIsFormReplicated",
+    //                                 contentType: "application/json; charset=utf-8",
+    //                                 dataType: "json",
+    //                                 success: function (response) {
+
+    //                                         if (response.data === 1) {
+    //                                              alert("This Form Is Already Replicated. Kindly Activate This Form.");
+    //                                              window.location.href = "/ManageForm/FormBuilder";
+
+    //                                         } else {
+    //                                                 $("#DynamicFeilds").show();
+    //                                                 $("#Sectionfeild").show();
+    //                                                 $("#Staticfeild").show();
+    //                                                 $("#ZT_Classification").show();
+
+    //                                                  $("#RatingDropDawon").show();
+    //                                                 //$("#Zero_tolerance_behaviour").show();
+    //                                                 $("#Predictive_CSAT").show();
+    //                                                   $("#Upload_Dispostition_List").show();
+    //                                                    $("#Upload_Category_List").show();
+
+    //                                         }
+    //                                 },
+    //                                 error: function (xhr, status, error) {
+    //                                     console.error("Error occurred: " + error);
+    //                                 }
+    //                             });
+
+    //                     }
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error("Error occurred: " + error);
+    //             }
+    //         });
+
+
+
+
+    // }
+
+
+           function onSubProgramChange() {
+        var subProgramId = document.getElementById("SUBProgramID").value;
+        var programId = document.getElementById("ProgramID").value;
+
+        // Hide all fields initially
+        $("#Sectionfeild").hide();
+        $("#Staticfeild").hide();
+        $("#DynamicFeilds").hide();
+        $("#Predictive_CSAT").hide();
+        $("#ZT_Classification").hide();
+        $("#Zero_tolerance_behaviour").hide();
+        $("#Upload_Dispostition_List").hide();
+        $("#Upload_Category_List").hide();
+
+        if (subProgramId === "") {
+            alert("Select Valid Sub Program");
+            return;
+        }
+
+        // First AJAX: Check if form is created
+        $.ajax({
+            type: "POST",
+            url: "/ManageForm/CheckIsFormCreated",
+            data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log("RCA List (JSON):", JSON.stringify(response.rcaList));
+
+                // Populate RCA Dropdown
+                const rcaDropdown = $("#Field_Name");
+                rcaDropdown.empty(); // Clear existing options
+                rcaDropdown.append('<option value="">Select Metric RCA</option>');
+
+                if (response.rcaList && response.rcaList.length > 0) {
+                    response.rcaList.forEach(item => {
+                        const value = item.value || item.Value;
+                        const text = item.text || item.Text;
+                        rcaDropdown.append(`<option value="${value}">${text}</option>`);
+                    });
+                }
+
+                // If form already exists, redirect to edit
+                if (response.data === 1) {
+                    window.location.href = `/ManageForm/EditForm?programId=${programId}&subProgramId=${subProgramId}`;
                 } else {
-
-
-                }
-                       $.ajax({
-                type: "POST",
-                data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
-                url: "/ManageForm/CheckIsFormCreated",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-
-                     if (response.data === 1) {
-
-                            window.location.href = `/ManageForm/EditForm?programId=${programId}&subProgramId=${subProgramId}`;
-                        } else {
-
-
-                                $.ajax({
-                                    type: "POST",
-                                    data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
-                                    url: "/ManageForm/CheckIsFormReplicated",
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    success: function (response) {
-
-                                            if (response.data === 1) {
-                                                 alert("This Form Is Already Replicated. Kindly Activate This Form.");
-                                                 window.location.href = "/ManageForm/FormBuilder";
-
-                                            } else {
-                                                    $("#DynamicFeilds").show();
-                                                    $("#Sectionfeild").show();
-                                                    $("#Staticfeild").show();
-                                                    $("#ZT_Classification").show();
-
-                                                     $("#RatingDropDawon").show();
-                                                    //$("#Zero_tolerance_behaviour").show();
-                                                    $("#Predictive_CSAT").show();
-                                                      $("#Upload_Dispostition_List").show();
-                                                       $("#Upload_Category_List").show();
-
-                                            }
-                                    },
-                                    error: function (xhr, status, error) {
-                                        console.error("Error occurred: " + error);
-                                    }
-                                });
-
+                    // Second AJAX: Check if form is replicated
+                    $.ajax({
+                        type: "POST",
+                        url: "/ManageForm/CheckIsFormReplicated",
+                        data: JSON.stringify({ ProcessID: programId, SUBProcessID: subProgramId }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.data === 1) {
+                                alert("This Form Is Already Replicated. Kindly Activate This Form.");
+                                window.location.href = "/ManageForm/FormBuilder";
+                            } else {
+                                // Show all relevant form fields
+                                $("#DynamicFeilds").show();
+                                $("#Sectionfeild").show();
+                                $("#Staticfeild").show();
+                                $("#ZT_Classification").show();
+                                $("#RatingDropDawon").show();
+                                $("#Predictive_CSAT").show();
+                                $("#Upload_Dispostition_List").show();
+                                $("#Upload_Category_List").show();
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error in CheckIsFormReplicated:", error);
                         }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error occurred: " + error);
+                    });
                 }
-            });
-
-
-
-
+            },
+            error: function (xhr, status, error) {
+                console.error("Error in CheckIsFormCreated:", error);
+            }
+        });
     }
+
+
+
 
     function addToGrid() {
 

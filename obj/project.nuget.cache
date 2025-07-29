@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ISdbh+ogdIg=",
+  "dgSpecHash": "W4KnlZxnyQ0=",
   "success": true,
-  "projectFilePath": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\QMS NEW DESIGN WITH DASHBOARD\\Test2\\QMS.csproj",
+  "projectFilePath": "D:\\QMS DEVELOPMENT MVC UAT AND DEV CODE\\QMS NEW DESIGN\\QMS_Prod\\QMS.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\opo113177\\.nuget\\packages\\bouncycastle.cryptography\\2.5.0\\bouncycastle.cryptography.2.5.0.nupkg.sha512",
     "C:\\Users\\opo113177\\.nuget\\packages\\enums.net\\4.0.1\\enums.net.4.0.1.nupkg.sha512",

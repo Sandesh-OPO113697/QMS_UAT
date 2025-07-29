@@ -62,9 +62,15 @@
         font-size: 14px;
     }
 
-  
-
+    #FromDate::-webkit-calendar-picker-indicator {
+        filter: invert(1);
     }
+
+    #Todate::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+    }
+
+    
 </style>
 <div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow">
@@ -149,13 +155,20 @@
 
                 <div class="form-group col-md-6">
                     <label for="FromDate">From Date</label>
-                    <input type="date" id="FromDate" class="form-control" style="color:white">
+                    <input type="date" id="FromDate" style="color: white;
+                  -webkit-appearance: none;
+                  background-color: transparent;
+                  position: relative;" class="form-control">
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="ToDate">To Date</label>
-                    <input type="date" id="Todate" class="form-control">
+                    <label for="Todate">To Date</label>
+                    <input type="date" id="Todate" style="color: white;
+        -webkit-appearance: none;
+        background-color: transparent;
+        position: relative;" class="form-control">
                 </div>
+
 
                 <div class="form-group col-md-6">
                     <label for="AgentID">Agent Name</label>
@@ -205,9 +218,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 <div class="col-md-12 my-4" id="NonVoice" style="display:none">
     <div class="card shadow">
@@ -1404,131 +1414,258 @@
 <script>
 
 
-    document.addEventListener("click", function (event) {
+    // document.addEventListener("click", function (event) {
 
+    //     let target = event.target;
+    //     if (target.classList.contains("play-audio")) {
+    //         document.querySelectorAll(".play-audio").forEach(el => el.style.color = "gray");
+    //         target.style.color = "#03FD03";
+    //         target.style.setProperty("color", "#03FD03", "important");
+
+    //             $("#LastReansaction").hide();
+    //               $("#RelListDiv").hide();
+    //                $("#LastReansaction").hide();
+    //                 $("#SerchRecoding").hide();
+    //                   $("#AuditDiv").hide();
+
+
+    //         var audioPath = target.getAttribute("data-path");
+
+    //                     $.ajax({
+    //                     type: "POST",
+    //                     url: "/Monitor/CheckTheAuditIsDone",
+    //                     contentType: "application/json; charset=utf-8",
+    //                     dataType: "json",
+    //                     data: JSON.stringify({ id: audioPath }),
+    //                     success: function (response) {
+    //                         if (response.success) {
+    //                             if (response.connid && response.connid.trim() !== "") {
+    //                                 alert("For This Transaction ID, Audit Has Been Done");
+    //                                   $("#LastReansaction").hide();
+    //                                 $("#RelListDiv").hide();
+
+    //                                 $("#SerchRecoding").show();
+    //                                 $("#AuditDiv").show();
+
+    //                                 return;
+    //                             }
+
+    //                             else{
+
+    //                              $("#LastReansaction").show();
+    //                               $("#RelListDiv").hide();
+
+    //                                   $("#Transaction_ID").val(audioPath);
+    //                                     $.ajax({
+    //                                         type: "POST",
+    //                                         data: JSON.stringify({ id: audioPath }),
+    //                                         url: "/Monitor/GetRecording",
+    //                                         contentType: "application/json; charset=utf-8",
+    //                                         dataType: "json",
+    //                                         success: function (response) {
+    //                                             if (response.success) {
+
+    //                                                 let container = document.getElementById("recordingContainer");
+    //                                                 container.innerHTML = ""; // Clear previous content
+    //                                                 let imagePath = '/images/man.gif';
+    //                                                 console.log("Image Path:", imagePath); // Debugging
+
+    //                                                 container.style.backgroundImage = `url('${imagePath}')`;
+    //                                                 container.style.backgroundSize = "cover";
+    //                                                 container.style.backgroundPosition = "center";
+    //                                                 container.style.backgroundRepeat = "no-repeat";
+    //                                                 container.style.minHeight = "300px"; // Adjust height as needed
+    //                                                 container.style.display = "flex";
+    //                                                 container.style.alignItems = "center";
+    //                                                 container.style.justifyContent = "center";
+    //                                                 container.style.flexDirection = "column"; // Stack elements vertically
+    //                                                 container.style.padding = "20px";
+    //                                                 container.style.borderRadius = "19px";
+    //                                                 if (!response.audioData) {
+    //                                                     console.error("No audio data received.");
+    //                                                     return;
+    //                                                 }
+
+    //                                                 let byteCharacters;
+    //                                                 try {
+    //                                                     byteCharacters = atob(response.audioData);
+    //                                                 } catch (e) {
+    //                                                     console.error("Invalid Base64 audio data:", e);
+    //                                                     return;
+    //                                                 }
+
+    //                                                 let byteNumbers = new Uint8Array(byteCharacters.length);
+    //                                                 for (let i = 0; i < byteCharacters.length; i++) {
+    //                                                     byteNumbers[i] = byteCharacters.charCodeAt(i);
+    //                                                 }
+
+    //                                                 let blob = new Blob([byteNumbers], { type: "audio/mpeg" });
+    //                                                 let audioUrl = URL.createObjectURL(blob);
+
+    //                                                 console.log("Audio URL:", audioUrl); // Debugging
+
+
+    //                                                 let audioPlayer = document.createElement("audio");
+    //                                                 audioPlayer.controls = true;
+    //                                                 audioPlayer.src = audioUrl;
+    //                                                 audioPlayer.style.width = "100%";
+    //                                                 audioPlayer.style.maxWidth = "439px";
+    //                                                 audioPlayer.style.margin = "5px auto";
+    //                                                 audioPlayer.style.marginTop = "449px";
+    //                                                 audioPlayer.autoplay = true;
+    //                                                 container.appendChild(audioPlayer);
+    //                                                 audioPlayer.play().catch(error => {
+    //                                                     console.error("Autoplay blocked:", error);
+    //                                                 });
+    //                                             } else {
+    //                                                 console.error("Error: " + response.message);
+    //                                             }
+    //                                         },
+    //                                         error: function (xhr, status, error) {
+    //                                             console.error("Error occurred: " + error);
+    //                                         }
+    //                                     });
+    //                             }
+    //                         } else {
+    //                             console.error("Error: " + response.message);
+    //                         }
+    //                     },
+    //                     error: function (xhr, status, error) {
+    //                         console.error("Error occurred: " + error);
+    //                     }
+    //                 });
+
+
+
+
+
+    //     }
+    // });
+
+
+
+        document.addEventListener("click", function (event) {
         let target = event.target;
+
         if (target.classList.contains("play-audio")) {
+            // Highlight selected item
             document.querySelectorAll(".play-audio").forEach(el => el.style.color = "gray");
-            target.style.color = "#03FD03";
             target.style.setProperty("color", "#03FD03", "important");
 
-                $("#LastReansaction").hide();
-                  $("#RelListDiv").hide();
-                   $("#LastReansaction").hide();
-                    $("#SerchRecoding").hide();
-                      $("#AuditDiv").hide();
+            // Hide/show relevant UI sections
+            $("#LastReansaction").hide();
+            $("#RelListDiv").hide();
+            $("#SerchRecoding").hide();
+            $("#AuditDiv").hide();
 
+            let audioPath = target.getAttribute("data-path");
 
-            var audioPath = target.getAttribute("data-path");
+            $.ajax({
+                type: "POST",
+                url: "/Monitor/CheckTheAuditIsDone",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ id: audioPath }),
+                success: function (response) {
+                    if (response.success) {
+                        if (response.connid && response.connid.trim() !== "") {
+                            alert("For This Transaction ID, Audit Has Been Done");
 
-                              $.ajax({
-                        type: "POST",
-                        url: "/Monitor/CheckTheAuditIsDone",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        data: JSON.stringify({ id: audioPath }),
-                        success: function (response) {
-                            if (response.success) {
-                                if (response.connid && response.connid.trim() !== "") {
-                                    alert("For This Transaction ID, Audit Has Been Done");
-                                      $("#LastReansaction").hide();
-                                    $("#RelListDiv").hide();
+                            $("#LastReansaction").hide();
+                            $("#RelListDiv").hide();
+                            $("#SerchRecoding").show();
+                            $("#AuditDiv").show();
+                            return;
+                        } else {
+                            $("#LastReansaction").show();
+                            $("#RelListDiv").hide();
+                            $("#Transaction_ID").val(audioPath);
 
-                                    $("#SerchRecoding").show();
-                                    $("#AuditDiv").show();
+                            // Fetch and handle audio
+                            $.ajax({
+                                type: "POST",
+                                data: JSON.stringify({ id: audioPath }),
+                                url: "/Monitor/GetRecording",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+                                    if (response.success) {
+                                        let container = document.getElementById("recordingContainer");
+                                        container.innerHTML = ""; // Clear previous content
 
-                                    return;
+                                        // Stop any existing audio
+                                        let oldAudio = container.querySelector("audio");
+                                        if (oldAudio) {
+                                            oldAudio.pause();
+                                            oldAudio.currentTime = 0;
+                                        }
+
+                                        // UI styling
+                                        let imagePath = '/images/man.gif';
+                                        container.style.backgroundImage = `url('${imagePath}')`;
+                                        container.style.backgroundSize = "cover";
+                                        container.style.backgroundPosition = "center";
+                                        container.style.backgroundRepeat = "no-repeat";
+                                        container.style.minHeight = "300px";
+                                        container.style.display = "flex";
+                                        container.style.alignItems = "center";
+                                        container.style.justifyContent = "center";
+                                        container.style.flexDirection = "column";
+                                        container.style.padding = "20px";
+                                        container.style.borderRadius = "19px";
+
+                                        if (!response.audioData) {
+                                            console.error("No audio data received.");
+                                            return;
+                                        }
+
+                                        // Decode Base64 audio
+                                        let byteCharacters;
+                                        try {
+                                            byteCharacters = atob(response.audioData);
+                                        } catch (e) {
+                                            console.error("Invalid Base64 audio data:", e);
+                                            return;
+                                        }
+
+                                        let byteNumbers = new Uint8Array(byteCharacters.length);
+                                        for (let i = 0; i < byteCharacters.length; i++) {
+                                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                                        }
+
+                                        let blob = new Blob([byteNumbers], { type: "audio/mpeg" });
+                                        let audioUrl = URL.createObjectURL(blob);
+
+                                        // Create audio element (default stopped)
+                                        let audioPlayer = document.createElement("audio");
+                                        audioPlayer.controls = true; // visible play/pause
+                                        audioPlayer.autoplay = false; // don't autoplay
+                                        audioPlayer.src = audioUrl;
+                                        audioPlayer.style.width = "100%";
+                                        audioPlayer.style.maxWidth = "439px";
+                                        audioPlayer.style.margin = "5px auto";
+                                        audioPlayer.style.marginTop = "449px";
+
+                                        container.appendChild(audioPlayer);
+
+                                        // No autoplay - let the user play manually
+                                    } else {
+                                        console.error("Error: " + response.message);
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error("Error occurred: " + error);
                                 }
-
-                                else{
-
-                                 $("#LastReansaction").show();
-                                  $("#RelListDiv").hide();
-
-                                      $("#Transaction_ID").val(audioPath);
-                                        $.ajax({
-                                            type: "POST",
-                                            data: JSON.stringify({ id: audioPath }),
-                                            url: "/Monitor/GetRecording",
-                                            contentType: "application/json; charset=utf-8",
-                                            dataType: "json",
-                                            success: function (response) {
-                                                if (response.success) {
-
-                                                    let container = document.getElementById("recordingContainer");
-                                                    container.innerHTML = ""; // Clear previous content
-                                                    let imagePath = '/images/man.gif';
-                                                    console.log("Image Path:", imagePath); // Debugging
-
-                                                    container.style.backgroundImage = `url('${imagePath}')`;
-                                                    container.style.backgroundSize = "cover";
-                                                    container.style.backgroundPosition = "center";
-                                                    container.style.backgroundRepeat = "no-repeat";
-                                                    container.style.minHeight = "300px"; // Adjust height as needed
-                                                    container.style.display = "flex";
-                                                    container.style.alignItems = "center";
-                                                    container.style.justifyContent = "center";
-                                                    container.style.flexDirection = "column"; // Stack elements vertically
-                                                    container.style.padding = "20px";
-                                                    container.style.borderRadius = "19px";
-                                                    if (!response.audioData) {
-                                                        console.error("No audio data received.");
-                                                        return;
-                                                    }
-
-                                                    let byteCharacters;
-                                                    try {
-                                                        byteCharacters = atob(response.audioData);
-                                                    } catch (e) {
-                                                        console.error("Invalid Base64 audio data:", e);
-                                                        return;
-                                                    }
-
-                                                    let byteNumbers = new Uint8Array(byteCharacters.length);
-                                                    for (let i = 0; i < byteCharacters.length; i++) {
-                                                        byteNumbers[i] = byteCharacters.charCodeAt(i);
-                                                    }
-
-                                                    let blob = new Blob([byteNumbers], { type: "audio/mpeg" });
-                                                    let audioUrl = URL.createObjectURL(blob);
-
-                                                    console.log("Audio URL:", audioUrl); // Debugging
-
-
-                                                    let audioPlayer = document.createElement("audio");
-                                                    audioPlayer.controls = true;
-                                                    audioPlayer.src = audioUrl;
-                                                    audioPlayer.style.width = "100%";
-                                                    audioPlayer.style.maxWidth = "439px";
-                                                    audioPlayer.style.margin = "5px auto";
-                                                    audioPlayer.style.marginTop = "449px";
-                                                    audioPlayer.autoplay = true;
-                                                    container.appendChild(audioPlayer);
-                                                    audioPlayer.play().catch(error => {
-                                                        console.error("Autoplay blocked:", error);
-                                                    });
-                                                } else {
-                                                    console.error("Error: " + response.message);
-                                                }
-                                            },
-                                            error: function (xhr, status, error) {
-                                                console.error("Error occurred: " + error);
-                                            }
-                                        });
-                                }
-                            } else {
-                                console.error("Error: " + response.message);
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error("Error occurred: " + error);
+                            });
                         }
-                    });
-
-
-
-
-
+                    } else {
+                        console.error("Error: " + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
         }
     });
 

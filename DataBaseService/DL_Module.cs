@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using OfficeOpenXml;
 
 namespace QMS.DataBaseService
 {
@@ -48,6 +51,110 @@ namespace QMS.DataBaseService
 
 
             return dt;
+        }
+
+        public async Task UpdateNatrix(string Subprocess, IFormFile matrix)
+        {
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("RemoveMatroix", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+
+                    cmd.Parameters.AddWithValue("@SubProgramID", Subprocess);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+            int successCount = 0, duplicateCount = 0, invalidCount = 0;
+            string extension = Path.GetExtension(matrix.FileName);
+            using (var stream = new MemoryStream())
+            {
+                await matrix.CopyToAsync(stream);
+                stream.Position = 0;
+                if (extension == ".xlsx")
+                {
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        int rowCount = worksheet.Dimension.Rows;
+
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+
+                            string Matrix = worksheet.Cells[row, 1].Value?.ToString()?.Trim();
+                            string Performace = worksheet.Cells[row, 2].Value?.ToString()?.Trim()?.ToUpper();
+
+
+
+
+                            await InsertSubDisposition(Matrix, Performace, Subprocess);
+                            successCount++;
+
+                        }
+                    }
+
+                }
+                else if (extension == ".xls")
+                {
+                    HSSFWorkbook hssfwb = new HSSFWorkbook(stream);
+                    ISheet sheet = hssfwb.GetSheetAt(0);
+                    int rowCount = sheet.PhysicalNumberOfRows;
+
+                    for (int row = 1; row < rowCount; row++)
+                    {
+                        IRow currentRow = sheet.GetRow(row);
+
+                        string Matrix = currentRow.GetCell(0)?.ToString()?.Trim();
+                        string Performace = currentRow.GetCell(1)?.ToString()?.Trim()?.ToUpper();
+
+
+
+
+
+
+                        await InsertSubDisposition(Matrix, Performace, Subprocess);
+                        successCount++;
+
+                    }
+                }
+                else
+                {
+
+                }
+
+
+
+
+            }
+        }
+
+
+        public async Task InsertSubDisposition(string Matrix, string Perform, string SubProcessID)
+        {
+
+            using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("UpdatematrixMaster", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 0;
+                    cmd.Parameters.AddWithValue("@MATRIX", Matrix);
+                    cmd.Parameters.AddWithValue("@TARGET", Perform);
+
+                    cmd.Parameters.AddWithValue("@SubProgramID", SubProcessID);
+                    cmd.Parameters.AddWithValue("@CreateBy", UserInfo.UserName);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+
         }
         public async Task<bool> RemoveAgents(List<string> empCodes, string process, int subProcess)
         {

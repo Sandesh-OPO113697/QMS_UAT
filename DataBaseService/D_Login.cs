@@ -537,8 +537,6 @@ namespace QMS.DataBaseService
                         string decryptedLocationId = dt.Rows[0]["Location"].ToString();
                         string decryptedAccountId = dt.Rows[0]["Account_id"].ToString();
 
-
-
                         _userInfoManager.UserType = decryptedUserType;
                         _userInfoManager.UserName = decryptedName;
                         _userInfoManager.IsActive = dt.Rows[0]["isactive"].ToString();

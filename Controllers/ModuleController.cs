@@ -13,7 +13,7 @@ namespace QMS.Controllers
         private readonly DL_Module _module;
         private readonly Dl_Admin _admin;
         private readonly Dl_formBuilder dl_FormBuilder;
-        public ModuleController(DL_Module adl, Dl_Admin adam , Dl_formBuilder adl2)
+        public ModuleController(DL_Module adl, Dl_Admin adam, Dl_formBuilder adl2)
         {
             _module = adl;
             _admin = adam;
@@ -23,7 +23,7 @@ namespace QMS.Controllers
         public async Task<IActionResult> RemoveAgents([FromBody] RemoveAgentsRequest request)
         {
             bool isDeleted = await _module.RemoveAgents(request.EmpCodes, request.process, request.subProcess);
-            DataTable dt = await _module.GetAgentListUpdated( request.process, request.subProcess);
+            DataTable dt = await _module.GetAgentListUpdated(request.process, request.subProcess);
             var agentList = dt.AsEnumerable().Select(row => new
             {
                 ID = row["ID"],
@@ -44,15 +44,16 @@ namespace QMS.Controllers
             return Json(new { success = true, proces });
         }
         [HttpPost]
-        public async Task<JsonResult> UpdatePauseCount(int id, int ProgramID , string pauseValue)
+        public async Task<JsonResult> UpdatePauseCount(int id, int ProgramID, string pauseValue)
         {
-                  await _module.UpdatePauseCount(id , ProgramID , pauseValue);
+            await _module.UpdatePauseCount(id, ProgramID, pauseValue);
             return Json(new { sucess = true });
         }
-            [HttpPost]
-        public async Task< JsonResult> Edit(int id , int ProgramID)
+        [HttpPost]
+        public async Task<JsonResult> Edit(int id, int ProgramID)
         {
             var dataTable2 = await dl_FormBuilder.GetAgentGriedAsync(ProgramID, id);
+            var matrix = await dl_FormBuilder.getMatrixDetails(ProgramID, id);
             var agentgried = dataTable2.AsEnumerable().Select(row => new AgentListModel
             {
                 ID = row.Field<int>("ID"),
@@ -67,12 +68,39 @@ namespace QMS.Controllers
 
 
             }).ToList();
+            matrix.Columns[0].ColumnName = "MATRIX";
+            matrix.Columns[1].ColumnName = "TARGET";
+            var matrixgried = matrix.AsEnumerable().Select(row => new MatrixDTO
+            {
+
+                MATRIX = row.Field<string>("MATRIX"),
+                TARGET = row.Field<string>("TARGET"),
+
+
+            }).ToList();
+
             return Json(new
             {
-             
+
                 agentgried = agentgried,
-             
+                matrixgried = matrixgried
+
             });
+        }
+        [HttpPost]
+        public async Task<IActionResult> UploadMatrix(string SubProcessID, string SubProcess, string ProgramName, string NumberOfPause, IFormFile MatrixFile)
+        {
+            if (MatrixFile == null || MatrixFile.Length == 0)
+            {
+                return StatusCode(500, "Internal server error: ");
+            }
+            else
+            {
+                await _module.UpdateNatrix(SubProcessID, MatrixFile);
+                return Ok(new { message = "Matrix uploaded and processed successfully." });
+            }
+
+
         }
 
         public IActionResult FetureSubFeture(string RoleName, string Featureid, string SubFeatureid)
@@ -85,9 +113,9 @@ namespace QMS.Controllers
                         case "2":
                             return RedirectToAction("ManageModule");
                         case "3":
-                            return RedirectToAction("SamplingFilers" , "Sampling", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
+                            return RedirectToAction("SamplingFilers", "Sampling", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
                         case "4":
-                            return RedirectToAction("Sample_calculator" , "Sampling" , new { RoleName= RoleName  , Featureid= Featureid , SubFeatureid= SubFeatureid });
+                            return RedirectToAction("Sample_calculator", "Sampling", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
                         case "5":
                             return RedirectToAction("WorkAllowcation", "Sampling", new { RoleName = RoleName, Featureid = Featureid, SubFeatureid = SubFeatureid });
                         default:
@@ -301,7 +329,7 @@ namespace QMS.Controllers
                     {
                         case "Online assessments Create view edit and assign":
                             return RedirectToAction("dashboard", "Assessment");
-                      
+
                         default:
                             return View();
                     }
@@ -310,17 +338,17 @@ namespace QMS.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber , string email )
+        public async Task<ActionResult> InsertUsers(string Location_ID, string ProgramID, string SUBProgramID, string Role_ID, string UserID, string Password, string UserName, string PhoneNumber, string email)
         {
             List<string> errorMessages = new List<string>();
             string locationid = UserInfo.LocationID;
-           
-                await _admin.InsertUserDetailsAsync(locationid, ProgramID, SUBProgramID, Role_ID, UserID, Password, UserName, PhoneNumber, email);
-                errorMessages.Add("User Is Created Sucessfully !");
-                TempData["ErrorMessages"] = errorMessages;
-                return RedirectToAction("CreateUser");
-            
-               
+
+            await _admin.InsertUserDetailsAsync(locationid, ProgramID, SUBProgramID, Role_ID, UserID, Password, UserName, PhoneNumber, email);
+            errorMessages.Add("User Is Created Sucessfully !");
+            TempData["ErrorMessages"] = errorMessages;
+            return RedirectToAction("CreateUser");
+
+
 
         }
 
@@ -339,8 +367,8 @@ namespace QMS.Controllers
             DataTable dt = await _admin.GetUserListAsync();
             ViewBag.Locations = filteredLocation;
 
-        
-         
+
+
             return View();
         }
         public async Task<IActionResult> ManageUsers()
@@ -474,7 +502,7 @@ namespace QMS.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID , int Number_Of_Pause, IFormFile file , string TypeProcess, IFormFile files)
+        public async Task<ActionResult> InsertSubProcess(string Location_ID, string SubProcess, string ProgramID, int Number_Of_Pause, IFormFile file, string TypeProcess, IFormFile files)
         {
             try
             {
@@ -513,15 +541,15 @@ namespace QMS.Controllers
                 }
 
 
-                await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file, TypeProcess,files);
+                await _admin.InsertSubProcessDetailsAsync(Location_ID, ProgramID, SubProcess, Number_Of_Pause, file, TypeProcess, files);
                 errorMessages.Add("Sub-Process Created Sucessfully !");
                 TempData["ErrorMessages"] = errorMessages;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
-           
+
             return RedirectToAction("CreateSubProcess");
 
         }

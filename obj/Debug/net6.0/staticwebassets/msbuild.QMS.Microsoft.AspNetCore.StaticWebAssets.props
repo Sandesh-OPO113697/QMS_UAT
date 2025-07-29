@@ -3522,8 +3522,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>7aqq3pm4i8</Fingerprint>
-      <Integrity>j07A1Y0/RQMCuE+a+W4yu4COvS6mPWGTOO8scXyC3vA=</Integrity>
+      <Fingerprint>3i3u5f20rj</Fingerprint>
+      <Integrity>xbElKPET6UrS7bCuF11a2fNxGs84oGnwXG7UB1Cov7U=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\SampleFile\BulKUploadUser.xls'))</OriginalItemSpec>

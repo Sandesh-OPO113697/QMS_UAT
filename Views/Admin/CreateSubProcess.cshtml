@@ -46,7 +46,7 @@
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label for="TypeProcess">Type Of Process</label> <span style="color:#FF581C"> *</span>
-                            <select name="TypeProcess" id="TypeProcess" class="custom-select" required> 
+                            <select name="TypeProcess" id="TypeProcess" class="custom-select" required>
                                 <option value="">Select Process</option>
                                 <option value="Voice">Voice</option>
                                 <option value="Non_Voice">Non Voice</option>
@@ -73,14 +73,14 @@
                         </div>
                     </div>
 
- 
+
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="fileUpload">Upload Agent List</label> 
-                                <span style="color:#FF581C"> *</span>
-                                <a href="/SampleFile/AgentUpload.xls"  download>Download Sample File</a>
-                       
-                            <input  type="file" id="fileUpload" name="file" class="form-control" required />
+                            <label for="fileUpload">Upload Agent List</label>
+                            <span style="color:#FF581C"> *</span>
+                            <a href="/SampleFile/AgentUpload.xls" download>Download Sample File</a>
+
+                            <input type="file" id="fileUpload" name="file" class="form-control" required />
                         </div>
                     </div>
                 </div>
@@ -90,17 +90,15 @@
 
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="fileUpload">Upload Matrix List</label> 
-                                <span style="color:#FF581C">*</span>
-                            
-                                <a href="/SampleFile/UploadMatrix.xls" download>Download Sample File</a>
-                          
+                            <label for="fileUpload">Upload Matrix List</label>
+                            <span style="color:#FF581C">*</span>
+
+                            <a href="/SampleFile/UploadMatrix.xls" download>Download Sample File</a>
+
                             <input type="file" id="MatrixfileUpload" name="files" class="form-control" required />
                         </div>
                     </div>
                 </div>
-
-
 
                 <div class="col-md-4 my-4">
                     <div class="card-body d-flex justify-content-center align-items-center">
@@ -134,8 +132,6 @@
                             <input type="text" id="SubProcess2" name="SubProcess" autocomplete="off" class="form-control" />
                             <input type="hidden" id="HiddenSubProcessID23" name="SubProcessID">
                         </div>
-
-
 
                     </div>
 
@@ -185,7 +181,7 @@
 
                     <div class="col-md-2 my-4">
                         <label for="ProgramID2"></label>
-                        <button type="submit" id="RemoveAllAgent" class="btn btn-primary">Remove Agnets</button>
+                        <button type="submit" id="RemoveAllAgent" class="btn btn-primary">Remove Agents</button>
 
                     </div>
                     <div class="form-group mb-4">
@@ -211,6 +207,61 @@
 </div>
 
 
+
+
+<div class="col-md-12 my-4" id="matrixdiv" style="display:none">
+    <div class="card shadow">
+        <div class="card-body">
+
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <strong class="card-title">Matrix List</strong>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <table id="matrixtable" class="table table-bordered">
+                            <thead>
+                                <tr>
+
+                                    <th>MATRIX</th>
+                                    <th>TARGET</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+
+                <div class="form-group mb-4">
+                    <label for="ProgramID2">Upload Matrix</label>
+                    <input type="file" id="filematrix" name="file" class="form-control" required />
+                </div>
+
+
+                <div class="col-md-2 my-4">
+                    <label for="ProgramID2"></label>
+                    <button type="submit" id="UpdateSubProcesdureMatrix" class="btn btn-primary">Save</button>
+
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
 <div id="UserCardBody" style="visibility:hidden" class="col-md-12 my-4">
     <div class="card shadow">
         <div class="card-body">
@@ -219,14 +270,14 @@
                     <tr>
 
                         <th>ID</th>
-                        <th>LocationName</th>
+                        <th>Location Name</th>
 
-                        <th>ProcessName</th>
+                        <th>Process Name</th>
                         <th>SubProcess</th>
                         <th>Action</th>
                         <th>Status</th>
                         <th>Edit</th>
-                     
+
                     </tr>
                 </thead>
                 <tbody>
@@ -265,6 +316,7 @@
         </div>
     </div>
 </div>
+
 
 
 <!-- Bootstrap Modal -->
@@ -367,7 +419,7 @@
 
         $(document).ready(function () {
         $("#UpdateSubProcesdure").click(function (e) {
-            e.preventDefault(); // Prevent default form submission
+            e.preventDefault();
                   var subProcessID = $("#HiddenSubProcessID23").val().trim();
         var subProcess = $("#SubProcess2").val().trim();
         var programName = $("#ProgramID22").val().trim();
@@ -376,7 +428,7 @@
 
             // Validation checks
             if (subProcess === "") {
-               
+
                     Swal.fire({
                       text: "Please enter SubProcess.",
                       icon: "question"
@@ -384,7 +436,7 @@
                 return false;
             }
             if (programName === "") {
-                
+
                   Swal.fire({
                       text: "Please enter Program Name.",
                       icon: "question"
@@ -392,7 +444,7 @@
                 return false;
             }
             if (numberOfPause === "") {
-             
+
 
                   Swal.fire({
                       text: "Please enter Number Of Pause.",
@@ -401,7 +453,7 @@
                 return false;
             }
             if (fileUpload === "") {
-              
+
                  Swal.fire({
                       text: "Please upload the Agent List file.",
                       icon: "question"
@@ -412,6 +464,84 @@
             // If all checks pass, submit the form
             $(this).closest("form").submit();
         });
+
+
+        $("#UpdateSubProcesdureMatrix").click(function (e) {
+            e.preventDefault();
+                  var subProcessID = $("#HiddenSubProcessID23").val().trim();
+        var subProcess = $("#SubProcess2").val().trim();
+        var programName = $("#ProgramID22").val().trim();
+        var numberOfPause = $("#Number_Of_Pause2").val().trim();
+       var fileUpload = $("#filematrix")[0].files[0];
+
+
+            if (subProcess === "") {
+
+                    Swal.fire({
+                      text: "Please enter SubProcess.",
+                      icon: "question"
+                    });
+                return false;
+            }
+            if (programName === "") {
+
+                  Swal.fire({
+                      text: "Please enter Program Name.",
+                      icon: "question"
+                    });
+                return false;
+            }
+            if (numberOfPause === "") {
+
+
+                  Swal.fire({
+                      text: "Please enter Number Of Pause.",
+                      icon: "question"
+                    });
+                return false;
+            }
+            if (fileUpload === "") {
+
+                 Swal.fire({
+                      text: "Please upload the Agent List file.",
+                      icon: "question"
+                    });
+                return false;
+            }
+
+
+          var formData = new FormData();
+    formData.append("SubProcessID", subProcessID);
+    formData.append("SubProcess", subProcess);
+    formData.append("ProgramName", programName);
+    formData.append("NumberOfPause", numberOfPause);
+    formData.append("MatrixFile", fileUpload);
+
+    $.ajax({
+        url: '/Module/UploadMatrix', // 🔁 Your actual controller and action
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+
+              var tbodyq = $("#matrixtable tbody");
+    tbodyq.empty();
+
+            Swal.fire({
+                text: response.message || "Matrix uploaded successfully!",
+                icon: "success"
+            });
+        },
+        error: function (xhr) {
+            Swal.fire({
+                text: xhr.responseText || "Something went wrong.",
+                icon: "error"
+            });
+        }
+    });
+        });
+
     });
 
 </script>
@@ -441,7 +571,7 @@
             });
 
             if (selectedEmpCodes.length === 0) {
-               
+
                 Swal.fire({
                       text: " No agents selected.",
                       icon: "question"
@@ -459,7 +589,7 @@
                             contentType: "application/json",
                             success: function (response) {
                                                if (response.success) {
-                                     
+
                                          Swal.fire({
                                           text: " gents removed successfully!",
                                           icon: "success"
@@ -489,6 +619,9 @@
                 }
             });
         });
+
+
+
     });
 
 </script>
@@ -515,7 +648,7 @@
 
             // Validation: Ensure all fields are filled
             if (!empName || !empCode || !tlName || !tlCode || !qaName || !batchID) {
-              
+
                                       Swal.fire({
                                           text: " All fields are required!",
                                           icon: "question"
@@ -749,9 +882,10 @@
         type: "POST",
         data: { id: id  ,ProgramID:ProgramID},
         success: function (response) {
+             $("#matrixdiv").show();
            if (response.agentgried && response.agentgried.length > 0) {
                     var tbody = $("#agentTable tbody");
-                    tbody.empty(); // Clear existing rows
+                    tbody.empty();
 
                         $.each(response.agentgried, function (index, agent) {
                         var row = `<tr>
@@ -768,6 +902,28 @@
                     });
                 } else {
                     $("#agentTable tbody").html("<tr><td colspan='6' class='text-center'>No Data Found</td></tr>");
+                }
+                console.log(JSON.stringify(response));
+
+                 if (response.matrixgried && response.matrixgried.length > 0) {
+                    var tbody = $("#matrixtable tbody");
+
+                    $("#matrixdiv").show();
+
+                    tbody.empty();
+
+                        $.each(response.matrixgried, function (index, agent) {
+                        var row = `<tr>
+
+                            <td>${agent.matrix}</td>
+                            <td>${agent.target}</td>
+
+
+                        </tr>`;
+                        tbody.append(row);
+                    });
+                } else {
+                    $("#matrixtable tbody").html("<tr><td colspan='6' class='text-center'>No Data Found</td></tr>");
                 }
         },
         error: function (xhr, status, error) {
