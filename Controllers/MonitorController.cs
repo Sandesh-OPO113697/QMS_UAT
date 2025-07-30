@@ -25,8 +25,47 @@ namespace QMS.Controllers
             this.dlagent = dlagent;
         }
 
+        [HttpGet]
+        public async  Task< IActionResult> TransactionDetails(string transactionId)
+        {
+            try
+            {
+                DataSet ds = await dl_monitor.GetTransactiondetails(transactionId);
 
+                var result = new
+                {
+                    SectionAudit = ConvertToList(ds.Tables[0]),
+                    RootCauseAnalysis = ConvertToList(ds.Tables[1]),
+                    PredictiveAnalysis = ConvertToList(ds.Tables[2]),
+                    VoiceMessages = ConvertToList(ds.Tables[3]),
+                    CallAuditDetails = ConvertToList(ds.Tables[4])
+                };
 
+                return Json(new { success = true, data = result });
+
+            }
+            catch(Exception ex)
+            {
+                return Json(new { success = false });
+            }
+           
+        }
+        private List<Dictionary<string, object>> ConvertToList(DataTable table)
+        {
+            var list = new List<Dictionary<string, object>>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                var dict = new Dictionary<string, object>();
+                foreach (DataColumn col in table.Columns)
+                {
+                    dict[col.ColumnName] = row[col];
+                }
+                list.Add(dict);
+            }
+
+            return list;
+        }
         [HttpPost]
         public async Task<IActionResult> Getdashboad([FromBody] SearchDashboard model)
         {

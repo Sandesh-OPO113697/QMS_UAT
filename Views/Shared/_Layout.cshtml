@@ -3,7 +3,7 @@
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
-  
+
     var mySessionValue = HttpContextAccessor.HttpContext.Session.GetString("UserType");
     var NotePadAcesss = HttpContextAccessor.HttpContext.Session.GetString("NotePadAcess");
     var serializedData = HttpContextAccessor.HttpContext.Session.GetString("RoleFeatures");
@@ -46,15 +46,15 @@
 
     <style>
         .hover-orange {
-            color: white;
-            transition: color 0.3s ease;
+        color: white;
+        transition: color 0.3s ease;
         }
 
-            .hover-orange:hover {
-                color: #FF581C;
-            }
+        .hover-orange:hover {
+        color: #FF581C;
+        }
 
-     
+
     </style>
 </head>
 <body class="vertical  dark  " style="font-family: 'Overpass', sans-serif;
@@ -66,7 +66,7 @@
             </button>
 
             <ul class="nav">
-               @*  <li class="nav-item">
+                @*  <li class="nav-item">
                     <a class="nav-link text-muted my-2" href="#" id="modeSwitcher" data-mode="dark">
                         <i class="fe fe-sun fe-16"></i>
                     </a>
@@ -110,12 +110,12 @@
                     <a class="navbar-brand mx-auto mt-2 flex-fill text-center" >
                         @*  <img id="logoImage" src="@Url.Content("~/Images/mainLogo.png")" style="margin-left:-10px" /> *@
                         <svg version="1.1" id="logo" class="navbar-brand-img brand-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
-                        <g>
-                        <polygon class="st0" points="78,105 15,105 24,87 87,87 	" />
-                        <polygon class="st0" points="96,69 33,69 42,51 105,51 	" />
-                        <polygon class="st0" points="78,33 15,33 24,15 87,15 	" />
-                </g>
-              </svg>
+                            <g>
+                                <polygon class="st0" points="78,105 15,105 24,87 87,87 	" />
+                                <polygon class="st0" points="96,69 33,69 42,51 105,51 	" />
+                                <polygon class="st0" points="78,33 15,33 24,15 87,15 	" />
+                            </g>
+                        </svg>
 
                     </a>
                 </div>
@@ -128,39 +128,39 @@
                     @if (mySessionValue == "SuperAdmin")
 
                     {
-                            <li id="Create" runat="server" class="nav-item dropdown">
-                                <a href="#ui-elements" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-box fe-16"></i>
+                        <li id="Create" runat="server" class="nav-item dropdown">
+                            <a href="#ui-elements" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-box fe-16"></i>
                                 <span class="ml-3 item-text hover-orange">Create</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100" id="ui-elements">
-                                    <li class="nav-item">
-                                        <a class="nav-link pl-3" href="@Url.Action("CreateAccount", "SuperAdmin")">
-                                            <span class="ml-1 item-text hover-orange">Account</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link pl-3" href="@Url.Action("CreateUser", "SuperAdmin")"><span class="ml-1 item-text hover-orange">Users</span></a>
-                                    </li>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="ui-elements">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="@Url.Action("CreateAccount", "SuperAdmin")">
+                                        <span class="ml-1 item-text hover-orange">Account</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="@Url.Action("CreateUser", "SuperAdmin")"><span class="ml-1 item-text hover-orange">Users</span></a>
+                                </li>
 
-                                </ul>
-                            </li>
+                            </ul>
+                        </li>
 
-                            <li id="Reports" runat="server" class="nav-item dropdown">
-                                <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-credit-card fe-16"></i>
-                                    <span class="ml-3 item-text hover-orange">Reports</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100" id="forms">
-                                    <li class="nav-item">
-                                        <a class="nav-link pl-3" href="./form_elements.html"><span class="ml-1 item-text hover-orange">Dump Report</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link pl-3" href="./form_advanced.html"><span class="ml-1 item-text hover-orange">Row Dump </span></a>
-                                    </li>
+                        <li id="Reports" runat="server" class="nav-item dropdown">
+                            <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-credit-card fe-16"></i>
+                                <span class="ml-3 item-text hover-orange">Reports</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="forms">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="./form_elements.html"><span class="ml-1 item-text hover-orange">Dump Report</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="./form_advanced.html"><span class="ml-1 item-text hover-orange">Row Dump </span></a>
+                                </li>
 
-                                </ul>
-                            </li>
+                            </ul>
+                        </li>
                     }
 
                     @if (NotePadAcesss == "Yes")
@@ -179,110 +179,110 @@
                     }
                     @if ((mySessionValue == "Admin") || (mySessionValue == "SiteAdmin"))
                     {
-                            <li class="nav-item dropdown" id="Upload" runat="server">
-                                <a href="#charts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-pie-chart fe-16"></i>
-                                    <span class="ml-3 item-text hover-orange">Program</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100" id="charts">
+                        <li class="nav-item dropdown" id="Upload" runat="server">
+                            <a href="#charts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-pie-chart fe-16"></i>
+                                <span class="ml-3 item-text hover-orange">Program</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="charts">
 
                                 @if (mySessionValue == "Admin")
                                 {
-                                            <li class="nav-item">
+                                    <li class="nav-item">
                                         <a class="nav-link pl-3" href="@Url.Action("CreateProcess", "Admin")"><span class="ml-1 item-text hover-orange">Process Create</span></a>
-                                            </li>
+                                    </li>
 
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("CreateSubProcess", "Admin")"><span class="ml-1 item-text hover-orange">Sub-Process</span></a>
-                                            </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("CreateSubProcess", "Admin")"><span class="ml-1 item-text hover-orange">Sub-Process</span></a>
+                                    </li>
                                 }
                                 else if (mySessionValue == "SiteAdmin")
                                 {
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("CreateProcessBySiteAdmin", "Module")"><span class="ml-1 item-text hover-orange">Process Create</span></a>
-                                            </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("CreateProcessBySiteAdmin", "Module")"><span class="ml-1 item-text hover-orange">Process Create</span></a>
+                                    </li>
 
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("CreateSubProcess", "Module")"><span class="ml-1 item-text hover-orange">Sub-Process</span></a>
-                                            </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("CreateSubProcess", "Module")"><span class="ml-1 item-text hover-orange">Sub-Process</span></a>
+                                    </li>
                                 }
 
 
-                                </ul>
-                            </li>
+                            </ul>
+                        </li>
 
-                            <li id="table" class="nav-item dropdown" runat="server">
-                                <a href="#tables" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-grid fe-16"></i>
-                                    <span class="ml-3 item-text hover-orange">User</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100" id="tables">
+                        <li id="table" class="nav-item dropdown" runat="server">
+                            <a href="#tables" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-grid fe-16"></i>
+                                <span class="ml-3 item-text hover-orange">User</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="tables">
                                 @if (mySessionValue == "Admin")
                                 {
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("CreateUser", "Admin")"><span class="ml-1 item-text hover-orange">Create</span></a>
-                                            </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("CreateUser", "Admin")"><span class="ml-1 item-text hover-orange">Create</span></a>
+                                    </li>
 
-                                                <li class="nav-item">
-                                                    <a class="nav-link pl-3" href="@Url.Action("UploadUsers", "Admin")"><span class="ml-1 item-text hover-orange">Uplode Users</span></a>
-                                                </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("ProcessAssign", "Admin")"><span class="ml-1 item-text hover-orange">Assign Process</span></a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Admin")"><span class="ml-1 item-text hover-orange">Manage Role</span></a>
-                                            </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("UploadUsers", "Admin")"><span class="ml-1 item-text hover-orange">Uplode Users</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("ProcessAssign", "Admin")"><span class="ml-1 item-text hover-orange">Assign Process</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Admin")"><span class="ml-1 item-text hover-orange">Manage Role</span></a>
+                                    </li>
                                 }
                                 else if (mySessionValue == "SiteAdmin")
                                 {
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("CreateUser", "Module")"><span class="ml-1 item-text hover-orange">Create</span></a>
-                                            </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("CreateUser", "Module")"><span class="ml-1 item-text hover-orange">Create</span></a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link pl-3" href="@Url.Action("UploadUsers", "Module")"><span class="ml-1 item-text hover-orange">Uplode Users</span></a>
                                     </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("ProcessAssign", "Module")"><span class="ml-1 item-text hover-orange">Assign Process</span></a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Module")"><span class="ml-1 item-text hover-orange">Manage Role</span></a>
-                                            </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("ProcessAssign", "Module")"><span class="ml-1 item-text hover-orange">Assign Process</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("RoleMapping", "Module")"><span class="ml-1 item-text hover-orange">Manage Role</span></a>
+                                    </li>
                                 }
 
 
-                                </ul>
-                            </li>
+                            </ul>
+                        </li>
 
-                            <li class="nav-item dropdown" id="ViewUser" runat="server">
-                                <a href="#pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                    <i class="fe fe-file fe-16"></i>
-                                    <span class="ml-3 item-text hover-orange"> Feature</span>
-                                </a>
-                                <ul class="collapse list-unstyled pl-4 w-100 w-100" id="pages">
+                        <li class="nav-item dropdown" id="ViewUser" runat="server">
+                            <a href="#pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-file fe-16"></i>
+                                <span class="ml-3 item-text hover-orange"> Feature</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100 w-100" id="pages">
                                 @if (mySessionValue == "Admin")
                                 {
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Admin")"><span class="ml-1 item-text hover-orange">Assign Feature </span></a>
-                                            </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Admin")"><span class="ml-1 item-text hover-orange">Assign Feature </span></a>
+                                    </li>
 
                                 }
                                 else if (mySessionValue == "SiteAdmin")
                                 {
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Module")"><span class="ml-1 item-text hover-orange">Assign Feature </span></a>
-                                            </li>
-                                                  
-                                            <li class="nav-item">
-                                                <a class="nav-link pl-3" href="@Url.Action("Notpad", "Notpad")"><span class="ml-1 item-text hover-orange">Assign Notepad Access</span></a>
-                                            </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("FeatureMapping", "Module")"><span class="ml-1 item-text hover-orange">Assign Feature </span></a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-3" href="@Url.Action("Notpad", "Notpad")"><span class="ml-1 item-text hover-orange">Assign Notepad Access</span></a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link pl-3" href="@Url.Action("CreateFormula", "Report")"><span class="ml-1 item-text hover-orange">Create Template</span></a>
                                     </li>
                                 }
 
 
-                                </ul>
-                            </li>
+                            </ul>
+                        </li>
 
                     }
 
@@ -291,45 +291,66 @@
                         {
 
 
-                                <li class="nav-item dropdown">
-                                    <a href="#role-@role.RoleId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                        <i class="fe fe-users fe-16"></i>
-                                        <span class="ml-3 item-text hover-orange">@role.RoleName</span>
-                                    </a>
-                                    <ul class="collapse list-unstyled pl-4 w-100" id="role-@role.RoleId">
+                            <li class="nav-item dropdown">
+                                <a href="#role-@role.RoleId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                    <i class="fe fe-users fe-16"></i>
+                                    <span class="ml-3 item-text hover-orange">@role.RoleName</span>
+                                </a>
+                                <ul class="collapse list-unstyled pl-4 w-100" id="role-@role.RoleId">
 
                                     @foreach (var module in ModuleData)
                                     {
                                         @if (module.RoleId == @role.RoleId)
                                         {
-                                                        <li>
+                                            <li>
 
-                                                            <a class="nav-link pl-3" href="/Module/Modules?roleid=@role.RoleId&ModuleName=@module.ModuleName">
+                                                <a class="nav-link pl-3" href="/Module/Modules?roleid=@role.RoleId&ModuleName=@module.ModuleName">
                                                     <span class="ml-1 hover-orange">@module.ModuleName</span>
-                                                            </a>
-                                                        </li>
+                                                </a>
+                                            </li>
                                         }
 
                                     }
 
                                     @foreach (var feature in role.Features)
                                     {
-                                                <li class="nav-item dropdown">
-                                                    <a href="#feature-@feature.FeatureId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                                                        <i class="fe fe-cogs fe-16"></i>
-                                                        <span class="ml-3 item-text hover-orange">@feature.FeatureName</span>
-                                                    </a>
-                                                    <ul class="collapse list-unstyled pl-4 w-100" id="feature-@feature.FeatureId">
-                                                @foreach (var subFeature in feature.SubFeatures)
+                                        <li class="nav-item dropdown">
+                                            <a href="#feature-@feature.FeatureId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                                <i class="fe fe-cogs fe-16"></i>
+                                               
+                                                @if (@feature.FeatureId == "2")
                                                 {
-                                                                <li>
-                                                                    <a class="nav-link pl-3" href="/Module/FetureSubFeture?RoleName=@role.RoleName&Featureid=@feature.FeatureId&SubFeatureid=@subFeature.SubFeatureId">
-                                                                        <span style="content: '• '; display: inline-block; margin-right: 5px;">•</span>
-                                                            <span class="ml-1 hover-orange">@subFeature.SubFeatureName</span>
-                                                                    </a>
+                                                    <a href="/Module/FetureSubFeture?RoleName=@role.RoleName&Featureid=@feature.FeatureId&SubFeatureid=@feature.FeatureId" style="color: white;" class="ml-3 item-text hover-orange">
+                                                        @feature.FeatureName
+                                                    </a>
 
-                                                                </li>
                                                 }
+                                                else
+                                                {
+                                                    <span class="ml-3 item-text hover-orange">@feature.FeatureName</span>
+                                                }
+                                            </a>
+                                            <ul class="collapse list-unstyled pl-4 w-100" id="feature-@feature.FeatureId">
+
+                                                @if(@feature.FeatureId == "2")
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var subFeature in feature.SubFeatures)
+                                                    {
+                                                        <li>
+                                                            <a class="nav-link pl-3" href="/Module/FetureSubFeture?RoleName=@role.RoleName&Featureid=@feature.FeatureId&SubFeatureid=@subFeature.SubFeatureId">
+                                                                <span style="content: '• '; display: inline-block; margin-right: 5px;">•</span>
+                                                                <span class="ml-1 hover-orange">@subFeature.SubFeatureName</span>
+                                                            </a>
+
+                                                        </li>
+                                                    }
+                                                }
+
+                                             
                                                     </ul>
                                                 </li>
                                     }

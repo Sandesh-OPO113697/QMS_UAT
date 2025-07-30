@@ -65,7 +65,31 @@ namespace QMS.DataBaseService
 
             return dataTable;
         }
+        public async Task<DataSet> GetTransactiondetails(string transactionID)
+        {
+            DataSet dt = new DataSet();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("GetSectionTransaction", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@transaction", transactionID);
 
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
 
         public async Task<DataTable> TestviewDetails(int TestID)
         {

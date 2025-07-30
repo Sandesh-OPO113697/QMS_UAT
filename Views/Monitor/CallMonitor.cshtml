@@ -9,11 +9,18 @@
         border-radius: 20px;
         box-shadow: 0 4px 7px rgb(0 0 2.3);
         padding: 24px;
-       
         width: 100%;
         display: grid;
         grid-template-columns: 1fr;
         gap: 20px;
+    }
+
+    .section {
+        margin-bottom: 30px;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
     }
 
     .button-row {
@@ -70,7 +77,6 @@
         filter: invert(1);
     }
 
-    
 </style>
 <div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow">
@@ -302,7 +308,7 @@
     <div class="col-md-6 my-4" style=" display: flex; flex-direction: column;">
         <div class="card shadow">
             <div class="container-fluid">
-                <div class="row justify-content-center" >
+                <div class="row justify-content-center">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -318,7 +324,10 @@
                                 foreach (System.Data.DataRow row in ViewBag.LastTransaction.Rows)
                                 {
                                     <tr>
-                                        <td>@row["ID"]</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="handleClick('@row["TransactionID"]')">
+                                                @row["ID"]
+                                            </button>
                                         <td>@row["TransactionID"]</td>
                                         <td>@row["CQ_Score"]</td>
                                     </tr>
@@ -376,7 +385,7 @@
                                 </div>
 
                                 <!-- Pause Button -->
-                              
+
 
                                 <div class="circle-btn" id="pauseButton" onclick="togglePause()" title="Pause" role="button" tabindex="0">
                                     <svg viewBox="0 0 24 24" id="pauseIcon" aria-hidden="true">
@@ -394,15 +403,21 @@
 
                             <!-- Info Section -->
                             <div class="info-boxes">
-                                <div class="info-box">⏱ <span id="timer" style="font-size: 20px; font-weight: bold; min-width: 70px; text-align: center;"> 
-                              00:00 
-                           </span> </div>
-                                <div class="info-box">⏸ <span id="pauseCount" style="font-size: 16px; font-weight: bold; min-width: 90px;"> 
-                                Pauses: 0 
-                            </span></div>
-                                <div class="info-box">🔁 <span id="pauseLimit" style="font-size: 16px; font-weight: bold; min-width: 100px;"> 
-                               Limit: 
-                           </span> </div>
+                                <div class="info-box">
+                                    ⏱ <span id="timer" style="font-size: 20px; font-weight: bold; min-width: 70px; text-align: center;">
+                                        00:00
+                                    </span>
+                                </div>
+                                <div class="info-box">
+                                    ⏸ <span id="pauseCount" style="font-size: 16px; font-weight: bold; min-width: 90px;">
+                                        Pauses: 0
+                                    </span>
+                                </div>
+                                <div class="info-box">
+                                    🔁 <span id="pauseLimit" style="font-size: 16px; font-weight: bold; min-width: 100px;">
+                                        Limit:
+                                    </span>
+                                </div>
                                 <div class="info-box">⚙️ Status: Running</div>
                             </div>
                         </div>
@@ -550,8 +565,6 @@
 
 <div class="card shadow mb-4" id="Remarks" style="display:none">
     <div class="card-header">
-      
-
     </div>
     <div class="card-body">
         <div class="row col-md-4">
@@ -629,7 +642,86 @@
     </button>
 
 </div>
+
+<div class="modal fade" id="transactionModal" tabindex="-1" style="background-color:black" aria-labelledby="transactionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="transactionModalLabel">Transaction Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="transactionContent"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- ✅ Correct: includes modal dismiss functionality -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+           function handleClick(transactionId) {
+        $.ajax({
+            url: '/Monitor/TransactionDetails',
+            method: 'GET',
+            data: { transactionId: transactionId },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    const data = response.data;
+                    let html = '';
+
+                    html += '<div class="section"><h5>Section Audit</h5>' + renderTable(data.sectionAudit) + '</div>';
+                    html += '<div class="section"><h5>Root Cause Analysis</h5>' + renderTable(data.rootCauseAnalysis) + '</div>';
+                    html += '<div class="section"><h5>Predictive Analysis</h5>' + renderTable(data.predictiveAnalysis) + '</div>';
+                    html += '<div class="section"><h5>Call Audit Details</h5>' + renderTable(data.callAuditDetails) + '</div>';
+
+                    $('#transactionContent').html(html);
+
+                    // Show the Bootstrap modal
+                    const modal = new bootstrap.Modal(document.getElementById('transactionModal'));
+                    modal.show();
+                } else {
+                    alert('Failed to load: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Request failed:', error);
+            }
+        });
+    }
+        function renderTable(dataArray) {
+        if (!dataArray || dataArray.length === 0) {
+            return '<p>No data available.</p>';
+        }
+
+        let html = '<div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr>';
+        for (const key in dataArray[0]) {
+            html += `<th>${key}</th>`;
+        }
+        html += '</tr></thead><tbody>';
+
+        dataArray.forEach(row => {
+            html += '<tr>';
+            for (const key in row) {
+                html += `<td>${row[key]}</td>`;
+            }
+            html += '</tr>';
+        });
+
+        html += '</tbody></table></div>';
+        return html;
+    }
+
+</script>
+
+
+
+
+
+
 <script>
     document.getElementById("btnVoicefeed").addEventListener("click", function () {
         document.getElementById("voiceModal").style.display = "block";
@@ -972,6 +1064,7 @@
     function RootCauseEvaluation() {
           let tableData = [];
         let isValid = true;
+         let totalScore3 = parseInt($("#totalScore").text().trim(), 10);
 
         $("#rootCauseTable tbody tr").each(function () {
             let row = $(this);
@@ -991,6 +1084,7 @@
                 { element: row.find("input[type='text']"), value: comments }
             ];
 
+          if (totalScore3 !== 100) {
             fields.forEach(field => {
                 if (!field.value) {
                     isValid = false;
@@ -999,6 +1093,13 @@
                     field.element.removeClass("border border-danger");
                 }
             });
+        }
+        else {
+           
+            fields.forEach(field => {
+                field.element.removeClass("border border-danger");
+            });
+        }
 
             tableData.push({
                 metricRCA: metricRCA,
@@ -1014,7 +1115,7 @@
         });
 
         if (!isValid) {
-            alert("Please fill all fields  in Root Cause Evaluation before submitting.");
+    
             return;
         }
         return isValid ? tableData : false;
@@ -1227,8 +1328,20 @@
         console.log("Section", JSON.stringify(sectionAuditData));
         console.log("Root Cause", JSON.stringify(rootCauseData));
         console.log("Predictive", JSON.stringify(predictiveData));
+              let totalScorecq = parseInt($("#totalScore").text().trim(), 10);
 
-        if (!callAuditData || !sectionAuditData || !rootCauseData || !predictiveData) {
+                if (totalScorecq !== 100 && !rootCauseData) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Incomplete Submission',
+                        text: 'Please fill all required fields before submitting.',
+                        timer: 4000,
+                        timerProgressBar: true
+                    });
+                }
+
+
+        if (!callAuditData || !sectionAuditData  || !predictiveData) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Incomplete Submission',
@@ -1412,135 +1525,6 @@
     });
 </script>
 <script>
-
-
-    // document.addEventListener("click", function (event) {
-
-    //     let target = event.target;
-    //     if (target.classList.contains("play-audio")) {
-    //         document.querySelectorAll(".play-audio").forEach(el => el.style.color = "gray");
-    //         target.style.color = "#03FD03";
-    //         target.style.setProperty("color", "#03FD03", "important");
-
-    //             $("#LastReansaction").hide();
-    //               $("#RelListDiv").hide();
-    //                $("#LastReansaction").hide();
-    //                 $("#SerchRecoding").hide();
-    //                   $("#AuditDiv").hide();
-
-
-    //         var audioPath = target.getAttribute("data-path");
-
-    //                     $.ajax({
-    //                     type: "POST",
-    //                     url: "/Monitor/CheckTheAuditIsDone",
-    //                     contentType: "application/json; charset=utf-8",
-    //                     dataType: "json",
-    //                     data: JSON.stringify({ id: audioPath }),
-    //                     success: function (response) {
-    //                         if (response.success) {
-    //                             if (response.connid && response.connid.trim() !== "") {
-    //                                 alert("For This Transaction ID, Audit Has Been Done");
-    //                                   $("#LastReansaction").hide();
-    //                                 $("#RelListDiv").hide();
-
-    //                                 $("#SerchRecoding").show();
-    //                                 $("#AuditDiv").show();
-
-    //                                 return;
-    //                             }
-
-    //                             else{
-
-    //                              $("#LastReansaction").show();
-    //                               $("#RelListDiv").hide();
-
-    //                                   $("#Transaction_ID").val(audioPath);
-    //                                     $.ajax({
-    //                                         type: "POST",
-    //                                         data: JSON.stringify({ id: audioPath }),
-    //                                         url: "/Monitor/GetRecording",
-    //                                         contentType: "application/json; charset=utf-8",
-    //                                         dataType: "json",
-    //                                         success: function (response) {
-    //                                             if (response.success) {
-
-    //                                                 let container = document.getElementById("recordingContainer");
-    //                                                 container.innerHTML = ""; // Clear previous content
-    //                                                 let imagePath = '/images/man.gif';
-    //                                                 console.log("Image Path:", imagePath); // Debugging
-
-    //                                                 container.style.backgroundImage = `url('${imagePath}')`;
-    //                                                 container.style.backgroundSize = "cover";
-    //                                                 container.style.backgroundPosition = "center";
-    //                                                 container.style.backgroundRepeat = "no-repeat";
-    //                                                 container.style.minHeight = "300px"; // Adjust height as needed
-    //                                                 container.style.display = "flex";
-    //                                                 container.style.alignItems = "center";
-    //                                                 container.style.justifyContent = "center";
-    //                                                 container.style.flexDirection = "column"; // Stack elements vertically
-    //                                                 container.style.padding = "20px";
-    //                                                 container.style.borderRadius = "19px";
-    //                                                 if (!response.audioData) {
-    //                                                     console.error("No audio data received.");
-    //                                                     return;
-    //                                                 }
-
-    //                                                 let byteCharacters;
-    //                                                 try {
-    //                                                     byteCharacters = atob(response.audioData);
-    //                                                 } catch (e) {
-    //                                                     console.error("Invalid Base64 audio data:", e);
-    //                                                     return;
-    //                                                 }
-
-    //                                                 let byteNumbers = new Uint8Array(byteCharacters.length);
-    //                                                 for (let i = 0; i < byteCharacters.length; i++) {
-    //                                                     byteNumbers[i] = byteCharacters.charCodeAt(i);
-    //                                                 }
-
-    //                                                 let blob = new Blob([byteNumbers], { type: "audio/mpeg" });
-    //                                                 let audioUrl = URL.createObjectURL(blob);
-
-    //                                                 console.log("Audio URL:", audioUrl); // Debugging
-
-
-    //                                                 let audioPlayer = document.createElement("audio");
-    //                                                 audioPlayer.controls = true;
-    //                                                 audioPlayer.src = audioUrl;
-    //                                                 audioPlayer.style.width = "100%";
-    //                                                 audioPlayer.style.maxWidth = "439px";
-    //                                                 audioPlayer.style.margin = "5px auto";
-    //                                                 audioPlayer.style.marginTop = "449px";
-    //                                                 audioPlayer.autoplay = true;
-    //                                                 container.appendChild(audioPlayer);
-    //                                                 audioPlayer.play().catch(error => {
-    //                                                     console.error("Autoplay blocked:", error);
-    //                                                 });
-    //                                             } else {
-    //                                                 console.error("Error: " + response.message);
-    //                                             }
-    //                                         },
-    //                                         error: function (xhr, status, error) {
-    //                                             console.error("Error occurred: " + error);
-    //                                         }
-    //                                     });
-    //                             }
-    //                         } else {
-    //                             console.error("Error: " + response.message);
-    //                         }
-    //                     },
-    //                     error: function (xhr, status, error) {
-    //                         console.error("Error occurred: " + error);
-    //                     }
-    //                 });
-
-
-
-
-
-    //     }
-    // });
 
 
 

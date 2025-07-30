@@ -389,26 +389,6 @@
 
 
 
-<div class="card shadow mb-4">
-    <div class="card-header">
-        <strong class="card-title">Zero Tolerance Behaviour</strong>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <label><strong>Was there any Zero Tolerance Behaviour identified?</strong></label>
-            <div class="form-check form-check-inline" style="margin-left: 75px;">
-                <input class="form-check-input" type="checkbox" id="yesCheckbox" name="zeroTolerance" value="Yes">
-                <label class="form-check-label" for="yesCheckbox">Yes</label>
-            </div>
-            <div class="form-check form-check-inline" style="margin-left: 75px;">
-                <input class="form-check-input" type="checkbox" id="noCheckbox" name="zeroTolerance" value="No">
-                <label class="form-check-label" for="noCheckbox">No</label>
-            </div>
-
-        </div>
-    </div>
-</div>
-
 
 <div class="card shadow mb-4">
     <div class="card-header">
@@ -1104,14 +1084,14 @@
                 var predictiveValues = collectTableValues("#predictiveAnalysisTable");
                 var ztClassificationValues = collectTableValues("#ztClassificationTable");
                    var RatinfGried = collectTableValues("#RatingTable");
-                var zeroTolerance = $("input[name='zeroTolerance']:checked").val() || "No";
+               
                var programId = document.getElementById("ProgramID").value;
             var subProgramId = document.getElementById("SUBProgramID").value;
                 var data = {
                     Root_Cause_Analysis: rootCauseValues,
                     Predictive_Analysis: predictiveValues,
                     ZT_Classification: ztClassificationValues,
-                    Zero_Tolerance: zeroTolerance,
+                    Zero_Tolerance: "No",
                     RatinfGried:RatinfGried,
                     programId:programId,
                     subProgramId:subProgramId,
@@ -1547,12 +1527,7 @@
                 console.error("filteredRoutwCauseList is empty.");
             }
 
-                if (response?.zeroTolerance === "Yes") {
-                $("#yesCheckbox").prop("checked", true);
-                    } else {
-                        $("#noCheckbox").prop("checked", true);
-                    }
-
+               
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred: " + error);
