@@ -65,39 +65,39 @@
                 <i class="fe fe-menu navbar-toggler-icon"></i>
             </button>
 
-            <ul class="nav">
-                @*  <li class="nav-item">
-                    <a class="nav-link text-muted my-2" href="#" id="modeSwitcher" data-mode="dark">
-                        <i class="fe fe-sun fe-16"></i>
-                    </a>
-                </li> *@
-                <li class="nav-item">
-                    <a class="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-shortcut">
-                        <span class="fe fe-grid fe-16"></span>
-                    </a>
-                </li>
+            <ul class="nav align-items-center">
+
                 <li class="nav-item nav-notif">
-                    <a class="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-notif">
-                        <span class="fe fe-bell fe-16"></span>
-                        <span class="dot dot-md bg-success"></span>
-                    </a>
+                    <span class="text-white font-weight-bold ml-3" style="font-size: 14px;">
+                         @UserInfo.UserName
+                    </span>
                 </li>
 
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <li class="nav-item dropdown ml-3">
+                    <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="avatar avatar-sm mt-2">
-                            <img src="~/images/user.png" alt="..." class="avatar-img rounded-circle">
+                            <img src="~/images/user.png" alt="User Avatar" class="avatar-img rounded-circle">
                         </span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right" style="background-color: #24294a; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 10px; min-width: 200px;" aria-labelledby="navbarDropdownMenuLink">
-                        <span style="display: block; color: #ffffff; font-size: 14px; font-weight: 500; margin-bottom: 5px; margin-left: 40px;">  @UserInfo.UserName</span>
-                        <span style="display: block; color: #ffffff; font-size: 12px; margin-top: 5px; margin-left: 40px;">  @UserInfo.UserType</span>
-                        <a class="dropdown-item" style="color: black; font-size: 14px; text-align: center; margin-top: 10px; background-color: #f4f5f7; border-radius: 4px; padding: 8px; text-decoration: none; display: block; transition: all 0.3s ease;" href="@Url.Action("UserLogIn", "LogIn")">Log Out</a>
-
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink"
+                         style="background-color: #24294a; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 10px; min-width: 200px;">
+                        <span class="d-block text-white font-weight-bold ml-3" style="font-size: 14px;">
+                            @UserInfo.UserName
+                        </span>
+                        <span class="d-block text-white ml-3" style="font-size: 12px; margin-top: 5px;">
+                            @UserInfo.UserType
+                        </span>
+                        <a class="dropdown-item text-center mt-3"
+                           style="color: black; font-size: 14px; background-color: #f4f5f7; border-radius: 4px; padding: 8px; text-decoration: none; transition: all 0.3s ease;"
+                           href="@Url.Action("UserLogIn", "LogIn")">
+                            Log Out
+                        </a>
                     </div>
                 </li>
+
             </ul>
+
         </nav>
         <aside class="sidebar-left" id="leftSidebar" data-simplebar >
             <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
@@ -106,9 +106,9 @@
             <nav class="vertnav navbar navbar-light">
 
                 <div class="w-100 mb-4 d-flex">
-
-                    <a class="navbar-brand mx-auto mt-2 flex-fill text-center" >
-                        @*  <img id="logoImage" src="@Url.Content("~/Images/mainLogo.png")" style="margin-left:-10px" /> *@
+                   
+                    <a href="/LogIn/RedirectBasedOnUser" class="navbar-brand mx-auto mt-2 flex-fill text-center">
+                      
                         <svg version="1.1" id="logo" class="navbar-brand-img brand-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
                             <g>
                                 <polygon class="st0" points="78,105 15,105 24,87 87,87 	" />

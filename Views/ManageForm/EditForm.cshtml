@@ -116,18 +116,20 @@
                 <tr>
                     <th>ID</th>
                     <th>Category</th>
+                    <th>Parameters</th>
+                    <th>Sub Parameters</th>
                     <th>Section Name</th>
-
+                    <th>Rating</th>
                     <th>Scorable</th>
                     <th>Weightage</th>
                     <th>Level</th>
-
+                    <th>Fatal</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
         </table>
+
 
     </div>
 </div>
@@ -149,13 +151,32 @@
                         <label>Category</label>
                         <input type="text" class="form-control" id="editCategory">
                     </div>
+                     <div class="form-group">
+                        <label>Parameters</label>
+                        <input type="text" class="form-control" id="Parameters">
+                    </div>
+                    <div class="form-group">
+                        <label>Sub Parameters</label>
+                        <input type="text" class="form-control" id="Sub_Parameters">
+                    </div>
 
                     <div class="form-group">
                         <label>Section</label>
                         <select id="editSection" class="form-control"></select>
                     </div>
-
-
+                    <div class="form-group" style="background-color: #495057;">
+                        <label for="ratingCheckboxes">Rating</label><span style="color:red">*</span>
+                        <div style="position: relative;" id="ratingDropdown">
+                            <div id="selectedRatings"
+                                 style="border: 1px solid #ccc; padding: 8px 10px; background-color: #2b2f45; color: #fff; border-radius: 4px; cursor: pointer;">
+                                Select Ratings
+                            </div>
+                            <div id="ratingCheckboxes"
+                                 style="display: none; border: 1px solid #ccc; border-top: none; max-height: 150px; overflow-y: auto;
+                        background-color: #2b2f45; position: absolute; width: 100%; z-index: 1000; border-radius: 0 0 4px 4px;">
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label>Scorable</label>
@@ -175,9 +196,16 @@
 
                         <select id="editLevel" class="form-control">
                             <option value="">Select</option>
-                            <option value="1">Level 1</option>
+                            <option  value="1">Level 1</option>
                             <option value="2">Level 2</option>
                             <option value="3">Level 3</option>
+                            <option value="4">Level 4</option>
+                            <option value="5">Level 5</option>
+                            <option value="6">Level 6</option>
+                            <option value="7">Level 7</option>
+                            <option value="8">Level 8</option>
+                            <option value="9">Level 9</option>
+
                         </select>
                     </div>
 
@@ -255,28 +283,6 @@
     </div>
 </div>
 
-
-<div class="card shadow" id="Rating_List" >
-    <div class="card-header">
-        <strong class="card-title">Rating List</strong>
-        <button id="ratAdd" class="btn btn-primary mt-4" style="margin-bottom:20px;margin-left:50px" onclick="AddDropDawon('rating')">ADD</button>
-
-    </div>
-    <div class="card-body">
-        <table class="table table-bordered mt-3" id="RatingTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Rating</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-
-    </div>
-</div>
 
 <div class="card shadow mb-4">
     <div class="card-header">
@@ -501,7 +507,10 @@
 </div>
 
 
-<script src="~/js/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script>
        $(document).ready(function () {
         // Open the modal on ADD button click
@@ -1031,9 +1040,12 @@
                     var sectionDataSection = [];
         var totalWeightageSection = 0;
 
+
+     
+
         $("#sectionGrid tbody tr").each(function () {
-            var rowScorable = $(this).find("td:eq(3)").text().trim().toLowerCase();
-            var rowScore = parseFloat($(this).find("td:eq(4)").text().trim());
+            var rowScorable = $(this).find("td:eq(6)").text().trim().toLowerCase();
+            var rowScore = parseFloat($(this).find("td:eq(7)").text().trim());
 
             if (rowScorable === "yes" && !isNaN(rowScore)) {
                 totalWeightageSection += rowScore;
@@ -1043,11 +1055,19 @@
             let subProgramID = $("#SUBProgramID").val();
             var section2 = {
 
-                Category: $(this).find("td:eq(1)").text().trim(),
-                Section: $(this).find("td:eq(2)").text().trim(),
-                Scorable: $(this).find("td:eq(3)").text().trim(),
-                Score: isNaN(rowScore) ? 0 : rowScore,
-                Level: $(this).find("td:eq(5)").text().trim(),
+               Category: $(this).find("td:eq(1)").text().trim(),
+            Parameters: $(this).find("td:eq(2)").text().trim(),
+            SubParameters: $(this).find("td:eq(3)").text().trim(),
+            SectionName: $(this).find("td:eq(4)").text().trim(),
+                  Ratingid: $(this).find("td:eq(5) select option").map(function () {
+        return $(this).text().trim();
+    }).get().join(", "),
+
+            Scorable: $(this).find("td:eq(6)").text().trim(),
+           Score: isNaN(rowScore) ? 0 : rowScore,
+            Level: $(this).find("td:eq(8)").text().trim(),
+            Fatal: $(this).find("td:eq(9)").text().trim(),
+
                 ProgramID:programID,
                 SubProgramID:subProgramID
             };
@@ -1083,7 +1103,7 @@
                 var rootCauseValues = collectTableValues("#rootCauseTable");
                 var predictiveValues = collectTableValues("#predictiveAnalysisTable");
                 var ztClassificationValues = collectTableValues("#ztClassificationTable");
-                   var RatinfGried = collectTableValues("#RatingTable");
+                 
                
                var programId = document.getElementById("ProgramID").value;
             var subProgramId = document.getElementById("SUBProgramID").value;
@@ -1092,7 +1112,7 @@
                     Predictive_Analysis: predictiveValues,
                     ZT_Classification: ztClassificationValues,
                     Zero_Tolerance: "No",
-                    RatinfGried:RatinfGried,
+                    RatinfGried:"",
                     programId:programId,
                     subProgramId:subProgramId,
                      IsActive: 1,
@@ -1438,33 +1458,47 @@
 
 
 
-        function populateGrid(data) {
-            var tableBody = $("#sectionGrid tbody");
-            tableBody.empty();
-            if (data.length === 0) {
-                tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
-                return;
-            }
-            console.log(JSON.stringify(data));
-            $.each(data, function (index, item) {
-                var row = "<tr>" +
-                    "<td>" + item.id + "</td>" +
-                    "<td>" + item.category + "</td>" +
-                    "<td>" + item.sectionName + "</td>" +
+            function populateGrid(data) {
+        var tableBody = $("#sectionGrid tbody");
+        tableBody.empty();
 
-                    "<td>" + item.scorable + "</td>" +
-                    "<td>" + item.score + "</td>" +
-                    "<td>" + item.level + "</td>" +
-
-                    "<td>" +
-                    "<button class='btn btn-primary' onclick='editSection(" + JSON.stringify(item) + ")'>Edit</button> " +
-                    "<button class='btn btn-danger' onclick='deleteSection(" + item.id + ")'>Delete</button>" +
-                    "</td>" +
-                    "</tr>";
-
-                tableBody.append(row);
-            });
+        if (data.length === 0) {
+            tableBody.append("<tr><td colspan='11' class='text-center'>No records found</td></tr>");
+            return;
         }
+
+        $.each(data, function (index, item) {
+            // Create rating dropdown
+            var ratingsArray = item.ratingid ? item.ratingid.split(",") : [];
+            var ratingDropdown = "<select class='form-control'>";
+            ratingsArray.forEach(function (rating) {
+                ratingDropdown += "<option>" + rating.trim() + "</option>";
+            });
+            ratingDropdown += "</select>";
+
+            var row = "<tr>" +
+                "<td>" + item.id + "</td>" +
+                "<td>" + item.category + "</td>" +
+             
+                "<td>" + (item.parameters || '-') + "</td>" +
+                "<td>" + (item.sub_Parameters || '-') + "</td>" +
+                   "<td>" + ( item.sectionId || '-') + "</td>" +
+                     "<td>" + ratingDropdown + "</td>" +
+            
+                "<td>" + item.scorable + "</td>" +
+                "<td>" + item.score + "</td>" +
+                "<td>" + item.level + "</td>" +
+                  "<td>" + (item.fatal || '-') + "</td>" +
+                "<td>" +
+                "<button class='btn btn-primary btn-sm' onclick='editSection(" + JSON.stringify(item) + ")'>Edit</button> " +
+                "<button class='btn btn-danger btn-sm' onclick='deleteSection(" + item.id + ")'>Delete</button>" +
+                "</td>" +
+                "</tr>";
+
+            tableBody.append(row);
+        });
+    }
+
         function onSubProgramChange() {
             var programId = document.getElementById("ProgramID").value;
             var subProgramId = document.getElementById("SUBProgramID").value;
@@ -1488,17 +1522,7 @@
 
                   var data = response.filteredRatingList; // Extract data
 
-                var tableBody = $("#RatingTable tbody");
-                tableBody.empty(); // Clear previous data
-
-                $.each(data, function (index, item) {
-                    var row = `<tr>
-                      <td>${item.value}</td>
-                        <td>${item.text}</td>
-                        <td><button class="btn btn-danger btn-sm" onclick="deleteRow(this)">Delete</button></td>
-                    </tr>`;
-                    tableBody.append(row);
-                });
+          
 
 
                 console.log("Full Response:", response);
@@ -1695,77 +1719,145 @@
 
 
         function editSection(item) {
-            $("#editId").val(item.id);
-            $("#editCategory").val(item.category);
-            $("#editScore").val(item.score);
-            $("#editLevel").val(item.level);
-            $("#editScorable").val(item.scorable);
+        $("#editId").val(item.id);
+        $("#editCategory").val(item.category);
+        $("#editScore").val(item.score);
+        $("#editLevel").val(item.level);
+        $("#editScorable").val(item.scorable);
+        $("#Parameters").val(item.parameters);
+        $("#Sub_Parameters").val(item.sub_Parameters);
+           var levelText = item.level;  
+    var levelValue = levelText.match(/\d+/);
+
+    if (levelValue) {
+      $("#editLevel").val(levelValue[0]);  
+    } else {
+      $("#editLevel").val("");  
+    }
+
+        console.log(JSON.stringify(item));
+        let selectedRatings = item.ratingid?.split(",").map(r => r.trim()) || [];
+
+        $.ajax({
+            url: "/ManageForm/GetDropdownData",
+            type: "GET",
+            success: function (response) {
+
+                let sectionDropdown = $("#editSection");
+                sectionDropdown.empty();
+                response.sections.forEach(function (section) {
+                    let isSelected = section.name === item.sectionId;
+                    sectionDropdown.append(new Option(section.name, section.id, false, isSelected));
+                });
+
+            
+                let ratingCheckboxes = $("#ratingCheckboxes");
+                ratingCheckboxes.empty();
+                response.ratings.forEach(function (rating) {
+                    let isChecked = selectedRatings.includes(rating.name);
+                    let label = $('<label style="display: block; padding: 6px 12px; color: white; cursor: pointer;"></label>');
+                    let checkbox = $('<input type="checkbox" class="rating-checkbox" style="margin-right: 6px;" />')
+                        .val(rating.name)
+                        .prop('checked', isChecked);
+                    label.append(checkbox).append(rating.name);
+                    ratingCheckboxes.append(label);
+                });
+
+                updateSelectedText();
+
+         
+                const modal = new bootstrap.Modal(document.getElementById('editModal'));
+                modal.show();
+            },
+            error: function (xhr, status, error) {
+                console.error("Dropdown load error: " + error);
+            }
+        });
+    }
 
 
-            let categoryid = item.categoryid;
+    document.getElementById("selectedRatings").addEventListener("click", function () {
+        let cbContainer = document.getElementById("ratingCheckboxes");
+        cbContainer.style.display = cbContainer.style.display === "block" ? "none" : "block";
+    });
 
-            console.log("Category ID: " + categoryid);
-
-
-            $.ajax({
-                url: "/ManageForm/GetDropdownData",
-                type: "GET",
-                success: function (response) {
-                    var sectionDropdown = $("#editSection");
-                    sectionDropdown.empty();
-                    response.sections.forEach(function (section) {
-                        let isSelected = section.id == categoryid;
-                        sectionDropdown.append(new Option(section.name, section.id, false, isSelected));
-                    });
-
-                     var LevelDropdown = $("#editLevel");
-
-                        if (LevelDropdown.length) {
-                            LevelDropdown.val(LevelDropdown.val());
-                        }
-
-
-                    $("#editModal").modal("show");
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error fetching dropdown data: " + error);
-                }
-            });
+    document.addEventListener("click", function (e) {
+        if (!document.getElementById("ratingDropdown").contains(e.target)) {
+            document.getElementById("ratingCheckboxes").style.display = "none";
         }
+    });
 
-        function updateSection() {
-                var selectedText = $("#editSection option:selected").text();
-        console.log(selectedText);
+
+    document.addEventListener("change", function () {
+        updateSelectedText();
+    });
+
+    function updateSelectedText() {
+        let selected = [];
+        document.querySelectorAll("#ratingCheckboxes input[type='checkbox']").forEach(i => {
+            if (i.checked) selected.push(i.value);
+        });
+        document.getElementById("selectedRatings").textContent = selected.length ? selected.join(", ") : "Select Ratings";
+    }
+
+             function updateSection() {
+        var selectedText = $("#editSection option:selected").text();
+        var selectedRatings = [];
+
+        $(".rating-checkbox:checked").each(function () {
+            selectedRatings.push($(this).val());
+        });
+
+        var ratingDisplay = selectedRatings.join(", ");
 
         var sectionData = {
             id: $("#editId").val(),
             category: $("#editCategory").val(),
-                sectionName: selectedText, // Corrected key
+            parameters: $("#Parameters").val(),
+            subParameters: $("#Sub_Parameters").val(),
+            sectionName: selectedText,
+            rating: ratingDisplay,
             scorable: $("#editScorable").val(),
             score: parseFloat($("#editScore").val()) || 0,
-            level: $("#editLevel").val(),
+            level: $("#editLevel option:selected").text()
+
         };
 
-        // Find and update the correct row
+        // Use sectionData.rating instead of undefined 'rating'
+        var ratingsArray2 = sectionData.rating ? sectionData.rating.split(",") : [];
+        var ratingDropdown2 = "<select class='form-control'>";
+        ratingsArray2.forEach(function (rating) {
+            ratingDropdown2 += "<option>" + rating.trim() + "</option>";
+        });
+        ratingDropdown2 += "</select>";
+
         $("#sectionGrid tbody tr").each(function () {
             var row = $(this);
-            var rowId = row.find("td:first").text(); // Get the ID from the first column
+            var rowId = row.find("td:eq(0)").text();
 
             if (rowId == sectionData.id) {
-                // Update the row values
                 row.find("td:eq(1)").text(sectionData.category);
-                row.find("td:eq(2)").text(sectionData.sectionName);
-                row.find("td:eq(3)").text(sectionData.scorable);
-                row.find("td:eq(4)").text(sectionData.score);
-                row.find("td:eq(5)").text(sectionData.level);
+                row.find("td:eq(2)").text(sectionData.parameters);
+                row.find("td:eq(3)").text(sectionData.subParameters);
+                row.find("td:eq(4)").text(sectionData.sectionName);
 
-                return false; // Stop looping after finding and updating the row
+                // Use .html() instead of .text() to render dropdown HTML
+                row.find("td:eq(5)").html(ratingDropdown2);
+
+                row.find("td:eq(6)").text(sectionData.scorable);
+                row.find("td:eq(7)").text(sectionData.score);
+                row.find("td:eq(8)").text(sectionData.level);
+
+                return false;
             }
         });
+        
+     alert("Updated Sucessfully");
 
-        // Close the modal after updating
-        $("#editModal").modal("hide");
+
     }
+
+
 
         function toggleDropdown() {
             let valueType = $("#DnyvalueType").val();

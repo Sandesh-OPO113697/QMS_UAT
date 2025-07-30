@@ -642,7 +642,7 @@ namespace QMS.DataBaseService
                         cmd.Parameters.AddWithValue("@Root_Cause_Analysis", model.Root_Cause_Analysis ?? (object)DBNull.Value);
                         cmd.Parameters.AddWithValue("@Predictive_Analysis", model.Predictive_Analysis ?? (object)DBNull.Value);
                         cmd.Parameters.AddWithValue("@ZT_Classification", model.ZT_Classification ?? (object)DBNull.Value);
-                        cmd.Parameters.AddWithValue("@Rating", model.RatinfGried ?? (object)DBNull.Value);
+                     
                         cmd.Parameters.AddWithValue("@Zero_Tolerance", model.Zero_Tolerance ?? (object)DBNull.Value);
                         cmd.Parameters.AddWithValue("@Process", model.ProgramID > 0 ? model.ProgramID : (object)DBNull.Value);
                         cmd.Parameters.AddWithValue("@SubProcess", model.SubProgramID > 0 ? model.SubProgramID : (object)DBNull.Value);
@@ -1260,8 +1260,11 @@ namespace QMS.DataBaseService
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@Operation", "InserSectionFeilds");
                             cmd.Parameters.AddWithValue("@secCategory", field.Category);
+                            cmd.Parameters.AddWithValue("@Parameters", field.Parameters);
+                            cmd.Parameters.AddWithValue("@subParameters", field.SubParameters);
                             cmd.Parameters.AddWithValue("@secSection", field.Section);
-                          
+                            cmd.Parameters.AddWithValue("@rating", field.Ratings);
+                            cmd.Parameters.AddWithValue("@fatal", field.Fatal);
                             cmd.Parameters.AddWithValue("@secScorable", field.Scorable);
                             cmd.Parameters.AddWithValue("@secScore", field.Score);
                             cmd.Parameters.AddWithValue("@secLevel", field.Level);
@@ -1326,12 +1329,14 @@ namespace QMS.DataBaseService
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@Operation", "updateDectionFeild");
                             cmd.Parameters.AddWithValue("@secCategory", field.Category);
-                            cmd.Parameters.AddWithValue("@secSectionname", field.Section);
-
+                            cmd.Parameters.AddWithValue("@Parameters", field.Parameters);
+                            cmd.Parameters.AddWithValue("@subParameters", field.Sub_Parameters);
+                            cmd.Parameters.AddWithValue("@secSection", field.SectionName);
+                            cmd.Parameters.AddWithValue("@rating", field.Ratingid);
+                            cmd.Parameters.AddWithValue("@fatal", field.Fatal);
                             cmd.Parameters.AddWithValue("@secScorable", field.Scorable);
                             cmd.Parameters.AddWithValue("@secScore", field.Score);
                             cmd.Parameters.AddWithValue("@secLevel", field.Level);
-
                             cmd.Parameters.AddWithValue("@Process", field.ProgramID);
                             cmd.Parameters.AddWithValue("@SubProcess", field.SubProgramID);
                             cmd.Parameters.AddWithValue("@UserName", UserInfo.UserName);
@@ -1394,7 +1399,7 @@ namespace QMS.DataBaseService
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@Operation", "updateDectionFeildReplicated");
                             cmd.Parameters.AddWithValue("@secCategory", field.Category);
-                            cmd.Parameters.AddWithValue("@secSectionname", field.Section);
+                            cmd.Parameters.AddWithValue("@secSectionname", field.SectionName);
 
                             cmd.Parameters.AddWithValue("@secScorable", field.Scorable);
                             cmd.Parameters.AddWithValue("@secScore", field.Score);

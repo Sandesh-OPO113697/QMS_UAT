@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "IHNnMpD2q1+x1EGZPLFpOtmPz7eXFqU7Yy8AIQ5mkRU=",
+  "Hash": "CFDMghUghWXbTQBCZoBQk1Pte72w4pGfcqrfdvrR0YI=",
   "Source": "QMS",
   "BasePath": "_content/QMS",
   "Mode": "Default",
@@ -2180,6 +2180,48 @@
       "OriginalItemSpec": "wwwroot\\js\\apps.js"
     },
     {
+      "Identity": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\QMS_UAT\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "js/bootstrap.bundle.min#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "tz57czgkoy",
+      "Integrity": "GRJrh0oydT1CwS36bBeJK/2TggpaUQC6GzTaTQdZm0k=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Identity": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap.bundle.min.js.map",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\QMS_UAT\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "js/bootstrap.bundle.min.js#[.{fingerprint}]?.map",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "qeecev14qd",
+      "Integrity": "DnLwjGzy+EOhGmZOGhBpqOkz0enwuhHM85gmKtB3s54=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
       "Identity": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap.min.js",
       "SourceId": "QMS",
       "SourceType": "Discovered",
@@ -2220,6 +2262,48 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\bootstrap-datepicker.min.js"
+    },
+    {
+      "Identity": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap-multiselect.js",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\QMS_UAT\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "js/bootstrap-multiselect#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "3c70x4g7p8",
+      "Integrity": "3cmJxon5fajXZBENrawyTFaLhgOujwqXHZn2nP2IWL8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\bootstrap-multiselect.js"
+    },
+    {
+      "Identity": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap-multiselect.min.js",
+      "SourceId": "QMS",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\QMS_UAT\\wwwroot\\",
+      "BasePath": "_content/QMS",
+      "RelativePath": "js/bootstrap-multiselect.min#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "uborvnrcmy",
+      "Integrity": "FmGtQcJALwak61gREoU2mTh5aakDtkfApec5cdKR0Tc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\bootstrap-multiselect.min.js"
     },
     {
       "Identity": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\Chart.min.js",
@@ -12501,6 +12585,170 @@
       ]
     },
     {
+      "Route": "js/bootstrap.bundle.min.js",
+      "AssetFile": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "83376"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GRJrh0oydT1CwS36bBeJK/2TggpaUQC6GzTaTQdZm0k=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 30 Jul 2025 07:41:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-GRJrh0oydT1CwS36bBeJK/2TggpaUQC6GzTaTQdZm0k="
+        }
+      ]
+    },
+    {
+      "Route": "js/bootstrap.bundle.min.js.map",
+      "AssetFile": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap.bundle.min.js.map",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "308871"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"DnLwjGzy+EOhGmZOGhBpqOkz0enwuhHM85gmKtB3s54=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 30 Jul 2025 07:41:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-DnLwjGzy+EOhGmZOGhBpqOkz0enwuhHM85gmKtB3s54="
+        }
+      ]
+    },
+    {
+      "Route": "js/bootstrap.bundle.min.js.qeecev14qd.map",
+      "AssetFile": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap.bundle.min.js.map",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "308871"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"DnLwjGzy+EOhGmZOGhBpqOkz0enwuhHM85gmKtB3s54=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 30 Jul 2025 07:41:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "qeecev14qd"
+        },
+        {
+          "Name": "label",
+          "Value": "js/bootstrap.bundle.min.js.map"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-DnLwjGzy+EOhGmZOGhBpqOkz0enwuhHM85gmKtB3s54="
+        }
+      ]
+    },
+    {
+      "Route": "js/bootstrap.bundle.min.tz57czgkoy.js",
+      "AssetFile": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "83376"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"GRJrh0oydT1CwS36bBeJK/2TggpaUQC6GzTaTQdZm0k=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 30 Jul 2025 07:41:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "tz57czgkoy"
+        },
+        {
+          "Name": "label",
+          "Value": "js/bootstrap.bundle.min.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-GRJrh0oydT1CwS36bBeJK/2TggpaUQC6GzTaTQdZm0k="
+        }
+      ]
+    },
+    {
       "Route": "js/bootstrap.min.js",
       "AssetFile": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap.min.js",
       "Selectors": [],
@@ -12661,6 +12909,170 @@
         {
           "Name": "integrity",
           "Value": "sha256-CJ035CxV4p4UI2DHJFhBskvRFoq+UE1eT8WbMaa6uRs="
+        }
+      ]
+    },
+    {
+      "Route": "js/bootstrap-multiselect.3c70x4g7p8.js",
+      "AssetFile": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap-multiselect.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "83782"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3cmJxon5fajXZBENrawyTFaLhgOujwqXHZn2nP2IWL8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 30 Jul 2025 07:38:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "3c70x4g7p8"
+        },
+        {
+          "Name": "label",
+          "Value": "js/bootstrap-multiselect.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-3cmJxon5fajXZBENrawyTFaLhgOujwqXHZn2nP2IWL8="
+        }
+      ]
+    },
+    {
+      "Route": "js/bootstrap-multiselect.js",
+      "AssetFile": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap-multiselect.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "83782"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3cmJxon5fajXZBENrawyTFaLhgOujwqXHZn2nP2IWL8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 30 Jul 2025 07:38:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-3cmJxon5fajXZBENrawyTFaLhgOujwqXHZn2nP2IWL8="
+        }
+      ]
+    },
+    {
+      "Route": "js/bootstrap-multiselect.min.js",
+      "AssetFile": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap-multiselect.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "41001"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FmGtQcJALwak61gREoU2mTh5aakDtkfApec5cdKR0Tc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 30 Jul 2025 07:38:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FmGtQcJALwak61gREoU2mTh5aakDtkfApec5cdKR0Tc="
+        }
+      ]
+    },
+    {
+      "Route": "js/bootstrap-multiselect.min.uborvnrcmy.js",
+      "AssetFile": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap-multiselect.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "41001"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FmGtQcJALwak61gREoU2mTh5aakDtkfApec5cdKR0Tc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 30 Jul 2025 07:38:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "uborvnrcmy"
+        },
+        {
+          "Name": "label",
+          "Value": "js/bootstrap-multiselect.min.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FmGtQcJALwak61gREoU2mTh5aakDtkfApec5cdKR0Tc="
         }
       ]
     },
@@ -19985,7 +20397,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 30 Jul 2025 04:35:01 GMT"
+          "Value": "Wed, 30 Jul 2025 13:11:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -20022,7 +20434,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 30 Jul 2025 04:35:01 GMT"
+          "Value": "Wed, 30 Jul 2025 13:11:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -20067,7 +20479,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 30 Jul 2025 04:35:01 GMT"
+          "Value": "Wed, 30 Jul 2025 13:11:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -20112,7 +20524,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 30 Jul 2025 04:35:01 GMT"
+          "Value": "Wed, 30 Jul 2025 13:11:50 GMT"
         },
         {
           "Name": "Cache-Control",

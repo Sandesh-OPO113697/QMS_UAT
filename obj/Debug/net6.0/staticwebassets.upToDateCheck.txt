@@ -99,8 +99,12 @@ wwwroot\Images\xsadsadsad.png
 wwwroot\js\apexcharts.custom.js
 wwwroot\js\apexcharts.min.js
 wwwroot\js\apps.js
+wwwroot\js\bootstrap.bundle.min.js
+wwwroot\js\bootstrap.bundle.min.js.map
 wwwroot\js\bootstrap.min.js
 wwwroot\js\bootstrap-datepicker.min.js
+wwwroot\js\bootstrap-multiselect.js
+wwwroot\js\bootstrap-multiselect.min.js
 wwwroot\js\Chart.min.js
 wwwroot\js\config.js
 wwwroot\js\d3.min.js

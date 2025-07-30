@@ -3,7 +3,13 @@
     public class SectionUpdateModel
     {
         public string Category { get; set; }
-        public string Section { get; set; }
+        public string Parameters { get; set; }
+        public string Sub_Parameters { get; set; }
+        public string Ratingid { get; set; }
+        public string Fatal { get; set; }
+        public string SectionName { get; set; }
+    
+
 
         public string Scorable { get; set; }
         public int Score { get; set; }

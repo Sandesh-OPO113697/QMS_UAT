@@ -449,6 +449,22 @@
       "PackagePath": "staticwebassets\\js\\bootstrap-datepicker.min.js"
     },
     {
+      "Id": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap-multiselect.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap-multiselect.js"
+    },
+    {
+      "Id": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap-multiselect.min.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap-multiselect.min.js"
+    },
+    {
+      "Id": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
       "Id": "D:\\Projects\\QMS_UAT\\wwwroot\\js\\bootstrap.min.js",
       "PackagePath": "staticwebassets\\js\\bootstrap.min.js"
     },

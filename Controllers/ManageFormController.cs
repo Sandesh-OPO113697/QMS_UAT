@@ -448,7 +448,7 @@ namespace QMS.Controllers
 
             var sectionList = sectionTable.AsEnumerable().Select(row => new
             {
-                Id = row.Field<int>("id"),
+                Id = row.Field<string>("id"),
                 Name = row.Field<string>("SectionName")
             }).ToList();
 
@@ -499,11 +499,15 @@ namespace QMS.Controllers
                 {
                     Id = row.Field<int>("id"),
                     Category = row.Field<string>("Category"),
+                    Parameters = row.Field<string>("Parameters"),
+                    Sub_Parameters = row.Field<string>("Sub_Parameters"),
+                    Ratingid = row.Field<string>("Ratingid"),
+                    Fatal = row.Field<string>("Fatal"),
                     SectionName = row.Field<string>("SectionName"),
-                    SectionId = row.Field<int>("SectionId"),
+                    SectionId = row.Field<string>("SectionId"),
 
                     Scorable = row.Field<string>("Scorable"),
-                    Score = row.Field<int>("Score"),
+                    Score = row.Field<string>("Score"),
                     Level = row.Field<string>("Level"),
 
                     Active = row.Field<string>("Active")
@@ -630,10 +634,10 @@ namespace QMS.Controllers
                     Id = row.Field<int>("id"),
                     Category = row.Field<string>("Category"),
                     SectionName = row.Field<string>("SectionName"),
-                    SectionId = row.Field<int>("SectionId"),
+                    SectionId = row.Field<string>("SectionId"),
 
                     Scorable = row.Field<string>("Scorable"),
-                    Score = row.Field<int>("Score"),
+                    Score = row.Field<string>("Score"),
                     Level = row.Field<string>("Level"),
 
                     Active = row.Field<string>("Active")

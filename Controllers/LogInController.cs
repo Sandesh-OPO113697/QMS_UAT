@@ -236,6 +236,54 @@ namespace QMS.Controllers
                 }
             }
         }
+        public IActionResult RedirectBasedOnUser()
+        {
+            var userType = UserInfo.UserType;
+
+            switch (userType)
+            {
+                case "Admin":
+                    HttpContext.Session.SetString("UserType", "Admin");
+                    return RedirectToAction("DashBoard", "QAManager");
+
+                case "SiteAdmin":
+                    HttpContext.Session.SetString("UserType", "SiteAdmin");
+                    return RedirectToAction("DashBoard", "QAManager");
+
+                case "Leadership":
+                    HttpContext.Session.SetString("UserType", "Leadership");
+                    return RedirectToAction("Dashboard", "Leadership");
+
+                case "QA Manager":
+                    HttpContext.Session.SetString("UserType", "QA Manager");
+                    return RedirectToAction("Dashboard", "QAManager");
+
+                case "Monitor Supervsior":
+                    HttpContext.Session.SetString("UserType", "Monitor Supervsior");
+                    return RedirectToAction("Dashboard", "MonitorSupervsior");
+
+                case "Monitor":
+                    HttpContext.Session.SetString("UserType", "Monitor");
+                    return RedirectToAction("Dashboard", "Monitor");
+
+                case "Operation Manager":
+                    HttpContext.Session.SetString("UserType", "AccountUser");
+                    return RedirectToAction("Dashboard", "Operation");
+
+                case "HR":
+                    HttpContext.Session.SetString("UserType", "HR");
+                    return RedirectToAction("Dashboard", "HR");
+
+                case "Agent":
+                    HttpContext.Session.SetString("UserType", "Agent");
+                    return RedirectToAction("Dashboard", "Agent");
+
+                default:
+                    HttpContext.Session.SetString("UserType", "AccountUser");
+                    return RedirectToAction("DashBoard", "Admin");
+            }
+        }
+
         [Route("Error")]
         public async Task<ActionResult> Unauthorized( string message)
         {
