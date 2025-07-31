@@ -696,6 +696,48 @@ namespace QMS.DataBaseService
                 return -1;
             }
         }
+        public async Task<string> getRatingBasicofParameter(string Processid , string subprocess , string category , string parameter , string subparameter , string sectionname)
+       {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("AgentSurvey", conn))
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Mode", "getrating");
+                        cmd.Parameters.AddWithValue("@processID", Processid);
+                        cmd.Parameters.AddWithValue("@SubprocessID", subprocess);
+                        cmd.Parameters.AddWithValue("@category", category);
+                        cmd.Parameters.AddWithValue("@parameter", parameter);
+                        cmd.Parameters.AddWithValue("@subparameter", subparameter);
+                        cmd.Parameters.AddWithValue("@sectionname", sectionname);
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                return reader["Ratingid"].ToString();
+                            }
+                            else
+                            {
+                                return null; 
+                            }
+                        }
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return "";
+        }
 
 
 
@@ -1330,7 +1372,7 @@ namespace QMS.DataBaseService
                             cmd.Parameters.AddWithValue("@Operation", "updateDectionFeild");
                             cmd.Parameters.AddWithValue("@secCategory", field.Category);
                             cmd.Parameters.AddWithValue("@Parameters", field.Parameters);
-                            cmd.Parameters.AddWithValue("@subParameters", field.Sub_Parameters);
+                            cmd.Parameters.AddWithValue("@subParameters", field.SubParameters);
                             cmd.Parameters.AddWithValue("@secSection", field.SectionName);
                             cmd.Parameters.AddWithValue("@rating", field.Ratingid);
                             cmd.Parameters.AddWithValue("@fatal", field.Fatal);

@@ -407,20 +407,15 @@
 
 <div class="card shadow" id="Predictive_CSAT_List" style="display:none">
     <div class="card-header">
-        <strong class="card-title">Predictive - CSAT List</strong>
+        <strong class="card-title">Predictive Analysis</strong>
     </div>
     <div class="card-body">
         <table class="table table-bordered mt-3" id="Predictive_CSAT">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Predictive - CSAT</th>
-                    <th>Predictive - NPS</th>
-                    <th>Predictive - FCR</th>
-                    <th>Predictive - Repeat</th>
-                    <th>Predictive - Sales effort</th>
-                    <th>Predictive - Collection effort</th>
-                    <th>Predictive - Probable escalation</th>
+                    <th>Predictive Analysis</th>
+                    
                     <th>Action</th>
                 </tr>
             </thead>
@@ -774,12 +769,7 @@
                 var row = `<tr>
                   <td>${selectedValue}</td>
                             <td>${selectedText}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                           
 
                             <td><button class="btn btn-danger btn-sm remove-row">Remove</button></td>
                            </tr>`;
@@ -1321,7 +1311,7 @@
             return;
         }
 
-        if (category === "" || parameters === "" || sectionValue === "" || selectedRatings.length === 0 || scorable === "" || score === "" || levelValue === "" || fatalValue === "") {
+        if (category === "" || parameters === "" || sectionValue === "" || selectedRatings.length === 0 || scorable === "" || score === "" || levelValue === "" || fatalText === "") {
             alert("Please fill all fields before adding.");
             return;
         }

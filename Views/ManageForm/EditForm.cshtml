@@ -37,68 +37,67 @@
     </div>
 </div>
 
-<div class="modal fade" id="ReplicateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Select Process For Form Replicate</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div id="ReplicateModal"
+     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); z-index: 1000;">
+
+    <div style=" background-color: white; width: 60%; margin: 5% auto; padding: 20px; border-radius: 8px; position: relative;">
+        <!-- Modal Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h5 style="    color: black;">Select Process For Form Replicate</h5>
+            <span id="closeReplicateModal" style="font-size: 24px; font-weight: bold; cursor: pointer;">&times;</span>
+        </div>
+
+        <!-- Modal Body -->
+        <div>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div style="flex: 1; min-width: 250px;">
+                    <label for="Location_ForReplic">Select Location Name</label><br />
+                    @Html.DropDownList(
+                             "Location_ForReplic",
+                             (List<SelectListItem>)ViewBag.Locations,
+                             "Select Location",
+                             new
+                             {
+                                 @style = "width:100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;",
+                                 id = "Location_ForReplic",
+                                 onchange = "onLocationChange_ForReplic()"
+                             })
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label for="ProgramID">Select Location Name</label>
-                            @Html.DropDownList(
-                                     "Location_ForReplic", // Name should match ID
-                                     (List<SelectListItem>)ViewBag.Locations,
-                                     "Select Location",
-                                     new { @class = "custom-select", id = "Location_ForReplic", onchange = "onLocationChange_ForReplic()" }
-                                     )
 
-                        </div>
+            <div id="ReplicateProcessDiv" style="display:none; margin-top: 20px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <label for="ProgramID_ForReplic">Program Name</label><br />
+                        <select name="ProgramID_ForReplic" id="ProgramID_ForReplic"
+                                onchange="onProgramChange_ForReplic()"
+                                style="width:100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                            <option value="">Select Process</option>
+                        </select>
                     </div>
 
-                </div>
-                <div class="row" id="ReplicateProcessDiv" style="display:none">
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label for="ProgramID">Program Name</label>
-                            
-
-
-                            <select name="ProgramID_ForReplic" id="ProgramID_ForReplic" class="custom-select" onchange="onProgramChange_ForReplic()">
-                                <option value="">Select Process</option>
-                            </select>
-                        </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <label for="SUBProgramID_ForReplic">Sub Program Name</label><br />
+                        <select name="SUBProgramID" id="SUBProgramID_ForReplic"
+                                onchange="onSubProgramChange_ForReplic()"
+                                style="width:100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                            <option value="">Select Process</option>
+                        </select>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label for="SUBProgramID">Sub Program Name</label>
-                            <select name="SUBProgramID" id="SUBProgramID_ForReplic" class="custom-select" onchange="onSubProgramChange_ForReplic()">
-                                <option value="">Select Process</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <button id="Disableformreplcation" class="btn btn-primary mt-4" style="display:none" onclick="DisabeFormReplicate()">Disable And Replicate</button>
-                        </div>
-                        <div class="form-group mb-3">
-                            <button id="Replicateformreplcation" class="btn btn-primary mt-4" style="display:none" onclick="ReplicateFormReplicate()">Replicate</button>
-                        </div>
 
+                    <div style="flex: 1; min-width: 250px;">
+                        <button id="Disableformreplcation" onclick="DisabeFormReplicate()"
+                                style="display:none; margin-top: 28px; width: 100%; padding: 8px; background-color: #dc3545; color: white; border: none; border-radius: 4px;">
+                            Disable And Replicate
+                        </button>
 
+                        <button id="Replicateformreplcation" onclick="ReplicateFormReplicate()"
+                                style="display:none; margin-top: 24px; width: 100%; padding: 8px; background-color: rgb(11 13 20 / 81%); color: white; border: none; border-radius: 4px;">
+                            Replicate
+                        </button>
                     </div>
                 </div>
-
-
-
-
-
-
             </div>
         </div>
     </div>
@@ -135,7 +134,7 @@
 </div>
 
 
-
+@* 
 <div id="editModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -218,8 +217,91 @@
     </div>
 </div>
 
+ *@
+
+<div id="editModal"
+     style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.5);">
+
+    <div style=" margin:10% auto; padding:20px; border:1px solid #888; width:60%; border-radius:8px; color:#000;">
+        <div style="margin-bottom:10px;">
+            <span id="closeEditModal"
+                  style="float:right; font-size:24px; font-weight:bold; cursor:pointer;">&times;</span>
+            <h5>Edit Section</h5>
+        </div>
+
+        <div style="margin-bottom:10px;">
+            <form id="editForm">
+                <input  type="hidden" id="editId">
+
+                <div class="form-group">
+                    <label style="color: white;">Category</label>
+                    <input type="text" class="form-control" id="editCategory">
+                </div>
+                <div class="form-group">
+                    <label style="color: white;" >Parameters</label>
+                    <input type="text" class="form-control" id="Parameters">
+                </div>
+                <div class="form-group">
+                    <label style="color: white;" >Sub Parameters</label>
+                    <input type="text" class="form-control" id="Sub_Parameters">
+                </div>
+
+                <div class="form-group">
+                    <label style="color: white;" >Section</label>
+                    <select id="editSection" class="form-control"></select>
+                </div>
+                <div class="form-group" style="background-color: #0b0d14;;">
+                    <label style="color: white;"  for="ratingCheckboxes">Rating</label><span style="color:red">*</span>
+                    <div style="position: relative;" id="ratingDropdown">
+                        <div id="selectedRatings"
+                             style="border: 1px solid #ccc; padding: 8px 10px; background-color: #2b2f45; color: #fff; border-radius: 4px; cursor: pointer;">
+                            Select Ratings
+                        </div>
+                        <div id="ratingCheckboxes"
+                             style="display: none; border: 1px solid #ccc; border-top: none; max-height: 150px; overflow-y: auto;
+                        background-color: #2b2f45; position: absolute; width: 100%; z-index: 1000; border-radius: 0 0 4px 4px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="color: white;" >Scorable</label>
+                    <select id="editScorable" class="form-control">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label style="color: white;" >Weightage</label>
+                    <input type="text" class="form-control" id="editScore">
+                </div>
+
+                <div class="form-group">
+                    <label style="color: white;" >Level</label>
+
+                    <select id="editLevel" class="form-control">
+                        <option value="">Select</option>
+                        <option value="1">Level 1</option>
+                        <option value="2">Level 2</option>
+                        <option value="3">Level 3</option>
+                        <option value="4">Level 4</option>
+                        <option value="5">Level 5</option>
+                        <option value="6">Level 6</option>
+                        <option value="7">Level 7</option>
+                        <option value="8">Level 8</option>
+                        <option value="9">Level 9</option>
+
+                    </select>
+                </div>
 
 
+
+                <button type="button" class="btn btn-primary" onclick="updateSection()">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 <div class="card shadow mb-4">
@@ -835,7 +917,7 @@
                              if (response.success && response.data === 1) {
                                  alert("Form Is Replicated Successfully...!");
                                   window.location.href = "/ManageForm/FormBuilder";
-                                 $('#ReplicateModal').modal('hide');
+                                 $('#ReplicateModal').fadeOut();
                         } else {
                             alert("Failed to Replicated the form. Please try again.");
                         }
@@ -892,7 +974,7 @@
                              if (response.success && response.data === 1) {
                                  alert("Form Is Replicated Successfully...!");
                          window.location.href = "/ManageForm/FormBuilder";
-                                 $('#ReplicateModal').modal('hide');
+                                 $('#ReplicateModal').fadeOut();
                         } else {
                             alert("Failed to Replicated the form. Please try again.");
                         }
@@ -953,7 +1035,7 @@
 
     function ReplicateForm()
     {
-         $('#ReplicateModal').modal('show');
+          $('#ReplicateModal').fadeIn();
     }
 
 
@@ -1765,9 +1847,7 @@
 
                 updateSelectedText();
 
-         
-                const modal = new bootstrap.Modal(document.getElementById('editModal'));
-                modal.show();
+                  $('#editModal').fadeIn();
             },
             error: function (xhr, status, error) {
                 console.error("Dropdown load error: " + error);
@@ -1852,7 +1932,7 @@
             }
         });
         
-     alert("Updated Sucessfully");
+    $('#editModal').fadeOut();
 
 
     }

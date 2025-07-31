@@ -513,23 +513,36 @@ namespace QMS.Controllers
                 ViewBag.Agent_Comment = dt1.Rows[0]["Agent_Comment"].ToString();
                 ViewBag.Remarks = dt1.Rows[0]["Remarks"].ToString();
                 var dataTable = await dl_qa.GetMonitporedSectionGriedAsync(Convert.ToInt32(processID), Convert.ToInt32(SUBprocessID), TransactionID);
-                var sectionList = dataTable.AsEnumerable().Select(row => new MonitoredSectionGridModel
+                var sectionList = new List<MonitoredSectionGridModel>();
+
+                foreach (DataRow row in dataTable.Rows)
                 {
+                    var rating = await dl_FormBuilder.getRatingBasicofParameter(
+                      processID,
+                        SUBprocessID,
+                        row.Field<string>("category"),
+                        row.Field<string>("parameters"),
+                        row.Field<string>("subparameters"),
+                        row.Field<string>("SectionName")
+                    );
 
-                    category = row.Field<string>("category"),
-                    level = row.Field<string>("level"),
-                    QA_rating = row.Field<string>("QA_rating"),
-                    SectionName = row.Field<string>("SectionName"),
-                    Scorable = row.Field<string>("Scorable"),
-                    Weightage = row.Field<string>("Weightage"),
-                    Commentssection = row.Field<string>("Commentssection"),
-                    Fatal = row.Field<string>("Fatal")
+                    var model = new MonitoredSectionGridModel
+                    {
+                        category = row.Field<string>("category"),
+                        level = row.Field<string>("level"),
+                        QA_rating = row.Field<string>("QA_rating"),
+                        SectionName = row.Field<string>("SectionName"),
+                        parameters = row.Field<string>("parameters"),
+                        subparameters = row.Field<string>("subparameters"),
+                        Scorable = row.Field<string>("Scorable"),
+                        Weightage = row.Field<string>("Weightage"),
+                        Commentssection = row.Field<string>("Commentssection"),
+                        Fatal = row.Field<string>("Fatal"),
+                        ratingdrop = rating
+                    };
 
-
-                }).ToList();
-
-
-
+                    sectionList.Add(model);
+                }
 
                 DataTable DynamicFeild = await dl_FormBuilder.GetDynamicGriedAsync(Convert.ToInt32(processID), Convert.ToInt32(SUBprocessID));
 

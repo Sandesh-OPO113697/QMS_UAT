@@ -18,12 +18,15 @@
             <thead>
                 <tr>
                     <th>Category</th>
-                    <th>Level</th>
+                    <th>Parameters</th>
+                    <th>Sub Parameters</th>
+                
                     <th>Section Name</th>
                     <th>QA Rating</th>
                     <th>Scorable</th>
                     <th>Score</th>
                     <th>Comments Section</th>
+                    <th>Level</th>
                     <th>Fatal</th>
                 </tr>
             </thead>
@@ -32,22 +35,26 @@
                 {
                     <tr>
                         <td>@item.category</td>
-                        <td>@item.level</td>
+                          <td>@item.parameters</td>
+                        <td>@item.subparameters</td>
+                      
                         <td>@item.SectionName</td>
-
                         <td>
-                           
-
                             <select class="qa-rating form-control">
                                 <option value="">Select Rating</option>
-                                @foreach (var rating in Model.filteredRatingList)
+                                @{
+                                    var ratings = item.ratingdrop?.Split(',') ?? Array.Empty<string>();
+                                }
+                                @foreach (var rating in ratings)
                                 {
-                                    <option value="@rating.Value" selected="@(rating.Text == item.QA_rating?.ToString() ? "selected" : null)">
-                                        @rating.Text
+                                    var trimmedRating = rating.Trim();
+                                    <option value="@trimmedRating" selected="@(trimmedRating == item.QA_rating ? "selected" : null)">
+                                        @trimmedRating
                                     </option>
                                 }
                             </select>
                         </td>
+
 
                         <td class="scorable">@item.Scorable</td>
                         <td class="score-col" data-original-score="@item.Weightage">@item.Weightage</td>
@@ -56,9 +63,9 @@
                         <td>
                             <input type="text" class="form-control" id="Comments_Section" placeholder="Enter Comments Section" value="@item.Commentssection" />
                         </td>
-
+                        <td>@item.level</td>
                         <td>
-                            <select class="fatal-select form-control">
+                            <select class="fatal-select form-control" @(item.Fatal?.Trim() == "No" ? "disabled" : "")>
                                 <option value="">Select Fatal</option>
                                 <option value="Yes" selected="@(item.Fatal?.Trim() == "Yes" ? "selected" : null)">Yes</option>
                                 <option value="No" selected="@(item.Fatal?.Trim() == "No" ? "selected" : null)">No</option>
@@ -222,15 +229,21 @@
             var selectedValue = ($(this).val() || "").toLowerCase().trim();
             var scoreCell = $row.find(".score-col");
 
-            // Always get original score from data attribute (do NOT change this attribute anywhere else)
+            
             var originalScore = parseInt(scoreCell.attr("data-original-score")) || 0;
+             console.log("selected");
+            console.log(selectedValue);
+            console.log("orignal");
+              console.log(originalScore);
+               console.log("validate");
+              
       
             const validValues = [
-                "1",
+                "met",
        
-                "6",
-                "7",
-                "12"
+                "meeting_expectations",
+                "exceeding expectations",
+                    "partially met"
             ];
         
             if (validValues.includes(selectedValue)) {

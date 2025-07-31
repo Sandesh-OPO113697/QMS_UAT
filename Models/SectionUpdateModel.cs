@@ -4,7 +4,8 @@
     {
         public string Category { get; set; }
         public string Parameters { get; set; }
-        public string Sub_Parameters { get; set; }
+                  
+        public string SubParameters { get; set; }
         public string Ratingid { get; set; }
         public string Fatal { get; set; }
         public string SectionName { get; set; }

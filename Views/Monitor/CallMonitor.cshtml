@@ -297,7 +297,7 @@
         </div>
     </div>
 </div>
-
+@* 
 <div class="row" id="LastReansaction" style="display: flex; display:none; align-items: stretch;">
     <div class="col-md-6 my-4" style="display: flex; flex-direction: column;">
 
@@ -345,34 +345,7 @@
                 <div>
 
                     <div class="col-md-12">
-                        @* <div class="form-group mb-3 d-flex align-items-center justify-content-start gap-4" *@
-                        @*      style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa;"> *@
-
-                        @*     <button id="StartAudit" class="btn btn-primary" onclick="startAudit()" *@
-                        @*             style="padding: 10px 20px; font-size: 16px;"> *@
-                        @*         Start Audit *@
-                        @*     </button> *@
-
-                        @*     <button id="pauseButton" onclick="togglePause()" *@
-                        @*             style="display: flex; align-items: center; justify-content: center;margin-left:20px; width: 50px; height: 50px; border: none; border-radius: 50%; background: linear-gradient(135deg, #007bff, #0056b3); color: white; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;" *@
-                        @*             disabled> *@
-                        @*         <i id="pauseIcon" class="fe fe-24 fe-play"></i> *@
-                        @*     </button> *@
-
-                        @*     <span id="timer" style="font-size: 20px; font-weight: bold; min-width: 70px; text-align: center;"> *@
-                        @*         00:00 *@
-                        @*     </span> *@
-
-                        @*     <span id="pauseCount" style="font-size: 16px; font-weight: bold; min-width: 90px;"> *@
-                        @*         Pauses: 0 *@
-                        @*     </span> *@
-                        @*     <span id="pauseLimit" style="font-size: 16px; font-weight: bold; min-width: 100px;"> *@
-                        @*         Limit Of Pauses: *@
-                        @*     </span> *@
-
-
-                        @* </div> *@
-
+                       
 
 
                         <div class="audit-panel">
@@ -384,7 +357,7 @@
                                     </svg>
                                 </div>
 
-                                <!-- Pause Button -->
+                        
 
 
                                 <div class="circle-btn" id="pauseButton" onclick="togglePause()" title="Pause" role="button" tabindex="0">
@@ -401,7 +374,7 @@
                                 </div>
                             </div>
 
-                            <!-- Info Section -->
+                        
                             <div class="info-boxes">
                                 <div class="info-box">
                                     ⏱ <span id="timer" style="font-size: 20px; font-weight: bold; min-width: 70px; text-align: center;">
@@ -428,41 +401,114 @@
             </div>
         </div>
     </div>
+</div> *@
+
+<div class="row" id="LastReansaction" style="display: none; height: 350px;align-items: stretch;margin-bottom: 63px;">
+    <!-- Left Column -->
+    <div class="col-md-6 my-4 d-flex flex-column" style="height: 100%;">
+        <div id="recordingContainer" class="h-100"></div>
+    </div>
+
+    <!-- Right Column with scroll -->
+    <div class="col-md-6 my-4 d-flex flex-column" style="height: 100%;">
+        <div class="card shadow flex-grow-1 overflow-auto" style="max-height: 100%;">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="w-40">ID</th>
+                                <th class="w-40">Transaction ID</th>
+                                <th class="w-40">CQ_Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lastRecTableBody">
+                            @if (ViewBag.LastTransaction != null)
+                            {
+                                foreach (System.Data.DataRow row in ViewBag.LastTransaction.Rows)
+                                {
+                                    <tr>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="handleClick('@row["TransactionID"]')">
+                                                @row["ID"]
+                                            </button>
+                                        </td>
+                                        <td>@row["TransactionID"]</td>
+                                        <td>@row["CQ_Score"]</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center">No data available</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="audit-panel">
+                        <div class="button-row">
+                            <!-- Start -->
+                            <div class="circle-btn" id="StartAudit" onclick="startAudit()" title="Start">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                            </div>
+                            <!-- Pause -->
+                            <div class="circle-btn" id="pauseButton" onclick="togglePause()" title="Pause">
+                                <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z" /></svg>
+                            </div>
+                            <!-- Stop -->
+                            <div class="circle-btn" title="Stop">
+                                <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z" /></svg>
+                            </div>
+                        </div>
+
+                        <div class="info-boxes">
+                            <div class="info-box">⏱ <span id="timer">00:00</span></div>
+                            <div class="info-box">⏸ <span id="pauseCount">Pauses: 0</span></div>
+                            <div class="info-box">🔁 <span id="pauseLimit">Limit:</span></div>
+                            <div class="info-box">⚙️ Status: Running</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
+
 
 
 <div class="card shadow mb-4" id="SectionGried" style="display:none">
     <div class="card-header">
-        <strong class="card-title"> Section</strong>
-
+        <strong class="card-title">Section</strong>
     </div>
     <div class="card-body">
-
-        <table id="sectionGrid" class="table table-bordered">
-            <thead>
-                <tr>
-
-                    <th>Category</th>
-                    <th>Level</th>
-                    <th>Section Name</th>
-                    <th>QA Rating</th>
-                    <th>Scorable</th>
-
-                    <th>Weightage</th>
-                    <th>Comments Section</th>
-                    <th>Fatal</th>
-
-
-
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-
+        <!-- Scrollable container -->
+        <div style="overflow-x: auto;">
+            <table id="sectionGrid" class="table table-bordered" style="min-width: 1200px;">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Parameters</th>
+                        <th>Sub Parameters</th>
+                        <th>Section Name</th>
+                        <th>QA Rating</th>
+                        <th>Scorable</th>
+                        <th>Weightage</th>
+                        <th>Comments Section</th>
+                        <th>Level</th>
+                        <th>Fatal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-
 
 
 
@@ -504,21 +550,10 @@
     <div class="card-body">
         <div class="row">
             <table id="predictiveAnalysisTable" class="table table-bordered">
-                <thead>
-                    <tr>
-
-                        <th>Predictive - CSAT</th>
-                        <th>Predictive - NPS</th>
-                        <th>Predictive - FCR</th>
-                        <th>Predictive - Repeat</th>
-                        <th>Predictive - Sales effort</th>
-                        <th>Predictive - Collection effort</th>
-                        <th>Predictive - Probable escalation</th>
-
-                    </tr>
-                </thead>
+                <thead><tr></tr></thead>
                 <tbody></tbody>
             </table>
+
 
         </div>
     </div>
@@ -642,26 +677,27 @@
     </button>
 
 </div>
+<div id="transactionModal"
+     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); z-index: 1050; overflow-y: auto;">
 
-<div class="modal fade" id="transactionModal" tabindex="-1" style="background-color:black" aria-labelledby="transactionModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="transactionModalLabel">Transaction Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div id="transactionContent"></div>
-            </div>
+    <div style="max-width: 90%; margin: 5% auto; background: black; border-radius: 8px; padding: 20px; position: relative;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h5 style="margin: 0;">Transaction Details</h5>
+            <button onclick="hideTransactionModal()" style="background: white; border: none; font-size: 20px; cursor: pointer;">&times;</button>
         </div>
+        <hr />
+        <div id="transactionContent"></div>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<!-- ✅ Correct: includes modal dismiss functionality -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <script>
+     function hideTransactionModal() {
+        $('#transactionModal').fadeOut(); // or use .hide()
+    }
            function handleClick(transactionId) {
         $.ajax({
             url: '/Monitor/TransactionDetails',
@@ -673,16 +709,15 @@
                     const data = response.data;
                     let html = '';
 
-                    html += '<div class="section"><h5>Section Audit</h5>' + renderTable(data.sectionAudit) + '</div>';
-                    html += '<div class="section"><h5>Root Cause Analysis</h5>' + renderTable(data.rootCauseAnalysis) + '</div>';
-                    html += '<div class="section"><h5>Predictive Analysis</h5>' + renderTable(data.predictiveAnalysis) + '</div>';
-                    html += '<div class="section"><h5>Call Audit Details</h5>' + renderTable(data.callAuditDetails) + '</div>';
+                    html += '<div class="section"><h5 style="color:white">Section Audit</h5>' + renderTable(data.sectionAudit) + '</div>';
+                    html += '<div class="section"><h5 style="color:white" >Root Cause Analysis</h5>' + renderTable(data.rootCauseAnalysis) + '</div>';
+                    html += '<div class="section"><h5 style="color:white" >Predictive Analysis</h5>' + renderTable(data.predictiveAnalysis) + '</div>';
+                    html += '<div class="section"><h5 style="color:white" >Call Audit Details</h5>' + renderTable(data.callAuditDetails) + '</div>';
 
                     $('#transactionContent').html(html);
 
                     // Show the Bootstrap modal
-                    const modal = new bootstrap.Modal(document.getElementById('transactionModal'));
-                    modal.show();
+                     $('#transactionModal').fadeIn();
                 } else {
                     alert('Failed to load: ' + response.message);
                 }
@@ -980,86 +1015,86 @@
         };
     }
 
-    function InsertSectionAudit() {
+       function InsertSectionAudit() {
+        var isValid = true;
+        var gridData = [];
 
-         var isValid = true;
-            var gridData = [];
+        $("#sectionGrid tbody tr:not(:last-child)").each(function () {
+            var $row = $(this);
+            var category = $row.find("td:eq(0)").text()?.trim() || "";
+               var parameters = $row.find("td:eq(1)").text()?.trim() || "";
+                  var subparameters = $row.find("td:eq(2)").text()?.trim() || "";
+            var level = $row.find("td:eq(8)").text()?.trim() || "";
+            var sectionName = $row.find("td:eq(3)").text()?.trim() || "";
+            var qaRating = $row.find(".qa-rating option:selected").text().trim();
+            var scorable = $row.find("td:eq(5)").text()?.trim() || "";
+            var score = $row.find("td:eq(6)").text()?.trim() || "";
+            var comments = $row.find("input[type='text']").val()?.trim() || "";
+            var fatal = $row.find(".fatal-select option:selected").text().trim();
 
-
-                $("#sectionGrid tbody tr:not(:last-child)").each(function () {
-                    var $row = $(this);
-                    var category = $row.find("td:eq(0)").text()?.trim() || "";
-                    var level = $row.find("td:eq(1)").text()?.trim() || "";
-                    var sectionName = $row.find("td:eq(2)").text()?.trim() || "";
-                    var qaRating = $row.find(".qa-rating").val();
-                    var scorable = $row.find("td:eq(4)").text()?.trim() || "";
-                    var score = $row.find("td:eq(5)").text()?.trim() || "";
-                   var comments = $row.find("input[type='text']").val()?.trim() || "";
-                    var fatal = $row.find(".fatal-select").val()?.trim() || "";
-
-                    if (category === "" && level === "" && sectionName === "") {
-                        return;
-                    }
-                    if (qaRating === "") {
-                        isValid = false;
-                        $row.find(".qa-rating").addClass("border border-danger");
-
-                    } else {
-                        $row.find(".qa-rating").removeClass("border border-danger");
-
-                    }
-
-                    if (qaRating === "Met") {
-                             if ( comments === "") {
-                                isValid = false;
-
-                                 $row.find("input[type='text']").addClass("border border-danger");
-                            } else {
-
-                                 $row.find("input[type='text']").removeClass("border border-danger");
-                            }
-
-                    } else {
-                        $row.find("input[type='text']").removeClass("border border-danger");
-
-                    }
-
-                     if (fatal === "") {
-                        isValid = false;
-                         return;
-                        $row.find(".fatal-select").addClass("border border-danger");
-
-                    } else {
-                        $row.find(".fatal-select").removeClass("border border-danger");
-
-                    }
-
-
-
-                    gridData.push({
-                        category: category,
-                        level: level,
-                        sectionName: sectionName,
-                        qaRating: qaRating,
-                        scorable: scorable,
-                        score: score,
-                        comments: comments,
-                        Transaction_ID: $("#Transaction_ID").val(),
-                        ProgramID: $("#ProgramID").val(),
-                        SUBProgramID: $("#SUBProgramID").val(),
-                        fatal:fatal
-                    });
-                });
-
-
-            if (!isValid) {
-                alert("Please select All Feilds ");
+          
+            if (category === "" && level === "" && sectionName === "") {
                 return;
             }
 
+         
+            if (qaRating === "" || qaRating=== "Select Rating") {
+                isValid = false;
+                $row.find(".qa-rating").addClass("border border-danger");
+            } else {
+                $row.find(".qa-rating").removeClass("border border-danger");
+                 isValid=true;
+            }
 
-        return isValid ? gridData : false;
+          
+            
+            if (fatal === "Yes" && comments === "") {
+              
+                isValid = false;
+                $row.find("input[type='text']").addClass("border border-danger");
+            } else {
+                $row.find("input[type='text']").removeClass("border border-danger");
+                 isValid=true;
+            }
+
+          
+
+           
+            if (fatal === "" || fatal==="Select Fatal") {
+                isValid = false;
+                $row.find(".fatal-select").addClass("border border-danger");
+            } else {
+                $row.find(".fatal-select").removeClass("border border-danger");
+                isValid=true;
+            }
+
+          
+            gridData.push({
+                category: category,
+                level: level,
+                sectionName: sectionName,
+                qaRating: qaRating,
+                scorable: scorable,
+                score: score,
+                comments: comments,
+                Transaction_ID: $("#Transaction_ID").val(),
+                ProgramID: $("#ProgramID").val(),
+                SUBProgramID: $("#SUBProgramID").val(),
+                fatal: fatal,
+                parameters:parameters ,
+                subparameters:subparameters
+
+            });
+        });
+
+        if (!isValid) {
+            alert("Please fill all required fields (including comments for Met/Fatal Yes).");
+            return false;
+        }
+
+        return gridData;
     }
+
 
     function RootCauseEvaluation() {
           let tableData = [];
@@ -1121,14 +1156,33 @@
         return isValid ? tableData : false;
     }
 
-    function InsertPredictiveEvaluation() {
-          let tableId = "#predictiveAnalysisTable";
+      function InsertPredictiveEvaluation() {
+        let tableId = "#predictiveAnalysisTable";
         let tableBody = $(tableId + " tbody");
+        let tableHead = $(tableId + " thead tr");
         let dataToSend = [];
         let isValid = true;
+
         let transactionId = $("#Transaction_ID").val();
         let programId = $("#ProgramID").val();
         let subProgramId = $("#SUBProgramID").val();
+
+        // Get the actual column headers from the table
+        let headers = [];
+        tableHead.find("th").each(function () {
+            headers.push($(this).text().trim());
+        });
+
+        // Field mapping based on known Predictive headers
+        const fieldMap = {
+            "Predictive - CSAT": "PredictiveCSAT",
+            "Predictive - NPS": "PredictiveNPS",
+            "Predictive - FCR": "PredictiveFCR",
+            "Predictive - Repeat": "PredictiveRepeat",
+            "Predictive - Sales effort": "PredictiveSalesEffort",
+            "Predictive - Collection effort": "PredictiveCollectionEffort",
+            "Predictive - Probable escalation": "PredictiveEscalation"
+        };
 
         tableBody.find("tr").each(function () {
             let row = $(this);
@@ -1138,39 +1192,39 @@
                 SUBProgramID: subProgramId
             };
 
-            rowData["PredictiveCSAT"] = row.find("td:eq(0)").text().trim();
-            row.find("select").each(function (index) {
-                let dropdown = $(this);
-                let selectedValue = dropdown.val();
+            // Initialize all predictive keys as null
+            Object.values(fieldMap).forEach(field => {
+                rowData[field] = null;
+            });
 
-                if (!selectedValue) {
-                    isValid = false;
-                    dropdown.addClass("is-invalid");
-                } else {
-                    dropdown.removeClass("is-invalid");
+            // Loop through each cell and assign corresponding field
+            row.find("td").each(function (colIndex) {
+                let headerText = headers[colIndex];
+                let mappedField = fieldMap[headerText];
+
+                if (mappedField) {
+                    let selectedVal = $(this).find("select").val();
+                    if (!selectedVal) {
+                        isValid = false;
+                        $(this).find("select").addClass("is-invalid");
+                    } else {
+                        $(this).find("select").removeClass("is-invalid");
+                    }
+                    rowData[mappedField] = selectedVal || null;
                 }
-
-                let columnNames = [
-                    "PredictiveNPS",
-                    "PredictiveFCR",
-                    "PredictiveRepeat",
-                    "PredictiveSalesEffort",
-                    "PredictiveCollectionEffort",
-                    "PredictiveEscalation"
-                ];
-                rowData[columnNames[index]] = selectedValue;
             });
 
             dataToSend.push(rowData);
         });
 
-
         if (!isValid) {
             alert("Please select all dropdown values in Predictive Evaluation before submitting.");
-            return;
+            return false;
         }
-        return isValid ? dataToSend : false;
+
+        return dataToSend;
     }
+
 
     function clearValues() {
         $("#sectionGrid tbody").find("tr").each(function () {
@@ -1328,6 +1382,9 @@
         console.log("Section", JSON.stringify(sectionAuditData));
         console.log("Root Cause", JSON.stringify(rootCauseData));
         console.log("Predictive", JSON.stringify(predictiveData));
+
+
+   
               let totalScorecq = parseInt($("#totalScore").text().trim(), 10);
 
                 if (totalScorecq !== 100 && !rootCauseData) {
@@ -1352,7 +1409,7 @@
             return;
         } else {
             endAudit();
-
+                 
             $.ajax({
                 url: "/Monitor/FormMinitoringAuditr",
                 type: "POST",
@@ -1574,65 +1631,81 @@
                                 dataType: "json",
                                 success: function (response) {
                                     if (response.success) {
-                                        let container = document.getElementById("recordingContainer");
-                                        container.innerHTML = ""; // Clear previous content
+                                       let container = document.getElementById("recordingContainer");
+                                                        container.innerHTML = ""; // Clear previous content
 
-                                        // Stop any existing audio
-                                        let oldAudio = container.querySelector("audio");
-                                        if (oldAudio) {
-                                            oldAudio.pause();
-                                            oldAudio.currentTime = 0;
-                                        }
+                                                        console.error("Audio Testing", response.audioData);
 
-                                        // UI styling
-                                        let imagePath = '/images/man.gif';
-                                        container.style.backgroundImage = `url('${imagePath}')`;
-                                        container.style.backgroundSize = "cover";
-                                        container.style.backgroundPosition = "center";
-                                        container.style.backgroundRepeat = "no-repeat";
-                                        container.style.minHeight = "300px";
-                                        container.style.display = "flex";
-                                        container.style.alignItems = "center";
-                                        container.style.justifyContent = "center";
-                                        container.style.flexDirection = "column";
-                                        container.style.padding = "20px";
-                                        container.style.borderRadius = "19px";
+                                                        // Stop any existing audio
+                                                        let oldAudio = container.querySelector("audio");
+                                                        if (oldAudio) {
+                                                            oldAudio.pause();
+                                                            oldAudio.currentTime = 0;
+                                                        }
 
-                                        if (!response.audioData) {
-                                            console.error("No audio data received.");
-                                            return;
-                                        }
+                                                        // UI styling
+                                                        let imagePath = '/images/man.gif';
+                                                        container.style.backgroundImage = `url('${imagePath}')`;
+                                                        container.style.backgroundSize = "cover";
+                                                        container.style.backgroundPosition = "center";
+                                                        container.style.backgroundRepeat = "no-repeat";
+                                                        container.style.minHeight = "300px";
+                                                        container.style.display = "flex";
+                                                        container.style.alignItems = "center";
+                                                        container.style.justifyContent = "center";
+                                                        container.style.flexDirection = "column";
+                                                        container.style.padding = "20px";
+                                                        container.style.borderRadius = "19px";
 
-                                        // Decode Base64 audio
-                                        let byteCharacters;
-                                        try {
-                                            byteCharacters = atob(response.audioData);
-                                        } catch (e) {
-                                            console.error("Invalid Base64 audio data:", e);
-                                            return;
-                                        }
+                                                        if (!response.audioData) {
+                                                            console.error("No audio data received.");
+                                                            return;
+                                                        }
 
-                                        let byteNumbers = new Uint8Array(byteCharacters.length);
-                                        for (let i = 0; i < byteCharacters.length; i++) {
-                                            byteNumbers[i] = byteCharacters.charCodeAt(i);
-                                        }
+                                                        // Decode Base64 audio
+                                                        let byteCharacters;
+                                                        try {
+                                                            byteCharacters = atob(response.audioData);
+                                                        } catch (e) {
+                                                            console.error("Invalid Base64 audio data:", e);
+                                                            return;
+                                                        }
 
-                                        let blob = new Blob([byteNumbers], { type: "audio/mpeg" });
-                                        let audioUrl = URL.createObjectURL(blob);
+                                                        let byteNumbers = new Uint8Array(byteCharacters.length);
+                                                        for (let i = 0; i < byteCharacters.length; i++) {
+                                                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                                                        }
 
-                                        // Create audio element (default stopped)
-                                        let audioPlayer = document.createElement("audio");
-                                        audioPlayer.controls = true; // visible play/pause
-                                        audioPlayer.autoplay = false; // don't autoplay
-                                        audioPlayer.src = audioUrl;
-                                        audioPlayer.style.width = "100%";
-                                        audioPlayer.style.maxWidth = "439px";
-                                        audioPlayer.style.margin = "5px auto";
-                                        audioPlayer.style.marginTop = "449px";
+                                                        let blob = new Blob([byteNumbers], { type: "audio/mpeg" });
+                                                        let audioUrl = URL.createObjectURL(blob);
 
-                                        container.appendChild(audioPlayer);
+                                                        // Create and style the audio element
+                                                        let audioPlayer = document.createElement("audio");
+                                                        audioPlayer.controls = true;
+                                                        audioPlayer.autoplay = false;
+                                                        audioPlayer.src = audioUrl;
+                                                        audioPlayer.style.width = "100%";
+                                                        audioPlayer.style.maxWidth = "439px";
+                                                        audioPlayer.style.margin = "5px auto";
+                                                       audioPlayer.style.marginTop = "263px";
 
-                                        // No autoplay - let the user play manually
+                                                        // Create a custom Play button
+                                                        let playButton = document.createElement("button");
+                                                       
+                                                        playButton.style.marginTop = "239px";
+                                                        playButton.style.padding = "10px 20px";
+                                                        playButton.style.fontSize = "16px";
+                                                        playButton.style.cursor = "pointer";
+                                                        playButton.style.display = "none";
+                                                        playButton.onclick = () => {
+                                                            audioPlayer.play().catch(e => {
+                                                                console.error("Audio play failed:", e);
+                                                            });
+                                                        };
+
+                                                        // Append both button and player to the container
+                                                        container.appendChild(playButton);
+                                                        container.appendChild(audioPlayer);
                                     } else {
                                         console.error("Error: " + response.message);
                                     }
@@ -2233,9 +2306,11 @@
 
        }
 
-        function populateGrid(data, ratingList) {
+            function populateGrid(data) {
         var tableBody = $("#sectionGrid tbody");
         tableBody.empty();
+        console.log("Section DATA");
+        console.log(JSON.stringify(data));
 
         if (data.length === 0) {
             tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
@@ -2243,16 +2318,27 @@
         }
 
         $.each(data, function (index, item) {
-            // Create options dynamically from ratingList
+            // Prepare rating dropdown from item.ratingid (comma-separated string)
             var ratingOptions = `<option value="">Select Rating</option>`;
-            $.each(ratingList, function (_, rating) {
-                ratingOptions += `<option value="${rating.text}">${rating.text}</option>`;
+            var ratings = item.ratingid.split(",").map(r => r.trim());
+
+            $.each(ratings, function (_, rating) {
+                ratingOptions += `<option value="${rating}">${rating}</option>`;
             });
+
+            // Prepare Fatal dropdown based on fatal value
+            var isFatalYes = item.fatal.toLowerCase() === "yes";
+            var fatalDropdown = `<select class="fatal-select form-control" data-index="${index}" ${!isFatalYes ? 'disabled' : ''}>
+                                    <option value="">Select Fatal</option>
+                                    <option value="Yes" ${!isFatalYes ? '' : ''}>Yes</option>
+                                    <option value="No" ${!isFatalYes ? 'selected' : ''}>No</option>
+                                 </select>`;
 
             var row = `<tr>
                 <td>${item.category}</td>
-                <td>${item.level}</td>
-                <td>${item.sectionName}</td>
+                <td>${item.parameters}</td>
+                <td>${item.sub_Parameters}</td>
+                <td>${item.sectionId || '-'}</td>
                 <td>
                     <select class="qa-rating form-control" data-index="${index}">
                         ${ratingOptions}
@@ -2260,26 +2346,21 @@
                 </td>
                 <td>${item.scorable}</td>
                 <td class="score-col">${item.score}</td>
-                <td><input type="text" class="form-control" id="Comments_Section" placeholder="Enter Comments Section"></td>
-                <td>
-                    <select class="fatal-select form-control" data-index="${index}">
-                        <option value="">Select Fatal</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                </td>
+                <td><input type="text" class="form-control" placeholder="Enter Comments Section"></td>
+                <td>${item.level}</td>
+                <td>${fatalDropdown}</td>
             </tr>`;
 
             tableBody.append(row);
         });
 
         var footerRow = `<tr>
-            <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
+            <td colspan="6" class="text-right font-weight-bold">CQ Scores:</td>
             <td id="totalScore" class="font-weight-bold">0</td>
         </tr>`;
         tableBody.append(footerRow);
 
-        // Bind event handlers for score calculation
+        // Score calculation binding
         $(".fatal-select").on("change", function () {
             calculateTotalScore();
         });
@@ -2289,7 +2370,7 @@
             var rowIndex = $(this).data("index");
             var scoreCell = $(this).closest("tr").find(".score-col");
 
-            if (selectedValue === "Yes" || selectedValue ===  "Met" ||selectedValue === "Meeting_expectations"||selectedValue ===  "exceeding expectations" ||selectedValue === "Partially Met") {
+            if (["Yes", "Met", "Partially Met", "Meeting_expectations", "exceeding expectations"].includes(selectedValue)) {
                 scoreCell.text(data[rowIndex].score);
             } else {
                 scoreCell.text(0);
@@ -2299,24 +2380,28 @@
 
         calculateTotalScore();
     }
-
-     function calculateTotalScore() {
-      let isFatal = false;
+    function calculateTotalScore() {
+        let isFatal = false;
         let total = 0;
-        $("#sectionGrid tbody tr").each(function () {
-            var scorable = $(this).find("td:nth-child(5)").text().trim(); // 5th column (scorable)
-            var score = parseInt($(this).find(".score-col").text()) || 0;
-             var fatalValue = $(this).find(".fatal-select").val();
 
-        if (fatalValue === "Yes" ) {
-            isFatal = true;
-        }
+        $("#sectionGrid tbody tr").each(function () {
+            // Updated column index: Scorable is now in the 6th column
+            var scorable = $(this).find("td:nth-child(6)").text().trim(); // Corrected to 6
+            var score = parseInt($(this).find(".score-col").text()) || 0;
+            var fatalValue = $(this).find(".fatal-select").val();
+
+            if (fatalValue === "Yes") {
+                isFatal = true;
+            }
+
             if (scorable === "Yes") {
                 total += score;
             }
         });
+
         $("#totalScore").text(isFatal ? "0" : total);
     }
+
 
        function GetSectionGried()
        {
@@ -2502,12 +2587,164 @@
     }
 
 
-
         function populateTable(tableId, data, type) {
+        let tableHead = $(tableId + " thead tr");
+        let tableBody = $(tableId + " tbody");
+        tableHead.empty();
+        tableBody.empty();
+
+        $.ajax({
+            type: "GET",
+            url: "/Monitor/GetRCAValues",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (!response.success) {
+                    console.error("Failed to fetch RCA values.");
+                    return;
+                }
+
+                let rca1Options = generateDropdownOptions(response.rca1);
+                let rca2Options = generateDropdownOptions(response.rca2);
+                let rca3Options = generateDropdownOptions(response.rca3);
+
+                if (type === "Predictive") {
+
+                    let matchedHeaders = [];
+                    const allHeaders = [
+                        "Predictive - CSAT",
+                        "Predictive - NPS",
+                        "Predictive - FCR",
+                        "Predictive - Repeat",
+                        "Predictive - Sales effort",
+                        "Predictive - Collection effort",
+                        "Predictive - Probable escalation"
+                    ];
+
+                    // Find matching headers
+                    data.forEach(item => {
+                        allHeaders.forEach(header => {
+                            if (item.text.toLowerCase().includes(header.toLowerCase())) {
+                                if (!matchedHeaders.includes(header)) {
+                                    matchedHeaders.push(header);
+                                }
+                            }
+                        });
+                    });
+
+                    // No match found
+                    if (matchedHeaders.length === 0) {
+                        tableHead.append("<th>No Matching Predictive Header</th>");
+                        return;
+                    }
+
+                    // Add header row
+                    matchedHeaders.forEach(header => {
+                        tableHead.append(`<th>${header}</th>`);
+                    });
+
+                    // Show only one row (index 0)
+                    data.forEach((item, index) => {
+                        if (index > 0) return; // Skip others
+
+                        let row = "<tr>";
+                        matchedHeaders.forEach(header => {
+                            const lowerHeader = header.toLowerCase();
+                            const lowerText = item.text.toLowerCase();
+                            console.log(lowerHeader);
+                            
+                            if (lowerHeader.includes("nps") ) {
+                                row += `
+                                    <td>
+                                        <select class="qa-rating form-control" data-index="${index}">
+                                            <option value="">Select NPS</option>
+                                            <option value="Positive">Positive</option>
+                                            <option value="Neutral">Neutral</option>
+                                            <option value="Negative">Negative</option>
+                                        </select>
+                                    </td>`;
+                            } else if (lowerHeader.includes("csat")) {
+                                row += `
+                                    <td>
+                                        <select class="qa-rating form-control" data-index="${index}">
+                                            <option value="">Select CSAT</option>
+                                            <option value="Positive">Positive</option>
+                                            <option value="Neutral">Neutral</option>
+                                            <option value="Negative">Negative</option>
+                                        </select>
+                                    </td>`;
+                            } else {
+                                row += `
+                                    <td>
+                                        <select class="qa-rating form-control" data-index="${index}">
+                                            <option value="">Select</option>
+                                            <option value="YES">YES</option>
+                                            <option value="NO">NO</option>
+                                        </select>
+                                    </td>`;
+                            }
+                        });
+                        row += "</tr>";
+                        tableBody.append(row);
+                    });
+
+                } else if (type === "RootCause") {
+                    // Static headers for RootCause
+                    tableHead.html(`
+                        <th>Controllable</th>
+                        <th>RCA 1</th>
+                        <th>RCA 2</th>
+                        <th>RCA 3</th>
+                        <th>Value</th>
+                    `);
+
+                    data.forEach((item, index) => {
+                        let row = `
+                            <tr>
+                                <td>
+                                    <select class="qa-rating form-control" data-index="${index}">
+                                        <option value="">Select Controllable</option>
+                                        <option value="Yes" ${item.controllable === "Yes" ? "selected" : ""}>Yes</option>
+                                        <option value="No" ${item.controllable === "No" ? "selected" : ""}>No</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="qa-rating form-control rca1" data-index="${index}">
+                                        <option value="">Select RCA 1</option>
+                                        ${generateDropdownOptions(response.rca1, item.rca1)}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="qa-rating form-control rca2" data-index="${index}">
+                                        <option value="">Select RCA 2</option>
+                                        ${generateDropdownOptions(response.rca2, item.rca2)}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="qa-rating form-control rca3" data-index="${index}">
+                                        <option value="">Select RCA 3</option>
+                                        ${generateDropdownOptions(response.rca3, item.rca3)}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="Enter value" value="${item.textValue || ''}" />
+                                </td>
+                            </tr>`;
+                        tableBody.append(row);
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+    }
+
+
+      @*   function populateTable(tableId, data, type) {
         let tableBody = $(tableId + " tbody");
         tableBody.empty();
 
-        // Fetch RCA values once and then populate table
         $.ajax({
             type: "GET",
             url: "/Monitor/GetRCAValues",
@@ -2525,7 +2762,10 @@
                 let rca1Options = generateDropdownOptions(response.rca1);
                 let rca2Options = generateDropdownOptions(response.rca2);
                 let rca3Options = generateDropdownOptions(response.rca3);
-
+                let headers = [];
+            $(tableId + " thead th").each(function () {
+                headers.push($(this).text().trim().toLowerCase()); // normalize
+            });
                 data.forEach((item, index) => {
                     let extraColumns = "";
 
@@ -2566,7 +2806,7 @@
                                             <select class="qa-rating form-control" data-index="${index}">
                                                 <option value="">Select NPS</option>
                                                 <option value="Positive">Positive</option>
-                                                <option value="Neutral">Neutral</option> <!-- Fixed spelling -->
+                                                <option value="Neutral">Neutral</option> 
                                                 <option value="Negative">Negative</option>
                                             </select>
                                         </td>
@@ -2619,7 +2859,7 @@
                 console.error("Error occurred: " + error);
             }
         });
-    }
+    } *@
 
     function generateDropdownOptions(data, selectedValue = "") {
         return data.map(item => `

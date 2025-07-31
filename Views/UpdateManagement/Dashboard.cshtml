@@ -69,49 +69,60 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="mailModal" tabindex="-1" aria-labelledby="mailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 950px;">
-        <div class="modal-content" style="border-radius: 10px; border: 1px solid #e0e0e0; box-shadow: 0 8px 24px rgba(0,0,0,0.1);background-color:#1f2233">
-            <div class="modal-header" style="background-color: #f4f6f8; border-bottom: 1px solid #ddd;">
-                <h5 class="modal-title" style="font-weight: 600; font-size: 20px; color: #333;">📧 Notification Preview</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 28px; background: none; border: none; color: #555;">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div id="mailModal"
+     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6); z-index: 1000;overflow-y: auto;">
 
+    <div style="max-width: 950px; margin: 5% auto; background-color: #1f2233; border-radius: 10px; border: 1px solid #e0e0e0;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.1); position: relative;">
+
+        <!-- Header -->
+        <div style="background-color: #f4f6f8; padding: 15px 20px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
+            <h5 style="font-weight: 600; font-size: 20px; color: #333;">📧 Notification Preview</h5>
+            <button id="closeMailModal"
+                    style="font-size: 28px; background: none; border: none; color: #555; cursor: pointer;">
+                &times;
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div style="padding: 25px; font-family: 'Segoe UI', sans-serif; color: #333;">
+            <div style="margin-bottom: 20px;">
+                <strong style="font-size: 16px;">Subject:</strong>
+                <span id="mailModalSubject"
+                      style="margin-left: 10px; font-size: 16px; color: #fafafa;"></span>
             </div>
 
-            <div class="modal-body" style="padding: 25px; font-family: 'Segoe UI', sans-serif; color: #333;">
-                <div style="margin-bottom: 20px;">
-                    <strong style="font-size: 16px;">Subject:</strong>
-                    <span id="mailModalSubject" style="margin-left: 10px; font-size: 16px; color: #fafafa;"></span>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <strong style="font-size: 16px;">To:</strong>
-                    <span id="mailModalTo" style="margin-left: 10px; font-size: 16px; color: #fafafa;"></span>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <strong style="font-size: 16px;">Body:</strong>
-                    <div id="mailModalBody"
-                         contenteditable="true"
-                         style="margin-top: 5px; font-size: 15px; line-height: 1.7; background-color: #1f2233; padding: 15px; color: white; border-radius: 6px; border: 1px solid #eee; min-height: 150px;">
-                    </div>
-
-                </div>
-
-                <div id="mailModalAttachment" style="margin-top: 30px; border-top: 1px solid #e0e0e0; padding-top: 20px;"></div>
+            <div style="margin-bottom: 20px;">
+                <strong style="font-size: 16px;">To:</strong>
+                <span id="mailModalTo"
+                      style="margin-left: 10px; font-size: 16px; color: #fafafa;"></span>
             </div>
-            <div class="modal-footer" style="background-color: #f4f6f8; border-top: 1px solid #ddd;">
 
-                <button type="button" class="btn btn-primary" id="publishMailBtn" style="background-color: #FF581C; border-color: #FF581C; color:white">
-                    🚀 Publish
-                </button>
+            <div style="margin-bottom: 20px;">
+                <strong style="font-size: 16px;">Body:</strong>
+                <div id="mailModalBody"
+                     contenteditable="true"
+                     style="margin-top: 5px; font-size: 15px; line-height: 1.7; background-color: #1f2233;
+                            padding: 15px; color: white; border-radius: 6px; border: 1px solid #eee; min-height: 150px;">
+                </div>
             </div>
+
+            <div id="mailModalAttachment"
+                 style="margin-top: 30px; border-top: 1px solid #e0e0e0; padding-top: 20px;">
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="background-color: #f4f6f8; padding: 15px 20px; border-top: 1px solid #ddd; text-align: right;">
+            <button id="publishMailBtn"
+                    style="background-color: #FF581C; border: none; color: white; padding: 10px 18px;
+                           border-radius: 4px; cursor: pointer;">
+                🚀 Publish
+            </button>
         </div>
     </div>
 </div>
-
 
 <script src="~/js/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -244,9 +255,7 @@
         }
 
         $('#mailModalAttachment').html(html);
-        // $('#mailModal').modal('show');
-            const modal = new bootstrap.Modal(document.getElementById('mailModal'));
-    modal.show();
+          $('#mailModal').fadeIn();
 
     };
 
@@ -295,10 +304,10 @@
                
                 if (result.success) {
                     alert(result.message);
-                    $('#mailModal').modal('hide'); // Hide the modal
+                    $('#mailModal').fadeOut();
                 } else {
                     alert("Mail sending failed. Please try again.");
-                     $('#mailModal').modal('hide');
+                    $('#mailModal').fadeOut();
                 }
         };
 

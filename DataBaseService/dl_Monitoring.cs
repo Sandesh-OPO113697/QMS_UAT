@@ -387,6 +387,8 @@ namespace QMS.DataBaseService
                             cmd.Parameters.AddWithValue("@SectionName", section.sectionName);
                             cmd.Parameters.AddWithValue("@QA_rating", section.qaRating);
                             cmd.Parameters.AddWithValue("@Scorable", section.scorable);
+                            cmd.Parameters.AddWithValue("@parameters", section.parameters);
+                            cmd.Parameters.AddWithValue("@subparameters", section.subparameters);
                             cmd.Parameters.AddWithValue("@Weightage", section.score);
                             cmd.Parameters.AddWithValue("@Commentssection", section.comments ?? (object)DBNull.Value);
                             cmd.Parameters.AddWithValue("@TransactionID", section.Transaction_ID);
@@ -399,7 +401,7 @@ namespace QMS.DataBaseService
                         }
                     }
                 }
-                return 1; // Return 1 only after all records are inserted successfully
+                return 1; 
             }
             catch (Exception ex)
             {

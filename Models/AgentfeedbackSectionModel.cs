@@ -4,6 +4,10 @@
     {
  
         public string category { get; set; }
+        public string parameters { get; set; }
+
+        public string subparameters { get; set; }
+
         public string level { get; set; }
         public string Section { get; set; }
         public string QA_rating { get; set; }
