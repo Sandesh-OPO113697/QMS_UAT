@@ -201,9 +201,9 @@ namespace QMS.Controllers
                     switch (SubFeatureid)
                     {
                         case "25":
-                            return RedirectToAction("Assesmanetdashboard", "Monitor");
+                            return RedirectToAction("Dashboard", "Assessment");
                         case "26":
-                            return RedirectToAction("ManageModule");
+                            return RedirectToAction("Assesmanetdashboard", "Monitor");
                         case "27":
                             return RedirectToAction("ManageModule");
                         default:
@@ -298,50 +298,146 @@ namespace QMS.Controllers
                         default:
                             return View();
                     }
-                case "3":
-                    switch (ModuleName)
-                    {
-                        case "Assign account user role":
-                            return RedirectToAction("RoleMapping");
-                        default:
-                            return View();
-                    }
                 case "2":
                     switch (ModuleName)
                     {
-                        case "Form enabling deactivating and editing":
+                        case "Manage Ticker":
+                            return RedirectToAction("Dashboard", "UpdateManagement");
+                        case "ZTP sign offs":
+                            return RedirectToAction("ZtTriggerSignOff", "QAManager");
+                        case "Monitor Form":
                             return RedirectToAction("FormBuilder", "ManageForm");
-                        case "Manage Feature":
-                            return RedirectToAction("FeatureMapping");
-                        case "Manage Role":
-                            return RedirectToAction("RoleMapping");
-                        case "Create User":
-                            return RedirectToAction("CreateUser");
-                        case "Create SubProgram":
-                            return RedirectToAction("CreateSubProcess");
-                        case "Assign program user role":
-                            return RedirectToAction("ProcessAssign");
+                        default:
+                            return View();
+                    }
+                case "3":
+                    switch (ModuleName)
+                    {
+                        case "Dashboard":
+                            return RedirectToAction("", "");
+                        case "Assign role":
+                            return RedirectToAction("RoleMapping", "Module");
+                         case "Manage Ticker":
+                            return RedirectToAction("Dashboard", "UpdateManagement");
+                        case "ZTP":
+                            return RedirectToAction("ZtTriggerSignOff", "QAManager");
+                        case "Monitor Form":
+                            return RedirectToAction("CallMonitor", "Monitor");
+                        
+                        default:
+                            return View();
+                    }
+                case "4":
+                    switch (ModuleName)
+                    {
+                        case "Dashboard":
+                            return RedirectToAction("Dashboard", "QAManager");
+                        case "Raise ZT":
+                            return RedirectToAction("ZtTriggerSignOff", "QAManager");
+                        case "Monitor Form":
+                            return RedirectToAction("FormBuilder", "ManageForm");
+                        case "Updates Management":
+                            return RedirectToAction("Dashboard", "UpdateManagement");
+                        case "Assessments":
+                            return RedirectToAction("Dashboard", "dashboard");
+
                         default:
                             return View();
                     }
                 case "5":
                     switch (ModuleName)
                     {
-                        case "Online assessments Create view edit and assign":
-                            return RedirectToAction("dashboard", "Assessment");
+                        case "Dashboard":
+                            return RedirectToAction("Dashboard", "MonitorSupervsior");
+                        case "ZTP":
+                            return RedirectToAction("ZtTriggerSignOff", "QAManager");
+                        case "Monitor Form":
+                            return RedirectToAction("CallMonitor", "Monitor");
+                        case "Update Management":
+                            return RedirectToAction("Dashboard", "UpdateManagement");
 
                         default:
                             return View();
                     }
+
                 case "6":
                     switch (ModuleName)
                     {
-                        case "View and action calibration forms":
-                            return RedirectToAction("ActionOnCalibration", "Calibration");
+                        case "Dashboard":
+                            return RedirectToAction("Dashboard", "Monitor");
+                        case "ZTP":
+                            return RedirectToAction("ZtTriggerSignOff", "QAManager");
+                        case "Monitoring":
+                            return RedirectToAction("CallMonitor", "Monitor");
+                        case "View Audit Form":
+                            return RedirectToAction("CallMonitor", "Monitor");
+                        case "Feedback Status":
+                            return RedirectToAction("Dashboard", "Feedback");
+                        case "View last 10 audited transactions":
+                            return RedirectToAction("Transaction", "Feedback");
 
                         default:
                             return View();
                     }
+
+
+                case "7":
+                    switch (ModuleName)
+                    {
+                        case "Dashboard":
+                            return RedirectToAction("Dashboard", "Operation");
+                        case "ZTP":
+                            return RedirectToAction("ZtTriggerSignOff", "QAManager");
+                        case "Action exceptions (ZT & Coching Plan)":
+                            return RedirectToAction("DashBoard", "Coaching");
+                        
+
+                        default:
+                            return View();
+                    }
+
+                case "8":
+                    switch (ModuleName)
+                    {
+                        case "Dashboard":
+                            return RedirectToAction("Dashboard", "HR");
+                        case "ZTP":
+                            return RedirectToAction("Dashboard", "HR");
+                        case "Action exceptions (ZT & Coching Plan)":
+                            return RedirectToAction("Dashboard", "HR");
+
+
+                        default:
+                            return View();
+                    }
+
+                case "9":
+                    switch (ModuleName)
+                    {
+                        case "Reports":
+                            return RedirectToAction("CreateFormula", "Report");
+                        
+
+
+                        default:
+                            return View();
+                    }
+
+
+                case "10":
+                    switch (ModuleName)
+                    {
+                        case "Dashboard":
+                            return RedirectToAction("Dashboard", "Leadership");
+                        case "Action exceptions (ZT & Coching Plan)":
+                            return RedirectToAction("Dashboard", "Leadership");
+
+
+
+                        default:
+                            return View();
+                    }
+
                 default:
                     return View();
             }

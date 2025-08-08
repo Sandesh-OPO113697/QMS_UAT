@@ -166,7 +166,7 @@ namespace QMS.Controllers
                     if (UserInfo.UserType == "Admin")
                     {
                         HttpContext.Session.SetString("UserType", "Admin");
-                        return RedirectToAction("DashBoard", "QAManager");
+                        return RedirectToAction("DashBoard", "Admin");
                     }
                     else if (UserInfo.UserType == "SiteAdmin")
                     {
