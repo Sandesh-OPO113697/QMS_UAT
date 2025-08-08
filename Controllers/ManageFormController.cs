@@ -309,7 +309,7 @@ namespace QMS.Controllers
             object result;
 
             //Rahul
-            int proces = 0; int Subprocess = 0;
+            int proces = 0; int Subprocess = id;
 
             switch (type.ToLower())
             {
@@ -743,57 +743,7 @@ namespace QMS.Controllers
         }
 
 
-        public async Task<IActionResult> EditForm(string programId, string subProgramId)
-        {
-
-            var Location = await _admin.GetLocationAsync();
-            ViewBag.Locations = Location;
-            DataSet dt = await dl_FormBuilder.GetSectionFeildAsync();
-            var data1 = dt.Tables[0];
-         
-            var Section_Category = data1.AsEnumerable().Select(row => new SelectListItem
-            {
-                Value = row["id"].ToString(),
-                Text = $"{row["SectionName"]}",
-            }).ToList();
-            ViewBag.Section_Category = Section_Category;
-
-            ViewBag.ProgramId = programId;
-            ViewBag.SubProgramId = subProgramId;
-            string locationid = UserInfo.LocationID;
-            var data = await _admin.GetProcessListByLocation(locationid);
-            var processList = data.AsEnumerable().Select(row => new SelectListItem
-            {
-                Value = row["ID"].ToString(),
-                Text = $"{row["ProcessName"]}",
-            }).ToList();
-            ViewBag.ProcessList = processList;
-            var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync(Convert.ToInt32(programId), Convert.ToInt32(subProgramId));
-            var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
-            {
-                Value = row["ID"].ToString(),
-                Text = $"{row["Metric_RCA"]}",
-            }).ToList();
-            ViewBag.Routw_causeList = Routw_causeList;
-            var getPredictive = await dl_FormBuilder.GetgetPredictive_Analysis();
-            var getPredictiveList = getPredictive.AsEnumerable().Select(row => new SelectListItem
-            {
-                Value = row["ID"].ToString(),
-                Text = $"{row["Predictive_CSAT"]}",
-            }).ToList();
-            ViewBag.getPredictiveList = getPredictiveList;
-
-
-            var getZT_Classification = await dl_FormBuilder.getZT_Classification();
-            var getZT_ClassificationList = getZT_Classification.AsEnumerable().Select(row => new SelectListItem
-            {
-                Value = row["ID"].ToString(),
-                Text = $"{row["ZT_Classification"]}",
-            }).ToList();
-            ViewBag.getZT_ClassificationList = getZT_ClassificationList;
-
-            return View();
-        }
+       
 
         public async Task<IActionResult> ViewForm()
         {
@@ -885,6 +835,65 @@ namespace QMS.Controllers
                 Text = $"{row["ZT_Classification"]}",
             }).ToList();
             ViewBag.getZT_ClassificationList = getZT_ClassificationList;
+            return View();
+        }
+
+        public async Task<IActionResult> EditForm(string programId, string subProgramId)
+        {
+
+            var Location = await _admin.GetLocationAsync();
+            ViewBag.Locations = Location;
+            DataSet dt = await dl_FormBuilder.GetSectionFeildAsync();
+            var data1 = dt.Tables[0];
+
+            var Section_Category = data1.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["id"].ToString(),
+                Text = $"{row["SectionName"]}",
+            }).ToList();
+            ViewBag.Section_Category = Section_Category;
+
+            ViewBag.ProgramId = programId;
+            ViewBag.SubProgramId = subProgramId;
+            string locationid = UserInfo.LocationID;
+            var data = await _admin.GetProcessListByLocation(locationid);
+            var processList = data.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ProcessName"]}",
+            }).ToList();
+            ViewBag.ProcessList = processList;
+            var Routw_cause = await dl_FormBuilder.GetRoot_Cause_AnalysisAsync(Convert.ToInt32(programId), Convert.ToInt32(subProgramId));
+            var Routw_causeList = Routw_cause.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["Metric_RCA"]}",
+            }).ToList();
+            ViewBag.Routw_causeList = Routw_causeList;
+            var getPredictive = await dl_FormBuilder.GetgetPredictive_Analysis();
+            var getPredictiveList = getPredictive.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["Predictive_CSAT"]}",
+            }).ToList();
+            ViewBag.getPredictiveList = getPredictiveList;
+
+
+            var getZT_Classification = await dl_FormBuilder.getZT_Classification();
+            var getZT_ClassificationList = getZT_Classification.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["ID"].ToString(),
+                Text = $"{row["ZT_Classification"]}",
+            }).ToList();
+            ViewBag.getZT_ClassificationList = getZT_ClassificationList;
+
+            var data2 = dt.Tables[1];
+            var RatingMaste = data2.AsEnumerable().Select(row => new SelectListItem
+            {
+                Value = row["Id"].ToString(),
+                Text = $"{row["RatingName"]}",
+            }).ToList();
+            ViewBag.RatingMaste = RatingMaste;
             return View();
         }
     }

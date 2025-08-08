@@ -612,6 +612,9 @@
         if (!Array.isArray(baseList) || baseList.length === 0) {
             tableBodyHtml = '<tr><td colspan="5" class="text-center">No pending feedback.</td></tr>';
         } else {
+
+            console.log("Base List");
+                console.log(JSON.stringify(baseList));
             baseList.forEach(function(item) {
                 tableBodyHtml += `
                     <tr>
@@ -621,7 +624,7 @@
                         <td>${item.monitorBy}</td>
                           <td>${item.monitorBy}</td>
                              <td>${item.Pending}</td>
-                            <td>${item.Close}</td>
+                            <td>${item.agentDispute}</td>
                         <td>
                             <a href="/QAManager/EditAgentFeedBack?TransactionID=${item.transactionID}"
                                 class="btn btn-primary btn-sm" style="border:white" title="View">

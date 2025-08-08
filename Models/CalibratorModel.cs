@@ -6,6 +6,6 @@
         public string SubProgram { get; set; }
         public string transactionID { get; set; }
         public string CalibratedComment { get; set; }
-        public List<string> SelectedParticipants { get; set; }
+        public string SelectedParticipants { get; set; }
     }
 }

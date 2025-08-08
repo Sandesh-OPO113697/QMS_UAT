@@ -345,7 +345,7 @@
                 <div>
 
                     <div class="col-md-12">
-                       
+
 
 
                         <div class="audit-panel">
@@ -357,7 +357,7 @@
                                     </svg>
                                 </div>
 
-                        
+
 
 
                                 <div class="circle-btn" id="pauseButton" onclick="togglePause()" title="Pause" role="button" tabindex="0">
@@ -374,7 +374,7 @@
                                 </div>
                             </div>
 
-                        
+
                             <div class="info-boxes">
                                 <div class="info-box">
                                     ⏱ <span id="timer" style="font-size: 20px; font-weight: bold; min-width: 70px; text-align: center;">
@@ -447,31 +447,57 @@
                         </tbody>
                     </table>
                 </div>
-
                 <div class="col-md-12">
+
+
+
                     <div class="audit-panel">
                         <div class="button-row">
-                            <!-- Start -->
-                            <div class="circle-btn" id="StartAudit" onclick="startAudit()" title="Start">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                            <!-- Start Button -->
+                            <div class="circle-btn" id="StartAudit" onclick="startAudit()" title="Start" role="button" tabindex="0">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
                             </div>
-                            <!-- Pause -->
-                            <div class="circle-btn" id="pauseButton" onclick="togglePause()" title="Pause">
-                                <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z" /></svg>
+
+
+
+
+                            <div class="circle-btn" id="pauseButton" onclick="togglePause()" title="Pause" role="button" tabindex="0">
+                                <svg viewBox="0 0 24 24" id="pauseIcon" aria-hidden="true">
+                                    <path d="M6 5h4v14H6zm8 0h4v14h-4z" />
+                                </svg>
                             </div>
-                            <!-- Stop -->
+
+                            <!-- Stop Button -->
                             <div class="circle-btn" title="Stop">
-                                <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z" /></svg>
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M6 6h12v12H6z" />
+                                </svg>
                             </div>
                         </div>
 
+
                         <div class="info-boxes">
-                            <div class="info-box">⏱ <span id="timer">00:00</span></div>
-                            <div class="info-box">⏸ <span id="pauseCount">Pauses: 0</span></div>
-                            <div class="info-box">🔁 <span id="pauseLimit">Limit:</span></div>
+                            <div class="info-box">
+                                ⏱ <span id="timer" style="font-size: 20px; font-weight: bold; min-width: 70px; text-align: center;">
+                                    00:00
+                                </span>
+                            </div>
+                            <div class="info-box">
+                                ⏸ <span id="pauseCount" style="font-size: 16px; font-weight: bold; min-width: 90px;">
+                                    Pauses: 0
+                                </span>
+                            </div>
+                            <div class="info-box">
+                                🔁 <span id="pauseLimit" style="font-size: 16px; font-weight: bold; min-width: 100px;">
+                                    Limit:
+                                </span>
+                            </div>
                             <div class="info-box">⚙️ Status: Running</div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -929,7 +955,7 @@
                 btnLogZT.style.display = "block";
                 $("#ZtClassfictions").show();
             } else {
-                btnLogZT.style.display = "none";
+                 btnLogZT.style.display = "none";
                   $("#ZtClassfictions").hide();
             }
         }
@@ -1032,12 +1058,12 @@
             var comments = $row.find("input[type='text']").val()?.trim() || "";
             var fatal = $row.find(".fatal-select option:selected").text().trim();
 
-          
+
             if (category === "" && level === "" && sectionName === "") {
                 return;
             }
 
-         
+
             if (qaRating === "" || qaRating=== "Select Rating") {
                 isValid = false;
                 $row.find(".qa-rating").addClass("border border-danger");
@@ -1046,10 +1072,10 @@
                  isValid=true;
             }
 
-          
-            
+
+
             if (fatal === "Yes" && comments === "") {
-              
+
                 isValid = false;
                 $row.find("input[type='text']").addClass("border border-danger");
             } else {
@@ -1057,9 +1083,9 @@
                  isValid=true;
             }
 
-          
 
-           
+
+
             if (fatal === "" || fatal==="Select Fatal") {
                 isValid = false;
                 $row.find(".fatal-select").addClass("border border-danger");
@@ -1068,7 +1094,7 @@
                 isValid=true;
             }
 
-          
+
             gridData.push({
                 category: category,
                 level: level,
@@ -1130,7 +1156,7 @@
             });
         }
         else {
-           
+
             fields.forEach(field => {
                 field.element.removeClass("border border-danger");
             });
@@ -1150,7 +1176,7 @@
         });
 
         if (!isValid) {
-    
+
             return;
         }
         return isValid ? tableData : false;
@@ -1384,7 +1410,7 @@
         console.log("Predictive", JSON.stringify(predictiveData));
 
 
-   
+
               let totalScorecq = parseInt($("#totalScore").text().trim(), 10);
 
                 if (totalScorecq !== 100 && !rootCauseData) {
@@ -1409,7 +1435,7 @@
             return;
         } else {
             endAudit();
-                 
+
             $.ajax({
                 url: "/Monitor/FormMinitoringAuditr",
                 type: "POST",
@@ -1552,8 +1578,17 @@
                     alert("Selected date cannot be in the future.");
                     document.getElementById(id).value = "";
                 } else if (selectedDate < minAllowedDate) {
-                    alert("Selected date must be within the last 48 hours.");
+                     var audit2 = $("#AuditID").val();
+
+                    if(audit2==1)
+                    {
+
+                    }
+                    else{
+                         alert("Selected date must be within the last 48 hours.");
                     document.getElementById(id).value = "";
+                    }
+
                 }
             }
 
@@ -1691,7 +1726,7 @@
 
                                                         // Create a custom Play button
                                                         let playButton = document.createElement("button");
-                                                       
+
                                                         playButton.style.marginTop = "239px";
                                                         playButton.style.padding = "10px 20px";
                                                         playButton.style.fontSize = "16px";
@@ -2652,7 +2687,7 @@
                             const lowerHeader = header.toLowerCase();
                             const lowerText = item.text.toLowerCase();
                             console.log(lowerHeader);
-                            
+
                             if (lowerHeader.includes("nps") ) {
                                 row += `
                                     <td>
@@ -2741,7 +2776,7 @@
     }
 
 
-      @*   function populateTable(tableId, data, type) {
+    @*   function populateTable(tableId, data, type) {
         let tableBody = $(tableId + " tbody");
         tableBody.empty();
 

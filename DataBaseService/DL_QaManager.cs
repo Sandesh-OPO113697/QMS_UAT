@@ -569,6 +569,68 @@ namespace QMS.DataBaseService
             }
             return dt;
         }
+
+
+        public async Task<DataTable> GetMonitporedSectionGriedCallibrationAsync(int processID, int SubprocessID, string TransactionID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("AgentSurvey", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Mode", "GetMotiroedSectionGriedCalibration");
+                        cmd.Parameters.AddWithValue("@processID", processID);
+                        cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
+                        cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
+        public async Task<DataTable> GetMonitporedSectionGriedAsyncWithoutTrasnaction(int processID, int SubprocessID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("AgentSurvey", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.AddWithValue("@Mode", "GetMotiroedSectionGriedWithoutTransaction");
+                        cmd.Parameters.AddWithValue("@processID", processID);
+                        cmd.Parameters.AddWithValue("@SubprocessID", SubprocessID);
+                     
+                        SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+                        await Task.Run(() => adpt.Fill(dt));
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
         public async Task<int> UpdateSectionByQAEvaluation(List<SectionAuditModel> model, string TransactionID)
         {
             try
@@ -600,6 +662,8 @@ namespace QMS.DataBaseService
                             cmd.CommandType = CommandType.StoredProcedure;
 
                             cmd.Parameters.AddWithValue("@Category", section.category);
+                            cmd.Parameters.AddWithValue("@parameter", section.parameters);
+                            cmd.Parameters.AddWithValue("@subparameter", section.subparameters);
                             cmd.Parameters.AddWithValue("@Level", section.level);
                             cmd.Parameters.AddWithValue("@SectionName", section.sectionName);
                             cmd.Parameters.AddWithValue("@QA_rating", section.qaRating);

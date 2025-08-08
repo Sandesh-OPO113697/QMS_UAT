@@ -18,13 +18,15 @@ namespace QMS.Controllers
         private readonly dl_Calibration dl_qcouch;
 
         private readonly Dl_Admin _admin;
-        public CalibrationController(DL_Hr dl_HRs, DL_QaManager dl_qas, DL_Agent adla, dl_Calibration dl_couch , Dl_Admin adl )
+        private readonly DL_Operation _dl_Ops;
+        public CalibrationController(DL_Hr dl_HRs, DL_QaManager dl_qas, DL_Agent adla, dl_Calibration dl_couch , Dl_Admin adl , DL_Operation dl_Ops)
         {
              this.dl_HR = dl_HRs;
             dl_qa = dl_qas;
             dl_Agent = adla;
             dl_qcouch = dl_couch;
             _admin = adl;
+            _dl_Ops = dl_Ops;
         }
         [HttpPost]
         public async Task<JsonResult> InsertSectionAudit([FromBody] List<SectionAuditModel> sectionData)
@@ -45,16 +47,24 @@ namespace QMS.Controllers
                 return Json(new { success = false, message = "No data Insert" });
             }
         }
+
+
+  
+        public async Task<IActionResult> ActionOnCalibration()
+        {
+            var Calibration = await _dl_Ops.Participants_View();
+            return View(Calibration);
+        }
         [HttpPost]
         public async Task<JsonResult> GetRecListBydate([FromBody] RecApiModel request)
         {
-            if (request == null || string.IsNullOrEmpty(request.AgentId) || string.IsNullOrEmpty(request.FromDate) || string.IsNullOrEmpty(request.ToDate))
+            if (request == null  || string.IsNullOrEmpty(request.FromDate) || string.IsNullOrEmpty(request.ToDate))
             {
                 return Json(new { success = false, message = "Invalid input data." });
             }
             else
             {
-                var reclist = await dl_qcouch.GetRecListByAPi(request.FromDate, request.ToDate, request.AgentId);
+                List < CallRecord >reclist  = await dl_qcouch.GetRecListByAPi(request.FromDate, request.ToDate, request.AgentId);
 
 
                 return Json(new { success = true, message = "sucesss.", reclist = reclist });

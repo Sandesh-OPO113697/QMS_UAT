@@ -344,6 +344,8 @@ namespace QMS.Controllers
             {
 
                 category = row.Field<string>("category"),
+                parameters = row.Field<string>("parameters"),
+                subparameters = row.Field<string>("subparameters"),
                 level = row.Field<string>("level"),
                 Section = row.Field<string>("SectionName"),
                 QA_rating = row.Field<string>("QA_rating"),

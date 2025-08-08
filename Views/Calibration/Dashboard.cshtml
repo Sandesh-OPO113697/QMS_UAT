@@ -1,6 +1,18 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+
+
+    #FromDate::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+    }
+
+    #Todate::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+    }
+
+</style>
 
 <div class="col-md-12 my-4" id="AuditDiv">
     <div class="card shadow">
@@ -10,7 +22,7 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="ProgramID">Calibration</label>
-                    <input type="text" class="form-control" readonly name="name" value="Calibration Enrol" />
+                    <input type="text" class="form-control" readonly name="name" value="Enrol Calibration" />
                 </div>
 
             </div>
@@ -34,10 +46,11 @@
 
                 <div class="form-group col-md-6">
                     <label for="ToDate">To Date</label>
-                    <input type="date" id="Todate" class="form-control">
+                    <input type="date" id="Todate" class="form-control" onchange="onAgentIDChange()">
+
                 </div>
 
-                <div class="form-group col-md-6">
+                @* <div class="form-group col-md-6">
                     <label for="AgentID">Agent Name</label>
                     <select name="AgentID" id="AgentID" class="custom-select" onchange="onAgentIDChange()">
                     </select>
@@ -47,24 +60,47 @@
                     <label for="TL_id">TL Name</label>
                     <input type="text" placeholder="TL Name" class="form-control" id="TL_id" readonly />
                 </div>
-
+ *@
 
 
             </div>
             <div class="row">
-                <div class="form-group col-md-6">
+                <input type="hidden" name="transactionnConniD" id="transactionnConniD" />
+              @*   <div class="form-group col-md-6">
                     <label for="TransactionID">Select Transaction</label> <span style="color:red">*</span>
-                    <select id="TransactionID" class="form-control">
+                    <select id="TransactionID" class="form-control" onchange="GetSectionGrid(this.value)">
                         <option value="">Select Transaction</option>
                        
                     </select>
-                </div>
-
+                </div> *@
+@* 
                 <div class="form-group col-md-6">
                     <label for="Participants">Select Participants</label> <span style="color:red">*</span>
                     <select name="Participants" id="Participants" class="custom-select" style="color: white;" onchange="GetSectionGried()" multiple>
                         <option value="">Select Participants</option>
                     </select>
+                </div> *@
+
+                <div class="form-group col-md-6">
+                    <label for="Participants">Select Participants</label> <span style="color:red">*</span>
+
+                
+                    <div id="dropdown-container" style="position: relative;background-color:#181d2d;
+">
+                        <div id="dropdown-button"
+                             onclick="toggleDropdown()"
+                             style="padding: 8px; border: 1px solid #ccc; color: white; cursor: pointer;">
+                            Select Participants
+                        </div>
+
+                        <div id="checkbox-list"
+                             style="display: none; position: absolute; z-index: 10; background: #191a26; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; width: 100%;">
+                           
+                        </div>
+                    </div>
+
+ 
+                    <input type="hidden" name="Participants" id="Participants" />
                 </div>
             </div>
 
@@ -72,8 +108,29 @@
     </div>
 </div>
 
+<table id="recTable" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Play</th>
+            <th>ID</th>
+            <th>Agent ID</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Call Duration</th>
+            <th>Transaction</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 
+<div id="pagination" class="mt-2"></div>
 
+<div class="col-md-12" style="margin-bottom: 58px;
+    border-radius: 19px">
+
+    <div id="recordingContainer"></div>
+
+</div>
 
 
 <div class="card shadow mb-4" id="SectionGried" style="display:none">
@@ -85,12 +142,15 @@
             <thead>
                 <tr>
                     <th>Category</th>
-                    <th>Level</th>
+                    <th>Parameters</th>
+                    <th>Sub Parameters</th>
+
                     <th>Section Name</th>
                     <th>QA Rating</th>
                     <th>Scorable</th>
-                    <th>Weightage</th>
+                    <th>Score</th>
                     <th>Comments Section</th>
+                    <th>Level</th>
                     <th>Fatal</th>
                 </tr>
             </thead>
@@ -132,163 +192,248 @@
 
 
 <script>
+        let allData = [];
+    let pageSize = 5;
+    let currentPage = 1;
 
+    function renderTable(data, page) {
+        let start = (page - 1) * pageSize;
+        let end = start + pageSize;
+        let paginatedData = data.slice(start, end);
+
+        let tableBody = $("#recTable tbody");
+        tableBody.empty();
+
+        paginatedData.forEach((item, index) => {
+            let row = `
+                <tr>  <td class="text-center">
+                    <div>
+                        <span class="fe fe-24 fe-headphones play-audio"
+                              style="color: gray; cursor: pointer;"
+                              data-path="${item.connid}"
+                              onclick="GetSectionGrid(this, '${item.connid}')">
+                        </span>
+                    </div>
+                </td>
+                    <td>${start + index + 1}</td>
+             
+                    <td>${item.agentId}</td>
+                    <td>${item.startTime}</td>
+                    <td>${item.endTime}</td>
+                    <td>${item.callDuration}</td>
+                    <td>${item.connid}</td>
+                </tr>`;
+            tableBody.append(row);
+        });
+
+        renderPagination(data.length);
+    }
+
+    function renderPagination(totalItems) {
+        let pageCount = Math.ceil(totalItems / pageSize);
+        let pagination = $('#pagination');
+        pagination.empty();
+
+        for (let i = 1; i <= pageCount; i++) {
+            let pageButton = $(`<button class="btn btn-sm ${i === currentPage ? 'btn-primary' : 'btn-light'} mx-1">${i}</button>`);
+            pageButton.click(function () {
+                currentPage = i;
+                renderTable(allData, currentPage);
+            });
+            pagination.append(pageButton);
+        }
+    }
         function onAgentIDChange() {
 
              var fromDate = $("#FromDate").val();
-                var toDate = $("#Todate").val();
-                var agentId = $("#AgentID").val();
+    var toDate = $("#Todate").val();
+    var agentId = $("#AgentID").val();
+
+    var from = fromDate ? new Date(fromDate) : null;
+    var to = toDate ? new Date(toDate) : null;
+    var now = new Date();
+
+    var currentMonth = now.getMonth();
+    var currentYear = now.getFullYear();
 
 
-                      if (!fromDate || !toDate ) {
-                                $("#FromDate").val("");
-                                $("#Todate").val("");
-                                alert("Invalid date selection. Dates have been cleared.");
-                                return;
-                            }
-                if (!agentId) {
-                    alert("Please select an Agent.");
-                    return;
-                }
-           var programId = document.getElementById("AgentID").value;
-             console.log("Agent ID .. " +programId );
+    if ((from && (from.getMonth() !== currentMonth || from.getFullYear() !== currentYear)) ||
+        (to && (to.getMonth() !== currentMonth || to.getFullYear() !== currentYear))) {
+        alert("Please select From Date and To Date only within the current month.");
+        $("#FromDate").val("");
+        $("#Todate").val("");
+        return;
+    }
 
-           if (programId == "") {
-               alert("Please Select Agent first");
-               return;
-           }
-           $.ajax({
-               type: "POST",
-               data: JSON.stringify({ id: programId }),
+    if (!fromDate) {
+        $("#Todate").val("");
+        alert("Please select From Date first.");
+        return;
+    }
 
-               url: "/Monitor/GetTLName",
-               contentType: "application/json; charset=utf-8",
-               dataType: "json",
-               success: function (response) {
-                if (response.success) {
-                    $("#TL_id").val(response.tl_name);
+    if (!fromDate && !toDate) {
+        $("#FromDate").val("");
+        $("#Todate").val("");
+        alert("Invalid date selection. Dates have been cleared.");
+        return;
+    }
 
-                } else {
-                    alert("Error fetching TL Name.");
-                    $("#RelListDiv").hide();
-                }
-               },
-               error: function (xhr, status, error) {
-                   console.error("Error occurred: " + error);
-               }
-           });
+           //      if (!agentId) {
+           //          alert("Please select an Agent.");
+           //          return;
+           //      }
+           // var programId = document.getElementById("AgentID").value;
+           //   console.log("Agent ID .. " +programId );
+
+           // if (programId == "") {
+           //     alert("Please Select Agent first");
+           //     return;
+           // }
+           // $.ajax({
+           //     type: "POST",
+           //     data: JSON.stringify({ id: programId }),
+
+           //     url: "/Monitor/GetTLName",
+           //     contentType: "application/json; charset=utf-8",
+           //     dataType: "json",
+           //     success: function (response) {
+           //      if (response.success) {
+           //          $("#TL_id").val(response.tl_name);
+
+           //      } else {
+           //          alert("Error fetching TL Name.");
+           //          $("#RelListDiv").hide();
+           //      }
+           //     },
+           //     error: function (xhr, status, error) {
+           //         console.error("Error occurred: " + error);
+           //     }
+           // });
 
 
 
-           $.ajax({
-                    type: "POST",
-                    data: JSON.stringify({ fromDate: fromDate, toDate: toDate, agentId: agentId }),
-                    url: "/Calibration/GetRecListBydate",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.success) {
-                                var dropdown = $('#TransactionID');
-                                dropdown.empty();
-                                 dropdown.append('<option value="">Select TransactionID</option>');
-                                response.reclist.forEach(function (item) {
-                                    dropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
-                                });
-
-                         
-                        } else {
-                            alert("Error processing date range.");
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error occurred: " + error);
-                    }
-                });
-                GetSectionGried();
+              $.ajax({
+        type: "POST",
+        data: JSON.stringify({ fromDate: fromDate, toDate: toDate, agentId: "" }),
+        url: "/Calibration/GetRecListBydate",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            if (response.success && response.reclist) {
+                allData = response.reclist;
+                currentPage = 1;
+                renderTable(allData, currentPage);
+            } else {
+                alert("No data found or error occurred.");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error occurred: " + error);
+        }
+    });
+              
 
        }
 
      function InsertSectionAudit() {
+        var isValid = true;
+        var gridData = [];
 
-         var isValid = true;
-            var gridData = [];
+        $("#sectionGrid tbody tr:not(:last-child)").each(function () {
+            var $row = $(this);
+            var category = $row.find("td:eq(0)").text()?.trim() || "";
+               var parameters = $row.find("td:eq(1)").text()?.trim() || "";
+                  var subparameters = $row.find("td:eq(2)").text()?.trim() || "";
+            var level = $row.find("td:eq(8)").text()?.trim() || "";
+            var sectionName = $row.find("td:eq(3)").text()?.trim() || "";
+            var qaRating = $row.find(".qa-rating option:selected").text().trim();
+            var scorable = $row.find("td:eq(5)").text()?.trim() || "";
+            var score = $row.find("td:eq(6)").text()?.trim() || "";
+            var comments = $row.find("input[type='text']").val()?.trim() || "";
+            var fatal = $row.find(".fatal-select option:selected").text().trim();
 
+                var transactionDropdown = $("#transactionnConniD").val();
+              
+    
+    console.log("Selected Text as String:", transactionDropdown);
 
-                $("#sectionGrid tbody tr:not(:last-child)").each(function () {
-                    var $row = $(this);
-                    var category = $row.find("td:eq(0)").text()?.trim() || "";
-                    var level = $row.find("td:eq(1)").text()?.trim() || "";
-                    var sectionName = $row.find("td:eq(2)").text()?.trim() || "";
-                    var qaRating = $row.find(".qa-rating").val();
-                    var scorable = $row.find("td:eq(4)").text()?.trim() || "";
-                    var score = $row.find("td:eq(5)").text()?.trim() || "";
-                   var comments = $row.find("input[type='text']").val()?.trim() || "";
-                    var fatal = $row.find(".fatal-select").val()?.trim() || "";
-
-                    if (category === "" && level === "" && sectionName === "") {
-                        return;
-                    }
-                    if (qaRating === "") {
-                        isValid = false;
-                        $row.find(".qa-rating").addClass("border border-danger");
-
-                    } else {
-                        $row.find(".qa-rating").removeClass("border border-danger");
-
-                    }
-                     if (fatal === "") {
-                        isValid = false;
-                         return;
-                        $row.find(".fatal-select").addClass("border border-danger");
-
-                    } else {
-                        $row.find(".fatal-select").removeClass("border border-danger");
-
-                    }
-
-                     if ( comments === "") {
-                        isValid = false;
-
-                         $row.find("input[type='text']").addClass("border border-danger");
-                    } else {
-
-                         $row.find("input[type='text']").removeClass("border border-danger");
-                    }
-
-                    gridData.push({
-                        category: category,
-                        level: level,
-                        sectionName: sectionName,
-                        qaRating: qaRating,
-                        scorable: scorable,
-                        score: score,
-                        comments: comments,
-                        Transaction_ID: document.getElementById("TransactionID").value,
-                        ProgramID: $("#ProgramID").val(),
-                        SUBProgramID: $("#SUBProgramID").val(),
-                        fatal:fatal
-                    });
-                });
-
-
-            if (!isValid) {
-                alert("Please select All Feilds ");
+            if (category === "" && level === "" && sectionName === "") {
                 return;
             }
 
 
-        return isValid ? gridData : false;
+            if (qaRating === "" || qaRating=== "Select Rating") {
+                isValid = false;
+                $row.find(".qa-rating").addClass("border border-danger");
+            } else {
+                $row.find(".qa-rating").removeClass("border border-danger");
+                 isValid=true;
+            }
+
+
+
+            if (fatal === "Yes" && comments === "") {
+
+                isValid = false;
+                $row.find("input[type='text']").addClass("border border-danger");
+            } else {
+                $row.find("input[type='text']").removeClass("border border-danger");
+                 isValid=true;
+            }
+
+
+
+
+            if (fatal === "" || fatal==="Select Fatal") {
+                isValid = false;
+                $row.find(".fatal-select").addClass("border border-danger");
+            } else {
+                $row.find(".fatal-select").removeClass("border border-danger");
+                isValid=true;
+            }
+
+
+            gridData.push({
+                category: category,
+                level: level,
+                sectionName: sectionName,
+                qaRating: qaRating,
+                scorable: scorable,
+                score: score,
+                comments: comments,
+                Transaction_ID: transactionDropdown,
+                ProgramID: $("#ProgramID").val(),
+                SUBProgramID: $("#SUBProgramID").val(),
+                fatal: fatal,
+                parameters:parameters ,
+                subparameters:subparameters
+
+            });
+        });
+
+        if (!isValid) {
+            alert("Please fill all required fields (including comments for Met/Fatal Yes).");
+            return false;
+        }
+
+        return gridData;
     }
+
 
     function SubMiteSection()
     {
          let sectionAuditData = InsertSectionAudit();
            console.log(JSON.stringify(sectionAuditData));
             var SubProgram = document.getElementById("SUBProgramID").value;
-                   var transactionID = document.getElementById("TransactionID").value;
+
+                   var transactionID = $("#transactionnConniD").val();
+               
                var programId = document.getElementById("ProgramID").value;
                    var CalibratedComment = document.getElementById("Master_Comments").value;
-               let selectedParticipants = $('#Participants').val();
+               let selectedParticipants = $('#checkbox-list input[type="checkbox"]:checked')
+    .map(function () {
+        return $(this).val();
+    }).get().join(',');
                   if (!SubProgram || !transactionID || !programId || !CalibratedComment || !selectedParticipants || selectedParticipants.length === 0) {
 
                     alert("Please fill all the required fields, including selecting participants.");
@@ -301,6 +446,9 @@
                         transactionID:transactionID,
                         CalibratedComment:  CalibratedComment
                     };
+
+                    console.log(JSON.stringify(requestData));
+
 
 
     $.ajax({
@@ -335,9 +483,87 @@
                            $('#MasterCalibrator').hide();
                           location.reload();
     }
-        function populateGrid(data, ratingList) {
+    //      function populateGrid(data) {
+    //     var tableBody = $("#sectionGrid tbody");
+    //     tableBody.empty();
+    //     console.log("Section DATA");
+    //     console.log(JSON.stringify(data));
+
+    //     if (data.length === 0) {
+    //         tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
+    //         return;
+    //     }
+
+    //     $.each(data, function (index, item) {
+    //         // Prepare rating dropdown from item.ratingid (comma-separated string)
+    //         var ratingOptions = `<option value="">Select Rating</option>`;
+    //         var ratings = item.ratingid.split(",").map(r => r.trim());
+
+    //         $.each(ratings, function (_, rating) {
+    //             ratingOptions += `<option value="${rating}">${rating}</option>`;
+    //         });
+
+    //         // Prepare Fatal dropdown based on fatal value
+    //         var isFatalYes = item.fatal.toLowerCase() === "yes";
+    //         var fatalDropdown = `<select class="fatal-select form-control" data-index="${index}" ${!isFatalYes ? 'disabled' : ''}>
+    //                                 <option value="">Select Fatal</option>
+    //                                 <option value="Yes" ${!isFatalYes ? '' : ''}>Yes</option>
+    //                                 <option value="No" ${!isFatalYes ? 'selected' : ''}>No</option>
+    //                              </select>`;
+
+    //         var row = `<tr>
+    //             <td>${item.category}</td>
+    //             <td>${item.parameters}</td>
+    //             <td>${item.sub_Parameters}</td>
+    //             <td>${item.sectionId || '-'}</td>
+    //             <td>
+    //                 <select class="qa-rating form-control" data-index="${index}">
+    //                     ${ratingOptions}
+    //                 </select>
+    //             </td>
+    //             <td>${item.scorable}</td>
+    //             <td class="score-col">${item.score}</td>
+    //             <td><input type="text" class="form-control" placeholder="Enter Comments Section"></td>
+    //             <td>${item.level}</td>
+    //             <td>${fatalDropdown}</td>
+    //         </tr>`;
+
+    //         tableBody.append(row);
+    //     });
+
+    //     var footerRow = `<tr>
+    //         <td colspan="6" class="text-right font-weight-bold">CQ Scores:</td>
+    //         <td id="totalScore" class="font-weight-bold">0</td>
+    //     </tr>`;
+    //     tableBody.append(footerRow);
+
+    //     // Score calculation binding
+    //     $(".fatal-select").on("change", function () {
+    //         calculateTotalScore();
+    //     });
+
+    //     $(".qa-rating").on("change", function () {
+    //         var selectedValue = $(this).val();
+    //         var rowIndex = $(this).data("index");
+    //         var scoreCell = $(this).closest("tr").find(".score-col");
+
+    //         if (["Yes", "Met", "Partially Met", "Meeting_expectations", "exceeding expectations"].includes(selectedValue)) {
+    //             scoreCell.text(data[rowIndex].score);
+    //         } else {
+    //             scoreCell.text(0);
+    //         }
+    //         calculateTotalScore();
+    //     });
+
+    //     calculateTotalScore();
+    // }
+
+
+      function populateGrid(data) {
         var tableBody = $("#sectionGrid tbody");
         tableBody.empty();
+        console.log("Section DATA");
+        console.log(JSON.stringify(data));
 
         if (data.length === 0) {
             tableBody.append("<tr><td colspan='10' class='text-center'>No records found</td></tr>");
@@ -345,15 +571,27 @@
         }
 
         $.each(data, function (index, item) {
+            // Prepare rating dropdown from item.ratingid (comma-separated string)
             var ratingOptions = `<option value="">Select Rating</option>`;
-            $.each(ratingList, function (_, rating) {
-                ratingOptions += `<option value="${rating.text}">${rating.text}</option>`;
+            var ratings = item.ratingid.split(",").map(r => r.trim());
+
+            $.each(ratings, function (_, rating) {
+                ratingOptions += `<option value="${rating}">${rating}</option>`;
             });
+
+            // Prepare Fatal dropdown based on fatal value
+            var isFatalYes = item.fatal.toLowerCase() === "yes";
+            var fatalDropdown = `<select class="fatal-select form-control" data-index="${index}" ${!isFatalYes ? 'disabled' : ''}>
+                                    <option value="">Select Fatal</option>
+                                    <option value="Yes" ${!isFatalYes ? '' : ''}>Yes</option>
+                                    <option value="No" ${!isFatalYes ? 'selected' : ''}>No</option>
+                                 </select>`;
 
             var row = `<tr>
                 <td>${item.category}</td>
-                <td>${item.level}</td>
-                <td>${item.sectionName}</td>
+                <td>${item.parameters}</td>
+                <td>${item.sub_Parameters}</td>
+                <td>${item.sectionId || '-'}</td>
                 <td>
                     <select class="qa-rating form-control" data-index="${index}">
                         ${ratingOptions}
@@ -361,26 +599,19 @@
                 </td>
                 <td>${item.scorable}</td>
                 <td class="score-col">${item.score}</td>
-                <td><input type="text" class="form-control" id="Comments_Section" placeholder="Enter Comments Section"></td>
-                <td>
-                    <select class="fatal-select form-control" data-index="${index}">
-                        <option value="">Select Fatal</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                </td>
+                <td><input type="text" class="form-control" placeholder="Enter Comments Section"></td>
+                <td>${item.level}</td>
+                <td>${fatalDropdown}</td>
             </tr>`;
 
             tableBody.append(row);
         });
 
         var footerRow = `<tr>
-            <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
+            <td colspan="6" class="text-right font-weight-bold">CQ Scores:</td>
             <td id="totalScore" class="font-weight-bold">0</td>
         </tr>`;
         tableBody.append(footerRow);
-
-        // Bind event handlers for score calculation
         $(".fatal-select").on("change", function () {
             calculateTotalScore();
         });
@@ -390,7 +621,7 @@
             var rowIndex = $(this).data("index");
             var scoreCell = $(this).closest("tr").find(".score-col");
 
-            if (selectedValue === "Yes" || selectedValue ===  "Met" ||selectedValue === "Meeting_expectations"||selectedValue ===  "exceeding expectations" ||selectedValue === "Partially Met") {
+            if (["Yes", "Met", "Partially Met", "Meeting_expectations", "exceeding expectations"].includes(selectedValue)) {
                 scoreCell.text(data[rowIndex].score);
             } else {
                 scoreCell.text(0);
@@ -399,27 +630,41 @@
         });
 
         calculateTotalScore();
+        
+        $("#SectionGried").show();
+        $("#MasterCalibrator").show();
     }
-
-     function calculateTotalScore() {
-      let isFatal = false;
+    function calculateTotalScore() {
+        let isFatal = false;
         let total = 0;
-        $("#sectionGrid tbody tr").each(function () {
-            var scorable = $(this).find("td:nth-child(5)").text().trim(); // 5th column (scorable)
-            var score = parseInt($(this).find(".score-col").text()) || 0;
-             var fatalValue = $(this).find(".fatal-select").val();
 
-        if (fatalValue === "Yes" ) {
-            isFatal = true;
-        }
+        $("#sectionGrid tbody tr").each(function () {
+            // Updated column index: Scorable is now in the 6th column
+            var scorable = $(this).find("td:nth-child(6)").text().trim(); // Corrected to 6
+            var score = parseInt($(this).find(".score-col").text()) || 0;
+            var fatalValue = $(this).find(".fatal-select").val();
+
+            if (fatalValue === "Yes") {
+                isFatal = true;
+            }
+
             if (scorable === "Yes") {
                 total += score;
             }
         });
+
         $("#totalScore").text(isFatal ? "0" : total);
     }
-      function GetSectionGried()
-       {
+
+     function GetSectionGrid(el, connId) 
+       { 
+            document.querySelectorAll(".play-audio").forEach(icon => {
+        icon.style.color = "gray";
+    });
+
+    $("#transactionnConniD").val(connId);
+    el.style.setProperty("color", "#03FD03", "important");
+           
            var selectedValue = document.getElementById("SUBProgramID").value;
             $.ajax({
                 type: "POST",
@@ -429,17 +674,81 @@
                 data: JSON.stringify({ SUBProcessID: selectedValue, ProcessID: $('#ProgramID').val() }),
                 success: function (response) {
                   console.log(JSON.stringify(response));
+                      populateGrid(response.sectionGrid);
 
-                      populateGrid(response.sectionGrid, response.filteredRatingList);
-
-                          $('#SectionGried').show();
-                          $('#MasterCalibrator').show();
+                           
 
                 },
                 error: function (xhr, status, error) {
                     console.error("Error occurred: " + error);
                 }
             });
+
+
+
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify({ id: connId }),
+            url: "/Monitor/GetRecording",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (!response.success) return;
+
+                let container = document.getElementById("recordingContainer");
+                container.innerHTML = "";
+
+                container.style.cssText = `
+                    background-image: url('/images/image.png');
+                background-size: 100% 185%; /* Stretches fully */
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 100%;
+                height: 300px; /* You can adjust this height */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                position: relative;
+                    border-radius: 12px;
+
+                `;
+
+                if (!response.audioData) {
+                    console.error("No audio data received.");
+                    return;
+                }
+
+                try {
+                    let byteCharacters = atob(response.audioData);
+                    let byteNumbers = new Uint8Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+
+                    let blob = new Blob([byteNumbers], { type: "audio/mpeg" });
+                    let audioUrl = URL.createObjectURL(blob);
+
+                    let audioPlayer = document.createElement("audio");
+                    audioPlayer.controls = true;
+                    audioPlayer.src = audioUrl;
+                    audioPlayer.style.cssText = `
+                        width: 100%;
+                    max-width: 643px;
+                    margin-top: 197px;
+                    `;
+                    container.appendChild(audioPlayer);
+                    audioPlayer.play().catch(console.error);
+                } catch (e) {
+                    console.error("Invalid Base64 audio data:", e);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: " + error);
+            }
+        });
+
        }
 
                           function onProgramChange() {
@@ -501,17 +810,34 @@
             });
             const qaData = await qaResponse.json();
 
-            $('#Participants').find('option:not(:first)').remove();
-            if (qaData.agentTlList && Array.isArray(qaData.agentTlList)) {
-                qaData.agentTlList.forEach(function (agent) {
-                    $('#Participants').append(
-                        $('<option>', {
-                            value: agent.userName,
-                            text: agent.userName
-                        })
-                    );
-                });
-            }
+            // $('#Participants').find('option:not(:first)').remove();
+            // if (qaData.agentTlList && Array.isArray(qaData.agentTlList)) {
+            //     qaData.agentTlList.forEach(function (agent) {
+            //         $('#Participants').append(
+            //             $('<option>', {
+            //                 value: agent.userName,
+            //                 text: agent.userName
+            //             })
+            //         );
+            //     });
+            // }
+
+               // Clear existing checkboxes
+    $('#checkbox-list').empty();
+
+    // Add new checkboxes from `qaData.agentTlList`
+    if (qaData.agentTlList && Array.isArray(qaData.agentTlList)) {
+        qaData.agentTlList.forEach(function (agent) {
+            $('#checkbox-list').append(`
+                <label style="display:block; padding:5px;">
+                    <input type="checkbox" value="${agent.userName}" onchange="updateSelection()" />
+                    ${agent.userName}
+                </label>
+            `);
+        });
+    }
+
+
                 $('#Participants').select2({
         placeholder: 'Select Participants',
         allowClear: true
@@ -522,4 +848,32 @@
     }
 
 
+    function toggleDropdown() {
+        $('#checkbox-list').toggle();
+    }
+
+    function updateSelection() {
+        let selected = [];
+        $('#checkbox-list input[type=checkbox]:checked').each(function () {
+            selected.push($(this).val());
+        });
+        $('#Participants').val(selected.join(','));
+
+        // Optional: show selected count or names
+        if (selected.length > 0) {
+            const names = $('#checkbox-list input[type=checkbox]:checked').map(function () {
+                return $(this).parent().text().trim();
+            }).get().join(', ');
+            $('#dropdown-button').text(names);
+        } else {
+            $('#dropdown-button').text('Select Participants');
+        }
+    }
+
+    // Close dropdown if clicked outside
+    $(document).click(function (e) {
+        if (!$(e.target).closest('#dropdown-container').length) {
+            $('#checkbox-list').hide();
+        }
+    });
 </script>

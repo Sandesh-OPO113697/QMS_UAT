@@ -508,7 +508,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="dropdownModalLabel">Select an Option</h5>
+                <h5 class="modal-title" style="color:black" id="dropdownModalLabel">Select an Option</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -521,70 +521,143 @@
         </div>
     </div>
 </div>
+<div id="dropdownModalADD"
+     style="display:none; position: fixed; z-index: 9999; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.4);">
 
-<div class="modal fade" id="dropdownModalADD" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Select an Option</h5>
-                <button type="button" class="close" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <label for="dropdownSelect">Select:</label>
-                <select id="dropdownSelect" class="form-control"></select>
-            </div>
+    <div style="background: white; width: 400px; margin: 100px auto; border-radius: 8px;
+                padding: 0; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+
+        <!-- Header -->
+        <div style="background: #f1f1f1; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+            <h5 style="margin: 0; font-size: 16px;">Select an Option</h5>
+            <button onclick="closeModal()" style="background: none; border: none; font-size: 20px; cursor: pointer;">&times;</button>
+        </div>
+
+        <!-- Body -->
+        <div style="padding: 15px;">
+            <label for="dropdownSelect" style="display: block; margin-bottom: 5px;">Select:</label>
+            <select id="dropdownSelect"
+                    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            </select>
+        </div>
+
+        <!-- Footer (added dynamically) -->
+        <div id="dropdownFooter" style="display: flex; justify-content: flex-end; padding: 10px; gap: 10px; background: #f9f9f9;">
+            <!-- Buttons will be injected -->
         </div>
     </div>
 </div>
+@* 
+<div id="dropdownModalADD"
+     style="display:none; position: fixed; z-index: 9999; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.4);">
 
-<div class="modal fade" id="addSectionModal" tabindex="-1" role="dialog" aria-labelledby="addSectionModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addSectionModalLabel">Add Section</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="sectionForm">
-                    <div class="form-group">
-                        <label>Category</label>
-                        <input type="text" class="form-control" id="category" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Section Name</label>
-                        @Html.DropDownList("Section_ID", (List<SelectListItem>)ViewBag.Section_Category, "Select Section", new { @class = "custom-select", id = "Section_ID" })
-                    </div>
-                    <div class="form-group">
-                        <label>Scorable</label>
-                        <select class="form-control" id="scorable">
-                            <option value="">Select</option>
-                            <option value="Yes">YES</option>
-                            <option value="No">NO</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Weightage</label>
-                        <input type="number" class="form-control" id="score" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Level</label>
-                        <select id="LevelDropdown" class="custom-select">
-                            <option value="">Select</option>
-                            <option value="1">Level 1</option>
-                            <option value="2">Level 2</option>
-                            <option value="3">Level 3</option>
-                        </select>
-                    </div>
-                </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveSection">Add</button>
-            </div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Select an Option</h5>
+            <button type="button" class="close" onclick="closeModal()">&times;</button>
         </div>
+        <div class="modal-body">
+            <label for="dropdownSelect">Select:</label>
+            <select id="dropdownSelect" class="form-control"></select>
+        </div>
+    </div>
+</div> *@
+
+<div id="addSectionModal" style="display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+    <div style="background-color: #fff; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 50%; border-radius: 8px;">
+
+        <!-- Modal Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; color:black">Add Section</h3>
+            <span onclick="hideModal()" style="cursor: pointer; font-size: 24px;">&times;</span>
+        </div>
+
+        <!-- Modal Body -->
+        <form id="sectionForm" style="margin-top: 20px;">
+
+            <div style="margin-bottom: 12px;">
+                <label>Category</label><br />
+                <input type="text" id="category" required style="width: 100%; padding: 8px;" />
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <label>Parameters</label><br />
+                <input type="text" id="parameters" required style="width: 100%; padding: 8px;" />
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <label>Sub Parameters</label><br />
+                <input type="text" id="sub_Parameters" required style="width: 100%; padding: 8px;" />
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <label>Section Name</label><br />
+                @Html.DropDownList("Section_ID", (List<SelectListItem>)ViewBag.Section_Category, "Select Section", new { id = "Section_ID", style = "width:100%;padding:8px;" })
+            </div>
+     
+
+            <div style="margin-bottom: 12px;  padding: 10px; border-radius: 6px;">
+                <label for="Rating_ID" style="color: black;">Rating</label><span style="color:red;">*</span>
+                <div id="Rating_ID" style="display: flex; flex-direction: column; gap: 6px; margin-top: 6px;">
+                    @if (ViewBag.RatingMaste != null)
+                    {
+                        foreach (SelectListItem item in ViewBag.RatingMaste)
+                        {
+                            <label style="display: flex; align-items: center; background-color: white; padding: 6px 8px; border-radius: 4px; border: 1px solid #ccc; color: black; cursor: pointer;">
+                                <input type="checkbox" name="Rating_ID" value="@item.Value" style="margin-right: 8px;">
+                                @item.Text
+                            </label>
+                        }
+                    }
+                    else
+                    {
+                        <span style="color: #bbb;">No ratings available</span>
+                    }
+                </div>
+            </div>
+
+
+
+            <div style="margin-bottom: 12px;">
+                <label>Scorable</label><br />
+                <select id="scorable" style="width: 100%; padding: 8px;">
+                    <option value="">Select</option>
+                    <option value="Yes">YES</option>
+                    <option value="No">NO</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <label>Weightage</label><br />
+                <input type="number" id="score" required style="width: 100%; padding: 8px;" />
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <label>Level</label><br />
+                <select id="LevelDropdown" style="width: 100%; padding: 8px;">
+                    <option value="">Select</option>
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                </select>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <label>Fatal</label><br />
+                <select id="FatalDropdown" style="width: 100%; padding: 8px;">
+                    <option value="">Select Fatal</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+        </form>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+            <button type="button" onclick="hideModal()" style="padding: 10px 16px; margin-right: 10px;">Close</button>
+            <button type="button" onclick="saveSection()" style="padding: 10px 16px; background-color: #007bff; color: white; border: none;">Add</button>
+        </div>
+
     </div>
 </div>
 
@@ -594,6 +667,233 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script>
+    var sectionData = [];
+    var editingId = null;
+
+    function getNextId() {
+        if (!sectionData.length) return 1;
+        return Math.max.apply(null, sectionData.map(s => s.id)) + 1;
+    }
+
+    function hideModal() {
+        editingId = null;
+        $("#saveSectionBtn").text("Add Section"); // Reset button text
+        document.getElementById("addSectionModal").style.display = "none";
+    }
+
+    function showModalForAdd() {
+        editingId = null;
+        $("#sectionForm")[0].reset();
+        $("input[name='Rating_ID']").prop("checked", false);
+        $("#saveSectionBtn").text("Add Section");
+        document.getElementById("addSectionModal").style.display = "block";
+    }
+
+    function saveSection() {
+        var category = $("#category").val().trim();
+        var parameters = $("#parameters").val().trim();
+        var subParameters = $("#sub_Parameters").val().trim();
+        var sectionNameVal = $("#Section_ID").val();
+        var sectionText = $("#Section_ID option:selected").text();
+        var scorable = $("#scorable").val();
+        var score = parseInt($("#score").val(), 10);
+        if (isNaN(score)) score = 0;
+        var level = $("#LevelDropdown option:selected").text();
+        var fatal = $("#FatalDropdown option:selected").text();
+
+        var ratings = [];
+        $("input[name='Rating_ID']:checked").each(function () {
+            ratings.push($(this).parent().text().trim());
+        });
+        var ratingsText = ratings.join(", ");
+
+        if (!category) { alert("Please enter a category."); return; }
+        if (!parameters) { alert("Please enter parameters."); return; }
+        if (!subParameters) { alert("Please enter sub parameters."); return; }
+        if (!sectionNameVal || sectionNameVal === "Select Section") { alert("Please select a section."); return; }
+        if (!scorable) { alert("Please select Scorable (Yes/No)."); return; }
+        if (isNaN(score) || score <= 0) { alert("Please enter a valid weightage greater than 0."); return; }
+        if (scorable === "Yes" && score >= 100) { alert("Weightage must be less than 100 if Scorable is YES."); return; }
+
+               if (level === "" ) { alert("select Level."); return; }
+                      if (fatal === "" ) { alert("Select fatal."); return; }
+        var totalWeightage = sectionData.reduce(function (sum, s) {
+            return sum + ((s.scorable && s.scorable.toLowerCase() === "yes") ? (parseFloat(s.score) || 0) : 0);
+        }, 0);
+
+        if (editingId) {
+            var old = sectionData.find(s => s.id === editingId);
+            if (old && old.scorable && old.scorable.toLowerCase() === "yes") {
+                totalWeightage -= (parseFloat(old.score) || 0);
+            }
+        }
+
+        if (scorable === "Yes" && (totalWeightage + score > 100)) {
+            alert("The total weightage of all 'Scorable: YES' sections cannot exceed 100. Current total after addition: " + (totalWeightage + score));
+            return;
+        }
+
+        if (editingId) {
+            var sec = sectionData.find(s => s.id === editingId);
+            if (sec) {
+                sec.category = category;
+                sec.parameters = parameters;
+                sec.subParameters = subParameters;
+                sec.sectionName = sectionText;
+                sec.rating = ratingsText;
+                sec.scorable = scorable;
+                sec.score = score;
+                sec.level = level;
+                sec.fatal = fatal;
+            }
+        } else {
+            var newSection = {
+                id: getNextId(),
+                category: category,
+                parameters: parameters,
+                subParameters: subParameters,
+                sectionName: sectionText,
+                rating: ratingsText,
+                scorable: scorable,
+                score: score,
+                level: level,
+                fatal: fatal
+            };
+            sectionData.push(newSection);
+        }
+
+        renderSectionTable();
+        hideModal();
+    }
+
+    function renderSectionTable() {
+        var tbody = $("#sectionGrid tbody");
+
+
+        sectionData.forEach(function (sec) {
+            var ratingsArray = sec.rating ? sec.rating.split(",") : [];
+            var ratingDropdown = "<select class='form-control' style='padding:4px 6px; background-color:#2b2f45; color:white; border:1px solid #ccc; border-radius:4px;'>";
+            ratingsArray.forEach(function (rating) {
+                ratingDropdown += "<option>" + rating.trim() + "</option>";
+            });
+            ratingDropdown += "</select>";
+
+            var row = "<tr>" +
+                "<td>" + sec.id + "</td>" +
+                "<td>" + sec.category + "</td>" +
+                "<td>" + sec.parameters + "</td>" +
+                "<td>" + sec.subParameters + "</td>" +
+                "<td>" + sec.sectionName + "</td>" +
+                "<td>" + ratingDropdown + "</td>" +
+                "<td>" + sec.scorable + "</td>" +
+                "<td>" + sec.score + "</td>" +
+                "<td>" + sec.level + "</td>" +
+                "<td>" + (sec.fatal || "") + "</td>" +
+                "<td>" +
+                  
+                    "<button type='button' class='btn btn-danger btn-sm' onclick='deleteSection(" + sec.id + ")'>Delete</button>" +
+                "</td>" +
+            "</tr>";
+
+            tbody.append(row);
+        });
+    }
+
+    function editSection22(id) {
+        var sec = sectionData.find(s => s.id === id);
+        if (!sec) return alert("Section not found.");
+
+        editingId = id;
+
+        $("#category").val(sec.category);
+        $("#parameters").val(sec.parameters);
+        $("#sub_Parameters").val(sec.subParameters);
+
+        $("#Section_ID option").each(function () {
+            $(this).prop("selected", $(this).text() === sec.sectionName);
+        });
+
+        $("#scorable").val(sec.scorable);
+        $("#score").val(sec.score);
+        $("#LevelDropdown").val(sec.level);
+        $("#FatalDropdown").val(sec.fatal);
+
+        $("input[name='Rating_ID']").prop("checked", false);
+        var sel = sec.rating ? sec.rating.split(",").map(r => r.trim()) : [];
+        $("input[name='Rating_ID']").each(function () {
+            var labelText = $(this).parent().text().trim();
+            if (sel.indexOf(labelText) !== -1) $(this).prop("checked", true);
+        });
+
+        $("#saveSectionBtn").text("Update Section"); // Change button text
+        document.getElementById("addSectionModal").style.display = "block";
+    }
+
+    function deleteSection(id) {
+        if (!confirm("Are you sure you want to delete this section?")) return;
+        sectionData = sectionData.filter(s => s.id !== id);
+        renderSectionTable();
+    }
+
+    $(document).ready(function () {
+        $("#AddSection").click(function () {
+            showModalForAdd();
+        });
+
+        $("#addSectionModal").click(function (e) {
+            if (e.target === this) hideModal();
+        });
+    });
+</script>
+
+
+<script>
+    function toggleRatingDropdown() {
+        var dropdown = document.getElementById("ratingCheckboxes");
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+
+    window.addEventListener('click', function (event) {
+        if (!event.target.closest('#ratingDropdown')) {
+            var box = document.getElementById("ratingCheckboxes");
+            if (box) box.style.display = "none";
+        }
+    });
+</script>
+
+
+<script>
+    const dropdownBox = document.getElementById('selectedRatings');
+    const checkboxContainer = document.getElementById('ratingCheckboxes');
+    const checkboxes = checkboxContainer.querySelectorAll('input[type="checkbox"]');
+
+    dropdownBox.addEventListener('click', function () {
+        checkboxContainer.style.display = checkboxContainer.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!document.getElementById('ratingDropdown').contains(e.target)) {
+            checkboxContainer.style.display = 'none';
+        }
+    });
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+            let selected = [];
+            checkboxes.forEach(i => {
+                if (i.checked) selected.push(i.parentElement.textContent.trim());
+            });
+            dropdownBox.textContent = selected.length ? selected.join(', ') : 'Select Ratings';
+        });
+    });
+</script>
+<script>
+   
+    
+      function hideModal() {
+        document.getElementById("addSectionModal").style.display = "none";
+    }
        $(document).ready(function () {
         // Open the modal on ADD button click
         $("#AddDisposition").click(function () {
@@ -778,110 +1078,6 @@
             }
         });
     }
-
-</script>
-
-<script>
-
-
-
-
-        $(document).ready(function () {
-        var sectionData = [];
-
-        $("#AddSection").click(function () {
-            $("#addSectionModal").modal("show");
-        });
-
-        $("#saveSection").click(function () {
-            var category = $("#category").val();
-            var sectionName = $("#Section_ID").val();
-            var scorable = $("#scorable").val();
-            var score = parseInt($("#score").val()) || 0;
-            var level = $("#LevelDropdown").val();
-            if (category === "") {
-            alert("Please enter a category.");
-            return;
-        }
-        if (sectionName === "" || sectionName === "Select Section") {
-            alert("Please select a section.");
-            return;
-        }
-        if (scorable === "") {
-            alert("Please select Scorable (Yes/No).");
-            return;
-        }
-
-        if (score === "" || isNaN(score) || parseInt(score) <= 0) {
-            alert("Please enter a valid weightage greater than 0.");
-            return;
-        }
-
-            if (scorable === "Yes" && score >= 100) {
-                alert("Weightage must be less than 100 if Scorable is YES.");
-                return;
-            }
-
-
-            if (scorable === "Yes" && (score > 100)) {
-                alert("Total Weightage of all Scorable YES Weightage cannot exceed 100.");
-                return;
-            }
-           var sectionText = $("#Section_ID option:selected").text();
-
-
-            var newSection = {
-                id: sectionData.length + 1,
-                category: category,
-                sectionName: sectionText,
-                scorable: scorable,
-                score: score,
-                level: level
-            };
-
-            sectionData.push(newSection);
-            console.log(JSON.stringify(sectionData));
-      var totalWeightage = 0;
-              $("#sectionGrid tbody tr").each(function () {
-        var rowScorable = $(this).find("td:eq(3)").text().trim().toLowerCase(); // "Scorable" column (4th column, index 3)
-        var rowScore = parseFloat($(this).find("td:eq(4)").text().trim()); // "Weightage" column (5th column, index 4)
-
-        if (rowScorable === "yes" && !isNaN(rowScore)) {
-            totalWeightage += rowScore;
-        }
-    });
-
-    var score = parseInt($("#score").val()) || 0; // Get the entered score
-
-
-    if (scorable === "Yes" && (totalWeightage + score > 100)) {
-        alert("The total weightage of all 'Scorable: YES' sections cannot exceed 100. Current total after addition: " + (totalWeightage + score));
-        return;
-    }
-
-
-            var tableBody = $("#sectionGrid tbody");
-            var row = "<tr>" +
-                "<td>" + newSection.id + "</td>" +
-                "<td>" + newSection.category + "</td>" +
-                "<td>" + newSection.sectionName + "</td>" +
-                "<td>" + newSection.scorable + "</td>" +
-                "<td>" + newSection.score + "</td>" +
-                "<td>" + newSection.level + "</td>" +
-                "<td>" +
-                "<button class='btn btn-primary' onclick='editSection(" + JSON.stringify(newSection) + ")'>Edit</button> " +
-                "<button class='btn btn-danger' onclick='deleteSection(" + newSection.id + ")'>Delete</button>" +
-                "</td>" +
-                "</tr>";
-
-            tableBody.append(row);
-
-
-            $("#addSectionModal").modal("hide");
-            $("#sectionForm")[0].reset();
-        });
-    });
-
 
 </script>
 
@@ -1385,12 +1581,12 @@
             $.ajax({
                 url: '/ManageForm/GetDynamicDropDawon',
                 type: 'GET',
-                data: { id: 1, type: type },
+                data: { id: "@ViewBag.SubProgramId", type: type },
                 success: function (response) {
                     if (response.success) {
                        
                               ADDDropdown(response.data, type);
-                        $('#dropdownModalADD').modal('show');
+                        document.getElementById("dropdownModalADD").style.display = "block";
                  
                        // Show modal
                     } else {
@@ -1403,27 +1599,30 @@
             });
         }
 
-        function ADDDropdown(data, type) {
-            console.log("Dropdown Data:", data);
+            function ADDDropdown(data, type) {
+        var dropdown = document.getElementById("dropdownSelect");
+        dropdown.innerHTML = ""; // Clear old options
 
-            var $dropdown = $('#dropdownSelect');
-            $dropdown.empty(); // Clear old options
+        data.forEach(function(item) {
+            var option = document.createElement("option");
+            option.value = item.value;
+            option.text = item.text;
+            dropdown.appendChild(option);
+        });
 
-            $.each(data, function (index, item) {
-                $dropdown.append(`<option value="${item.value}">${item.text}</option>`);
-            });
-
-            $(".modal-footer").remove();
-             var $modalContent = $('#dropdownModalADD .modal-content, #dropdownModal .modal-content');
-
-            $modalContent.append(`
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal2()">Close</button>
-                <button type="button" class="btn btn-success" onclick="ADDSelection('${type}')">ADD</button>
-            </div>
-        `);
-        }
-
+        // Footer buttons
+        var footer = document.getElementById("dropdownFooter");
+        footer.innerHTML = `
+            <button onclick="closeModal()"
+                    style="background: #ccc; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer;">
+                Close
+            </button>
+            <button onclick="ADDSelection('${type}')"
+                    style="background: #28a745; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer;">
+                ADD
+            </button>
+        `;
+    }
         function ADDSelection(type) {
             var selectedValue = $('#dropdownSelect').val();
             var selectedText = $('#dropdownSelect option:selected').text();
@@ -1485,12 +1684,11 @@
             </td>
                 </tr>
             `);
-
-            $('#dropdownModalADD').modal('hide'); // Close modal
+    document.getElementById("dropdownModalADD").style.display = "none";
         }
 
         function closeModal2() {
-            $('#dropdownModalADD').modal('hide');
+             document.getElementById("dropdownModalADD").style.display = "none";
         }
 
 
@@ -1742,7 +1940,7 @@
 
             function closeModal() {
 
-            $('#dropdownModal').modal('hide');
+            document.getElementById("dropdownModalADD").style.display = "none";
         }
 
 

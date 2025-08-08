@@ -333,6 +333,15 @@ namespace QMS.Controllers
                         default:
                             return View();
                     }
+                case "6":
+                    switch (ModuleName)
+                    {
+                        case "View and action calibration forms":
+                            return RedirectToAction("ActionOnCalibration", "Calibration");
+
+                        default:
+                            return View();
+                    }
                 default:
                     return View();
             }

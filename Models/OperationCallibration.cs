@@ -5,6 +5,9 @@
         public string category { get; set; }
         public string level { get; set; }
         public string sectionName { get; set; }
+        public string parameters { get; set; }
+        public string subparameters { get; set; }
+     
         public string qaRating { get; set; }
         public string scorable { get; set; }
         public string score { get; set; }

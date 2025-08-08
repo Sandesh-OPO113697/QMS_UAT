@@ -462,41 +462,49 @@ namespace QMS.Controllers
         {
             var model = new List<CalibrationRowViewModel>();
 
-            if (dt.Rows.Count == 0)
-                return model;
-            var participantNames = dt.Columns.Cast<DataColumn>()
-                .Where(c => c.ColumnName.StartsWith("QA_rating", StringComparison.OrdinalIgnoreCase) && c.ColumnName != "QA_rating")
-                .Select(c => c.ColumnName.Replace("QA_rating", "").Trim())
-                .ToList();
-
-            foreach (DataRow row in dt.Rows)
+            try
             {
-                var rowVM = new CalibrationRowViewModel
-                {
-                    Category = row["category"].ToString(),
-                    Level = Convert.ToInt32(row["level"]),
-                    SectionName = row["SectionName"].ToString(),
-                };
-                foreach (var name in participantNames.Prepend(""))
-                {
-                    string CreatedBy = row[$"CreatedBy{name}"].ToString();
-                    var key = string.IsNullOrEmpty(name) ? "Master" : CreatedBy;
+                if (dt.Rows.Count == 0)
+                    return model;
+                var participantNames = dt.Columns.Cast<DataColumn>()
+                    .Where(c => c.ColumnName.StartsWith("QA_rating", StringComparison.OrdinalIgnoreCase) && c.ColumnName != "QA_rating")
+                    .Select(c => c.ColumnName.Replace("QA_rating", "").Trim())
+                    .ToList();
 
-                    rowVM.ParticipantData[key] = new CalibrationParticipantData
+                foreach (DataRow row in dt.Rows)
+                {
+                    var rowVM = new CalibrationRowViewModel
                     {
-                        QA_rating = row[$"QA_rating{name}"].ToString(),
-                        Scorable = row[$"Scorable{name}"].ToString(),
-                        Weightage = row[$"Weightage{name}"].ToString(),
-                        Fatal = row[$"Fatal{name}"].ToString()
+                        Category = row["category"].ToString(),
+                        Level = row["level"].ToString(),
+                        SectionName = row["SectionName"].ToString(),
                     };
-                    if (!string.IsNullOrEmpty(name))
+                    foreach (var name in participantNames.Prepend(""))
                     {
-                        int Count = 1 + Convert.ToInt32(name);
-                        rowVM.ParticipantData[key].Variance = row[$"r{Count.ToString()}Variance"].ToString();
+                        string CreatedBy = row[$"CreatedBy{name}"].ToString();
+                        var key = string.IsNullOrEmpty(name) ? "Master" : CreatedBy;
+
+                        rowVM.ParticipantData[key] = new CalibrationParticipantData
+                        {
+                            QA_rating = row[$"QA_rating{name}"].ToString(),
+                            Scorable = row[$"Scorable{name}"].ToString(),
+                            Weightage = row[$"Weightage{name}"].ToString(),
+                            Fatal = row[$"Fatal{name}"].ToString()
+                        };
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            int Count = 1 + Convert.ToInt32(name);
+                            rowVM.ParticipantData[key].Variance = row[$"r{Count.ToString()}Variance"].ToString();
+                        }
                     }
+                    model.Add(rowVM);
                 }
-                model.Add(rowVM);
             }
+            catch(Exception ex )
+            {
+
+            }
+           
 
             return model;
         }
@@ -571,6 +579,59 @@ namespace QMS.Controllers
 
 
         }
+
+        public async Task<List<MonitoredSectionGridModel>> getSectionGridWithRating([FromBody] DropDawnString id)
+        {
+            try
+            {
+                
+                DataTable dt1 = await dl_Agent.getPrrocessAndSubProcess(id.ID.ToString());
+                string processID = dt1.Rows[0]["ProgramID"].ToString();
+                string SUBprocessID = dt1.Rows[0]["SubProgramID"].ToString();
+               
+                var dataTable = await dl_qa.GetMonitporedSectionGriedAsync(Convert.ToInt32(processID), Convert.ToInt32(SUBprocessID), id.ID.ToString());
+                var sectionList = new List<MonitoredSectionGridModel>();
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    var rating = await dl_FormBuilder.getRatingBasicofParameter(
+                      processID,
+                        SUBprocessID,
+                        row.Field<string>("category"),
+                        row.Field<string>("parameters"),
+                        row.Field<string>("subparameters"),
+                        row.Field<string>("SectionName")
+                    );
+
+                    var model = new MonitoredSectionGridModel
+                    {
+                        category = row.Field<string>("category"),
+                        level = row.Field<string>("level"),
+                        QA_rating = row.Field<string>("QA_rating"),
+                        SectionName = row.Field<string>("SectionName"),
+                        parameters = row.Field<string>("parameters"),
+                        subparameters = row.Field<string>("subparameters"),
+                        Scorable = row.Field<string>("Scorable"),
+                        Weightage = row.Field<string>("Weightage"),
+                        Commentssection = row.Field<string>("Commentssection"),
+                        Fatal = row.Field<string>("Fatal"),
+                        ratingdrop = rating
+                    };
+
+                    sectionList.Add(model);
+                }
+
+                return sectionList;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+
+
+        }
+
         public async Task<IActionResult> ZeroTolerance(string TransactionID)
         {
             ViewBag.TransactionID = TransactionID;

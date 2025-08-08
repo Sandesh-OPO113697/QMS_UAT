@@ -4,6 +4,7 @@ using NPOI.SS.Formula.Functions;
 using QMS.DataBaseService;
 using QMS.Models;
 using System.Data;
+using System.Diagnostics;
 
 namespace QMS.Controllers
 {
@@ -15,13 +16,14 @@ namespace QMS.Controllers
         private readonly DL_QaManager dl_qa;
         private readonly Dl_Admin dl_admin;
    
-        public OperationController(DL_Operation adls, DL_QaManager dl_qas, DL_Agent adla, Dl_Admin dl_admin )
+        public OperationController(DL_Operation adls, DL_QaManager dl_qas, DL_Agent adla, Dl_Admin dl_admin , Dl_formBuilder _dil )
         {
 
             dl_Ops = adls;
             dl_qa = dl_qas;
             dl_Agent = adla;
             this.dl_admin = dl_admin;
+            dl_FormBuilder = _dil;
         }
         [HttpPost]
         public async Task<ActionResult> SubmitTest(AttemptTestViewModel model)
@@ -134,11 +136,56 @@ namespace QMS.Controllers
         }
         public async Task<IActionResult> Participants_Calibration_View(string TransactionID , string Process ,string subProcess)
         {
+            var sectionList = new List<MonitoredSectionGridModel>();
+            try
+            {
+                var dataTable = await dl_qa.GetMonitporedSectionGriedCallibrationAsync(Convert.ToInt32(Process), Convert.ToInt32(subProcess), TransactionID);
+            
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    var category = row.Field<string>("category");
+                    var parameters = row.Field<string>("parameters");
+                    var subparameters = row.Field<string>("subparameters");
+                    var sectionName = row.Field<string>("SectionName");
 
-            ViewBag.TransactionID = TransactionID;
-            ViewBag.Process = Process;
-            ViewBag.subProcess = subProcess;
-            return View();
+                  
+                    var rating = await dl_FormBuilder.getRatingBasicofParameter(
+                        Process,
+                        subProcess,
+                        category,
+                        parameters,
+                        subparameters,
+                        sectionName
+                    );
+
+                    var model = new MonitoredSectionGridModel
+                    {
+                        category = row.Field<string>("category"),
+                        level = row.Field<string>("level"),
+                        QA_rating = row.Field<string>("QA_rating"),
+                        SectionName = row.Field<string>("SectionName"),
+                        parameters = row.Field<string>("parameters"),
+                        subparameters = row.Field<string>("subparameters"),
+                        Scorable = row.Field<string>("Scorable"),
+                        Weightage = row.Field<string>("Weightage"),
+                        Commentssection = row.Field<string>("Commentssection"),
+                        Fatal = row.Field<string>("Fatal"),
+                        ratingdrop = rating
+                    };
+
+                    sectionList.Add(model);
+                }
+
+                ViewBag.TransactionID = TransactionID;
+                ViewBag.Process = Process;
+                ViewBag.subProcess = subProcess;
+                return View(sectionList);
+            }
+            catch(Exception ex)
+            {
+                return View(sectionList);
+            }
+            
         }
 
         public async Task<IActionResult> OperationZtCase(string TransactionID)

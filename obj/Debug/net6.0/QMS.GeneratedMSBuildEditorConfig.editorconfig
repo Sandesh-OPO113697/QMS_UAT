@@ -88,6 +88,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzbWVudFxkYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/QMS_UAT/Views/Calibration/ActionOnCalibration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsaWJyYXRpb25cQWN0aW9uT25DYWxpYnJhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/QMS_UAT/Views/Calibration/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsaWJyYXRpb25cRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

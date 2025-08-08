@@ -26,18 +26,17 @@ namespace QMS.DataBaseService
             _con = configuration.GetConnectionString("Master_Con");
             _enc = dL_Encrpt;
         }
-        public async Task<List<SelectListItem>> GetRecListByAPi(string fromdate, string todate, string AgentID)
+        public async Task<List<CallRecord>> GetRecListByAPi(string fromdate, string todate, string AgentID)
         {
             string responseBody = string.Empty;
             string Account = UserInfo.AccountID;
             string con = await _enc.DecryptAsync(_con);
-            List<SelectListItem> processList = new List<SelectListItem>(); // ✅ Defined here
-
-
             string RecAPiList = string.Empty;
             string StoreProcedure = "GetRecordingApi";
+
             try
             {
+                // Get the API URL from database
                 using (var connection = new SqlConnection(con))
                 {
                     await connection.OpenAsync();
@@ -52,101 +51,87 @@ namespace QMS.DataBaseService
                             if (await reader.ReadAsync())
                             {
                                 RecAPiList = reader["RecApiList"].ToString();
-
                             }
                         }
                     }
                 }
 
+                if (string.IsNullOrEmpty(RecAPiList))
+                    throw new Exception("Recording API URL is empty.");
 
-                if (!string.IsNullOrEmpty(RecAPiList))
-                {
-
-                    string formattedFromDate = DateTime.ParseExact(fromdate, "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                // Format date
+                string formattedFromDate = DateTime.ParseExact(fromdate, "yyyy-MM-dd", CultureInfo.InvariantCulture)
                                   .ToString("yyyyMMdd");
 
-                    string formattedToDate = DateTime.ParseExact(todate, "yyyy-MM-dd", CultureInfo.InvariantCulture)
-                                                    .ToString("yyyyMMdd");
-                    var requestBody = new
+                string formattedToDate = DateTime.ParseExact(todate, "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                                                .ToString("yyyyMMdd");
+
+                var requestBody = new
+                {
+                    agentID = AgentID,
+                    fromDate = formattedFromDate,
+                    todate = formattedToDate
+                };
+
+                string jsonPayload = JsonConvert.SerializeObject(requestBody);
+                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                List<CallRecord> finalCallRecords = new List<CallRecord>();
+
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    HttpResponseMessage response = await httpClient.PostAsync(RecAPiList, content);
+                    responseBody = await response.Content.ReadAsStringAsync();
+
+                    if (!response.IsSuccessStatusCode)
+                        throw new Exception($"API Error: {response.StatusCode}, Message: {responseBody}");
+
+                    var callRecords = JsonConvert.DeserializeObject<List<CallRecord>>(responseBody);
+
+                    if (callRecords != null && callRecords.Count > 0)
                     {
-                        agentID = AgentID,
-                        fromDate = formattedFromDate,
-                        todate = formattedToDate
-                    };
-
-                    string jsonPayload = JsonConvert.SerializeObject(requestBody);
-                    var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-
-                    using (HttpClient httpClient = new HttpClient())
-                    {
-                        HttpResponseMessage response = await httpClient.PostAsync(RecAPiList, content);
-                        responseBody = await response.Content.ReadAsStringAsync();
-
-                        if (response.IsSuccessStatusCode)
+                        using (var conn = new SqlConnection(UserInfo.Dnycon))
                         {
-                        }
-                        else
-                        {
-                            throw new Exception($"API Error: {response.StatusCode}, Message: {responseBody}");
-                        }
-                        string data = responseBody;
-                        var callRecords = JsonConvert.DeserializeObject<List<CallRecord>>(data);
+                            await conn.OpenAsync();
 
-                        if (callRecords != null)
-                        {
-                            using (var connection = new SqlConnection(UserInfo.Dnycon))
+                            foreach (var record in callRecords)
                             {
-                                await connection.OpenAsync();
-
-                                foreach (var record in callRecords)
+                                using (var cmd = new SqlCommand("CheckConnIdExists", conn))
                                 {
-                                    using (var cmd = new SqlCommand("CheckConnIdExists", connection))
+                                    cmd.CommandType = CommandType.StoredProcedure;
+                                    cmd.Parameters.AddWithValue("@ConnId", record.CONNID);
+
+                                    var outputParam = new SqlParameter("@Exists", SqlDbType.Bit)
                                     {
-                                        cmd.CommandType = CommandType.StoredProcedure;
-                                        cmd.Parameters.AddWithValue("@ConnId", record.CONNID);
+                                        Direction = ParameterDirection.Output
+                                    };
+                                    cmd.Parameters.Add(outputParam);
 
-                                        var outputParam = new SqlParameter("@Exists", SqlDbType.Bit)
-                                        {
-                                            Direction = ParameterDirection.Output
-                                        };
-                                        cmd.Parameters.Add(outputParam);
+                                    await cmd.ExecuteNonQueryAsync();
 
-                                        await cmd.ExecuteNonQueryAsync();
+                                    bool exists = (bool)outputParam.Value;
 
-                                        bool exists = (bool)outputParam.Value;
-                                        if (!exists)
-                                        {
-                                            processList.Add(new SelectListItem
-                                            {
-                                                Value = record.CONNID,
-                                                Text = record.CONNID
-                                            });
-                                        }
+                                    // Only add to list if not exists
+                                    if (!exists)
+                                    {
+                                        finalCallRecords.Add(record);
                                     }
                                 }
                             }
                         }
-
-
                     }
-
-
-                }
-                else
-                {
-                    Console.WriteLine("API URL is empty!");
                 }
 
-                return processList;
-               
-
+                return finalCallRecords;
             }
             catch (Exception ex)
             {
+                // Log the exception
+                Console.WriteLine(ex.Message);
                 return null;
-
             }
         }
+
 
         public async Task<int> SubmiteSectionEvaluation(List<SectionAuditModel> model)
         {
@@ -164,6 +149,8 @@ namespace QMS.DataBaseService
                             cmd.Parameters.AddWithValue("@Category", section.category);
                             cmd.Parameters.AddWithValue("@Level", section.level);
                             cmd.Parameters.AddWithValue("@SectionName", section.sectionName);
+                            cmd.Parameters.AddWithValue("@parameters", section.parameters);
+                            cmd.Parameters.AddWithValue("@subparameters", section.subparameters);
                             cmd.Parameters.AddWithValue("@QA_rating", section.qaRating);
                             cmd.Parameters.AddWithValue("@Scorable", section.scorable);
                             cmd.Parameters.AddWithValue("@Weightage", section.score);
@@ -187,7 +174,7 @@ namespace QMS.DataBaseService
             }
         }
 
-        public async Task SubmiteCalibrationDetails(string programID, string SubProgramID , string TransactionID ,string Comment ,  List<string> Participants)
+        public async Task SubmiteCalibrationDetails(string programID, string SubProgramID, string TransactionID, string Comment, string Participants)
         {
             try
             {
@@ -196,30 +183,33 @@ namespace QMS.DataBaseService
                     await con.OpenAsync();
                     string FeatureNameQuery = "InsertCalibrationDetails";
 
-                    foreach (string participant in Participants)
+                    var participantList = Participants.Split(',', StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (string participant in participantList)
                     {
                         using (SqlCommand cmd = new SqlCommand(FeatureNameQuery, con))
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
-                      
-                            cmd.Parameters.AddWithValue("@ProgramID ", programID);
-                            cmd.Parameters.AddWithValue("@SubProgramID ", SubProgramID);
-                            cmd.Parameters.AddWithValue("@Comment ", Comment);
 
-                            cmd.Parameters.AddWithValue("@TransactionID ", TransactionID);
-                            cmd.Parameters.AddWithValue("@Participants ", participant);
-                            cmd.Parameters.AddWithValue("@CreatedBy ", UserInfo.UserName);
+                            cmd.Parameters.AddWithValue("@ProgramID", programID);
+                            cmd.Parameters.AddWithValue("@SubProgramID", SubProgramID);
+                            cmd.Parameters.AddWithValue("@Comment", Comment);
+                            cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
+                            cmd.Parameters.AddWithValue("@Participants", participant.Trim()); 
+                            cmd.Parameters.AddWithValue("@CreatedBy", UserInfo.UserName);
+
                             await cmd.ExecuteNonQueryAsync();
                         }
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
-            }
            
+                throw;
+            }
         }
+
 
     }
 }

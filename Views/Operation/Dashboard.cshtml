@@ -106,9 +106,9 @@
                             }
                         }
 
-                        var rowClass = isExpired ? "table-danger" : "";
+                        var rowColor = isExpired ? "#ec011a" : "inherit";
 
-                        <tr class="@rowClass">
+                        <tr style="color:@rowColor">
                             <td>@item.TestName</td>
                             <td>@item.TestCategory</td>
                             <td>@item.CreatedDate</td>

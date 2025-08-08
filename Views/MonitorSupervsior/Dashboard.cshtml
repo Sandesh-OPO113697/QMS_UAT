@@ -600,8 +600,10 @@
             contentType: "application/json",
             data: JSON.stringify({ Program: Program, SubProgram: SubProgram, filter: filter }),
             success: function (response) {
-                $('#dashboardContainer').empty();
+                console.log("Sandesh");
 
+                $('#dashboardContainer').empty();
+                  
                 let data = response.dashboardData;
                 let pendingCount = response.pendingCount;
                 let closedCount = response.closedCount;
@@ -661,7 +663,7 @@
               ordering: false
           });
         let tableBodyHtml = '';
-
+     
         if (!Array.isArray(baseList) || baseList.length === 0) {
             tableBodyHtml = '<tr><td colspan="5" class="text-center">No pending feedback.</td></tr>';
         } else {
@@ -688,6 +690,7 @@
         }
 
         $('#pendingFeedbackTableBody').html(tableBodyHtml);
+
                 if (!Array.isArray(data) || data.length === 0) {
                     $('#dashboardContainer').html('<p>No data found</p>');
                     return;

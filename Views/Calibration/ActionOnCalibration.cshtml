@@ -1,0 +1,45 @@
+﻿@model List<Calibration_ViewModel>
+<div class="card shadow mb-4">
+
+    <div class="card-header" style="cursor: pointer;" data-toggle="collapse" data-target="#Calibration" aria-expanded="false" aria-controls="Calibration">
+        <strong class="card-title">Calibration Pending</strong>
+    </div>
+    <div class="card-body collapse" id="Calibration">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>TransactionID</th>
+                    <th>Assigned_By</th>
+
+                    <th>Assigned_Date</th>
+
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+                    @foreach (var item in Model)
+                    {
+                                <tr>
+                                    <td>@item.TransactionID</td>
+                                    <td>@item.Assigned_By</td>
+                                    <td>@item.Assigned_Date</td>
+
+
+                                    <td>
+                                        <a href="/Operation/Participants_Calibration_View?TransactionID=@item.TransactionID&Process=@item.ProgramID&subProcess=@item.SubProgramID" class="btn btn-primary btn-sm">
+                                            View
+                                        </a>
+
+                                    </td>
+                                </tr>
+                    }
+              
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+

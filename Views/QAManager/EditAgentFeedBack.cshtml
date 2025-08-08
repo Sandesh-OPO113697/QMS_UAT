@@ -14,6 +14,7 @@
         <strong class="card-title"> Section </strong>
     </div>
     <div class="card-body">
+        <div style="overflow-x: auto;">
         <table id="sectionGrid" class="table table-bordered">
             <thead>
                 <tr>
@@ -61,7 +62,7 @@
 
                
                         <td>
-                            <input type="text" class="form-control" id="Comments_Section" placeholder="Enter Comments Section" value="@item.Commentssection" />
+                                <input type="text" class="form-control Comments_Section" id="Comments_Section" placeholder="Enter Comments Section" value="@item.Commentssection" />
                         </td>
                         <td>@item.level</td>
                         <td>
@@ -83,6 +84,7 @@
             </tbody>
         </table>
 
+        </div>
     </div>
 </div>
    
@@ -139,58 +141,71 @@
 <script>
     let sectionData = [];
 
-    function InsertSectionAudit() {
+         function InsertSectionAudit() {
         var isValid = true;
         var gridData = [];
-    $("#sectionGrid tbody tr:not(:last-child)").each(function () {
-        var $row = $(this);
-        var category = $row.find("td:eq(0)").text().trim();
-        var level = $row.find("td:eq(1)").text().trim();
-        var sectionName = $row.find("td:eq(2)").text().trim();
-        var qaRating = $row.find(".qa-rating").val();
-        var scorable = $row.find("td:eq(4)").text().trim();
-        var score = $row.find("td:eq(5)").text().trim();
-        var comments = $row.find("#Comments_Section").val().trim(); // updated here
-        var fatal = $row.find(".fatal-select").val(); // fixed class
 
-        console.log("fatal value: " + fatal);
+        $("#sectionGrid tbody tr:not(:last-child)").each(function () {
+            var $row = $(this);
 
-        if (category === "" && level === "" && sectionName === "") {
-            return;
-        }
+            var category = $row.find("td:eq(0)").text().trim();
+            var parameters = $row.find("td:eq(1)").text().trim();
+            var subparameters = $row.find("td:eq(2)").text().trim();
+            var sectionName = $row.find("td:eq(3)").text().trim();
 
-        if (qaRating === "") {
-            isValid = false;
-            $row.find(".qa-rating").addClass("border border-danger");
-        } else {
-            $row.find(".qa-rating").removeClass("border border-danger");
-        }
+            var $qaRatingSelect = $row.find(".qa-rating");
+            var qaRatingValue = $qaRatingSelect.val();
+            var qaRatingText = $qaRatingSelect.find("option:selected").text();
 
-        if (comments === "") {
-            isValid = false;
-            $row.find("#Comments_Section").addClass("border border-danger");
-        } else {
-            $row.find("#Comments_Section").removeClass("border border-danger");
-        }
+            var scorable = $row.find("td:eq(5)").text().trim();
+            var score = $row.find("td:eq(6)").text().trim();
 
-        gridData.push({
-            category: category,
-            level: level,
-            sectionName: sectionName,
-            qaRating: qaRating,
-            scorable: scorable,
-            score: score,
-            comments: comments,
-            Transaction_ID: "",
-            ProgramID: "",
-            SUBProgramID: "",
-            fatal: fatal
+            var $commentsInput = $row.find(".Comments_Section");
+            var comments = $commentsInput.val().trim();
+
+            var level = $row.find("td:eq(8)").text().trim();
+
+            var $fatalSelect = $row.find(".fatal-select");
+            var fatalValue = $fatalSelect.val();
+            var fatalText = $fatalSelect.find("option:selected").text();
+
+            // Validation
+            if (qaRatingValue === "") {
+                isValid = false;
+                $qaRatingSelect.addClass("border border-danger");
+            } else {
+                $qaRatingSelect.removeClass("border border-danger");
+            }
+
+            if (comments === "") {
+                isValid = false;
+                $commentsInput.addClass("border border-danger");
+            } else {
+                $commentsInput.removeClass("border border-danger");
+            }
+
+            // Push to gridData
+            gridData.push({
+                category: category,
+                parameters: parameters,
+                subparameters: subparameters,
+                sectionName: sectionName,
+                qaRating: qaRatingValue,
+                qaRatingText: qaRatingText,
+                scorable: scorable,
+                score: score,
+                comments: comments,
+                level: level,
+                fatal: fatalValue,
+                fatalText: fatalText,
+                Transaction_ID: "",
+                ProgramID: "",
+                SUBProgramID: ""
+            });
         });
-    });
-
 
         if (!isValid) {
-            alert("Please select QA Rating and enter Comments In Section ");
+            alert("Please select QA Rating and enter Comments in Section.");
             return false;
         }
 

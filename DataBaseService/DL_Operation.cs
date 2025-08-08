@@ -32,6 +32,28 @@ namespace QMS.DataBaseService
             string Comment = string.Empty;
             try
             {
+
+                //using (SqlConnection conn2 = new SqlConnection(UserInfo.Dnycon))
+                //{
+                //    await conn2.OpenAsync();
+                //    var TrasanctionID = model.Select(x => x.Transaction_ID).FirstOrDefault();
+
+                //    using (SqlCommand cmd2 = new SqlCommand("calibration", conn2))
+                //    {
+
+                //        cmd2.CommandType = CommandType.StoredProcedure;
+                //        cmd2.Parameters.AddWithValue("@Operation", "updateCallibrationByTLandMonitor");
+                       
+                
+                //        cmd2.Parameters.AddWithValue("@TransactionID", TrasanctionID);
+
+               
+
+                //        await cmd2.ExecuteNonQueryAsync();
+                //    }
+
+                //}
+
                 using (SqlConnection conn = new SqlConnection(UserInfo.Dnycon))
                 {
                     await conn.OpenAsync();
@@ -42,12 +64,14 @@ namespace QMS.DataBaseService
                         {
                             processID = section.ProgramID.ToString();
                             SubProcess = section.SUBProgramID.ToString();
-                             Comment = section.Comment.ToString();
+                         
 
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@Category", section.category);
                             cmd.Parameters.AddWithValue("@Level", section.level);
                             cmd.Parameters.AddWithValue("@SectionName", section.sectionName);
+                            cmd.Parameters.AddWithValue("@parameters", section.parameters);
+                            cmd.Parameters.AddWithValue("@subparameters", section.subparameters);
                             cmd.Parameters.AddWithValue("@QA_rating", section.qaRating);
                             cmd.Parameters.AddWithValue("@Scorable", section.scorable);
                             cmd.Parameters.AddWithValue("@Weightage", section.score);

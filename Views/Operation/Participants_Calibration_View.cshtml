@@ -2,8 +2,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<div class="card shadow mb-4" id="SectionGried" style="display:none">
+@model  List<MonitoredSectionGridModel>
+@* <div class="card shadow mb-4" id="SectionGried" style="display:none">
     <div class="card-header">
         <strong class="card-title"> Section</strong>
     </div>
@@ -26,12 +26,93 @@
         </table>
     </div>
 </div>
-
-<div class="col-md-12" >
+ *@
+<div class="col-md-12">
 
     <div id="recordingContainer"></div>
 
 </div>
+
+
+<div class="card shadow mb-4" id="SectionGried2" >
+    <div class="card-header">
+        <strong class="card-title"> Section </strong>
+    </div>
+    <div class="card-body">
+        <div style="overflow-x: auto;">
+            <table id="sectionGrid2" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Parameters</th>
+                        <th>Sub Parameters</th>
+
+                        <th>Section Name</th>
+                        <th>QA Rating</th>
+                        <th>Scorable</th>
+                        <th>Score</th>
+                        <th>Comments Section</th>
+                        <th>Level</th>
+                        <th>Fatal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.category</td>
+                            <td>@item.parameters</td>
+                            <td>@item.subparameters</td>
+
+                            <td>@item.SectionName</td>
+                            <td>
+                                <select class="qa-rating form-control">
+                                    <option value="">Select Rating</option>
+                                    @{
+                                        var ratings = item.ratingdrop?.Split(',') ?? Array.Empty<string>();
+                                    }
+                                    @foreach (var rating in ratings)
+                                    {
+                                        var trimmedRating = rating.Trim();
+                                        <option value="@trimmedRating" selected="@(trimmedRating == item.QA_rating ? "selected" : null)">
+                                            @trimmedRating
+                                        </option>
+                                    }
+                                </select>
+                            </td>
+
+
+                            <td class="scorable">@item.Scorable</td>
+                            <td class="score-col" data-original-score="@item.Weightage">@item.Weightage</td>
+
+
+                            <td>
+                                <input type="text" class="form-control Comments_Section" id="Comments_Section" placeholder="Enter Comments Section" value="@item.Commentssection" />
+                            </td>
+                            <td>@item.level</td>
+                            <td>
+                                <select class="fatal-select form-control" @(item.Fatal?.Trim() == "No" ? "disabled" : "")>
+                                    <option value="">Select Fatal</option>
+                                    <option value="Yes" selected="@(item.Fatal?.Trim() == "Yes" ? "selected" : null)">Yes</option>
+                                    <option value="No" selected="@(item.Fatal?.Trim() == "No" ? "selected" : null)">No</option>
+                                </select>
+                            </td>
+                        </tr>
+                    }
+
+                    <!-- Footer Row -->
+                    <tr>
+                        <td colspan="5" class="text-right font-weight-bold">CQ Scores:</td>
+                        <td id="totalScore" class="font-weight-bold">0</td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
 
 
 <div class="card shadow mb-4" id="MasterCalibrator" style="display:none;margin-top:15px">
@@ -133,91 +214,83 @@
                 console.error("Error occurred: " + error);
             }
         });
-    }); 
+    });
+
 
 
 
 
 
          function InsertSectionAudit() {
+        var isValid = true;
+        var gridData = [];
 
-             var isValid = true;
-                var gridData = [];
+        $("#sectionGrid2 tbody tr:not(:last-child)").each(function () {
+            var $row = $(this);
 
+            var category = $row.find("td:eq(0)").text().trim();
+            var parameters = $row.find("td:eq(1)").text().trim();
+            var subparameters = $row.find("td:eq(2)").text().trim();
+            var sectionName = $row.find("td:eq(3)").text().trim();
 
-                    $("#sectionGrid tbody tr:not(:last-child)").each(function () {
-                        var $row = $(this);
-                        var category = $row.find("td:eq(0)").text()?.trim() || "";
-                        var level = $row.find("td:eq(1)").text()?.trim() || "";
-                        var sectionName = $row.find("td:eq(2)").text()?.trim() || "";
-                        var qaRating = $row.find(".qa-rating").val();
-                        var scorable = $row.find("td:eq(4)").text()?.trim() || "";
-                        var score = $row.find("td:eq(5)").text()?.trim() || "";
-                       var comments = $row.find("input[type='text']").val()?.trim() || "";
-                        var fatal = $row.find(".fatal-select").val()?.trim() || "";
+            var $qaRatingSelect = $row.find(".qa-rating");
+            var qaRatingValue = $qaRatingSelect.val();
+            var qaRatingText = $qaRatingSelect.find("option:selected").text();
 
-                        if (category === "" && level === "" && sectionName === "") {
-                            return;
-                        }
-                        if (qaRating === "") {
-                            isValid = false;
-                            $row.find(".qa-rating").addClass("border border-danger");
+            var scorable = $row.find("td:eq(5)").text().trim();
+            var score = $row.find("td:eq(6)").text().trim();
 
-                        } else {
-                            $row.find(".qa-rating").removeClass("border border-danger");
+            var $commentsInput = $row.find(".Comments_Section");
+            var comments = $commentsInput.val().trim();
 
-                        }
-                         if (fatal === "") {
-                            isValid = false;
-                             return;
-                            $row.find(".fatal-select").addClass("border border-danger");
+            var level = $row.find("td:eq(8)").text().trim();
 
-                        } else {
-                            $row.find(".fatal-select").removeClass("border border-danger");
+            var $fatalSelect = $row.find(".fatal-select");
+            var fatalValue = $fatalSelect.val();
+            var fatalText = $fatalSelect.find("option:selected").text();
 
-                        }
+            // Validation
+            if (qaRatingValue === "") {
+                isValid = false;
+                $qaRatingSelect.addClass("border border-danger");
+            } else {
+                $qaRatingSelect.removeClass("border border-danger");
+            }
 
-                         if ( comments === "") {
-                            
+            if (comments === "") {
+                isValid = false;
+                $commentsInput.addClass("border border-danger");
+            } else {
+                $commentsInput.removeClass("border border-danger");
+            }
 
-                             $row.find("input[type='text']").addClass("border border-danger");
-                        } else {
+            // Push to gridData
+            gridData.push({
+                category: category,
+                parameters: parameters,
+                subparameters: subparameters,
+                sectionName: sectionName,
+                qaRating: qaRatingValue,
+                qaRatingText: qaRatingText,
+                scorable: scorable,
+                score: score,
+                comments: comments,
+                level: level,
+                fatal: fatalValue,
+                fatalText: fatalText,
+                Transaction_ID:transactionId,
+                ProgramID: process,
+                SUBProgramID:subProcess
+            });
+        });
 
-                             $row.find("input[type='text']").removeClass("border border-danger");
-                        }
-                             var CalibratedComment = document.getElementById("Master_Comments").value;
-
-                      if ( !CalibratedComment) {
-
-                        alert("Please fill all the required CalibratedComment  fields");
-                       isValid = false;
-                        return;
-                    }
-                        gridData.push({
-                            category: category,
-                            level: level,
-                            sectionName: sectionName,
-                            qaRating: qaRating,
-                            scorable: scorable,
-                            score: score,
-                            comments: comments,
-                            Transaction_ID: transactionId,
-                            ProgramID:process,
-                            SUBProgramID: subProcess,
-                            fatal:fatal,
-                            Comment:CalibratedComment
-                        });
-                    });
-
-
-                if (!isValid) {
-                    alert("Please select All Feilds ");
-                    return;
-                }
-
-
-            return isValid ? gridData : false;
+        if (!isValid) {
+            alert("Please select QA Rating and enter Comments in Section.");
+            return false;
         }
+
+        return gridData;
+    }
         function SubMiteSection()
         {
              let sectionAuditData = InsertSectionAudit();
