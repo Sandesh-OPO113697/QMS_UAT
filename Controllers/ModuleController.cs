@@ -64,9 +64,6 @@ namespace QMS.Controllers
                 TL_Code = row.Field<string>("TL_Code"),
                 QA_Name = row.Field<string>("QA_Name")
 
-
-
-
             }).ToList();
             matrix.Columns[0].ColumnName = "MATRIX";
             matrix.Columns[1].ColumnName = "TARGET";
@@ -339,7 +336,7 @@ namespace QMS.Controllers
                         case "Updates Management":
                             return RedirectToAction("Dashboard", "UpdateManagement");
                         case "Assessments":
-                            return RedirectToAction("Dashboard", "dashboard");
+                            return RedirectToAction("Assesmanetdashboard", "Monitor");
 
                         default:
                             return View();
